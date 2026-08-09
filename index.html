@@ -20,6 +20,8 @@
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js">
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
   </script>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js">
@@ -1206,6 +1208,7 @@
       flex: 1;
       min-width: 80px;
       text-align: center;
+      touch-action: manipulation;
     }
     .gudang-grid-return .gudang-btn.active {
       border-color: var(--blue);
@@ -1755,46 +1758,6 @@
       margin-bottom: 2px;
     }
 
-    .theme-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .theme-card {
-      padding: 10px 12px;
-      border: 2px solid var(--line);
-      border-radius: 8px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s ease;
-      background: var(--card-bg);
-    }
-    .theme-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-    .theme-card.active {
-      border-color: var(--blue);
-      background: rgba(24, 119, 242, 0.06);
-    }
-    .theme-card .theme-name {
-      font-weight: 700;
-      font-size: 12px;
-      display: block;
-    }
-    .theme-card .theme-preview {
-      display: flex;
-      gap: 4px;
-      justify-content: center;
-      margin-top: 4px;
-    }
-    .theme-card .theme-preview span {
-      width: 20px;
-      height: 12px;
-      border-radius: 3px;
-    }
-
     .map-wrapper {
       position: relative;
       border-radius: 12px;
@@ -2019,6 +1982,43 @@
       }
       .procedure-grid {
         grid-template-columns: 1fr 1fr;
+      }
+      /* Perbaikan untuk return di smartphone */
+      .return-modal-large .modal-card .modal-body {
+        padding: 10px;
+      }
+      .return-form-grid .form-group input,
+      .return-form-grid .form-group select {
+        font-size: 14px;
+      }
+      .gudang-grid-return .gudang-btn {
+        font-size: 11px;
+        padding: 8px 10px;
+        min-width: 60px;
+        flex: 1 0 auto;
+      }
+      .return-action-bar .action-btn {
+        font-size: 11px;
+        padding: 8px 12px;
+        width: 100%;
+        justify-content: center;
+      }
+      .return-item-list table {
+        font-size: 11px;
+      }
+      .return-item-list th,
+      .return-item-list td {
+        padding: 4px 6px;
+      }
+      .scan-row {
+        flex-wrap: wrap;
+      }
+      .scan-row input {
+        flex: 1 1 100%;
+      }
+      .scan-row .scan-btn {
+        flex: 0 1 auto;
+        width: auto;
       }
     }
 
@@ -2722,7 +2722,7 @@
       </div>
     </div>
 
-    <!-- MODAL SETTINGS -->
+    <!-- MODAL SETTINGS (tanpa tema) -->
     <div id="settings-modal" class="modal-layer hidden">
       <div class="modal-card" style="max-width:620px;">
         <div class="modal-head">
@@ -2731,35 +2731,7 @@
         </div>
         <form style="padding:14px;" id="settings-form">
           <div class="form-grid">
-            <div class="field-group full">
-              <label>Tema Web</label>
-              <div class="theme-grid" id="theme-grid">
-                <div class="theme-card active" data-theme="default">
-                  <span class="theme-name">Default</span>
-                  <div class="theme-preview"><span style="background:#1877f2;"></span><span style="background:#edf4fb;"></span><span style="background:#ffffff;"></span></div>
-                </div>
-                <div class="theme-card" data-theme="dark">
-                  <span class="theme-name">Gelap</span>
-                  <div class="theme-preview"><span style="background:#1a1e25;"></span><span style="background:#2a303c;"></span><span style="background:#3a4050;"></span></div>
-                </div>
-                <div class="theme-card" data-theme="soft">
-                  <span class="theme-name">Soft Pastel</span>
-                  <div class="theme-preview"><span style="background:#f7e8d0;"></span><span style="background:#f0d4d4;"></span><span style="background:#d4e0e8;"></span></div>
-                </div>
-                <div class="theme-card" data-theme="ocean">
-                  <span class="theme-name">Ocean</span>
-                  <div class="theme-preview"><span style="background:#0c4a6e;"></span><span style="background:#1a6d8a;"></span><span style="background:#2a9d8f;"></span></div>
-                </div>
-                <div class="theme-card" data-theme="forest">
-                  <span class="theme-name">Forest</span>
-                  <div class="theme-preview"><span style="background:#1a3c2a;"></span><span style="background:#2a5a3a;"></span><span style="background:#4a8a5a;"></span></div>
-                </div>
-                <div class="theme-card" data-theme="sunset">
-                  <span class="theme-name">Sunset</span>
-                  <div class="theme-preview"><span style="background:#6b2d5b;"></span><span style="background:#c45a3a;"></span><span style="background:#e8a84a;"></span></div>
-                </div>
-              </div>
-            </div>
+            <!-- Bagian tema dihapus total -->
             <div class="field-group">
               <label>Font Judul</label>
               <select class="field-control" id="font-heading">
@@ -2967,39 +2939,6 @@
         color: white;
         border-color: var(--blue);
       }
-      .theme-card {
-        padding: 8px 10px;
-        border: 2px solid var(--line);
-        border-radius: 6px;
-        cursor: pointer;
-        text-align: center;
-        transition: all 0.2s ease;
-        background: var(--card-bg);
-      }
-      .theme-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      }
-      .theme-card.active {
-        border-color: var(--blue);
-        background: rgba(24, 119, 242, 0.06);
-      }
-      .theme-card .theme-name {
-        font-weight: 700;
-        font-size: 11px;
-        display: block;
-      }
-      .theme-card .theme-preview {
-        display: flex;
-        gap: 3px;
-        justify-content: center;
-        margin-top: 3px;
-      }
-      .theme-card .theme-preview span {
-        width: 18px;
-        height: 10px;
-        border-radius: 2px;
-      }
 
       .scanner-container {
         position: relative;
@@ -3202,6 +3141,7 @@
         flex: 1;
         min-width: 80px;
         text-align: center;
+        touch-action: manipulation;
       }
       .gudang-grid-return .gudang-btn.active {
         border-color: var(--blue);
@@ -3484,6 +3424,7 @@
         theme: 'default'
       };
 
+      // Tema masih ada untuk kompatibilitas, tapi tidak ditampilkan di UI
       const THEMES = {
         default: { bgColor1: '#edf4fb', bgColor2: '#f6f8fb', heroBg1: '#1268d4', heroBg2: '#1877f2', heroText: '#ffffff',
           heroSubtext: '#eaf3ff', cardBg: '#ffffff', cardBorder: '#dfe5ee', ink: '#172033', muted: '#687386' },
@@ -3523,11 +3464,11 @@
         const grid = document.getElementById('procedure-grid');
         if (!grid) return;
         grid.innerHTML = PROCEDURE_DATA.map((proc, idx) => `
-            <button type="button" class="procedure-main-btn" data-id="${proc.id}" data-idx="${idx}">
-              ${proc.label}
-              <span style="font-size:8px; display:block; color:var(--muted); font-weight:400;">${proc.items.length} item</span>
-            </button>
-          `).join('');
+              <button type="button" class="procedure-main-btn" data-id="${proc.id}" data-idx="${idx}">
+                ${proc.label}
+                <span style="font-size:8px; display:block; color:var(--muted); font-weight:400;">${proc.items.length} item</span>
+              </button>
+            `).join('');
         document.querySelectorAll('.procedure-main-btn').forEach(btn => {
           btn.addEventListener('click', function() {
             const id = this.dataset.id;
@@ -3542,7 +3483,7 @@
         if (!proc) return;
         const isActive = selectedProcedures[id]?.active || false;
         if (isActive) { delete selectedProcedures[id]; } else { selectedProcedures[id] = { active: true, items: proc.items
-            .map(item => ({ label: item, checked: false })) }; }
+              .map(item => ({ label: item, checked: false })) }; }
         updateProcedureUI();
         updateSelectedProcedureTable();
         validateProcedure();
@@ -3798,7 +3739,6 @@
           const xml = parser.parseFromString(KML_STRING, "text/xml");
           const placemarks = xml.getElementsByTagName("Placemark");
 
-          // Track existing to avoid duplicates
           const existingHandholes = appData['Handhole'] || [];
           const existingJoints = appData['Joint'] || [];
           const existingOpmols = appData['OPM/OLS'] || [];
@@ -3827,7 +3767,6 @@
             if (isNaN(lat) || isNaN(lon)) continue;
             const coordsStr = lat + ',' + lon;
 
-            // Determine category based on name
             const nameUpper = name.toUpperCase();
             const today = new Date().toISOString().split('T')[0];
 
@@ -3895,7 +3834,7 @@
       }
 
       // ============================================================
-      // UI & TEMA
+      // UI & TEMA (tema hanya untuk internal, tidak ada di UI)
       // ============================================================
       function applyTheme(themeName) {
         const theme = THEMES[themeName];
@@ -3918,19 +3857,7 @@
         document.documentElement.style.setProperty('--card-border', theme.cardBorder);
         document.documentElement.style.setProperty('--ink', theme.ink);
         document.documentElement.style.setProperty('--muted', theme.muted);
-        document.querySelectorAll('.theme-card').forEach(card => {
-          card.classList.toggle('active', card.dataset.theme === themeName);
-        });
-        document.getElementById('bg-color1').value = theme.bgColor1;
-        document.getElementById('bg-color1-text').value = theme.bgColor1;
-        document.getElementById('bg-color2').value = theme.bgColor2;
-        document.getElementById('bg-color2-text').value = theme.bgColor2;
-        document.getElementById('hero-bg1').value = theme.heroBg1;
-        document.getElementById('hero-bg1-text').value = theme.heroBg1;
-        document.getElementById('hero-bg2').value = theme.heroBg2;
-        document.getElementById('hero-bg2-text').value = theme.heroBg2;
-        document.getElementById('hero-text-color').value = theme.heroText;
-        document.getElementById('hero-text-color-text').value = theme.heroText;
+        // Tidak ada toggle tema di UI, jadi tidak perlu update class
         applySettings();
       }
 
@@ -3988,11 +3915,11 @@
           return;
         }
         container.innerHTML = userNames.map(name => `
-            <div class="user-list-item">
-              <div class="user-info"><span style="font-weight:600;font-size:12px;">${name}</span><span class="user-role">${users[name].role}</span></div>
-              ${name !== 'admin' ? `<button class="delete-user" onclick="deleteUser('${name}')" title="Hapus pengguna"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>` : '<span style="font-size:10px;color:var(--muted);">(admin)</span>'}
-            </div>
-          `).join('');
+              <div class="user-list-item">
+                <div class="user-info"><span style="font-weight:600;font-size:12px;">${name}</span><span class="user-role">${users[name].role}</span></div>
+                ${name !== 'admin' ? `<button class="delete-user" onclick="deleteUser('${name}')" title="Hapus pengguna"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>` : '<span style="font-size:10px;color:var(--muted);">(admin)</span>'}
+              </div>
+            `).join('');
         lucide.createIcons();
       }
 
@@ -4172,7 +4099,6 @@
         const kmlLayersTemp = [];
         const placemarks = xml.getElementsByTagName("Placemark");
 
-        // Color mapping for categories
         const colorMap = {
           'MANHOLE': '#f57c00',
           'BMH': '#f57c00',
@@ -4309,7 +4235,7 @@
       }
 
       // ============================================================
-      // RETURN - FIXED
+      // RETURN - FIXED (dengan perbaikan untuk smartphone)
       // ============================================================
       function initReturnMasterBarang() {
         const hist = stockHistory['Stok Spare'] || [];
@@ -4328,7 +4254,6 @@
       }
 
       function showReturnModal() {
-        // Reset state
         returnState.masterBarang = initReturnMasterBarang();
         returnState.returItems = [];
         returnState.pdfGenerated = false;
@@ -4356,7 +4281,6 @@
         updateReturnStatus('⏳ Pilih gudang dan scan barang', 'info');
         checkReturnReadyState();
 
-        // Stop any running scanners
         stopReturnScanner();
         stopScanner();
 
@@ -4372,9 +4296,10 @@
         return `RET-${y}${m}${d}-${random}`;
       }
 
-      // Return: Gudang
+      // Return: Gudang - perbaikan untuk touch event
       document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
+          e.preventDefault();
           e.stopPropagation();
           document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(b => b.classList.remove('active'));
           this.classList.add('active');
@@ -4386,6 +4311,10 @@
           }
           checkReturnReadyState();
         });
+        // Untuk touch device
+        btn.addEventListener('touchstart', function(e) {
+          // Hanya untuk memastikan responsif, tidak perlu aksi khusus
+        }, { passive: true });
       });
 
       // Return: Scan Barcode
@@ -4574,13 +4503,13 @@
         returnState.returItems.forEach((item, index) => {
           const total = item.qty * item.harga;
           html += `<tr>
-              <td>${index+1}</td>
-              <td>${item.productId}</td>
-              <td>${item.nama}</td>
-              <td>${item.qty}</td>
-              <td>Rp ${item.harga.toLocaleString()}</td>
-              <td><button class="remove-item" data-index="${index}">Hapus</button></td>
-            </tr>`;
+                <td>${index+1}</td>
+                <td>${item.productId}</td>
+                <td>${item.nama}</td>
+                <td>${item.qty}</td>
+                <td>Rp ${item.harga.toLocaleString()}</td>
+                <td><button class="remove-item" data-index="${index}">Hapus</button></td>
+              </tr>`;
         });
         tbody.innerHTML = html;
         tbody.querySelectorAll('.remove-item').forEach(btn => {
@@ -4594,7 +4523,7 @@
         });
       }
 
-      // Return: Download PDF
+      // Return: Download PDF dengan tabel data dan 2 kolom tanda tangan
       function addTelinLogoToPDF(doc, x, y, size) {
         const logoSize = size || 40;
         const margin = 10;
@@ -4648,6 +4577,7 @@
         doc.text(`Gudang    : ${returnState.selectedGudang}`, margin, y);
         y += 22;
 
+        // Tabel data
         const tableData = returnState.returItems.map((item, i) => [
           String(i + 1),
           item.productId,
@@ -4676,13 +4606,41 @@
           }
         });
 
-        y = doc.lastAutoTable.finalY + 20;
-        const totalAll = returnState.returItems.reduce((sum, item) => sum + (item.qty * item.harga), 0);
-        doc.setFontSize(12);
-        doc.setFont('helvetica', 'bold');
-        doc.text(`Total Retur : Rp ${totalAll.toLocaleString()}`, margin, y);
-        y += 25;
+        y = doc.lastAutoTable.finalY + 30;
 
+        // Dua kolom persegi panjang untuk tanda tangan
+        const boxWidth = 180;
+        const boxHeight = 60;
+        const spacing = 30;
+        const x1 = margin;
+        const x2 = margin + boxWidth + spacing;
+
+        // Gambar kotak untuk tanda tangan PIC
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.5);
+        doc.rect(x1, y, boxWidth, boxHeight);
+        doc.setFontSize(10);
+        doc.setTextColor('#1e293b');
+        doc.setFont('helvetica', 'bold');
+        doc.text('Tanda Tangan PIC', x1 + 10, y + 14);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.text('(___________________)', x1 + 10, y + 40);
+        doc.text('Nama: _________________', x1 + 10, y + 52);
+
+        // Kotak untuk tanda tangan Inputer
+        doc.rect(x2, y, boxWidth, boxHeight);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.text('Tanda Tangan Inputer', x2 + 10, y + 14);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.text('(___________________)', x2 + 10, y + 40);
+        doc.text(`Nama: ${currentUser?.name || 'Anonim'}`, x2 + 10, y + 52);
+
+        y += boxHeight + 20;
+
+        // QR Code
         try {
           const qrCanvas = document.createElement('canvas');
           QRCode.toCanvas(qrCanvas, returnState.noRetur, { width: 80, height: 80, margin: 0 });
@@ -4698,23 +4656,7 @@
         }
         y += 50;
 
-        doc.setFontSize(10);
-        doc.setTextColor('#1e293b');
-        doc.setFont('helvetica', 'normal');
-        const signX1 = margin;
-        const signX2 = pageWidth - margin - 160;
-        doc.text('Mengetahui / PIC', signX1, y);
-        doc.text('Inputer', signX2, y);
-        y += 20;
-        doc.text('(___________________)', signX1, y);
-        doc.text('(___________________)', signX2, y);
-        y += 16;
-        doc.setFontSize(9);
-        doc.setTextColor('#4b5563');
-        doc.text('Nama: _________________', signX1, y);
-        doc.text(`Nama: ${currentUser?.name || 'Anonim'}`, signX2, y);
-
-        y += 30;
+        // Footer
         doc.setFontSize(8);
         doc.setTextColor('#9ca3af');
         doc.text('Dokumen ini dibuat secara otomatis oleh sistem BUCIN', pageWidth / 2, y, { align: 'center' });
@@ -4962,17 +4904,17 @@
 
           const isAdmin = currentUser && currentUser.role === 'admin';
           document.getElementById('records-body').innerHTML = stok.map((r, idx) => `
-              <tr>
-                <td><strong>${idx+1}</strong></td>
-                <td>${r.barcode || '-'}</td>
-                <td>${r.spec || '-'}</td>
-                <td>${r.warehouse || '-'}</td>
-                <td style="font-weight:800; color:${r.qty < 0 ? 'var(--danger)' : r.qty > 0 ? 'var(--success)' : 'var(--muted)'}">${r.qty}</td>
-                <td><div class="row-actions">
-                  ${isAdmin ? `<button class="icon-button edit-row" title="Lihat Riwayat" onclick="document.getElementById('stock-history').click()"><i data-lucide="list"></i></button>` : ''}
-                </div></td>
-              </tr>
-            `).join('');
+                <tr>
+                  <td><strong>${idx+1}</strong></td>
+                  <td>${r.barcode || '-'}</td>
+                  <td>${r.spec || '-'}</td>
+                  <td>${r.warehouse || '-'}</td>
+                  <td style="font-weight:800; color:${r.qty < 0 ? 'var(--danger)' : r.qty > 0 ? 'var(--success)' : 'var(--muted)'}">${r.qty}</td>
+                  <td><div class="row-actions">
+                    ${isAdmin ? `<button class="icon-button edit-row" title="Lihat Riwayat" onclick="document.getElementById('stock-history').click()"><i data-lucide="list"></i></button>` : ''}
+                  </div></td>
+                </tr>
+              `).join('');
           lucide.createIcons();
           return;
         }
@@ -5000,17 +4942,17 @@
               'transaction-in';
             const qtyDisplay = isReturn ? '↩️' + r.qty : (r.trType === 'Keluar' ? '-' + r.qty : '+' + r.qty);
             const actionButtons = isAdmin ? `
-                <button class="icon-button edit-row" onclick="editData(${idx})"><i data-lucide="edit-2"></i></button>
-                <button class="icon-button delete-row" onclick="askDelete(${idx})"><i data-lucide="trash-2"></i></button>
-              ` : `<span style="font-size:9px;color:var(--muted);">(read only)</span>`;
+                  <button class="icon-button edit-row" onclick="editData(${idx})"><i data-lucide="edit-2"></i></button>
+                  <button class="icon-button delete-row" onclick="askDelete(${idx})"><i data-lucide="trash-2"></i></button>
+                ` : `<span style="font-size:9px;color:var(--muted);">(read only)</span>`;
             return `<tr>
-                <td><strong>${idx+1}</strong></td>
-                <td>${r.barcode || '-'}</td>
-                <td>${r.spec || '-'}</td>
-                <td>${r.warehouse || '-'}</td>
-                <td style="font-weight:700;">${qtyDisplay}</td>
-                <td><div class="row-actions">${actionButtons}</div></td>
-              </tr>`;
+                  <td><strong>${idx+1}</strong></td>
+                  <td>${r.barcode || '-'}</td>
+                  <td>${r.spec || '-'}</td>
+                  <td>${r.warehouse || '-'}</td>
+                  <td style="font-weight:700;">${qtyDisplay}</td>
+                  <td><div class="row-actions">${actionButtons}</div></td>
+                </tr>`;
           }).join('');
           lucide.createIcons();
           return;
@@ -5023,16 +4965,16 @@
           const isAdmin = currentUser && currentUser.role === 'admin';
           document.getElementById('records-body').innerHTML = list.map((r, idx) => {
             const actionButtons = isAdmin ? `
-                <button class="icon-button edit-row" onclick="editData(${idx})"><i data-lucide="edit-2"></i></button>
-                <button class="icon-button delete-row" onclick="askDelete(${idx})"><i data-lucide="trash-2"></i></button>
-              ` : `<span style="font-size:9px;color:var(--muted);">(read only)</span>`;
+                  <button class="icon-button edit-row" onclick="editData(${idx})"><i data-lucide="edit-2"></i></button>
+                  <button class="icon-button delete-row" onclick="askDelete(${idx})"><i data-lucide="trash-2"></i></button>
+                ` : `<span style="font-size:9px;color:var(--muted);">(read only)</span>`;
             return `<tr>
-                <td><strong>${r.date}</strong></td>
-                <td>${r.ruas}</td><td>${r.dari}</td><td>${r.ke}</td>
-                <td>${r.port}</td><td>${r.slot}</td><td>${r.rak}</td>
-                <td>${r.notes||'-'}</td><td>${r.postBy||'-'}</td>
-                <td><div class="row-actions">${actionButtons}</div></td>
-              </tr>`;
+                  <td><strong>${r.date}</strong></td>
+                  <td>${r.ruas}</td><td>${r.dari}</td><td>${r.ke}</td>
+                  <td>${r.port}</td><td>${r.slot}</td><td>${r.rak}</td>
+                  <td>${r.notes||'-'}</td><td>${r.postBy||'-'}</td>
+                  <td><div class="row-actions">${actionButtons}</div></td>
+                </tr>`;
           }).join('');
           lucide.createIcons();
           return;
@@ -5055,16 +4997,16 @@
             } catch (e) { procHtml = '-'; }
           } else { procHtml = '-'; }
           const actionButtons = isAdmin ? `
-              <button class="icon-button edit-row" onclick="editData(${idx})"><i data-lucide="edit-2"></i></button>
-              <button class="icon-button delete-row" onclick="askDelete(${idx})"><i data-lucide="trash-2"></i></button>
-            ` : `<span style="font-size:9px;color:var(--muted);">(read only)</span>`;
+                <button class="icon-button edit-row" onclick="editData(${idx})"><i data-lucide="edit-2"></i></button>
+                <button class="icon-button delete-row" onclick="askDelete(${idx})"><i data-lucide="trash-2"></i></button>
+              ` : `<span style="font-size:9px;color:var(--muted);">(read only)</span>`;
           return `<tr>
-              <td><strong>${r.date}</strong></td>
-              <td>${r.location||'-'}</td><td>${r.coords||'-'}</td>
-              <td>${r.spec||r.alkurNama||'-'}</td><td>${r.qty||1}</td>
-              <td>${procHtml}</td><td>${r.notes||'-'}</td><td>${r.postBy||'-'}</td>
-              <td><div class="row-actions">${actionButtons}</div></td>
-            </tr>`;
+                <td><strong>${r.date}</strong></td>
+                <td>${r.location||'-'}</td><td>${r.coords||'-'}</td>
+                <td>${r.spec||r.alkurNama||'-'}</td><td>${r.qty||1}</td>
+                <td>${procHtml}</td><td>${r.notes||'-'}</td><td>${r.postBy||'-'}</td>
+                <td><div class="row-actions">${actionButtons}</div></td>
+              </tr>`;
         }).join('');
         lucide.createIcons();
         updateMapMarkers();
@@ -5208,20 +5150,20 @@
         const popup = document.createElement('div');
         popup.className = 'warehouse-popup';
         popup.innerHTML = `
-          <div class="popup-card">
-            <h2>🏢 Pilih Lokasi Gudang</h2>
-            <p>Pilih gudang untuk transaksi ini</p>
-            <div class="btn-group">
-              <button data-warehouse="CLS Mami">CLS Mami</button>
-              <button data-warehouse="DC Manado Centrum">DC Manado Centrum</button>
-              <button data-warehouse="CLS Kauditan">CLS Kauditan</button>
+            <div class="popup-card">
+              <h2>🏢 Pilih Lokasi Gudang</h2>
+              <p>Pilih gudang untuk transaksi ini</p>
+              <div class="btn-group">
+                <button data-warehouse="CLS Mami">CLS Mami</button>
+                <button data-warehouse="DC Manado Centrum">DC Manado Centrum</button>
+                <button data-warehouse="CLS Kauditan">CLS Kauditan</button>
+              </div>
+              <div class="popup-actions">
+                <button class="btn-cancel" id="warehouse-cancel">Batal</button>
+                <button class="btn-confirm" id="warehouse-confirm" disabled>Konfirmasi</button>
+              </div>
             </div>
-            <div class="popup-actions">
-              <button class="btn-cancel" id="warehouse-cancel">Batal</button>
-              <button class="btn-confirm" id="warehouse-confirm" disabled>Konfirmasi</button>
-            </div>
-          </div>
-        `;
+          `;
         document.body.appendChild(popup);
 
         let selected = null;
@@ -5745,13 +5687,7 @@
         loadData();
         initProcedureUI();
 
-        document.querySelectorAll('.theme-card').forEach(card => {
-          card.addEventListener('click', function() {
-            const theme = this.dataset.theme;
-            applyTheme(theme);
-            showToast('✅ Tema: ' + theme, 'success');
-          });
-        });
+        // Tidak ada event listener untuk tema karena sudah dihapus dari UI
 
         // Spare Return
         document.getElementById('spare-return').addEventListener('click', showReturnModal);
@@ -6055,17 +5991,17 @@
               `<tr><td colspan="10" style="text-align:center;padding:18px;color:var(--muted);">Belum ada riwayat</td></tr>`;
           } else {
             tbody.innerHTML = hist.map(r => `<tr>
-                <td>${new Date(r.time).toLocaleString('id-ID')}</td>
-                <td>${r.date}</td>
-                <td>${r.warehouse||'-'}</td>
-                <td>${r.spec||'-'}</td>
-                <td>${r.barcode||'-'}</td>
-                <td class="${r.trType==='Return'?'transaction-return':r.trType==='Keluar'?'transaction-out':'transaction-in'}">${r.trType||'Masuk'}</td>
-                <td>${r.trType==='Keluar'?'-':r.trType==='Return'?'↩️':'+'}${r.qty}</td>
-                <td>${r.condition || r.alkurKondisi || '-'}</td>
-                <td>${r.notes||'-'}</td>
-                <td>${r.postBy || r.alkurInputer || '-'}</td>
-              </tr>`).reverse().join('');
+                  <td>${new Date(r.time).toLocaleString('id-ID')}</td>
+                  <td>${r.date}</td>
+                  <td>${r.warehouse||'-'}</td>
+                  <td>${r.spec||'-'}</td>
+                  <td>${r.barcode||'-'}</td>
+                  <td class="${r.trType==='Return'?'transaction-return':r.trType==='Keluar'?'transaction-out':'transaction-in'}">${r.trType||'Masuk'}</td>
+                  <td>${r.trType==='Keluar'?'-':r.trType==='Return'?'↩️':'+'}${r.qty}</td>
+                  <td>${r.condition || r.alkurKondisi || '-'}</td>
+                  <td>${r.notes||'-'}</td>
+                  <td>${r.postBy || r.alkurInputer || '-'}</td>
+                </tr>`).reverse().join('');
           }
           document.getElementById('history-modal').classList.remove('hidden');
         });
@@ -6153,7 +6089,7 @@
           showToast('✅ Pengguna berhasil ditambahkan', 'success');
         });
 
-        // Settings
+        // Settings (tanpa tema)
         document.getElementById('settings-btn').addEventListener('click', function() {
           document.getElementById('font-heading').value = appSettings.fontHeading;
           document.getElementById('font-primary').value = appSettings.fontPrimary;
@@ -6179,9 +6115,8 @@
           document.getElementById('hero-image-position').value = appSettings.heroImagePosition || 'center';
           document.getElementById('hero-image-size').value = appSettings.heroImageSize || 'cover';
 
-          document.querySelectorAll('.theme-card').forEach(card => {
-            card.classList.toggle('active', card.dataset.theme === (appSettings.theme || 'default'));
-          });
+          // Tidak ada tema di UI, jadi skip update theme cards
+
           const preview = document.getElementById('hero-image-preview');
           if (appSettings.heroImage) {
             preview.src = appSettings.heroImage;
@@ -6215,7 +6150,7 @@
           appSettings.heroImageOpacity = parseInt(document.getElementById('hero-opacity').value) || 100;
           appSettings.heroImagePosition = document.getElementById('hero-image-position').value;
           appSettings.heroImageSize = document.getElementById('hero-image-size').value;
-          appSettings.theme = currentTheme;
+          // Tema tidak diubah dari UI
           saveData();
           applySettings();
           document.getElementById('settings-modal').classList.add('hidden');
@@ -6401,9 +6336,9 @@
 
         setVh();
 
-        console.log('🚀 BUCIN v9.0 - Return Fixed + KML Data Integration');
-        console.log('📌 KML data seeded into Handhole, Joint, OPM/OLS categories');
-        console.log('📌 Return module: fixed warehouse selection, barcode scan, PDF with Telin logo');
+        console.log('🚀 BUCIN v10.0 - Return Fix + KML + Tanpa Tema');
+        console.log('📌 Return: Gudang fixed, PDF dengan 2 kolom tanda tangan');
+        console.log('📌 Tema dihapus dari pengaturan');
       });
 
       window.addEventListener('resize', setVh);
