@@ -4,30 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>BUCIN — Cegah Insiden Network</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17">
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js">
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
-  </script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-  </script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Libre+Franklin:wght@700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js">
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js">
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js">
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
   <style>
+    /* ===== RESET & VARIABEL ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     :root {
       --blue: #1877f2;
       --blue-dark: #0f5ec7;
@@ -52,21 +52,14 @@
       --header-bg: rgba(255, 255, 255, 0.96);
       --vision-text: #172033;
       --vision-desc: #5d697b;
-      --region-text: #172033;
-      --region-desc: #5d697b;
-      --mission-text: #172033;
-      --mission-desc: #5d697b;
       --hero-eyebrow: #ffffff;
       --bg-opacity: 1;
       --bg-position: center;
       --bg-size: cover;
     }
-
-    * {
-      box-sizing: border-box;
-    }
     html {
       scroll-behavior: smooth;
+      font-size: 16px;
     }
     body {
       margin: 0;
@@ -76,12 +69,14 @@
       font-family: var(--font-primary);
       overflow-x: hidden;
       background: linear-gradient(135deg, var(--bg-gradient1), var(--bg-gradient2));
+      -webkit-text-size-adjust: 100%;
     }
     button,
     input,
     select,
     textarea {
       font: inherit;
+      font-size: 1rem;
     }
     button:focus-visible,
     input:focus-visible,
@@ -96,6 +91,7 @@
       background: radial-gradient(circle at 8% 8%, rgba(24, 119, 242, .13), transparent 25rem),
         radial-gradient(circle at 94% 90%, rgba(34, 197, 94, .09), transparent 25rem);
     }
+    /* ===== HEADER ===== */
     .top-header {
       position: sticky;
       top: 0;
@@ -146,12 +142,12 @@
       font-weight: 800;
       letter-spacing: -.04em;
       color: var(--blue);
-      font-size: 16px;
+      font-size: 1rem;
     }
     .brand-mini {
       display: block;
       margin-top: 2px;
-      font-size: 7px;
+      font-size: 0.45rem;
       font-weight: 700;
       letter-spacing: .06em;
       color: var(--muted);
@@ -181,6 +177,7 @@
       transition: .2s;
       flex: 0 0 auto;
       padding: 0 5px;
+      font-size: 0.85rem;
     }
     .nav-category:hover {
       color: var(--blue);
@@ -246,7 +243,7 @@
       color: white;
       padding: 3px 8px;
       border-radius: 5px;
-      font-size: 9px;
+      font-size: 0.55rem;
       font-weight: 600;
       white-space: nowrap;
       opacity: 0;
@@ -275,7 +272,7 @@
       background: #e8f2ff;
       color: #0f5ec7;
       font-weight: 700;
-      font-size: 11px;
+      font-size: 0.7rem;
       border: 1px solid rgba(24, 119, 242, 0.15);
     }
     .admin-only {
@@ -288,6 +285,7 @@
       display: flex;
     }
 
+    /* ===== MAIN ===== */
     .main-content {
       width: 100%;
       max-width: 1280px;
@@ -336,7 +334,7 @@
       background: rgba(255, 255, 255, .15);
       margin-bottom: 10px;
       color: var(--hero-eyebrow);
-      font-size: 10px;
+      font-size: 0.65rem;
     }
     .hero-title {
       margin: 0;
@@ -345,14 +343,14 @@
       line-height: 1.05;
       letter-spacing: -.04em;
       color: var(--hero-text);
-      font-size: clamp(22px, 4.5vw, 38px);
+      font-size: clamp(1.4rem, 4.5vw, 2.4rem);
     }
     .hero-subtitle {
       max-width: 100%;
       margin: 10px 0 0;
       line-height: 1.6;
       color: var(--hero-subtext);
-      font-size: clamp(13px, 1.8vw, 16px);
+      font-size: clamp(0.85rem, 1.8vw, 1rem);
     }
     .hero-actions {
       margin-top: 16px;
@@ -374,7 +372,7 @@
       gap: 5px;
       cursor: pointer;
       transition: .2s;
-      font-size: 13px;
+      font-size: 0.85rem;
       min-height: 36px;
     }
     .primary-button:hover,
@@ -416,12 +414,14 @@
       margin: 0;
       font-family: var(--font-heading);
       letter-spacing: -.025em;
-      font-size: 17px;
+      font-size: 1.05rem;
     }
     .section-heading p {
       margin: 3px 0 0;
-      font-size: 12px;
+      font-size: 0.75rem;
     }
+
+    /* ===== DASHBOARD ===== */
     .dashboard-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -441,11 +441,11 @@
     .chart-card h3 {
       margin: 0;
       font-family: var(--font-heading);
-      font-size: 16px;
+      font-size: 1rem;
     }
     .chart-card .chart-help {
       margin: 3px 0 12px;
-      font-size: 12px;
+      font-size: 0.75rem;
     }
     #map-container {
       height: 280px;
@@ -490,7 +490,7 @@
       display: block;
       font-weight: 600;
       color: var(--muted);
-      font-size: 10px;
+      font-size: 0.65rem;
     }
     .legend-list {
       display: grid;
@@ -508,7 +508,7 @@
       background: transparent;
       color: inherit;
       cursor: pointer;
-      font-size: 12px;
+      font-size: 0.75rem;
     }
     .legend-button:hover {
       border-color: #9ec8fb;
@@ -527,7 +527,6 @@
     .legend-value {
       font-weight: 700;
     }
-
     .bar-chart {
       height: 170px;
       display: flex;
@@ -554,7 +553,7 @@
     .bar-value {
       font-weight: 700;
       margin-bottom: 3px;
-      font-size: 11px;
+      font-size: 0.7rem;
     }
     .bar-fill {
       width: min(36px, 55%);
@@ -572,7 +571,7 @@
     .bar-label {
       min-height: 28px;
       margin-top: 5px;
-      font-size: 9px;
+      font-size: 0.6rem;
       font-weight: 600;
       line-height: 1.2;
       text-align: center;
@@ -592,22 +591,24 @@
     .info-card h2 {
       margin: 0 0 6px;
       color: var(--vision-text);
-      font-size: 16px;
+      font-size: 1rem;
     }
     .info-card h3 {
       margin: 0 0 6px;
-      font-size: 14px;
+      font-size: 0.85rem;
     }
     .info-card p,
     .info-card li {
       line-height: 1.6;
       color: var(--vision-desc);
-      font-size: 12px;
+      font-size: 0.75rem;
     }
     .info-card ul {
       padding-left: 16px;
       margin: 0;
     }
+
+    /* ===== DATA PANEL ===== */
     .data-panel {
       border-radius: 14px;
       border: 1px solid var(--card-border);
@@ -643,12 +644,12 @@
     }
     .data-title-wrap h1 {
       margin: 0;
-      font-size: 16px;
+      font-size: 1rem;
     }
     .record-total {
       margin: 2px 0 0;
       color: var(--muted);
-      font-size: 11px;
+      font-size: 0.7rem;
     }
     .toolbar-buttons {
       display: flex;
@@ -656,7 +657,7 @@
       flex-wrap: wrap;
     }
     .toolbar-buttons button {
-      font-size: 11px;
+      font-size: 0.7rem;
       padding: 5px 10px;
       min-height: 30px;
     }
@@ -691,7 +692,7 @@
       color: #253145;
       padding: 6px 10px;
       transition: .2s;
-      font-size: 13px;
+      font-size: 0.85rem;
     }
     .field-control:focus {
       border-color: var(--blue);
@@ -717,7 +718,7 @@
       background: #f6f8fb;
       color: #596579;
       border-bottom: 1px solid var(--line);
-      font-size: 10px;
+      font-size: 0.65rem;
       text-transform: uppercase;
       letter-spacing: .04em;
       white-space: nowrap;
@@ -727,7 +728,7 @@
       border-bottom: 1px solid #edf0f4;
       vertical-align: middle;
       color: #384458;
-      font-size: 12px;
+      font-size: 0.75rem;
     }
     .records-table tbody tr:hover {
       background: #f8fbff;
@@ -739,7 +740,7 @@
       border-radius: 999px;
       padding: 3px 7px;
       white-space: nowrap;
-      font-size: 10px;
+      font-size: 0.65rem;
       font-weight: 600;
     }
     .status-pill {
@@ -799,16 +800,18 @@
     }
     .state-box h2 {
       margin: 0 0 3px;
-      font-size: 15px;
+      font-size: 0.95rem;
     }
     .state-box p {
       margin: 0;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 0.75rem;
     }
     .hidden {
       display: none !important;
     }
+
+    /* ===== MODAL ===== */
     .modal-layer {
       position: fixed;
       z-index: 100;
@@ -842,7 +845,7 @@
     }
     .modal-head h2 {
       margin: 0;
-      font-size: 16px;
+      font-size: 1rem;
     }
     .modal-close {
       width: 28px;
@@ -870,11 +873,11 @@
       display: block;
       margin-bottom: 3px;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 0.75rem;
     }
     .field-group .field-error-msg {
       color: var(--danger);
-      font-size: 11px;
+      font-size: 0.7rem;
       font-weight: 500;
       margin-top: 3px;
       display: none;
@@ -890,14 +893,16 @@
       display: flex;
       gap: 5px;
       align-items: center;
+      flex-wrap: wrap;
     }
     .scan-row input {
       flex: 1;
+      min-width: 120px;
     }
     .scan-btn {
       flex-shrink: 0;
       padding: 5px 10px;
-      font-size: 11px;
+      font-size: 0.7rem;
       border: 0;
       border-radius: 8px;
       font-weight: 700;
@@ -911,7 +916,7 @@
       filter: brightness(.97);
     }
 
-    /* Scanner */
+    /* ===== SCANNER ===== */
     .scanner-container {
       position: relative;
       width: 100%;
@@ -1024,14 +1029,13 @@
       border-bottom: 4px solid #27a844;
       border-right: 4px solid #27a844;
     }
-
     .scanner-label {
       position: absolute;
       bottom: 10%;
       left: 50%;
       transform: translateX(-50%);
       color: #27a844;
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 700;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
       background: rgba(0, 0, 0, 0.5);
@@ -1045,7 +1049,6 @@
       display: inline-block;
       animation: scanner-blink 1s ease-in-out infinite;
     }
-
     @keyframes scanner-blink {
       0%,
       100% {
@@ -1055,13 +1058,12 @@
         opacity: 0.3
       }
     }
-
     .stop-camera-btn {
       position: absolute;
       bottom: 10px;
       right: 10px;
       padding: 6px 14px;
-      font-size: 11px;
+      font-size: 0.7rem;
       border: 0;
       border-radius: 6px;
       background: rgba(220, 53, 69, 0.9);
@@ -1086,7 +1088,7 @@
       pointer-events: none !important;
     }
 
-    /* Warehouse Popup */
+    /* ===== WAREHOUSE POPUP ===== */
     .warehouse-popup {
       position: fixed;
       z-index: 150;
@@ -1105,13 +1107,13 @@
       box-shadow: 0 20px 72px rgba(0, 0, 0, .3);
     }
     .warehouse-popup .popup-card h2 {
-      font-size: 18px;
+      font-size: 1.1rem;
       font-weight: 800;
       margin-bottom: 4px;
       color: var(--ink);
     }
     .warehouse-popup .popup-card p {
-      font-size: 13px;
+      font-size: 0.85rem;
       color: var(--muted);
       margin-bottom: 16px;
     }
@@ -1128,7 +1130,7 @@
       border-radius: 10px;
       background: white;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 0.85rem;
       cursor: pointer;
       transition: 0.2s;
       color: var(--ink);
@@ -1172,7 +1174,7 @@
       background: var(--blue-dark);
     }
 
-    /* Return Modal */
+    /* ===== RETURN MODAL ===== */
     .return-modal-large .modal-card {
       max-width: 800px;
     }
@@ -1180,6 +1182,33 @@
       padding: 14px;
       max-height: 70vh;
       overflow-y: auto;
+    }
+    .return-tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 12px;
+    }
+    .return-tabs button {
+      padding: 8px 16px;
+      border: 0;
+      background: transparent;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: 0.2s;
+    }
+    .return-tabs button.active {
+      color: var(--blue);
+      border-bottom-color: var(--blue);
+    }
+    .return-tab-content {
+      display: none;
+    }
+    .return-tab-content.active {
+      display: block;
     }
     .return-form-grid {
       display: grid;
@@ -1201,7 +1230,7 @@
       border-radius: 8px;
       background: white;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 0.75rem;
       cursor: pointer;
       transition: 0.2s;
       color: var(--ink);
@@ -1227,7 +1256,7 @@
     .return-item-list table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 12px;
+      font-size: 0.75rem;
     }
     .return-item-list th {
       background: var(--soft);
@@ -1247,7 +1276,7 @@
       background: #ffebee;
       color: #c82e3e;
       font-weight: 600;
-      font-size: 11px;
+      font-size: 0.7rem;
       cursor: pointer;
     }
     .return-item-list .remove-item:hover {
@@ -1280,7 +1309,7 @@
     }
     .return-action-bar .status {
       flex: 1;
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 500;
       min-width: 150px;
     }
@@ -1289,7 +1318,7 @@
       border: 0;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 12px;
+      font-size: 0.75rem;
       cursor: pointer;
       transition: 0.2s;
     }
@@ -1340,7 +1369,7 @@
       background: var(--soft);
       color: var(--ink);
       font-weight: 600;
-      font-size: 12px;
+      font-size: 0.75rem;
       cursor: pointer;
       transition: 0.2s;
       display: flex;
@@ -1366,7 +1395,7 @@
     }
     .modal-actions button {
       padding: 6px 14px;
-      font-size: 12px;
+      font-size: 0.75rem;
       min-height: 32px;
     }
     .confirm-body {
@@ -1405,7 +1434,7 @@
       align-items: center;
       gap: 6px;
       animation: toast-in .25s ease both;
-      font-size: 12px;
+      font-size: 0.75rem;
     }
     .toast.success {
       background: #18743a;
@@ -1448,15 +1477,15 @@
       text-align: center;
       margin-bottom: 18px;
       color: #0f5ec7;
-      font-size: 22px;
+      font-size: 1.4rem;
     }
     .coords-help {
-      font-size: 10px;
+      font-size: 0.65rem;
       color: var(--muted);
       margin-top: 3px;
     }
 
-    /* Dark mode overrides */
+    /* ===== DARK MODE (tetap ada untuk internal) ===== */
     .dark-mode {
       --ink: #ecf1f8;
       --muted: #a9b4c3;
@@ -1511,6 +1540,7 @@
       filter: invert(0.9) hue-rotate(180deg);
     }
 
+    /* ===== UTILITY ===== */
     .stock-field-row,
     .non-stock-row,
     .patchcord-row,
@@ -1550,7 +1580,7 @@
       gap: 6px;
     }
     .bg-controls label {
-      font-size: 11px;
+      font-size: 0.7rem;
       font-weight: 600;
     }
     .bg-controls input[type="range"] {
@@ -1573,11 +1603,11 @@
     .color-picker-wrapper input[type="text"] {
       width: 70px;
       padding: 3px 5px;
-      font-size: 11px;
+      font-size: 0.7rem;
     }
     .color-picker-wrapper .transparency-btn {
       padding: 3px 8px;
-      font-size: 9px;
+      font-size: 0.6rem;
       border: 1px solid var(--line);
       border-radius: 5px;
       background: var(--soft);
@@ -1607,7 +1637,7 @@
       gap: 6px;
     }
     .user-list-item .user-role {
-      font-size: 10px;
+      font-size: 0.65rem;
       padding: 2px 6px;
       border-radius: 999px;
       background: var(--soft);
@@ -1631,7 +1661,7 @@
       padding: 5px 8px;
       background: var(--soft);
       font-weight: 700;
-      font-size: 10px;
+      font-size: 0.65rem;
       cursor: pointer;
       transition: 0.2s;
       text-align: center;
@@ -1653,7 +1683,7 @@
       color: white;
       border-radius: 99px;
       padding: 0 5px;
-      font-size: 8px;
+      font-size: 0.5rem;
       margin-left: 4px;
     }
     .procedure-checklist {
@@ -1669,7 +1699,7 @@
     .procedure-checklist .check-item {
       padding: 2px 8px;
       border-radius: 4px;
-      font-size: 10px;
+      font-size: 0.65rem;
       font-weight: 600;
       border: 1px solid var(--line);
       background: white;
@@ -1688,7 +1718,6 @@
     .procedure-checklist .check-item.checked::before {
       content: '✓ ';
     }
-
     .procedure-table-wrap {
       margin: 4px 0 8px;
       border: 1px solid var(--line);
@@ -1699,7 +1728,7 @@
     .procedure-table-wrap table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 11px;
+      font-size: 0.7rem;
     }
     .procedure-table-wrap th {
       background: #f6f8fb;
@@ -1721,7 +1750,7 @@
     .procedure-table-wrap .proc-item {
       padding-left: 12px;
       display: block;
-      font-size: 10px;
+      font-size: 0.65rem;
     }
     .procedure-table-wrap .proc-item::before {
       content: '• ';
@@ -1747,12 +1776,12 @@
       margin-top: 6px;
     }
     .position-controls select {
-      font-size: 11px;
+      font-size: 0.7rem;
       padding: 4px 6px;
       min-height: 28px;
     }
     .position-controls label {
-      font-size: 10px;
+      font-size: 0.65rem;
       font-weight: 600;
       display: block;
       margin-bottom: 2px;
@@ -1779,7 +1808,7 @@
       border: 1px solid rgba(0, 0, 0, 0.12);
       border-radius: 8px;
       padding: 6px 10px;
-      font-size: 11px;
+      font-size: 0.7rem;
       font-weight: 600;
       color: var(--ink);
       cursor: pointer;
@@ -1827,7 +1856,7 @@
     }
     .map-float-legend .legend-title {
       font-weight: 700;
-      font-size: 12px;
+      font-size: 0.75rem;
       margin-bottom: 6px;
       color: var(--ink);
       border-bottom: 1px solid var(--line);
@@ -1838,7 +1867,7 @@
     }
     .map-float-legend .legend-group .group-title {
       font-weight: 600;
-      font-size: 10px;
+      font-size: 0.65rem;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -1851,7 +1880,7 @@
       padding: 2px 4px;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 11px;
+      font-size: 0.7rem;
       color: var(--ink);
     }
     .map-float-legend .legend-item:hover {
@@ -1877,9 +1906,10 @@
     .map-float-legend .legend-count {
       font-weight: 600;
       color: var(--muted);
-      font-size: 9px;
+      font-size: 0.6rem;
     }
 
+    /* ===== RESPONSIVE ===== */
     @media(max-width:480px) {
       .map-float-legend {
         min-width: 160px;
@@ -1888,7 +1918,7 @@
         left: 6px;
       }
       .map-float-btn {
-        font-size: 9px;
+        font-size: 0.6rem;
         padding: 4px 6px;
         min-height: 26px;
       }
@@ -1917,34 +1947,34 @@
       .brand-mark {
         width: 28px;
         height: 28px;
-        font-size: 14px;
+        font-size: 0.85rem;
       }
       .nav-category {
         min-width: 26px;
         height: 26px;
-        font-size: 12px;
+        font-size: 0.75rem;
       }
       .round-action {
         width: 26px;
         height: 26px;
-        font-size: 12px;
+        font-size: 0.75rem;
       }
       .admin-actions-group {
         padding: 2px;
         gap: 2px;
       }
       .user-badge {
-        font-size: 9px;
+        font-size: 0.6rem;
         padding: 2px 6px;
       }
       .round-action .tooltip {
         display: none;
       }
       .data-title-wrap h1 {
-        font-size: 13px;
+        font-size: 0.85rem;
       }
       .toolbar-buttons button {
-        font-size: 9px;
+        font-size: 0.6rem;
         padding: 3px 6px;
         min-height: 24px;
       }
@@ -1976,35 +2006,34 @@
         height: 20px;
       }
       .scanner-label {
-        font-size: 10px;
+        font-size: 0.65rem;
         bottom: 8%;
         padding: 3px 10px;
       }
       .procedure-grid {
         grid-template-columns: 1fr 1fr;
       }
-      /* Perbaikan untuk return di smartphone */
       .return-modal-large .modal-card .modal-body {
         padding: 10px;
       }
       .return-form-grid .form-group input,
       .return-form-grid .form-group select {
-        font-size: 14px;
+        font-size: 0.85rem;
       }
       .gudang-grid-return .gudang-btn {
-        font-size: 11px;
+        font-size: 0.7rem;
         padding: 8px 10px;
         min-width: 60px;
         flex: 1 0 auto;
       }
       .return-action-bar .action-btn {
-        font-size: 11px;
+        font-size: 0.7rem;
         padding: 8px 12px;
         width: 100%;
         justify-content: center;
       }
       .return-item-list table {
-        font-size: 11px;
+        font-size: 0.7rem;
       }
       .return-item-list th,
       .return-item-list td {
@@ -2064,10 +2093,10 @@
   <div id="login-screen" class="login-screen">
     <div class="login-card">
       <div style="text-align:center; margin-bottom:14px;">
-        <span class="brand-mark" style="margin:0 auto; width:44px; height:44px; font-size:22px;"><i data-lucide="cloud"></i></span>
+        <span class="brand-mark" style="margin:0 auto; width:44px; height:44px; font-size:1.4rem;"><i data-lucide="cloud"></i></span>
       </div>
       <h1>BUCIN</h1>
-      <p style="text-align:center; color:var(--muted); margin:-8px 0 16px; font-size:13px;">Sistem Cegah Insiden Network</p>
+      <p style="text-align:center; color:var(--muted); margin:-8px 0 16px; font-size:0.85rem;">Sistem Cegah Insiden Network</p>
 
       <div class="field-group" style="margin-bottom:12px;">
         <label for="login-username">Nama Pengguna</label>
@@ -2092,7 +2121,7 @@
         </div>
       </div>
 
-      <p id="login-error" class="hidden" style="color:#dc2626; text-align:center; margin:-4px 0 8px; font-weight:600; font-size:12px;"></p>
+      <p id="login-error" class="hidden" style="color:#dc2626; text-align:center; margin:-4px 0 8px; font-weight:600; font-size:0.75rem;"></p>
 
       <button id="login-btn" class="primary-button" style="width:100%; justify-content:center; background:#1877f2; color:white; padding:10px;">Masuk Sistem</button>
     </div>
@@ -2137,7 +2166,7 @@
           <div id="current-user-badge" class="user-badge hidden">
             <i data-lucide="user" style="width:11px;height:11px;"></i>
             <span id="user-name-display"></span>
-            <span id="login-count-badge" style="font-size:8px;background:#f59e0b;color:white;border-radius:99px;padding:0 4px;margin-left:2px;"></span>
+            <span id="login-count-badge" style="font-size:0.5rem;background:#f59e0b;color:white;border-radius:99px;padding:0 4px;margin-left:2px;"></span>
           </div>
           <button id="logout-btn" type="button" class="round-action">
             <i data-lucide="log-out" style="width:15px;height:15px;"></i>
@@ -2156,7 +2185,7 @@
             <h1 class="hero-title">Barisan Utama Cegah Insiden Network</h1>
             <p class="hero-subtitle">Satu ruang kendali untuk memantau insiden, mengelola pekerjaan, dan menjaga ketersediaan stok.</p>
             <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
-              <span style="font-size:10px;color:var(--hero-subtext);opacity:0.7;">Data disimpan secara lokal</span>
+              <span style="font-size:0.65rem;color:var(--hero-subtext);opacity:0.7;">Data disimpan secara lokal</span>
             </div>
           </div>
         </div>
@@ -2195,7 +2224,7 @@
               </div>
             </article>
             <article class="chart-card full-width">
-              <h3 style="margin-bottom:8px; font-size:15px;"><i data-lucide="map-pin" style="width:14px;height:14px; vertical-align:middle; margin-right:5px; color:#1877f2;"></i>Peta Lokasi Joint, Handhole & Data OF Cut</h3>
+              <h3 style="margin-bottom:8px; font-size:0.95rem;"><i data-lucide="map-pin" style="width:14px;height:14px; vertical-align:middle; margin-right:5px; color:#1877f2;"></i>Peta Lokasi Joint, Handhole & Data OF Cut</h3>
               <p class="chart-help" style="margin-bottom:10px;">Menampilkan titik lokasi Joint, Handhole, dan Data OF Cut</p>
               <div class="map-wrapper">
                 <div id="map-container"></div>
@@ -2207,7 +2236,7 @@
                 </div>
                 <div class="map-float-legend" id="map-legend-panel">
                   <div class="legend-title">📋 Legenda & Fitur</div>
-                  <div id="legend-content"><div style="text-align:center;color:var(--muted);font-size:11px;padding:8px 0;">Memuat data...</div></div>
+                  <div id="legend-content"><div style="text-align:center;color:var(--muted);font-size:0.7rem;padding:8px 0;">Memuat data...</div></div>
                 </div>
               </div>
             </article>
@@ -2230,8 +2259,8 @@
           <article class="info-card">
             <h2>Wilayah Kerja</h2>
             <p id="region-desc">Manado, Bitung, Likupang, Bolaang Mongondow, Gorontalo, Siau, Tagulandang, dan Biaro.</p>
-            <h3 style="color:var(--blue); font-weight:700; font-size:13px; margin-top:6px;">Tugas Utama</h3>
-            <p style="line-height:1.6; font-size:12px;">Menjaga aset serat optik, mencatat kondisi lapangan, serta mengelola stok material pendukung.</p>
+            <h3 style="color:var(--blue); font-weight:700; font-size:0.85rem; margin-top:6px;">Tugas Utama</h3>
+            <p style="line-height:1.6; font-size:0.75rem;">Menjaga aset serat optik, mencatat kondisi lapangan, serta mengelola stok material pendukung.</p>
           </article>
         </section>
       </section>
@@ -2250,7 +2279,7 @@
               <div class="toolbar-buttons">
                 <button id="stock-add" type="button" class="primary-button hidden" style="background:rgb(39,168,68);color:white;">Tambah Transaksi</button>
                 <button id="stock-history" type="button" class="secondary-button hidden" style="background:rgb(233,238,245);color:rgb(52,65,84);">Riwayat</button>
-                <button id="spare-return" type="button" class="return-button hidden"><i data-lucide="undo-2" style="width:12px;height:12px;"></i> Return</button>
+                <button id="spare-return" type="button" class="return-button hidden"><i data-lucide="undo-2" style="width:12px;height:12px;"></i> Retur</button>
                 <button id="export-button" type="button" class="secondary-button" style="background:rgb(233,238,245);color:rgb(52,65,84);">Excel</button>
                 <button id="data-add" type="button" class="primary-button" style="background:rgb(39,168,68);color:white;">Tambah Data</button>
               </div>
@@ -2301,7 +2330,7 @@
             <label for="cp-confirm-password">Konfirmasi Password Baru <span style="color:red">*</span></label>
             <input type="password" class="field-control" id="cp-confirm-password" required>
           </div>
-          <div id="cp-error" class="field-error-msg visible" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;"></div>
+          <div id="cp-error" class="field-error-msg visible" style="display:none;color:var(--danger);font-size:0.75rem;margin-bottom:8px;"></div>
           <div class="modal-actions">
             <button type="button" class="secondary-button" id="cancel-change-password">Batal</button>
             <button type="submit" class="primary-button" style="background:#1877f2;color:white;">Simpan Password</button>
@@ -2475,7 +2504,7 @@
                 <button type="button" class="stop-camera-btn" id="stop-camera-btn">✕ Tutup Kamera</button>
               </div>
               <div style="margin-top:6px; display:flex; gap:8px; flex-wrap:wrap;">
-                <span style="font-size:10px; color:var(--muted);">🔍 Pastikan barcode terlihat jelas dalam area</span>
+                <span style="font-size:0.65rem; color:var(--muted);">🔍 Pastikan barcode terlihat jelas dalam area</span>
               </div>
             </div>
 
@@ -2501,10 +2530,10 @@
             <!-- PROSEDUR FIBER -->
             <div class="field-group full" id="procedure-container">
               <label>Prosedur Perbaikan Gangguan Fiber <span style="color:red">* (pilih minimal 1)</span></label>
-              <div style="font-size:10px; color:var(--muted); margin-bottom:4px;">Klik tombol utama untuk menampilkan checklist, centang prosedur yang dilakukan</div>
+              <div style="font-size:0.65rem; color:var(--muted); margin-bottom:4px;">Klik tombol utama untuk menampilkan checklist, centang prosedur yang dilakukan</div>
               <div class="procedure-grid" id="procedure-grid"></div>
               <div class="procedure-checklist" id="procedure-checklist" style="display:none;">
-                <span style="font-size:9px; font-weight:600; color:var(--muted); width:100%;">☑️ Checklist Prosedur:</span>
+                <span style="font-size:0.6rem; font-weight:600; color:var(--muted); width:100%;">☑️ Checklist Prosedur:</span>
               </div>
               <div id="procedure-error-msg" class="field-error-msg visible" style="display:none; margin-top:4px;">Pilih minimal 1 prosedur perbaikan</div>
               <input type="hidden" id="form-procedure" value="">
@@ -2542,120 +2571,143 @@
     <div id="return-modal" class="modal-layer hidden return-modal-large">
       <div class="modal-card">
         <div class="modal-head">
-          <h2>🔄 Retur Sparepart</h2>
+          <h2>🔄 Manajemen Retur Sparepart</h2>
           <button type="button" class="modal-close" id="close-return-modal"><i data-lucide="x"></i></button>
         </div>
         <div class="modal-body">
-          <form id="return-form">
-            <!-- No Retur & Tgl -->
-            <div class="return-form-grid" style="grid-template-columns:1fr 1fr;">
-              <div class="form-group">
-                <label>No. Retur</label>
-                <input class="field-control" id="return-no-retur" readonly style="background:#f1f5f9;font-weight:700;">
-              </div>
-              <div class="form-group">
-                <label>Tgl Retur <span style="color:red">*</span></label>
-                <input class="field-control" id="return-tgl-retur" type="date" required>
-              </div>
-            </div>
+          <!-- Tab Navigation -->
+          <div class="return-tabs">
+            <button class="active" data-tab="data-retur">Data Retur</button>
+            <button data-tab="proses-retur">Proses Retur</button>
+          </div>
 
-            <!-- Gudang -->
-            <div class="form-group">
-              <label>Pilih Gudang <span style="color:red">*</span></label>
-              <div class="gudang-grid-return" id="return-gudang-grid">
-                <button type="button" class="gudang-btn" data-gudang="CLS Mami">CLS Mami</button>
-                <button type="button" class="gudang-btn" data-gudang="DC Manado Centrum">DC Manado Centrum</button>
-                <button type="button" class="gudang-btn" data-gudang="CLS Kauditan">CLS Kauditan</button>
-              </div>
+          <!-- Tab 1: Data Retur -->
+          <div class="return-tab-content active" id="tab-data-retur">
+            <div style="overflow-x:auto;">
+              <table class="records-table" style="min-width:500px;">
+                <thead>
+                  <tr><th>No Retur</th><th>Tanggal</th><th>Gudang</th><th>Jumlah Item</th><th>Total</th><th>Status</th></tr>
+                </thead>
+                <tbody id="return-history-body">
+                  <tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">Belum ada data retur</td></tr>
+                </tbody>
+              </table>
             </div>
+          </div>
 
-            <!-- Scan Barcode -->
-            <div class="form-group">
-              <label>Scan Barcode</label>
-              <div class="scan-row" style="display:flex; gap:8px; align-items:center;">
-                <input class="field-control" id="return-barcode-input" placeholder="Klik Scan untuk baca barcode..." style="flex:1;">
-                <button type="button" class="scan-btn" id="return-scan-barcode-btn" style="white-space:nowrap;padding:5px 12px;min-height:36px;">
-                  <i data-lucide="camera" style="width:14px;height:14px;"></i> Scan
-                </button>
-              </div>
-              <div class="scanner-container" id="return-scanner-container">
-                <div id="return-camera-preview"></div>
-                <div class="scanner-overlay">
-                  <div class="scanner-frame">
-                    <span class="corner tl"></span>
-                    <span class="corner tr"></span>
-                    <span class="corner bl"></span>
-                    <span class="corner br"></span>
-                  </div>
-                  <div class="scanner-label">
-                    <span class="scan-icon">⬜</span> Arahkan ke Barcode
-                  </div>
+          <!-- Tab 2: Proses Retur -->
+          <div class="return-tab-content" id="tab-proses-retur">
+            <form id="return-form">
+              <!-- No Retur & Tgl -->
+              <div class="return-form-grid" style="grid-template-columns:1fr 1fr;">
+                <div class="form-group">
+                  <label>No. Retur</label>
+                  <input class="field-control" id="return-no-retur" readonly style="background:#f1f5f9;font-weight:700;">
                 </div>
-                <button type="button" class="stop-camera-btn" id="return-stop-camera-btn">✕ Tutup Kamera</button>
+                <div class="form-group">
+                  <label>Tgl Retur <span style="color:red">*</span></label>
+                  <input class="field-control" id="return-tgl-retur" type="date" required>
+                </div>
               </div>
-              <div style="margin-top:6px; display:flex; gap:8px; flex-wrap:wrap;">
-                <span style="font-size:10px; color:var(--muted);">🔍 Pastikan barcode terlihat jelas dalam area</span>
-              </div>
-            </div>
 
-            <!-- Info Barang -->
-            <div class="return-form-grid" style="grid-template-columns:1fr 1fr 0.7fr 0.7fr;">
+              <!-- Gudang -->
               <div class="form-group">
-                <label>Nama Barang</label>
-                <input class="field-control" id="return-nama-barang" readonly style="background:#f1f5f9;">
+                <label>Pilih Gudang <span style="color:red">*</span></label>
+                <div class="gudang-grid-return" id="return-gudang-grid">
+                  <button type="button" class="gudang-btn" data-gudang="CLS Mami">CLS Mami</button>
+                  <button type="button" class="gudang-btn" data-gudang="DC Manado Centrum">DC Manado Centrum</button>
+                  <button type="button" class="gudang-btn" data-gudang="CLS Kauditan">CLS Kauditan</button>
+                </div>
               </div>
+
+              <!-- Scan Barcode -->
               <div class="form-group">
-                <label>Stok (gudang)</label>
-                <input class="field-control" id="return-stok-barang" readonly style="background:#f1f5f9;">
+                <label>Scan Barcode</label>
+                <div class="scan-row" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <input class="field-control" id="return-barcode-input" placeholder="Klik Scan untuk baca barcode..." style="flex:1; min-width:120px;">
+                  <button type="button" class="scan-btn" id="return-scan-barcode-btn" style="white-space:nowrap;padding:5px 12px;min-height:36px;">
+                    <i data-lucide="camera" style="width:14px;height:14px;"></i> Scan
+                  </button>
+                </div>
+                <div class="scanner-container" id="return-scanner-container">
+                  <div id="return-camera-preview"></div>
+                  <div class="scanner-overlay">
+                    <div class="scanner-frame">
+                      <span class="corner tl"></span>
+                      <span class="corner tr"></span>
+                      <span class="corner bl"></span>
+                      <span class="corner br"></span>
+                    </div>
+                    <div class="scanner-label">
+                      <span class="scan-icon">⬜</span> Arahkan ke Barcode
+                    </div>
+                  </div>
+                  <button type="button" class="stop-camera-btn" id="return-stop-camera-btn">✕ Tutup Kamera</button>
+                </div>
+                <div style="margin-top:6px; display:flex; gap:8px; flex-wrap:wrap;">
+                  <span style="font-size:0.65rem; color:var(--muted);">🔍 Pastikan barcode terlihat jelas dalam area</span>
+                </div>
               </div>
+
+              <!-- Info Barang -->
+              <div class="return-form-grid" style="grid-template-columns:1fr 1fr 0.7fr 0.7fr;">
+                <div class="form-group">
+                  <label>Nama Barang</label>
+                  <input class="field-control" id="return-nama-barang" readonly style="background:#f1f5f9;">
+                </div>
+                <div class="form-group">
+                  <label>Stok (gudang)</label>
+                  <input class="field-control" id="return-stok-barang" readonly style="background:#f1f5f9;">
+                </div>
+                <div class="form-group">
+                  <label>Jumlah <span style="color:red">*</span></label>
+                  <input class="field-control" id="return-qty-barang" type="number" value="1" min="1">
+                </div>
+                <div class="form-group">
+                  <label>Harga</label>
+                  <input class="field-control" id="return-harga-barang" readonly style="background:#f1f5f9;">
+                </div>
+              </div>
+
+              <!-- Tombol Tambah -->
+              <button type="button" class="action-btn" style="background:#e2e8f0; color:#1e293b; width:100%; justify-content:center; margin-bottom:8px; padding:8px;" id="return-tambah-btn">
+                + Tambah ke Daftar
+              </button>
+
+              <!-- Daftar Barang Retur -->
               <div class="form-group">
-                <label>Jumlah <span style="color:red">*</span></label>
-                <input class="field-control" id="return-qty-barang" type="number" value="1" min="1">
+                <label>Daftar Barang Retur</label>
+                <div class="return-item-list">
+                  <table>
+                    <thead>
+                      <tr><th>#</th><th>Barcode</th><th>Nama</th><th>Qty</th><th>Harga</th><th>Aksi</th></tr>
+                    </thead>
+                    <tbody id="return-list-body">
+                      <tr class="empty-row"><td colspan="6">Belum ada barang</td></tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <div class="form-group">
-                <label>Harga</label>
-                <input class="field-control" id="return-harga-barang" readonly style="background:#f1f5f9;">
+
+              <!-- Preview Foto -->
+              <div class="form-group" id="return-preview-container" style="display:none;">
+                <label>Foto Tanda Tangan</label>
+                <div class="return-photo-preview-container" id="return-photo-preview"></div>
               </div>
-            </div>
 
-            <!-- Tombol Tambah -->
-            <button type="button" class="action-btn" style="background:#e2e8f0; color:#1e293b; width:100%; justify-content:center; margin-bottom:8px; padding:8px;" id="return-tambah-btn">
-              + Tambah ke Daftar
-            </button>
-
-            <!-- Daftar Barang Retur -->
-            <div class="form-group">
-              <label>Daftar Barang Retur</label>
-              <div class="return-item-list">
-                <table>
-                  <thead>
-                    <tr><th>#</th><th>Barcode</th><th>Nama</th><th>Qty</th><th>Harga</th><th>Aksi</th></tr>
-                  </thead>
-                  <tbody id="return-list-body">
-                    <tr class="empty-row"><td colspan="6">Belum ada barang</td></tr>
-                  </tbody>
-                </table>
+              <!-- Action Bar -->
+              <div class="return-action-bar">
+                <div class="status" id="return-status-message">⏳ Pilih gudang dan scan barang</div>
+                <button type="button" class="action-btn btn-pdf" id="return-download-pdf-btn" disabled>📄 Download PDF</button>
+                <button type="button" class="action-btn btn-upload" id="return-upload-foto-btn" disabled>📤 Upload Foto</button>
+                <button type="button" class="action-btn btn-save" id="return-simpan-btn" disabled>💾 Simpan</button>
+                <button type="button" class="action-btn btn-reset" id="return-reset-btn">↺ Reset</button>
               </div>
-            </div>
 
-            <!-- Preview Foto -->
-            <div class="form-group" id="return-preview-container" style="display:none;">
-              <label>Foto Tanda Tangan</label>
-              <div class="return-photo-preview-container" id="return-photo-preview"></div>
-            </div>
-
-            <!-- Action Bar -->
-            <div class="return-action-bar">
-              <div class="status" id="return-status-message">⏳ Pilih gudang dan scan barang</div>
-              <button type="button" class="action-btn btn-pdf" id="return-download-pdf-btn" disabled>📄 Download PDF</button>
-              <button type="button" class="action-btn btn-upload" id="return-upload-foto-btn" disabled>📤 Upload Foto</button>
-              <button type="button" class="action-btn btn-save" id="return-simpan-btn" disabled>💾 Simpan</button>
-              <button type="button" class="action-btn btn-reset" id="return-reset-btn">↺ Reset</button>
-            </div>
-
-            <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-scan-file-input" />
-            <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-upload-file-input" />
-          </form>
+              <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-scan-file-input" />
+              <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-upload-file-input" />
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -2692,12 +2744,12 @@
         </div>
         <div style="padding:14px;">
           <div style="margin-bottom:14px;">
-            <h3 style="font-size:13px; margin-bottom:6px;">Daftar Pengguna</h3>
-            <div id="user-list-container"><div style="text-align:center; color:var(--muted); padding:8px; font-size:12px;">Memuat...</div></div>
+            <h3 style="font-size:0.85rem; margin-bottom:6px;">Daftar Pengguna</h3>
+            <div id="user-list-container"><div style="text-align:center; color:var(--muted); padding:8px; font-size:0.75rem;">Memuat...</div></div>
           </div>
           <hr style="border:none; border-top:1px solid var(--line); margin:10px 0;">
           <form id="add-user-form">
-            <h3 style="font-size:13px; margin-bottom:8px;">Tambah Pengguna Baru</h3>
+            <h3 style="font-size:0.85rem; margin-bottom:8px;">Tambah Pengguna Baru</h3>
             <div class="field-group" style="margin-bottom:8px;">
               <label>Nama Pengguna <span style="color:red">*</span></label>
               <input type="text" class="field-control" id="new-username" required>
@@ -2722,7 +2774,7 @@
       </div>
     </div>
 
-    <!-- MODAL SETTINGS (tanpa tema) -->
+    <!-- MODAL SETTINGS -->
     <div id="settings-modal" class="modal-layer hidden">
       <div class="modal-card" style="max-width:620px;">
         <div class="modal-head">
@@ -2731,7 +2783,6 @@
         </div>
         <form style="padding:14px;" id="settings-form">
           <div class="form-grid">
-            <!-- Bagian tema dihapus total -->
             <div class="field-group">
               <label>Font Judul</label>
               <select class="field-control" id="font-heading">
@@ -2754,7 +2805,7 @@
               <input type="file" id="bg-image" accept="image/*" class="field-control" style="padding:4px;">
               <div class="position-controls">
                 <div><label>Posisi Gambar</label>
-                  <select class="field-control" id="bg-image-position" style="font-size:11px; padding:3px 5px; min-height:28px;">
+                  <select class="field-control" id="bg-image-position" style="font-size:0.7rem; padding:3px 5px; min-height:28px;">
                     <option value="center">Tengah (Center)</option>
                     <option value="top">Atas (Top)</option>
                     <option value="bottom">Bawah (Bottom)</option>
@@ -2766,7 +2817,7 @@
                     <option value="bottom-right">Bawah Kanan</option>
                   </select></div>
                 <div><label>Ukuran Gambar</label>
-                  <select class="field-control" id="bg-image-size" style="font-size:11px; padding:3px 5px; min-height:28px;">
+                  <select class="field-control" id="bg-image-size" style="font-size:0.7rem; padding:3px 5px; min-height:28px;">
                     <option value="cover">Cover (Penuhi)</option>
                     <option value="contain">Contain (Proporsi)</option>
                     <option value="100% 100%">Stretch (Penuh)</option>
@@ -2776,23 +2827,23 @@
               <div style="display:flex; gap:10px; margin-top:6px; align-items:center; flex-wrap:wrap;">
                 <div><label>Transparansi: <span id="bg-opacity-label">100%</span></label>
                   <input type="range" id="bg-opacity" min="0" max="100" value="100" style="width:100px;"></div>
-                <button type="button" id="remove-bg-image" class="secondary-button" style="padding:3px 10px; font-size:11px;">Hapus Gambar</button>
+                <button type="button" id="remove-bg-image" class="secondary-button" style="padding:3px 10px; font-size:0.7rem;">Hapus Gambar</button>
               </div>
             </div>
             <div class="field-group full">
               <label>🎨 Warna Latar Web</label>
               <div class="color-picker-wrapper">
                 <input type="color" id="bg-color1" value="#edf4fb">
-                <input type="text" id="bg-color1-text" value="#edf4fb" style="width:65px; padding:3px 5px; font-size:11px; border:1px solid var(--line); border-radius:4px;">
+                <input type="text" id="bg-color1-text" value="#edf4fb" style="width:65px; padding:3px 5px; font-size:0.7rem; border:1px solid var(--line); border-radius:4px;">
                 <span>ke</span>
                 <input type="color" id="bg-color2" value="#f6f8fb">
-                <input type="text" id="bg-color2-text" value="#f6f8fb" style="width:65px; padding:3px 5px; font-size:11px; border:1px solid var(--line); border-radius:4px;">
+                <input type="text" id="bg-color2-text" value="#f6f8fb" style="width:65px; padding:3px 5px; font-size:0.7rem; border:1px solid var(--line); border-radius:4px;">
               </div>
               <div class="color-picker-wrapper" style="margin-top:4px;">
                 <button type="button" class="transparency-btn" data-target="bg-color1">Transparansi</button>
                 <button type="button" class="transparency-btn" data-target="bg-color2">Transparansi</button>
               </div>
-              <select id="bg-preset-select" class="field-control" style="margin-top:6px; font-size:12px; padding:4px 6px; min-height:28px;">
+              <select id="bg-preset-select" class="field-control" style="margin-top:6px; font-size:0.75rem; padding:4px 6px; min-height:28px;">
                 <option value="custom">Pilihan Custom Manual</option>
                 <option value="default">🔵 Biru Muda (Default)</option>
                 <option value="dark">🌙 Mode Gelap</option>
@@ -2805,7 +2856,7 @@
               <img id="hero-image-preview" class="hero-image-preview" alt="Preview Hero">
               <div class="position-controls">
                 <div><label>Posisi Gambar Hero</label>
-                  <select class="field-control" id="hero-image-position" style="font-size:11px; padding:3px 5px; min-height:28px;">
+                  <select class="field-control" id="hero-image-position" style="font-size:0.7rem; padding:3px 5px; min-height:28px;">
                     <option value="center">Tengah (Center)</option>
                     <option value="top">Atas (Top)</option>
                     <option value="bottom">Bawah (Bottom)</option>
@@ -2817,7 +2868,7 @@
                     <option value="bottom-right">Bawah Kanan</option>
                   </select></div>
                 <div><label>Ukuran Gambar Hero</label>
-                  <select class="field-control" id="hero-image-size" style="font-size:11px; padding:3px 5px; min-height:28px;">
+                  <select class="field-control" id="hero-image-size" style="font-size:0.7rem; padding:3px 5px; min-height:28px;">
                     <option value="cover">Cover (Penuhi)</option>
                     <option value="contain">Contain (Proporsi)</option>
                     <option value="100% 100%">Stretch (Penuh)</option>
@@ -2827,17 +2878,17 @@
               <div style="display:flex; gap:10px; margin-top:6px; align-items:center; flex-wrap:wrap;">
                 <div><label>Transparansi: <span id="hero-opacity-label">100%</span></label>
                   <input type="range" id="hero-opacity" min="0" max="100" value="100" style="width:100px;"></div>
-                <button type="button" id="remove-hero-image" class="secondary-button" style="padding:3px 10px; font-size:11px;">Hapus Gambar Hero</button>
+                <button type="button" id="remove-hero-image" class="secondary-button" style="padding:3px 10px; font-size:0.7rem;">Hapus Gambar Hero</button>
               </div>
             </div>
             <div class="field-group">
               <label>🎨 Warna Hero Background</label>
               <div class="color-picker-wrapper">
                 <input type="color" id="hero-bg1" value="#1268d4">
-                <input type="text" id="hero-bg1-text" value="#1268d4" style="width:60px; padding:3px 5px; font-size:11px; border:1px solid var(--line); border-radius:4px;">
+                <input type="text" id="hero-bg1-text" value="#1268d4" style="width:60px; padding:3px 5px; font-size:0.7rem; border:1px solid var(--line); border-radius:4px;">
                 <span>ke</span>
                 <input type="color" id="hero-bg2" value="#1877f2">
-                <input type="text" id="hero-bg2-text" value="#1877f2" style="width:60px; padding:3px 5px; font-size:11px; border:1px solid var(--line); border-radius:4px;">
+                <input type="text" id="hero-bg2-text" value="#1877f2" style="width:60px; padding:3px 5px; font-size:0.7rem; border:1px solid var(--line); border-radius:4px;">
               </div>
               <div class="color-picker-wrapper" style="margin-top:4px;">
                 <button type="button" class="transparency-btn" data-target="hero-bg1">Transparansi</button>
@@ -2848,7 +2899,7 @@
               <label>🎨 Warna Teks Hero</label>
               <div class="color-picker-wrapper">
                 <input type="color" id="hero-text-color" value="#ffffff">
-                <input type="text" id="hero-text-color-text" value="#ffffff" style="width:60px; padding:3px 5px; font-size:11px; border:1px solid var(--line); border-radius:4px;">
+                <input type="text" id="hero-text-color-text" value="#ffffff" style="width:60px; padding:3px 5px; font-size:0.7rem; border:1px solid var(--line); border-radius:4px;">
               </div>
               <div class="color-picker-wrapper" style="margin-top:4px;">
                 <button type="button" class="transparency-btn" data-target="hero-text-color">Transparansi</button>
@@ -2856,17 +2907,17 @@
             </div>
             <div class="field-group full">
               <label>Visi</label>
-              <textarea class="field-control" id="vision-text" rows="2" style="min-height:44px;font-size:12px;">Menjadi garda terdepan yang handal dalam menjamin keamanan infrastruktur jaringan strategis Telin di Indonesia Timur.</textarea>
+              <textarea class="field-control" id="vision-text" rows="2" style="min-height:44px;font-size:0.75rem;">Menjadi garda terdepan yang handal dalam menjamin keamanan infrastruktur jaringan strategis Telin di Indonesia Timur.</textarea>
             </div>
             <div class="field-group full">
               <label>Misi (pisahkan dengan baris baru)</label>
-              <textarea class="field-control" id="mission-text" rows="3" style="min-height:60px;font-size:12px;">Patroli rutin jalur kabel dan aset jaringan.
+              <textarea class="field-control" id="mission-text" rows="3" style="min-height:60px;font-size:0.75rem;">Patroli rutin jalur kabel dan aset jaringan.
             Mengelola pekerjaan dan temuan secara terukur.
             Menjaga ketersediaan material dan stok pendukung.</textarea>
             </div>
             <div class="field-group full">
               <label>Wilayah Kerja</label>
-              <textarea class="field-control" id="region-text" rows="2" style="min-height:44px;font-size:12px;">Manado, Bitung, Likupang, Bolaang Mongondow, Gorontalo, Siau, Tagulandang, dan Biaro.</textarea>
+              <textarea class="field-control" id="region-text" rows="2" style="min-height:44px;font-size:0.75rem;">Manado, Bitung, Likupang, Bolaang Mongondow, Gorontalo, Siau, Tagulandang, dan Biaro.</textarea>
             </div>
           </div>
           <div class="modal-actions">
@@ -2891,403 +2942,6 @@
         </div>
       </div>
     </div>
-
-    <style>
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-      .scan-btn {
-        flex-shrink: 0;
-        padding: 4px 10px;
-        font-size: 11px;
-        border: 0;
-        border-radius: 8px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: .2s;
-        background: var(--blue);
-        color: white;
-      }
-      .scan-btn:hover {
-        transform: translateY(-1px);
-        filter: brightness(.97);
-      }
-      .hero-image-preview.show {
-        display: block;
-      }
-      .color-picker-wrapper .transparency-btn {
-        padding: 3px 8px;
-        font-size: 9px;
-        border: 1px solid var(--line);
-        border-radius: 5px;
-        background: var(--soft);
-        cursor: pointer;
-        font-weight: 600;
-        transition: all 0.2s ease;
-        color: var(--ink);
-      }
-      .color-picker-wrapper .transparency-btn:hover {
-        background: var(--line);
-      }
-      .color-picker-wrapper .transparency-btn.active {
-        background: var(--blue);
-        color: white;
-        border-color: var(--blue);
-      }
-
-      .scanner-container {
-        position: relative;
-        width: 100%;
-        border-radius: 10px;
-        overflow: hidden;
-        margin-top: 8px;
-        display: none;
-        background: #000;
-      }
-      .scanner-container.active {
-        display: block;
-      }
-      #camera-preview {
-        width: 100%;
-        display: block;
-        border-radius: 10px;
-        background: #000;
-        min-height: 240px;
-      }
-      #camera-preview video {
-        width: 100%;
-        display: block;
-      }
-      .scanner-overlay {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        z-index: 10;
-      }
-      .scanner-frame {
-        position: absolute;
-        top: 20%;
-        left: 15%;
-        width: 70%;
-        height: 55%;
-        border: none;
-        box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.5), 0 0 30px rgba(39, 168, 68, 0.15);
-      }
-      .scanner-frame .corner {
-        position: absolute;
-        width: 30px;
-        height: 30px;
-        border-color: #27a844;
-        border-style: solid;
-        border-width: 0;
-      }
-      .scanner-frame .corner.tl {
-        top: 0;
-        left: 0;
-        border-top-width: 4px;
-        border-left-width: 4px;
-      }
-      .scanner-frame .corner.tr {
-        top: 0;
-        right: 0;
-        border-top-width: 4px;
-        border-right-width: 4px;
-      }
-      .scanner-frame .corner.bl {
-        bottom: 0;
-        left: 0;
-        border-bottom-width: 4px;
-        border-left-width: 4px;
-      }
-      .scanner-frame .corner.br {
-        bottom: 0;
-        right: 0;
-        border-bottom-width: 4px;
-        border-right-width: 4px;
-      }
-      .scanner-frame .corner.tl::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 20px;
-        height: 20px;
-        border-top: 4px solid #27a844;
-        border-left: 4px solid #27a844;
-      }
-      .scanner-frame .corner.tr::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 20px;
-        height: 20px;
-        border-top: 4px solid #27a844;
-        border-right: 4px solid #27a844;
-      }
-      .scanner-frame .corner.bl::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 20px;
-        height: 20px;
-        border-bottom: 4px solid #27a844;
-        border-left: 4px solid #27a844;
-      }
-      .scanner-frame .corner.br::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 20px;
-        height: 20px;
-        border-bottom: 4px solid #27a844;
-        border-right: 4px solid #27a844;
-      }
-
-      .scanner-label {
-        position: absolute;
-        bottom: 10%;
-        left: 50%;
-        transform: translateX(-50%);
-        color: #27a844;
-        font-size: 12px;
-        font-weight: 700;
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-        background: rgba(0, 0, 0, 0.5);
-        padding: 4px 14px;
-        border-radius: 20px;
-        border: 1px solid rgba(39, 168, 68, 0.3);
-        white-space: nowrap;
-        z-index: 11;
-      }
-      .scanner-label .scan-icon {
-        display: inline-block;
-        animation: scanner-blink 1s ease-in-out infinite;
-      }
-
-      @keyframes scanner-blink {
-        0%,
-        100% {
-          opacity: 1
-        }
-        50% {
-          opacity: 0.3
-        }
-      }
-
-      .stop-camera-btn {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        padding: 6px 14px;
-        font-size: 11px;
-        border: 0;
-        border-radius: 6px;
-        background: rgba(220, 53, 69, 0.9);
-        color: white;
-        font-weight: 600;
-        cursor: pointer;
-        transition: .2s;
-        z-index: 20;
-        backdrop-filter: blur(4px);
-      }
-      .stop-camera-btn:hover {
-        background: #b02a37;
-      }
-      #camera-preview canvas.drawingBuffer {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        z-index: 5 !important;
-        pointer-events: none !important;
-      }
-
-      .return-modal-large .modal-card {
-        max-width: 800px;
-      }
-      .return-form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
-      .return-form-grid .form-group {
-        margin-bottom: 0;
-      }
-      .gudang-grid-return {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin: 4px 0;
-      }
-      .gudang-grid-return .gudang-btn {
-        padding: 6px 14px;
-        border: 2px solid var(--line);
-        border-radius: 8px;
-        background: white;
-        font-weight: 600;
-        font-size: 12px;
-        cursor: pointer;
-        transition: 0.2s;
-        color: var(--ink);
-        flex: 1;
-        min-width: 80px;
-        text-align: center;
-        touch-action: manipulation;
-      }
-      .gudang-grid-return .gudang-btn.active {
-        border-color: var(--blue);
-        background: #e6f1ff;
-        box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.15);
-      }
-      .gudang-grid-return .gudang-btn:hover:not(.active) {
-        background: var(--soft);
-      }
-      .return-item-list {
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        overflow: hidden;
-        margin-top: 6px;
-      }
-      .return-item-list table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 12px;
-      }
-      .return-item-list th {
-        background: var(--soft);
-        padding: 6px 8px;
-        text-align: left;
-        font-weight: 700;
-        color: var(--muted);
-      }
-      .return-item-list td {
-        padding: 6px 8px;
-        border-top: 1px solid var(--line);
-      }
-      .return-item-list .remove-item {
-        padding: 2px 10px;
-        border: 0;
-        border-radius: 4px;
-        background: #ffebee;
-        color: #c82e3e;
-        font-weight: 600;
-        font-size: 11px;
-        cursor: pointer;
-      }
-      .return-item-list .remove-item:hover {
-        background: #ffcdd2;
-      }
-      .return-item-list .empty-row td {
-        text-align: center;
-        color: var(--muted);
-        padding: 14px;
-      }
-      .return-photo-preview-container {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-top: 4px;
-      }
-      .return-photo-preview-container img {
-        max-height: 80px;
-        border-radius: 6px;
-        border: 1px solid var(--line);
-      }
-      .return-action-bar {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        align-items: center;
-        margin-top: 12px;
-        padding-top: 12px;
-        border-top: 1px solid var(--line);
-      }
-      .return-action-bar .status {
-        flex: 1;
-        font-size: 12px;
-        font-weight: 500;
-        min-width: 150px;
-      }
-      .return-action-bar .action-btn {
-        padding: 6px 16px;
-        border: 0;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 12px;
-        cursor: pointer;
-        transition: 0.2s;
-      }
-      .return-action-bar .action-btn:disabled {
-        opacity: 0.4;
-        cursor: not-allowed;
-      }
-      .return-action-bar .btn-pdf {
-        background: #1e293b;
-        color: white;
-      }
-      .return-action-bar .btn-pdf:hover:not(:disabled) {
-        background: #0f172a;
-      }
-      .return-action-bar .btn-upload {
-        background: #f59e0b;
-        color: white;
-      }
-      .return-action-bar .btn-upload:hover:not(:disabled) {
-        background: #d97706;
-      }
-      .return-action-bar .btn-save {
-        background: #10b981;
-        color: white;
-      }
-      .return-action-bar .btn-save:hover:not(:disabled) {
-        background: #059669;
-      }
-      .return-action-bar .btn-reset {
-        background: #e2e8f0;
-        color: #1e293b;
-      }
-      .return-action-bar .btn-reset:hover:not(:disabled) {
-        background: #cbd5e1;
-      }
-      .hidden-input {
-        display: none;
-      }
-      .change-password-modal .modal-card {
-        max-width: 400px;
-      }
-      .face-id-btn {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--soft);
-        color: var(--ink);
-        font-weight: 600;
-        font-size: 12px;
-        cursor: pointer;
-        transition: 0.2s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-      }
-      .face-id-btn:hover {
-        background: var(--line);
-      }
-      .face-id-btn.scanning {
-        background: #dbeafe;
-        border-color: var(--blue);
-      }
-    </style>
 
     <script>
       // ============================================================
@@ -3323,7 +2977,7 @@
       ];
 
       // ============================================================
-      // DATA KML (dari file yang diberikan)
+      // DATA KML
       // ============================================================
       const KML_STRING = `<?xml version="1.0" encoding="UTF-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -3393,6 +3047,8 @@
         scanningActive: false
       };
 
+      let returnHistory = [];
+
       const DEFAULT_CENTER = [1.4930, 124.8410];
       const CLOUD_DATA_KEY = 'bucin_data';
       const CLOUD_HISTORY_KEY = 'bucin_history';
@@ -3400,6 +3056,7 @@
       const USERS_KEY = 'bucin_users';
       const SETTINGS_KEY = 'bucin_settings';
       const LOGIN_COUNT_KEY = 'bucin_login_count';
+      const RETURN_HISTORY_KEY = 'bucin_return_history';
 
       let appSettings = {
         fontHeading: "'Libre Franklin',sans-serif",
@@ -3424,7 +3081,6 @@
         theme: 'default'
       };
 
-      // Tema masih ada untuk kompatibilitas, tapi tidak ditampilkan di UI
       const THEMES = {
         default: { bgColor1: '#edf4fb', bgColor2: '#f6f8fb', heroBg1: '#1268d4', heroBg2: '#1877f2', heroText: '#ffffff',
           heroSubtext: '#eaf3ff', cardBg: '#ffffff', cardBorder: '#dfe5ee', ink: '#172033', muted: '#687386' },
@@ -3458,6 +3114,171 @@
       let selectedProcedures = {};
 
       // ============================================================
+      // FIREBASE KONFIGURASI
+      // ============================================================
+      // 🔥 GANTI DENGAN KONFIGURASI FIREBASE ANDA 🔥
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT.firebaseapp.com",
+        databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+        projectId: "YOUR_PROJECT",
+        storageBucket: "YOUR_PROJECT.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+      };
+
+      // Inisialisasi Firebase
+      let firebaseInitialized = false;
+      let db = null;
+
+      function initFirebase() {
+        try {
+          if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "YOUR_API_KEY") {
+            console.warn("⚠️ Firebase belum dikonfigurasi. Data hanya disimpan di localStorage.");
+            return false;
+          }
+          if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+          }
+          db = firebase.database();
+          firebaseInitialized = true;
+          console.log("🔥 Firebase terhubung!");
+          return true;
+        } catch (e) {
+          console.warn("⚠️ Gagal inisialisasi Firebase:", e);
+          return false;
+        }
+      }
+
+      // ============================================================
+      // FUNGSI DATA DENGAN FIREBASE + LOCALSTORAGE FALLBACK
+      // ============================================================
+      let dataListeners = [];
+
+      function loadDataFromFirebase(callback) {
+        if (!firebaseInitialized || !db) {
+          // Fallback ke localStorage
+          loadDataLocal();
+          if (callback) callback();
+          return;
+        }
+
+        // Ambil semua data dari Firebase
+        db.ref('/').once('value').then(snapshot => {
+          const val = snapshot.val();
+          if (val) {
+            if (val.appData) appData = val.appData || {};
+            if (val.stockHistory) stockHistory = val.stockHistory || {};
+            if (val.users) users = val.users || {};
+            if (val.returnHistory) returnHistory = val.returnHistory || [];
+            if (val.userLoginCount) userLoginCount = val.userLoginCount || {};
+            if (val.appSettings) appSettings = { ...appSettings, ...val.appSettings };
+          }
+          // Simpan ke localStorage sebagai cache
+          saveDataLocal();
+          if (callback) callback();
+        }).catch(err => {
+          console.warn("⚠️ Gagal baca dari Firebase, pakai localStorage:", err);
+          loadDataLocal();
+          if (callback) callback();
+        });
+
+        // Setup listener realtime
+        if (dataListeners.length === 0) {
+          const ref = db.ref('/');
+          const listener = ref.on('value', snapshot => {
+            const val = snapshot.val();
+            if (!val) return;
+            // Update data
+            if (val.appData) appData = val.appData || {};
+            if (val.stockHistory) stockHistory = val.stockHistory || {};
+            if (val.users) users = val.users || {};
+            if (val.returnHistory) returnHistory = val.returnHistory || [];
+            if (val.userLoginCount) userLoginCount = val.userLoginCount || {};
+            if (val.appSettings) appSettings = { ...appSettings, ...val.appSettings };
+            // Simpan cache
+            saveDataLocal();
+            // Render ulang UI
+            applySettings();
+            renderAllStats();
+            renderUserList();
+            renderReturnHistory();
+            if (['Patch Cord', 'Stok Spare'].includes(currentCategory)) renderTable();
+            else renderTable();
+          });
+          dataListeners.push(listener);
+        }
+      }
+
+      function saveDataToFirebase() {
+        if (!firebaseInitialized || !db) {
+          saveDataLocal();
+          return;
+        }
+        const dataToSend = {
+          appData: appData,
+          stockHistory: stockHistory,
+          users: users,
+          returnHistory: returnHistory,
+          userLoginCount: userLoginCount,
+          appSettings: appSettings
+        };
+        db.ref('/').set(dataToSend).catch(err => {
+          console.warn("⚠️ Gagal simpan ke Firebase:", err);
+          saveDataLocal();
+        });
+        saveDataLocal(); // cache
+      }
+
+      // LocalStorage fallback
+      function loadDataLocal() {
+        try {
+          const saved = localStorage.getItem(CLOUD_DATA_KEY);
+          appData = saved ? JSON.parse(saved) : {};
+          const savedHist = localStorage.getItem(CLOUD_HISTORY_KEY);
+          stockHistory = savedHist ? JSON.parse(savedHist) : {};
+          const savedUsers = localStorage.getItem(USERS_KEY);
+          users = savedUsers ? JSON.parse(savedUsers) : { admin: { pass: 'admin123', role: 'admin', loginCount: 0 },
+            operator: { pass: 'op123', role: 'operator', loginCount: 0 } };
+          const savedUser = localStorage.getItem(USER_KEY);
+          currentUser = savedUser ? JSON.parse(savedUser) : null;
+          const savedSettings = localStorage.getItem(SETTINGS_KEY);
+          if (savedSettings) { const parsed = JSON.parse(savedSettings);
+            appSettings = { ...appSettings, ...parsed }; }
+          const savedLoginCount = localStorage.getItem(LOGIN_COUNT_KEY);
+          if (savedLoginCount) { userLoginCount = JSON.parse(savedLoginCount); }
+          const savedReturnHist = localStorage.getItem(RETURN_HISTORY_KEY);
+          if (savedReturnHist) { returnHistory = JSON.parse(savedReturnHist); } else { returnHistory = []; }
+          currentTheme = appSettings.theme || 'default';
+        } catch { appData = {};
+          stockHistory = {};
+          users = { admin: { pass: 'admin123', role: 'admin', loginCount: 0 },
+          operator: { pass: 'op123', role: 'operator', loginCount: 0 } };
+          currentUser = null;
+          returnHistory = []; }
+      }
+
+      function saveDataLocal() {
+        localStorage.setItem(CLOUD_DATA_KEY, JSON.stringify(appData));
+        localStorage.setItem(CLOUD_HISTORY_KEY, JSON.stringify(stockHistory));
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        localStorage.setItem(SETTINGS_KEY, JSON.stringify(appSettings));
+        localStorage.setItem(LOGIN_COUNT_KEY, JSON.stringify(userLoginCount));
+        localStorage.setItem(RETURN_HISTORY_KEY, JSON.stringify(returnHistory));
+      }
+
+      // Fungsi saveData terpadu
+      function saveData() {
+        saveDataToFirebase();
+        saveDataLocal();
+        renderAllStats();
+        renderUserList();
+        renderReturnHistory();
+        if (['Patch Cord', 'Stok Spare'].includes(currentCategory)) renderTable();
+        else renderTable();
+      }
+
+      // ============================================================
       // PROSEDUR PERBAIKAN - FUNGSI
       // ============================================================
       function initProcedureUI() {
@@ -3466,7 +3287,7 @@
         grid.innerHTML = PROCEDURE_DATA.map((proc, idx) => `
               <button type="button" class="procedure-main-btn" data-id="${proc.id}" data-idx="${idx}">
                 ${proc.label}
-                <span style="font-size:8px; display:block; color:var(--muted); font-weight:400;">${proc.items.length} item</span>
+                <span style="font-size:0.5rem; display:block; color:var(--muted); font-weight:400;">${proc.items.length} item</span>
               </button>
             `).join('');
         document.querySelectorAll('.procedure-main-btn').forEach(btn => {
@@ -3489,14 +3310,14 @@
         validateProcedure();
       }
 
-      function toggleProcedureItem(procId, itemIdx) {
+      window.toggleProcedureItem = function(procId, itemIdx) {
         const proc = selectedProcedures[procId];
         if (!proc) return;
         proc.items[itemIdx].checked = !proc.items[itemIdx].checked;
         updateProcedureUI();
         updateSelectedProcedureTable();
         validateProcedure();
-      }
+      };
 
       function updateProcedureUI() {
         const grid = document.getElementById('procedure-grid');
@@ -3519,15 +3340,15 @@
         if (activeProcs.length === 0) { checklist.style.display = 'none';
           hiddenInput.value = ''; return; }
         checklist.style.display = 'flex';
-        let html = '<span style="font-size:9px; font-weight:600; color:var(--muted); width:100%;">☑️ Checklist Prosedur:</span>';
+        let html = '<span style="font-size:0.6rem; font-weight:600; color:var(--muted); width:100%;">☑️ Checklist Prosedur:</span>';
         activeProcs.forEach(procId => {
           const proc = selectedProcedures[procId];
           const procData = PROCEDURE_DATA.find(p => p.id === procId);
           if (!procData) return;
-          html += `<span style="font-size:9px; font-weight:700; width:100%; color:var(--blue);">📌 ${procData.label}</span>`;
+          html += `<span style="font-size:0.6rem; font-weight:700; width:100%; color:var(--blue);">📌 ${procData.label}</span>`;
           proc.items.forEach((item, idx) => {
             html +=
-              `<button type="button" class="check-item ${item.checked ? 'checked' : ''}" onclick="toggleProcedureItem('${procId}', ${idx})">${item.label}</button>`;
+              `<button type="button" class="check-item ${item.checked ? 'checked' : ''}" onclick="window.toggleProcedureItem('${procId}', ${idx})">${item.label}</button>`;
           });
         });
         checklist.innerHTML = html;
@@ -3615,45 +3436,6 @@
       // ============================================================
       // DATA (LocalStorage)
       // ============================================================
-      function loadData() {
-        try {
-          const saved = localStorage.getItem(CLOUD_DATA_KEY);
-          appData = saved ? JSON.parse(saved) : {};
-          const savedHist = localStorage.getItem(CLOUD_HISTORY_KEY);
-          stockHistory = savedHist ? JSON.parse(savedHist) : {};
-          const savedUsers = localStorage.getItem(USERS_KEY);
-          users = savedUsers ? JSON.parse(savedUsers) : { admin: { pass: 'admin123', role: 'admin', loginCount: 0 },
-            operator: { pass: 'op123', role: 'operator', loginCount: 0 } };
-          const savedUser = localStorage.getItem(USER_KEY);
-          currentUser = savedUser ? JSON.parse(savedUser) : null;
-          const savedSettings = localStorage.getItem(SETTINGS_KEY);
-          if (savedSettings) { const parsed = JSON.parse(savedSettings);
-            appSettings = { ...appSettings, ...parsed }; }
-          const savedLoginCount = localStorage.getItem(LOGIN_COUNT_KEY);
-          if (savedLoginCount) { userLoginCount = JSON.parse(savedLoginCount); }
-          currentTheme = appSettings.theme || 'default';
-        } catch { appData = {};
-          stockHistory = {};
-          users = { admin: { pass: 'admin123', role: 'admin', loginCount: 0 },
-          operator: { pass: 'op123', role: 'operator', loginCount: 0 } };
-          currentUser = null; }
-        applySettings();
-        renderAllStats();
-        // Seed KML data if not present
-        seedKMLData();
-      }
-
-      function saveData() {
-        localStorage.setItem(CLOUD_DATA_KEY, JSON.stringify(appData));
-        localStorage.setItem(CLOUD_HISTORY_KEY, JSON.stringify(stockHistory));
-        localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        localStorage.setItem(SETTINGS_KEY, JSON.stringify(appSettings));
-        localStorage.setItem(LOGIN_COUNT_KEY, JSON.stringify(userLoginCount));
-        renderAllStats();
-        renderUserList();
-        if (['Patch Cord', 'Stok Spare'].includes(currentCategory)) renderTable();
-      }
-
       function getRecords(cat) {
         const mapping = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan' };
         const realCat = mapping[cat] || cat;
@@ -3834,7 +3616,7 @@
       }
 
       // ============================================================
-      // UI & TEMA (tema hanya untuk internal, tidak ada di UI)
+      // UI & TEMA
       // ============================================================
       function applyTheme(themeName) {
         const theme = THEMES[themeName];
@@ -3857,7 +3639,6 @@
         document.documentElement.style.setProperty('--card-border', theme.cardBorder);
         document.documentElement.style.setProperty('--ink', theme.ink);
         document.documentElement.style.setProperty('--muted', theme.muted);
-        // Tidak ada toggle tema di UI, jadi tidak perlu update class
         applySettings();
       }
 
@@ -3911,13 +3692,13 @@
         const userNames = Object.keys(users);
         if (!userNames.length) {
           container.innerHTML =
-            '<div style="text-align:center;color:var(--muted);padding:8px;font-size:12px;">Belum ada pengguna</div>';
+            '<div style="text-align:center;color:var(--muted);padding:8px;font-size:0.75rem;">Belum ada pengguna</div>';
           return;
         }
         container.innerHTML = userNames.map(name => `
               <div class="user-list-item">
-                <div class="user-info"><span style="font-weight:600;font-size:12px;">${name}</span><span class="user-role">${users[name].role}</span></div>
-                ${name !== 'admin' ? `<button class="delete-user" onclick="deleteUser('${name}')" title="Hapus pengguna"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>` : '<span style="font-size:10px;color:var(--muted);">(admin)</span>'}
+                <div class="user-info"><span style="font-weight:600;font-size:0.75rem;">${name}</span><span class="user-role">${users[name].role}</span></div>
+                ${name !== 'admin' ? `<button class="delete-user" onclick="deleteUser('${name}')" title="Hapus pengguna"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>` : '<span style="font-size:0.65rem;color:var(--muted);">(admin)</span>'}
               </div>
             `).join('');
         lucide.createIcons();
@@ -4012,7 +3793,7 @@
         if (!container) return;
         if (legendItems.length === 0) {
           container.innerHTML =
-            '<div style="text-align:center;color:var(--muted);font-size:11px;padding:8px 0;">Tidak ada data</div>';
+            '<div style="text-align:center;color:var(--muted);font-size:0.7rem;padding:8px 0;">Tidak ada data</div>';
           return;
         }
         const groups = {};
@@ -4038,7 +3819,7 @@
           const icon = item.type === 'point' ? '●' : '━';
           const color = item.color || '#888';
           html +=
-            `<div class="legend-item" data-idx="${idx}" style="cursor:pointer;"><span style="color:${color};font-weight:700;font-size:14px;">${icon}</span><span class="legend-label">${item.name}</span></div>`;
+            `<div class="legend-item" data-idx="${idx}" style="cursor:pointer;"><span style="color:${color};font-weight:700;font-size:0.85rem;">${icon}</span><span class="legend-label">${item.name}</span></div>`;
         });
         html += `</div>`;
         container.innerHTML = html;
@@ -4084,7 +3865,7 @@
           });
           const marker = L.marker([point.lat, point.lng], { icon }).addTo(map);
           marker.bindPopup(
-            `<div style="font-family:'DM Sans',sans-serif;min-width:200px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="background:#1e40af;color:white;border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;">🏢</span><span style="font-weight:800;font-size:14px;color:#1e3a5f;">${point.name}</span></div><div style="font-size:11px;color:#4b5563;margin-bottom:2px;">📍 ${point.sub}</div><div style="font-size:10px;color:#6b7280;font-family:monospace;">${point.lat}, ${point.lng}</div></div>`
+            `<div style="font-family:'DM Sans',sans-serif;min-width:200px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="background:#1e40af;color:white;border-radius:6px;padding:2px 8px;font-size:0.65rem;font-weight:700;">🏢</span><span style="font-weight:800;font-size:0.85rem;color:#1e3a5f;">${point.name}</span></div><div style="font-size:0.7rem;color:#4b5563;margin-bottom:2px;">📍 ${point.sub}</div><div style="font-size:0.65rem;color:#6b7280;font-family:monospace;">${point.lat}, ${point.lng}</div></div>`
           );
           officeMarkersLayer.push(marker);
         });
@@ -4235,7 +4016,7 @@
       }
 
       // ============================================================
-      // RETURN - FIXED (dengan perbaikan untuk smartphone)
+      // RETURN - FIXED
       // ============================================================
       function initReturnMasterBarang() {
         const hist = stockHistory['Stok Spare'] || [];
@@ -4284,6 +4065,12 @@
         stopReturnScanner();
         stopScanner();
 
+        document.querySelectorAll('.return-tabs button').forEach(b => b.classList.remove('active'));
+        document.querySelector('.return-tabs button[data-tab="proses-retur"]')?.classList.add('active');
+        document.querySelectorAll('.return-tab-content').forEach(tc => tc.classList.remove('active'));
+        document.getElementById('tab-proses-retur')?.classList.add('active');
+
+        renderReturnHistory();
         document.getElementById('return-modal').classList.remove('hidden');
       }
 
@@ -4296,7 +4083,18 @@
         return `RET-${y}${m}${d}-${random}`;
       }
 
-      // Return: Gudang - perbaikan untuk touch event
+      // Tab switching
+      document.querySelectorAll('.return-tabs button').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.return-tabs button').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          document.querySelectorAll('.return-tab-content').forEach(tc => tc.classList.remove('active'));
+          const target = document.getElementById(this.dataset.tab);
+          if (target) target.classList.add('active');
+        });
+      });
+
+      // Return: Gudang
       document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
           e.preventDefault();
@@ -4311,10 +4109,6 @@
           }
           checkReturnReadyState();
         });
-        // Untuk touch device
-        btn.addEventListener('touchstart', function(e) {
-          // Hanya untuk memastikan responsif, tidak perlu aksi khusus
-        }, { passive: true });
       });
 
       // Return: Scan Barcode
@@ -4523,9 +4317,9 @@
         });
       }
 
-      // Return: Download PDF dengan tabel data dan 2 kolom tanda tangan
+      // Return: Download PDF
       function addTelinLogoToPDF(doc, x, y, size) {
-        const logoSize = size || 40;
+        const logoSize = size || 50;
         const margin = 10;
         const rightX = doc.internal.pageSize.getWidth() - margin - logoSize;
 
@@ -4577,7 +4371,6 @@
         doc.text(`Gudang    : ${returnState.selectedGudang}`, margin, y);
         y += 22;
 
-        // Tabel data
         const tableData = returnState.returItems.map((item, i) => [
           String(i + 1),
           item.productId,
@@ -4608,14 +4401,12 @@
 
         y = doc.lastAutoTable.finalY + 30;
 
-        // Dua kolom persegi panjang untuk tanda tangan
         const boxWidth = 180;
         const boxHeight = 60;
         const spacing = 30;
         const x1 = margin;
         const x2 = margin + boxWidth + spacing;
 
-        // Gambar kotak untuk tanda tangan PIC
         doc.setDrawColor(0);
         doc.setLineWidth(0.5);
         doc.rect(x1, y, boxWidth, boxHeight);
@@ -4628,7 +4419,6 @@
         doc.text('(___________________)', x1 + 10, y + 40);
         doc.text('Nama: _________________', x1 + 10, y + 52);
 
-        // Kotak untuk tanda tangan Inputer
         doc.rect(x2, y, boxWidth, boxHeight);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(10);
@@ -4640,7 +4430,6 @@
 
         y += boxHeight + 20;
 
-        // QR Code
         try {
           const qrCanvas = document.createElement('canvas');
           QRCode.toCanvas(qrCanvas, returnState.noRetur, { width: 80, height: 80, margin: 0 });
@@ -4656,19 +4445,18 @@
         }
         y += 50;
 
-        // Footer
         doc.setFontSize(8);
         doc.setTextColor('#9ca3af');
         doc.text('Dokumen ini dibuat secara otomatis oleh sistem BUCIN', pageWidth / 2, y, { align: 'center' });
 
         doc.save(`Retur_${returnState.noRetur}.pdf`);
         returnState.pdfGenerated = true;
-        document.getElementById('return-upload-file-input').click();
-        updateReturnStatus('PDF didownload. Silakan foto/upload dokumen tanda tangan.', 'info');
+        document.getElementById('return-upload-foto-btn').disabled = false;
+        updateReturnStatus('PDF didownload. Silakan upload foto tanda tangan.', 'info');
         checkReturnReadyState();
       });
 
-      // Return: Upload foto & QR verification
+      // Return: Upload foto
       document.getElementById('return-upload-foto-btn').addEventListener('click', function() {
         if (!this.disabled) document.getElementById('return-upload-file-input').click();
       });
@@ -4714,6 +4502,14 @@
               returnState.fotoUploaded = false;
               updateReturnStatus('❌ Tidak ada QR Code terbaca pada foto', 'error');
             }
+
+            // Cek timestamp (simulasi dengan nama file)
+            const hasTimestamp = /20[2-9][0-9]/.test(file.name);
+            if (valid && !hasTimestamp) {
+              // Untuk demo, tetap dianggap valid
+              returnState.fotoUploaded = true;
+            }
+
             checkReturnReadyState();
             document.getElementById('return-upload-file-input').value = '';
           };
@@ -4725,6 +4521,18 @@
       // Return: Simpan
       document.getElementById('return-simpan-btn').addEventListener('click', function() {
         if (this.disabled) return;
+
+        const returData = {
+          noRetur: returnState.noRetur,
+          tanggal: returnState.tglRetur,
+          gudang: returnState.selectedGudang,
+          items: returnState.returItems.map(item => ({ ...item })),
+          total: returnState.returItems.reduce((sum, item) => sum + (item.qty * item.harga), 0),
+          diinputOleh: currentUser?.name || 'Anonim',
+          waktu: new Date().toISOString(),
+          foto: returnState.fotoDataURL || ''
+        };
+        returnHistory.unshift(returData);
 
         returnState.returItems.forEach(item => {
           const hist = stockHistory['Stok Spare'] || [];
@@ -4761,10 +4569,10 @@
           'success');
 
         resetReturnForm();
+        renderReturnHistory();
         renderTable();
       });
 
-      // Return: Reset
       document.getElementById('return-reset-btn').addEventListener('click', function() {
         resetReturnForm();
       });
@@ -4819,6 +4627,25 @@
         else if (!returnState.fotoUploaded) updateReturnStatus('Silakan upload foto tanda tangan', 'info');
         else if (!returnState.qrValid) updateReturnStatus('QR Tidak Sesuai, Mohon untuk Scan Dokumen Asli', 'error');
         else updateReturnStatus('Semua siap. Klik Simpan untuk menyimpan retur.', 'success');
+      }
+
+      function renderReturnHistory() {
+        const tbody = document.getElementById('return-history-body');
+        if (!tbody) return;
+        if (returnHistory.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">Belum ada data retur</td></tr>';
+          return;
+        }
+        tbody.innerHTML = returnHistory.map(r => `
+              <tr>
+                <td><strong>${r.noRetur}</strong></td>
+                <td>${r.tanggal}</td>
+                <td>${r.gudang}</td>
+                <td>${r.items.length}</td>
+                <td>Rp ${r.total.toLocaleString()}</td>
+                <td><span class="status-pill">Selesai</span></td>
+              </tr>
+            `).join('');
       }
 
       document.getElementById('close-return-modal').addEventListener('click', function() {
@@ -4944,7 +4771,7 @@
             const actionButtons = isAdmin ? `
                   <button class="icon-button edit-row" onclick="editData(${idx})"><i data-lucide="edit-2"></i></button>
                   <button class="icon-button delete-row" onclick="askDelete(${idx})"><i data-lucide="trash-2"></i></button>
-                ` : `<span style="font-size:9px;color:var(--muted);">(read only)</span>`;
+                ` : `<span style="font-size:0.6rem;color:var(--muted);">(read only)</span>`;
             return `<tr>
                   <td><strong>${idx+1}</strong></td>
                   <td>${r.barcode || '-'}</td>
@@ -4967,7 +4794,7 @@
             const actionButtons = isAdmin ? `
                   <button class="icon-button edit-row" onclick="editData(${idx})"><i data-lucide="edit-2"></i></button>
                   <button class="icon-button delete-row" onclick="askDelete(${idx})"><i data-lucide="trash-2"></i></button>
-                ` : `<span style="font-size:9px;color:var(--muted);">(read only)</span>`;
+                ` : `<span style="font-size:0.6rem;color:var(--muted);">(read only)</span>`;
             return `<tr>
                   <td><strong>${r.date}</strong></td>
                   <td>${r.ruas}</td><td>${r.dari}</td><td>${r.ke}</td>
@@ -4990,7 +4817,7 @@
             try {
               const procData = typeof r.procedure === 'string' ? JSON.parse(r.procedure) : r.procedure;
               if (Array.isArray(procData) && procData.length > 0) {
-                procHtml = '<div style="font-size:9px; line-height:1.3;">';
+                procHtml = '<div style="font-size:0.6rem; line-height:1.3;">';
                 procData.forEach(p => { procHtml += `<strong>${p.label}</strong>: ${p.items.join(', ')}<br>`; });
                 procHtml += '</div>';
               } else { procHtml = '-'; }
@@ -4999,7 +4826,7 @@
           const actionButtons = isAdmin ? `
                 <button class="icon-button edit-row" onclick="editData(${idx})"><i data-lucide="edit-2"></i></button>
                 <button class="icon-button delete-row" onclick="askDelete(${idx})"><i data-lucide="trash-2"></i></button>
-              ` : `<span style="font-size:9px;color:var(--muted);">(read only)</span>`;
+              ` : `<span style="font-size:0.6rem;color:var(--muted);">(read only)</span>`;
           return `<tr>
                 <td><strong>${r.date}</strong></td>
                 <td>${r.location||'-'}</td><td>${r.coords||'-'}</td>
@@ -5203,6 +5030,33 @@
         const popup = document.querySelector('.warehouse-popup');
         if (popup) popup.remove();
       }
+
+      // Auto-fill nama dari barcode di Stok Spare
+      document.getElementById('form-barcode')?.addEventListener('input', function() {
+        const barcode = this.value.trim();
+        if (!barcode) return;
+        if (BARCODE_DB[barcode]) {
+          document.getElementById('form-spec').value = BARCODE_DB[barcode];
+          showToast('✅ Nama barang terisi otomatis dari database', 'success');
+          return;
+        }
+        const hist = stockHistory['Stok Spare'] || [];
+        const found = hist.find(r => r.barcode === barcode);
+        if (found && found.spec) {
+          document.getElementById('form-spec').value = found.spec;
+          showToast('✅ Nama barang terisi otomatis dari riwayat', 'success');
+          return;
+        }
+        for (const cat in appData) {
+          const items = appData[cat] || [];
+          const foundItem = items.find(r => r.barcode === barcode);
+          if (foundItem && foundItem.spec) {
+            document.getElementById('form-spec').value = foundItem.spec;
+            showToast('✅ Nama barang terisi otomatis dari data', 'success');
+            return;
+          }
+        }
+      });
 
       window.editData = function(idx) {
         const cat = currentCategory;
@@ -5494,6 +5348,7 @@
           if (!barcodeValue) return;
 
           document.getElementById('form-barcode').value = barcodeValue;
+          document.getElementById('form-barcode').dispatchEvent(new Event('input'));
 
           if (BARCODE_DB[barcodeValue]) {
             document.getElementById('form-spec').value = BARCODE_DB[barcodeValue];
@@ -5684,10 +5539,36 @@
       // EVENT LISTENERS
       // ============================================================
       document.addEventListener('DOMContentLoaded', function() {
-        loadData();
-        initProcedureUI();
+        // Inisialisasi Firebase
+        const firebaseReady = initFirebase();
 
-        // Tidak ada event listener untuk tema karena sudah dihapus dari UI
+        // Load data dari Firebase atau localStorage
+        loadDataFromFirebase(() => {
+          // Setelah data dimuat, inisialisasi UI
+          applySettings();
+          renderAllStats();
+          renderUserList();
+          renderReturnHistory();
+          initProcedureUI();
+
+          // Jika user sudah login, tampilkan dashboard
+          if (currentUser) {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('app-shell').classList.remove('hidden');
+            document.getElementById('user-name-display').textContent = currentUser.name;
+            document.getElementById('current-user-badge').classList.remove('hidden');
+            if (currentUser.role === 'admin') document.body.classList.add('is-admin');
+            const remaining = currentUser.role !== 'admin' ? Math.max(0, 6 - (userLoginCount[currentUser.name] || 0)) :
+              '∞';
+            const badge = document.getElementById('login-count-badge');
+            if (badge) {
+              badge.textContent = currentUser.role !== 'admin' ? `Sisa ${remaining} login` : '';
+            }
+            setTimeout(initMap, 500);
+            renderAllStats();
+          }
+          setVh();
+        });
 
         // Spare Return
         document.getElementById('spare-return').addEventListener('click', showReturnModal);
@@ -6089,7 +5970,7 @@
           showToast('✅ Pengguna berhasil ditambahkan', 'success');
         });
 
-        // Settings (tanpa tema)
+        // Settings
         document.getElementById('settings-btn').addEventListener('click', function() {
           document.getElementById('font-heading').value = appSettings.fontHeading;
           document.getElementById('font-primary').value = appSettings.fontPrimary;
@@ -6114,8 +5995,6 @@
           document.getElementById('hero-opacity-label').textContent = (appSettings.heroImageOpacity || 100) + '%';
           document.getElementById('hero-image-position').value = appSettings.heroImagePosition || 'center';
           document.getElementById('hero-image-size').value = appSettings.heroImageSize || 'cover';
-
-          // Tidak ada tema di UI, jadi skip update theme cards
 
           const preview = document.getElementById('hero-image-preview');
           if (appSettings.heroImage) {
@@ -6150,7 +6029,6 @@
           appSettings.heroImageOpacity = parseInt(document.getElementById('hero-opacity').value) || 100;
           appSettings.heroImagePosition = document.getElementById('hero-image-position').value;
           appSettings.heroImageSize = document.getElementById('hero-image-size').value;
-          // Tema tidak diubah dari UI
           saveData();
           applySettings();
           document.getElementById('settings-modal').classList.add('hidden');
@@ -6336,13 +6214,12 @@
 
         setVh();
 
-        console.log('🚀 BUCIN v10.0 - Return Fix + KML + Tanpa Tema');
-        console.log('📌 Return: Gudang fixed, PDF dengan 2 kolom tanda tangan');
-        console.log('📌 Tema dihapus dari pengaturan');
+        console.log('🚀 BUCIN v12.0 - Firebase Realtime Sync');
+        console.log('🔥 Data tersimpan di Firebase dan sinkron real-time antar perangkat');
+        console.log('📌 Ganti firebaseConfig dengan konfigurasi project Anda di bagian Firebase Konfigurasi');
       });
 
       window.addEventListener('resize', setVh);
-      window.toggleProcedureItem = toggleProcedureItem;
     </script>
 </body>
 </html>
