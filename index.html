@@ -2112,13 +2112,13 @@
 
       <div class="field-group" style="margin-bottom:12px;">
         <label for="login-username">Nama Pengguna</label>
-        <input id="login-username" type="text" class="field-control" placeholder="Masukkan nama pengguna">
+        <input id="login-username" type="text" class="field-control" placeholder="Masukkan nama pengguna" value="admin">
       </div>
 
       <div class="field-group" style="margin-bottom:16px;">
         <label for="login-password">Kata Sandi</label>
         <div class="password-wrapper">
-          <input id="login-password" type="password" class="field-control" placeholder="Masukkan kata sandi">
+          <input id="login-password" type="password" class="field-control" placeholder="Masukkan kata sandi" value="admin123">
           <button type="button" class="password-toggle" id="toggle-password" aria-label="Tampilkan sandi">
             <i data-lucide="eye" style="width:14px;height:14px;"></i>
           </button>
@@ -3122,14 +3122,13 @@
       // ============================================================
       // 🔥 GANTI DENGAN KONFIGURASI FIREBASE ANDA 🔥
       const firebaseConfig = {
-  apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
-  authDomain: "bucin-18282.firebaseapp.com",
-  projectId: "bucin-18282",
-  storageBucket: "bucin-18282.firebasestorage.app",
-  messagingSenderId: "545528630169",
-  appId: "1:545528630169:web:2ea7db49f27121ad062108",
-  measurementId: "G-EV8X7TEGV1"
-};
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+      };
 
       // Inisialisasi Firebase
       let firebaseInitialized = false;
