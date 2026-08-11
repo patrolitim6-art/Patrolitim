@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -107,7 +107,7 @@
     .chart-card { border: 1px solid var(--card-border); border-radius: 14px; padding: 14px;
       box-shadow: 0 8px 28px rgba(37,57,82,.07); background: var(--card-bg); }
     .chart-card h3 { margin: 0; font-family: var(--font-heading); font-size: 1rem; }
-    #map-container { height: 280px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); }
+    #map-container { height: 420px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); }
     .pie-layout { display: grid; grid-template-columns: 1fr; align-items: center; gap: 12px; }
     .pie-chart { width: 140px; aspect-ratio: 1; border-radius: 50%;
       background: conic-gradient(#e6a400 0 33.33%, #f3425f 33.33% 66.66%, #7c3aed 66.66% 100%);
@@ -386,13 +386,13 @@
 
     <div class="field-group" style="margin-bottom:14px;">
       <label for="login-username">Nama Pengguna</label>
-      <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" value="admin" autofocus>
+      <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" value="" autofocus>
     </div>
 
     <div class="field-group" style="margin-bottom:16px;">
       <label for="login-password">Kata Sandi</label>
       <div class="password-wrapper">
-        <input id="login-password" type="password" class="field-control" placeholder="Masukkan password" value="@patroli123">
+        <input id="login-password" type="password" class="field-control" placeholder="Masukkan password" value="">
         <button type="button" class="password-toggle" id="toggle-password" aria-label="Tampilkan sandi">
           <i data-lucide="eye" style="width:14px;height:14px;"></i>
         </button>
@@ -694,70 +694,44 @@
     </div>
   </div>
 
-  <!-- MODAL RETUR -->
+  <!-- MODAL RETUR - SEDERHANA (tanpa tab, langsung form + riwayat) -->
   <div id="return-modal" class="modal-layer hidden return-modal-large">
     <div class="modal-card">
       <div class="modal-head">
-        <h2>🔄 Manajemen Retur Sparepart</h2>
+        <h2>🔄 Input Retur Sparepart</h2>
         <button type="button" class="modal-close" id="close-return-modal"><i data-lucide="x"></i></button>
       </div>
       <div class="modal-body">
-        <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;">
-          <button id="return-btn-input" class="primary-button" style="background:#1877f2;color:white;flex:1;min-width:120px;padding:10px;">
-            <i data-lucide="plus-circle" style="width:16px;height:16px;"></i> Input Retur
-          </button>
-          <button id="return-btn-history" class="secondary-button" style="background:var(--soft);color:var(--ink);flex:1;min-width:120px;padding:10px;">
-            <i data-lucide="clock" style="width:16px;height:16px;"></i> Riwayat
+        <!-- Form Input Retur -->
+        <form id="return-form">
+          <div class="return-form-grid">
+            <div class="form-group"><label>No. Retur</label><input class="field-control" id="return-no-retur" readonly style="background:#f1f5f9;font-weight:700;"></div>
+            <div class="form-group"><label>Tgl Retur <span style="color:red">*</span></label><input class="field-control" id="return-tgl-retur" type="date" required></div>
+          </div>
+          <div class="form-group"><label>Pilih Gudang <span style="color:red">*</span></label><div class="gudang-grid-return" id="return-gudang-grid"><button type="button" class="gudang-btn" data-gudang="CLS Mami">CLS Mami</button><button type="button" class="gudang-btn" data-gudang="DC Manado Centrum">DC Manado Centrum</button><button type="button" class="gudang-btn" data-gudang="CLS Kauditan">CLS Kauditan</button></div></div>
+          <div class="form-group"><label>Scan Barcode</label><div class="scan-row"><input class="field-control" id="return-barcode-input" placeholder="Klik Scan untuk baca barcode..." style="flex:1;"><button type="button" class="scan-btn" id="return-scan-barcode-btn"><i data-lucide="camera" style="width:14px;height:14px;"></i> Scan</button></div><div class="scanner-container" id="return-scanner-container"><div id="return-camera-preview"></div><div class="scanner-overlay"><div class="scanner-frame"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div><div class="scanner-label"><span class="scan-icon">⬜</span> Arahkan ke Barcode</div></div><button type="button" class="stop-camera-btn" id="return-stop-camera-btn">✕ Tutup Kamera</button></div></div>
+          <div class="return-form-grid"><div class="form-group"><label>Nama Barang</label><input class="field-control" id="return-nama-barang" readonly style="background:#f1f5f9;"></div><div class="form-group"><label>Stok (gudang)</label><input class="field-control" id="return-stok-barang" readonly style="background:#f1f5f9;"></div><div class="form-group"><label>Jumlah <span style="color:red">*</span></label><input class="field-control" id="return-qty-barang" type="number" value="1" min="1"></div><div class="form-group"><label>Harga</label><input class="field-control" id="return-harga-barang" readonly style="background:#f1f5f9;"></div></div>
+          <button type="button" class="action-btn" style="background:#e2e8f0; color:#1e293b; width:100%; justify-content:center; margin-bottom:8px; padding:8px;" id="return-tambah-btn">+ Tambah ke Daftar</button>
+          <div class="form-group"><label>Daftar Barang Retur</label><div class="return-item-list"><table><thead><tr><th>#</th><th>Barcode</th><th>Nama</th><th>Qty</th><th>Harga</th><th>Aksi</th></tr></thead><tbody id="return-list-body"><tr class="empty-row"><td colspan="6">Belum ada barang</td></tr></tbody></table></div></div>
+          <div class="form-group" id="return-preview-container" style="display:none;"><label>Foto Tanda Tangan</label><div class="return-photo-preview-container" id="return-photo-preview"></div></div>
+          <div class="return-action-bar"><div class="status" id="return-status-message">⏳ Pilih gudang dan scan barang</div><button type="button" class="action-btn btn-pdf" id="return-download-pdf-btn" disabled>📄 Download PDF</button><button type="button" class="action-btn btn-upload" id="return-upload-foto-btn" disabled>📤 Upload Foto</button><button type="button" class="action-btn btn-save" id="return-simpan-btn" disabled>💾 Simpan</button><button type="button" class="action-btn btn-reset" id="return-reset-btn">↺ Reset</button></div>
+          <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-scan-file-input" />
+          <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-upload-file-input" />
+        </form>
+
+        <!-- Riwayat Retur -->
+        <hr style="border:none; border-top:1px solid var(--line); margin:20px 0 12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <h3 style="margin:0; font-size:1rem;">📋 Riwayat Retur</h3>
+          <button id="return-history-export-excel" class="secondary-button" style="background:#10b981;color:white;padding:6px 14px;border:0;border-radius:6px;cursor:pointer;font-weight:700;">
+            <i data-lucide="file-spreadsheet" style="width:14px;height:14px;"></i> Export Excel
           </button>
         </div>
-
-        <div id="return-input-section" style="display:none;">
-          <div class="return-tabs">
-            <button class="active" data-tab="proses-retur">Proses Retur</button>
-            <button data-tab="data-retur">Data Retur</button>
-          </div>
-
-          <div class="return-tab-content active" id="tab-proses-retur">
-            <form id="return-form">
-              <div class="return-form-grid"><div class="form-group"><label>No. Retur</label><input class="field-control" id="return-no-retur" readonly style="background:#f1f5f9;font-weight:700;"></div><div class="form-group"><label>Tgl Retur <span style="color:red">*</span></label><input class="field-control" id="return-tgl-retur" type="date" required></div></div>
-              <div class="form-group"><label>Pilih Gudang <span style="color:red">*</span></label><div class="gudang-grid-return" id="return-gudang-grid"><button type="button" class="gudang-btn" data-gudang="CLS Mami">CLS Mami</button><button type="button" class="gudang-btn" data-gudang="DC Manado Centrum">DC Manado Centrum</button><button type="button" class="gudang-btn" data-gudang="CLS Kauditan">CLS Kauditan</button></div></div>
-              <div class="form-group"><label>Scan Barcode</label><div class="scan-row"><input class="field-control" id="return-barcode-input" placeholder="Klik Scan untuk baca barcode..." style="flex:1;"><button type="button" class="scan-btn" id="return-scan-barcode-btn"><i data-lucide="camera" style="width:14px;height:14px;"></i> Scan</button></div><div class="scanner-container" id="return-scanner-container"><div id="return-camera-preview"></div><div class="scanner-overlay"><div class="scanner-frame"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div><div class="scanner-label"><span class="scan-icon">⬜</span> Arahkan ke Barcode</div></div><button type="button" class="stop-camera-btn" id="return-stop-camera-btn">✕ Tutup Kamera</button></div></div>
-              <div class="return-form-grid"><div class="form-group"><label>Nama Barang</label><input class="field-control" id="return-nama-barang" readonly style="background:#f1f5f9;"></div><div class="form-group"><label>Stok (gudang)</label><input class="field-control" id="return-stok-barang" readonly style="background:#f1f5f9;"></div><div class="form-group"><label>Jumlah <span style="color:red">*</span></label><input class="field-control" id="return-qty-barang" type="number" value="1" min="1"></div><div class="form-group"><label>Harga</label><input class="field-control" id="return-harga-barang" readonly style="background:#f1f5f9;"></div></div>
-              <button type="button" class="action-btn" style="background:#e2e8f0; color:#1e293b; width:100%; justify-content:center; margin-bottom:8px; padding:8px;" id="return-tambah-btn">+ Tambah ke Daftar</button>
-              <div class="form-group"><label>Daftar Barang Retur</label><div class="return-item-list"><table><thead><tr><th>#</th><th>Barcode</th><th>Nama</th><th>Qty</th><th>Harga</th><th>Aksi</th></tr></thead><tbody id="return-list-body"><tr class="empty-row"><td colspan="6">Belum ada barang</td></tr></tbody></table></div></div>
-              <div class="form-group" id="return-preview-container" style="display:none;"><label>Foto Tanda Tangan</label><div class="return-photo-preview-container" id="return-photo-preview"></div></div>
-              <div class="return-action-bar"><div class="status" id="return-status-message">⏳ Pilih gudang dan scan barang</div><button type="button" class="action-btn btn-pdf" id="return-download-pdf-btn" disabled>📄 Download PDF</button><button type="button" class="action-btn btn-upload" id="return-upload-foto-btn" disabled>📤 Upload Foto</button><button type="button" class="action-btn btn-save" id="return-simpan-btn" disabled>💾 Simpan</button><button type="button" class="action-btn btn-reset" id="return-reset-btn">↺ Reset</button></div>
-              <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-scan-file-input" />
-              <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-upload-file-input" />
-            </form>
-          </div>
-
-          <div class="return-tab-content" id="tab-data-retur">
-            <div style="overflow-x:auto;">
-              <table class="records-table" style="min-width:500px;">
-                <thead><tr><th>No Retur</th><th>Tanggal</th><th>Gudang</th><th>Jumlah Item</th><th>Total</th><th>Status</th></tr></thead>
-                <tbody id="return-history-body"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">Belum ada data retur</td></tr></tbody>
-              </table>
-              <button id="return-export-excel-btn" class="secondary-button" style="margin-top:10px;background:#10b981;color:white;padding:6px 14px;border:0;border-radius:6px;cursor:pointer;font-weight:700;">
-                <i data-lucide="file-spreadsheet" style="width:14px;height:14px;"></i> Export Excel
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div id="return-history-section" style="display:none;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
-            <h3 style="margin:0; font-size:1rem;">📋 Riwayat Retur</h3>
-            <button id="return-history-export-excel" class="secondary-button" style="background:#10b981;color:white;padding:6px 14px;border:0;border-radius:6px;cursor:pointer;font-weight:700;">
-              <i data-lucide="file-spreadsheet" style="width:14px;height:14px;"></i> Export Excel
-            </button>
-          </div>
-          <div style="overflow-x:auto;">
-            <table class="records-table" style="min-width:500px;">
-              <thead><tr><th>No Retur</th><th>Tanggal</th><th>Gudang</th><th>Jumlah Item</th><th>Total</th><th>Status</th></tr></thead>
-              <tbody id="return-history-body-full"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">Belum ada data retur</td></tr></tbody>
-            </table>
-          </div>
+        <div style="overflow-x:auto;">
+          <table class="records-table" style="min-width:500px;">
+            <thead><tr><th>No Retur</th><th>Tanggal</th><th>Gudang</th><th>Jumlah Item</th><th>Total</th><th>Status</th></tr></thead>
+            <tbody id="return-history-body-full"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">Belum ada data retur</td></tr></tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -818,7 +792,7 @@
 
 <script>
   // ==================================================================
-  //  BUCIN v14.1 — FULL PERBAIKAN + SUBMIT FORM
+  //  BUCIN v14.2 — FULL PERBAIKAN + SUBMIT FORM + RETUR SEDERHANA
   // ==================================================================
 
   (function() {
@@ -841,7 +815,7 @@
     // ==================================================================
     // 2. CONSTANTS & STATE
     // ==================================================================
-    const APP_VERSION = 'v14.1';
+    const APP_VERSION = 'v14.2';
     const CLOUD_DATA_KEY = 'bucin_data';
     const CLOUD_HISTORY_KEY = 'bucin_history';
     const USER_KEY = 'bucin_user';
@@ -1432,7 +1406,7 @@
     }
 
     // ==================================================================
-    // 12. MAP FUNCTIONS (disingkat, sama)
+    // 12. MAP FUNCTIONS
     // ==================================================================
     function initMap() {
       try {
@@ -2486,7 +2460,7 @@
     let PATCH_LENGTHS = ['1m', '2m', '3m', '5m', '10m', '15m', '20m'];
 
     // ==================================================================
-    // 18. RETURN SYSTEM (sama seperti sebelumnya)
+    // 18. RETURN SYSTEM (SEDERHANA - tanpa tab)
     // ==================================================================
     function initReturnMasterBarang() {
       const hist = stockHistory['Stok Spare'] || [];
@@ -2530,13 +2504,6 @@
       checkReturnReadyState();
       stopReturnScanner();
       stopScanner();
-
-      document.getElementById('return-input-section').style.display = 'block';
-      document.getElementById('return-history-section').style.display = 'none';
-      document.querySelectorAll('.return-tabs button').forEach(b => b.classList.remove('active'));
-      document.querySelector('.return-tabs button[data-tab="proses-retur"]')?.classList.add('active');
-      document.querySelectorAll('.return-tab-content').forEach(tc => tc.classList.remove('active'));
-      document.getElementById('tab-proses-retur')?.classList.add('active');
 
       renderReturnHistoryFull();
       document.getElementById('return-modal').classList.remove('hidden');
@@ -2699,12 +2666,10 @@
     }
 
     function renderReturnHistoryFull() {
-      const tbody1 = document.getElementById('return-history-body');
-      const tbody2 = document.getElementById('return-history-body-full');
+      const tbody = document.getElementById('return-history-body-full');
       if (!returnHistory.length) {
-        const empty = '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">Belum ada data retur</td></tr>';
-        if (tbody1) tbody1.innerHTML = empty;
-        if (tbody2) tbody2.innerHTML = empty;
+        tbody.innerHTML =
+          '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">Belum ada data retur</td></tr>';
         return;
       }
       const rows = returnHistory.map(r => `
@@ -2717,8 +2682,7 @@
               <td><span class="status-pill">Selesai</span></td>
             </tr>
           `).join('');
-      if (tbody1) tbody1.innerHTML = rows;
-      if (tbody2) tbody2.innerHTML = rows;
+      tbody.innerHTML = rows;
     }
 
     function resetReturnForm() {
@@ -3251,31 +3215,7 @@
       document.getElementById('stock-add').addEventListener('click', openAddForm);
       document.getElementById('spare-return').addEventListener('click', showReturnModal);
 
-      document.getElementById('return-btn-input').addEventListener('click', function() {
-        document.getElementById('return-input-section').style.display = 'block';
-        document.getElementById('return-history-section').style.display = 'none';
-        resetReturnForm();
-      });
-      document.getElementById('return-btn-history').addEventListener('click', function() {
-        document.getElementById('return-input-section').style.display = 'none';
-        document.getElementById('return-history-section').style.display = 'block';
-        renderReturnHistoryFull();
-      });
-
-      document.querySelectorAll('.return-tabs button').forEach(btn => {
-        btn.addEventListener('click', function() {
-          document.querySelectorAll('.return-tabs button').forEach(b => b.classList.remove('active'));
-          this.classList.add('active');
-          document.querySelectorAll('.return-tab-content').forEach(tc => tc.classList.remove('active'));
-          const target = document.getElementById(this.dataset.tab);
-          if (target) target.classList.add('active');
-          if (this.dataset.tab === 'data-retur') renderReturnHistoryFull();
-        });
-      });
-
-      document.getElementById('return-export-excel-btn').addEventListener('click', exportReturnHistoryExcel);
-      document.getElementById('return-history-export-excel').addEventListener('click', exportReturnHistoryExcel);
-
+      // --- Return events (sederhana) ---
       document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
           e.preventDefault();
@@ -3611,6 +3551,8 @@
         document.getElementById('return-modal').classList.add('hidden');
         stopReturnScanner();
       });
+
+      document.getElementById('return-history-export-excel').addEventListener('click', exportReturnHistoryExcel);
 
       // --- Export ---
       document.getElementById('export-button').addEventListener('click', exportData);
@@ -4108,7 +4050,7 @@
 
       console.log(`🚀 BUCIN ${APP_VERSION} - Firebase terhubung ke ${firebaseConfig.projectId}`);
       console.log('📌 Admin: admin / @patroli123 (password sudah di-hash otomatis)');
-      console.log('📌 Tombol Retur membuka halaman baru dengan 2 opsi');
+      console.log('📌 Tombol Retur langsung menampilkan form input dan riwayat');
     }
 
     // ==================================================================
