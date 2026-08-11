@@ -808,7 +808,7 @@
 
 <script>
   // ==================================================================
-  //  BUCIN v14.3 — FIX TOMBOL BATAL + HALAMAN RETUR TERPISAH
+  //  BUCIN v14.4 — PERBAIKAN TOMBOL BATAL & RETUR HALAMAN TERPISAH
   // ==================================================================
 
   (function() {
@@ -831,7 +831,7 @@
     // ==================================================================
     // 2. CONSTANTS & STATE
     // ==================================================================
-    const APP_VERSION = 'v14.3';
+    const APP_VERSION = 'v14.4';
     const CLOUD_DATA_KEY = 'bucin_data';
     const CLOUD_HISTORY_KEY = 'bucin_history';
     const USER_KEY = 'bucin_user';
@@ -920,7 +920,7 @@
     }
 
     // ==================================================================
-    // 4. DATA PERSISTENCE
+    // 4. DATA PERSISTENCE (disingkat, sama seperti sebelumnya)
     // ==================================================================
     function loadDataFromFirebase(callback) {
       if (!firebaseInitialized || !db) {
@@ -1129,7 +1129,7 @@
     }
 
     // ==================================================================
-    // 10. PROCEDURE DATA & KML
+    // 10. PROCEDURE DATA & KML (disingkat)
     // ==================================================================
     const PROCEDURE_DATA = [
       { id: 'terima_laporan', label: 'Terima Laporan', items: ['Catat waktu', 'Catat lokasi', 'Catat jenis gangguan'] },
@@ -1193,7 +1193,7 @@
     </kml>`;
 
     // ==================================================================
-    // 11. CORE FUNCTIONS (disingkat)
+    // 11. CORE FUNCTIONS (disingkat, sama seperti sebelumnya)
     // ==================================================================
     function getRecords(cat) {
       const mapping = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan' };
@@ -1268,7 +1268,7 @@
       return true;
     }
 
-    // --- Procedure functions ---
+    // --- Procedure functions (sama) ---
     function initProcedureUI() {
       const grid = document.getElementById('procedure-grid');
       if (!grid) return;
@@ -1422,7 +1422,7 @@
     }
 
     // ==================================================================
-    // 12. MAP FUNCTIONS
+    // 12. MAP FUNCTIONS (sama)
     // ==================================================================
     function initMap() {
       try {
@@ -2233,7 +2233,7 @@
     };
 
     // ==================================================================
-    // 16. FORM VALIDATION
+    // 16. FORM VALIDATION (sama)
     // ==================================================================
     function validateField(fieldId, errorId, condition) {
       const field = document.getElementById(fieldId);
@@ -2353,7 +2353,7 @@
     }
 
     // ==================================================================
-    // 17. SCANNER
+    // 17. SCANNER (sama)
     // ==================================================================
     function stopScanner() {
       if (quaggaRunning) {
@@ -2495,12 +2495,10 @@
     }
 
     function showReturnPage() {
-      // Sembunyikan login dan app-shell, tampilkan halaman retur
       document.getElementById('login-screen').classList.add('hidden');
       document.getElementById('app-shell').classList.add('hidden');
       document.getElementById('retur-page').classList.add('active');
 
-      // Inisialisasi state
       returnState.masterBarang = initReturnMasterBarang();
       returnState.returItems = [];
       returnState.pdfGenerated = false;
@@ -2532,13 +2530,11 @@
 
     function hideReturnPage() {
       document.getElementById('retur-page').classList.remove('active');
-      // Tampilkan kembali sesuai state login
       if (currentUser) {
         document.getElementById('app-shell').classList.remove('hidden');
       } else {
         document.getElementById('login-screen').classList.remove('hidden');
       }
-      // Hapus parameter ?page=retur dari URL
       if (window.history && window.history.pushState) {
         window.history.pushState({}, document.title, window.location.pathname);
       }
@@ -3096,15 +3092,12 @@
     function init() {
       const firebaseReady = initFirebase();
 
-      // Cek parameter URL
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('page') === 'retur') {
-        // Jika pengguna belum login, redirect ke halaman utama
         if (!currentUser) {
           window.location.href = window.location.pathname;
           return;
         }
-        // Tampilkan halaman retur
         document.getElementById('login-screen').classList.add('hidden');
         document.getElementById('app-shell').classList.add('hidden');
         document.getElementById('retur-page').classList.add('active');
@@ -3115,7 +3108,6 @@
           renderReturnHistoryFull();
           initProcedureUI();
           seedKMLData();
-          // Inisialisasi return state
           returnState.masterBarang = initReturnMasterBarang();
           returnState.returItems = [];
           returnState.pdfGenerated = false;
@@ -3175,6 +3167,9 @@
       });
     }
 
+    // ==================================================================
+    // 25. BIND EVENTS (halaman utama)
+    // ==================================================================
     function bindEvents() {
       // --- Login ---
       document.getElementById('login-btn').addEventListener('click', async function() {
@@ -3262,7 +3257,7 @@
         showToast('✅ Password berhasil diubah!', 'success');
       });
 
-      // Tombol Batal di Ganti Password
+      // === PERBAIKAN TOMBOL BATAL ===
       document.getElementById('close-change-password').addEventListener('click', function() {
         document.getElementById('change-password-modal').classList.add('hidden');
       });
@@ -3288,7 +3283,6 @@
         if (returnQuaggaRunning) stopReturnScanner();
         document.getElementById('login-count-badge').textContent = '';
         document.getElementById('login-error').classList.remove('show');
-        // Jika di halaman retur, sembunyikan
         document.getElementById('retur-page').classList.remove('active');
       });
 
@@ -3301,8 +3295,9 @@
       // --- Data actions ---
       document.getElementById('data-add').addEventListener('click', openAddForm);
       document.getElementById('stock-add').addEventListener('click', openAddForm);
+
+      // === PERBAIKAN TOMBOL RETUR ===
       document.getElementById('spare-return').addEventListener('click', function() {
-        // Buka halaman retur di tab/window baru dengan parameter URL
         if (currentUser) {
           window.open(window.location.pathname + '?page=retur', '_blank');
         } else {
@@ -3654,18 +3649,13 @@
         }
       });
 
-      // ==================================================================
-      // ========== PERBAIKAN: SUBMIT FORM UTAMA ==========
-      // ==================================================================
+      // === PERBAIKAN: SUBMIT FORM UTAMA ===
       document.getElementById('data-form').addEventListener('submit', async function(e) {
         e.preventDefault();
-
         const submitBtn = document.getElementById('submit-form-btn');
         if (submitBtn.disabled) return;
-
         if (!validateForm()) return;
 
-        // Tampilkan loading
         document.getElementById('submit-btn-text').classList.add('hidden');
         document.getElementById('submit-btn-loading').classList.remove('hidden');
         submitBtn.disabled = true;
@@ -3679,7 +3669,6 @@
           const isSpare = cat === 'Stok Spare';
           const isProcedureCat = getProcedureForCategory(cat);
 
-          // Kumpulkan data dari form
           const record = {
             date: document.getElementById('form-date').value,
             qty: parseInt(document.getElementById('form-qty').value) || 1,
@@ -3688,7 +3677,6 @@
             createdAt: Date.now()
           };
 
-          // --- Kategori spesifik ---
           if (isOpmols) {
             record.ruas = document.getElementById('form-ruas').value;
             record.dari = document.getElementById('form-dari').value;
@@ -3726,7 +3714,6 @@
               throw new Error('Keterangan wajib diisi untuk pengeluaran.');
             }
           } else {
-            // Non-stock: OF Cut, Pihak Ke-3, Temuan, Joint, Handhole
             record.location = document.getElementById('form-location').value;
             record.coords = document.getElementById('form-coords').value;
             record.spec = document.getElementById('form-alkur-nama')?.value ||
@@ -3739,9 +3726,7 @@
             }
           }
 
-          // --- Simpan atau Update ---
           if (editId !== null) {
-            // Update existing
             const mapping = {
               'Data OF Cut': 'OF Cut',
               'Pekerjaan Pihak Ke-3': 'Pihak Ke-3',
@@ -3761,7 +3746,6 @@
             saveData();
             showToast('✅ Data berhasil diperbarui', 'success');
           } else {
-            // Add new
             if (isStock) {
               if (record.trType === 'Keluar') {
                 const currentStock = getCurrentStock(record.barcode, record.spec, record.warehouse);
@@ -3804,13 +3788,21 @@
         }
       });
 
+      // === PERBAIKAN: TOMBOL BATAL DI FORM ===
+      document.getElementById('close-form').addEventListener('click', function() {
+        closeForm();
+      });
+      document.getElementById('cancel-form').addEventListener('click', function() {
+        closeForm();
+      });
+
       console.log(`🚀 BUCIN ${APP_VERSION} - Firebase terhubung ke ${firebaseConfig.projectId}`);
       console.log('📌 Admin: admin / @patroli123 (password sudah di-hash otomatis)');
       console.log('📌 Tombol Retur membuka halaman baru dengan 2 opsi: Input Retur dan Riwayat');
     }
 
     // ==================================================================
-    // 25. BIND RETURN EVENTS (untuk halaman retur)
+    // 26. BIND RETURN EVENTS (halaman retur)
     // ==================================================================
     function bindReturnEvents() {
       // Tab switching
@@ -3825,12 +3817,10 @@
         });
       });
 
-      // Kembali ke utama
       document.getElementById('back-to-main').addEventListener('click', function() {
         hideReturnPage();
       });
 
-      // Gudang
       document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
           e.preventDefault();
@@ -4166,7 +4156,7 @@
     }
 
     // ==================================================================
-    // 26. START
+    // 27. START
     // ==================================================================
     window.addEventListener('DOMContentLoaded', init);
     window.addEventListener('resize', setVh);
