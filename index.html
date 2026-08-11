@@ -371,6 +371,17 @@
       border: 2px solid #e5e7eb; border-radius: 50%; border-top-color: #1877f2;
       animation: spin 0.8s ease infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== Halaman Retur ===== */
+    .retur-page { display: none; padding: 20px; max-width: 900px; margin: 0 auto; }
+    .retur-page.active { display: block; }
+    .retur-page .back-btn { margin-bottom: 20px; }
+    .retur-page .retur-tabs { display: flex; gap: 8px; border-bottom: 2px solid var(--line); margin-bottom: 20px; }
+    .retur-page .retur-tabs button { padding: 10px 24px; border: 0; background: transparent; font-weight: 700;
+      font-size: 0.95rem; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; transition: .2s; }
+    .retur-page .retur-tabs button.active { color: var(--blue); border-bottom-color: var(--blue); }
+    .retur-page .retur-content { display: none; }
+    .retur-page .retur-content.active { display: block; }
   </style>
 </head>
 <body>
@@ -407,7 +418,7 @@
   </div>
 </div>
 
-<!-- ===== APP SHELL ===== -->
+<!-- ===== APP SHELL (halaman utama) ===== -->
 <div id="app-shell" class="app-shell hidden">
   <!-- HEADER -->
   <header class="top-header">
@@ -444,7 +455,6 @@
           </button>
         </div>
 
-        <!-- Change Password button -->
         <button id="change-password-header-btn" type="button" class="round-action" title="Ganti Password">
           <i data-lucide="key" style="width:15px;height:15px;"></i>
           <span class="tooltip">Ganti Password</span>
@@ -694,49 +704,6 @@
     </div>
   </div>
 
-  <!-- MODAL RETUR - SEDERHANA (tanpa tab, langsung form + riwayat) -->
-  <div id="return-modal" class="modal-layer hidden return-modal-large">
-    <div class="modal-card">
-      <div class="modal-head">
-        <h2>🔄 Input Retur Sparepart</h2>
-        <button type="button" class="modal-close" id="close-return-modal"><i data-lucide="x"></i></button>
-      </div>
-      <div class="modal-body">
-        <!-- Form Input Retur -->
-        <form id="return-form">
-          <div class="return-form-grid">
-            <div class="form-group"><label>No. Retur</label><input class="field-control" id="return-no-retur" readonly style="background:#f1f5f9;font-weight:700;"></div>
-            <div class="form-group"><label>Tgl Retur <span style="color:red">*</span></label><input class="field-control" id="return-tgl-retur" type="date" required></div>
-          </div>
-          <div class="form-group"><label>Pilih Gudang <span style="color:red">*</span></label><div class="gudang-grid-return" id="return-gudang-grid"><button type="button" class="gudang-btn" data-gudang="CLS Mami">CLS Mami</button><button type="button" class="gudang-btn" data-gudang="DC Manado Centrum">DC Manado Centrum</button><button type="button" class="gudang-btn" data-gudang="CLS Kauditan">CLS Kauditan</button></div></div>
-          <div class="form-group"><label>Scan Barcode</label><div class="scan-row"><input class="field-control" id="return-barcode-input" placeholder="Klik Scan untuk baca barcode..." style="flex:1;"><button type="button" class="scan-btn" id="return-scan-barcode-btn"><i data-lucide="camera" style="width:14px;height:14px;"></i> Scan</button></div><div class="scanner-container" id="return-scanner-container"><div id="return-camera-preview"></div><div class="scanner-overlay"><div class="scanner-frame"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div><div class="scanner-label"><span class="scan-icon">⬜</span> Arahkan ke Barcode</div></div><button type="button" class="stop-camera-btn" id="return-stop-camera-btn">✕ Tutup Kamera</button></div></div>
-          <div class="return-form-grid"><div class="form-group"><label>Nama Barang</label><input class="field-control" id="return-nama-barang" readonly style="background:#f1f5f9;"></div><div class="form-group"><label>Stok (gudang)</label><input class="field-control" id="return-stok-barang" readonly style="background:#f1f5f9;"></div><div class="form-group"><label>Jumlah <span style="color:red">*</span></label><input class="field-control" id="return-qty-barang" type="number" value="1" min="1"></div><div class="form-group"><label>Harga</label><input class="field-control" id="return-harga-barang" readonly style="background:#f1f5f9;"></div></div>
-          <button type="button" class="action-btn" style="background:#e2e8f0; color:#1e293b; width:100%; justify-content:center; margin-bottom:8px; padding:8px;" id="return-tambah-btn">+ Tambah ke Daftar</button>
-          <div class="form-group"><label>Daftar Barang Retur</label><div class="return-item-list"><table><thead><tr><th>#</th><th>Barcode</th><th>Nama</th><th>Qty</th><th>Harga</th><th>Aksi</th></tr></thead><tbody id="return-list-body"><tr class="empty-row"><td colspan="6">Belum ada barang</td></tr></tbody></table></div></div>
-          <div class="form-group" id="return-preview-container" style="display:none;"><label>Foto Tanda Tangan</label><div class="return-photo-preview-container" id="return-photo-preview"></div></div>
-          <div class="return-action-bar"><div class="status" id="return-status-message">⏳ Pilih gudang dan scan barang</div><button type="button" class="action-btn btn-pdf" id="return-download-pdf-btn" disabled>📄 Download PDF</button><button type="button" class="action-btn btn-upload" id="return-upload-foto-btn" disabled>📤 Upload Foto</button><button type="button" class="action-btn btn-save" id="return-simpan-btn" disabled>💾 Simpan</button><button type="button" class="action-btn btn-reset" id="return-reset-btn">↺ Reset</button></div>
-          <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-scan-file-input" />
-          <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-upload-file-input" />
-        </form>
-
-        <!-- Riwayat Retur -->
-        <hr style="border:none; border-top:1px solid var(--line); margin:20px 0 12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
-          <h3 style="margin:0; font-size:1rem;">📋 Riwayat Retur</h3>
-          <button id="return-history-export-excel" class="secondary-button" style="background:#10b981;color:white;padding:6px 14px;border:0;border-radius:6px;cursor:pointer;font-weight:700;">
-            <i data-lucide="file-spreadsheet" style="width:14px;height:14px;"></i> Export Excel
-          </button>
-        </div>
-        <div style="overflow-x:auto;">
-          <table class="records-table" style="min-width:500px;">
-            <thead><tr><th>No Retur</th><th>Tanggal</th><th>Gudang</th><th>Jumlah Item</th><th>Total</th><th>Status</th></tr></thead>
-            <tbody id="return-history-body-full"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">Belum ada data retur</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- MODAL HISTORY -->
   <div id="history-modal" class="modal-layer hidden">
     <div class="modal-card">
@@ -790,9 +757,58 @@
   </div>
 </div>
 
+<!-- ===== HALAMAN RETUR (terpisah) ===== -->
+<div id="retur-page" class="retur-page">
+  <div class="back-btn">
+    <button id="back-to-main" class="primary-button" style="background:var(--blue);color:white;padding:8px 18px;font-size:0.85rem;">
+      <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Kembali ke BUCIN
+    </button>
+  </div>
+
+  <div class="retur-tabs">
+    <button class="active" data-tab="input-retur">📥 Input Retur</button>
+    <button data-tab="riwayat-retur">📋 Riwayat</button>
+  </div>
+
+  <!-- Tab Input Retur -->
+  <div class="retur-content active" id="tab-input-retur">
+    <form id="return-form">
+      <div class="return-form-grid">
+        <div class="form-group"><label>No. Retur</label><input class="field-control" id="return-no-retur" readonly style="background:#f1f5f9;font-weight:700;"></div>
+        <div class="form-group"><label>Tgl Retur <span style="color:red">*</span></label><input class="field-control" id="return-tgl-retur" type="date" required></div>
+      </div>
+      <div class="form-group"><label>Pilih Gudang <span style="color:red">*</span></label><div class="gudang-grid-return" id="return-gudang-grid"><button type="button" class="gudang-btn" data-gudang="CLS Mami">CLS Mami</button><button type="button" class="gudang-btn" data-gudang="DC Manado Centrum">DC Manado Centrum</button><button type="button" class="gudang-btn" data-gudang="CLS Kauditan">CLS Kauditan</button></div></div>
+      <div class="form-group"><label>Scan Barcode</label><div class="scan-row"><input class="field-control" id="return-barcode-input" placeholder="Klik Scan untuk baca barcode..." style="flex:1;"><button type="button" class="scan-btn" id="return-scan-barcode-btn"><i data-lucide="camera" style="width:14px;height:14px;"></i> Scan</button></div><div class="scanner-container" id="return-scanner-container"><div id="return-camera-preview"></div><div class="scanner-overlay"><div class="scanner-frame"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div><div class="scanner-label"><span class="scan-icon">⬜</span> Arahkan ke Barcode</div></div><button type="button" class="stop-camera-btn" id="return-stop-camera-btn">✕ Tutup Kamera</button></div></div>
+      <div class="return-form-grid"><div class="form-group"><label>Nama Barang</label><input class="field-control" id="return-nama-barang" readonly style="background:#f1f5f9;"></div><div class="form-group"><label>Stok (gudang)</label><input class="field-control" id="return-stok-barang" readonly style="background:#f1f5f9;"></div><div class="form-group"><label>Jumlah <span style="color:red">*</span></label><input class="field-control" id="return-qty-barang" type="number" value="1" min="1"></div><div class="form-group"><label>Harga</label><input class="field-control" id="return-harga-barang" readonly style="background:#f1f5f9;"></div></div>
+      <button type="button" class="action-btn" style="background:#e2e8f0; color:#1e293b; width:100%; justify-content:center; margin-bottom:8px; padding:8px;" id="return-tambah-btn">+ Tambah ke Daftar</button>
+      <div class="form-group"><label>Daftar Barang Retur</label><div class="return-item-list"><table><thead><tr><th>#</th><th>Barcode</th><th>Nama</th><th>Qty</th><th>Harga</th><th>Aksi</th></tr></thead><tbody id="return-list-body"><tr class="empty-row"><td colspan="6">Belum ada barang</td></tr></tbody></table></div></div>
+      <div class="form-group" id="return-preview-container" style="display:none;"><label>Foto Tanda Tangan</label><div class="return-photo-preview-container" id="return-photo-preview"></div></div>
+      <div class="return-action-bar"><div class="status" id="return-status-message">⏳ Pilih gudang dan scan barang</div><button type="button" class="action-btn btn-pdf" id="return-download-pdf-btn" disabled>📄 Download PDF</button><button type="button" class="action-btn btn-upload" id="return-upload-foto-btn" disabled>📤 Upload Foto</button><button type="button" class="action-btn btn-save" id="return-simpan-btn" disabled>💾 Simpan</button><button type="button" class="action-btn btn-reset" id="return-reset-btn">↺ Reset</button></div>
+      <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-scan-file-input" />
+      <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-upload-file-input" />
+    </form>
+  </div>
+
+  <!-- Tab Riwayat Retur -->
+  <div class="retur-content" id="tab-riwayat-retur">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+      <h3 style="margin:0; font-size:1rem;">📋 Riwayat Retur</h3>
+      <button id="return-history-export-excel" class="secondary-button" style="background:#10b981;color:white;padding:6px 14px;border:0;border-radius:6px;cursor:pointer;font-weight:700;">
+        <i data-lucide="file-spreadsheet" style="width:14px;height:14px;"></i> Export Excel
+      </button>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="records-table" style="min-width:500px;">
+        <thead><tr><th>No Retur</th><th>Tanggal</th><th>Gudang</th><th>Jumlah Item</th><th>Total</th><th>Status</th></tr></thead>
+        <tbody id="return-history-body-full"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">Belum ada data retur</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <script>
   // ==================================================================
-  //  BUCIN v14.2 — FULL PERBAIKAN + SUBMIT FORM + RETUR SEDERHANA
+  //  BUCIN v14.3 — FIX TOMBOL BATAL + HALAMAN RETUR TERPISAH
   // ==================================================================
 
   (function() {
@@ -815,7 +831,7 @@
     // ==================================================================
     // 2. CONSTANTS & STATE
     // ==================================================================
-    const APP_VERSION = 'v14.2';
+    const APP_VERSION = 'v14.3';
     const CLOUD_DATA_KEY = 'bucin_data';
     const CLOUD_HISTORY_KEY = 'bucin_history';
     const USER_KEY = 'bucin_user';
@@ -2460,7 +2476,7 @@
     let PATCH_LENGTHS = ['1m', '2m', '3m', '5m', '10m', '15m', '20m'];
 
     // ==================================================================
-    // 18. RETURN SYSTEM (SEDERHANA - tanpa tab)
+    // 18. RETURN SYSTEM (HALAMAN TERPISAH)
     // ==================================================================
     function initReturnMasterBarang() {
       const hist = stockHistory['Stok Spare'] || [];
@@ -2478,7 +2494,13 @@
       return master;
     }
 
-    function showReturnModal() {
+    function showReturnPage() {
+      // Sembunyikan login dan app-shell, tampilkan halaman retur
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('app-shell').classList.add('hidden');
+      document.getElementById('retur-page').classList.add('active');
+
+      // Inisialisasi state
       returnState.masterBarang = initReturnMasterBarang();
       returnState.returItems = [];
       returnState.pdfGenerated = false;
@@ -2506,7 +2528,20 @@
       stopScanner();
 
       renderReturnHistoryFull();
-      document.getElementById('return-modal').classList.remove('hidden');
+    }
+
+    function hideReturnPage() {
+      document.getElementById('retur-page').classList.remove('active');
+      // Tampilkan kembali sesuai state login
+      if (currentUser) {
+        document.getElementById('app-shell').classList.remove('hidden');
+      } else {
+        document.getElementById('login-screen').classList.remove('hidden');
+      }
+      // Hapus parameter ?page=retur dari URL
+      if (window.history && window.history.pushState) {
+        window.history.pushState({}, document.title, window.location.pathname);
+      }
     }
 
     function generateNoRetur() {
@@ -3061,6 +3096,56 @@
     function init() {
       const firebaseReady = initFirebase();
 
+      // Cek parameter URL
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('page') === 'retur') {
+        // Jika pengguna belum login, redirect ke halaman utama
+        if (!currentUser) {
+          window.location.href = window.location.pathname;
+          return;
+        }
+        // Tampilkan halaman retur
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('app-shell').classList.add('hidden');
+        document.getElementById('retur-page').classList.add('active');
+        loadDataFromFirebase(() => {
+          applySettings();
+          renderAllStats();
+          renderUserList();
+          renderReturnHistoryFull();
+          initProcedureUI();
+          seedKMLData();
+          // Inisialisasi return state
+          returnState.masterBarang = initReturnMasterBarang();
+          returnState.returItems = [];
+          returnState.pdfGenerated = false;
+          returnState.fotoUploaded = false;
+          returnState.qrValid = false;
+          returnState.fotoDataURL = null;
+          returnState.selectedGudang = null;
+          returnState.noRetur = generateNoRetur();
+          returnState.tglRetur = new Date().toISOString().split('T')[0];
+          document.getElementById('return-no-retur').value = returnState.noRetur;
+          document.getElementById('return-tgl-retur').value = returnState.tglRetur;
+          document.getElementById('return-barcode-input').value = '';
+          document.getElementById('return-nama-barang').value = '';
+          document.getElementById('return-stok-barang').value = '';
+          document.getElementById('return-harga-barang').value = '';
+          document.getElementById('return-qty-barang').value = 1;
+          document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(b => b.classList.remove('active'));
+          renderReturnList();
+          document.getElementById('return-preview-container').style.display = 'none';
+          document.getElementById('return-photo-preview').innerHTML = '';
+          updateReturnStatus('⏳ Pilih gudang dan scan barang', 'info');
+          checkReturnReadyState();
+          stopReturnScanner();
+          stopScanner();
+          renderReturnHistoryFull();
+          bindReturnEvents();
+        });
+        return;
+      }
+
       loadDataFromFirebase(() => {
         applySettings();
         renderAllStats();
@@ -3177,6 +3262,7 @@
         showToast('✅ Password berhasil diubah!', 'success');
       });
 
+      // Tombol Batal di Ganti Password
       document.getElementById('close-change-password').addEventListener('click', function() {
         document.getElementById('change-password-modal').classList.add('hidden');
       });
@@ -3202,6 +3288,8 @@
         if (returnQuaggaRunning) stopReturnScanner();
         document.getElementById('login-count-badge').textContent = '';
         document.getElementById('login-error').classList.remove('show');
+        // Jika di halaman retur, sembunyikan
+        document.getElementById('retur-page').classList.remove('active');
       });
 
       // --- Navigation ---
@@ -3213,346 +3301,14 @@
       // --- Data actions ---
       document.getElementById('data-add').addEventListener('click', openAddForm);
       document.getElementById('stock-add').addEventListener('click', openAddForm);
-      document.getElementById('spare-return').addEventListener('click', showReturnModal);
-
-      // --- Return events (sederhana) ---
-      document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(b => b.classList.remove('active'));
-          this.classList.add('active');
-          returnState.selectedGudang = this.dataset.gudang;
-          updateReturnStatus(`Gudang: ${returnState.selectedGudang}`, 'info');
-          const barcode = document.getElementById('return-barcode-input').value.trim();
-          if (barcode && returnState.masterBarang[barcode]) {
-            updateReturnStok(barcode);
-          }
-          checkReturnReadyState();
-        });
-      });
-
-      document.getElementById('return-scan-barcode-btn').addEventListener('click', function() {
-        if (returnQuaggaRunning) {
-          stopReturnScanner();
+      document.getElementById('spare-return').addEventListener('click', function() {
+        // Buka halaman retur di tab/window baru dengan parameter URL
+        if (currentUser) {
+          window.open(window.location.pathname + '?page=retur', '_blank');
         } else {
-          startReturnScanner();
+          showToast('Silakan login terlebih dahulu', 'warning');
         }
       });
-
-      document.getElementById('return-stop-camera-btn').addEventListener('click', function() {
-        stopReturnScanner();
-      });
-
-      document.getElementById('return-barcode-input').addEventListener('input', function() {
-        const id = this.value.trim();
-        if (id && returnState.masterBarang[id]) {
-          const barang = returnState.masterBarang[id];
-          document.getElementById('return-nama-barang').value = barang.nama;
-          document.getElementById('return-harga-barang').value = barang.harga || 0;
-          updateReturnStok(id);
-        } else {
-          document.getElementById('return-nama-barang').value = '';
-          document.getElementById('return-stok-barang').value = '';
-          document.getElementById('return-harga-barang').value = '';
-        }
-      });
-
-      document.getElementById('return-tambah-btn').addEventListener('click', function() {
-        const barcode = document.getElementById('return-barcode-input').value.trim();
-        if (!barcode) {
-          updateReturnStatus('Masukkan atau scan barcode terlebih dahulu', 'error');
-          return;
-        }
-        const barang = returnState.masterBarang[barcode];
-        if (!barang) {
-          updateReturnStatus('Barang tidak terdaftar', 'error');
-          return;
-        }
-        if (!returnState.selectedGudang) {
-          updateReturnStatus('Pilih gudang terlebih dahulu', 'error');
-          return;
-        }
-        const qty = parseInt(document.getElementById('return-qty-barang').value) || 1;
-        if (qty <= 0) {
-          updateReturnStatus('Jumlah harus lebih dari 0', 'error');
-          return;
-        }
-        const stok = getCurrentStock(barcode, barang.nama, returnState.selectedGudang);
-        if (qty > stok) {
-          updateReturnStatus(`Stok tidak mencukupi (tersisa ${stok})`, 'error');
-          return;
-        }
-
-        const existing = returnState.returItems.find(item => item.productId === barcode);
-        if (existing) {
-          if (existing.qty + qty > stok) {
-            updateReturnStatus(`Stok tidak mencukupi untuk penambahan (tersisa ${stok})`, 'error');
-            return;
-          }
-          existing.qty += qty;
-          updateReturnStatus(`Jumlah ${barang.nama} diperbarui`, 'success');
-        } else {
-          returnState.returItems.push({
-            productId: barcode,
-            nama: barang.nama,
-            qty: qty,
-            harga: barang.harga || 0
-          });
-          updateReturnStatus(`${barang.nama} ditambahkan ke daftar retur`, 'success');
-        }
-        renderReturnList();
-        document.getElementById('return-barcode-input').value = '';
-        document.getElementById('return-nama-barang').value = '';
-        document.getElementById('return-stok-barang').value = '';
-        document.getElementById('return-harga-barang').value = '';
-        document.getElementById('return-qty-barang').value = 1;
-        checkReturnReadyState();
-      });
-
-      document.getElementById('return-download-pdf-btn').addEventListener('click', function() {
-        if (this.disabled) return;
-        if (!returnState.selectedGudang || returnState.returItems.length === 0) {
-          updateReturnStatus('Pilih gudang dan tambahkan barang terlebih dahulu', 'error');
-          return;
-        }
-
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'pt', 'a4');
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const margin = 40;
-        let y = margin + 30;
-
-        const canvas = document.createElement('canvas');
-        canvas.width = 200;
-        canvas.height = 80;
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, 200, 80);
-        ctx.fillStyle = '#ed1c24';
-        ctx.font = 'bold 52px Arial';
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'top';
-        ctx.fillText('TELIN', 0, 0);
-        ctx.fillStyle = '#333';
-        ctx.font = '14px Arial';
-        ctx.fillText('Telkom Indonesia', 0, 52);
-        const logoData = canvas.toDataURL('image/png');
-        doc.addImage(logoData, 'PNG', pageWidth - margin - 60, margin, 50, 20);
-
-        doc.setFontSize(16);
-        doc.setTextColor('#172033');
-        doc.setFont('helvetica', 'bold');
-        doc.text('FORM RETUR SPAREPART', pageWidth / 2, y, { align: 'center' });
-        y += 30;
-
-        doc.setFontSize(11);
-        doc.setTextColor('#4b5563');
-        doc.setFont('helvetica', 'normal');
-        doc.text(`No. Retur : ${returnState.noRetur}`, margin, y);
-        y += 18;
-        doc.text(`Tanggal   : ${returnState.tglRetur}`, margin, y);
-        y += 18;
-        doc.text(`Gudang    : ${returnState.selectedGudang}`, margin, y);
-        y += 22;
-
-        const tableData = returnState.returItems.map((item, i) => [
-          String(i + 1),
-          item.productId,
-          item.nama,
-          String(item.qty),
-          'Rp ' + item.harga.toLocaleString(),
-          'Rp ' + (item.qty * item.harga).toLocaleString()
-        ]);
-
-        doc.autoTable({
-          head: [
-            ['No', 'Barcode', 'Nama Barang', 'Qty', 'Harga', 'Total']
-          ],
-          body: tableData,
-          startY: y,
-          margin: { left: margin, right: margin },
-          styles: { fontSize: 9, cellPadding: 4 },
-          headStyles: { fillColor: [26, 86, 219], textColor: [255, 255, 255], fontSize: 9, fontStyle: 'bold' },
-          columnStyles: {
-            0: { cellWidth: 25 },
-            1: { cellWidth: 60 },
-            2: { cellWidth: 100 },
-            3: { cellWidth: 35 },
-            4: { cellWidth: 60 },
-            5: { cellWidth: 70 }
-          }
-        });
-
-        y = doc.lastAutoTable.finalY + 30;
-        const boxWidth = 180;
-        const boxHeight = 60;
-        const spacing = 30;
-        const x1 = margin;
-        const x2 = margin + boxWidth + spacing;
-
-        doc.setDrawColor(0);
-        doc.setLineWidth(0.5);
-        doc.rect(x1, y, boxWidth, boxHeight);
-        doc.setFontSize(10);
-        doc.setTextColor('#1e293b');
-        doc.setFont('helvetica', 'bold');
-        doc.text('Tanda Tangan PIC', x1 + 10, y + 14);
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.text('(___________________)', x1 + 10, y + 40);
-        doc.text('Nama: _________________', x1 + 10, y + 52);
-
-        doc.rect(x2, y, boxWidth, boxHeight);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(10);
-        doc.text('Tanda Tangan Inputer', x2 + 10, y + 14);
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.text('(___________________)', x2 + 10, y + 40);
-        doc.text(`Nama: ${currentUser?.name || 'Anonim'}`, x2 + 10, y + 52);
-
-        y += boxHeight + 20;
-        try {
-          const qrCanvas = document.createElement('canvas');
-          QRCode.toCanvas(qrCanvas, returnState.noRetur, { width: 80, height: 80, margin: 0 });
-          const qrImg = qrCanvas.toDataURL('image/png');
-          doc.addImage(qrImg, 'PNG', margin, y, 40, 40);
-          doc.setFontSize(8);
-          doc.setTextColor('#6b7280');
-          doc.setFont('helvetica', 'normal');
-          doc.text('QR: ' + returnState.noRetur, margin + 45, y + 20);
-        } catch (e) {
-          doc.setFontSize(9);
-          doc.text('QR: ' + returnState.noRetur, margin, y);
-        }
-        y += 50;
-        doc.setFontSize(8);
-        doc.setTextColor('#9ca3af');
-        doc.text('Dokumen ini dibuat secara otomatis oleh sistem BUCIN', pageWidth / 2, y, { align: 'center' });
-
-        doc.save(`Retur_${returnState.noRetur}.pdf`);
-        returnState.pdfGenerated = true;
-        document.getElementById('return-upload-foto-btn').disabled = false;
-        updateReturnStatus('PDF didownload. Silakan upload foto tanda tangan.', 'info');
-        checkReturnReadyState();
-      });
-
-      document.getElementById('return-upload-foto-btn').addEventListener('click', function() {
-        if (!this.disabled) document.getElementById('return-upload-file-input').click();
-      });
-
-      document.getElementById('return-upload-file-input').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          returnState.fotoDataURL = event.target.result;
-          document.getElementById('return-preview-container').style.display = 'block';
-          document.getElementById('return-photo-preview').innerHTML =
-            `<img src="${returnState.fotoDataURL}" alt="Foto TTD" />`;
-
-          const image = new Image();
-          image.onload = function() {
-            const canvas = document.createElement('canvas');
-            canvas.width = image.width;
-            canvas.height = image.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(image, 0, 0);
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const code = jsQR(imageData.data, imageData.width, imageData.height, {
-              inversionAttempts: "dontInvert",
-            });
-
-            let valid = false;
-            if (code && code.data) {
-              const expected = returnState.noRetur;
-              if (code.data.trim() === expected) {
-                valid = true;
-                returnState.qrValid = true;
-                returnState.fotoUploaded = true;
-                updateReturnStatus('✅ QR Code cocok! Foto berhasil diunggah.', 'success');
-              } else {
-                returnState.qrValid = false;
-                returnState.fotoUploaded = false;
-                updateReturnStatus(`❌ QR Tidak Sesuai, Mohon untuk Scan Dokumen Asli (dibaca: ${code.data})`,
-                  'error');
-              }
-            } else {
-              returnState.qrValid = false;
-              returnState.fotoUploaded = false;
-              updateReturnStatus('❌ Tidak ada QR Code terbaca pada foto', 'error');
-            }
-            checkReturnReadyState();
-            document.getElementById('return-upload-file-input').value = '';
-          };
-          image.src = event.target.result;
-        };
-        reader.readAsDataURL(file);
-      });
-
-      document.getElementById('return-simpan-btn').addEventListener('click', function() {
-        if (this.disabled) return;
-        const returData = {
-          noRetur: returnState.noRetur,
-          tanggal: returnState.tglRetur,
-          gudang: returnState.selectedGudang,
-          items: returnState.returItems.map(item => ({ ...item })),
-          total: returnState.returItems.reduce((sum, item) => sum + (item.qty * item.harga), 0),
-          diinputOleh: currentUser?.name || 'Anonim',
-          waktu: new Date().toISOString(),
-          foto: returnState.fotoDataURL || ''
-        };
-        returnHistory.unshift(returData);
-
-        returnState.returItems.forEach(item => {
-          const hist = stockHistory['Stok Spare'] || [];
-          const found = hist.find(r =>
-            r.barcode === item.productId &&
-            r.spec === item.nama &&
-            r.warehouse === returnState.selectedGudang &&
-            r.trType === 'Keluar' &&
-            !r.returned
-          );
-          if (found) {
-            found.returned = true;
-            found.returnQty = (found.returnQty || 0) + item.qty;
-          }
-          hist.push({
-            barcode: item.productId,
-            spec: item.nama,
-            warehouse: returnState.selectedGudang,
-            trType: 'Return',
-            qty: item.qty,
-            date: returnState.tglRetur,
-            postBy: currentUser?.name || 'Anonim',
-            notes: `Retur dari ${returnState.noRetur}`,
-            time: new Date().toISOString(),
-            returned: true,
-            condition: 'Baik',
-            noRetur: returnState.noRetur
-          });
-          stockHistory['Stok Spare'] = hist;
-        });
-
-        saveData();
-        showToast(`✅ Retur berhasil disimpan!\nGudang: ${returnState.selectedGudang}\nJumlah item: ${returnState.returItems.length}\nNo Retur: ${returnState.noRetur}`,
-          'success');
-
-        resetReturnForm();
-        renderReturnHistoryFull();
-        renderTable();
-      });
-
-      document.getElementById('return-reset-btn').addEventListener('click', function() {
-        resetReturnForm();
-      });
-
-      document.getElementById('close-return-modal').addEventListener('click', function() {
-        document.getElementById('return-modal').classList.add('hidden');
-        stopReturnScanner();
-      });
-
-      document.getElementById('return-history-export-excel').addEventListener('click', exportReturnHistoryExcel);
 
       // --- Export ---
       document.getElementById('export-button').addEventListener('click', exportData);
@@ -4050,11 +3806,367 @@
 
       console.log(`🚀 BUCIN ${APP_VERSION} - Firebase terhubung ke ${firebaseConfig.projectId}`);
       console.log('📌 Admin: admin / @patroli123 (password sudah di-hash otomatis)');
-      console.log('📌 Tombol Retur langsung menampilkan form input dan riwayat');
+      console.log('📌 Tombol Retur membuka halaman baru dengan 2 opsi: Input Retur dan Riwayat');
     }
 
     // ==================================================================
-    // 25. START
+    // 25. BIND RETURN EVENTS (untuk halaman retur)
+    // ==================================================================
+    function bindReturnEvents() {
+      // Tab switching
+      document.querySelectorAll('#retur-page .retur-tabs button').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('#retur-page .retur-tabs button').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          document.querySelectorAll('#retur-page .retur-content').forEach(tc => tc.classList.remove('active'));
+          const target = document.getElementById('tab-' + this.dataset.tab);
+          if (target) target.classList.add('active');
+          if (this.dataset.tab === 'riwayat-retur') renderReturnHistoryFull();
+        });
+      });
+
+      // Kembali ke utama
+      document.getElementById('back-to-main').addEventListener('click', function() {
+        hideReturnPage();
+      });
+
+      // Gudang
+      document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          returnState.selectedGudang = this.dataset.gudang;
+          updateReturnStatus(`Gudang: ${returnState.selectedGudang}`, 'info');
+          const barcode = document.getElementById('return-barcode-input').value.trim();
+          if (barcode && returnState.masterBarang[barcode]) {
+            updateReturnStok(barcode);
+          }
+          checkReturnReadyState();
+        });
+      });
+
+      document.getElementById('return-scan-barcode-btn').addEventListener('click', function() {
+        if (returnQuaggaRunning) {
+          stopReturnScanner();
+        } else {
+          startReturnScanner();
+        }
+      });
+
+      document.getElementById('return-stop-camera-btn').addEventListener('click', function() {
+        stopReturnScanner();
+      });
+
+      document.getElementById('return-barcode-input').addEventListener('input', function() {
+        const id = this.value.trim();
+        if (id && returnState.masterBarang[id]) {
+          const barang = returnState.masterBarang[id];
+          document.getElementById('return-nama-barang').value = barang.nama;
+          document.getElementById('return-harga-barang').value = barang.harga || 0;
+          updateReturnStok(id);
+        } else {
+          document.getElementById('return-nama-barang').value = '';
+          document.getElementById('return-stok-barang').value = '';
+          document.getElementById('return-harga-barang').value = '';
+        }
+      });
+
+      document.getElementById('return-tambah-btn').addEventListener('click', function() {
+        const barcode = document.getElementById('return-barcode-input').value.trim();
+        if (!barcode) {
+          updateReturnStatus('Masukkan atau scan barcode terlebih dahulu', 'error');
+          return;
+        }
+        const barang = returnState.masterBarang[barcode];
+        if (!barang) {
+          updateReturnStatus('Barang tidak terdaftar', 'error');
+          return;
+        }
+        if (!returnState.selectedGudang) {
+          updateReturnStatus('Pilih gudang terlebih dahulu', 'error');
+          return;
+        }
+        const qty = parseInt(document.getElementById('return-qty-barang').value) || 1;
+        if (qty <= 0) {
+          updateReturnStatus('Jumlah harus lebih dari 0', 'error');
+          return;
+        }
+        const stok = getCurrentStock(barcode, barang.nama, returnState.selectedGudang);
+        if (qty > stok) {
+          updateReturnStatus(`Stok tidak mencukupi (tersisa ${stok})`, 'error');
+          return;
+        }
+
+        const existing = returnState.returItems.find(item => item.productId === barcode);
+        if (existing) {
+          if (existing.qty + qty > stok) {
+            updateReturnStatus(`Stok tidak mencukupi untuk penambahan (tersisa ${stok})`, 'error');
+            return;
+          }
+          existing.qty += qty;
+          updateReturnStatus(`Jumlah ${barang.nama} diperbarui`, 'success');
+        } else {
+          returnState.returItems.push({
+            productId: barcode,
+            nama: barang.nama,
+            qty: qty,
+            harga: barang.harga || 0
+          });
+          updateReturnStatus(`${barang.nama} ditambahkan ke daftar retur`, 'success');
+        }
+        renderReturnList();
+        document.getElementById('return-barcode-input').value = '';
+        document.getElementById('return-nama-barang').value = '';
+        document.getElementById('return-stok-barang').value = '';
+        document.getElementById('return-harga-barang').value = '';
+        document.getElementById('return-qty-barang').value = 1;
+        checkReturnReadyState();
+      });
+
+      document.getElementById('return-download-pdf-btn').addEventListener('click', function() {
+        if (this.disabled) return;
+        if (!returnState.selectedGudang || returnState.returItems.length === 0) {
+          updateReturnStatus('Pilih gudang dan tambahkan barang terlebih dahulu', 'error');
+          return;
+        }
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'pt', 'a4');
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const margin = 40;
+        let y = margin + 30;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 200;
+        canvas.height = 80;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, 200, 80);
+        ctx.fillStyle = '#ed1c24';
+        ctx.font = 'bold 52px Arial';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        ctx.fillText('TELIN', 0, 0);
+        ctx.fillStyle = '#333';
+        ctx.font = '14px Arial';
+        ctx.fillText('Telkom Indonesia', 0, 52);
+        const logoData = canvas.toDataURL('image/png');
+        doc.addImage(logoData, 'PNG', pageWidth - margin - 60, margin, 50, 20);
+
+        doc.setFontSize(16);
+        doc.setTextColor('#172033');
+        doc.setFont('helvetica', 'bold');
+        doc.text('FORM RETUR SPAREPART', pageWidth / 2, y, { align: 'center' });
+        y += 30;
+
+        doc.setFontSize(11);
+        doc.setTextColor('#4b5563');
+        doc.setFont('helvetica', 'normal');
+        doc.text(`No. Retur : ${returnState.noRetur}`, margin, y);
+        y += 18;
+        doc.text(`Tanggal   : ${returnState.tglRetur}`, margin, y);
+        y += 18;
+        doc.text(`Gudang    : ${returnState.selectedGudang}`, margin, y);
+        y += 22;
+
+        const tableData = returnState.returItems.map((item, i) => [
+          String(i + 1),
+          item.productId,
+          item.nama,
+          String(item.qty),
+          'Rp ' + item.harga.toLocaleString(),
+          'Rp ' + (item.qty * item.harga).toLocaleString()
+        ]);
+
+        doc.autoTable({
+          head: [
+            ['No', 'Barcode', 'Nama Barang', 'Qty', 'Harga', 'Total']
+          ],
+          body: tableData,
+          startY: y,
+          margin: { left: margin, right: margin },
+          styles: { fontSize: 9, cellPadding: 4 },
+          headStyles: { fillColor: [26, 86, 219], textColor: [255, 255, 255], fontSize: 9, fontStyle: 'bold' },
+          columnStyles: {
+            0: { cellWidth: 25 },
+            1: { cellWidth: 60 },
+            2: { cellWidth: 100 },
+            3: { cellWidth: 35 },
+            4: { cellWidth: 60 },
+            5: { cellWidth: 70 }
+          }
+        });
+
+        y = doc.lastAutoTable.finalY + 30;
+        const boxWidth = 180;
+        const boxHeight = 60;
+        const spacing = 30;
+        const x1 = margin;
+        const x2 = margin + boxWidth + spacing;
+
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.5);
+        doc.rect(x1, y, boxWidth, boxHeight);
+        doc.setFontSize(10);
+        doc.setTextColor('#1e293b');
+        doc.setFont('helvetica', 'bold');
+        doc.text('Tanda Tangan PIC', x1 + 10, y + 14);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.text('(___________________)', x1 + 10, y + 40);
+        doc.text('Nama: _________________', x1 + 10, y + 52);
+
+        doc.rect(x2, y, boxWidth, boxHeight);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.text('Tanda Tangan Inputer', x2 + 10, y + 14);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.text('(___________________)', x2 + 10, y + 40);
+        doc.text(`Nama: ${currentUser?.name || 'Anonim'}`, x2 + 10, y + 52);
+
+        y += boxHeight + 20;
+        try {
+          const qrCanvas = document.createElement('canvas');
+          QRCode.toCanvas(qrCanvas, returnState.noRetur, { width: 80, height: 80, margin: 0 });
+          const qrImg = qrCanvas.toDataURL('image/png');
+          doc.addImage(qrImg, 'PNG', margin, y, 40, 40);
+          doc.setFontSize(8);
+          doc.setTextColor('#6b7280');
+          doc.setFont('helvetica', 'normal');
+          doc.text('QR: ' + returnState.noRetur, margin + 45, y + 20);
+        } catch (e) {
+          doc.setFontSize(9);
+          doc.text('QR: ' + returnState.noRetur, margin, y);
+        }
+        y += 50;
+        doc.setFontSize(8);
+        doc.setTextColor('#9ca3af');
+        doc.text('Dokumen ini dibuat secara otomatis oleh sistem BUCIN', pageWidth / 2, y, { align: 'center' });
+
+        doc.save(`Retur_${returnState.noRetur}.pdf`);
+        returnState.pdfGenerated = true;
+        document.getElementById('return-upload-foto-btn').disabled = false;
+        updateReturnStatus('PDF didownload. Silakan upload foto tanda tangan.', 'info');
+        checkReturnReadyState();
+      });
+
+      document.getElementById('return-upload-foto-btn').addEventListener('click', function() {
+        if (!this.disabled) document.getElementById('return-upload-file-input').click();
+      });
+
+      document.getElementById('return-upload-file-input').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          returnState.fotoDataURL = event.target.result;
+          document.getElementById('return-preview-container').style.display = 'block';
+          document.getElementById('return-photo-preview').innerHTML =
+            `<img src="${returnState.fotoDataURL}" alt="Foto TTD" />`;
+
+          const image = new Image();
+          image.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(image, 0, 0);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height, {
+              inversionAttempts: "dontInvert",
+            });
+
+            let valid = false;
+            if (code && code.data) {
+              const expected = returnState.noRetur;
+              if (code.data.trim() === expected) {
+                valid = true;
+                returnState.qrValid = true;
+                returnState.fotoUploaded = true;
+                updateReturnStatus('✅ QR Code cocok! Foto berhasil diunggah.', 'success');
+              } else {
+                returnState.qrValid = false;
+                returnState.fotoUploaded = false;
+                updateReturnStatus(`❌ QR Tidak Sesuai, Mohon untuk Scan Dokumen Asli (dibaca: ${code.data})`,
+                  'error');
+              }
+            } else {
+              returnState.qrValid = false;
+              returnState.fotoUploaded = false;
+              updateReturnStatus('❌ Tidak ada QR Code terbaca pada foto', 'error');
+            }
+            checkReturnReadyState();
+            document.getElementById('return-upload-file-input').value = '';
+          };
+          image.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      document.getElementById('return-simpan-btn').addEventListener('click', function() {
+        if (this.disabled) return;
+        const returData = {
+          noRetur: returnState.noRetur,
+          tanggal: returnState.tglRetur,
+          gudang: returnState.selectedGudang,
+          items: returnState.returItems.map(item => ({ ...item })),
+          total: returnState.returItems.reduce((sum, item) => sum + (item.qty * item.harga), 0),
+          diinputOleh: currentUser?.name || 'Anonim',
+          waktu: new Date().toISOString(),
+          foto: returnState.fotoDataURL || ''
+        };
+        returnHistory.unshift(returData);
+
+        returnState.returItems.forEach(item => {
+          const hist = stockHistory['Stok Spare'] || [];
+          const found = hist.find(r =>
+            r.barcode === item.productId &&
+            r.spec === item.nama &&
+            r.warehouse === returnState.selectedGudang &&
+            r.trType === 'Keluar' &&
+            !r.returned
+          );
+          if (found) {
+            found.returned = true;
+            found.returnQty = (found.returnQty || 0) + item.qty;
+          }
+          hist.push({
+            barcode: item.productId,
+            spec: item.nama,
+            warehouse: returnState.selectedGudang,
+            trType: 'Return',
+            qty: item.qty,
+            date: returnState.tglRetur,
+            postBy: currentUser?.name || 'Anonim',
+            notes: `Retur dari ${returnState.noRetur}`,
+            time: new Date().toISOString(),
+            returned: true,
+            condition: 'Baik',
+            noRetur: returnState.noRetur
+          });
+          stockHistory['Stok Spare'] = hist;
+        });
+
+        saveData();
+        showToast(`✅ Retur berhasil disimpan!\nGudang: ${returnState.selectedGudang}\nJumlah item: ${returnState.returItems.length}\nNo Retur: ${returnState.noRetur}`,
+          'success');
+
+        resetReturnForm();
+        renderReturnHistoryFull();
+        renderTable();
+      });
+
+      document.getElementById('return-reset-btn').addEventListener('click', function() {
+        resetReturnForm();
+      });
+
+      document.getElementById('return-history-export-excel').addEventListener('click', exportReturnHistoryExcel);
+    }
+
+    // ==================================================================
+    // 26. START
     // ==================================================================
     window.addEventListener('DOMContentLoaded', init);
     window.addEventListener('resize', setVh);
