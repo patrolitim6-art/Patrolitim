@@ -447,6 +447,44 @@
     }
 
     .hidden-field { display: none !important; }
+
+    /* ===== PERBAIKAN: SCAN BARCODE KOLOM LEBIH KECIL ===== */
+    .return-scan-row-compact {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .return-scan-row-compact .return-barcode-input {
+      flex: 0 1 200px;
+      min-width: 100px;
+      max-width: 240px;
+    }
+    .return-scan-row-compact .scan-btn-compact {
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      white-space: nowrap;
+      border: 0;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--blue);
+      color: white;
+      transition: .2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      min-height: 32px;
+    }
+    .return-scan-row-compact .scan-btn-compact:hover {
+      background: var(--blue-dark);
+    }
+    @media(max-width:480px) {
+      .return-scan-row-compact .return-barcode-input {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -843,13 +881,41 @@
         <div class="form-group"><label>Tgl Retur <span style="color:red">*</span></label><input class="field-control" id="return-tgl-retur" type="date" required></div>
       </div>
       <div class="form-group"><label>Pilih Gudang <span style="color:red">*</span></label><div class="gudang-grid-return" id="return-gudang-grid"><button type="button" class="gudang-btn" data-gudang="CLS Mami">CLS Mami</button><button type="button" class="gudang-btn" data-gudang="DC Manado Centrum">DC Manado Centrum</button><button type="button" class="gudang-btn" data-gudang="CLS Kauditan">CLS Kauditan</button></div></div>
-      <div class="form-group"><label>Scan Barcode</label><div class="scan-row"><input class="field-control" id="return-barcode-input" placeholder="Klik Scan untuk baca barcode..." style="flex:1;"><button type="button" class="scan-btn" id="return-scan-barcode-btn"><i data-lucide="camera" style="width:14px;height:14px;"></i> Scan</button></div><div class="scanner-container" id="return-scanner-container"><div id="return-camera-preview"></div><div class="scanner-overlay"><div class="scanner-frame"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div><div class="scanner-label"><span class="scan-icon">⬜</span> Arahkan ke Barcode</div></div><button type="button" class="stop-camera-btn" id="return-stop-camera-btn">✕ Tutup Kamera</button></div></div>
-      <div class="return-form-grid"><div class="form-group"><label>Nama Barang</label><input class="field-control" id="return-nama-barang" readonly style="background:#f1f5f9;"></div><div class="form-group"><label>Stok (gudang)</label><input class="field-control" id="return-stok-barang" readonly style="background:#f1f5f9;"></div><div class="form-group"><label>Jumlah <span style="color:red">*</span></label><input class="field-control" id="return-qty-barang" type="number" value="1" min="1"></div><div class="form-group"><label>Harga</label><input class="field-control" id="return-harga-barang" readonly style="background:#f1f5f9;"></div></div>
+
+      <!-- ===== PERBAIKAN: Kolom scan barcode diperkecil 3X, tombol choose file dihilangkan ===== -->
+      <div class="form-group" style="max-width: 400px;">
+        <label>Scan Barcode</label>
+        <div class="return-scan-row-compact">
+          <input class="field-control return-barcode-input" id="return-barcode-input" placeholder="Klik Scan..." style="flex: 0 1 200px; min-width: 100px; max-width: 240px;">
+          <button type="button" class="scan-btn-compact" id="return-scan-barcode-btn">
+            <i data-lucide="camera" style="width:14px;height:14px;"></i> Scan
+          </button>
+        </div>
+        <div class="scanner-container" id="return-scanner-container">
+          <div id="return-camera-preview"></div>
+          <div class="scanner-overlay">
+            <div class="scanner-frame">
+              <span class="corner tl"></span><span class="corner tr"></span>
+              <span class="corner bl"></span><span class="corner br"></span>
+            </div>
+            <div class="scanner-label"><span class="scan-icon">⬜</span> Arahkan ke Barcode</div>
+          </div>
+          <button type="button" class="stop-camera-btn" id="return-stop-camera-btn">✕ Tutup Kamera</button>
+        </div>
+      </div>
+      <!-- ===== AKHIR PERBAIKAN ===== -->
+
+      <div class="return-form-grid">
+        <div class="form-group"><label>Nama Barang</label><input class="field-control" id="return-nama-barang" readonly style="background:#f1f5f9;"></div>
+        <div class="form-group"><label>Stok (gudang)</label><input class="field-control" id="return-stok-barang" readonly style="background:#f1f5f9;"></div>
+        <div class="form-group"><label>Jumlah <span style="color:red">*</span></label><input class="field-control" id="return-qty-barang" type="number" value="1" min="1"></div>
+        <div class="form-group"><label>Harga</label><input class="field-control" id="return-harga-barang" readonly style="background:#f1f5f9;"></div>
+      </div>
       <button type="button" class="action-btn" style="background:#e2e8f0; color:#1e293b; width:100%; justify-content:center; margin-bottom:8px; padding:8px;" id="return-tambah-btn">+ Tambah ke Daftar</button>
       <div class="form-group"><label>Daftar Barang Retur</label><div class="return-item-list"><table><thead><tr><th>#</th><th>Barcode</th><th>Nama</th><th>Qty</th><th>Harga</th><th>Aksi</th></tr></thead><tbody id="return-list-body"><tr class="empty-row"><td colspan="6">Belum ada barang</td></tr></tbody></table></div></div>
       <div class="form-group" id="return-preview-container" style="display:none;"><label>Foto Tanda Tangan</label><div class="return-photo-preview-container" id="return-photo-preview"></div></div>
       <div class="return-action-bar"><div class="status" id="return-status-message">⏳ Pilih gudang dan scan barang</div><button type="button" class="action-btn btn-pdf" id="return-download-pdf-btn" disabled>📄 Download PDF</button><button type="button" class="action-btn btn-upload" id="return-upload-foto-btn" disabled>📤 Upload Foto</button><button type="button" class="action-btn btn-save" id="return-simpan-btn" disabled>💾 Simpan</button><button type="button" class="action-btn btn-reset" id="return-reset-btn">↺ Reset</button></div>
-      <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-scan-file-input" />
+      <!-- HANYA upload foto yang tersisa (choose file untuk scan dihapus) -->
       <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-upload-file-input" />
     </form>
   </div>
@@ -873,7 +939,8 @@
 
 <script>
   // ==================================================================
-  //  BUCIN v14.5 — PERBAIKAN TOMBOL TAMBAH TRANSAKSI & RETUR
+  //  BUCIN v14.5 — PERBAIKAN: kolom scan barcode diperkecil 3X,
+  //  tombol choose file di retur dihilangkan, upload foto hanya via Upload Foto
   // ==================================================================
 
   (function() {
@@ -1194,7 +1261,7 @@
     }
 
     // ==================================================================
-    // 10. PROCEDURE DATA & KML (disingkat)
+    // 10. PROCEDURE DATA & KML
     // ==================================================================
     const PROCEDURE_DATA = [
       { id: 'terima_laporan', label: 'Terima Laporan', items: ['Catat waktu', 'Catat lokasi', 'Catat jenis gangguan'] },
@@ -1487,7 +1554,7 @@
     }
 
     // ==================================================================
-    // 12. MAP FUNCTIONS (sama)
+    // 12. MAP FUNCTIONS
     // ==================================================================
     function initMap() {
       try {
@@ -2047,7 +2114,7 @@
     }
 
     // ==================================================================
-    // 15. FORM HANDLING — PERBAIKAN TOMBOL TAMBAH TRANSAKSI
+    // 15. FORM HANDLING
     // ==================================================================
     function openAddForm() {
       if (!checkPermission('add', currentCategory)) {
@@ -2134,7 +2201,6 @@
       }
     }
 
-    // ===== PERBAIKAN: POPUP GUDANG dengan CSS & event yang benar =====
     function showWarehousePopup(callback) {
       const existing = document.querySelector('.warehouse-popup');
       if (existing) existing.remove();
@@ -2192,7 +2258,6 @@
         });
       }
 
-      // Tutup popup jika klik di luar
       popup.addEventListener('click', function(e) {
         if (e.target === popup) {
           popup.remove();
@@ -2561,7 +2626,7 @@
     let PATCH_LENGTHS = ['1m', '2m', '3m', '5m', '10m', '15m', '20m'];
 
     // ==================================================================
-    // 18. RETURN SYSTEM — PERBAIKAN: tidak redirect ke login
+    // 18. RETURN SYSTEM — PERBAIKAN: kolom scan barcode diperkecil, tombol choose file dihapus
     // ==================================================================
     function initReturnMasterBarang() {
       const hist = stockHistory['Stok Spare'] || [];
@@ -2580,7 +2645,6 @@
     }
 
     function showReturnPage() {
-      // Sembunyikan login & app shell, tampilkan retur
       document.getElementById('login-screen').classList.add('hidden');
       document.getElementById('app-shell').classList.add('hidden');
       document.getElementById('retur-page').classList.add('active');
@@ -2616,7 +2680,6 @@
 
     function hideReturnPage() {
       document.getElementById('retur-page').classList.remove('active');
-      // Kembali ke app shell jika user login, jika tidak tetap di login
       if (currentUser) {
         document.getElementById('app-shell').classList.remove('hidden');
       } else {
@@ -3174,15 +3237,13 @@
     }
 
     // ==================================================================
-    // 24. INIT & EVENT BINDING — PERBAIKAN: retur tidak redirect ke login
+    // 24. INIT & EVENT BINDING
     // ==================================================================
     function init() {
       const firebaseReady = initFirebase();
 
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('page') === 'retur') {
-        // JANGAN redirect ke login — tampilkan retur page langsung
-        // Tetapi tetap load data dari Firebase/localStorage untuk kebutuhan data
         loadDataFromFirebase(() => {
           applySettings();
           renderAllStats();
@@ -3217,12 +3278,7 @@
           renderReturnHistoryFull();
           bindReturnEvents();
 
-          // Jika user sudah login, tampilkan badge di header retur? Tidak ada header di retur.
-          // Tapi kita bisa tetap set currentUser jika ada.
-          if (currentUser) {
-            // retur page tidak punya header, tapi kita simpan state
-          }
-          // Tampilkan retur page
+          // Tampilkan retur page (sembunyikan login & app shell)
           document.getElementById('login-screen').classList.add('hidden');
           document.getElementById('app-shell').classList.add('hidden');
           document.getElementById('retur-page').classList.add('active');
@@ -3388,9 +3444,8 @@
       document.getElementById('data-add').addEventListener('click', openAddForm);
       document.getElementById('stock-add').addEventListener('click', openAddForm);
 
-      // --- Return button: buka halaman retur di tab/window baru ---
+      // --- Return button: buka halaman retur di tab baru ---
       document.getElementById('spare-return').addEventListener('click', function() {
-        // Buka halaman retur di tab baru
         window.open(window.location.pathname + '?page=retur', '_blank');
       });
 
@@ -3888,6 +3943,7 @@
       console.log(`🚀 BUCIN ${APP_VERSION} - Firebase terhubung ke ${firebaseConfig.projectId}`);
       console.log('📌 Admin: admin / @patroli123 (password sudah di-hash otomatis)');
       console.log('📌 Tombol Retur membuka halaman baru dengan 2 opsi: Input Retur dan Riwayat');
+      console.log('📌 Kolom scan barcode diperkecil 3X, tombol choose file di retur dihapus');
     }
 
     // ==================================================================
@@ -3926,6 +3982,7 @@
         });
       });
 
+      // PERBAIKAN: scan barcode menggunakan Quagga (camera) — tidak ada file chooser
       document.getElementById('return-scan-barcode-btn').addEventListener('click', function() {
         if (returnQuaggaRunning) {
           stopReturnScanner();
@@ -4131,6 +4188,7 @@
         checkReturnReadyState();
       });
 
+      // Upload foto — hanya melalui tombol Upload Foto (aktif setelah PDF)
       document.getElementById('return-upload-foto-btn').addEventListener('click', function() {
         if (!this.disabled) document.getElementById('return-upload-file-input').click();
       });
