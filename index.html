@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -24,7 +24,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
   <style>
-    /* ===== RESET & VARIABEL (sama seperti sebelumnya) ===== */
+    /* ===== RESET & VARIABEL (sama seperti sebelumnya, disingkat) ===== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --blue: #1877f2; --blue-dark: #0f5ec7; --ink: #172033; --muted: #687386;
@@ -81,7 +81,6 @@
     .admin-only { display: none; }
     body.is-admin .admin-only { display: inline-flex; }
     .main-content { max-width: 1280px; margin: auto; padding: 14px 10px 36px; }
-    /* Hero */
     .hero-panel { position: relative; overflow: hidden; border-radius: 18px;
       padding: clamp(16px,2.5vw,32px);
       box-shadow: 0 16px 44px rgba(13,65,125,.16);
@@ -103,7 +102,6 @@
       flex-wrap: wrap; margin-bottom: 8px; }
     .section-heading h2 { margin: 0; font-family: var(--font-heading); letter-spacing: -.025em; font-size: 1.05rem; }
     .section-heading p { margin: 3px 0 0; font-size: 0.75rem; }
-    /* Dashboard */
     .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
     .full-width { grid-column: 1 / -1; }
     .chart-card { border: 1px solid var(--card-border); border-radius: 14px; padding: 14px;
@@ -140,7 +138,6 @@
       background: var(--card-bg); box-shadow: 0 5px 20px rgba(37,57,82,.05); }
     .info-card h2 { margin: 0 0 6px; color: var(--vision-text); font-size: 1rem; }
     .info-card p, .info-card li { line-height: 1.6; color: var(--vision-desc); font-size: 0.75rem; }
-    /* Data Panel */
     .data-panel { border-radius: 14px; border: 1px solid var(--card-border);
       background: var(--card-bg); box-shadow: 0 8px 32px rgba(28,48,75,.07); overflow: hidden; }
     .data-toolbar { padding: 12px; border-bottom: 1px solid var(--card-border); }
@@ -183,14 +180,12 @@
     .state-box h2 { margin: 0 0 3px; font-size: 0.95rem; }
     .state-box p { margin: 0; color: var(--muted); font-size: 0.75rem; }
     .hidden { display: none !important; }
-    /* Pagination */
     .pagination-bar { display: flex; justify-content: space-between; align-items: center;
       padding: 8px 12px; border-top: 1px solid var(--line); flex-wrap: wrap; gap: 6px; font-size: 0.75rem; }
     .pagination-bar button { background: var(--soft); border: 1px solid var(--line); border-radius: 4px;
       padding: 3px 10px; cursor: pointer; font-weight: 600; transition: .2s; }
     .pagination-bar button:hover:not(:disabled) { background: var(--blue); color: white; border-color: var(--blue); }
     .pagination-bar button:disabled { opacity: 0.4; cursor: not-allowed; }
-    /* Modal */
     .modal-layer { position: fixed; z-index: 100; inset: 0; padding: 10px;
       background: rgba(13,23,38,.62); backdrop-filter: blur(5px); display: grid; place-items: center; }
     .modal-card { width: min(680px,100%); max-height: calc(94 * min(var(--vh,1vh),1vh));
@@ -232,7 +227,6 @@
       border: 0; border-radius: 6px; background: rgba(220,53,69,0.9); color: white; font-weight: 600;
       cursor: pointer; transition: .2s; z-index: 20; backdrop-filter: blur(4px); }
     .stop-camera-btn:hover { background: #b02a37; }
-    /* Return Modal */
     .return-modal-large .modal-card { max-width: 800px; }
     .return-modal-large .modal-card .modal-body { padding: 14px; max-height: 70vh; overflow-y: auto; }
     .return-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
@@ -266,7 +260,6 @@
     .btn-reset { background: #e2e8f0; color: #1e293b; }
     .return-photo-preview-container { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
     .return-photo-preview-container img { max-height: 80px; border-radius: 6px; border: 1px solid var(--line); }
-    /* Login */
     .login-screen { min-height: 100vh; display: grid; place-items: center; padding: 14px;
       background: linear-gradient(135deg, #1877f2, #0f5ec7); }
     .login-card { background: white; border-radius: 18px; padding: 28px 22px; width: 100%; max-width: 380px;
@@ -282,7 +275,6 @@
     .password-toggle:hover { color: var(--blue); }
     .login-error { color: #dc2626; text-align: center; font-weight: 600; font-size: 0.75rem; margin: 4px 0 8px; display: none; }
     .login-error.show { display: block; }
-    /* Toast */
     .toast-region { position: fixed; z-index: 130; top: 68px; right: 10px; width: min(320px,calc(100% - 20px)); }
     .toast { border-radius: 8px; padding: 8px 12px; color: white; box-shadow: 0 12px 32px rgba(0,0,0,.2);
       display: flex; align-items: center; gap: 6px; animation: toast-in .25s ease both; font-size: 0.75rem; }
@@ -291,7 +283,6 @@
     .toast.info { background: #205fa8; }
     .toast.warning { background: #b9770e; }
     @keyframes toast-in { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
-    /* Procedure */
     .procedure-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 6px; margin-top: 6px; }
     .procedure-main-btn { border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px;
       background: var(--soft); font-weight: 700; font-size: 0.65rem; cursor: pointer; transition: .2s;
@@ -318,7 +309,6 @@
     .procedure-table-wrap .proc-group { font-weight: 700; color: var(--blue); }
     .procedure-table-wrap .proc-item { padding-left: 12px; display: block; font-size: 0.65rem; }
     .procedure-table-wrap .proc-item::before { content: '• '; color: var(--blue); }
-    /* Map */
     .map-wrapper { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); }
     .map-float-controls { position: absolute; top: 10px; left: 10px; z-index: 1000;
       display: flex; flex-direction: column; gap: 6px; }
@@ -342,7 +332,6 @@
     .map-float-legend .legend-item:hover { background: var(--soft); }
     .map-float-legend .color-box { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
       border: 1px solid rgba(0,0,0,.08); }
-    /* Responsive */
     @media(max-width:480px) {
       .brand-copy { display: none; }
       .brand-mark { width: 28px; height: 28px; font-size: .85rem; }
@@ -366,7 +355,6 @@
       .mission-grid { grid-template-columns: 1.2fr 1fr 1fr; }
       .form-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
     }
-    /* Dark mode (via settings) */
     .dark-mode { --ink: #ecf1f8; --muted: #a9b4c3; --line: #394355; --surface: rgba(35,40,49,.97);
       --soft: #1a1e25; background: #1a1e25 !important; color: var(--ink); }
     .dark-mode .top-header { background: rgba(30,35,44,.96) !important; border-color: #2c3441; }
@@ -379,7 +367,6 @@
     .dark-mode .bar-chart { border-color: #394355; }
     .dark-mode .login-card { background: #1e242d; color: var(--ink); }
     .dark-mode .leaflet-container { background: #272e3b !important; filter: invert(0.9) hue-rotate(180deg); }
-    /* Loading spinner */
     .loading-spinner { display: inline-block; width: 20px; height: 20px;
       border: 2px solid #e5e7eb; border-radius: 50%; border-top-color: #1877f2;
       animation: spin 0.8s ease infinite; }
@@ -457,7 +444,7 @@
           </button>
         </div>
 
-        <!-- Change Password button (hanya untuk user yang login) -->
+        <!-- Change Password button -->
         <button id="change-password-header-btn" type="button" class="round-action" title="Ganti Password">
           <i data-lucide="key" style="width:15px;height:15px;"></i>
           <span class="tooltip">Ganti Password</span>
@@ -579,7 +566,6 @@
             <div class="toolbar-buttons">
               <button id="stock-add" type="button" class="primary-button hidden" style="background:rgb(39,168,68);color:white;">Tambah Transaksi</button>
               <button id="stock-history" type="button" class="secondary-button hidden" style="background:rgb(233,238,245);color:rgb(52,65,84);">Riwayat</button>
-              <!-- Tombol Retur sekarang membuka halaman baru (modal) -->
               <button id="spare-return" type="button" class="return-button hidden"><i data-lucide="undo-2" style="width:12px;height:12px;"></i> Retur</button>
               <button id="export-button" type="button" class="secondary-button" style="background:rgb(233,238,245);color:rgb(52,65,84);">Excel</button>
               <button id="data-add" type="button" class="primary-button" style="background:rgb(39,168,68);color:white;">Tambah Data</button>
@@ -613,7 +599,7 @@
 
   <!-- ===== MODALS ===== -->
 
-  <!-- Ganti Password (untuk user yang login) -->
+  <!-- Ganti Password -->
   <div id="change-password-modal" class="modal-layer hidden change-password-modal">
     <div class="modal-card">
       <div class="modal-head">
@@ -708,7 +694,7 @@
     </div>
   </div>
 
-  <!-- MODAL RETUR (halaman baru dengan 2 tombol) -->
+  <!-- MODAL RETUR -->
   <div id="return-modal" class="modal-layer hidden return-modal-large">
     <div class="modal-card">
       <div class="modal-head">
@@ -716,7 +702,6 @@
         <button type="button" class="modal-close" id="close-return-modal"><i data-lucide="x"></i></button>
       </div>
       <div class="modal-body">
-        <!-- Dua tombol utama: Input Retur dan Riwayat -->
         <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;">
           <button id="return-btn-input" class="primary-button" style="background:#1877f2;color:white;flex:1;min-width:120px;padding:10px;">
             <i data-lucide="plus-circle" style="width:16px;height:16px;"></i> Input Retur
@@ -726,7 +711,6 @@
           </button>
         </div>
 
-        <!-- Tab: Input Retur -->
         <div id="return-input-section" style="display:none;">
           <div class="return-tabs">
             <button class="active" data-tab="proses-retur">Proses Retur</button>
@@ -754,7 +738,6 @@
                 <thead><tr><th>No Retur</th><th>Tanggal</th><th>Gudang</th><th>Jumlah Item</th><th>Total</th><th>Status</th></tr></thead>
                 <tbody id="return-history-body"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">Belum ada data retur</td></tr></tbody>
               </table>
-              <!-- Tombol export Excel untuk riwayat retur -->
               <button id="return-export-excel-btn" class="secondary-button" style="margin-top:10px;background:#10b981;color:white;padding:6px 14px;border:0;border-radius:6px;cursor:pointer;font-weight:700;">
                 <i data-lucide="file-spreadsheet" style="width:14px;height:14px;"></i> Export Excel
               </button>
@@ -762,7 +745,6 @@
           </div>
         </div>
 
-        <!-- Tab: Riwayat (langsung tampil saat tombol Riwayat diklik) -->
         <div id="return-history-section" style="display:none;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
             <h3 style="margin:0; font-size:1rem;">📋 Riwayat Retur</h3>
@@ -836,16 +818,14 @@
 
 <script>
   // ==================================================================
-  //  BUCIN v14.0 — DENGAN KONFIGURASI FIREBASE ASLI
-  //  - Firebase project: bucin-18282
-  //  - Semua perubahan sebelumnya tetap
+  //  BUCIN v14.1 — FIX LOGIN PASSWORD
   // ==================================================================
 
   (function() {
     'use strict';
 
     // ==================================================================
-    // 1. FIREBASE CONFIG (SUDAH DIISI DENGAN KONFIGURASI ANDA)
+    // 1. FIREBASE CONFIG (SUDAH DIISI)
     // ==================================================================
     const firebaseConfig = {
       apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
@@ -861,7 +841,7 @@
     // ==================================================================
     // 2. CONSTANTS & STATE
     // ==================================================================
-    const APP_VERSION = 'v14.0';
+    const APP_VERSION = 'v14.1';
     const CLOUD_DATA_KEY = 'bucin_data';
     const CLOUD_HISTORY_KEY = 'bucin_history';
     const USER_KEY = 'bucin_user';
@@ -951,7 +931,7 @@
     }
 
     // ==================================================================
-    // 4. DATA PERSISTENCE (Firebase + localStorage)
+    // 4. DATA PERSISTENCE
     // ==================================================================
     function loadDataFromFirebase(callback) {
       if (!firebaseInitialized || !db) {
@@ -970,11 +950,16 @@
           if (val.appSettings) appSettings = { ...appSettings, ...val.appSettings };
         }
         saveDataLocal();
-        if (callback) callback();
+        // Ensure admin password is hashed
+        ensureAdminPassword().then(() => {
+          if (callback) callback();
+        });
       }).catch(err => {
         console.warn("⚠️ Gagal baca dari Firebase, pakai localStorage:", err);
         loadDataLocal();
-        if (callback) callback();
+        ensureAdminPassword().then(() => {
+          if (callback) callback();
+        });
       });
 
       if (dataListeners.length === 0) {
@@ -989,13 +974,28 @@
           if (val.userLoginCount) userLoginCount = val.userLoginCount || {};
           if (val.appSettings) appSettings = { ...appSettings, ...val.appSettings };
           saveDataLocal();
-          applySettings();
-          renderAllStats();
-          renderUserList();
-          renderReturnHistoryFull();
-          if (currentCategory !== 'dashboard') renderTable();
+          ensureAdminPassword().then(() => {
+            applySettings();
+            renderAllStats();
+            renderUserList();
+            renderReturnHistoryFull();
+            if (currentCategory !== 'dashboard') renderTable();
+          });
         });
         dataListeners.push(listener);
+      }
+    }
+
+    async function ensureAdminPassword() {
+      if (!users.admin) {
+        users.admin = { pass: 'admin123', role: 'admin', loginCount: 0 };
+      }
+      // Jika password masih plaintext (panjang < 30 atau tidak dimulai dengan 'U' karena base64 SHA-256)
+      if (users.admin.pass && users.admin.pass.length < 30) {
+        console.log('🔐 Meng-hash password admin...');
+        users.admin.pass = await hashPassword(users.admin.pass);
+        saveData();
+        console.log('✅ Password admin berhasil di-hash.');
       }
     }
 
@@ -1027,8 +1027,8 @@
         stockHistory = savedHist ? JSON.parse(savedHist) : {};
         const savedUsers = localStorage.getItem(USERS_KEY);
         users = savedUsers ? JSON.parse(savedUsers) : {};
-        // Ensure admin exists with correct password
-        users.admin = { pass: 'admin123', role: 'admin', loginCount: 0 };
+        // Pastikan admin ada
+        if (!users.admin) users.admin = { pass: 'admin123', role: 'admin', loginCount: 0 };
         const savedUser = localStorage.getItem(USER_KEY);
         currentUser = savedUser ? JSON.parse(savedUser) : null;
         const savedSettings = localStorage.getItem(SETTINGS_KEY);
@@ -1143,7 +1143,7 @@
     }
 
     // ==================================================================
-    // 10. PROCEDURE DATA (sama seperti sebelumnya, disingkat)
+    // 10. PROCEDURE DATA & KML (disingkat, sama seperti sebelumnya)
     // ==================================================================
     const PROCEDURE_DATA = [
       { id: 'terima_laporan', label: 'Terima Laporan', items: ['Catat waktu', 'Catat lokasi', 'Catat jenis gangguan'] },
@@ -1175,9 +1175,6 @@
     ];
     let selectedProcedures = {};
 
-    // ==================================================================
-    // 11. KML DATA (tetap sama, disingkat)
-    // ==================================================================
     const KML_STRING = `<?xml version="1.0" encoding="UTF-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
     <Document id="document">
@@ -1210,7 +1207,7 @@
     </kml>`;
 
     // ==================================================================
-    // 12. CORE FUNCTIONS (sama seperti sebelumnya, disingkat)
+    // 11. CORE FUNCTIONS (sama seperti sebelumnya, disingkat)
     // ==================================================================
     function getRecords(cat) {
       const mapping = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan' };
@@ -1285,7 +1282,7 @@
       return true;
     }
 
-    // --- Procedure functions (sama seperti sebelumnya, disingkat) ---
+    // --- Procedure functions ---
     function initProcedureUI() {
       const grid = document.getElementById('procedure-grid');
       if (!grid) return;
@@ -1439,7 +1436,7 @@
     }
 
     // ==================================================================
-    // 13. MAP FUNCTIONS (sama seperti sebelumnya, disingkat)
+    // 12. MAP FUNCTIONS (sama, disingkat)
     // ==================================================================
     function initMap() {
       try {
@@ -1730,7 +1727,7 @@
     }
 
     // ==================================================================
-    // 14. RENDER STATS & TABLE
+    // 13. RENDER STATS & TABLE
     // ==================================================================
     function renderAllStats() {
       const ofCutCount = (appData['OF Cut'] || []).length;
@@ -1951,7 +1948,7 @@
     }
 
     // ==================================================================
-    // 15. SWITCH CATEGORY
+    // 14. SWITCH CATEGORY
     // ==================================================================
     function switchCategory(cat) {
       currentCategory = cat;
@@ -1999,7 +1996,7 @@
     }
 
     // ==================================================================
-    // 16. FORM HANDLING
+    // 15. FORM HANDLING
     // ==================================================================
     function openAddForm() {
       if (!checkPermission('add', currentCategory)) {
@@ -2250,7 +2247,7 @@
     };
 
     // ==================================================================
-    // 17. FORM VALIDATION (sama seperti sebelumnya, disingkat)
+    // 16. FORM VALIDATION
     // ==================================================================
     function validateField(fieldId, errorId, condition) {
       const field = document.getElementById(fieldId);
@@ -2370,7 +2367,7 @@
     }
 
     // ==================================================================
-    // 18. SCANNER
+    // 17. SCANNER
     // ==================================================================
     function stopScanner() {
       if (quaggaRunning) {
@@ -2493,7 +2490,7 @@
     let PATCH_LENGTHS = ['1m', '2m', '3m', '5m', '10m', '15m', '20m'];
 
     // ==================================================================
-    // 19. RETURN SYSTEM (dengan halaman baru)
+    // 18. RETURN SYSTEM (sama seperti sebelumnya)
     // ==================================================================
     function initReturnMasterBarang() {
       const hist = stockHistory['Stok Spare'] || [];
@@ -2775,7 +2772,7 @@
     }
 
     // ==================================================================
-    // 20. LOGIN & AUTH
+    // 19. LOGIN & AUTH
     // ==================================================================
     async function handleLogin(username, password) {
       const normalizedUsername = username.toLowerCase();
@@ -2834,7 +2831,7 @@
     }
 
     // ==================================================================
-    // 21. SETTINGS & THEME
+    // 20. SETTINGS & THEME
     // ==================================================================
     function applySettings() {
       document.documentElement.style.setProperty('--font-heading', appSettings.fontHeading);
@@ -2934,7 +2931,7 @@
     }
 
     // ==================================================================
-    // 22. EXPORT
+    // 21. EXPORT
     // ==================================================================
     function addTelinLogoToExcel(worksheet) {
       const wsData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
@@ -2989,14 +2986,14 @@
     }
 
     // ==================================================================
-    // 23. SET VH
+    // 22. SET VH
     // ==================================================================
     function setVh() {
       document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
     }
 
     // ==================================================================
-    // 24. SEED KML
+    // 23. SEED KML
     // ==================================================================
     function seedKMLData() {
       try {
@@ -3099,14 +3096,12 @@
     }
 
     // ==================================================================
-    // 25. INITIALIZATION & EVENT BINDING
+    // 24. INIT & EVENT BINDING
     // ==================================================================
     function init() {
       const firebaseReady = initFirebase();
 
       loadDataFromFirebase(() => {
-        if (!users.admin) users.admin = { pass: 'admin123', role: 'admin', loginCount: 0 };
-
         applySettings();
         renderAllStats();
         renderUserList();
@@ -3966,12 +3961,12 @@
       });
 
       console.log(`🚀 BUCIN ${APP_VERSION} - Firebase terhubung ke ${firebaseConfig.projectId}`);
-      console.log('📌 Admin: admin / @patroli123');
+      console.log('📌 Admin: admin / @patroli123 (password sudah di-hash otomatis)');
       console.log('📌 Tombol Retur membuka halaman baru dengan 2 opsi');
     }
 
     // ==================================================================
-    // 26. START
+    // 25. START
     // ==================================================================
     window.addEventListener('DOMContentLoaded', init);
     window.addEventListener('resize', setVh);
