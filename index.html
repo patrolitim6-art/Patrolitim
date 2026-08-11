@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -24,7 +24,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
   <style>
-    /* ===== RESET & VARIABEL (sama seperti sebelumnya, disingkat) ===== */
+    /* ===== RESET & VARIABEL ===== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --blue: #1877f2; --blue-dark: #0f5ec7; --ink: #172033; --muted: #687386;
@@ -818,14 +818,14 @@
 
 <script>
   // ==================================================================
-  //  BUCIN v14.1 — FIX LOGIN PASSWORD
+  //  BUCIN v14.1 — FULL PERBAIKAN + SUBMIT FORM
   // ==================================================================
 
   (function() {
     'use strict';
 
     // ==================================================================
-    // 1. FIREBASE CONFIG (SUDAH DIISI)
+    // 1. FIREBASE CONFIG
     // ==================================================================
     const firebaseConfig = {
       apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
@@ -897,7 +897,6 @@
     let filteredData = [];
     let searchDebounceTimer = null;
 
-    // Return state
     let returnState = {
       selectedGudang: null,
       returItems: [],
@@ -950,7 +949,6 @@
           if (val.appSettings) appSettings = { ...appSettings, ...val.appSettings };
         }
         saveDataLocal();
-        // Ensure admin password is hashed
         ensureAdminPassword().then(() => {
           if (callback) callback();
         });
@@ -990,7 +988,6 @@
       if (!users.admin) {
         users.admin = { pass: 'admin123', role: 'admin', loginCount: 0 };
       }
-      // Jika password masih plaintext (panjang < 30 atau tidak dimulai dengan 'U' karena base64 SHA-256)
       if (users.admin.pass && users.admin.pass.length < 30) {
         console.log('🔐 Meng-hash password admin...');
         users.admin.pass = await hashPassword(users.admin.pass);
@@ -1027,7 +1024,6 @@
         stockHistory = savedHist ? JSON.parse(savedHist) : {};
         const savedUsers = localStorage.getItem(USERS_KEY);
         users = savedUsers ? JSON.parse(savedUsers) : {};
-        // Pastikan admin ada
         if (!users.admin) users.admin = { pass: 'admin123', role: 'admin', loginCount: 0 };
         const savedUser = localStorage.getItem(USER_KEY);
         currentUser = savedUser ? JSON.parse(savedUser) : null;
@@ -1065,7 +1061,7 @@
     }
 
     // ==================================================================
-    // 5. PASSWORD HASHING (SHA-256)
+    // 5. PASSWORD HASHING
     // ==================================================================
     async function hashPassword(password) {
       const encoder = new TextEncoder();
@@ -1080,7 +1076,7 @@
     }
 
     // ==================================================================
-    // 6. ROLE-BASED PERMISSIONS
+    // 6. PERMISSIONS
     // ==================================================================
     function checkPermission(action, category) {
       if (!currentUser) return false;
@@ -1143,7 +1139,7 @@
     }
 
     // ==================================================================
-    // 10. PROCEDURE DATA & KML (disingkat, sama seperti sebelumnya)
+    // 10. PROCEDURE DATA & KML
     // ==================================================================
     const PROCEDURE_DATA = [
       { id: 'terima_laporan', label: 'Terima Laporan', items: ['Catat waktu', 'Catat lokasi', 'Catat jenis gangguan'] },
@@ -1207,7 +1203,7 @@
     </kml>`;
 
     // ==================================================================
-    // 11. CORE FUNCTIONS (sama seperti sebelumnya, disingkat)
+    // 11. CORE FUNCTIONS (disingkat)
     // ==================================================================
     function getRecords(cat) {
       const mapping = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan' };
@@ -1436,7 +1432,7 @@
     }
 
     // ==================================================================
-    // 12. MAP FUNCTIONS (sama, disingkat)
+    // 12. MAP FUNCTIONS (disingkat, sama)
     // ==================================================================
     function initMap() {
       try {
@@ -3957,6 +3953,156 @@
             document.getElementById('form-spec').value = foundItem.spec;
             return;
           }
+        }
+      });
+
+      // ==================================================================
+      // ========== PERBAIKAN: SUBMIT FORM UTAMA ==========
+      // ==================================================================
+      document.getElementById('data-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submit-form-btn');
+        if (submitBtn.disabled) return;
+
+        if (!validateForm()) return;
+
+        // Tampilkan loading
+        document.getElementById('submit-btn-text').classList.add('hidden');
+        document.getElementById('submit-btn-loading').classList.remove('hidden');
+        submitBtn.disabled = true;
+
+        try {
+          const cat = document.getElementById('form-category').value;
+          const isStock = ['Patch Cord', 'Stok Spare'].includes(cat);
+          const isOpmols = cat === 'OPM/OLS';
+          const isAlkur = cat === 'Alkur/Material';
+          const isPatch = cat === 'Patch Cord';
+          const isSpare = cat === 'Stok Spare';
+          const isProcedureCat = getProcedureForCategory(cat);
+
+          // Kumpulkan data dari form
+          const record = {
+            date: document.getElementById('form-date').value,
+            qty: parseInt(document.getElementById('form-qty').value) || 1,
+            notes: document.getElementById('form-notes').value || '',
+            postBy: currentUser?.name || 'Anonim',
+            createdAt: Date.now()
+          };
+
+          // --- Kategori spesifik ---
+          if (isOpmols) {
+            record.ruas = document.getElementById('form-ruas').value;
+            record.dari = document.getElementById('form-dari').value;
+            record.ke = document.getElementById('form-ke').value;
+            record.port = document.getElementById('form-port').value;
+            record.slot = parseInt(document.getElementById('form-slot').value) || 0;
+            record.rak = document.getElementById('form-rak').value;
+          } else if (isAlkur) {
+            record.alkurNama = document.getElementById('form-alkur-nama').value;
+            record.alkurTipe = document.getElementById('form-alkur-tipe').value;
+            record.alkurSeri = document.getElementById('form-alkur-seri').value;
+            record.alkurLokasi = document.getElementById('form-alkur-lokasi').value;
+            record.alkurKondisi = document.getElementById('form-alkur-kondisi').value;
+            record.spec = record.alkurNama;
+          } else if (isPatch) {
+            let spec = document.getElementById('form-patch-type').value;
+            if (spec === 'Lainnya') spec = document.getElementById('form-patch-other').value;
+            let length = document.getElementById('form-patch-length').value;
+            if (length === 'Lainnya') length = document.getElementById('form-patch-length-other').value;
+            record.spec = spec;
+            record.length = length;
+            record.trType = document.getElementById('form-tr-type').value;
+            record.warehouse = document.getElementById('form-warehouse-hidden').value;
+            record.barcode = '';
+            if (record.trType === 'Keluar' && !record.notes) {
+              throw new Error('Keterangan wajib diisi untuk pengeluaran.');
+            }
+          } else if (isSpare) {
+            record.barcode = document.getElementById('form-barcode').value;
+            record.spec = document.getElementById('form-spec').value;
+            record.trType = document.getElementById('form-tr-type').value;
+            record.warehouse = document.getElementById('form-warehouse-hidden').value;
+            record.condition = 'Baik';
+            if (record.trType === 'Keluar' && !record.notes) {
+              throw new Error('Keterangan wajib diisi untuk pengeluaran.');
+            }
+          } else {
+            // Non-stock: OF Cut, Pihak Ke-3, Temuan, Joint, Handhole
+            record.location = document.getElementById('form-location').value;
+            record.coords = document.getElementById('form-coords').value;
+            record.spec = document.getElementById('form-alkur-nama')?.value ||
+              document.getElementById('form-spec')?.value || '';
+            if (isProcedureCat) {
+              const procVal = document.getElementById('form-procedure').value;
+              if (procVal) {
+                try { record.procedure = JSON.parse(procVal); } catch { record.procedure = procVal; }
+              }
+            }
+          }
+
+          // --- Simpan atau Update ---
+          if (editId !== null) {
+            // Update existing
+            const mapping = {
+              'Data OF Cut': 'OF Cut',
+              'Pekerjaan Pihak Ke-3': 'Pihak Ke-3',
+              'Temuan Lapangan': 'Temuan'
+            };
+            const realCat = mapping[cat] || cat;
+            if (isStock) {
+              const targetCat = stockHistory[cat] ? cat : 'Stok Spare';
+              if (stockHistory[targetCat]) {
+                stockHistory[targetCat][editId] = { ...stockHistory[targetCat][editId], ...record };
+              }
+            } else {
+              if (appData[realCat]) {
+                appData[realCat][editId] = { ...appData[realCat][editId], ...record };
+              }
+            }
+            saveData();
+            showToast('✅ Data berhasil diperbarui', 'success');
+          } else {
+            // Add new
+            if (isStock) {
+              if (record.trType === 'Keluar') {
+                const currentStock = getCurrentStock(record.barcode, record.spec, record.warehouse);
+                if (currentStock < record.qty) {
+                  throw new Error(`Stok tidak mencukupi! Tersisa ${currentStock} ${record.spec}`);
+                }
+                if (currentStock - record.qty < 5) {
+                  showToast(`⚠️ PERINGATAN: Stok ${record.spec} akan tersisa ${currentStock - record.qty} PCS (di bawah 5)`, 'warning');
+                }
+              }
+              const targetCat = stockHistory[cat] ? cat : 'Stok Spare';
+              if (!stockHistory[targetCat]) stockHistory[targetCat] = [];
+              stockHistory[targetCat].push({ ...record, time: new Date().toISOString() });
+              saveData();
+              showToast(`✅ Transaksi ${record.trType} ${record.spec} berhasil`, 'success');
+            } else {
+              const mapping = {
+                'Data OF Cut': 'OF Cut',
+                'Pekerjaan Pihak Ke-3': 'Pihak Ke-3',
+                'Temuan Lapangan': 'Temuan'
+              };
+              const realCat = mapping[cat] || cat;
+              if (!appData[realCat]) appData[realCat] = [];
+              appData[realCat].unshift(record);
+              saveData();
+              showToast('✅ Data berhasil disimpan', 'success');
+            }
+          }
+
+          closeForm();
+          renderTable();
+          renderAllStats();
+
+        } catch (err) {
+          showToast('❌ Gagal menyimpan: ' + err.message, 'error');
+        } finally {
+          document.getElementById('submit-btn-text').classList.remove('hidden');
+          document.getElementById('submit-btn-loading').classList.add('hidden');
+          submitBtn.disabled = false;
         }
       });
 
