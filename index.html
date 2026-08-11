@@ -19,7 +19,7 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase SDKs (compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
@@ -836,26 +836,26 @@
 
 <script>
   // ==================================================================
-  //  BUCIN v14.0 — ALL CHANGES APPLIED
-  //  - Login page fixed, Face ID removed
-  //  - Change Password only for logged-in users
-  //  - Admin: username Admin/admin, password @patroli123
-  //  - Retur button opens new page with 2 options: Input Retur & Riwayat (with Excel export)
+  //  BUCIN v14.0 — DENGAN KONFIGURASI FIREBASE ASLI
+  //  - Firebase project: bucin-18282
+  //  - Semua perubahan sebelumnya tetap
   // ==================================================================
 
   (function() {
     'use strict';
 
     // ==================================================================
-    // 1. FIREBASE CONFIG (GANTI DENGAN KONFIGURASI ANDA)
+    // 1. FIREBASE CONFIG (SUDAH DIISI DENGAN KONFIGURASI ANDA)
     // ==================================================================
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
+      authDomain: "bucin-18282.firebaseapp.com",
+      databaseURL: "https://bucin-18282-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "bucin-18282",
+      storageBucket: "bucin-18282.firebasestorage.app",
+      messagingSenderId: "545528630169",
+      appId: "1:545528630169:web:2ea7db49f27121ad062108",
+      measurementId: "G-EV8X7TEGV1"
     };
 
     // ==================================================================
@@ -937,16 +937,12 @@
     // ==================================================================
     function initFirebase() {
       try {
-        if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "YOUR_API_KEY") {
-          console.warn("⚠️ Firebase belum dikonfigurasi. Data hanya disimpan di localStorage.");
-          return false;
-        }
         if (!firebase.apps.length) {
           firebase.initializeApp(firebaseConfig);
         }
         db = firebase.database();
         firebaseInitialized = true;
-        console.log("🔥 Firebase terhubung!");
+        console.log("🔥 Firebase terhubung! Project:", firebaseConfig.projectId);
         return true;
       } catch (e) {
         console.warn("⚠️ Gagal inisialisasi Firebase:", e);
@@ -1047,7 +1043,6 @@
         users = {};
         currentUser = null;
         returnHistory = []; }
-      // Always ensure admin exists
       if (!users.admin) users.admin = { pass: 'admin123', role: 'admin', loginCount: 0 };
     }
 
@@ -1118,7 +1113,7 @@
     }
 
     // ==================================================================
-    // 8. AUTO BACKUP (setiap 1 jam)
+    // 8. AUTO BACKUP
     // ==================================================================
     function autoBackup() {
       setInterval(() => {
@@ -1148,7 +1143,7 @@
     }
 
     // ==================================================================
-    // 10. PROCEDURE DATA
+    // 10. PROCEDURE DATA (sama seperti sebelumnya, disingkat)
     // ==================================================================
     const PROCEDURE_DATA = [
       { id: 'terima_laporan', label: 'Terima Laporan', items: ['Catat waktu', 'Catat lokasi', 'Catat jenis gangguan'] },
@@ -1181,7 +1176,7 @@
     let selectedProcedures = {};
 
     // ==================================================================
-    // 11. KML DATA
+    // 11. KML DATA (tetap sama, disingkat)
     // ==================================================================
     const KML_STRING = `<?xml version="1.0" encoding="UTF-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -1215,7 +1210,7 @@
     </kml>`;
 
     // ==================================================================
-    // 12. CORE FUNCTIONS
+    // 12. CORE FUNCTIONS (sama seperti sebelumnya, disingkat)
     // ==================================================================
     function getRecords(cat) {
       const mapping = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan' };
@@ -1290,7 +1285,7 @@
       return true;
     }
 
-    // --- Procedure ---
+    // --- Procedure functions (sama seperti sebelumnya, disingkat) ---
     function initProcedureUI() {
       const grid = document.getElementById('procedure-grid');
       if (!grid) return;
@@ -1735,7 +1730,7 @@
     }
 
     // ==================================================================
-    // 14. RENDER STATS & TABLE (with Pagination)
+    // 14. RENDER STATS & TABLE
     // ==================================================================
     function renderAllStats() {
       const ofCutCount = (appData['OF Cut'] || []).length;
@@ -1870,7 +1865,6 @@
         const admin = isAdmin();
         document.getElementById('records-body').innerHTML = pageData.map((r, idx) => {
           const isReturn = r.trType === 'Return';
-          const typeLabel = r.trType || 'Masuk';
           const qtyDisplay = isReturn ? '↩️' + r.qty : (r.trType === 'Keluar' ? '-' + r.qty : '+' + r.qty);
           const actionButtons = admin ? `
                 <button class="icon-button edit-row" onclick="editData(${start + idx})"><i data-lucide="edit-2"></i></button>
@@ -2256,7 +2250,7 @@
     };
 
     // ==================================================================
-    // 17. FORM VALIDATION
+    // 17. FORM VALIDATION (sama seperti sebelumnya, disingkat)
     // ==================================================================
     function validateField(fieldId, errorId, condition) {
       const field = document.getElementById(fieldId);
@@ -2518,7 +2512,6 @@
     }
 
     function showReturnModal() {
-      // Reset state
       returnState.masterBarang = initReturnMasterBarang();
       returnState.returItems = [];
       returnState.pdfGenerated = false;
@@ -2529,7 +2522,6 @@
       returnState.noRetur = generateNoRetur();
       returnState.tglRetur = new Date().toISOString().split('T')[0];
 
-      // Reset form
       document.getElementById('return-no-retur').value = returnState.noRetur;
       document.getElementById('return-tgl-retur').value = returnState.tglRetur;
       document.getElementById('return-barcode-input').value = '';
@@ -2546,10 +2538,8 @@
       stopReturnScanner();
       stopScanner();
 
-      // Default: tampilkan input retur (sembunyikan riwayat)
       document.getElementById('return-input-section').style.display = 'block';
       document.getElementById('return-history-section').style.display = 'none';
-      // Active tab
       document.querySelectorAll('.return-tabs button').forEach(b => b.classList.remove('active'));
       document.querySelector('.return-tabs button[data-tab="proses-retur"]')?.classList.add('active');
       document.querySelectorAll('.return-tab-content').forEach(tc => tc.classList.remove('active'));
@@ -2568,7 +2558,6 @@
       return `RET-${y}${m}${d}-${random}`;
     }
 
-    // Return scanner
     function startReturnScanner() {
       const container = document.getElementById('return-scanner-container');
       if (!container) return;
@@ -2717,7 +2706,6 @@
     }
 
     function renderReturnHistoryFull() {
-      // Untuk kedua tempat (tab data retur dan riwayat)
       const tbody1 = document.getElementById('return-history-body');
       const tbody2 = document.getElementById('return-history-body-full');
       if (!returnHistory.length) {
@@ -2766,7 +2754,6 @@
       checkReturnReadyState();
     }
 
-    // Export Excel untuk riwayat retur
     function exportReturnHistoryExcel() {
       if (!returnHistory.length) {
         showToast('Tidak ada data retur untuk diekspor', 'info');
@@ -2791,10 +2778,8 @@
     // 20. LOGIN & AUTH
     // ==================================================================
     async function handleLogin(username, password) {
-      // Normalisasi username: admin/Admin => admin
       const normalizedUsername = username.toLowerCase();
       if (normalizedUsername === 'admin') {
-        // Cek apakah admin ada
         if (!users.admin) users.admin = { pass: 'admin123', role: 'admin', loginCount: 0 };
         const isMatch = await verifyPassword(password, users.admin.pass);
         if (!isMatch) return { success: false, message: 'Username atau password salah' };
@@ -2803,7 +2788,6 @@
         localStorage.setItem(LOGIN_COUNT_KEY, JSON.stringify(userLoginCount));
         return { success: true, username: 'admin' };
       } else {
-        // User lain
         if (!users[username]) return { success: false, message: 'Username atau password salah' };
         const isMatch = await verifyPassword(password, users[username].pass);
         if (!isMatch) return { success: false, message: 'Username atau password salah' };
@@ -3121,7 +3105,6 @@
       const firebaseReady = initFirebase();
 
       loadDataFromFirebase(() => {
-        // Pastikan admin ada dengan password yang benar
         if (!users.admin) users.admin = { pass: 'admin123', role: 'admin', loginCount: 0 };
 
         applySettings();
@@ -3191,7 +3174,7 @@
         lucide.createIcons();
       });
 
-      // --- Change Password (hanya untuk user login) ---
+      // --- Change Password ---
       document.getElementById('change-password-header-btn').addEventListener('click', function() {
         if (!currentUser) {
           showToast('Silakan login terlebih dahulu', 'warning');
@@ -3275,15 +3258,11 @@
       // --- Data actions ---
       document.getElementById('data-add').addEventListener('click', openAddForm);
       document.getElementById('stock-add').addEventListener('click', openAddForm);
-
-      // Tombol Retur: buka halaman baru
       document.getElementById('spare-return').addEventListener('click', showReturnModal);
 
-      // Tombol pada modal retur: Input Retur & Riwayat
       document.getElementById('return-btn-input').addEventListener('click', function() {
         document.getElementById('return-input-section').style.display = 'block';
         document.getElementById('return-history-section').style.display = 'none';
-        // Reset form
         resetReturnForm();
       });
       document.getElementById('return-btn-history').addEventListener('click', function() {
@@ -3292,7 +3271,6 @@
         renderReturnHistoryFull();
       });
 
-      // Return tabs di dalam input
       document.querySelectorAll('.return-tabs button').forEach(btn => {
         btn.addEventListener('click', function() {
           document.querySelectorAll('.return-tabs button').forEach(b => b.classList.remove('active'));
@@ -3304,11 +3282,9 @@
         });
       });
 
-      // Export Excel riwayat retur
       document.getElementById('return-export-excel-btn').addEventListener('click', exportReturnHistoryExcel);
       document.getElementById('return-history-export-excel').addEventListener('click', exportReturnHistoryExcel);
 
-      // Return: Gudang
       document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
           e.preventDefault();
@@ -3989,7 +3965,7 @@
         }
       });
 
-      console.log(`🚀 BUCIN ${APP_VERSION} - Semua perubahan diterapkan`);
+      console.log(`🚀 BUCIN ${APP_VERSION} - Firebase terhubung ke ${firebaseConfig.projectId}`);
       console.log('📌 Admin: admin / @patroli123');
       console.log('📌 Tombol Retur membuka halaman baru dengan 2 opsi');
     }
