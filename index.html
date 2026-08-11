@@ -372,7 +372,7 @@
       animation: spin 0.8s ease infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ===== Halaman Retur ===== */
+    /* ===== HALAMAN RETUR ===== */
     .retur-page { display: none; padding: 20px; max-width: 900px; margin: 0 auto; }
     .retur-page.active { display: block; }
     .retur-page .back-btn { margin-bottom: 20px; }
@@ -382,6 +382,71 @@
     .retur-page .retur-tabs button.active { color: var(--blue); border-bottom-color: var(--blue); }
     .retur-page .retur-content { display: none; }
     .retur-page .retur-content.active { display: block; }
+
+    /* ===== WAREHOUSE POPUP ===== */
+    .warehouse-popup {
+      position: fixed; z-index: 200; inset: 0; background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px); display: grid; place-items: center; padding: 20px;
+      animation: fadeIn .2s ease;
+    }
+    .warehouse-popup .popup-card {
+      background: white; border-radius: 20px; padding: 30px 28px;
+      max-width: 420px; width: 100%; box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .warehouse-popup .popup-card h2 {
+      font-family: var(--font-heading); font-size: 1.2rem; margin: 0 0 4px; color: var(--ink);
+    }
+    .warehouse-popup .popup-card p {
+      font-size: 0.8rem; color: var(--muted); margin: 0 0 16px;
+    }
+    .warehouse-popup .popup-card .btn-group {
+      display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;
+    }
+    .warehouse-popup .popup-card .btn-group button {
+      padding: 10px 14px; border: 2px solid var(--line); border-radius: 10px;
+      background: white; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+      transition: all .2s; color: var(--ink);
+    }
+    .warehouse-popup .popup-card .btn-group button:hover {
+      border-color: var(--blue); background: #f0f7ff;
+    }
+    .warehouse-popup .popup-card .btn-group button.active {
+      border-color: var(--blue); background: #e6f1ff; box-shadow: 0 0 0 3px rgba(24,119,242,0.15);
+    }
+    .warehouse-popup .popup-card .popup-actions {
+      display: flex; gap: 8px; justify-content: flex-end;
+    }
+    .warehouse-popup .popup-card .popup-actions .btn-cancel {
+      padding: 8px 18px; border: 0; border-radius: 8px; background: #e8edf3;
+      font-weight: 600; font-size: 0.8rem; cursor: pointer; color: #4b5a6e;
+    }
+    .warehouse-popup .popup-card .popup-actions .btn-confirm {
+      padding: 8px 18px; border: 0; border-radius: 8px; background: var(--blue);
+      font-weight: 700; font-size: 0.8rem; cursor: pointer; color: white;
+      transition: .2s; opacity: 0.5; pointer-events: none;
+    }
+    .warehouse-popup .popup-card .popup-actions .btn-confirm:not(:disabled) {
+      opacity: 1; pointer-events: auto;
+    }
+    .warehouse-popup .popup-card .popup-actions .btn-confirm:not(:disabled):hover {
+      background: var(--blue-dark);
+    }
+    @keyframes fadeIn { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
+    .dark-mode .warehouse-popup .popup-card {
+      background: #1e242d; color: var(--ink);
+    }
+    .dark-mode .warehouse-popup .popup-card .btn-group button {
+      background: #2a313c; border-color: #3d4655; color: var(--ink);
+    }
+    .dark-mode .warehouse-popup .popup-card .btn-group button:hover {
+      border-color: var(--blue); background: #253549;
+    }
+    .dark-mode .warehouse-popup .popup-card .popup-actions .btn-cancel {
+      background: #2a313c; color: #b0baca;
+    }
+
+    .hidden-field { display: none !important; }
   </style>
 </head>
 <body>
@@ -808,7 +873,7 @@
 
 <script>
   // ==================================================================
-  //  BUCIN v14.4 — PERBAIKAN TOMBOL BATAL & RETUR HALAMAN TERPISAH
+  //  BUCIN v14.5 — PERBAIKAN TOMBOL TAMBAH TRANSAKSI & RETUR
   // ==================================================================
 
   (function() {
@@ -831,7 +896,7 @@
     // ==================================================================
     // 2. CONSTANTS & STATE
     // ==================================================================
-    const APP_VERSION = 'v14.4';
+    const APP_VERSION = 'v14.5';
     const CLOUD_DATA_KEY = 'bucin_data';
     const CLOUD_HISTORY_KEY = 'bucin_history';
     const USER_KEY = 'bucin_user';
@@ -920,7 +985,7 @@
     }
 
     // ==================================================================
-    // 4. DATA PERSISTENCE (disingkat, sama seperti sebelumnya)
+    // 4. DATA PERSISTENCE
     // ==================================================================
     function loadDataFromFirebase(callback) {
       if (!firebaseInitialized || !db) {
@@ -1193,7 +1258,7 @@
     </kml>`;
 
     // ==================================================================
-    // 11. CORE FUNCTIONS (disingkat, sama seperti sebelumnya)
+    // 11. CORE FUNCTIONS
     // ==================================================================
     function getRecords(cat) {
       const mapping = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan' };
@@ -1268,7 +1333,7 @@
       return true;
     }
 
-    // --- Procedure functions (sama) ---
+    // --- Procedure functions ---
     function initProcedureUI() {
       const grid = document.getElementById('procedure-grid');
       if (!grid) return;
@@ -1982,7 +2047,7 @@
     }
 
     // ==================================================================
-    // 15. FORM HANDLING
+    // 15. FORM HANDLING — PERBAIKAN TOMBOL TAMBAH TRANSAKSI
     // ==================================================================
     function openAddForm() {
       if (!checkPermission('add', currentCategory)) {
@@ -2069,6 +2134,7 @@
       }
     }
 
+    // ===== PERBAIKAN: POPUP GUDANG dengan CSS & event yang benar =====
     function showWarehousePopup(callback) {
       const existing = document.querySelector('.warehouse-popup');
       if (existing) existing.remove();
@@ -2080,36 +2146,55 @@
             <h2>🏢 Pilih Lokasi Gudang</h2>
             <p>Pilih gudang untuk transaksi ini</p>
             <div class="btn-group">
-              <button data-warehouse="CLS Mami">CLS Mami</button>
-              <button data-warehouse="DC Manado Centrum">DC Manado Centrum</button>
-              <button data-warehouse="CLS Kauditan">CLS Kauditan</button>
+              <button type="button" data-warehouse="CLS Mami">CLS Mami</button>
+              <button type="button" data-warehouse="DC Manado Centrum">DC Manado Centrum</button>
+              <button type="button" data-warehouse="CLS Kauditan">CLS Kauditan</button>
             </div>
             <div class="popup-actions">
-              <button class="btn-cancel" id="warehouse-cancel">Batal</button>
-              <button class="btn-confirm" id="warehouse-confirm" disabled>Konfirmasi</button>
+              <button type="button" class="btn-cancel" id="warehouse-cancel">Batal</button>
+              <button type="button" class="btn-confirm" id="warehouse-confirm" disabled>Konfirmasi</button>
             </div>
           </div>
         `;
       document.body.appendChild(popup);
 
       let selected = null;
-      popup.querySelectorAll('.btn-group button').forEach(btn => {
-        btn.addEventListener('click', function() {
-          popup.querySelectorAll('.btn-group button').forEach(b => b.classList.remove('active'));
+      const btns = popup.querySelectorAll('.btn-group button');
+      const confirmBtn = document.getElementById('warehouse-confirm');
+      const cancelBtn = document.getElementById('warehouse-cancel');
+
+      btns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          btns.forEach(b => b.classList.remove('active'));
           this.classList.add('active');
           selected = this.dataset.warehouse;
-          document.getElementById('warehouse-confirm').disabled = false;
+          if (confirmBtn) confirmBtn.disabled = false;
         });
       });
 
-      popup.querySelector('#warehouse-cancel').addEventListener('click', function() {
-        popup.remove();
-        if (callback) callback();
-      });
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          popup.remove();
+          if (callback) callback();
+        });
+      }
 
-      popup.querySelector('#warehouse-confirm').addEventListener('click', function() {
-        if (selected) {
-          document.getElementById('form-warehouse-hidden').value = selected;
+      if (confirmBtn) {
+        confirmBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (selected) {
+            document.getElementById('form-warehouse-hidden').value = selected;
+            popup.remove();
+            if (callback) callback();
+          }
+        });
+      }
+
+      // Tutup popup jika klik di luar
+      popup.addEventListener('click', function(e) {
+        if (e.target === popup) {
           popup.remove();
           if (callback) callback();
         }
@@ -2233,7 +2318,7 @@
     };
 
     // ==================================================================
-    // 16. FORM VALIDATION (sama)
+    // 16. FORM VALIDATION
     // ==================================================================
     function validateField(fieldId, errorId, condition) {
       const field = document.getElementById(fieldId);
@@ -2353,7 +2438,7 @@
     }
 
     // ==================================================================
-    // 17. SCANNER (sama)
+    // 17. SCANNER
     // ==================================================================
     function stopScanner() {
       if (quaggaRunning) {
@@ -2476,7 +2561,7 @@
     let PATCH_LENGTHS = ['1m', '2m', '3m', '5m', '10m', '15m', '20m'];
 
     // ==================================================================
-    // 18. RETURN SYSTEM (HALAMAN TERPISAH)
+    // 18. RETURN SYSTEM — PERBAIKAN: tidak redirect ke login
     // ==================================================================
     function initReturnMasterBarang() {
       const hist = stockHistory['Stok Spare'] || [];
@@ -2495,6 +2580,7 @@
     }
 
     function showReturnPage() {
+      // Sembunyikan login & app shell, tampilkan retur
       document.getElementById('login-screen').classList.add('hidden');
       document.getElementById('app-shell').classList.add('hidden');
       document.getElementById('retur-page').classList.add('active');
@@ -2530,6 +2616,7 @@
 
     function hideReturnPage() {
       document.getElementById('retur-page').classList.remove('active');
+      // Kembali ke app shell jika user login, jika tidak tetap di login
       if (currentUser) {
         document.getElementById('app-shell').classList.remove('hidden');
       } else {
@@ -3087,20 +3174,15 @@
     }
 
     // ==================================================================
-    // 24. INIT & EVENT BINDING
+    // 24. INIT & EVENT BINDING — PERBAIKAN: retur tidak redirect ke login
     // ==================================================================
     function init() {
       const firebaseReady = initFirebase();
 
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('page') === 'retur') {
-        if (!currentUser) {
-          window.location.href = window.location.pathname;
-          return;
-        }
-        document.getElementById('login-screen').classList.add('hidden');
-        document.getElementById('app-shell').classList.add('hidden');
-        document.getElementById('retur-page').classList.add('active');
+        // JANGAN redirect ke login — tampilkan retur page langsung
+        // Tetapi tetap load data dari Firebase/localStorage untuk kebutuhan data
         loadDataFromFirebase(() => {
           applySettings();
           renderAllStats();
@@ -3134,10 +3216,21 @@
           stopScanner();
           renderReturnHistoryFull();
           bindReturnEvents();
+
+          // Jika user sudah login, tampilkan badge di header retur? Tidak ada header di retur.
+          // Tapi kita bisa tetap set currentUser jika ada.
+          if (currentUser) {
+            // retur page tidak punya header, tapi kita simpan state
+          }
+          // Tampilkan retur page
+          document.getElementById('login-screen').classList.add('hidden');
+          document.getElementById('app-shell').classList.add('hidden');
+          document.getElementById('retur-page').classList.add('active');
         });
         return;
       }
 
+      // Halaman utama
       loadDataFromFirebase(() => {
         applySettings();
         renderAllStats();
@@ -3257,7 +3350,6 @@
         showToast('✅ Password berhasil diubah!', 'success');
       });
 
-      // === PERBAIKAN TOMBOL BATAL ===
       document.getElementById('close-change-password').addEventListener('click', function() {
         document.getElementById('change-password-modal').classList.add('hidden');
       });
@@ -3296,13 +3388,10 @@
       document.getElementById('data-add').addEventListener('click', openAddForm);
       document.getElementById('stock-add').addEventListener('click', openAddForm);
 
-      // === PERBAIKAN TOMBOL RETUR ===
+      // --- Return button: buka halaman retur di tab/window baru ---
       document.getElementById('spare-return').addEventListener('click', function() {
-        if (currentUser) {
-          window.open(window.location.pathname + '?page=retur', '_blank');
-        } else {
-          showToast('Silakan login terlebih dahulu', 'warning');
-        }
+        // Buka halaman retur di tab baru
+        window.open(window.location.pathname + '?page=retur', '_blank');
       });
 
       // --- Export ---
@@ -3649,7 +3738,7 @@
         }
       });
 
-      // === PERBAIKAN: SUBMIT FORM UTAMA ===
+      // --- SUBMIT FORM UTAMA ---
       document.getElementById('data-form').addEventListener('submit', async function(e) {
         e.preventDefault();
         const submitBtn = document.getElementById('submit-form-btn');
@@ -3788,7 +3877,7 @@
         }
       });
 
-      // === PERBAIKAN: TOMBOL BATAL DI FORM ===
+      // --- CLOSE FORM ---
       document.getElementById('close-form').addEventListener('click', function() {
         closeForm();
       });
