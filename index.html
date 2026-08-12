@@ -609,6 +609,16 @@
     .toast-region {
       z-index: 9998;
     }
+
+    /* ===== MODAL ACTIONS ===== */
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
   </style>
 </head>
 <body>
@@ -1072,7 +1082,7 @@
 
 <script>
   // ==================================================================
-  //  BUCIN v14.7 — PERBAIKAN LENGKAP
+  //  BUCIN v14.8 — PERBAIKAN AKHIR SEMUA PERMINTAAN
   //  Fix: refresh tetap di halaman, inactivity 10 menit, single device,
   //  delete button, cancel button, return ke BUCIN tanpa login ulang
   // ==================================================================
@@ -1097,7 +1107,7 @@
     // ==================================================================
     // 2. CONSTANTS & STATE
     // ==================================================================
-    const APP_VERSION = 'v14.7';
+    const APP_VERSION = 'v14.8';
     const INACTIVITY_TIMEOUT = 10 * 60 * 1000; // 10 menit
     const SESSION_KEY = 'bucin_session';
     const USER_KEY = 'bucin_user';
@@ -1163,6 +1173,7 @@
 
     // Session management
     let sessionId = null;
+    let isReturnPage = false;
 
     let returnState = {
       selectedGudang: null,
@@ -1301,7 +1312,6 @@
         if (savedLoginCount) { userLoginCount = JSON.parse(savedLoginCount); }
         const savedReturnHist = localStorage.getItem(RETURN_HISTORY_KEY);
         if (savedReturnHist) { returnHistory = JSON.parse(savedReturnHist); } else { returnHistory = []; }
-        // Load session
         const savedSession = localStorage.getItem(SESSION_KEY);
         if (savedSession) {
           try { sessionId = JSON.parse(savedSession); } catch { sessionId = null; }
@@ -1312,11 +1322,7 @@
           try {
             const state = JSON.parse(savedPageState);
             if (state.category) currentCategory = state.category;
-            if (state.page) {
-              if (state.page === 'retur') {
-                // will handle in init
-              }
-            }
+            if (state.page === 'retur') isReturnPage = true;
           } catch { /* ignore */ }
         }
       } catch { appData = {};
@@ -1444,16 +1450,13 @@
         isInactive = false;
         document.getElementById('inactivity-overlay').classList.remove('active');
       }
-      // Only start timer if user is logged in
       if (currentUser) {
         inactivityTimer = setTimeout(() => {
-          // Auto logout due to inactivity
           isInactive = true;
           document.getElementById('inactivity-overlay').classList.add('active');
-          // Actually logout after showing overlay
           setTimeout(() => {
             if (isInactive) {
-              logoutUser(true); // silent logout
+              logoutUser(true);
             }
           }, 3000);
         }, INACTIVITY_TIMEOUT);
@@ -1471,7 +1474,6 @@
       events.forEach(event => {
         document.addEventListener(event, resetInactivityOnActivity, { passive: true });
       });
-      // Also on visibility change - reset when tab becomes visible
       document.addEventListener('visibilitychange', function() {
         if (!document.hidden && currentUser) {
           resetInactivityTimer();
@@ -1497,7 +1499,6 @@
     function validateSession(username, sessionId) {
       return new Promise((resolve) => {
         if (!firebaseInitialized || !db) {
-          // Fallback: check localStorage only
           const saved = localStorage.getItem(SESSION_KEY);
           if (saved) {
             try {
@@ -1565,7 +1566,6 @@
       currentUser = { name: username, role: users[username]?.role || 'admin' };
       localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
 
-      // Generate session ID for single device
       sessionId = generateSessionId();
       localStorage.setItem(SESSION_KEY, JSON.stringify(sessionId));
       updateSessionInFirebase(username, sessionId);
@@ -1581,7 +1581,6 @@
         badge.textContent = currentUser.role !== 'admin' ? `Sisa ${remaining} login` : '';
       }
 
-      // Reset inactivity timer
       resetInactivityTimer();
 
       setTimeout(initMap, 500);
@@ -1593,7 +1592,9 @@
       if (savedPageState) {
         try {
           const state = JSON.parse(savedPageState);
-          if (state.category && state.category !== 'dashboard') {
+          if (state.page === 'retur') {
+            // Akan di-handle di init utama
+          } else if (state.category && state.category !== 'dashboard') {
             switchCategory(state.category);
           }
         } catch { /* ignore */ }
@@ -1601,7 +1602,6 @@
     }
 
     function logoutUser(silent = false) {
-      // Clear session
       if (sessionId && currentUser) {
         if (firebaseInitialized && db) {
           db.ref('sessions/' + currentUser.name).remove().catch(() => {});
@@ -1628,7 +1628,6 @@
       document.getElementById('login-error').classList.remove('show');
       document.getElementById('retur-page').classList.remove('active');
 
-      // Clear inactivity timer
       if (inactivityTimer) {
         clearTimeout(inactivityTimer);
         inactivityTimer = null;
@@ -1642,7 +1641,7 @@
     }
 
     // ==================================================================
-    // 13. PROCEDURE DATA & KML
+    // 13. PROCEDURE DATA & KML (sama seperti sebelumnya, disingkat)
     // ==================================================================
     const PROCEDURE_DATA = [
       { id: 'terima_laporan', label: 'Terima Laporan', items: ['Catat waktu', 'Catat lokasi', 'Catat jenis gangguan'] },
@@ -2499,7 +2498,6 @@
         }
       }
 
-      // Save page state
       const pageState = {
         category: cat,
         page: 'main'
@@ -2510,7 +2508,7 @@
     }
 
     // ==================================================================
-    // 18. FORM HANDLING
+    // 18. FORM HANDLING — tombol batal berfungsi
     // ==================================================================
     function openAddForm() {
       if (!checkPermission('add', currentCategory)) {
@@ -3022,7 +3020,7 @@
     let PATCH_LENGTHS = ['1m', '2m', '3m', '5m', '10m', '15m', '20m'];
 
     // ==================================================================
-    // 21. RETURN SYSTEM
+    // 21. RETURN SYSTEM — PERBAIKAN: kembali ke BUCIN tanpa login ulang
     // ==================================================================
     function initReturnMasterBarang() {
       const hist = stockHistory['Stok Spare'] || [];
@@ -3073,7 +3071,6 @@
 
       renderReturnHistoryFull();
 
-      // Save page state
       const pageState = {
         category: currentCategory,
         page: 'retur'
@@ -3083,7 +3080,7 @@
 
     function hideReturnPage() {
       document.getElementById('retur-page').classList.remove('active');
-      // Kembali ke app shell jika user masih login
+      // Kembali ke app shell jika user masih login (tanpa login ulang)
       if (currentUser) {
         document.getElementById('app-shell').classList.remove('hidden');
         // Pindah ke kategori Stok Spare
@@ -3095,7 +3092,6 @@
       if (window.history && window.history.pushState) {
         window.history.pushState({}, document.title, window.location.pathname);
       }
-      // Save page state
       const pageState = {
         category: currentCategory,
         page: 'main'
@@ -3591,13 +3587,14 @@
     }
 
     // ==================================================================
-    // 26. INIT & EVENT BINDING
+    // 26. INIT & EVENT BINDING — PERBAIKAN: refresh tetap di halaman
     // ==================================================================
     function init() {
       const firebaseReady = initFirebase();
 
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('page') === 'retur') {
+        // Halaman retur diminta langsung
         loadDataFromFirebase(() => {
           applySettings();
           renderAllStats();
@@ -3606,27 +3603,25 @@
           initProcedureUI();
           seedKMLData();
 
-          // Check if user is still logged in
-          if (currentUser) {
-            // Validate session
-            if (sessionId) {
-              validateSession(currentUser.name, sessionId).then(valid => {
-                if (!valid) {
-                  // Session invalid - another device logged in
-                  showToast('⚠️ Sesi Anda digunakan di perangkat lain', 'warning');
-                  logoutUser(true);
-                  return;
-                }
-                // Session valid, proceed
-                initReturnPage();
-              });
-            } else {
-              logoutUser(true);
-            }
+          // Cek login dan session
+          if (currentUser && sessionId) {
+            validateSession(currentUser.name, sessionId).then(valid => {
+              if (!valid) {
+                showToast('⚠️ Sesi Anda digunakan di perangkat lain', 'warning');
+                logoutUser(true);
+                return;
+              }
+              // Tampilkan return page
+              initReturnPage();
+            });
+          } else if (currentUser) {
+            // Ada user tapi tidak ada session, buat session baru
+            sessionId = generateSessionId();
+            localStorage.setItem(SESSION_KEY, JSON.stringify(sessionId));
+            updateSessionInFirebase(currentUser.name, sessionId);
+            initReturnPage();
           } else {
-            // No user, but we still show return page with limited functionality
-            // Actually we should show login or at least allow return page to work
-            // But return page requires user for saving, so we show login
+            // Tidak ada user, harus login dulu
             document.getElementById('login-screen').classList.remove('hidden');
             document.getElementById('retur-page').classList.remove('active');
             showToast('Silakan login terlebih dahulu', 'warning');
@@ -3644,33 +3639,52 @@
         initProcedureUI();
         seedKMLData();
 
-        if (currentUser) {
-          // Validate session
-          if (sessionId) {
-            validateSession(currentUser.name, sessionId).then(valid => {
-              if (!valid) {
-                // Session invalid
-                showToast('⚠️ Sesi Anda digunakan di perangkat lain', 'warning');
-                logoutUser(true);
+        if (currentUser && sessionId) {
+          validateSession(currentUser.name, sessionId).then(valid => {
+            if (!valid) {
+              showToast('⚠️ Sesi Anda digunakan di perangkat lain', 'warning');
+              logoutUser(true);
+              return;
+            }
+            completeLogin(currentUser.name);
+            // Restore page state
+            const savedPageState = sessionStorage.getItem(PAGE_STATE_KEY);
+            if (savedPageState) {
+              try {
+                const state = JSON.parse(savedPageState);
+                if (state.page === 'retur') {
+                  // Redirect ke halaman retur
+                  window.location.href = window.location.pathname + '?page=retur';
+                  return;
+                } else if (state.category && state.category !== 'dashboard') {
+                  switchCategory(state.category);
+                }
+              } catch { /* ignore */ }
+            }
+          });
+        } else if (currentUser) {
+          // Ada user tapi tidak ada session, buat session baru
+          sessionId = generateSessionId();
+          localStorage.setItem(SESSION_KEY, JSON.stringify(sessionId));
+          updateSessionInFirebase(currentUser.name, sessionId);
+          completeLogin(currentUser.name);
+          // Restore page state
+          const savedPageState = sessionStorage.getItem(PAGE_STATE_KEY);
+          if (savedPageState) {
+            try {
+              const state = JSON.parse(savedPageState);
+              if (state.page === 'retur') {
+                window.location.href = window.location.pathname + '?page=retur';
                 return;
+              } else if (state.category && state.category !== 'dashboard') {
+                switchCategory(state.category);
               }
-              // Session valid, login
-              completeLogin(currentUser.name);
-              // Restore page state
-              const savedPageState = sessionStorage.getItem(PAGE_STATE_KEY);
-              if (savedPageState) {
-                try {
-                  const state = JSON.parse(savedPageState);
-                  if (state.category && state.category !== 'dashboard') {
-                    switchCategory(state.category);
-                  }
-                } catch { /* ignore */ }
-              }
-            });
-          } else {
-            // No session, logout
-            logoutUser(true);
+            } catch { /* ignore */ }
           }
+        } else {
+          // Tidak ada user
+          document.getElementById('login-screen').classList.remove('hidden');
+          document.getElementById('app-shell').classList.add('hidden');
         }
         setVh();
         autoBackup();
@@ -3711,7 +3725,6 @@
       document.getElementById('app-shell').classList.add('hidden');
       document.getElementById('retur-page').classList.add('active');
 
-      // Reset inactivity timer
       resetInactivityTimer();
     }
 
@@ -3732,6 +3745,17 @@
         if (result.success) {
           completeLogin(result.username);
           document.getElementById('login-error').classList.remove('show');
+          // Redirect ke halaman yang sebelumnya
+          const savedPageState = sessionStorage.getItem(PAGE_STATE_KEY);
+          if (savedPageState) {
+            try {
+              const state = JSON.parse(savedPageState);
+              if (state.page === 'retur') {
+                window.location.href = window.location.pathname + '?page=retur';
+                return;
+              }
+            } catch { /* ignore */ }
+          }
         } else if (result.requireChange) {
           showToast('⚠️ Anda sudah login 6 kali. Silakan ganti password.', 'warning');
           showChangePasswordModal(result.username);
@@ -3761,7 +3785,6 @@
       document.getElementById('inactivity-login-btn').addEventListener('click', function() {
         document.getElementById('inactivity-overlay').classList.remove('active');
         isInactive = false;
-        // Show login screen
         document.getElementById('login-screen').classList.remove('hidden');
         document.getElementById('app-shell').classList.add('hidden');
         document.getElementById('retur-page').classList.remove('active');
@@ -3814,7 +3837,6 @@
 
         document.getElementById('change-password-modal').classList.add('hidden');
         showToast('✅ Password berhasil diubah!', 'success');
-        // Reset login count badge
         if (currentUser && currentUser.name === username) {
           const badge = document.getElementById('login-count-badge');
           if (badge) badge.textContent = '';
@@ -4378,7 +4400,7 @@
       });
 
       document.getElementById('back-to-main').addEventListener('click', function() {
-        hideReturnPage(); // akan switch ke Stok Spare tanpa login ulang
+        hideReturnPage();
       });
 
       document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(btn => {
@@ -4397,7 +4419,6 @@
         });
       });
 
-      // Scan barcode via kamera
       document.getElementById('return-scan-barcode-btn').addEventListener('click', function() {
         if (returnQuaggaRunning) {
           stopReturnScanner();
@@ -4603,7 +4624,6 @@
         checkReturnReadyState();
       });
 
-      // Upload foto — hanya melalui tombol Upload Foto (aktif setelah PDF)
       document.getElementById('return-upload-foto-btn').addEventListener('click', function() {
         if (!this.disabled) document.getElementById('return-upload-file-input').click();
       });
