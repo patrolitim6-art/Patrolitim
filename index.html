@@ -448,7 +448,7 @@
 
     .hidden-field { display: none !important; }
 
-    /* ===== PERBAIKAN: SCAN BARCODE KOLOM LEBIH KECIL ===== */
+    /* ===== SCANNER COMPACT ===== */
     .return-scan-row-compact {
       display: flex;
       gap: 6px;
@@ -484,6 +484,68 @@
         flex: 1 1 100%;
         max-width: 100%;
       }
+    }
+
+    /* ===== SCANNER TAMPAKAN LEBIH BAGUS ===== */
+    .scanner-container {
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    #camera-preview, #return-camera-preview {
+      min-height: 280px;
+      background: #0a0a0a;
+    }
+    .scanner-frame {
+      top: 15%;
+      left: 12%;
+      width: 76%;
+      height: 60%;
+      border: 2px dashed rgba(39, 168, 68, 0.5);
+      border-radius: 12px;
+      box-shadow: 0 0 0 4000px rgba(0,0,0,0.55), 0 0 40px rgba(39,168,68,0.2);
+      background: rgba(39,168,68,0.05);
+    }
+    .scanner-frame .corner {
+      width: 28px;
+      height: 28px;
+      border-color: #27a844;
+      border-width: 4px;
+      border-style: solid;
+    }
+    .scanner-frame .corner.tl { top: -2px; left: -2px; border-right: 0; border-bottom: 0; border-radius: 4px 0 0 0; }
+    .scanner-frame .corner.tr { top: -2px; right: -2px; border-left: 0; border-bottom: 0; border-radius: 0 4px 0 0; }
+    .scanner-frame .corner.bl { bottom: -2px; left: -2px; border-right: 0; border-top: 0; border-radius: 0 0 0 4px; }
+    .scanner-frame .corner.br { bottom: -2px; right: -2px; border-left: 0; border-top: 0; border-radius: 0 0 4px 0; }
+    .scanner-label {
+      bottom: 12%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      padding: 6px 18px;
+      border-radius: 30px;
+      border: 1px solid rgba(39,168,68,0.4);
+      font-size: 0.7rem;
+      letter-spacing: 0.5px;
+    }
+    .scanner-label .scan-icon {
+      display: inline-block;
+      animation: pulse-icon 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse-icon {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.9); }
+    }
+    .stop-camera-btn {
+      bottom: 16px;
+      right: 16px;
+      background: rgba(220, 53, 69, 0.85);
+      backdrop-filter: blur(4px);
+      padding: 6px 14px;
+      font-size: 0.65rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .stop-camera-btn:hover {
+      background: #b02a37;
     }
   </style>
 </head>
@@ -882,7 +944,7 @@
       </div>
       <div class="form-group"><label>Pilih Gudang <span style="color:red">*</span></label><div class="gudang-grid-return" id="return-gudang-grid"><button type="button" class="gudang-btn" data-gudang="CLS Mami">CLS Mami</button><button type="button" class="gudang-btn" data-gudang="DC Manado Centrum">DC Manado Centrum</button><button type="button" class="gudang-btn" data-gudang="CLS Kauditan">CLS Kauditan</button></div></div>
 
-      <!-- ===== PERBAIKAN: Kolom scan barcode diperkecil 3X, tombol choose file dihilangkan ===== -->
+      <!-- Kolom scan barcode diperkecil 3X, tanpa tombol choose file -->
       <div class="form-group" style="max-width: 400px;">
         <label>Scan Barcode</label>
         <div class="return-scan-row-compact">
@@ -903,7 +965,6 @@
           <button type="button" class="stop-camera-btn" id="return-stop-camera-btn">✕ Tutup Kamera</button>
         </div>
       </div>
-      <!-- ===== AKHIR PERBAIKAN ===== -->
 
       <div class="return-form-grid">
         <div class="form-group"><label>Nama Barang</label><input class="field-control" id="return-nama-barang" readonly style="background:#f1f5f9;"></div>
@@ -915,7 +976,7 @@
       <div class="form-group"><label>Daftar Barang Retur</label><div class="return-item-list"><table><thead><tr><th>#</th><th>Barcode</th><th>Nama</th><th>Qty</th><th>Harga</th><th>Aksi</th></tr></thead><tbody id="return-list-body"><tr class="empty-row"><td colspan="6">Belum ada barang</td></tr></tbody></table></div></div>
       <div class="form-group" id="return-preview-container" style="display:none;"><label>Foto Tanda Tangan</label><div class="return-photo-preview-container" id="return-photo-preview"></div></div>
       <div class="return-action-bar"><div class="status" id="return-status-message">⏳ Pilih gudang dan scan barang</div><button type="button" class="action-btn btn-pdf" id="return-download-pdf-btn" disabled>📄 Download PDF</button><button type="button" class="action-btn btn-upload" id="return-upload-foto-btn" disabled>📤 Upload Foto</button><button type="button" class="action-btn btn-save" id="return-simpan-btn" disabled>💾 Simpan</button><button type="button" class="action-btn btn-reset" id="return-reset-btn">↺ Reset</button></div>
-      <!-- HANYA upload foto yang tersisa (choose file untuk scan dihapus) -->
+      <!-- Hanya upload foto yang tersisa (tanpa choose file untuk scan) -->
       <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-upload-file-input" />
     </form>
   </div>
@@ -939,8 +1000,7 @@
 
 <script>
   // ==================================================================
-  //  BUCIN v14.5 — PERBAIKAN: kolom scan barcode diperkecil 3X,
-  //  tombol choose file di retur dihilangkan, upload foto hanya via Upload Foto
+  //  BUCIN v14.6 — PERBAIKAN: tombol batal, return ke spare, scanner tampilan
   // ==================================================================
 
   (function() {
@@ -963,7 +1023,7 @@
     // ==================================================================
     // 2. CONSTANTS & STATE
     // ==================================================================
-    const APP_VERSION = 'v14.5';
+    const APP_VERSION = 'v14.6';
     const CLOUD_DATA_KEY = 'bucin_data';
     const CLOUD_HISTORY_KEY = 'bucin_history';
     const USER_KEY = 'bucin_user';
@@ -1052,7 +1112,7 @@
     }
 
     // ==================================================================
-    // 4. DATA PERSISTENCE
+    // 4. DATA PERSISTENCE (disingkat, sama seperti sebelumnya)
     // ==================================================================
     function loadDataFromFirebase(callback) {
       if (!firebaseInitialized || !db) {
@@ -1261,7 +1321,7 @@
     }
 
     // ==================================================================
-    // 10. PROCEDURE DATA & KML
+    // 10. PROCEDURE DATA & KML (disingkat)
     // ==================================================================
     const PROCEDURE_DATA = [
       { id: 'terima_laporan', label: 'Terima Laporan', items: ['Catat waktu', 'Catat lokasi', 'Catat jenis gangguan'] },
@@ -1554,7 +1614,7 @@
     }
 
     // ==================================================================
-    // 12. MAP FUNCTIONS
+    // 12. MAP FUNCTIONS (sama)
     // ==================================================================
     function initMap() {
       try {
@@ -2114,7 +2174,7 @@
     }
 
     // ==================================================================
-    // 15. FORM HANDLING
+    // 15. FORM HANDLING — tombol batal sudah berfungsi
     // ==================================================================
     function openAddForm() {
       if (!checkPermission('add', currentCategory)) {
@@ -2503,7 +2563,7 @@
     }
 
     // ==================================================================
-    // 17. SCANNER
+    // 17. SCANNER (dengan tampilan lebih baik)
     // ==================================================================
     function stopScanner() {
       if (quaggaRunning) {
@@ -2626,7 +2686,7 @@
     let PATCH_LENGTHS = ['1m', '2m', '3m', '5m', '10m', '15m', '20m'];
 
     // ==================================================================
-    // 18. RETURN SYSTEM — PERBAIKAN: kolom scan barcode diperkecil, tombol choose file dihapus
+    // 18. RETURN SYSTEM — PERBAIKAN: tombol kembali ke BUCIN -> switch ke Stok Spare
     // ==================================================================
     function initReturnMasterBarang() {
       const hist = stockHistory['Stok Spare'] || [];
@@ -2680,8 +2740,11 @@
 
     function hideReturnPage() {
       document.getElementById('retur-page').classList.remove('active');
+      // Kembali ke app shell dan aktifkan kategori Stok Spare
       if (currentUser) {
         document.getElementById('app-shell').classList.remove('hidden');
+        // Pindah ke kategori Stok Spare
+        switchCategory('Stok Spare');
       } else {
         document.getElementById('login-screen').classList.remove('hidden');
       }
@@ -3278,7 +3341,6 @@
           renderReturnHistoryFull();
           bindReturnEvents();
 
-          // Tampilkan retur page (sembunyikan login & app shell)
           document.getElementById('login-screen').classList.add('hidden');
           document.getElementById('app-shell').classList.add('hidden');
           document.getElementById('retur-page').classList.add('active');
@@ -3932,7 +3994,7 @@
         }
       });
 
-      // --- CLOSE FORM ---
+      // --- CLOSE FORM (tombol batal) ---
       document.getElementById('close-form').addEventListener('click', function() {
         closeForm();
       });
@@ -3944,6 +4006,7 @@
       console.log('📌 Admin: admin / @patroli123 (password sudah di-hash otomatis)');
       console.log('📌 Tombol Retur membuka halaman baru dengan 2 opsi: Input Retur dan Riwayat');
       console.log('📌 Kolom scan barcode diperkecil 3X, tombol choose file di retur dihapus');
+      console.log('📌 Tombol "Kembali ke BUCIN" mengarah ke menu Stok Spare');
     }
 
     // ==================================================================
@@ -3963,7 +4026,7 @@
       });
 
       document.getElementById('back-to-main').addEventListener('click', function() {
-        hideReturnPage();
+        hideReturnPage(); // akan switch ke Stok Spare
       });
 
       document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(btn => {
@@ -3982,7 +4045,7 @@
         });
       });
 
-      // PERBAIKAN: scan barcode menggunakan Quagga (camera) — tidak ada file chooser
+      // Scan barcode via kamera
       document.getElementById('return-scan-barcode-btn').addEventListener('click', function() {
         if (returnQuaggaRunning) {
           stopReturnScanner();
