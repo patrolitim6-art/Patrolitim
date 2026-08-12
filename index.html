@@ -547,9 +547,81 @@
     .stop-camera-btn:hover {
       background: #b02a37;
     }
+
+    /* ===== HIDDEN FILE INPUT ===== */
+    .hidden-input {
+      display: none !important;
+    }
+
+    /* ===== INACTIVITY OVERLAY ===== */
+    .inactivity-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      display: none;
+      place-items: center;
+    }
+    .inactivity-overlay.active {
+      display: grid;
+    }
+    .inactivity-overlay .card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px 30px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+    }
+    .inactivity-overlay .card h2 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      margin: 0 0 8px;
+      color: var(--ink);
+    }
+    .inactivity-overlay .card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 0 0 20px;
+    }
+    .inactivity-overlay .card .btn {
+      padding: 10px 28px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--blue);
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: .2s;
+    }
+    .inactivity-overlay .card .btn:hover {
+      background: var(--blue-dark);
+    }
+    .dark-mode .inactivity-overlay .card {
+      background: #1e242d;
+      color: var(--ink);
+    }
+
+    /* ===== TOAST POSITION FIX ===== */
+    .toast-region {
+      z-index: 9998;
+    }
   </style>
 </head>
 <body>
+
+<!-- ===== INACTIVITY OVERLAY ===== -->
+<div id="inactivity-overlay" class="inactivity-overlay">
+  <div class="card">
+    <div style="font-size:3rem; margin-bottom:10px;">⏰</div>
+    <h2>Sesi Anda Berakhir</h2>
+    <p>Anda tidak aktif selama 10 menit. Silakan login kembali untuk melanjutkan.</p>
+    <button class="btn" id="inactivity-login-btn">Login Kembali</button>
+  </div>
+</div>
 
 <!-- ===== LOGIN SCREEN ===== -->
 <div id="login-screen" class="login-screen">
@@ -944,7 +1016,7 @@
       </div>
       <div class="form-group"><label>Pilih Gudang <span style="color:red">*</span></label><div class="gudang-grid-return" id="return-gudang-grid"><button type="button" class="gudang-btn" data-gudang="CLS Mami">CLS Mami</button><button type="button" class="gudang-btn" data-gudang="DC Manado Centrum">DC Manado Centrum</button><button type="button" class="gudang-btn" data-gudang="CLS Kauditan">CLS Kauditan</button></div></div>
 
-      <!-- Kolom scan barcode diperkecil 3X, tanpa tombol choose file -->
+      <!-- Kolom scan barcode diperkecil, tanpa tombol choose file -->
       <div class="form-group" style="max-width: 400px;">
         <label>Scan Barcode</label>
         <div class="return-scan-row-compact">
@@ -1000,7 +1072,9 @@
 
 <script>
   // ==================================================================
-  //  BUCIN v14.6 — PERBAIKAN: tombol batal, return ke spare, scanner tampilan
+  //  BUCIN v14.7 — PERBAIKAN LENGKAP
+  //  Fix: refresh tetap di halaman, inactivity 10 menit, single device,
+  //  delete button, cancel button, return ke BUCIN tanpa login ulang
   // ==================================================================
 
   (function() {
@@ -1023,10 +1097,14 @@
     // ==================================================================
     // 2. CONSTANTS & STATE
     // ==================================================================
-    const APP_VERSION = 'v14.6';
+    const APP_VERSION = 'v14.7';
+    const INACTIVITY_TIMEOUT = 10 * 60 * 1000; // 10 menit
+    const SESSION_KEY = 'bucin_session';
+    const USER_KEY = 'bucin_user';
+    const PAGE_STATE_KEY = 'bucin_page_state';
+
     const CLOUD_DATA_KEY = 'bucin_data';
     const CLOUD_HISTORY_KEY = 'bucin_history';
-    const USER_KEY = 'bucin_user';
     const USERS_KEY = 'bucin_users';
     const SETTINGS_KEY = 'bucin_settings';
     const LOGIN_COUNT_KEY = 'bucin_login_count';
@@ -1079,6 +1157,13 @@
     let filteredData = [];
     let searchDebounceTimer = null;
 
+    // Inactivity timer
+    let inactivityTimer = null;
+    let isInactive = false;
+
+    // Session management
+    let sessionId = null;
+
     let returnState = {
       selectedGudang: null,
       returItems: [],
@@ -1112,7 +1197,7 @@
     }
 
     // ==================================================================
-    // 4. DATA PERSISTENCE (disingkat, sama seperti sebelumnya)
+    // 4. DATA PERSISTENCE
     // ==================================================================
     function loadDataFromFirebase(callback) {
       if (!firebaseInitialized || !db) {
@@ -1216,6 +1301,24 @@
         if (savedLoginCount) { userLoginCount = JSON.parse(savedLoginCount); }
         const savedReturnHist = localStorage.getItem(RETURN_HISTORY_KEY);
         if (savedReturnHist) { returnHistory = JSON.parse(savedReturnHist); } else { returnHistory = []; }
+        // Load session
+        const savedSession = localStorage.getItem(SESSION_KEY);
+        if (savedSession) {
+          try { sessionId = JSON.parse(savedSession); } catch { sessionId = null; }
+        }
+        // Load page state
+        const savedPageState = sessionStorage.getItem(PAGE_STATE_KEY);
+        if (savedPageState) {
+          try {
+            const state = JSON.parse(savedPageState);
+            if (state.category) currentCategory = state.category;
+            if (state.page) {
+              if (state.page === 'retur') {
+                // will handle in init
+              }
+            }
+          } catch { /* ignore */ }
+        }
       } catch { appData = {};
         stockHistory = {};
         users = {};
@@ -1231,6 +1334,15 @@
       localStorage.setItem(SETTINGS_KEY, JSON.stringify(appSettings));
       localStorage.setItem(LOGIN_COUNT_KEY, JSON.stringify(userLoginCount));
       localStorage.setItem(RETURN_HISTORY_KEY, JSON.stringify(returnHistory));
+      if (sessionId) {
+        localStorage.setItem(SESSION_KEY, JSON.stringify(sessionId));
+      }
+      // Save page state
+      const pageState = {
+        category: currentCategory,
+        page: document.getElementById('retur-page').classList.contains('active') ? 'retur' : 'main'
+      };
+      sessionStorage.setItem(PAGE_STATE_KEY, JSON.stringify(pageState));
     }
 
     function saveData() {
@@ -1321,7 +1433,216 @@
     }
 
     // ==================================================================
-    // 10. PROCEDURE DATA & KML (disingkat)
+    // 10. INACTIVITY TIMER
+    // ==================================================================
+    function resetInactivityTimer() {
+      if (inactivityTimer) {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = null;
+      }
+      if (isInactive) {
+        isInactive = false;
+        document.getElementById('inactivity-overlay').classList.remove('active');
+      }
+      // Only start timer if user is logged in
+      if (currentUser) {
+        inactivityTimer = setTimeout(() => {
+          // Auto logout due to inactivity
+          isInactive = true;
+          document.getElementById('inactivity-overlay').classList.add('active');
+          // Actually logout after showing overlay
+          setTimeout(() => {
+            if (isInactive) {
+              logoutUser(true); // silent logout
+            }
+          }, 3000);
+        }, INACTIVITY_TIMEOUT);
+      }
+    }
+
+    function resetInactivityOnActivity() {
+      if (currentUser) {
+        resetInactivityTimer();
+      }
+    }
+
+    function setupInactivityListeners() {
+      const events = ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'click', 'input'];
+      events.forEach(event => {
+        document.addEventListener(event, resetInactivityOnActivity, { passive: true });
+      });
+      // Also on visibility change - reset when tab becomes visible
+      document.addEventListener('visibilitychange', function() {
+        if (!document.hidden && currentUser) {
+          resetInactivityTimer();
+        }
+      });
+    }
+
+    // ==================================================================
+    // 11. SESSION MANAGEMENT (Single Device)
+    // ==================================================================
+    function generateSessionId() {
+      return 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    function updateSessionInFirebase(username, sessionId) {
+      if (!firebaseInitialized || !db) return;
+      db.ref('sessions/' + username).set({
+        sessionId: sessionId,
+        lastActive: Date.now()
+      }).catch(err => console.warn('Gagal update session:', err));
+    }
+
+    function validateSession(username, sessionId) {
+      return new Promise((resolve) => {
+        if (!firebaseInitialized || !db) {
+          // Fallback: check localStorage only
+          const saved = localStorage.getItem(SESSION_KEY);
+          if (saved) {
+            try {
+              const sess = JSON.parse(saved);
+              resolve(sess === sessionId);
+            } catch { resolve(false); }
+          } else {
+            resolve(false);
+          }
+          return;
+        }
+        db.ref('sessions/' + username).once('value').then(snapshot => {
+          const val = snapshot.val();
+          if (val && val.sessionId === sessionId) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        }).catch(() => resolve(false));
+      });
+    }
+
+    // ==================================================================
+    // 12. LOGIN & AUTH
+    // ==================================================================
+    async function handleLogin(username, password) {
+      const normalizedUsername = username.toLowerCase();
+      if (normalizedUsername === 'admin') {
+        if (!users.admin) users.admin = { pass: 'admin123', role: 'admin', loginCount: 0 };
+        const isMatch = await verifyPassword(password, users.admin.pass);
+        if (!isMatch) return { success: false, message: 'Username atau password salah' };
+        if (!userLoginCount.admin) userLoginCount.admin = 0;
+        userLoginCount.admin++;
+        localStorage.setItem(LOGIN_COUNT_KEY, JSON.stringify(userLoginCount));
+        return { success: true, username: 'admin' };
+      } else {
+        if (!users[username]) return { success: false, message: 'Username atau password salah' };
+        const isMatch = await verifyPassword(password, users[username].pass);
+        if (!isMatch) return { success: false, message: 'Username atau password salah' };
+        if (!userLoginCount[username]) userLoginCount[username] = 0;
+        userLoginCount[username]++;
+        localStorage.setItem(LOGIN_COUNT_KEY, JSON.stringify(userLoginCount));
+        if (users[username].role !== 'admin' && userLoginCount[username] >= 6) {
+          return {
+            success: false,
+            message: '⚠️ Anda sudah login 6 kali. Silakan ganti password.',
+            requireChange: true,
+            username: username
+          };
+        }
+        return { success: true, username: username };
+      }
+    }
+
+    function showChangePasswordModal(username) {
+      document.getElementById('cp-username').value = username;
+      document.getElementById('cp-old-password').value = '';
+      document.getElementById('cp-new-password').value = '';
+      document.getElementById('cp-confirm-password').value = '';
+      document.getElementById('cp-error').style.display = 'none';
+      document.getElementById('change-password-modal').classList.remove('hidden');
+    }
+
+    function completeLogin(username) {
+      currentUser = { name: username, role: users[username]?.role || 'admin' };
+      localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+
+      // Generate session ID for single device
+      sessionId = generateSessionId();
+      localStorage.setItem(SESSION_KEY, JSON.stringify(sessionId));
+      updateSessionInFirebase(username, sessionId);
+
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('app-shell').classList.remove('hidden');
+      document.getElementById('user-name-display').textContent = username;
+      document.getElementById('current-user-badge').classList.remove('hidden');
+      if (currentUser.role === 'admin') document.body.classList.add('is-admin');
+      const remaining = currentUser.role !== 'admin' ? Math.max(0, 6 - (userLoginCount[username] || 0)) : '∞';
+      const badge = document.getElementById('login-count-badge');
+      if (badge) {
+        badge.textContent = currentUser.role !== 'admin' ? `Sisa ${remaining} login` : '';
+      }
+
+      // Reset inactivity timer
+      resetInactivityTimer();
+
+      setTimeout(initMap, 500);
+      renderAllStats();
+      showToast('✅ Selamat datang, ' + username, 'success');
+
+      // Restore page state
+      const savedPageState = sessionStorage.getItem(PAGE_STATE_KEY);
+      if (savedPageState) {
+        try {
+          const state = JSON.parse(savedPageState);
+          if (state.category && state.category !== 'dashboard') {
+            switchCategory(state.category);
+          }
+        } catch { /* ignore */ }
+      }
+    }
+
+    function logoutUser(silent = false) {
+      // Clear session
+      if (sessionId && currentUser) {
+        if (firebaseInitialized && db) {
+          db.ref('sessions/' + currentUser.name).remove().catch(() => {});
+        }
+        sessionId = null;
+        localStorage.removeItem(SESSION_KEY);
+      }
+
+      localStorage.removeItem(USER_KEY);
+      currentUser = null;
+      document.getElementById('login-screen').classList.remove('hidden');
+      document.getElementById('app-shell').classList.add('hidden');
+      document.getElementById('login-username').value = '';
+      document.getElementById('login-password').value = '';
+      document.body.classList.remove('is-admin');
+      if (map) { map.remove();
+        map = null;
+        markersLayer = [];
+        officeMarkersLayer = [];
+        kmlLayers = []; }
+      if (quaggaRunning) stopScanner();
+      if (returnQuaggaRunning) stopReturnScanner();
+      document.getElementById('login-count-badge').textContent = '';
+      document.getElementById('login-error').classList.remove('show');
+      document.getElementById('retur-page').classList.remove('active');
+
+      // Clear inactivity timer
+      if (inactivityTimer) {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = null;
+      }
+      isInactive = false;
+      document.getElementById('inactivity-overlay').classList.remove('active');
+
+      if (!silent) {
+        showToast('👋 Anda telah keluar', 'info');
+      }
+    }
+
+    // ==================================================================
+    // 13. PROCEDURE DATA & KML
     // ==================================================================
     const PROCEDURE_DATA = [
       { id: 'terima_laporan', label: 'Terima Laporan', items: ['Catat waktu', 'Catat lokasi', 'Catat jenis gangguan'] },
@@ -1385,7 +1706,7 @@
     </kml>`;
 
     // ==================================================================
-    // 11. CORE FUNCTIONS
+    // 14. CORE FUNCTIONS
     // ==================================================================
     function getRecords(cat) {
       const mapping = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan' };
@@ -1422,9 +1743,13 @@
     function removeRecord(cat, idx) {
       const mapping = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan' };
       const realCat = mapping[cat] || cat;
-      appData[realCat].splice(idx, 1);
-      saveData();
-      showToast('🗑️ Data berhasil dihapus', 'info');
+      if (appData[realCat] && Array.isArray(appData[realCat]) && appData[realCat].length > idx) {
+        appData[realCat].splice(idx, 1);
+        saveData();
+        showToast('🗑️ Data berhasil dihapus', 'info');
+        return true;
+      }
+      return false;
     }
 
     function getCurrentStock(barcode, spec, warehouse) {
@@ -1614,7 +1939,7 @@
     }
 
     // ==================================================================
-    // 12. MAP FUNCTIONS (sama)
+    // 15. MAP FUNCTIONS
     // ==================================================================
     function initMap() {
       try {
@@ -1905,7 +2230,7 @@
     }
 
     // ==================================================================
-    // 13. RENDER STATS & TABLE
+    // 16. RENDER STATS & TABLE
     // ==================================================================
     function renderAllStats() {
       const ofCutCount = (appData['OF Cut'] || []).length;
@@ -2041,12 +2366,13 @@
         document.getElementById('records-body').innerHTML = pageData.map((r, idx) => {
           const isReturn = r.trType === 'Return';
           const qtyDisplay = isReturn ? '↩️' + r.qty : (r.trType === 'Keluar' ? '-' + r.qty : '+' + r.qty);
+          const realIdx = start + idx;
           const actionButtons = admin ? `
-                <button class="icon-button edit-row" onclick="editData(${start + idx})"><i data-lucide="edit-2"></i></button>
-                <button class="icon-button delete-row" onclick="askDelete(${start + idx})"><i data-lucide="trash-2"></i></button>
+                <button class="icon-button edit-row" onclick="editData(${realIdx})"><i data-lucide="edit-2"></i></button>
+                <button class="icon-button delete-row" onclick="askDelete(${realIdx})"><i data-lucide="trash-2"></i></button>
               ` : `<span style="font-size:0.6rem;color:var(--muted);">(read only)</span>`;
           return `<tr>
-                <td><strong>${start + idx + 1}</strong></td>
+                <td><strong>${realIdx + 1}</strong></td>
                 <td>${r.barcode || '-'}</td>
                 <td>${r.spec || '-'}</td>
                 <td>${r.warehouse || '-'}</td>
@@ -2060,9 +2386,10 @@
         document.getElementById('table-columns-normal').classList.add('hidden');
         const admin = isAdmin();
         document.getElementById('records-body').innerHTML = pageData.map((r, idx) => {
+          const realIdx = start + idx;
           const actionButtons = admin ? `
-                <button class="icon-button edit-row" onclick="editData(${start + idx})"><i data-lucide="edit-2"></i></button>
-                <button class="icon-button delete-row" onclick="askDelete(${start + idx})"><i data-lucide="trash-2"></i></button>
+                <button class="icon-button edit-row" onclick="editData(${realIdx})"><i data-lucide="edit-2"></i></button>
+                <button class="icon-button delete-row" onclick="askDelete(${realIdx})"><i data-lucide="trash-2"></i></button>
               ` : `<span style="font-size:0.6rem;color:var(--muted);">(read only)</span>`;
           return `<tr>
                 <td><strong>${r.date}</strong></td>
@@ -2089,9 +2416,10 @@
               } else { procHtml = '-'; }
             } catch (e) { procHtml = '-'; }
           } else { procHtml = '-'; }
+          const realIdx = start + idx;
           const actionButtons = admin ? `
-                <button class="icon-button edit-row" onclick="editData(${start + idx})"><i data-lucide="edit-2"></i></button>
-                <button class="icon-button delete-row" onclick="askDelete(${start + idx})"><i data-lucide="trash-2"></i></button>
+                <button class="icon-button edit-row" onclick="editData(${realIdx})"><i data-lucide="edit-2"></i></button>
+                <button class="icon-button delete-row" onclick="askDelete(${realIdx})"><i data-lucide="trash-2"></i></button>
               ` : `<span style="font-size:0.6rem;color:var(--muted);">(read only)</span>`;
           return `<tr>
                 <td><strong>${r.date}</strong></td>
@@ -2126,7 +2454,7 @@
     }
 
     // ==================================================================
-    // 14. SWITCH CATEGORY
+    // 17. SWITCH CATEGORY
     // ==================================================================
     function switchCategory(cat) {
       currentCategory = cat;
@@ -2170,11 +2498,19 @@
           if (errorEl) errorEl.style.display = 'none';
         }
       }
+
+      // Save page state
+      const pageState = {
+        category: cat,
+        page: 'main'
+      };
+      sessionStorage.setItem(PAGE_STATE_KEY, JSON.stringify(pageState));
+
       renderTable();
     }
 
     // ==================================================================
-    // 15. FORM HANDLING — tombol batal sudah berfungsi
+    // 18. FORM HANDLING
     // ==================================================================
     function openAddForm() {
       if (!checkPermission('add', currentCategory)) {
@@ -2366,24 +2702,24 @@
       const isProcedureCat = getProcedureForCategory(cat);
 
       if (isStockCat) {
-        document.getElementById('form-tr-type').value = r.trType;
+        document.getElementById('form-tr-type').value = r.trType || 'Masuk';
         document.getElementById('form-warehouse-hidden').value = r.warehouse || '';
       } else if (isOpmols) {
-        document.getElementById('form-ruas').value = r.ruas;
-        document.getElementById('form-dari').value = r.dari;
-        document.getElementById('form-ke').value = r.ke;
-        document.getElementById('form-port').value = r.port;
-        document.getElementById('form-slot').value = r.slot;
-        document.getElementById('form-rak').value = r.rak;
+        document.getElementById('form-ruas').value = r.ruas || '';
+        document.getElementById('form-dari').value = r.dari || '';
+        document.getElementById('form-ke').value = r.ke || '';
+        document.getElementById('form-port').value = r.port || '';
+        document.getElementById('form-slot').value = r.slot || '';
+        document.getElementById('form-rak').value = r.rak || '';
       } else if (isAlkur) {
-        document.getElementById('form-alkur-nama').value = r.alkurNama;
-        document.getElementById('form-alkur-tipe').value = r.alkurTipe;
-        document.getElementById('form-alkur-seri').value = r.alkurSeri;
-        document.getElementById('form-alkur-lokasi').value = r.alkurLokasi;
-        document.getElementById('form-alkur-kondisi').value = r.alkurKondisi;
+        document.getElementById('form-alkur-nama').value = r.alkurNama || '';
+        document.getElementById('form-alkur-tipe').value = r.alkurTipe || '';
+        document.getElementById('form-alkur-seri').value = r.alkurSeri || '';
+        document.getElementById('form-alkur-lokasi').value = r.alkurLokasi || '';
+        document.getElementById('form-alkur-kondisi').value = r.alkurKondisi || '';
       } else {
-        document.getElementById('form-location').value = r.location;
-        document.getElementById('form-coords').value = r.coords;
+        document.getElementById('form-location').value = r.location || '';
+        document.getElementById('form-coords').value = r.coords || '';
       }
 
       if (isPatch) {
@@ -2398,10 +2734,10 @@
       }
       if (isSpare) {
         document.getElementById('form-barcode').value = r.barcode || '';
-        document.getElementById('form-spec').value = r.spec;
+        document.getElementById('form-spec').value = r.spec || '';
       }
 
-      document.getElementById('form-qty').value = r.qty;
+      document.getElementById('form-qty').value = r.qty || 1;
       document.getElementById('form-notes').value = r.notes || '';
 
       if (isProcedureCat && r.procedure) {
@@ -2443,7 +2779,7 @@
     };
 
     // ==================================================================
-    // 16. FORM VALIDATION
+    // 19. FORM VALIDATION
     // ==================================================================
     function validateField(fieldId, errorId, condition) {
       const field = document.getElementById(fieldId);
@@ -2563,7 +2899,7 @@
     }
 
     // ==================================================================
-    // 17. SCANNER (dengan tampilan lebih baik)
+    // 20. SCANNER
     // ==================================================================
     function stopScanner() {
       if (quaggaRunning) {
@@ -2686,7 +3022,7 @@
     let PATCH_LENGTHS = ['1m', '2m', '3m', '5m', '10m', '15m', '20m'];
 
     // ==================================================================
-    // 18. RETURN SYSTEM — PERBAIKAN: tombol kembali ke BUCIN -> switch ke Stok Spare
+    // 21. RETURN SYSTEM
     // ==================================================================
     function initReturnMasterBarang() {
       const hist = stockHistory['Stok Spare'] || [];
@@ -2736,21 +3072,35 @@
       stopScanner();
 
       renderReturnHistoryFull();
+
+      // Save page state
+      const pageState = {
+        category: currentCategory,
+        page: 'retur'
+      };
+      sessionStorage.setItem(PAGE_STATE_KEY, JSON.stringify(pageState));
     }
 
     function hideReturnPage() {
       document.getElementById('retur-page').classList.remove('active');
-      // Kembali ke app shell dan aktifkan kategori Stok Spare
+      // Kembali ke app shell jika user masih login
       if (currentUser) {
         document.getElementById('app-shell').classList.remove('hidden');
         // Pindah ke kategori Stok Spare
         switchCategory('Stok Spare');
       } else {
+        // Jika session sudah hilang, ke login
         document.getElementById('login-screen').classList.remove('hidden');
       }
       if (window.history && window.history.pushState) {
         window.history.pushState({}, document.title, window.location.pathname);
       }
+      // Save page state
+      const pageState = {
+        category: currentCategory,
+        page: 'main'
+      };
+      sessionStorage.setItem(PAGE_STATE_KEY, JSON.stringify(pageState));
     }
 
     function generateNoRetur() {
@@ -2976,66 +3326,7 @@
     }
 
     // ==================================================================
-    // 19. LOGIN & AUTH
-    // ==================================================================
-    async function handleLogin(username, password) {
-      const normalizedUsername = username.toLowerCase();
-      if (normalizedUsername === 'admin') {
-        if (!users.admin) users.admin = { pass: 'admin123', role: 'admin', loginCount: 0 };
-        const isMatch = await verifyPassword(password, users.admin.pass);
-        if (!isMatch) return { success: false, message: 'Username atau password salah' };
-        if (!userLoginCount.admin) userLoginCount.admin = 0;
-        userLoginCount.admin++;
-        localStorage.setItem(LOGIN_COUNT_KEY, JSON.stringify(userLoginCount));
-        return { success: true, username: 'admin' };
-      } else {
-        if (!users[username]) return { success: false, message: 'Username atau password salah' };
-        const isMatch = await verifyPassword(password, users[username].pass);
-        if (!isMatch) return { success: false, message: 'Username atau password salah' };
-        if (!userLoginCount[username]) userLoginCount[username] = 0;
-        userLoginCount[username]++;
-        localStorage.setItem(LOGIN_COUNT_KEY, JSON.stringify(userLoginCount));
-        if (users[username].role !== 'admin' && userLoginCount[username] >= 6) {
-          return {
-            success: false,
-            message: '⚠️ Anda sudah login 6 kali. Silakan ganti password.',
-            requireChange: true,
-            username: username
-          };
-        }
-        return { success: true, username: username };
-      }
-    }
-
-    function showChangePasswordModal(username) {
-      document.getElementById('cp-username').value = username;
-      document.getElementById('cp-old-password').value = '';
-      document.getElementById('cp-new-password').value = '';
-      document.getElementById('cp-confirm-password').value = '';
-      document.getElementById('cp-error').style.display = 'none';
-      document.getElementById('change-password-modal').classList.remove('hidden');
-    }
-
-    function completeLogin(username) {
-      currentUser = { name: username, role: users[username]?.role || 'admin' };
-      localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-      document.getElementById('login-screen').classList.add('hidden');
-      document.getElementById('app-shell').classList.remove('hidden');
-      document.getElementById('user-name-display').textContent = username;
-      document.getElementById('current-user-badge').classList.remove('hidden');
-      if (currentUser.role === 'admin') document.body.classList.add('is-admin');
-      const remaining = currentUser.role !== 'admin' ? Math.max(0, 6 - (userLoginCount[username] || 0)) : '∞';
-      const badge = document.getElementById('login-count-badge');
-      if (badge) {
-        badge.textContent = currentUser.role !== 'admin' ? `Sisa ${remaining} login` : '';
-      }
-      setTimeout(initMap, 500);
-      renderAllStats();
-      showToast('✅ Selamat datang, ' + username, 'success');
-    }
-
-    // ==================================================================
-    // 20. SETTINGS & THEME
+    // 22. SETTINGS & THEME
     // ==================================================================
     function applySettings() {
       document.documentElement.style.setProperty('--font-heading', appSettings.fontHeading);
@@ -3135,7 +3426,7 @@
     }
 
     // ==================================================================
-    // 21. EXPORT
+    // 23. EXPORT
     // ==================================================================
     function addTelinLogoToExcel(worksheet) {
       const wsData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
@@ -3190,14 +3481,14 @@
     }
 
     // ==================================================================
-    // 22. SET VH
+    // 24. SET VH
     // ==================================================================
     function setVh() {
       document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
     }
 
     // ==================================================================
-    // 23. SEED KML
+    // 25. SEED KML
     // ==================================================================
     function seedKMLData() {
       try {
@@ -3300,7 +3591,7 @@
     }
 
     // ==================================================================
-    // 24. INIT & EVENT BINDING
+    // 26. INIT & EVENT BINDING
     // ==================================================================
     function init() {
       const firebaseReady = initFirebase();
@@ -3314,36 +3605,32 @@
           renderReturnHistoryFull();
           initProcedureUI();
           seedKMLData();
-          returnState.masterBarang = initReturnMasterBarang();
-          returnState.returItems = [];
-          returnState.pdfGenerated = false;
-          returnState.fotoUploaded = false;
-          returnState.qrValid = false;
-          returnState.fotoDataURL = null;
-          returnState.selectedGudang = null;
-          returnState.noRetur = generateNoRetur();
-          returnState.tglRetur = new Date().toISOString().split('T')[0];
-          document.getElementById('return-no-retur').value = returnState.noRetur;
-          document.getElementById('return-tgl-retur').value = returnState.tglRetur;
-          document.getElementById('return-barcode-input').value = '';
-          document.getElementById('return-nama-barang').value = '';
-          document.getElementById('return-stok-barang').value = '';
-          document.getElementById('return-harga-barang').value = '';
-          document.getElementById('return-qty-barang').value = 1;
-          document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(b => b.classList.remove('active'));
-          renderReturnList();
-          document.getElementById('return-preview-container').style.display = 'none';
-          document.getElementById('return-photo-preview').innerHTML = '';
-          updateReturnStatus('⏳ Pilih gudang dan scan barang', 'info');
-          checkReturnReadyState();
-          stopReturnScanner();
-          stopScanner();
-          renderReturnHistoryFull();
-          bindReturnEvents();
 
-          document.getElementById('login-screen').classList.add('hidden');
-          document.getElementById('app-shell').classList.add('hidden');
-          document.getElementById('retur-page').classList.add('active');
+          // Check if user is still logged in
+          if (currentUser) {
+            // Validate session
+            if (sessionId) {
+              validateSession(currentUser.name, sessionId).then(valid => {
+                if (!valid) {
+                  // Session invalid - another device logged in
+                  showToast('⚠️ Sesi Anda digunakan di perangkat lain', 'warning');
+                  logoutUser(true);
+                  return;
+                }
+                // Session valid, proceed
+                initReturnPage();
+              });
+            } else {
+              logoutUser(true);
+            }
+          } else {
+            // No user, but we still show return page with limited functionality
+            // Actually we should show login or at least allow return page to work
+            // But return page requires user for saving, so we show login
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('retur-page').classList.remove('active');
+            showToast('Silakan login terlebih dahulu', 'warning');
+          }
         });
         return;
       }
@@ -3358,28 +3645,78 @@
         seedKMLData();
 
         if (currentUser) {
-          document.getElementById('login-screen').classList.add('hidden');
-          document.getElementById('app-shell').classList.remove('hidden');
-          document.getElementById('user-name-display').textContent = currentUser.name;
-          document.getElementById('current-user-badge').classList.remove('hidden');
-          if (currentUser.role === 'admin') document.body.classList.add('is-admin');
-          const remaining = currentUser.role !== 'admin' ? Math.max(0, 6 - (userLoginCount[currentUser.name] || 0)) :
-            '∞';
-          const badge = document.getElementById('login-count-badge');
-          if (badge) {
-            badge.textContent = currentUser.role !== 'admin' ? `Sisa ${remaining} login` : '';
+          // Validate session
+          if (sessionId) {
+            validateSession(currentUser.name, sessionId).then(valid => {
+              if (!valid) {
+                // Session invalid
+                showToast('⚠️ Sesi Anda digunakan di perangkat lain', 'warning');
+                logoutUser(true);
+                return;
+              }
+              // Session valid, login
+              completeLogin(currentUser.name);
+              // Restore page state
+              const savedPageState = sessionStorage.getItem(PAGE_STATE_KEY);
+              if (savedPageState) {
+                try {
+                  const state = JSON.parse(savedPageState);
+                  if (state.category && state.category !== 'dashboard') {
+                    switchCategory(state.category);
+                  }
+                } catch { /* ignore */ }
+              }
+            });
+          } else {
+            // No session, logout
+            logoutUser(true);
           }
-          setTimeout(initMap, 500);
-          renderAllStats();
         }
         setVh();
         autoBackup();
         bindEvents();
+        setupInactivityListeners();
       });
     }
 
+    function initReturnPage() {
+      returnState.masterBarang = initReturnMasterBarang();
+      returnState.returItems = [];
+      returnState.pdfGenerated = false;
+      returnState.fotoUploaded = false;
+      returnState.qrValid = false;
+      returnState.fotoDataURL = null;
+      returnState.selectedGudang = null;
+      returnState.noRetur = generateNoRetur();
+      returnState.tglRetur = new Date().toISOString().split('T')[0];
+      document.getElementById('return-no-retur').value = returnState.noRetur;
+      document.getElementById('return-tgl-retur').value = returnState.tglRetur;
+      document.getElementById('return-barcode-input').value = '';
+      document.getElementById('return-nama-barang').value = '';
+      document.getElementById('return-stok-barang').value = '';
+      document.getElementById('return-harga-barang').value = '';
+      document.getElementById('return-qty-barang').value = 1;
+      document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(b => b.classList.remove('active'));
+      renderReturnList();
+      document.getElementById('return-preview-container').style.display = 'none';
+      document.getElementById('return-photo-preview').innerHTML = '';
+      updateReturnStatus('⏳ Pilih gudang dan scan barang', 'info');
+      checkReturnReadyState();
+      stopReturnScanner();
+      stopScanner();
+      renderReturnHistoryFull();
+      bindReturnEvents();
+
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('app-shell').classList.add('hidden');
+      document.getElementById('retur-page').classList.add('active');
+
+      // Reset inactivity timer
+      resetInactivityTimer();
+    }
+
     // ==================================================================
-    // 25. BIND EVENTS (halaman utama)
+    // 27. BIND EVENTS (halaman utama)
     // ==================================================================
     function bindEvents() {
       // --- Login ---
@@ -3418,6 +3755,17 @@
           icon.setAttribute('data-lucide', 'eye-off'); } else { input.type = 'password';
           icon.setAttribute('data-lucide', 'eye'); }
         lucide.createIcons();
+      });
+
+      // --- Inactivity login button ---
+      document.getElementById('inactivity-login-btn').addEventListener('click', function() {
+        document.getElementById('inactivity-overlay').classList.remove('active');
+        isInactive = false;
+        // Show login screen
+        document.getElementById('login-screen').classList.remove('hidden');
+        document.getElementById('app-shell').classList.add('hidden');
+        document.getElementById('retur-page').classList.remove('active');
+        document.getElementById('login-username').focus();
       });
 
       // --- Change Password ---
@@ -3466,6 +3814,11 @@
 
         document.getElementById('change-password-modal').classList.add('hidden');
         showToast('✅ Password berhasil diubah!', 'success');
+        // Reset login count badge
+        if (currentUser && currentUser.name === username) {
+          const badge = document.getElementById('login-count-badge');
+          if (badge) badge.textContent = '';
+        }
       });
 
       document.getElementById('close-change-password').addEventListener('click', function() {
@@ -3477,23 +3830,7 @@
 
       // --- Logout ---
       document.getElementById('logout-btn').addEventListener('click', function() {
-        localStorage.removeItem(USER_KEY);
-        currentUser = null;
-        document.getElementById('login-screen').classList.remove('hidden');
-        document.getElementById('app-shell').classList.add('hidden');
-        document.getElementById('login-username').value = '';
-        document.getElementById('login-password').value = '';
-        document.body.classList.remove('is-admin');
-        if (map) { map.remove();
-          map = null;
-          markersLayer = [];
-          officeMarkersLayer = [];
-          kmlLayers = []; }
-        if (quaggaRunning) stopScanner();
-        if (returnQuaggaRunning) stopReturnScanner();
-        document.getElementById('login-count-badge').textContent = '';
-        document.getElementById('login-error').classList.remove('show');
-        document.getElementById('retur-page').classList.remove('active');
+        logoutUser(false);
       });
 
       // --- Navigation ---
@@ -3508,6 +3845,10 @@
 
       // --- Return button: buka halaman retur di tab baru ---
       document.getElementById('spare-return').addEventListener('click', function() {
+        if (!currentUser) {
+          showToast('Silakan login terlebih dahulu', 'warning');
+          return;
+        }
         window.open(window.location.pathname + '?page=retur', '_blank');
       });
 
@@ -3751,7 +4092,7 @@
         showToast('Gambar latar dihapus', 'info');
       });
 
-      // --- Confirm ---
+      // --- Confirm (Delete) ---
       document.getElementById('confirm-no').addEventListener('click', function() {
         deleteId = null;
         document.getElementById('confirm-modal').classList.add('hidden');
@@ -3760,23 +4101,29 @@
         if (deleteId !== null) {
           const cat = currentCategory;
           const isStock = ['Patch Cord', 'Stok Spare'].includes(cat);
+          let success = false;
           if (isStock) {
-            if (stockHistory[cat]) {
+            if (stockHistory[cat] && stockHistory[cat].length > deleteId) {
               stockHistory[cat].splice(deleteId, 1);
               saveData();
               renderTable();
               showToast('🗑️ Transaksi stok dihapus', 'info');
+              success = true;
             }
           } else {
             const mapping = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3',
               'Temuan Lapangan': 'Temuan' };
             const realCat = mapping[cat] || cat;
-            if (appData[realCat]) {
+            if (appData[realCat] && appData[realCat].length > deleteId) {
               appData[realCat].splice(deleteId, 1);
               saveData();
               renderTable();
               showToast('🗑️ Data berhasil dihapus', 'info');
+              success = true;
             }
+          }
+          if (!success) {
+            showToast('⚠️ Gagal menghapus data', 'error');
           }
           deleteId = null;
           document.getElementById('confirm-modal').classList.add('hidden');
@@ -3941,16 +4288,22 @@
             const realCat = mapping[cat] || cat;
             if (isStock) {
               const targetCat = stockHistory[cat] ? cat : 'Stok Spare';
-              if (stockHistory[targetCat]) {
+              if (stockHistory[targetCat] && stockHistory[targetCat].length > editId) {
                 stockHistory[targetCat][editId] = { ...stockHistory[targetCat][editId], ...record };
+                saveData();
+                showToast('✅ Data berhasil diperbarui', 'success');
+              } else {
+                throw new Error('Data tidak ditemukan');
               }
             } else {
-              if (appData[realCat]) {
+              if (appData[realCat] && appData[realCat].length > editId) {
                 appData[realCat][editId] = { ...appData[realCat][editId], ...record };
+                saveData();
+                showToast('✅ Data berhasil diperbarui', 'success');
+              } else {
+                throw new Error('Data tidak ditemukan');
               }
             }
-            saveData();
-            showToast('✅ Data berhasil diperbarui', 'success');
           } else {
             if (isStock) {
               if (record.trType === 'Keluar') {
@@ -4004,13 +4357,12 @@
 
       console.log(`🚀 BUCIN ${APP_VERSION} - Firebase terhubung ke ${firebaseConfig.projectId}`);
       console.log('📌 Admin: admin / @patroli123 (password sudah di-hash otomatis)');
-      console.log('📌 Tombol Retur membuka halaman baru dengan 2 opsi: Input Retur dan Riwayat');
-      console.log('📌 Kolom scan barcode diperkecil 3X, tombol choose file di retur dihapus');
-      console.log('📌 Tombol "Kembali ke BUCIN" mengarah ke menu Stok Spare');
+      console.log('📌 Fitur: Inactivity 10 menit, Single Device, Refresh persist');
+      console.log('📌 Tombol "Kembali ke BUCIN" mengarah ke menu Stok Spare tanpa login ulang');
     }
 
     // ==================================================================
-    // 26. BIND RETURN EVENTS (halaman retur)
+    // 28. BIND RETURN EVENTS (halaman retur)
     // ==================================================================
     function bindReturnEvents() {
       // Tab switching
@@ -4026,7 +4378,7 @@
       });
 
       document.getElementById('back-to-main').addEventListener('click', function() {
-        hideReturnPage(); // akan switch ke Stok Spare
+        hideReturnPage(); // akan switch ke Stok Spare tanpa login ulang
       });
 
       document.querySelectorAll('#return-gudang-grid .gudang-btn').forEach(btn => {
@@ -4366,7 +4718,7 @@
     }
 
     // ==================================================================
-    // 27. START
+    // 29. START
     // ==================================================================
     window.addEventListener('DOMContentLoaded', init);
     window.addEventListener('resize', setVh);
