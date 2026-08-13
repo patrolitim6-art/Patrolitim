@@ -1082,10 +1082,9 @@
 
 <script>
   // ==================================================================
-  //  BUCIN v14.9 — PERBAIKAN TOMBOL HAPUS & RETUR
-  //  - Tambah _uid pada setiap record untuk hapus akurat
-  //  - Retur tetap bisa diakses tanpa login ulang (jika sesi aktif)
-  //  - KODE LENGKAP
+  //  BUCIN v14.9 — FULL LENGKAP
+  //  Semua fitur: refresh persist, inactivity 10m, single device,
+  //  tombol hapus dengan _uid, retur tanpa login ulang, batal form
   // ==================================================================
 
   (function() {
@@ -1152,7 +1151,7 @@
 
     let currentCategory = 'dashboard';
     let editId = null;
-    let deleteUid = null;
+    let deleteUid = null; // menggunakan _uid
     let map = null;
     let markersLayer = [];
     let officeMarkersLayer = [];
@@ -1168,9 +1167,11 @@
     let filteredData = [];
     let searchDebounceTimer = null;
 
+    // Inactivity
     let inactivityTimer = null;
     let isInactive = false;
 
+    // Session
     let sessionId = null;
     let isReturnPage = false;
 
@@ -1638,7 +1639,7 @@
     }
 
     // ==================================================================
-    // 13. PROCEDURE DATA & KML
+    // 13. PROCEDURE DATA & KML (disingkat)
     // ==================================================================
     const PROCEDURE_DATA = [
       { id: 'terima_laporan', label: 'Terima Laporan', items: ['Catat waktu', 'Catat lokasi', 'Catat jenis gangguan'] },
@@ -1723,9 +1724,7 @@
       appData[realCat].unshift(rec);
       if (rec.trType) {
         if (!stockHistory[realCat]) stockHistory[realCat] = [];
-        const histRec = { ...rec, time: new Date().toISOString() };
-        histRec._uid = generateUid();
-        stockHistory[realCat].push(histRec);
+        stockHistory[realCat].push({ ...rec, time: new Date().toISOString() });
       }
       if (realCat === 'Patch Cord') {
         if (rec.spec && !PATCH_TYPES.includes(rec.spec)) PATCH_TYPES.push(rec.spec);
@@ -1738,8 +1737,10 @@
     function updateRecord(cat, idx, rec) {
       const mapping = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan' };
       const realCat = mapping[cat] || cat;
+      // Pertahankan _uid yang lama
       if (appData[realCat] && appData[realCat][idx]) {
-        appData[realCat][idx] = { ...appData[realCat][idx], ...rec };
+        rec._uid = appData[realCat][idx]._uid || generateUid();
+        appData[realCat][idx] = rec;
         saveData();
         showToast('✅ Data berhasil diperbarui', 'success');
         return true;
@@ -1751,6 +1752,8 @@
       const mapping = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan' };
       const realCat = mapping[cat] || cat;
       let found = false;
+
+      // Coba di appData
       if (appData[realCat] && Array.isArray(appData[realCat])) {
         const idx = appData[realCat].findIndex(r => r._uid === uid);
         if (idx !== -1) {
@@ -1758,6 +1761,8 @@
           found = true;
         }
       }
+
+      // Coba di stockHistory
       if (!found) {
         const stockCat = cat === 'Patch Cord' || cat === 'Stok Spare' ? cat : 'Stok Spare';
         if (stockHistory[stockCat] && Array.isArray(stockHistory[stockCat])) {
@@ -1768,6 +1773,7 @@
           }
         }
       }
+
       if (found) {
         saveData();
         showToast('🗑️ Data berhasil dihapus', 'info');
@@ -1793,7 +1799,7 @@
     }
 
     // ==================================================================
-    // 15. PROCEDURE FUNCTIONS (singkat)
+    // 15. PROCEDURE FUNCTIONS (sama)
     // ==================================================================
     function initProcedureUI() {
       const grid = document.getElementById('procedure-grid');
@@ -1948,7 +1954,7 @@
     }
 
     // ==================================================================
-    // 16. MAP FUNCTIONS (singkat)
+    // 16. MAP FUNCTIONS (sama, disingkat)
     // ==================================================================
     function initMap() {
       try {
@@ -2372,7 +2378,7 @@
         document.getElementById('table-columns-opmols').classList.add('hidden');
         document.getElementById('table-columns-normal').classList.add('hidden');
         const admin = isAdmin();
-        document.getElementById('records-body').innerHTML = pageData.map((r, idx) => {
+        document.getElementById('records-body').innerHTML = pageData.map((r) => {
           const isReturn = r.trType === 'Return';
           const qtyDisplay = isReturn ? '↩️' + r.qty : (r.trType === 'Keluar' ? '-' + r.qty : '+' + r.qty);
           const actionButtons = admin ? `
@@ -2380,7 +2386,7 @@
                 <button class="icon-button delete-row" onclick="askDelete('${r._uid}')"><i data-lucide="trash-2"></i></button>
               ` : `<span style="font-size:0.6rem;color:var(--muted);">(read only)</span>`;
           return `<tr>
-                <td><strong>${start + idx + 1}</strong></td>
+                <td><strong>${r._uid ? r._uid.substr(0,6) : '-'}</strong></td>
                 <td>${r.barcode || '-'}</td>
                 <td>${r.spec || '-'}</td>
                 <td>${r.warehouse || '-'}</td>
@@ -2393,7 +2399,7 @@
         document.getElementById('table-columns-opmols').classList.remove('hidden');
         document.getElementById('table-columns-normal').classList.add('hidden');
         const admin = isAdmin();
-        document.getElementById('records-body').innerHTML = pageData.map((r, idx) => {
+        document.getElementById('records-body').innerHTML = pageData.map((r) => {
           const actionButtons = admin ? `
                 <button class="icon-button edit-row" onclick="editDataByUid('${r._uid}')"><i data-lucide="edit-2"></i></button>
                 <button class="icon-button delete-row" onclick="askDelete('${r._uid}')"><i data-lucide="trash-2"></i></button>
@@ -2411,7 +2417,7 @@
         document.getElementById('table-columns-opmols').classList.add('hidden');
         document.getElementById('table-columns-normal').classList.remove('hidden');
         const admin = isAdmin();
-        document.getElementById('records-body').innerHTML = pageData.map((r, idx) => {
+        document.getElementById('records-body').innerHTML = pageData.map((r) => {
           let procHtml = '';
           if (isProcedureCat && r.procedure) {
             try {
@@ -2515,7 +2521,7 @@
     }
 
     // ==================================================================
-    // 19. FORM HANDLING
+    // 19. FORM HANDLING (dengan _uid)
     // ==================================================================
     function openAddForm() {
       if (!checkPermission('add', currentCategory)) {
@@ -2687,17 +2693,49 @@
         return;
       }
       const cat = currentCategory;
-      const isStock = ['Patch Cord', 'Stok Spare'].includes(cat);
-      const list = isStock ? (stockHistory[cat] || []) : getRecords(cat);
-      const idx = list.findIndex(r => r._uid === uid);
-      if (idx === -1) { showToast('Data tidak ditemukan', 'error'); return; }
-      const r = list[idx];
+      const mapping = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan' };
+      const realCat = mapping[cat] || cat;
+      let found = null;
+      let idx = -1;
+      let isStock = false;
+
+      // Cari di appData
+      if (appData[realCat] && Array.isArray(appData[realCat])) {
+        const i = appData[realCat].findIndex(r => r._uid === uid);
+        if (i !== -1) {
+          found = appData[realCat][i];
+          idx = i;
+        }
+      }
+
+      // Cari di stockHistory
+      if (!found) {
+        const stockCat = cat === 'Patch Cord' || cat === 'Stok Spare' ? cat : 'Stok Spare';
+        if (stockHistory[stockCat] && Array.isArray(stockHistory[stockCat])) {
+          const i = stockHistory[stockCat].findIndex(r => r._uid === uid);
+          if (i !== -1) {
+            found = stockHistory[stockCat][i];
+            idx = i;
+            isStock = true;
+          }
+        }
+      }
+
+      if (!found) {
+        showToast('Data tidak ditemukan', 'error');
+        return;
+      }
+
       editId = idx;
+      // Simpan flag isStock untuk submit nanti
+      window._editIsStock = isStock;
+      window._editUid = uid;
+
       clearValidationErrors();
 
       document.getElementById('form-title').textContent = 'Ubah Data';
       document.getElementById('form-category').value = cat;
-      document.getElementById('form-date').value = r.date;
+      document.getElementById('form-date').value = found.date;
 
       const isOpmols = cat === 'OPM/OLS';
       const isAlkur = cat === 'Alkur/Material';
@@ -2707,46 +2745,46 @@
       const isProcedureCat = getProcedureForCategory(cat);
 
       if (isStockCat) {
-        document.getElementById('form-tr-type').value = r.trType || 'Masuk';
-        document.getElementById('form-warehouse-hidden').value = r.warehouse || '';
+        document.getElementById('form-tr-type').value = found.trType || 'Masuk';
+        document.getElementById('form-warehouse-hidden').value = found.warehouse || '';
       } else if (isOpmols) {
-        document.getElementById('form-ruas').value = r.ruas || '';
-        document.getElementById('form-dari').value = r.dari || '';
-        document.getElementById('form-ke').value = r.ke || '';
-        document.getElementById('form-port').value = r.port || '';
-        document.getElementById('form-slot').value = r.slot || '';
-        document.getElementById('form-rak').value = r.rak || '';
+        document.getElementById('form-ruas').value = found.ruas || '';
+        document.getElementById('form-dari').value = found.dari || '';
+        document.getElementById('form-ke').value = found.ke || '';
+        document.getElementById('form-port').value = found.port || '';
+        document.getElementById('form-slot').value = found.slot || '';
+        document.getElementById('form-rak').value = found.rak || '';
       } else if (isAlkur) {
-        document.getElementById('form-alkur-nama').value = r.alkurNama || '';
-        document.getElementById('form-alkur-tipe').value = r.alkurTipe || '';
-        document.getElementById('form-alkur-seri').value = r.alkurSeri || '';
-        document.getElementById('form-alkur-lokasi').value = r.alkurLokasi || '';
-        document.getElementById('form-alkur-kondisi').value = r.alkurKondisi || '';
+        document.getElementById('form-alkur-nama').value = found.alkurNama || '';
+        document.getElementById('form-alkur-tipe').value = found.alkurTipe || '';
+        document.getElementById('form-alkur-seri').value = found.alkurSeri || '';
+        document.getElementById('form-alkur-lokasi').value = found.alkurLokasi || '';
+        document.getElementById('form-alkur-kondisi').value = found.alkurKondisi || '';
       } else {
-        document.getElementById('form-location').value = r.location || '';
-        document.getElementById('form-coords').value = r.coords || '';
+        document.getElementById('form-location').value = found.location || '';
+        document.getElementById('form-coords').value = found.coords || '';
       }
 
       if (isPatch) {
-        const sel = PATCH_TYPES.includes(r.spec) ? r.spec : 'Lainnya';
+        const sel = PATCH_TYPES.includes(found.spec) ? found.spec : 'Lainnya';
         document.getElementById('form-patch-type').value = sel;
-        document.getElementById('form-patch-other').value = sel === 'Lainnya' ? r.spec : '';
+        document.getElementById('form-patch-other').value = sel === 'Lainnya' ? found.spec : '';
         document.getElementById('patch-other-wrap').classList.toggle('hidden-field', sel !== 'Lainnya');
-        const slen = PATCH_LENGTHS.includes(r.length) ? r.length : 'Lainnya';
+        const slen = PATCH_LENGTHS.includes(found.length) ? found.length : 'Lainnya';
         document.getElementById('form-patch-length').value = slen;
-        document.getElementById('form-patch-length-other').value = slen === 'Lainnya' ? r.length : '';
+        document.getElementById('form-patch-length-other').value = slen === 'Lainnya' ? found.length : '';
         document.getElementById('patch-length-other-wrap').classList.toggle('hidden-field', slen !== 'Lainnya');
       }
       if (isSpare) {
-        document.getElementById('form-barcode').value = r.barcode || '';
-        document.getElementById('form-spec').value = r.spec || '';
+        document.getElementById('form-barcode').value = found.barcode || '';
+        document.getElementById('form-spec').value = found.spec || '';
       }
 
-      document.getElementById('form-qty').value = r.qty || 1;
-      document.getElementById('form-notes').value = r.notes || '';
+      document.getElementById('form-qty').value = found.qty || 1;
+      document.getElementById('form-notes').value = found.notes || '';
 
-      if (isProcedureCat && r.procedure) {
-        loadProcedureFromData(r.procedure);
+      if (isProcedureCat && found.procedure) {
+        loadProcedureFromData(found.procedure);
       } else {
         selectedProcedures = {};
         updateProcedureUI();
@@ -2784,7 +2822,7 @@
     };
 
     // ==================================================================
-    // 20. FORM VALIDATION
+    // 20. FORM VALIDATION (sama)
     // ==================================================================
     function validateField(fieldId, errorId, condition) {
       const field = document.getElementById(fieldId);
@@ -2904,7 +2942,7 @@
     }
 
     // ==================================================================
-    // 21. SCANNER
+    // 21. SCANNER (sama)
     // ==================================================================
     function stopScanner() {
       if (quaggaRunning) {
@@ -3530,7 +3568,7 @@
           if (nameUpper.includes('MANHOLE') || nameUpper.includes('BMH')) {
             if (!handholeCoords.has(coordsStr)) {
               if (!appData['Handhole']) appData['Handhole'] = [];
-              const newRec = {
+              appData['Handhole'].push({
                 date: today,
                 location: name || 'Manhole',
                 coords: coordsStr,
@@ -3540,15 +3578,14 @@
                 postBy: 'Sistem (KML)',
                 createdAt: Date.now(),
                 _uid: generateUid()
-              };
-              appData['Handhole'].push(newRec);
+              });
               handholeCoords.add(coordsStr);
               handholeAdded++;
             }
           } else if (nameUpper.includes('JOINT')) {
             if (!jointCoords.has(coordsStr)) {
               if (!appData['Joint']) appData['Joint'] = [];
-              const newRec = {
+              appData['Joint'].push({
                 date: today,
                 location: name || 'Joint',
                 coords: coordsStr,
@@ -3558,15 +3595,14 @@
                 postBy: 'Sistem (KML)',
                 createdAt: Date.now(),
                 _uid: generateUid()
-              };
-              appData['Joint'].push(newRec);
+              });
               jointCoords.add(coordsStr);
               jointAdded++;
             }
           } else if (nameUpper.includes('OTB') || nameUpper.includes('CO LOCATIONS')) {
             if (!opmolsCoords.has(coordsStr)) {
               if (!appData['OPM/OLS']) appData['OPM/OLS'] = [];
-              const newRec = {
+              appData['OPM/OLS'].push({
                 date: today,
                 ruas: name || 'OTB/CO',
                 dari: '-',
@@ -3579,8 +3615,7 @@
                 coords: coordsStr,
                 createdAt: Date.now(),
                 _uid: generateUid()
-              };
-              appData['OPM/OLS'].push(newRec);
+              });
               opmolsCoords.add(coordsStr);
               opmolsAdded++;
             }
@@ -4222,7 +4257,8 @@
             qty: parseInt(document.getElementById('form-qty').value) || 1,
             notes: document.getElementById('form-notes').value || '',
             postBy: currentUser?.name || 'Anonim',
-            createdAt: Date.now()
+            createdAt: Date.now(),
+            _uid: generateUid()
           };
 
           if (isOpmols) {
@@ -4274,32 +4310,48 @@
             }
           }
 
-          if (editId !== null) {
+          // Cek apakah ini edit atau baru
+          const isEdit = editId !== null && window._editUid;
+          if (isEdit) {
             const mapping = {
               'Data OF Cut': 'OF Cut',
               'Pekerjaan Pihak Ke-3': 'Pihak Ke-3',
               'Temuan Lapangan': 'Temuan'
             };
             const realCat = mapping[cat] || cat;
-            if (isStock) {
-              const targetCat = stockHistory[cat] ? cat : 'Stok Spare';
-              if (stockHistory[targetCat] && stockHistory[targetCat].length > editId) {
-                stockHistory[targetCat][editId] = { ...stockHistory[targetCat][editId], ...record };
-                saveData();
-                showToast('✅ Data berhasil diperbarui', 'success');
-              } else {
-                throw new Error('Data tidak ditemukan');
+            const isStockEdit = window._editIsStock || false;
+            const uid = window._editUid;
+
+            let found = false;
+            if (isStockEdit) {
+              const stockCat = cat === 'Patch Cord' || cat === 'Stok Spare' ? cat : 'Stok Spare';
+              if (stockHistory[stockCat] && Array.isArray(stockHistory[stockCat])) {
+                const idx = stockHistory[stockCat].findIndex(r => r._uid === uid);
+                if (idx !== -1) {
+                  // Pertahankan _uid
+                  record._uid = stockHistory[stockCat][idx]._uid;
+                  stockHistory[stockCat][idx] = { ...stockHistory[stockCat][idx], ...record };
+                  found = true;
+                }
               }
             } else {
-              if (appData[realCat] && appData[realCat].length > editId) {
-                appData[realCat][editId] = { ...appData[realCat][editId], ...record };
-                saveData();
-                showToast('✅ Data berhasil diperbarui', 'success');
-              } else {
-                throw new Error('Data tidak ditemukan');
+              if (appData[realCat] && Array.isArray(appData[realCat])) {
+                const idx = appData[realCat].findIndex(r => r._uid === uid);
+                if (idx !== -1) {
+                  record._uid = appData[realCat][idx]._uid;
+                  appData[realCat][idx] = { ...appData[realCat][idx], ...record };
+                  found = true;
+                }
               }
             }
+            if (found) {
+              saveData();
+              showToast('✅ Data berhasil diperbarui', 'success');
+            } else {
+              throw new Error('Data tidak ditemukan');
+            }
           } else {
+            // Tambah baru
             if (isStock) {
               if (record.trType === 'Keluar') {
                 const currentStock = getCurrentStock(record.barcode, record.spec, record.warehouse);
@@ -4312,9 +4364,7 @@
               }
               const targetCat = stockHistory[cat] ? cat : 'Stok Spare';
               if (!stockHistory[targetCat]) stockHistory[targetCat] = [];
-              const newRec = { ...record, time: new Date().toISOString() };
-              newRec._uid = generateUid();
-              stockHistory[targetCat].push(newRec);
+              stockHistory[targetCat].push({ ...record, time: new Date().toISOString() });
               saveData();
               showToast(`✅ Transaksi ${record.trType} ${record.spec} berhasil`, 'success');
             } else {
@@ -4325,9 +4375,7 @@
               };
               const realCat = mapping[cat] || cat;
               if (!appData[realCat]) appData[realCat] = [];
-              const newRec = { ...record };
-              newRec._uid = generateUid();
-              appData[realCat].unshift(newRec);
+              appData[realCat].unshift(record);
               saveData();
               showToast('✅ Data berhasil disimpan', 'success');
             }
@@ -4336,6 +4384,11 @@
           closeForm();
           renderTable();
           renderAllStats();
+
+          // Reset edit state
+          window._editIsStock = false;
+          window._editUid = null;
+          editId = null;
 
         } catch (err) {
           showToast('❌ Gagal menyimpan: ' + err.message, 'error');
@@ -4349,14 +4402,18 @@
       // --- CLOSE FORM (tombol batal) ---
       document.getElementById('close-form').addEventListener('click', function() {
         closeForm();
+        window._editIsStock = false;
+        window._editUid = null;
+        editId = null;
       });
       document.getElementById('cancel-form').addEventListener('click', function() {
         closeForm();
+        window._editIsStock = false;
+        window._editUid = null;
+        editId = null;
       });
 
       console.log(`🚀 BUCIN ${APP_VERSION} - Firebase terhubung ke ${firebaseConfig.projectId}`);
-      console.log('📌 Admin: admin / @patroli123 (password sudah di-hash otomatis)');
-      console.log('📌 Fitur: Inactivity 10 menit, Single Device, Refresh persist');
       console.log('📌 Tombol hapus menggunakan _uid, akurat meskipun ada filter');
       console.log('📌 Tombol retur membuka tab baru tanpa login ulang jika sesi aktif');
     }
@@ -4365,7 +4422,6 @@
     // 29. BIND RETURN EVENTS
     // ==================================================================
     function bindReturnEvents() {
-      // Tab switching
       document.querySelectorAll('#retur-page .retur-tabs button').forEach(btn => {
         btn.addEventListener('click', function() {
           document.querySelectorAll('#retur-page .retur-tabs button').forEach(b => b.classList.remove('active'));
@@ -4682,7 +4738,7 @@
             found.returned = true;
             found.returnQty = (found.returnQty || 0) + item.qty;
           }
-          const newHist = {
+          hist.push({
             barcode: item.productId,
             spec: item.nama,
             warehouse: returnState.selectedGudang,
@@ -4696,8 +4752,7 @@
             condition: 'Baik',
             noRetur: returnState.noRetur,
             _uid: generateUid()
-          };
-          hist.push(newHist);
+          });
           stockHistory['Stok Spare'] = hist;
         });
 
