@@ -24,7 +24,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
   <style>
-    /* ===== RESET & VARIABEL ===== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --blue: #1877f2; --blue-dark: #0f5ec7; --ink: #172033; --muted: #687386;
@@ -384,240 +383,65 @@
     .retur-page .retur-content { display: none; }
     .retur-page .retur-content.active { display: block; }
 
-    .warehouse-popup {
-      position: fixed; z-index: 200; inset: 0; background: rgba(0,0,0,0.55);
+    .warehouse-popup { position: fixed; z-index: 200; inset: 0; background: rgba(0,0,0,0.55);
       backdrop-filter: blur(6px); display: grid; place-items: center; padding: 20px;
-      animation: fadeIn .2s ease;
-    }
-    .warehouse-popup .popup-card {
-      background: white; border-radius: 20px; padding: 30px 28px;
+      animation: fadeIn .2s ease; }
+    .warehouse-popup .popup-card { background: white; border-radius: 20px; padding: 30px 28px;
       max-width: 420px; width: 100%; box-shadow: 0 24px 60px rgba(0,0,0,0.3);
-      text-align: center;
-    }
-    .warehouse-popup .popup-card h2 {
-      font-family: var(--font-heading); font-size: 1.2rem; margin: 0 0 4px; color: var(--ink);
-    }
-    .warehouse-popup .popup-card p {
-      font-size: 0.8rem; color: var(--muted); margin: 0 0 16px;
-    }
-    .warehouse-popup .popup-card .btn-group {
-      display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;
-    }
-    .warehouse-popup .popup-card .btn-group button {
-      padding: 10px 14px; border: 2px solid var(--line); border-radius: 10px;
+      text-align: center; }
+    .warehouse-popup .popup-card h2 { font-family: var(--font-heading); font-size: 1.2rem; margin: 0 0 4px; color: var(--ink); }
+    .warehouse-popup .popup-card p { font-size: 0.8rem; color: var(--muted); margin: 0 0 16px; }
+    .warehouse-popup .popup-card .btn-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .warehouse-popup .popup-card .btn-group button { padding: 10px 14px; border: 2px solid var(--line); border-radius: 10px;
       background: white; font-weight: 700; font-size: 0.85rem; cursor: pointer;
-      transition: all .2s; color: var(--ink);
-    }
-    .warehouse-popup .popup-card .btn-group button:hover {
-      border-color: var(--blue); background: #f0f7ff;
-    }
-    .warehouse-popup .popup-card .btn-group button.active {
-      border-color: var(--blue); background: #e6f1ff; box-shadow: 0 0 0 3px rgba(24,119,242,0.15);
-    }
-    .warehouse-popup .popup-card .popup-actions {
-      display: flex; gap: 8px; justify-content: flex-end;
-    }
-    .warehouse-popup .popup-card .popup-actions .btn-cancel {
-      padding: 8px 18px; border: 0; border-radius: 8px; background: #e8edf3;
-      font-weight: 600; font-size: 0.8rem; cursor: pointer; color: #4b5a6e;
-    }
-    .warehouse-popup .popup-card .popup-actions .btn-confirm {
-      padding: 8px 18px; border: 0; border-radius: 8px; background: var(--blue);
+      transition: all .2s; color: var(--ink); }
+    .warehouse-popup .popup-card .btn-group button:hover { border-color: var(--blue); background: #f0f7ff; }
+    .warehouse-popup .popup-card .btn-group button.active { border-color: var(--blue); background: #e6f1ff; box-shadow: 0 0 0 3px rgba(24,119,242,0.15); }
+    .warehouse-popup .popup-card .popup-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .warehouse-popup .popup-card .popup-actions .btn-cancel { padding: 8px 18px; border: 0; border-radius: 8px; background: #e8edf3;
+      font-weight: 600; font-size: 0.8rem; cursor: pointer; color: #4b5a6e; }
+    .warehouse-popup .popup-card .popup-actions .btn-confirm { padding: 8px 18px; border: 0; border-radius: 8px; background: var(--blue);
       font-weight: 700; font-size: 0.8rem; cursor: pointer; color: white;
-      transition: .2s; opacity: 0.5; pointer-events: none;
-    }
-    .warehouse-popup .popup-card .popup-actions .btn-confirm:not(:disabled) {
-      opacity: 1; pointer-events: auto;
-    }
-    .warehouse-popup .popup-card .popup-actions .btn-confirm:not(:disabled):hover {
-      background: var(--blue-dark);
-    }
+      transition: .2s; opacity: 0.5; pointer-events: none; }
+    .warehouse-popup .popup-card .popup-actions .btn-confirm:not(:disabled) { opacity: 1; pointer-events: auto; }
+    .warehouse-popup .popup-card .popup-actions .btn-confirm:not(:disabled):hover { background: var(--blue-dark); }
     @keyframes fadeIn { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
-    .dark-mode .warehouse-popup .popup-card {
-      background: #1e242d; color: var(--ink);
-    }
-    .dark-mode .warehouse-popup .popup-card .btn-group button {
-      background: #2a313c; border-color: #3d4655; color: var(--ink);
-    }
-    .dark-mode .warehouse-popup .popup-card .btn-group button:hover {
-      border-color: var(--blue); background: #253549;
-    }
-    .dark-mode .warehouse-popup .popup-card .popup-actions .btn-cancel {
-      background: #2a313c; color: #b0baca;
-    }
+    .dark-mode .warehouse-popup .popup-card { background: #1e242d; color: var(--ink); }
+    .dark-mode .warehouse-popup .popup-card .btn-group button { background: #2a313c; border-color: #3d4655; color: var(--ink); }
+    .dark-mode .warehouse-popup .popup-card .btn-group button:hover { border-color: var(--blue); background: #253549; }
+    .dark-mode .warehouse-popup .popup-card .popup-actions .btn-cancel { background: #2a313c; color: #b0baca; }
 
     .hidden-field { display: none !important; }
-
-    .return-scan-row-compact {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .return-scan-row-compact .return-barcode-input {
-      flex: 0 1 200px;
-      min-width: 100px;
-      max-width: 240px;
-    }
-    .return-scan-row-compact .scan-btn-compact {
-      padding: 4px 10px;
-      font-size: 0.7rem;
-      white-space: nowrap;
-      border: 0;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      background: var(--blue);
-      color: white;
-      transition: .2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      min-height: 32px;
-    }
-    .return-scan-row-compact .scan-btn-compact:hover {
-      background: var(--blue-dark);
-    }
-    @media(max-width:480px) {
-      .return-scan-row-compact .return-barcode-input {
-        flex: 1 1 100%;
-        max-width: 100%;
-      }
-    }
-
-    .scanner-container {
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    }
-    #camera-preview, #return-camera-preview {
-      min-height: 280px;
-      background: #0a0a0a;
-    }
-    .scanner-frame {
-      top: 15%;
-      left: 12%;
-      width: 76%;
-      height: 60%;
-      border: 2px dashed rgba(39, 168, 68, 0.5);
-      border-radius: 12px;
-      box-shadow: 0 0 0 4000px rgba(0,0,0,0.55), 0 0 40px rgba(39,168,68,0.2);
-      background: rgba(39,168,68,0.05);
-    }
-    .scanner-frame .corner {
-      width: 28px;
-      height: 28px;
-      border-color: #27a844;
-      border-width: 4px;
-      border-style: solid;
-    }
+    .return-scan-row-compact { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .return-scan-row-compact .return-barcode-input { flex: 0 1 200px; min-width: 100px; max-width: 240px; }
+    .return-scan-row-compact .scan-btn-compact { padding: 4px 10px; font-size: 0.7rem; white-space: nowrap; border: 0; border-radius: 8px; font-weight: 700; cursor: pointer; background: var(--blue); color: white; transition: .2s; display: inline-flex; align-items: center; gap: 4px; min-height: 32px; }
+    .return-scan-row-compact .scan-btn-compact:hover { background: var(--blue-dark); }
+    @media(max-width:480px) { .return-scan-row-compact .return-barcode-input { flex: 1 1 100%; max-width: 100%; } }
+    .scanner-container { border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+    #camera-preview, #return-camera-preview { min-height: 280px; background: #0a0a0a; }
+    .scanner-frame { top: 15%; left: 12%; width: 76%; height: 60%; border: 2px dashed rgba(39,168,68,0.5); border-radius: 12px; box-shadow: 0 0 0 4000px rgba(0,0,0,0.55), 0 0 40px rgba(39,168,68,0.2); background: rgba(39,168,68,0.05); }
+    .scanner-frame .corner { width: 28px; height: 28px; border-color: #27a844; border-width: 4px; border-style: solid; }
     .scanner-frame .corner.tl { top: -2px; left: -2px; border-right: 0; border-bottom: 0; border-radius: 4px 0 0 0; }
     .scanner-frame .corner.tr { top: -2px; right: -2px; border-left: 0; border-bottom: 0; border-radius: 0 4px 0 0; }
     .scanner-frame .corner.bl { bottom: -2px; left: -2px; border-right: 0; border-top: 0; border-radius: 0 0 0 4px; }
     .scanner-frame .corner.br { bottom: -2px; right: -2px; border-left: 0; border-top: 0; border-radius: 0 0 4px 0; }
-    .scanner-label {
-      bottom: 12%;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px);
-      padding: 6px 18px;
-      border-radius: 30px;
-      border: 1px solid rgba(39,168,68,0.4);
-      font-size: 0.7rem;
-      letter-spacing: 0.5px;
-    }
-    .scanner-label .scan-icon {
-      display: inline-block;
-      animation: pulse-icon 1.5s ease-in-out infinite;
-    }
-    @keyframes pulse-icon {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.9); }
-    }
-    .stop-camera-btn {
-      bottom: 16px;
-      right: 16px;
-      background: rgba(220, 53, 69, 0.85);
-      backdrop-filter: blur(4px);
-      padding: 6px 14px;
-      font-size: 0.65rem;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-    .stop-camera-btn:hover {
-      background: #b02a37;
-    }
-
-    .hidden-input {
-      display: none !important;
-    }
-
-    .inactivity-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(8px);
-      display: none;
-      place-items: center;
-    }
-    .inactivity-overlay.active {
-      display: grid;
-    }
-    .inactivity-overlay .card {
-      background: white;
-      border-radius: 20px;
-      padding: 40px 30px;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
-    }
-    .inactivity-overlay .card h2 {
-      font-family: var(--font-heading);
-      font-size: 1.2rem;
-      margin: 0 0 8px;
-      color: var(--ink);
-    }
-    .inactivity-overlay .card p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin: 0 0 20px;
-    }
-    .inactivity-overlay .card .btn {
-      padding: 10px 28px;
-      border: 0;
-      border-radius: 10px;
-      background: var(--blue);
-      color: white;
-      font-weight: 700;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: .2s;
-    }
-    .inactivity-overlay .card .btn:hover {
-      background: var(--blue-dark);
-    }
-    .dark-mode .inactivity-overlay .card {
-      background: #1e242d;
-      color: var(--ink);
-    }
-
-    .toast-region {
-      z-index: 9998;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 8px;
-      justify-content: flex-end;
-      margin-top: 14px;
-      padding-top: 10px;
-      border-top: 1px solid var(--line);
-    }
-
-    .edit-row, .delete-row {
-      min-width: 28px;
-      min-height: 28px;
-    }
+    .scanner-label { bottom: 12%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 6px 18px; border-radius: 30px; border: 1px solid rgba(39,168,68,0.4); font-size: 0.7rem; letter-spacing: 0.5px; }
+    .scanner-label .scan-icon { display: inline-block; animation: pulse-icon 1.5s ease-in-out infinite; }
+    @keyframes pulse-icon { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.9); } }
+    .stop-camera-btn { bottom: 16px; right: 16px; background: rgba(220,53,69,0.85); backdrop-filter: blur(4px); padding: 6px 14px; font-size: 0.65rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15); }
+    .stop-camera-btn:hover { background: #b02a37; }
+    .hidden-input { display: none !important; }
+    .inactivity-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: none; place-items: center; }
+    .inactivity-overlay.active { display: grid; }
+    .inactivity-overlay .card { background: white; border-radius: 20px; padding: 40px 30px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
+    .inactivity-overlay .card h2 { font-family: var(--font-heading); font-size: 1.2rem; margin: 0 0 8px; color: var(--ink); }
+    .inactivity-overlay .card p { font-size: 0.85rem; color: var(--muted); margin: 0 0 20px; }
+    .inactivity-overlay .card .btn { padding: 10px 28px; border: 0; border-radius: 10px; background: var(--blue); color: white; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: .2s; }
+    .inactivity-overlay .card .btn:hover { background: var(--blue-dark); }
+    .dark-mode .inactivity-overlay .card { background: #1e242d; color: var(--ink); }
+    .toast-region { z-index: 9998; }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--line); }
+    .edit-row, .delete-row { min-width: 28px; min-height: 28px; }
   </style>
 </head>
 <body>
@@ -640,12 +464,10 @@
     </div>
     <h1>BUCIN</h1>
     <p class="subtitle">Sistem Cegah Insiden Network</p>
-
     <div class="field-group" style="margin-bottom:14px;">
       <label for="login-username">Nama Pengguna</label>
       <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" value="" autofocus>
     </div>
-
     <div class="field-group" style="margin-bottom:16px;">
       <label for="login-password">Kata Sandi</label>
       <div class="password-wrapper">
@@ -655,18 +477,13 @@
         </button>
       </div>
     </div>
-
     <p id="login-error" class="login-error"></p>
-
-    <button id="login-btn" class="primary-button" style="width:100%; justify-content:center; background:#1877f2; color:white; padding:10px; font-size:1rem;">
-      Masuk Sistem
-    </button>
+    <button id="login-btn" class="primary-button" style="width:100%; justify-content:center; background:#1877f2; color:white; padding:10px; font-size:1rem;">Masuk Sistem</button>
   </div>
 </div>
 
 <!-- ===== APP SHELL ===== -->
 <div id="app-shell" class="app-shell hidden">
-  <!-- HEADER -->
   <header class="top-header">
     <div class="header-inner">
       <button id="brand-home" type="button" class="brand-button">
@@ -690,36 +507,16 @@
       </nav>
       <div class="header-actions">
         <div class="admin-actions-group admin-only">
-          <button id="add-user-btn" type="button" class="round-action">
-            <i data-lucide="user-plus" style="width:15px;height:15px;"></i>
-            <span class="tooltip">Tambah Pengguna</span>
-          </button>
-          <span class="divider"></span>
-          <button id="settings-btn" type="button" class="round-action">
-            <i data-lucide="settings" style="width:15px;height:15px;"></i>
-            <span class="tooltip">Pengaturan</span>
-          </button>
+          <button id="add-user-btn" type="button" class="round-action"><i data-lucide="user-plus" style="width:15px;height:15px;"></i><span class="tooltip">Tambah Pengguna</span></button>
+          <button id="settings-btn" type="button" class="round-action"><i data-lucide="settings" style="width:15px;height:15px;"></i><span class="tooltip">Pengaturan</span></button>
         </div>
-
-        <button id="change-password-header-btn" type="button" class="round-action" title="Ganti Password">
-          <i data-lucide="key" style="width:15px;height:15px;"></i>
-          <span class="tooltip">Ganti Password</span>
-        </button>
-
-        <div id="current-user-badge" class="user-badge hidden">
-          <i data-lucide="user" style="width:11px;height:11px;"></i>
-          <span id="user-name-display"></span>
-          <span id="login-count-badge" style="font-size:0.5rem;background:#f59e0b;color:white;border-radius:99px;padding:0 4px;margin-left:2px;"></span>
-        </div>
-        <button id="logout-btn" type="button" class="round-action">
-          <i data-lucide="log-out" style="width:15px;height:15px;"></i>
-          <span class="tooltip">Keluar</span>
-        </button>
+        <button id="change-password-header-btn" type="button" class="round-action" title="Ganti Password"><i data-lucide="key" style="width:15px;height:15px;"></i><span class="tooltip">Ganti Password</span></button>
+        <div id="current-user-badge" class="user-badge hidden"><i data-lucide="user" style="width:11px;height:11px;"></i><span id="user-name-display"></span><span id="login-count-badge" style="font-size:0.5rem;background:#f59e0b;color:white;border-radius:99px;padding:0 4px;margin-left:2px;"></span></div>
+        <button id="logout-btn" type="button" class="round-action"><i data-lucide="log-out" style="width:15px;height:15px;"></i><span class="tooltip">Keluar</span></button>
       </div>
     </div>
   </header>
 
-  <!-- MAIN -->
   <main class="main-content">
     <!-- Dashboard View -->
     <section id="dashboard-view">
@@ -728,28 +525,19 @@
           <div class="eyebrow">☁️ PUSAT OPERASI JARINGAN • SULAWESI UTARA</div>
           <h1 class="hero-title">Barisan Utama Cegah Insiden Network</h1>
           <p class="hero-subtitle">Satu ruang kendali untuk memantau insiden, mengelola pekerjaan, dan menjaga ketersediaan stok.</p>
-          <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
-            <span style="font-size:0.65rem;color:var(--hero-subtext);opacity:0.7;">Data tersimpan di Firebase & lokal</span>
-          </div>
+          <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;"><span style="font-size:0.65rem;color:var(--hero-subtext);opacity:0.7;">Data tersimpan di Firebase & lokal</span></div>
         </div>
       </div>
       <section class="section-block">
         <div class="section-heading">
-          <div>
-            <h2>Dashboard Operasional</h2>
-            <p>Pantau insiden, lokasi kejadian di peta serta data register dan stok.</p>
-          </div>
+          <div><h2>Dashboard Operasional</h2><p>Pantau insiden, lokasi kejadian di peta serta data register dan stok.</p></div>
         </div>
         <div class="dashboard-grid">
           <article class="chart-card">
             <h3>Insiden & Temuan Lapangan</h3>
             <p class="chart-help">Perbandingan Data OF Cut, pekerjaan pihak ketiga, dan temuan lapangan.</p>
             <div class="pie-layout">
-              <div id="pie-chart" class="pie-chart">
-                <div class="pie-total">
-                  <span><b id="pie-total">0</b><small>Total data</small></span>
-                </div>
-              </div>
+              <div id="pie-chart" class="pie-chart"><div class="pie-total"><span><b id="pie-total">0</b><small>Total data</small></span></div></div>
               <div class="legend-list">
                 <button type="button" class="legend-button" data-category="Data OF Cut"> <span class="legend-dot" style="background:#e6a400"></span> <span class="legend-name">Data OF Cut</span><span id="pie-ofcut" class="legend-value">0</span> </button>
                 <button type="button" class="legend-button" data-category="Pekerjaan Pihak Ke-3"> <span class="legend-dot" style="background:#f3425f"></span> <span class="legend-name">Pekerjaan Pihak Ke-3</span><span id="pie-third" class="legend-value">0</span> </button>
@@ -787,24 +575,9 @@
         </div>
       </section>
       <section class="section-block mission-grid">
-        <article class="info-card">
-          <h2>Visi</h2>
-          <p id="vision-desc">Menjadi garda terdepan yang handal dalam menjamin keamanan infrastruktur jaringan strategis Telin di Indonesia Timur.</p>
-        </article>
-        <article class="info-card">
-          <h2>Misi Utama</h2>
-          <ul id="mission-list">
-            <li>Patroli rutin jalur kabel dan aset jaringan.</li>
-            <li>Mengelola pekerjaan dan temuan secara terukur.</li>
-            <li>Menjaga ketersediaan material dan stok pendukung.</li>
-          </ul>
-        </article>
-        <article class="info-card">
-          <h2>Wilayah Kerja</h2>
-          <p id="region-desc">Manado, Bitung, Likupang, Bolaang Mongondow, Gorontalo, Siau, Tagulandang, dan Biaro.</p>
-          <h3 style="color:var(--blue); font-weight:700; font-size:0.85rem; margin-top:6px;">Tugas Utama</h3>
-          <p style="line-height:1.6; font-size:0.75rem;">Menjaga aset serat optik, mencatat kondisi lapangan, serta mengelola stok material pendukung.</p>
-        </article>
+        <article class="info-card"><h2>Visi</h2><p id="vision-desc">Menjadi garda terdepan yang handal dalam menjamin keamanan infrastruktur jaringan strategis Telin di Indonesia Timur.</p></article>
+        <article class="info-card"><h2>Misi Utama</h2><ul id="mission-list"><li>Patroli rutin jalur kabel dan aset jaringan.</li><li>Mengelola pekerjaan dan temuan secara terukur.</li><li>Menjaga ketersediaan material dan stok pendukung.</li></ul></article>
+        <article class="info-card"><h2>Wilayah Kerja</h2><p id="region-desc">Manado, Bitung, Likupang, Bolaang Mongondow, Gorontalo, Siau, Tagulandang, dan Biaro.</p><h3 style="color:var(--blue);font-weight:700;font-size:0.85rem;margin-top:6px;">Tugas Utama</h3><p style="line-height:1.6;font-size:0.75rem;">Menjaga aset serat optik, mencatat kondisi lapangan, serta mengelola stok material pendukung.</p></article>
       </section>
     </section>
 
@@ -813,16 +586,10 @@
       <div class="data-panel">
         <div class="data-toolbar">
           <div class="toolbar-top">
-            <div class="data-title-wrap"><span class="data-title-icon"><i data-lucide="file-text" style="width:14px;height:14px;"></i></span>
-              <div>
-                <h1 id="active-category-title">Data Operasional</h1>
-                <p id="record-total" class="record-total">0 data</p>
-              </div>
-            </div>
+            <div class="data-title-wrap"><span class="data-title-icon"><i data-lucide="file-text" style="width:14px;height:14px;"></i></span><div><h1 id="active-category-title">Data Operasional</h1><p id="record-total" class="record-total">0 data</p></div></div>
             <div class="toolbar-buttons">
               <button id="stock-add" type="button" class="primary-button hidden" style="background:rgb(39,168,68);color:white;">Tambah Transaksi</button>
               <button id="stock-history" type="button" class="secondary-button hidden" style="background:rgb(233,238,245);color:rgb(52,65,84);">Riwayat</button>
-              <!-- TOMBOL RETUR hanya di Stok Spare -->
               <button id="spare-return" type="button" class="return-button hidden"><i data-lucide="undo-2" style="width:12px;height:12px;"></i> Retur</button>
               <button id="export-button" type="button" class="secondary-button" style="background:rgb(233,238,245);color:rgb(52,65,84);">Excel</button>
               <button id="data-add" type="button" class="primary-button" style="background:rgb(39,168,68);color:white;">Tambah Data</button>
@@ -854,12 +621,9 @@
     </section>
   </main>
 
-  <!-- ===== MODALS (tetap) ===== -->
-  <!-- (Modal Ganti Password, Form Utama, History, User, Settings, Confirm — sama seperti sebelumnya, disimpan di sini) -->
-  <!-- Untuk menghemat tempat, saya tulis ulang singkat, tapi semua modal tetap ada -->
-
+  <!-- ===== MODALS ===== -->
   <!-- Ganti Password -->
-  <div id="change-password-modal" class="modal-layer hidden change-password-modal">
+  <div id="change-password-modal" class="modal-layer hidden">
     <div class="modal-card">
       <div class="modal-head"><h2>🔑 Ganti Password</h2><button type="button" class="modal-close" id="close-change-password"><i data-lucide="x"></i></button></div>
       <form id="change-password-form" style="padding:14px;">
@@ -881,34 +645,27 @@
         <div class="form-grid">
           <div class="field-group"><label>Jenis Data</label><input type="text" class="field-control" id="form-category" readonly style="background:#f1f5f9;color:#374151;font-weight:600;"></div>
           <div class="field-group"><label for="form-date">Tanggal <span style="color:red">*</span></label><input type="date" class="field-control" id="form-date" required><div class="field-error-msg" id="form-date-error">Tanggal harus diisi</div></div>
-          <!-- OPM/OLS -->
           <div class="field-group full opmols-row hidden"><label for="form-ruas">Ruas / Segmen <span style="color:red">*</span></label><input type="text" class="field-control" id="form-ruas"><div class="field-error-msg" id="form-ruas-error">Ruas/Segmen harus diisi</div></div>
           <div class="field-group opmols-row hidden"><label for="form-dari">Dari <span style="color:red">*</span></label><input type="text" class="field-control" id="form-dari"><div class="field-error-msg" id="form-dari-error">Titik awal harus diisi</div></div>
           <div class="field-group opmols-row hidden"><label for="form-ke">Ke <span style="color:red">*</span></label><input type="text" class="field-control" id="form-ke"><div class="field-error-msg" id="form-ke-error">Titik akhir harus diisi</div></div>
           <div class="field-group opmols-row hidden"><label for="form-port">Port (1–24) <span style="color:red">*</span></label><select class="field-control" id="form-port"><option value="">-- Pilih Port --</option><script>for(let i=1;i<=24;i++)document.write(`<option value="${i}">Port ${i}</option>`);</script></select><div class="field-error-msg" id="form-port-error">Port harus dipilih</div></div>
           <div class="field-group opmols-row hidden"><label for="form-slot">Slot <span style="color:red">*</span></label><input type="number" min="1" class="field-control" id="form-slot"><div class="field-error-msg" id="form-slot-error">Slot harus diisi</div></div>
           <div class="field-group opmols-row hidden"><label for="form-rak">Rak <span style="color:red">*</span></label><input type="text" class="field-control" id="form-rak"><div class="field-error-msg" id="form-rak-error">Rak harus diisi</div></div>
-          <!-- ALKUR -->
           <div class="field-group full alkur-row hidden"><label for="form-alkur-nama">Nama Alat / Material <span style="color:red">*</span></label><input type="text" class="field-control" id="form-alkur-nama"><div class="field-error-msg" id="form-alkur-nama-error">Nama alat/material harus diisi</div></div>
           <div class="field-group alkur-row hidden"><label for="form-alkur-tipe">Merk / Tipe <span style="color:red">*</span></label><input type="text" class="field-control" id="form-alkur-tipe"><div class="field-error-msg" id="form-alkur-tipe-error">Merk/Tipe harus diisi</div></div>
           <div class="field-group alkur-row hidden"><label for="form-alkur-seri">Nomor Seri <span style="color:red">*</span></label><input type="text" class="field-control" id="form-alkur-seri"><div class="field-error-msg" id="form-alkur-seri-error">Nomor seri harus diisi</div></div>
           <div class="field-group alkur-row hidden"><label for="form-alkur-lokasi">Lokasi Penempatan <span style="color:red">*</span></label><input type="text" class="field-control" id="form-alkur-lokasi"><div class="field-error-msg" id="form-alkur-lokasi-error">Lokasi penempatan harus diisi</div></div>
           <div class="field-group alkur-row hidden"><label for="form-alkur-kondisi">Kondisi <span style="color:red">*</span></label><select class="field-control" id="form-alkur-kondisi"><option value="">-- Pilih Kondisi --</option><option value="Baik">Baik</option><option value="Cukup">Cukup</option><option value="Rusak">Rusak</option></select><div class="field-error-msg" id="form-alkur-kondisi-error">Kondisi harus dipilih</div></div>
-          <!-- STOCK -->
           <div class="field-group full stock-field-row hidden"><label for="form-tr-type">Tipe Transaksi <span style="color:red">*</span></label><select class="field-control" id="form-tr-type"><option value="Masuk">Barang Masuk</option><option value="Keluar">Pengeluaran</option></select></div>
           <input type="hidden" id="form-warehouse-hidden" value="">
-          <!-- PATCH CORD -->
           <div class="field-group full patchcord-row hidden"><label for="form-patch-type">Jenis Patch Cord <span style="color:red">*</span></label><select class="field-control" id="form-patch-type"><option value="">-- Pilih Jenis --</option><option value="LC-LC Singlemode">LC-LC Singlemode</option><option value="LC-SC Singlemode">LC-SC Singlemode</option><option value="SC-SC Singlemode">SC-SC Singlemode</option><option value="LC-FC Singlemode">LC-FC Singlemode</option><option value="LC-ST Singlemode">LC-ST Singlemode</option><option value="LC-LC Multimode">LC-LC Multimode</option><option value="SC-SC Multimode">SC-SC Multimode</option><option value="Lainnya">Lainnya (Tulis di bawah)</option></select><div class="field-error-msg" id="form-patch-type-error">Jenis Patch Cord harus dipilih</div></div>
           <div class="field-group full patchcord-row hidden hidden-field" id="patch-other-wrap"><label for="form-patch-other">Jenis Lainnya <span style="color:red">*</span></label><input type="text" class="field-control" id="form-patch-other"><div class="field-error-msg" id="form-patch-other-error">Jenis lainnya harus diisi</div></div>
           <div class="field-group patchcord-row hidden"><label for="form-patch-length">Panjang <span style="color:red">*</span></label><select class="field-control" id="form-patch-length"><option value="">-- Pilih Panjang --</option><option value="1m">1 Meter</option><option value="2m">2 Meter</option><option value="3m" selected>3 Meter</option><option value="5m">5 Meter</option><option value="10m">10 Meter</option><option value="15m">15 Meter</option><option value="20m">20 Meter</option><option value="Lainnya">Lainnya (Tulis)</option></select><div class="field-error-msg" id="form-patch-length-error">Panjang harus dipilih</div></div>
           <div class="field-group patchcord-row hidden hidden-field" id="patch-length-other-wrap"><label for="form-patch-length-other">Panjang Lainnya <span style="color:red">*</span></label><input type="text" class="field-control" id="form-patch-length-other"><div class="field-error-msg" id="form-patch-length-other-error">Panjang lainnya harus diisi</div></div>
-          <!-- STOK SPARE SCANNER -->
           <div class="field-group full spare-only-row hidden"><label>Kode Barcode</label><div class="scan-row"><input type="text" class="field-control" id="form-barcode" placeholder="Klik Scan untuk baca barcode..."><button type="button" class="scan-btn" id="open-camera-btn"><i data-lucide="camera" style="width:14px;height:14px;"></i> Scan</button></div><div class="scanner-container" id="scanner-container"><div id="camera-preview"></div><div class="scanner-overlay"><div class="scanner-frame"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div><div class="scanner-label"><span class="scan-icon">⬜</span> Arahkan ke Barcode</div></div><button type="button" class="stop-camera-btn" id="stop-camera-btn">✕ Tutup Kamera</button></div></div>
           <div class="field-group full spare-only-row hidden"><label for="form-spec">Nama / Spesifikasi Barang <span style="color:red">*</span></label><input type="text" class="field-control" id="form-spec"><div class="field-error-msg" id="form-spec-error">Spesifikasi barang harus diisi</div></div>
-          <!-- NON-STOCK -->
           <div class="field-group non-stock-row hidden"><label for="form-location">Nama Lokasi <span style="color:red">*</span></label><input type="text" class="field-control" id="form-location"><div class="field-error-msg" id="form-location-error">Nama lokasi harus diisi</div></div>
           <div class="field-group non-stock-row hidden"><label for="form-coords">Titik Koordinat <span style="color:red">*</span></label><input type="text" class="field-control" id="form-coords"><div class="field-error-msg" id="form-coords-error">Koordinat harus diisi</div></div>
-          <!-- PROSEDUR -->
           <div class="field-group full" id="procedure-container"><label>Prosedur Perbaikan Gangguan Fiber <span style="color:red">* (pilih minimal 1)</span></label><div class="procedure-grid" id="procedure-grid"></div><div class="procedure-checklist" id="procedure-checklist" style="display:none;"></div><div id="procedure-error-msg" class="field-error-msg visible" style="display:none;">Pilih minimal 1 prosedur</div><input type="hidden" id="form-procedure" value=""></div>
           <div class="field-group"><label for="form-qty">Jumlah <span style="color:red">*</span></label><input type="number" min="1" value="1" class="field-control" id="form-qty"><div class="field-error-msg" id="form-qty-error">Jumlah minimal 1</div></div>
           <div class="field-group full"><label for="form-notes">Keterangan <span style="color:red" id="notes-required-star">*</span></label><textarea class="field-control" id="form-notes"></textarea><div class="field-error-msg" id="form-notes-error">Keterangan wajib diisi untuk pengeluaran</div></div>
@@ -973,16 +730,8 @@
 
 <!-- ===== HALAMAN RETUR ===== -->
 <div id="retur-page" class="retur-page">
-  <div class="back-btn">
-    <button id="back-to-main" class="primary-button" style="background:var(--blue);color:white;padding:8px 18px;font-size:0.85rem;">
-      <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Kembali ke BUCIN
-    </button>
-  </div>
-  <div class="retur-tabs">
-    <button class="active" data-tab="input-retur">📥 Input Retur</button>
-    <button data-tab="riwayat-retur">📋 Riwayat</button>
-  </div>
-  <!-- Tab Input Retur -->
+  <div class="back-btn"><button id="back-to-main" class="primary-button" style="background:var(--blue);color:white;padding:8px 18px;font-size:0.85rem;"><i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Kembali ke BUCIN</button></div>
+  <div class="retur-tabs"><button class="active" data-tab="input-retur">📥 Input Retur</button><button data-tab="riwayat-retur">📋 Riwayat</button></div>
   <div class="retur-content active" id="tab-input-retur">
     <form id="return-form">
       <div class="return-form-grid">
@@ -996,11 +745,7 @@
           <input class="field-control return-barcode-input" id="return-barcode-input" placeholder="Klik Scan..." style="flex:0 1 200px;min-width:100px;max-width:240px;">
           <button type="button" class="scan-btn-compact" id="return-scan-barcode-btn"><i data-lucide="camera" style="width:14px;height:14px;"></i> Scan</button>
         </div>
-        <div class="scanner-container" id="return-scanner-container">
-          <div id="return-camera-preview"></div>
-          <div class="scanner-overlay"><div class="scanner-frame"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div><div class="scanner-label"><span class="scan-icon">⬜</span> Arahkan ke Barcode</div></div>
-          <button type="button" class="stop-camera-btn" id="return-stop-camera-btn">✕ Tutup Kamera</button>
-        </div>
+        <div class="scanner-container" id="return-scanner-container"><div id="return-camera-preview"></div><div class="scanner-overlay"><div class="scanner-frame"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div><div class="scanner-label"><span class="scan-icon">⬜</span> Arahkan ke Barcode</div></div><button type="button" class="stop-camera-btn" id="return-stop-camera-btn">✕ Tutup Kamera</button></div>
       </div>
       <div class="return-form-grid">
         <div class="form-group"><label>Nama Barang</label><input class="field-control" id="return-nama-barang" readonly style="background:#f1f5f9;"></div>
@@ -1015,7 +760,6 @@
       <input type="file" accept="image/*" capture="environment" class="hidden-input" id="return-upload-file-input" />
     </form>
   </div>
-  <!-- Tab Riwayat Retur -->
   <div class="retur-content" id="tab-riwayat-retur">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
       <h3 style="margin:0;font-size:1rem;">📋 Riwayat Retur</h3>
@@ -1029,16 +773,10 @@
     </div>
   </div>
 </div>
-
 <script>
-  // ==================================================================
-  //  BUCIN v19.0 — SEMUA MENU LENGKAP, RETUR TANPA PASSWORD
-  // ==================================================================
-
   (function() {
     'use strict';
 
-    // ===== FIREBASE CONFIG =====
     const firebaseConfig = {
       apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
       authDomain: "bucin-18282.firebaseapp.com",
@@ -1050,7 +788,6 @@
       measurementId: "G-EV8X7TEGV1"
     };
 
-    // ===== CONSTANTS =====
     const APP_VERSION = 'v19.0';
     const INACTIVITY_TIMEOUT = 10 * 60 * 1000;
     const SESSION_KEY = 'bucin_session';
@@ -1118,7 +855,6 @@
       masterBarang: {}
     };
 
-    // ===== FIREBASE HELPERS =====
     function initFirebase() {
       try {
         if (!firebase.apps || firebase.apps.length === 0) firebase.initializeApp(firebaseConfig);
@@ -1158,11 +894,8 @@
     }
 
     function generateSessionId() { return 'sid_'+Date.now()+'_'+Math.random().toString(36).substr(2,8); }
-
     function generateUid() { return 'uid_'+Date.now()+'_'+Math.random().toString(36).substr(2,6); }
-
     function formatDate(d) { if(!d) return '-'; if(typeof d==='string' && d.includes('T')) d=d.split('T')[0]; return d; }
-
     function setVh() { const vh=window.innerHeight*0.01; document.documentElement.style.setProperty('--vh', vh+'px'); }
 
     function showToast(msg, type='info') {
@@ -1548,7 +1281,7 @@
         const isSpare=category==='Stok Spare';
         document.getElementById('stock-add').classList.toggle('hidden', !isStock);
         document.getElementById('stock-history').classList.toggle('hidden', !isSpare);
-        document.getElementById('spare-return').classList.toggle('hidden', !isSpare); // RETUR hanya di Stok Spare
+        document.getElementById('spare-return').classList.toggle('hidden', !isSpare);
         document.getElementById('data-add').classList.toggle('hidden', isSpare);
         renderRecordsTable();
       }
@@ -1619,7 +1352,7 @@
     }
 
     function checkReturnReadyState() {
-      const ready=returnState.returItems.length>0 && returnState.selectedGudantidak null;
+      const ready=returnState.returItems.length>0 && returnState.selectedGudang!==null;
       document.getElementById('return-download-pdf-btn').disabled=!ready;
       document.getElementById('return-upload-foto-btn').disabled=!ready;
       document.getElementById('return-simpan-btn').disabled=!ready;
