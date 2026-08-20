@@ -9,6 +9,7 @@
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   
   <!-- Map & KML -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -25,7 +26,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
   <style>
-    /* ====== MODERN MOBILE FIRST STYLES ====== */
     :root {
       --primary:#2563eb; --primary-light:#dbeafe; --ink:#0f172a; --muted:#64748b;
       --line:#e2e8f0; --card-bg:#ffffff; --radius:16px;
@@ -39,7 +39,6 @@
       transition: background 0.3s ease;
     }
     
-    /* Header Modern */
     .top-header { 
       position:sticky; top:0; z-index:40; height:60px; 
       border-bottom:1px solid rgba(226,232,240,.8); backdrop-filter:blur(20px); 
@@ -51,7 +50,6 @@
       box-shadow:0 4px 12px rgba(37,99,235,0.3);
     }
     
-    /* Bottom Navigation Modern */
     .bottom-nav { 
       position:fixed; bottom:0; left:0; right:0; height:70px; 
       background:rgba(255,255,255,0.95); backdrop-filter:blur(20px);
@@ -64,11 +62,9 @@
       color:#94a3b8; font-size:10px; cursor:pointer; transition:all 0.2s ease; padding:0 8px; 
     }
     .nav-item.active { color:var(--primary); font-weight:600; transform:translateY(-2px); }
-    .nav-item.active i { filter:drop-shadow(0 2px 4px rgba(37,99,235,0.3)); }
     .nav-item i { width:24px; height:24px; transition:transform 0.2s; }
     .nav-item:hover i { transform:scale(1.1); }
     
-    /* Main Content */
     .main-content { max-width:1280px; margin:auto; padding:16px; }
     .hero-panel { 
       border-radius:20px; padding:24px; 
@@ -76,22 +72,15 @@
       color:white; box-shadow:0 12px 32px rgba(37,99,235,0.25); margin-bottom:20px; 
       position:relative; overflow:hidden;
     }
-    .hero-panel::before {
-      content:''; position:absolute; top:-50%; right:-20%; width:200px; height:200px;
-      background:rgba(255,255,255,0.1); border-radius:50%; pointer-events:none;
-    }
     
-    /* Cards & Grid */
     .dashboard-grid { display:grid; grid-template-columns:1fr; gap:16px; margin-bottom:20px; }
     @media(min-width:768px) { .dashboard-grid { grid-template-columns:1fr 1fr; } }
     .chart-card { 
       background:var(--card-bg); border:1px solid var(--line); border-radius:var(--radius); 
-      padding:18px; box-shadow:0 4px 16px rgba(0,0,0,0.04); transition:transform 0.2s; 
+      padding:18px; box-shadow:0 4px 16px rgba(0,0,0,0.04); 
     }
-    .chart-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.08); }
     #map-container { height:320px; border-radius:var(--radius); border:1px solid var(--line); z-index:1; }
     
-    /* Forms & Tables */
     .field-control { 
       width:100%; min-height:44px; border:1px solid #cbd5e1; border-radius:12px; 
       background:white; padding:0 14px; font-size:14px; outline:none; transition:all 0.2s; 
@@ -103,28 +92,17 @@
       display:flex; justify-content:center; align-items:center; gap:8px; 
       transition:all 0.2s; box-shadow:0 4px 12px rgba(37,99,235,0.3);
     }
-    .primary-button:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(37,99,235,0.4); }
     .secondary-button { 
       background:#f1f5f9; color:#334155; border:0; border-radius:12px; 
       padding:10px 18px; font-weight:600; cursor:pointer; transition:all 0.2s; 
     }
-    .secondary-button:hover { background:#e2e8f0; }
-    
-    .records-table { width:100%; border-collapse:collapse; font-size:13px; }
-    .records-table th { 
-      background:#f8fafc; padding:12px; text-align:left; border-bottom:1px solid var(--line); 
-      font-weight:600; color:#64748b; white-space:nowrap; 
-    }
-    .records-table td { padding:12px; border-bottom:1px solid #f1f5f9; vertical-align:middle; }
     .icon-btn { 
       width:36px; height:36px; border:0; border-radius:10px; display:grid; place-items:center; 
       cursor:pointer; background:transparent; color:#64748b; transition:all 0.2s; 
     }
-    .icon-btn:hover { background:#f1f5f9; color:var(--primary); transform:scale(1.05); }
+    .icon-btn:hover { background:#f1f5f9; color:var(--primary); }
     .icon-btn.delete { color:#ef4444; }
-    .icon-btn.delete:hover { background:#fef2f2; }
-
-    /* Modals Modern */
+    
     .modal-layer { 
       position:fixed; z-index:100; inset:0; background:rgba(15,23,42,0.6); 
       backdrop-filter:blur(8px); display:grid; place-items:end; 
@@ -138,56 +116,25 @@
     @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
     .hidden { display:none !important; }
 
-    /* Scanner Modern with Bounded Area */
     .scanner-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 360px;
-      height: 240px;
-      margin: 12px auto;
-      border-radius: 16px;
-      overflow: hidden;
-      background: #0f172a;
-      display: none;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      position: relative; width: 100%; max-width: 360px; height: 240px;
+      margin: 12px auto; border-radius: 16px; overflow: hidden; background: #0f172a;
+      display: none; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
     .scanner-wrapper.active { display: block; }
-    .scanner-wrapper video {
-      width: 100%; height: 100%; object-fit: cover;
-    }
+    .scanner-wrapper video { width: 100%; height: 100%; object-fit: cover; }
     .scanner-guide {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 220px; height: 100px;
-      border: 2px solid #22c55e;
-      border-radius: 12px;
-      box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
-      pointer-events: none;
-    }
-    .scanner-guide::after {
-      content: 'Arahkan barcode ke dalam kotak';
-      position: absolute;
-      bottom: -30px; left: 50%;
-      transform: translateX(-50%);
-      color: white; font-size: 11px; font-weight: 600;
-      white-space: nowrap;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 220px; height: 100px; border: 2px solid #22c55e; border-radius: 12px;
+      box-shadow: 0 0 0 9999px rgba(0,0,0,0.5); pointer-events: none;
     }
     .scanner-laser {
-      position: absolute;
-      top: 50%; left: 10%; right: 10%;
-      height: 2px;
-      background: #ef4444;
-      box-shadow: 0 0 8px #ef4444;
-      animation: scanLine 1.5s infinite ease-in-out;
-      pointer-events: none;
+      position: absolute; top: 50%; left: 10%; right: 10%; height: 2px;
+      background: #ef4444; box-shadow: 0 0 8px #ef4444;
+      animation: scanLine 1.5s infinite ease-in-out; pointer-events: none;
     }
-    @keyframes scanLine {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
+    @keyframes scanLine { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
     
-    /* Toast Modern */
     .toast { 
       position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-20px); 
       background:#0f172a; color:white; padding:12px 28px; border-radius:99px; 
@@ -196,7 +143,6 @@
     }
     .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
-    /* Login Screen Modern */
     .login-screen { 
       position:fixed; inset:0; background:linear-gradient(135deg, #2563eb, #1e40af); 
       z-index:200; display:grid; place-items:center; padding:20px; 
@@ -206,22 +152,6 @@
       box-shadow:0 24px 64px rgba(0,0,0,0.3); 
     }
 
-    /* Map Controls Modern */
-    .map-controls { 
-      position:absolute; top:12px; left:12px; z-index:1000; 
-      display:flex; flex-direction:column; gap:8px; 
-    }
-    .map-btn { 
-      background:rgba(255,255,255,0.95); backdrop-filter:blur(10px);
-      border:1px solid rgba(0,0,0,0.1); border-radius:10px;
-      padding:8px 14px; font-size:12px; font-weight:600; color:var(--ink);
-      cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.1);
-      display:flex; align-items:center; gap:6px; transition:all 0.2s;
-    }
-    .map-btn:hover { background:white; transform:translateY(-1px); }
-    .map-btn.active { background:var(--primary); color:white; border-color:var(--primary); }
-
-    /* Gudang Selector */
     .gudang-selector {
       display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin:16px 0;
     }
@@ -229,16 +159,44 @@
       padding:16px; border:2px solid var(--line); border-radius:14px; cursor:pointer;
       text-align:center; transition:all 0.2s; background:white;
     }
-    .gudang-card:hover { border-color:var(--primary); background:var(--primary-light); }
     .gudang-card.selected { border-color:var(--primary); background:var(--primary-light); box-shadow:0 0 0 3px rgba(37,99,235,0.15); }
     .gudang-card i { width:28px; height:28px; color:var(--primary); margin-bottom:8px; }
     .gudang-card span { display:block; font-weight:600; font-size:13px; }
 
-    /* Settings Panel */
     .settings-section { margin-bottom:20px; }
     .settings-section h4 { font-size:13px; font-weight:700; color:#475569; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em; }
     .color-picker-row { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
     .color-picker-row input[type="color"] { width:40px; height:40px; border:0; border-radius:10px; cursor:pointer; }
+    
+    .about-section { 
+      background:var(--card-bg); border:1px solid var(--line); border-radius:var(--radius); 
+      padding:20px; margin-top:20px; box-shadow:0 4px 16px rgba(0,0,0,0.04);
+    }
+    .about-section h3 { font-size:18px; font-weight:800; margin-bottom:12px; color:var(--primary); }
+    .about-section p { font-size:14px; line-height:1.7; color:#475569; margin-bottom:8px; }
+    .about-section ul { list-style:none; padding:0; }
+    .about-section li { font-size:14px; color:#475569; padding:6px 0; border-bottom:1px solid #f1f5f9; display:flex; align-items:center; gap:8px; }
+    .about-section li:last-child { border-bottom:none; }
+
+    .records-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .records-table th { background:#f8fafc; padding:12px; text-align:left; border-bottom:1px solid var(--line); font-weight:600; color:#64748b; white-space:nowrap; }
+    .records-table td { padding:12px; border-bottom:1px solid #f1f5f9; vertical-align:middle; }
+
+    /* Custom Map Controls Position */
+    .leaflet-control-zoom { display:none !important; }
+    .custom-map-controls {
+      position:absolute; top:12px; right:12px; z-index:1000;
+      display:flex; flex-direction:column; gap:8px;
+    }
+    .custom-map-btn {
+      background:rgba(255,255,255,0.95); backdrop-filter:blur(10px);
+      border:1px solid rgba(0,0,0,0.1); border-radius:10px;
+      padding:8px 14px; font-size:12px; font-weight:600; color:var(--ink);
+      cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.1);
+      display:flex; align-items:center; gap:6px; transition:all 0.2s;
+    }
+    .custom-map-btn:hover { background:white; transform:translateY(-1px); }
+    .custom-map-btn.active { background:var(--primary); color:white; border-color:var(--primary); }
   </style>
 </head>
 <body>
@@ -253,13 +211,11 @@
     </div>
     <label style="font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;display:block;">Nama Pengguna</label>
     <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" style="margin-bottom:16px;">
-    
     <label style="font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;display:block;">Kata Sandi</label>
     <div style="position:relative;margin-bottom:28px;">
       <input id="login-password" type="password" class="field-control" placeholder="Masukkan password">
       <button id="toggle-pass" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#94a3b8;cursor:pointer;"><i data-lucide="eye" style="width:20px;"></i></button>
     </div>
-    
     <button id="login-btn" class="primary-button" style="height:52px;font-size:16px;">Masuk Sistem</button>
     <p style="text-align:center;font-size:11px;color:#94a3b8;margin-top:18px;">Default: admin / admin123</p>
   </div>
@@ -273,9 +229,8 @@
       <span style="font-weight:800;color:var(--primary);font-size:20px;">BUCIN</span>
     </div>
     <div style="display:flex;gap:8px;align-items:center;">
-      <!-- TOMBOL PENGATURAN ADMIN DI SAMPING ADD USER -->
-      <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:22px;"></i></button>
       <button id="add-user-btn" class="icon-btn hidden" title="Tambah User"><i data-lucide="user-plus" style="width:22px;"></i></button>
+      <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:22px;"></i></button>
       <button id="logout-btn" class="icon-btn" title="Keluar"><i data-lucide="log-out" style="width:22px;"></i></button>
     </div>
   </header>
@@ -288,23 +243,14 @@
         <p style="margin:8px 0 0;opacity:0.9;font-size:14px;" id="hero-subtitle">Pusat Operasi Jaringan Sulawesi Utara</p>
       </div>
       
-      <!-- DIAGRAMS ABOVE MAP -->
       <div class="dashboard-grid">
         <div class="chart-card">
-          <h3 style="margin:0 0 14px;font-size:16px;font-weight:700;">Statistik Insiden</h3>
-          <div style="display:flex;justify-content:space-around;text-align:center;">
-            <div><b id="stat-ofcut" style="font-size:22px;color:#eab308;">0</b><br><small style="color:#64748b;">OF Cut</small></div>
-            <div><b id="stat-third" style="font-size:22px;color:#f43f5e;">0</b><br><small style="color:#64748b;">Pihak Ke-3</small></div>
-            <div><b id="stat-finding" style="font-size:22px;color:#8b5cf6;">0</b><br><small style="color:#64748b;">Temuan</small></div>
-          </div>
+          <h3 style="margin:0 0 14px;font-size:16px;font-weight:700;">Grafik Statistik Insiden</h3>
+          <canvas id="chartIncidents" height="200"></canvas>
         </div>
         <div class="chart-card">
-          <h3 style="margin:0 0 14px;font-size:16px;font-weight:700;">Aset Register</h3>
-          <div style="display:flex;justify-content:space-around;text-align:center;">
-            <div><b id="stat-opmols" style="font-size:22px;color:#10b981;">0</b><br><small style="color:#64748b;">OPM/OLS</small></div>
-            <div><b id="stat-joint" style="font-size:22px;color:#f97316;">0</b><br><small style="color:#64748b;">Joint</small></div>
-            <div><b id="stat-handhole" style="font-size:22px;color:#0ea5e9;">0</b><br><small style="color:#64748b;">Handhole</small></div>
-          </div>
+          <h3 style="margin:0 0 14px;font-size:16px;font-weight:700;">Grafik Aset Register</h3>
+          <canvas id="chartAssets" height="200"></canvas>
         </div>
       </div>
 
@@ -318,12 +264,26 @@
         </div>
         <div id="map-wrapper" style="position:relative;">
           <div id="map-container"></div>
-          <div class="map-controls">
-            <button class="map-btn active" onclick="toggleMapLayer('satellite')"><i data-lucide="satellite" style="width:14px;"></i> Satelit</button>
-            <button class="map-btn" onclick="toggleMapLayer('street')"><i data-lucide="map" style="width:14px;"></i> Jalan</button>
-            <button class="map-btn" onclick="toggleMapLayer('hybrid')"><i data-lucide="layers" style="width:14px;"></i> Hybrid</button>
+          <div class="custom-map-controls">
+            <button class="custom-map-btn active" onclick="toggleMapLayer('satellite')"><i data-lucide="satellite" style="width:14px;"></i> Satelit</button>
+            <button class="custom-map-btn" onclick="toggleMapLayer('street')"><i data-lucide="map" style="width:14px;"></i> Jalan</button>
+            <button class="custom-map-btn" onclick="toggleMapLayer('hybrid')"><i data-lucide="layers" style="width:14px;"></i> Hybrid</button>
+            <button class="custom-map-btn" onclick="zoomIn()"><i data-lucide="plus" style="width:14px;"></i> Zoom In</button>
+            <button class="custom-map-btn" onclick="zoomOut()"><i data-lucide="minus" style="width:14px;"></i> Zoom Out</button>
           </div>
         </div>
+      </div>
+
+      <div class="about-section">
+        <h3>About Us - Tim Patroli BUCIN</h3>
+        <p>Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara. Kami bekerja 24/7 untuk memastikan konektivitas tetap optimal.</p>
+        <ul>
+          <li><i data-lucide="check-circle-2" style="width:16px;color:#10b981;"></i> Pemantauan rutin ruas kabel OF Cut & Joint</li>
+          <li><i data-lucide="check-circle-2" style="width:16px;color:#10b981;"></i> Koordinasi dengan pihak ketiga untuk pekerjaan konstruksi</li>
+          <li><i data-lucide="check-circle-2" style="width:16px;color:#10b981;"></i> Penanganan temuan lapangan secara real-time</li>
+          <li><i data-lucide="check-circle-2" style="width:16px;color:#10b981;"></i> Manajemen stok Patch Cord & Spare Part terintegrasi</li>
+          <li><i data-lucide="check-circle-2" style="width:16px;color:#10b981;"></i> Pelaporan insiden berbasis koordinat GPS akurat</li>
+        </ul>
       </div>
     </section>
 
@@ -331,7 +291,8 @@
     <section id="data-view" class="hidden">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
         <h2 id="page-title" style="margin:0;font-size:22px;font-weight:800;">Data Operasional</h2>
-        <div style="display:flex;gap:10px;">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button id="btn-history" class="secondary-button hidden" style="padding:10px 16px;display:flex;align-items:center;gap:6px;"><i data-lucide="history" style="width:16px;"></i> Riwayat</button>
           <button id="btn-retur-page" class="secondary-button hidden" style="padding:10px 16px;display:flex;align-items:center;gap:6px;"><i data-lucide="undo-2" style="width:16px;"></i> Retur</button>
           <button id="btn-add" class="primary-button" style="width:auto;padding:10px 20px;display:flex;align-items:center;gap:6px;"><i data-lucide="plus" style="width:16px;"></i> Tambah</button>
         </div>
@@ -352,7 +313,7 @@
     </section>
   </main>
 
-  <!-- BOTTOM NAVIGATION (ICON ONLY) -->
+  <!-- BOTTOM NAVIGATION -->
   <nav class="bottom-nav">
     <div class="nav-item active" data-cat="dashboard"><i data-lucide="layout-dashboard"></i><span>Home</span></div>
     <div class="nav-item" data-cat="Data OF Cut"><i data-lucide="scissors"></i><span>OF Cut</span></div>
@@ -379,16 +340,13 @@
     </div>
     <div class="gudang-selector">
       <div class="gudang-card" data-gudang="CLS MAMI" onclick="selectGudang(this)">
-        <i data-lucide="building-2"></i>
-        <span>CLS MAMI</span>
+        <i data-lucide="building-2"></i><span>CLS MAMI</span>
       </div>
       <div class="gudang-card" data-gudang="DC MANADO CENTRUM" onclick="selectGudang(this)">
-        <i data-lucide="building"></i>
-        <span>DC MANADO CENTRUM</span>
+        <i data-lucide="building"></i><span>DC MANADO CENTRUM</span>
       </div>
       <div class="gudang-card" data-gudang="CLS KAUDITAN" onclick="selectGudang(this)">
-        <i data-lucide="store"></i>
-        <span>CLS KAUDITAN</span>
+        <i data-lucide="store"></i><span>CLS KAUDITAN</span>
       </div>
     </div>
     <button onclick="closeGudangModal()" class="secondary-button" style="width:100%;margin-top:8px;">Batal</button>
@@ -433,7 +391,6 @@
               </select>
             </div>
           </div>
-          <!-- Scanner Wrapper with Bounded Area -->
           <div id="modal-scanner" class="scanner-wrapper">
              <video id="modal-camera-preview" autoplay playsinline muted></video>
              <div class="scanner-guide"></div>
@@ -442,13 +399,12 @@
           </div>
         </div>
 
-        <!-- PATCH CORD SPECIFIC FIELDS -->
+        <!-- PATCH CORD FIELDS -->
         <div id="field-patchcord" class="hidden">
           <div style="background:#f0fdf4;padding:12px;border-radius:12px;margin-bottom:12px;border:1px solid #bbf7d0;">
             <div style="font-size:12px;font-weight:600;color:#166534;margin-bottom:6px;">📦 Spesifikasi Patch Cord</div>
             <div id="patchcord-gudang-display" style="font-size:14px;font-weight:700;color:#16a34a;"></div>
           </div>
-          
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
             <div>
               <label style="font-size:12px;font-weight:600;color:#475569;">Jenis Konektor</label>
@@ -485,7 +441,6 @@
               <input type="text" id="inp-pc-length-custom" class="field-control hidden" placeholder="Ketik panjang kabel" style="margin-top:8px;">
             </div>
           </div>
-
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
             <div>
               <label style="font-size:12px;font-weight:600;color:#475569;">Jumlah</label>
@@ -503,29 +458,24 @@
 
         <!-- Normal Fields -->
         <div id="field-normal">
-           <label style="font-size:12px;font-weight:600;color:#475569;">Lokasi / Ruas / Nama Item</label>
+           <label style="font-size:12px;font-weight:600;color:#475569;">Nama Lokasi</label>
            <input type="text" id="inp-loc" class="field-control">
         </div>
         
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div id="field-coords-wrap" class="hidden">
+            <label style="font-size:12px;font-weight:600;color:#475569;">Titik Koordinat</label>
+            <input type="text" id="inp-coords" class="field-control" placeholder="Otomatis dari peta" readonly>
+          </div>
           <div id="field-qty-wrap">
             <label style="font-size:12px;font-weight:600;color:#475569;">Jumlah</label>
             <input type="number" id="inp-qty" class="field-control" value="1">
           </div>
-          <div id="field-gudang-wrap" class="hidden">
-            <label style="font-size:12px;font-weight:600;color:#475569;">Gudang</label>
-            <select id="inp-gudang" class="field-control">
-              <option value="-">-</option>
-              <option value="CLS MAMI">CLS MAMI</option>
-              <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
-              <option value="CLS KAUDITAN">CLS KAUDITAN</option>
-            </select>
-          </div>
         </div>
         
         <div>
-          <label style="font-size:12px;font-weight:600;color:#475569;">Keterangan</label>
-          <textarea id="inp-notes" class="field-control" rows="2" style="resize:none;"></textarea>
+          <label style="font-size:12px;font-weight:600;color:#475569;">SOP / Keterangan</label>
+          <textarea id="inp-notes" class="field-control" rows="2" style="resize:none;" placeholder="Deskripsikan SOP atau keterangan..."></textarea>
         </div>
       </div>
       
@@ -537,7 +487,26 @@
   </div>
 </div>
 
-<!-- RETUR PAGE (HALAMAN KHUSUS) -->
+<!-- HISTORY MODAL -->
+<div id="history-modal" class="modal-layer hidden">
+  <div class="modal-card" style="max-width:700px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h3 style="margin:0;font-size:20px;font-weight:800;">Riwayat Transaksi</h3>
+      <button onclick="document.getElementById('history-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;"><i data-lucide="x" style="width:26px;color:#64748b;"></i></button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button id="btn-download-excel" class="primary-button" style="width:auto;padding:10px 16px;display:flex;align-items:center;gap:6px;"><i data-lucide="file-spreadsheet" style="width:16px;"></i> Download Excel</button>
+    </div>
+    <div style="overflow-x:auto;max-height:400px;overflow-y:auto;">
+      <table class="records-table">
+        <thead><tr><th>Tgl</th><th>User</th><th>Gudang</th><th>Item</th><th>Tipe</th><th>Qty</th></tr></thead>
+        <tbody id="history-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- RETUR PAGE -->
 <div id="retur-page" class="hidden" style="min-height:100vh;background:#f8fafc;padding:20px;padding-bottom:100px;">
   <div style="max-width:800px;margin:0 auto;">
     <button id="back-to-main" class="secondary-button" style="margin-bottom:20px;display:flex;align-items:center;gap:6px;"><i data-lucide="arrow-left" style="width:16px;"></i> Kembali</button>
@@ -585,7 +554,6 @@
           <div class="scanner-laser"></div>
           <button id="btn-stop-ret-scan" style="position:absolute;bottom:12px;right:12px;background:#ef4444;color:white;border:0;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;z-index:10;">Stop</button>
         </div>
-        
         <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-top:12px;">
           <input id="ret-item-name" type="text" class="field-control" placeholder="Nama Barang" readonly>
           <input id="ret-item-qty" type="number" class="field-control" placeholder="Qty" value="1">
@@ -598,16 +566,16 @@
         <tbody id="ret-list-body"></tbody>
       </table>
 
-      <div style="display:flex;gap:12px;justify-content:flex-end;">
+      <div style="display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;">
         <button id="btn-reset-ret" class="secondary-button">Reset</button>
-        <button id="btn-pdf-ret" class="secondary-button" disabled style="display:flex;align-items:center;gap:6px;"><i data-lucide="file-down" style="width:14px;"></i> PDF</button>
+        <button id="btn-print-ret" class="secondary-button" disabled style="display:flex;align-items:center;gap:6px;"><i data-lucide="printer" style="width:14px;"></i> Print Excel</button>
         <button id="btn-save-ret" class="primary-button" disabled style="display:flex;align-items:center;gap:6px;width:auto;"><i data-lucide="save" style="width:14px;"></i> Simpan Retur</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- SETTINGS MODAL (ADMIN ONLY) -->
+<!-- SETTINGS MODAL -->
 <div id="settings-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
@@ -649,7 +617,18 @@
         <div>
           <label style="font-size:12px;font-weight:600;color:#475569;">Gambar Background (URL)</label>
           <input type="text" id="set-bg-image" class="field-control" placeholder="https://example.com/image.jpg">
-          <p style="font-size:11px;color:#94a3b8;margin-top:4px;">Kosongkan untuk menggunakan gradient warna</p>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:#475569;">Transparansi Background</label>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <input type="range" id="set-bg-opacity" min="0" max="100" value="100" style="flex:1;">
+            <span id="opacity-value" style="font-size:14px;font-weight:600;min-width:40px;">100%</span>
+          </div>
+        </div>
+        <div style="margin-top:8px;">
+          <label style="font-size:12px;font-weight:600;color:#475569;">Upload Gambar Background</label>
+          <input type="file" id="set-bg-upload" accept="image/*" class="field-control" style="padding:8px;">
+          <p style="font-size:11px;color:#94a3b8;margin-top:4px;">Unggah gambar langsung dari perangkat</p>
         </div>
       </div>
     </div>
@@ -714,6 +693,9 @@
   let returnItems = [];
   let selectedGudang = '';
   let pendingCategory = '';
+  let inactivityTimer = null;
+  let chartIncidents = null;
+  let chartAssets = null;
 
   // App Settings
   let appSettings = {
@@ -721,10 +703,10 @@
     heroSubtitle: 'Pusat Operasi Jaringan Sulawesi Utara',
     bgColor1: '#f8fafc',
     bgColor2: '#f1f5f9',
-    bgImage: ''
+    bgImage: '',
+    bgOpacity: 100
   };
 
-  // Master Barcode Dummy
   const MASTER_BARCODES = {
     '123456': 'Patch Cord SC-SC 3m',
     '789012': 'Patch Cord LC-LC 5m',
@@ -732,21 +714,39 @@
     '333444': 'Kabel Drop Core 2'
   };
 
+  // Categories that need coords & SOP
+  const COORD_CATEGORIES = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM/OLS', 'Joint', 'Handhole', 'Alkur/Material'];
+
   // ================= INITIALIZATION =================
   document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
     loadSettings();
     loadData();
     setupEventListeners();
+    startInactivityTimer();
   });
+
+  function startInactivityTimer() {
+    resetInactivityTimer();
+    ['click', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
+      document.addEventListener(evt, resetInactivityTimer, { passive: true });
+    });
+  }
+
+  function resetInactivityTimer() {
+    if(inactivityTimer) clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+      if(currentUser) {
+        showToast('⏰ Sesi tidak aktif selama 15 menit. Logout otomatis.', true);
+        location.reload();
+      }
+    }, 15 * 60 * 1000);
+  }
 
   function loadSettings() {
     db.ref('settings').on('value', snap => {
       const s = snap.val();
-      if(s) {
-        appSettings = {...appSettings, ...s};
-        applySettings();
-      }
+      if(s) { appSettings = {...appSettings, ...s}; applySettings(); }
     });
   }
 
@@ -758,16 +758,20 @@
     document.getElementById('set-bg-color2').value = appSettings.bgColor2;
     document.getElementById('set-bg-color2-text').value = appSettings.bgColor2;
     document.getElementById('set-bg-image').value = appSettings.bgImage || '';
+    document.getElementById('set-bg-opacity').value = appSettings.bgOpacity || 100;
+    document.getElementById('opacity-value').textContent = (appSettings.bgOpacity || 100) + '%';
 
     const heroTitleEl = document.getElementById('hero-title');
     const heroSubEl = document.getElementById('hero-subtitle');
     if(heroTitleEl) heroTitleEl.innerHTML = appSettings.heroTitle.replace(/\n/g,'<br>');
     if(heroSubEl) heroSubEl.textContent = appSettings.heroSubtitle;
 
+    const opacity = (appSettings.bgOpacity || 100) / 100;
     if(appSettings.bgImage) {
-      document.body.style.background = `url(${appSettings.bgImage}) center/cover no-repeat fixed`;
+      document.body.style.background = `linear-gradient(rgba(0,0,0,${1-opacity}), rgba(0,0,0,${1-opacity})), url(${appSettings.bgImage}) center/cover no-repeat fixed`;
     } else {
       document.body.style.background = `linear-gradient(135deg, ${appSettings.bgColor1}, ${appSettings.bgColor2})`;
+      document.body.style.opacity = opacity;
     }
   }
 
@@ -797,7 +801,9 @@
         }
         
         initMap();
+        initCharts();
         showToast('✅ Login berhasil');
+        resetInactivityTimer();
       } else {
         showToast('❌ Pengguna tidak ditemukan atau password salah', true);
       }
@@ -821,6 +827,7 @@
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         switchView(btn.dataset.cat);
+        resetInactivityTimer();
       });
     });
 
@@ -845,7 +852,11 @@
       showToast('✅ User berhasil ditambahkan');
     });
 
-    // Retur Page Navigation
+    // History Button
+    document.getElementById('btn-history').addEventListener('click', showHistory);
+    document.getElementById('btn-download-excel').addEventListener('click', downloadHistoryExcel);
+
+    // Retur Page
     document.getElementById('btn-retur-page').addEventListener('click', () => {
       document.getElementById('app-shell').classList.add('hidden');
       document.getElementById('retur-page').classList.remove('hidden');
@@ -856,13 +867,11 @@
       document.getElementById('app-shell').classList.remove('hidden');
       stopScanner('ret');
     });
-
-    // Retur Scanner
     document.getElementById('btn-scan-retur').addEventListener('click', () => toggleScanner('ret'));
     document.getElementById('btn-stop-ret-scan').addEventListener('click', () => stopScanner('ret'));
     document.getElementById('btn-add-ret-item').addEventListener('click', addReturItem);
     document.getElementById('btn-save-ret').addEventListener('click', saveRetur);
-    document.getElementById('btn-pdf-ret').addEventListener('click', generateReturPDF);
+    document.getElementById('btn-print-ret').addEventListener('click', printReturExcel);
     document.getElementById('btn-reset-ret').addEventListener('click', initReturPage);
 
     // Settings
@@ -875,17 +884,34 @@
       appSettings.bgColor1 = document.getElementById('set-bg-color1').value;
       appSettings.bgColor2 = document.getElementById('set-bg-color2').value;
       appSettings.bgImage = document.getElementById('set-bg-image').value;
-      db.ref('settings').set(appSettings);
+      appSettings.bgOpacity = parseInt(document.getElementById('set-bg-opacity').value);
+      
+      // Handle uploaded image
+      const uploadInput = document.getElementById('set-bg-upload');
+      if(uploadInput.files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          appSettings.bgImage = e.target.result;
+          db.ref('settings').set(appSettings);
+        };
+        reader.readAsDataURL(uploadInput.files[0]);
+      } else {
+        db.ref('settings').set(appSettings);
+      }
+      
       document.getElementById('settings-modal').classList.add('hidden');
       showToast('✅ Pengaturan disimpan');
     });
 
-    // Color picker sync
     ['set-bg-color1', 'set-bg-color2'].forEach(id => {
       const colorInput = document.getElementById(id);
       const textInput = document.getElementById(id + '-text');
       colorInput.addEventListener('input', () => { textInput.value = colorInput.value; });
       textInput.addEventListener('input', () => { if(/^#[0-9a-f]{6}$/i.test(textInput.value)) colorInput.value = textInput.value; });
+    });
+
+    document.getElementById('set-bg-opacity').addEventListener('input', function() {
+      document.getElementById('opacity-value').textContent = this.value + '%';
     });
   }
 
@@ -905,15 +931,10 @@
     document.querySelectorAll('.gudang-card').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
     selectedGudang = el.dataset.gudang;
-    setTimeout(() => {
-      closeGudangModal();
-      openForm();
-    }, 300);
+    setTimeout(() => { closeGudangModal(); openForm(); }, 300);
   };
 
-  function closeGudangModal() {
-    document.getElementById('gudang-modal').classList.add('hidden');
-  }
+  function closeGudangModal() { document.getElementById('gudang-modal').classList.add('hidden'); }
 
   function switchView(cat) {
     currentCategory = cat;
@@ -922,28 +943,49 @@
     
     const isStock = ['Stok Spare', 'Patch Cord'].includes(cat);
     document.getElementById('btn-retur-page').classList.toggle('hidden', !isStock);
+    document.getElementById('btn-history').classList.toggle('hidden', !isStock);
     document.getElementById('page-title').textContent = cat === 'dashboard' ? 'Dashboard' : cat;
     
     if(cat !== 'dashboard') renderTable();
   }
 
-  // ================= DASHBOARD & MAP =================
-  function updateDashboard() {
-    const counts = { 
-      'Data OF Cut': 0, 'Pekerjaan Pihak Ke-3': 0, 'Temuan Lapangan': 0,
-      'OPM/OLS': 0, 'Joint': 0, 'Handhole': 0 
-    };
-    Object.keys(appData).forEach(cat => {
-      if(counts[cat] !== undefined) counts[cat] = Object.keys(appData[cat]).length;
+  // ================= CHARTS =================
+  function initCharts() {
+    const ctx1 = document.getElementById('chartIncidents').getContext('2d');
+    const ctx2 = document.getElementById('chartAssets').getContext('2d');
+    
+    chartIncidents = new Chart(ctx1, {
+      type: 'bar',
+      data: { labels: ['OF Cut', 'Pihak Ke-3', 'Temuan'], datasets: [{ label: 'Jumlah', data: [0,0,0], backgroundColor: ['#eab308','#f43f5e','#8b5cf6'], borderRadius: 8 }] },
+      options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
     });
     
-    document.getElementById('stat-ofcut').textContent = counts['Data OF Cut'];
-    document.getElementById('stat-third').textContent = counts['Pekerjaan Pihak Ke-3'];
-    document.getElementById('stat-finding').textContent = counts['Temuan Lapangan'];
-    document.getElementById('stat-opmols').textContent = counts['OPM/OLS'];
-    document.getElementById('stat-joint').textContent = counts['Joint'];
-    document.getElementById('stat-handhole').textContent = counts['Handhole'];
+    chartAssets = new Chart(ctx2, {
+      type: 'pie',
+      data: { labels: ['OPM/OLS', 'Joint', 'Handhole'], datasets: [{ data: [0,0,0], backgroundColor: ['#10b981','#f97316','#0ea5e9'] }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
     
+    updateCharts();
+  }
+
+  function updateCharts() {
+    const counts = { 'Data OF Cut': 0, 'Pekerjaan Pihak Ke-3': 0, 'Temuan Lapangan': 0, 'OPM/OLS': 0, 'Joint': 0, 'Handhole': 0 };
+    Object.keys(appData).forEach(cat => { if(counts[cat] !== undefined) counts[cat] = Object.keys(appData[cat]).length; });
+    
+    if(chartIncidents) {
+      chartIncidents.data.datasets[0].data = [counts['Data OF Cut'], counts['Pekerjaan Pihak Ke-3'], counts['Temuan Lapangan']];
+      chartIncidents.update();
+    }
+    if(chartAssets) {
+      chartAssets.data.datasets[0].data = [counts['OPM/OLS'], counts['Joint'], counts['Handhole']];
+      chartAssets.update();
+    }
+  }
+
+  // ================= DASHBOARD & MAP =================
+  function updateDashboard() {
+    updateCharts();
     updateMapMarkers();
   }
 
@@ -954,23 +996,24 @@
     
     map.on('click', function(e) {
       if(!document.getElementById('form-modal').classList.contains('hidden')) {
-        document.getElementById('inp-loc').value = `${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`;
+        const coords = `${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`;
+        document.getElementById('inp-coords').value = coords;
       }
     });
   }
 
+  window.zoomIn = function() { if(map) map.zoomIn(); };
+  window.zoomOut = function() { if(map) map.zoomOut(); };
+
   window.toggleMapLayer = function(type) {
     if(!map) return;
     map.eachLayer(layer => { if(layer instanceof L.TileLayer) map.removeLayer(layer); });
-    
     let url = '';
     if(type === 'satellite') url = 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
     else if(type === 'street') url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     else if(type === 'hybrid') url = 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}';
-    
     L.tileLayer(url, { attribution: 'Map Data' }).addTo(map);
-    
-    document.querySelectorAll('.map-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.custom-map-btn').forEach(btn => btn.classList.remove('active'));
     event.currentTarget.classList.add('active');
   };
 
@@ -1030,7 +1073,7 @@
     } else if(isStock) {
       thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Barcode</th><th>Item</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
     } else {
-      thead.innerHTML = '<tr><th>Tgl</th><th>Lokasi/Ruas</th><th>Ket</th><th>User</th><th>Aksi</th></tr>';
+      thead.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>SOP</th><th>User</th><th>Aksi</th></tr>';
     }
 
     keys.forEach(key => {
@@ -1039,10 +1082,7 @@
 
       let row = '';
       if(currentCategory === 'Patch Cord') {
-        let bgType = '#f1f5f9';
-        if(item.trType === 'Masuk') bgType = '#dcfce7';
-        if(item.trType === 'Keluar') bgType = '#fee2e2';
-
+        let bgType = item.trType === 'Masuk' ? '#dcfce7' : '#fee2e2';
         row = `<tr>
           <td style="white-space:nowrap;">${item.date}</td>
           <td><span style="font-size:11px;font-weight:600;color:#475569;">${item.gudang || '-'}</span></td>
@@ -1053,10 +1093,7 @@
           <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
         </tr>`;
       } else if(isStock) {
-        let bgType = '#f1f5f9';
-        if(item.trType === 'Masuk') bgType = '#dcfce7';
-        if(item.trType === 'Keluar') bgType = '#fee2e2';
-
+        let bgType = item.trType === 'Masuk' ? '#dcfce7' : '#fee2e2';
         row = `<tr>
           <td style="white-space:nowrap;">${item.date}</td>
           <td><span style="font-size:11px;font-weight:600;color:#475569;">${item.gudang || '-'}</span></td>
@@ -1069,8 +1106,19 @@
       } else {
         row = `<tr>
           <td style="white-space:nowrap;">${item.date}</td>
-          <td>${item.location || item.ruas || '-'}</td>
-          <td>${item.notes || '-'}</td>
+                    <td><span style="font-size:11px;font-weight:600;color:#475569;">${item.gudang || '-'}</span></td>
+          <td>${item.barcode || '-'}</td>
+          <td>${item.spec || item.notes || '-'}</td>
+          <td><span style="padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;background:${bgType}">${item.trType}</span></td>
+          <td>${item.qty}</td>
+          <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
+        </tr>`;
+      } else {
+        row = `<tr>
+          <td style="white-space:nowrap;">${item.date}</td>
+          <td>${item.location || '-'}</td>
+          <td style="font-size:11px;">${item.coords || '-'}</td>
+          <td style="max-width:200px;white-space:normal;">${item.notes || '-'}</td>
           <td>${item.postBy || '-'}</td>
           <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
         </tr>`;
@@ -1084,25 +1132,15 @@
   window.handlePatchCordTypeChange = function() {
     const sel = document.getElementById('inp-pc-type');
     const custom = document.getElementById('inp-pc-type-custom');
-    if(sel.value === 'OTHER') {
-      custom.classList.remove('hidden');
-      custom.focus();
-    } else {
-      custom.classList.add('hidden');
-      custom.value = '';
-    }
+    if(sel.value === 'OTHER') { custom.classList.remove('hidden'); custom.focus(); }
+    else { custom.classList.add('hidden'); custom.value = ''; }
   };
 
   window.handlePatchCordLengthChange = function() {
     const sel = document.getElementById('inp-pc-length');
     const custom = document.getElementById('inp-pc-length-custom');
-    if(sel.value === 'OTHER') {
-      custom.classList.remove('hidden');
-      custom.focus();
-    } else {
-      custom.classList.add('hidden');
-      custom.value = '';
-    }
+    if(sel.value === 'OTHER') { custom.classList.remove('hidden'); custom.focus(); }
+    else { custom.classList.add('hidden'); custom.value = ''; }
   };
 
   function getPatchCordSpecs() {
@@ -1110,11 +1148,10 @@
     const lenSel = document.getElementById('inp-pc-length');
     const typeCustom = document.getElementById('inp-pc-type-custom');
     const lenCustom = document.getElementById('inp-pc-length-custom');
-    
-    const type = typeSel.value === 'OTHER' ? typeCustom.value : typeSel.value;
-    const length = lenSel.value === 'OTHER' ? lenCustom.value : lenSel.value;
-    
-    return { type, length };
+    return {
+      type: typeSel.value === 'OTHER' ? typeCustom.value : typeSel.value,
+      length: lenSel.value === 'OTHER' ? lenCustom.value : lenSel.value
+    };
   }
 
   // ================= FORM HANDLING =================
@@ -1125,12 +1162,13 @@
     
     const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
     const isPatchCord = currentCategory === 'Patch Cord';
+    const needsCoords = COORD_CATEGORIES.includes(currentCategory);
     
     document.getElementById('field-stock').classList.toggle('hidden', !isStock || isPatchCord);
     document.getElementById('field-patchcord').classList.toggle('hidden', !isPatchCord);
     document.getElementById('field-normal').classList.toggle('hidden', isStock);
     document.getElementById('field-qty-wrap').classList.toggle('hidden', isPatchCord);
-    document.getElementById('field-gudang-wrap').classList.toggle('hidden', !isStock || isPatchCord);
+    document.getElementById('field-coords-wrap').classList.toggle('hidden', !needsCoords);
     
     if(isStock && selectedGudang) {
       document.getElementById('inp-gudang-selected').value = selectedGudang;
@@ -1140,9 +1178,10 @@
       document.getElementById('patchcord-gudang-display').textContent = selectedGudang;
     }
     
-    // Reset inputs
+    // Reset all inputs
     document.getElementById('inp-barcode').value = '';
     document.getElementById('inp-loc').value = '';
+    document.getElementById('inp-coords').value = '';
     document.getElementById('inp-notes').value = '';
     document.getElementById('inp-qty').value = '1';
     document.getElementById('inp-tr-type').value = 'Masuk';
@@ -1178,26 +1217,49 @@
 
     if(isPatchCord) {
       const specs = getPatchCordSpecs();
-      if(!specs.type || !specs.length) {
-        showToast('Pilih jenis dan panjang patch cord!', true);
-        return;
-      }
+      if(!specs.type || !specs.length) { showToast('Pilih jenis dan panjang patch cord!', true); return; }
       newData.pcType = specs.type;
       newData.pcLength = specs.length;
       newData.qty = parseInt(document.getElementById('inp-pc-qty').value);
       newData.trType = document.getElementById('inp-pc-trtype').value;
-      newData.gudang  = selectedGudang || document.getElementById('inp-gudang').value;
+      newData.gudang = selectedGudang;
+      newData.spec = `Patch Cord ${specs.type} ${specs.length}`;
+      
+      // Update existing stock with same name, type, and gudang
+      updateExistingStock(cat, newData);
+    } else if(isStock) {
+      newData.barcode = document.getElementById('inp-barcode').value;
+      newData.trType = document.getElementById('inp-tr-type').value;
+      newData.gudang = selectedGudang;
       newData.qty = parseInt(document.getElementById('inp-qty').value);
       newData.spec = document.getElementById('inp-loc').value || 'Item Stok';
+      
+      // Update existing stock
+      updateExistingStock(cat, newData);
     } else {
       newData.location = document.getElementById('inp-loc').value;
+      newData.coords = document.getElementById('inp-coords').value;
       newData.qty = parseInt(document.getElementById('inp-qty').value);
-      if(newData.location.includes(',')) newData.coords = newData.location;
     }
 
     db.ref('data/' + cat).push(newData);
     closeModal();
     showToast('✅ Data disimpan');
+  }
+
+  function updateExistingStock(category, newItem) {
+    // Find existing entry with same spec/name and gudang, then update qty
+    const list = appData[category] || {};
+    Object.keys(list).forEach(key => {
+      const existing = list[key];
+      if(existing.gudang === newItem.gudang && existing.spec === newItem.spec) {
+        let newQty = existing.qty;
+        if(newItem.trType === 'Masuk') newQty += newItem.qty;
+        else newQty = Math.max(0, newQty - newItem.qty);
+        
+        db.ref('data/' + category + '/' + key).update({ qty: newQty });
+      }
+    });
   }
 
   window.deleteItem = function(key) {
@@ -1207,25 +1269,66 @@
     }
   };
 
-  // ================= IMPROVED SCANNER (BARCODE ONLY + BOUNDED) =================
+  // ================= HISTORY =================
+  function showHistory() {
+    const list = appData[currentCategory] || {};
+    const tbody = document.getElementById('history-body');
+    tbody.innerHTML = '';
+    
+    Object.values(list).sort((a,b) => b.createdAt - a.createdAt).forEach(item => {
+      tbody.innerHTML += `<tr>
+        <td style="white-space:nowrap;">${item.date}</td>
+        <td>${item.postBy || '-'}</td>
+        <td>${item.gudang || '-'}</td>
+        <td>${item.spec || item.pcType || '-'}</td>
+        <td>${item.trType || '-'}</td>
+        <td>${item.qty}</td>
+      </tr>`;
+    });
+    
+    document.getElementById('history-modal').classList.remove('hidden');
+  }
+
+  function downloadHistoryExcel() {
+    const list = appData[currentCategory] || {};
+    const data = Object.values(list).map(item => ({
+      Tanggal: item.date,
+      User: item.postBy,
+      Gudang: item.gudang,
+      Item: item.spec || item.pcType,
+      Tipe: item.trType,
+      Jumlah: item.qty
+    }));
+    
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Riwayat');
+    XLSX.writeFile(wb, `Riwayat_${currentCategory}_${new Date().toISOString().slice(0,10)}.xlsx`);
+  }
+
+  // ================= IMPROVED SCANNER (BARCODE ONLY + CAMERA PERMISSION) =================
   function toggleScanner(type) {
     const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
     const previewId = type === 'modal' ? 'modal-camera-preview' : 'ret-camera-preview';
     const container = document.getElementById(containerId);
     
-    if(container.classList.contains('active')) { 
-      stopScanner(type); 
-    } else {
-      container.classList.add('active');
-      startQuagga(previewId, type);
+    if(container.classList.contains('active')) { stopScanner(type); }
+    else {
+      // Request camera permission explicitly
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+        .then(stream => {
+          stream.getTracks().forEach(track => track.stop());
+          container.classList.add('active');
+          startQuagga(previewId, type);
+        })
+        .catch(err => {
+          showToast('❌ Izin kamera ditolak. Mohon izinkan akses kamera.', true);
+        });
     }
   }
 
   function stopScanner(type) {
-    if(quaggaRunning) { 
-      Quagga.stop(); 
-      quaggaRunning = false; 
-    }
+    if(quaggaRunning) { Quagga.stop(); quaggaRunning = false; }
     const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
     document.getElementById(containerId).classList.remove('active');
   }
@@ -1233,50 +1336,23 @@
   function startQuagga(targetId, type) {
     Quagga.init({
       inputStream: { 
-        name: "Live", 
-        type: "LiveStream", 
-        target: document.querySelector(`#${targetId}`), 
-        constraints: { 
-          width: { min: 640, max: 1280 },
-          height: { min: 480, max: 720 },
-          facingMode: "environment",
-          aspectRatio: { min: 1, max: 2 }
-        } 
+        name: "Live", type: "LiveStream", target: document.querySelector(`#${targetId}`), 
+        constraints: { width: { min: 640, max: 1280 }, height: { min: 480, max: 720 }, facingMode: "environment", aspectRatio: { min: 1, max: 2 } } 
       },
-      locator: {
-        patchSize: "medium",
-        halfSample: true
-      },
+      locator: { patchSize: "medium", halfSample: true },
       numOfWorkers: navigator.hardwareConcurrency || 2,
       decoder: { 
-        readers: [
-          "code_128_reader",
-          "ean_reader",
-          "ean_8_reader",
-          "upc_reader",
-          "upc_e_reader",
-          "code_39_reader",
-          "code_39_vin_reader",
-          "codabar_reader",
-          "i2of5_reader"
-        ],
+        readers: ["code_128_reader","ean_reader","ean_8_reader","upc_reader","upc_e_reader","code_39_reader","code_39_vin_reader","codabar_reader","i2of5_reader"],
         multiple: false
       },
       locate: true
     }, function(err) {
-      if (err) { 
-        console.error("Scanner error:", err);
-        showToast('❌ Kamera tidak dapat diakses', true);
-        return; 
-      }
-      Quagga.start(); 
-      quaggaRunning = true;
+      if (err) { showToast('❌ Kamera tidak dapat diakses', true); return; }
+      Quagga.start(); quaggaRunning = true;
       
       Quagga.onDetected(function(result) {
         const code = result.codeResult.code;
         const format = result.codeResult.format;
-        
-        // Hanya terima barcode 1D (bukan QR)
         if(code && code.length > 3 && !format.toLowerCase().includes('qr')) {
           if(type === 'modal') {
             document.getElementById('inp-barcode').value = code;
@@ -1308,12 +1384,9 @@
     const barcode = document.getElementById('ret-barcode').value;
     const name = document.getElementById('ret-item-name').value;
     const qty = parseInt(document.getElementById('ret-item-qty').value);
-    
     if(!barcode || !name) return showToast('Scan atau isi barang terlebih dahulu', true);
-    
     returnItems.push({ barcode, name, qty });
     renderReturList();
-    
     document.getElementById('ret-barcode').value = '';
     document.getElementById('ret-item-name').value = '';
     document.getElementById('ret-item-qty').value = '1';
@@ -1323,79 +1396,51 @@
     const tbody = document.getElementById('ret-list-body');
     tbody.innerHTML = '';
     returnItems.forEach((item, idx) => {
-      tbody.innerHTML += `
-        <tr>
-          <td>${item.barcode}</td>
-          <td>${item.name}</td>
-          <td>${item.qty}</td>
-          <td><button class="icon-btn delete" onclick="removeRetItem(${idx})"><i data-lucide="x" style="width:16px;"></i></button></td>
-        </tr>
-      `;
+      tbody.innerHTML += `<tr>
+        <td>${item.barcode}</td><td>${item.name}</td><td>${item.qty}</td>
+        <td><button class="icon-btn delete" onclick="removeRetItem(${idx})"><i data-lucide="x" style="width:16px;"></i></button></td>
+      </tr>`;
     });
     lucide.createIcons();
-    
     const canSave = returnItems.length > 0 && document.getElementById('ret-gudang').value !== '';
     document.getElementById('btn-save-ret').disabled = !canSave;
-    document.getElementById('btn-pdf-ret').disabled = !canSave;
+    document.getElementById('btn-print-ret').disabled = !canSave;
   }
 
-  window.removeRetItem = function(idx) {
-    returnItems.splice(idx, 1);
-    renderReturList();
-  };
+  window.removeRetItem = function(idx) { returnItems.splice(idx, 1); renderReturList(); };
 
   function saveRetur() {
     const returData = {
-      no: document.getElementById('ret-no').value,
-      date: document.getElementById('ret-date').value,
-      gudang: document.getElementById('ret-gudang').value,
-      items: returnItems,
-      by: currentUser.name,
-      createdAt: Date.now()
+      no: document.getElementById('ret-no').value, date: document.getElementById('ret-date').value,
+      gudang: document.getElementById('ret-gudang').value, items: returnItems,
+      by: currentUser.name, createdAt: Date.now()
     };
     db.ref('returs').push(returData);
-    
-    // Also save to Stok Spare as "Retur" transaction
     returnItems.forEach(item => {
       db.ref('data/Stok Spare').push({
-        date: returData.date,
-        barcode: item.barcode,
-        spec: item.name,
-        trType: 'Retur',
-        qty: item.qty,
-        gudang: returData.gudang,
-        postBy: currentUser.name,
-        notes: `Retur No: ${returData.no}`,
-        createdAt: Date.now()
+        date: returData.date, barcode: item.barcode, spec: item.name, trType: 'Retur',
+        qty: item.qty, gudang: returData.gudang, postBy: currentUser.name,
+        notes: `Retur No: ${returData.no}`, createdAt: Date.now()
       });
     });
-    
     showToast('✅ Retur berhasil disimpan');
     initReturPage();
   }
 
-  function generateReturPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    
-    doc.setFontSize(18);
-    doc.text("BUKTI RETUR BARANG - BUCIN", 14, 22);
-    doc.setFontSize(11);
-    doc.text(`No: ${document.getElementById('ret-no').value}`, 14, 32);
-    doc.text(`Gudang: ${document.getElementById('ret-gudang').value}`, 14, 40);
-    doc.text(`Tanggal: ${document.getElementById('ret-date').value}`, 14, 48);
-    
-    const tableData = returnItems.map(i => [i.barcode, i.name, i.qty]);
-    
-    doc.autoTable({
-      startY: 56,
-      head: [['Barcode', 'Nama Barang', 'Qty']],
-      body: tableData,
-      theme: 'grid',
-      headStyles: { fillColor: [37, 99, 235] }
-    });
-    
-    doc.save(`Retur_${document.getElementById('ret-no').value}.pdf`);
+  function printReturExcel() {
+    const data = returnItems.map(i => ({
+      'No. Retur': document.getElementById('ret-no').value,
+      'Tanggal': document.getElementById('ret-date').value,
+      'Gudang': document.getElementById('ret-gudang').value,
+      'Barcode': i.barcode,
+      'Nama Barang': i.name,
+      'Qty': i.qty,
+      'Oleh': currentUser.name
+    }));
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Retur');
+    XLSX.writeFile(wb, `Retur_${document.getElementById('ret-no').value}.xlsx`);
   }
 
   // ================= UTILS =================
