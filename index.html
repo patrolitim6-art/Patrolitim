@@ -138,15 +138,53 @@
     @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
     .hidden { display:none !important; }
 
-    /* Scanner Modern */
-    .scanner-box { 
-      position:relative; width:100%; height:220px; background:#0f172a; 
-      border-radius:16px; overflow:hidden; margin:12px 0; display:none; 
+    /* Scanner Modern with Bounded Area */
+    .scanner-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+      height: 240px;
+      margin: 12px auto;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0f172a;
+      display: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
-    .scanner-box.active { display:block; }
-    .scanner-overlay { 
-      position:absolute; inset:0; border:2px solid #22c55e; 
-      box-shadow:inset 0 0 30px rgba(0,0,0,0.6); pointer-events:none; 
+    .scanner-wrapper.active { display: block; }
+    .scanner-wrapper video {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .scanner-guide {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 220px; height: 100px;
+      border: 2px solid #22c55e;
+      border-radius: 12px;
+      box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+    .scanner-guide::after {
+      content: 'Arahkan barcode ke dalam kotak';
+      position: absolute;
+      bottom: -30px; left: 50%;
+      transform: translateX(-50%);
+      color: white; font-size: 11px; font-weight: 600;
+      white-space: nowrap;
+    }
+    .scanner-laser {
+      position: absolute;
+      top: 50%; left: 10%; right: 10%;
+      height: 2px;
+      background: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
+      animation: scanLine 1.5s infinite ease-in-out;
+      pointer-events: none;
+    }
+    @keyframes scanLine {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
     }
     
     /* Toast Modern */
@@ -235,9 +273,10 @@
       <span style="font-weight:800;color:var(--primary);font-size:20px;">BUCIN</span>
     </div>
     <div style="display:flex;gap:8px;align-items:center;">
-      <button id="settings-btn" class="icon-btn hidden"><i data-lucide="settings" style="width:22px;"></i></button>
-      <button id="add-user-btn" class="icon-btn hidden"><i data-lucide="user-plus" style="width:22px;"></i></button>
-      <button id="logout-btn" class="icon-btn"><i data-lucide="log-out" style="width:22px;"></i></button>
+      <!-- TOMBOL PENGATURAN ADMIN DI SAMPING ADD USER -->
+      <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:22px;"></i></button>
+      <button id="add-user-btn" class="icon-btn hidden" title="Tambah User"><i data-lucide="user-plus" style="width:22px;"></i></button>
+      <button id="logout-btn" class="icon-btn" title="Keluar"><i data-lucide="log-out" style="width:22px;"></i></button>
     </div>
   </header>
 
@@ -245,8 +284,8 @@
     <!-- DASHBOARD VIEW -->
     <section id="dashboard-view">
       <div class="hero-panel">
-        <h1 style="margin:0;font-size:24px;font-weight:800;line-height:1.2;">Barisan Utama<br>Cegah Insiden</h1>
-        <p style="margin:8px 0 0;opacity:0.9;font-size:14px;">Pusat Operasi Jaringan Sulawesi Utara</p>
+        <h1 style="margin:0;font-size:24px;font-weight:800;line-height:1.2;" id="hero-title">Barisan Utama<br>Cegah Insiden</h1>
+        <p style="margin:8px 0 0;opacity:0.9;font-size:14px;" id="hero-subtitle">Pusat Operasi Jaringan Sulawesi Utara</p>
       </div>
       
       <!-- DIAGRAMS ABOVE MAP -->
@@ -372,7 +411,7 @@
           <input type="date" id="inp-date" class="field-control" required>
         </div>
         
-        <!-- Stock/Patch Cord Fields -->
+        <!-- Stock Fields -->
         <div id="field-stock" class="hidden">
           <div style="background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:12px;">
             <div style="font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;">Gudang Terpilih</div>
@@ -394,11 +433,71 @@
               </select>
             </div>
           </div>
-          <!-- Scanner Modal Container -->
-          <div id="modal-scanner" class="scanner-box">
-             <div id="modal-camera-preview" style="width:100%;height:100%;"></div>
-             <div class="scanner-overlay"></div>
-             <button type="button" id="btn-stop-modal-scan" style="position:absolute;bottom:12px;right:12px;background:#ef4444;color:white;border:0;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;">Stop</button>
+          <!-- Scanner Wrapper with Bounded Area -->
+          <div id="modal-scanner" class="scanner-wrapper">
+             <video id="modal-camera-preview" autoplay playsinline muted></video>
+             <div class="scanner-guide"></div>
+             <div class="scanner-laser"></div>
+             <button type="button" id="btn-stop-modal-scan" style="position:absolute;bottom:12px;right:12px;background:#ef4444;color:white;border:0;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;z-index:10;">Stop</button>
+          </div>
+        </div>
+
+        <!-- PATCH CORD SPECIFIC FIELDS -->
+        <div id="field-patchcord" class="hidden">
+          <div style="background:#f0fdf4;padding:12px;border-radius:12px;margin-bottom:12px;border:1px solid #bbf7d0;">
+            <div style="font-size:12px;font-weight:600;color:#166534;margin-bottom:6px;">📦 Spesifikasi Patch Cord</div>
+            <div id="patchcord-gudang-display" style="font-size:14px;font-weight:700;color:#16a34a;"></div>
+          </div>
+          
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div>
+              <label style="font-size:12px;font-weight:600;color:#475569;">Jenis Konektor</label>
+              <select id="inp-pc-type" class="field-control" onchange="handlePatchCordTypeChange()">
+                <option value="">-- Pilih Jenis --</option>
+                <option value="SC/UPC">SC/UPC</option>
+                <option value="SC/APC">SC/APC</option>
+                <option value="LC/UPC">LC/UPC</option>
+                <option value="LC/APC">LC/APC</option>
+                <option value="FC/UPC">FC/UPC</option>
+                <option value="FC/APC">FC/APC</option>
+                <option value="ST/UPC">ST/UPC</option>
+                <option value="E2000/APC">E2000/APC</option>
+                <option value="MPO/MTP">MPO/MTP</option>
+                <option value="OTHER">Lainnya...</option>
+              </select>
+              <input type="text" id="inp-pc-type-custom" class="field-control hidden" placeholder="Ketik jenis konektor" style="margin-top:8px;">
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:600;color:#475569;">Panjang Kabel</label>
+              <select id="inp-pc-length" class="field-control" onchange="handlePatchCordLengthChange()">
+                <option value="">-- Pilih Panjang --</option>
+                <option value="0.5m">0.5 Meter</option>
+                <option value="1m">1 Meter</option>
+                <option value="2m">2 Meter</option>
+                <option value="3m">3 Meter</option>
+                <option value="5m">5 Meter</option>
+                <option value="10m">10 Meter</option>
+                <option value="15m">15 Meter</option>
+                <option value="20m">20 Meter</option>
+                <option value="30m">30 Meter</option>
+                <option value="OTHER">Lainnya...</option>
+              </select>
+              <input type="text" id="inp-pc-length-custom" class="field-control hidden" placeholder="Ketik panjang kabel" style="margin-top:8px;">
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <label style="font-size:12px;font-weight:600;color:#475569;">Jumlah</label>
+              <input type="number" id="inp-pc-qty" class="field-control" value="1" min="1">
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:600;color:#475569;">Tipe Transaksi</label>
+              <select id="inp-pc-trtype" class="field-control">
+                <option value="Masuk">Barang Masuk</option>
+                <option value="Keluar">Barang Keluar</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -409,7 +508,7 @@
         </div>
         
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div>
+          <div id="field-qty-wrap">
             <label style="font-size:12px;font-weight:600;color:#475569;">Jumlah</label>
             <input type="number" id="inp-qty" class="field-control" value="1">
           </div>
@@ -480,10 +579,11 @@
           <input id="ret-barcode" type="text" class="field-control" placeholder="Ketik atau Scan Barcode">
           <button id="btn-scan-retur" class="secondary-button" style="white-space:nowrap;display:flex;align-items:center;gap:6px;"><i data-lucide="camera" style="width:14px;"></i> Scan</button>
         </div>
-        <div id="ret-scanner" class="scanner-box">
-          <div id="ret-camera-preview" style="width:100%;height:100%;"></div>
-          <div class="scanner-overlay"></div>
-          <button id="btn-stop-ret-scan" style="position:absolute;bottom:12px;right:12px;background:#ef4444;color:white;border:0;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;">Stop</button>
+        <div id="ret-scanner" class="scanner-wrapper">
+          <video id="ret-camera-preview" autoplay playsinline muted></video>
+          <div class="scanner-guide"></div>
+          <div class="scanner-laser"></div>
+          <button id="btn-stop-ret-scan" style="position:absolute;bottom:12px;right:12px;background:#ef4444;color:white;border:0;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;z-index:10;">Stop</button>
         </div>
         
         <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-top:12px;">
@@ -659,8 +759,8 @@
     document.getElementById('set-bg-color2-text').value = appSettings.bgColor2;
     document.getElementById('set-bg-image').value = appSettings.bgImage || '';
 
-    const heroTitleEl = document.querySelector('.hero-panel h1');
-    const heroSubEl = document.querySelector('.hero-panel p');
+    const heroTitleEl = document.getElementById('hero-title');
+    const heroSubEl = document.getElementById('hero-subtitle');
     if(heroTitleEl) heroTitleEl.innerHTML = appSettings.heroTitle.replace(/\n/g,'<br>');
     if(heroSubEl) heroSubEl.textContent = appSettings.heroSubtitle;
 
@@ -924,16 +1024,35 @@
     document.getElementById('empty-state').style.display = 'none';
 
     const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
-    thead.innerHTML = isStock 
-      ? '<tr><th>Tgl</th><th>Gudang</th><th>Barcode</th><th>Item</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>'
-      : '<tr><th>Tgl</th><th>Lokasi/Ruas</th><th>Ket</th><th>User</th><th>Aksi</th></tr>';
+    
+    if(currentCategory === 'Patch Cord') {
+      thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
+    } else if(isStock) {
+      thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Barcode</th><th>Item</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
+    } else {
+      thead.innerHTML = '<tr><th>Tgl</th><th>Lokasi/Ruas</th><th>Ket</th><th>User</th><th>Aksi</th></tr>';
+    }
 
     keys.forEach(key => {
       const item = list[key];
       if(search && !JSON.stringify(item).toLowerCase().includes(search)) return;
 
       let row = '';
-      if(isStock) {
+      if(currentCategory === 'Patch Cord') {
+        let bgType = '#f1f5f9';
+        if(item.trType === 'Masuk') bgType = '#dcfce7';
+        if(item.trType === 'Keluar') bgType = '#fee2e2';
+
+        row = `<tr>
+          <td style="white-space:nowrap;">${item.date}</td>
+          <td><span style="font-size:11px;font-weight:600;color:#475569;">${item.gudang || '-'}</span></td>
+          <td><span style="font-weight:600;">${item.pcType || '-'}</span></td>
+          <td>${item.pcLength || '-'}</td>
+          <td><span style="padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;background:${bgType}">${item.trType}</span></td>
+          <td>${item.qty}</td>
+          <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
+        </tr>`;
+      } else if(isStock) {
         let bgType = '#f1f5f9';
         if(item.trType === 'Masuk') bgType = '#dcfce7';
         if(item.trType === 'Keluar') bgType = '#fee2e2';
@@ -961,26 +1080,81 @@
     lucide.createIcons();
   }
 
+  // ================= PATCH CORD DROPDOWN HANDLERS =================
+  window.handlePatchCordTypeChange = function() {
+    const sel = document.getElementById('inp-pc-type');
+    const custom = document.getElementById('inp-pc-type-custom');
+    if(sel.value === 'OTHER') {
+      custom.classList.remove('hidden');
+      custom.focus();
+    } else {
+      custom.classList.add('hidden');
+      custom.value = '';
+    }
+  };
+
+  window.handlePatchCordLengthChange = function() {
+    const sel = document.getElementById('inp-pc-length');
+    const custom = document.getElementById('inp-pc-length-custom');
+    if(sel.value === 'OTHER') {
+      custom.classList.remove('hidden');
+      custom.focus();
+    } else {
+      custom.classList.add('hidden');
+      custom.value = '';
+    }
+  };
+
+  function getPatchCordSpecs() {
+    const typeSel = document.getElementById('inp-pc-type');
+    const lenSel = document.getElementById('inp-pc-length');
+    const typeCustom = document.getElementById('inp-pc-type-custom');
+    const lenCustom = document.getElementById('inp-pc-length-custom');
+    
+    const type = typeSel.value === 'OTHER' ? typeCustom.value : typeSel.value;
+    const length = lenSel.value === 'OTHER' ? lenCustom.value : lenSel.value;
+    
+    return { type, length };
+  }
+
+  // ================= FORM HANDLING =================
   function openForm() {
     document.getElementById('form-modal').classList.remove('hidden');
     document.getElementById('inp-cat').value = currentCategory;
     document.getElementById('inp-date').valueAsDate = new Date();
     
     const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
-    document.getElementById('field-stock').classList.toggle('hidden', !isStock);
-    document.getElementById('field-gudang-wrap').classList.toggle('hidden', !isStock);
+    const isPatchCord = currentCategory === 'Patch Cord';
+    
+    document.getElementById('field-stock').classList.toggle('hidden', !isStock || isPatchCord);
+    document.getElementById('field-patchcord').classList.toggle('hidden', !isPatchCord);
+    document.getElementById('field-normal').classList.toggle('hidden', isStock);
+    document.getElementById('field-qty-wrap').classList.toggle('hidden', isPatchCord);
+    document.getElementById('field-gudang-wrap').classList.toggle('hidden', !isStock || isPatchCord);
     
     if(isStock && selectedGudang) {
       document.getElementById('inp-gudang-selected').value = selectedGudang;
       document.getElementById('selected-gudang-display').textContent = selectedGudang;
     }
+    if(isPatchCord && selectedGudang) {
+      document.getElementById('patchcord-gudang-display').textContent = selectedGudang;
+    }
     
+    // Reset inputs
     document.getElementById('inp-barcode').value = '';
     document.getElementById('inp-loc').value = '';
     document.getElementById('inp-notes').value = '';
     document.getElementById('inp-qty').value = '1';
     document.getElementById('inp-tr-type').value = 'Masuk';
-    document.getElementById('modal-title').textContent = 'Tambah Data';
+    document.getElementById('inp-pc-type').value = '';
+    document.getElementById('inp-pc-length').value = '';
+    document.getElementById('inp-pc-type-custom').value = '';
+    document.getElementById('inp-pc-length-custom').value = '';
+    document.getElementById('inp-pc-type-custom').classList.add('hidden');
+    document.getElementById('inp-pc-length-custom').classList.add('hidden');
+    document.getElementById('inp-pc-qty').value = '1';
+    document.getElementById('inp-pc-trtype').value = 'Masuk';
+    document.getElementById('modal-title').textContent = isPatchCord ? 'Input Patch Cord' : 'Tambah Data';
   }
 
   function closeModal() {
@@ -993,22 +1167,31 @@
     e.preventDefault();
     const cat = document.getElementById('inp-cat').value;
     const isStock = ['Stok Spare', 'Patch Cord'].includes(cat);
+    const isPatchCord = cat === 'Patch Cord';
     
     const newData = {
       date: document.getElementById('inp-date').value,
       postBy: currentUser.name,
-      qty: parseInt(document.getElementById('inp-qty').value),
       notes: document.getElementById('inp-notes').value,
       createdAt: Date.now()
     };
 
-    if(isStock) {
-      newData.barcode = document.getElementById('inp-barcode').value;
-      newData.trType = document.getElementById('inp-tr-type').value;
-      newData.gudang = selectedGudang || document.getElementById('inp-gudang').value;
+    if(isPatchCord) {
+      const specs = getPatchCordSpecs();
+      if(!specs.type || !specs.length) {
+        showToast('Pilih jenis dan panjang patch cord!', true);
+        return;
+      }
+      newData.pcType = specs.type;
+      newData.pcLength = specs.length;
+      newData.qty = parseInt(document.getElementById('inp-pc-qty').value);
+      newData.trType = document.getElementById('inp-pc-trtype').value;
+      newData.gudang  = selectedGudang || document.getElementById('inp-gudang').value;
+      newData.qty = parseInt(document.getElementById('inp-qty').value);
       newData.spec = document.getElementById('inp-loc').value || 'Item Stok';
     } else {
       newData.location = document.getElementById('inp-loc').value;
+      newData.qty = parseInt(document.getElementById('inp-qty').value);
       if(newData.location.includes(',')) newData.coords = newData.location;
     }
 
@@ -1024,35 +1207,77 @@
     }
   };
 
-  // ================= SCANNER LOGIC =================
+  // ================= IMPROVED SCANNER (BARCODE ONLY + BOUNDED) =================
   function toggleScanner(type) {
     const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
     const previewId = type === 'modal' ? 'modal-camera-preview' : 'ret-camera-preview';
     const container = document.getElementById(containerId);
     
-    if(container.classList.contains('active')) { stopScanner(type); } 
-    else {
+    if(container.classList.contains('active')) { 
+      stopScanner(type); 
+    } else {
       container.classList.add('active');
       startQuagga(previewId, type);
     }
   }
 
   function stopScanner(type) {
-    if(quaggaRunning) { Quagga.stop(); quaggaRunning = false; }
+    if(quaggaRunning) { 
+      Quagga.stop(); 
+      quaggaRunning = false; 
+    }
     const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
     document.getElementById(containerId).classList.remove('active');
   }
 
   function startQuagga(targetId, type) {
     Quagga.init({
-      inputStream: { name:"Live", type:"LiveStream", target:document.querySelector(`#${targetId}`), constraints:{width:640,height:480,facingMode:"environment"} },
-      decoder: { readers:["code_128_reader","ean_reader"] }
+      inputStream: { 
+        name: "Live", 
+        type: "LiveStream", 
+        target: document.querySelector(`#${targetId}`), 
+        constraints: { 
+          width: { min: 640, max: 1280 },
+          height: { min: 480, max: 720 },
+          facingMode: "environment",
+          aspectRatio: { min: 1, max: 2 }
+        } 
+      },
+      locator: {
+        patchSize: "medium",
+        halfSample: true
+      },
+      numOfWorkers: navigator.hardwareConcurrency || 2,
+      decoder: { 
+        readers: [
+          "code_128_reader",
+          "ean_reader",
+          "ean_8_reader",
+          "upc_reader",
+          "upc_e_reader",
+          "code_39_reader",
+          "code_39_vin_reader",
+          "codabar_reader",
+          "i2of5_reader"
+        ],
+        multiple: false
+      },
+      locate: true
     }, function(err) {
-      if(err) return;
-      Quagga.start(); quaggaRunning = true;
+      if (err) { 
+        console.error("Scanner error:", err);
+        showToast('❌ Kamera tidak dapat diakses', true);
+        return; 
+      }
+      Quagga.start(); 
+      quaggaRunning = true;
+      
       Quagga.onDetected(function(result) {
         const code = result.codeResult.code;
-        if(code) {
+        const format = result.codeResult.format;
+        
+        // Hanya terima barcode 1D (bukan QR)
+        if(code && code.length > 3 && !format.toLowerCase().includes('qr')) {
           if(type === 'modal') {
             document.getElementById('inp-barcode').value = code;
             if(MASTER_BARCODES[code]) document.getElementById('inp-loc').value = MASTER_BARCODES[code];
@@ -1061,7 +1286,7 @@
             document.getElementById('ret-item-name').value = MASTER_BARCODES[code] || 'Barang Tidak Dikenal';
           }
           stopScanner(type);
-          showToast('📷 Barcode terdeteksi');
+          showToast('📷 Barcode terdeteksi: ' + code);
         }
       });
     });
@@ -1130,7 +1355,7 @@
     };
     db.ref('returs').push(returData);
     
-    // Also save to Patch Cord / Stok Spare as "Retur" transaction
+    // Also save to Stok Spare as "Retur" transaction
     returnItems.forEach(item => {
       db.ref('data/Stok Spare').push({
         date: returData.date,
@@ -1185,3 +1410,4 @@
 </script>
 </body>
 </html>
+
