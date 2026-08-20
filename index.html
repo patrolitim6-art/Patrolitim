@@ -229,6 +229,7 @@
       <span style="font-weight:800;color:var(--primary);font-size:20px;">BUCIN</span>
     </div>
     <div style="display:flex;gap:8px;align-items:center;">
+      <!-- TOMBOL PENGATURAN DI SAMPING ADD USER -->
       <button id="add-user-btn" class="icon-btn hidden" title="Tambah User"><i data-lucide="user-plus" style="width:22px;"></i></button>
       <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:22px;"></i></button>
       <button id="logout-btn" class="icon-btn" title="Keluar"><i data-lucide="log-out" style="width:22px;"></i></button>
@@ -243,6 +244,7 @@
         <p style="margin:8px 0 0;opacity:0.9;font-size:14px;" id="hero-subtitle">Pusat Operasi Jaringan Sulawesi Utara</p>
       </div>
       
+      <!-- GRAFIK STATISTIK (CHART.JS) -->
       <div class="dashboard-grid">
         <div class="chart-card">
           <h3 style="margin:0 0 14px;font-size:16px;font-weight:700;">Grafik Statistik Insiden</h3>
@@ -264,6 +266,7 @@
         </div>
         <div id="map-wrapper" style="position:relative;">
           <div id="map-container"></div>
+          <!-- ZOOM CONTROLS DI POJOK KANAN ATAS -->
           <div class="custom-map-controls">
             <button class="custom-map-btn active" onclick="toggleMapLayer('satellite')"><i data-lucide="satellite" style="width:14px;"></i> Satelit</button>
             <button class="custom-map-btn" onclick="toggleMapLayer('street')"><i data-lucide="map" style="width:14px;"></i> Jalan</button>
@@ -274,6 +277,7 @@
         </div>
       </div>
 
+      <!-- ABOUT US SECTION -->
       <div class="about-section">
         <h3>About Us - Tim Patroli BUCIN</h3>
         <p>Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara. Kami bekerja 24/7 untuk memastikan konektivitas tetap optimal.</p>
@@ -402,7 +406,7 @@
         <!-- PATCH CORD FIELDS -->
         <div id="field-patchcord" class="hidden">
           <div style="background:#f0fdf4;padding:12px;border-radius:12px;margin-bottom:12px;border:1px solid #bbf7d0;">
-            <div style="font-size:12px;font-weight:600;color:#166534;margin-bottom:6px;">📦 Spesifikasi Patch Cord</div>
+            <div style="font-size:12px;font-weight:600;color:#166534;margin-bottom:6px;"> Spesifikasi Patch Cord</div>
             <div id="patchcord-gudang-display" style="font-size:14px;font-weight:700;color:#16a34a;"></div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
@@ -456,7 +460,7 @@
           </div>
         </div>
 
-        <!-- Normal Fields -->
+        <!-- Normal Fields (Non-Stock) -->
         <div id="field-normal">
            <label style="font-size:12px;font-weight:600;color:#475569;">Nama Lokasi</label>
            <input type="text" id="inp-loc" class="field-control">
@@ -805,7 +809,7 @@
         showToast('✅ Login berhasil');
         resetInactivityTimer();
       } else {
-        showToast('❌ Pengguna tidak ditemukan atau password salah', true);
+        showToast(' Pengguna tidak ditemukan atau password salah', true);
       }
     });
   });
@@ -1092,27 +1096,6 @@
           <td>${item.qty}</td>
           <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
         </tr>`;
-      } else if(isStock) {
-        let bgType = item.trType === 'Masuk' ? '#dcfce7' : '#fee2e2';
-        row = `<tr>
-          <td style="white-space:nowrap;">${item.date}</td>
-          <td><span style="font-size:11px;font-weight:600;color:#475569;">${item.gudang || '-'}</span></td>
-          <td>${item.barcode || '-'}</td>
-          <td>${item.spec || item.notes || '-'}</td>
-          <td><span style="padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;background:${bgType}">${item.trType}</span></td>
-          <td>${item.qty}</td>
-          <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
-        </tr>`;
-      } else {
-        row = `<tr>
-          <td style="white-space:nowrap;">${item.date}</td>
-                    <td><span style="font-size:11px;font-weight:600;color:#475569;">${item.gudang || '-'}</span></td>
-          <td>${item.barcode || '-'}</td>
-          <td>${item.spec || item.notes || '-'}</td>
-          <td><span style="padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;background:${bgType}">${item.trType}</span></td>
-          <td>${item.qty}</td>
-          <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
-        </tr>`;
       } else {
         row = `<tr>
           <td style="white-space:nowrap;">${item.date}</td>
@@ -1178,7 +1161,6 @@
       document.getElementById('patchcord-gudang-display').textContent = selectedGudang;
     }
     
-    // Reset all inputs
     document.getElementById('inp-barcode').value = '';
     document.getElementById('inp-loc').value = '';
     document.getElementById('inp-coords').value = '';
@@ -1224,8 +1206,6 @@
       newData.trType = document.getElementById('inp-pc-trtype').value;
       newData.gudang = selectedGudang;
       newData.spec = `Patch Cord ${specs.type} ${specs.length}`;
-      
-      // Update existing stock with same name, type, and gudang
       updateExistingStock(cat, newData);
     } else if(isStock) {
       newData.barcode = document.getElementById('inp-barcode').value;
@@ -1233,8 +1213,6 @@
       newData.gudang = selectedGudang;
       newData.qty = parseInt(document.getElementById('inp-qty').value);
       newData.spec = document.getElementById('inp-loc').value || 'Item Stok';
-      
-      // Update existing stock
       updateExistingStock(cat, newData);
     } else {
       newData.location = document.getElementById('inp-loc').value;
@@ -1248,7 +1226,6 @@
   }
 
   function updateExistingStock(category, newItem) {
-    // Find existing entry with same spec/name and gudang, then update qty
     const list = appData[category] || {};
     Object.keys(list).forEach(key => {
       const existing = list[key];
@@ -1256,7 +1233,6 @@
         let newQty = existing.qty;
         if(newItem.trType === 'Masuk') newQty += newItem.qty;
         else newQty = Math.max(0, newQty - newItem.qty);
-        
         db.ref('data/' + category + '/' + key).update({ qty: newQty });
       }
     });
@@ -1274,7 +1250,6 @@
     const list = appData[currentCategory] || {};
     const tbody = document.getElementById('history-body');
     tbody.innerHTML = '';
-    
     Object.values(list).sort((a,b) => b.createdAt - a.createdAt).forEach(item => {
       tbody.innerHTML += `<tr>
         <td style="white-space:nowrap;">${item.date}</td>
@@ -1285,71 +1260,53 @@
         <td>${item.qty}</td>
       </tr>`;
     });
-    
     document.getElementById('history-modal').classList.remove('hidden');
   }
 
   function downloadHistoryExcel() {
     const list = appData[currentCategory] || {};
     const data = Object.values(list).map(item => ({
-      Tanggal: item.date,
-      User: item.postBy,
-      Gudang: item.gudang,
-      Item: item.spec || item.pcType,
-      Tipe: item.trType,
-      Jumlah: item.qty
+      Tanggal: item.date, User: item.postBy, Gudang: item.gudang,
+      Item: item.spec || item.pcType, Tipe: item.trType, Jumlah: item.qty
     }));
-    
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Riwayat');
     XLSX.writeFile(wb, `Riwayat_${currentCategory}_${new Date().toISOString().slice(0,10)}.xlsx`);
   }
 
-  // ================= IMPROVED SCANNER (BARCODE ONLY + CAMERA PERMISSION) =================
+  // ================= SCANNER =================
   function toggleScanner(type) {
     const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
     const previewId = type === 'modal' ? 'modal-camera-preview' : 'ret-camera-preview';
     const container = document.getElementById(containerId);
-    
     if(container.classList.contains('active')) { stopScanner(type); }
     else {
-      // Request camera permission explicitly
       navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
         .then(stream => {
           stream.getTracks().forEach(track => track.stop());
           container.classList.add('active');
           startQuagga(previewId, type);
         })
-        .catch(err => {
-          showToast('❌ Izin kamera ditolak. Mohon izinkan akses kamera.', true);
-        });
+        .catch(() => showToast('❌ Izin kamera ditolak.', true));
     }
   }
 
   function stopScanner(type) {
     if(quaggaRunning) { Quagga.stop(); quaggaRunning = false; }
-    const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
-    document.getElementById(containerId).classList.remove('active');
+    document.getElementById(type === 'modal' ? 'modal-scanner' : 'ret-scanner').classList.remove('active');
   }
 
   function startQuagga(targetId, type) {
     Quagga.init({
-      inputStream: { 
-        name: "Live", type: "LiveStream", target: document.querySelector(`#${targetId}`), 
-        constraints: { width: { min: 640, max: 1280 }, height: { min: 480, max: 720 }, facingMode: "environment", aspectRatio: { min: 1, max: 2 } } 
-      },
-      locator: { patchSize: "medium", halfSample: true },
+      inputStream: { name:"Live", type:"LiveStream", target:document.querySelector(`#${targetId}`), constraints:{ width:{min:640,max:1280}, height:{min:480,max:720}, facingMode:"environment", aspectRatio:{min:1,max:2} } },
+      locator: { patchSize:"medium", halfSample:true },
       numOfWorkers: navigator.hardwareConcurrency || 2,
-      decoder: { 
-        readers: ["code_128_reader","ean_reader","ean_8_reader","upc_reader","upc_e_reader","code_39_reader","code_39_vin_reader","codabar_reader","i2of5_reader"],
-        multiple: false
-      },
+      decoder: { readers:["code_128_reader","ean_reader","ean_8_reader","upc_reader","upc_e_reader","code_39_reader","codabar_reader","i2of5_reader"], multiple:false },
       locate: true
     }, function(err) {
-      if (err) { showToast('❌ Kamera tidak dapat diakses', true); return; }
+      if(err) { showToast('❌ Kamera error', true); return; }
       Quagga.start(); quaggaRunning = true;
-      
       Quagga.onDetected(function(result) {
         const code = result.codeResult.code;
         const format = result.codeResult.format;
@@ -1357,18 +1314,18 @@
           if(type === 'modal') {
             document.getElementById('inp-barcode').value = code;
             if(MASTER_BARCODES[code]) document.getElementById('inp-loc').value = MASTER_BARCODES[code];
-          } else if(type === 'ret') {
+          } else {
             document.getElementById('ret-barcode').value = code;
             document.getElementById('ret-item-name').value = MASTER_BARCODES[code] || 'Barang Tidak Dikenal';
           }
           stopScanner(type);
-          showToast('📷 Barcode terdeteksi: ' + code);
+          showToast('📷 Barcode: ' + code);
         }
       });
     });
   }
 
-  // ================= RETUR PAGE LOGIC =================
+  // ================= RETUR =================
   function initReturPage() {
     document.getElementById('ret-no').value = 'RET-' + Date.now().toString().slice(-6);
     document.getElementById('ret-date').valueAsDate = new Date();
@@ -1384,7 +1341,7 @@
     const barcode = document.getElementById('ret-barcode').value;
     const name = document.getElementById('ret-item-name').value;
     const qty = parseInt(document.getElementById('ret-item-qty').value);
-    if(!barcode || !name) return showToast('Scan atau isi barang terlebih dahulu', true);
+    if(!barcode || !name) return showToast('Scan atau isi barang dulu', true);
     returnItems.push({ barcode, name, qty });
     renderReturList();
     document.getElementById('ret-barcode').value = '';
@@ -1396,10 +1353,7 @@
     const tbody = document.getElementById('ret-list-body');
     tbody.innerHTML = '';
     returnItems.forEach((item, idx) => {
-      tbody.innerHTML += `<tr>
-        <td>${item.barcode}</td><td>${item.name}</td><td>${item.qty}</td>
-        <td><button class="icon-btn delete" onclick="removeRetItem(${idx})"><i data-lucide="x" style="width:16px;"></i></button></td>
-      </tr>`;
+      tbody.innerHTML += `<tr><td>${item.barcode}</td><td>${item.name}</td><td>${item.qty}</td><td><button class="icon-btn delete" onclick="removeRetItem(${idx})"><i data-lucide="x" style="width:16px;"></i></button></td></tr>`;
     });
     lucide.createIcons();
     const canSave = returnItems.length > 0 && document.getElementById('ret-gudang').value !== '';
@@ -1410,33 +1364,17 @@
   window.removeRetItem = function(idx) { returnItems.splice(idx, 1); renderReturList(); };
 
   function saveRetur() {
-    const returData = {
-      no: document.getElementById('ret-no').value, date: document.getElementById('ret-date').value,
-      gudang: document.getElementById('ret-gudang').value, items: returnItems,
-      by: currentUser.name, createdAt: Date.now()
-    };
+    const returData = { no:document.getElementById('ret-no').value, date:document.getElementById('ret-date').value, gudang:document.getElementById('ret-gudang').value, items:returnItems, by:currentUser.name, createdAt:Date.now() };
     db.ref('returs').push(returData);
     returnItems.forEach(item => {
-      db.ref('data/Stok Spare').push({
-        date: returData.date, barcode: item.barcode, spec: item.name, trType: 'Retur',
-        qty: item.qty, gudang: returData.gudang, postBy: currentUser.name,
-        notes: `Retur No: ${returData.no}`, createdAt: Date.now()
-      });
+      db.ref('data/Stok Spare').push({ date:returData.date, barcode:item.barcode, spec:item.name, trType:'Retur', qty:item.qty, gudang:returData.gudang, postBy:currentUser.name, notes:`Retur No: ${returData.no}`, createdAt:Date.now() });
     });
-    showToast('✅ Retur berhasil disimpan');
+    showToast('✅ Retur disimpan');
     initReturPage();
   }
 
   function printReturExcel() {
-    const data = returnItems.map(i => ({
-      'No. Retur': document.getElementById('ret-no').value,
-      'Tanggal': document.getElementById('ret-date').value,
-      'Gudang': document.getElementById('ret-gudang').value,
-      'Barcode': i.barcode,
-      'Nama Barang': i.name,
-      'Qty': i.qty,
-      'Oleh': currentUser.name
-    }));
+    const data = returnItems.map(i => ({ 'No. Retur':document.getElementById('ret-no').value, 'Tanggal':document.getElementById('ret-date').value, 'Gudang':document.getElementById('ret-gudang').value, 'Barcode':i.barcode, 'Nama Barang':i.name, 'Qty':i.qty, 'Oleh':currentUser.name }));
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Retur');
