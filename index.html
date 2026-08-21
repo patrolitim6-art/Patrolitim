@@ -12,8 +12,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Libre+Franklin:wght@700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
   
@@ -53,7 +51,6 @@
       transition: background 0.3s ease;
     }
     
-    /* ===== CARD ===== */
     .card { 
       background: var(--card-bg); 
       border-radius: var(--radius); 
@@ -67,7 +64,6 @@
       box-shadow: var(--shadow-hover);
     }
     
-    /* ===== BUTTON PRIMARY ===== */
     .btn-primary {
       background: var(--primary-blue);
       color: white;
@@ -87,16 +83,9 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(37,99,235,0.4);
     }
-    .btn-primary:active {
-      transform: scale(0.97);
-    }
-    .btn-primary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none !important;
-    }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
     
-    /* ===== BUTTON SECONDARY ===== */
     .btn-secondary {
       background: var(--bg-light);
       color: var(--text-dark);
@@ -114,12 +103,8 @@
       background: #DBEAFE;
       border-color: var(--primary-blue);
     }
-    .btn-secondary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
     
-    /* ===== HEADER ===== */
     .top-header { 
       position:sticky; top:0; z-index:40; height:64px; 
       border-bottom:1px solid var(--line); 
@@ -132,58 +117,38 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
     .brand-mark { 
-      width:40px; 
-      height:40px; 
-      border-radius:12px; 
-      display:grid; 
-      place-items:center; 
-      color:white; 
-      background: var(--blue-gradient);
+      width:40px; height:40px; border-radius:12px; display:grid; place-items:center; 
+      color:white; background: var(--blue-gradient);
       box-shadow: 0 4px 12px rgba(37,99,235,0.35);
-      font-size:20px;
-      font-weight:800;
+      font-size:20px; font-weight:800;
     }
     .brand-text {
-      font-weight:800;
-      font-size:22px;
+      font-weight:800; font-size:22px;
       background: var(--blue-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
     
-    /* ===== BOTTOM NAV ===== */
     .bottom-nav { 
       position:fixed; bottom:0; left:0; right:0; height:72px; 
       background:rgba(255,255,255,0.96); 
       backdrop-filter:blur(20px);
       border-top:1px solid var(--line); 
-      display:flex; 
-      overflow-x:auto; 
-      z-index:50; 
+      display:flex; overflow-x:auto; z-index:50; 
       padding-bottom:env(safe-area-inset-bottom); 
       scrollbar-width:none; 
       box-shadow: 0 -4px 12px rgba(0,0,0,0.04);
     }
     .bottom-nav::-webkit-scrollbar { display:none; }
     .nav-item { 
-      flex:0 0 auto; 
-      min-width:64px; 
-      display:flex; 
-      flex-direction:column; 
-      align-items:center; 
-      justify-content:center; 
-      gap:2px; 
-      color:var(--text-muted); 
-      font-size:10px; 
-      cursor:pointer; 
-      transition:all 0.2s ease; 
-      padding:0 6px; 
+      flex:0 0 auto; min-width:64px; display:flex; flex-direction:column; 
+      align-items:center; justify-content:center; gap:2px; 
+      color:var(--text-muted); font-size:10px; cursor:pointer; 
+      transition:all 0.2s ease; padding:0 6px; 
     }
     .nav-item.active { 
-      color: var(--primary-blue); 
-      font-weight:700; 
-      transform:translateY(-2px); 
+      color: var(--primary-blue); font-weight:700; transform:translateY(-2px); 
     }
     .nav-item.active::after {
       content: '';
@@ -199,53 +164,34 @@
     .nav-item i { width:24px; height:24px; transition:transform 0.2s; }
     .nav-item.active i { transform:scale(1.1); }
     
-    /* ===== HERO PANEL ===== */
     .hero-panel { 
-      border-radius: 20px; 
-      padding: 28px 24px; 
+      border-radius: 20px; padding: 28px 24px; 
       background: var(--blue-gradient);
       color: white; 
       box-shadow: 0 12px 32px rgba(37,99,235,0.3); 
-      margin-bottom:20px; 
-      position:relative; 
-      overflow:hidden;
+      margin-bottom:20px; position:relative; overflow:hidden;
     }
     .hero-panel::before {
       content: '';
       position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 300px;
-      height: 300px;
+      top: -50%; right: -20%;
+      width: 300px; height: 300px;
       background: rgba(255,255,255,0.05);
       border-radius: 50%;
     }
     .hero-panel::after {
       content: '';
       position: absolute;
-      bottom: -40%;
-      left: -10%;
-      width: 200px;
-      height: 200px;
+      bottom: -40%; left: -10%;
+      width: 200px; height: 200px;
       background: rgba(251,191,36,0.1);
       border-radius: 50%;
     }
-    .hero-panel h1, .hero-panel p {
-      position: relative;
-      z-index: 1;
-    }
+    .hero-panel h1, .hero-panel p { position: relative; z-index: 1; }
     
-    /* ===== FORM CONTROLS ===== */
     .field-control { 
-      width:100%; 
-      min-height:46px; 
-      border:2px solid var(--line); 
-      border-radius:12px; 
-      background:white; 
-      padding:0 16px; 
-      font-size:14px; 
-      outline:none; 
-      transition:all 0.2s; 
+      width:100%; min-height:46px; border:2px solid var(--line); border-radius:12px; 
+      background:white; padding:0 16px; font-size:14px; outline:none; transition:all 0.2s; 
       font-family: inherit;
     }
     .field-control:focus { 
@@ -256,10 +202,7 @@
       border-color: #EF4444; 
       box-shadow:0 0 0 4px rgba(239,68,68,0.12); 
     }
-    textarea.field-control {
-      padding: 12px 16px;
-      resize: vertical;
-    }
+    textarea.field-control { padding: 12px 16px; resize: vertical; }
     select.field-control {
       appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -268,44 +211,25 @@
       padding-right: 40px;
     }
     
-    /* ===== ICON BUTTON ===== */
     .icon-btn { 
-      width:38px; 
-      height:38px; 
-      border-radius:10px; 
-      display:grid; 
-      place-items:center; 
-      cursor:pointer; 
-      background:transparent; 
-      border:none;
-      color:var(--text-muted); 
-      transition:all 0.2s; 
+      width:38px; height:38px; border-radius:10px; display:grid; place-items:center; 
+      cursor:pointer; background:transparent; border:none;
+      color:var(--text-muted); transition:all 0.2s; 
     }
-    .icon-btn:hover { 
-      background:var(--bg-light); 
-      color:var(--primary-blue); 
-    }
+    .icon-btn:hover { background:var(--bg-light); color:var(--primary-blue); }
     .icon-btn.delete { color:#EF4444; }
     .icon-btn.delete:hover { background:#FEE2E2; }
     
-    /* ===== MODAL ===== */
     .modal-layer { 
       position:fixed; z-index:100; inset:0; 
-      background:rgba(30,41,59,0.5); 
-      backdrop-filter:blur(8px); 
-      display:grid; 
-      place-items:end; 
+      background:rgba(30,41,59,0.5); backdrop-filter:blur(8px); 
+      display:grid; place-items:end; 
     }
     @media(min-width:640px) { .modal-layer { place-items:center; } }
     .modal-card { 
-      background:white; 
-      width:100%; 
-      max-width:560px; 
-      border-radius:24px 24px 0 0; 
-      max-height:92vh; 
-      overflow-y:auto; 
-      padding:24px; 
-      animation:slideUp 0.35s cubic-bezier(0.16,1,0.3,1); 
+      background:white; width:100%; max-width:560px; 
+      border-radius:24px 24px 0 0; max-height:92vh; overflow-y:auto; 
+      padding:24px; animation:slideUp 0.35s cubic-bezier(0.16,1,0.3,1); 
       box-shadow: 0 24px 64px rgba(0,0,0,0.2);
     }
     @keyframes slideUp { 
@@ -314,324 +238,135 @@
     }
     .hidden { display:none !important; }
     
-    /* ===== MAP ===== */
     #map-container { 
-      height:340px; 
-      border-radius:var(--radius); 
-      border:1px solid var(--line); 
-      z-index:1; 
-      overflow:hidden;
+      height:340px; border-radius:var(--radius); border:1px solid var(--line); z-index:1; overflow:hidden;
     }
     .leaflet-control-zoom { display:none !important; }
     .custom-map-controls {
-      position:absolute; 
-      top:12px; 
-      right:12px; 
-      z-index:1000;
-      display:flex; 
-      flex-direction:column; 
-      gap:6px;
+      position:absolute; top:12px; right:12px; z-index:1000;
+      display:flex; flex-direction:column; gap:6px;
     }
     .custom-map-btn {
-      background:rgba(255,255,255,0.95); 
-      backdrop-filter:blur(10px);
-      border:1px solid rgba(0,0,0,0.08); 
-      border-radius:10px;
-      width:38px; 
-      height:38px; 
-      display:grid; 
-      place-items:center;
-      cursor:pointer; 
-      box-shadow:0 2px 8px rgba(0,0,0,0.08);
-      color:var(--text-dark); 
-      transition:all 0.2s;
+      background:rgba(255,255,255,0.95); backdrop-filter:blur(10px);
+      border:1px solid rgba(0,0,0,0.08); border-radius:10px;
+      width:38px; height:38px; display:grid; place-items:center;
+      cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.08);
+      color:var(--text-dark); transition:all 0.2s;
     }
-    .custom-map-btn:hover { 
-      background:white; 
-      transform:translateY(-2px);
-      box-shadow:0 4px 12px rgba(0,0,0,0.12);
-    }
-    .custom-map-btn.active { 
-      background: var(--blue-gradient);
-      color:white; 
-      border-color:var(--primary-blue);
-    }
+    .custom-map-btn:hover { background:white; transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.12); }
+    .custom-map-btn.active { background: var(--blue-gradient); color:white; border-color:var(--primary-blue); }
     
-    /* Leaflet Geocoder styling */
-    .leaflet-control-geocoder {
-      border-radius: 12px !important;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.15) !important;
-      border: none !important;
-    }
-    .leaflet-control-geocoder input {
-      border-radius: 12px !important;
-      height: 40px !important;
-      padding: 0 16px !important;
-      font-family: 'DM Sans', sans-serif !important;
-      font-size: 14px !important;
-      border: 1px solid var(--line) !important;
-    }
-    .leaflet-control-geocoder input:focus {
-      border-color: var(--primary-blue) !important;
-      box-shadow: 0 0 0 3px rgba(37,99,235,0.12) !important;
-    }
-    .leaflet-control-geocoder .leaflet-control-geocoder-icon {
-      border-radius: 0 12px 12px 0 !important;
-      background: var(--primary-blue) !important;
-      color: white !important;
-    }
-    .leaflet-control-geocoder .leaflet-control-geocoder-icon:before {
-      border-top: 2px solid white !important;
-      border-left: 2px solid white !important;
-    }
-    .leaflet-control-geocoder-results {
-      border-radius: 0 0 12px 12px !important;
-      border: 1px solid var(--line) !important;
-      border-top: none !important;
-    }
-    .leaflet-control-geocoder-results a {
-      padding: 8px 16px !important;
-      font-family: 'DM Sans', sans-serif !important;
-      font-size: 13px !important;
-    }
-    .leaflet-control-geocoder-results a:hover {
-      background: var(--primary-blue-light) !important;
-      color: var(--primary-blue) !important;
-    }
-    
-    /* ===== SCANNER ===== */
     .scanner-wrapper {
-      position: relative; 
-      width: 100%; 
-      max-width: 400px; 
-      height: 260px;
-      margin: 12px auto; 
-      border-radius: 16px; 
-      overflow: hidden; 
-      background: #0f172a;
-      display: none; 
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      position: relative; width: 100%; max-width: 400px; height: 260px;
+      margin: 12px auto; border-radius: 16px; overflow: hidden; background: #0f172a;
+      display: none; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
     .scanner-wrapper.active { display: block; }
     .scanner-wrapper video { width: 100%; height: 100%; object-fit: cover; }
     .scanner-guide {
-      position: absolute; 
-      top: 50%; left: 50%; 
-      transform: translate(-50%, -50%);
-      width: 240px; 
-      height: 120px; 
-      border: 2px solid var(--primary-blue); 
-      border-radius: 12px;
-      box-shadow: 0 0 0 9999px rgba(0,0,0,0.5); 
-      pointer-events: none;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 240px; height: 120px; border: 2px solid var(--primary-blue); border-radius: 12px;
+      box-shadow: 0 0 0 9999px rgba(0,0,0,0.5); pointer-events: none;
     }
     .scanner-laser {
-      position: absolute; 
-      top: 50%; left: 10%; right: 10%; 
-      height: 2px;
-      background: #EF4444; 
-      box-shadow: 0 0 12px #EF4444;
-      animation: scanLine 1.5s infinite ease-in-out; 
-      pointer-events: none;
+      position: absolute; top: 50%; left: 10%; right: 10%; height: 2px;
+      background: #EF4444; box-shadow: 0 0 12px #EF4444;
+      animation: scanLine 1.5s infinite ease-in-out; pointer-events: none;
     }
     @keyframes scanLine { 
       0%, 100% { opacity: 0.2; top: 20%; } 
       50% { opacity: 1; top: 80%; } 
     }
     
-    /* ===== TOAST ===== */
     .toast { 
-      position:fixed; 
-      top:80px; 
-      left:50%; 
-      transform:translateX(-50%) translateY(-20px); 
-      background:var(--text-dark); 
-      color:white; 
-      padding:14px 32px; 
-      border-radius:99px; 
-      font-size:14px; 
-      font-weight:600; 
-      z-index:999; 
-      opacity:0; 
-      transition:all 0.3s ease; 
-      pointer-events:none; 
-      box-shadow:0 8px 32px rgba(0,0,0,0.2);
-      max-width: 90%;
-      text-align: center;
+      position:fixed; top:80px; left:50%; transform:translateX(-50%) translateY(-20px); 
+      background:var(--text-dark); color:white; padding:14px 32px; border-radius:99px; 
+      font-size:14px; font-weight:600; z-index:999; opacity:0; transition:all 0.3s ease; 
+      pointer-events:none; box-shadow:0 8px 32px rgba(0,0,0,0.2);
+      max-width: 90%; text-align: center;
     }
     .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
     .toast.success { background: var(--primary-blue); }
     .toast.error { background: #EF4444; }
     
-    /* ===== LOGIN SCREEN ===== */
     .login-screen { 
-      position:fixed; 
-      inset:0; 
-      background: var(--blue-gradient);
-      z-index:200; 
-      display:grid; 
-      place-items:center; 
-      padding:20px; 
-      overflow:hidden;
+      position:fixed; inset:0; background: var(--blue-gradient);
+      z-index:200; display:grid; place-items:center; padding:20px; overflow:hidden;
     }
     .login-screen::before {
       content: '';
-      position: absolute;
-      top: -30%;
-      right: -20%;
-      width: 500px;
-      height: 500px;
+      position: absolute; top: -30%; right: -20%;
+      width: 500px; height: 500px;
       background: rgba(255,255,255,0.05);
-      border-radius: 50%;
-      pointer-events: none;
+      border-radius: 50%; pointer-events: none;
     }
     .login-screen::after {
       content: '';
-      position: absolute;
-      bottom: -30%;
-      left: -20%;
-      width: 400px;
-      height: 400px;
+      position: absolute; bottom: -30%; left: -20%;
+      width: 400px; height: 400px;
       background: rgba(251,191,36,0.08);
-      border-radius: 50%;
-      pointer-events: none;
+      border-radius: 50%; pointer-events: none;
     }
     .login-card { 
-      background:white; 
-      padding:40px 36px; 
-      border-radius:28px; 
-      width:100%; 
-      max-width:420px; 
+      background:white; padding:40px 36px; border-radius:28px; 
+      width:100%; max-width:420px; 
       box-shadow:0 24px 64px rgba(0,0,0,0.25);
-      position:relative;
-      z-index: 1;
+      position:relative; z-index: 1;
       animation: slideUpLogin 0.6s cubic-bezier(0.16,1,0.3,1);
     }
     @keyframes slideUpLogin {
       from { transform: translateY(40px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-    .login-card .brand-mark {
-      margin: 0 auto;
-      width: 72px;
-      height: 72px;
-      font-size: 32px;
-      border-radius: 20px;
-    }
+    .login-card .brand-mark { margin: 0 auto; width: 72px; height: 72px; font-size: 32px; border-radius: 20px; }
     .login-title {
-      font-size: 28px;
-      font-weight: 800;
-      margin: 16px 0 4px;
+      font-size: 28px; font-weight: 800; margin: 16px 0 4px;
       background: var(--blue-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .login-subtitle {
-      color: var(--text-muted);
-      font-size: 14px;
-      font-weight: 500;
-    }
+    .login-subtitle { color: var(--text-muted); font-size: 14px; font-weight: 500; }
     .login-divider {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin: 20px 0;
+      display: flex; align-items: center; gap: 16px; margin: 20px 0;
     }
-    .login-divider::before,
-    .login-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--line);
+    .login-divider::before, .login-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--line);
     }
-    .login-divider span {
-      font-size: 11px;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .login-footer {
-      text-align: center;
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 1px solid var(--line);
-    }
-    .login-footer p {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-    .login-footer .highlight {
-      color: var(--primary-blue);
-      font-weight: 700;
-    }
+    .login-divider span { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .login-footer { text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
+    .login-footer p { font-size: 11px; color: var(--text-muted); }
+    .login-footer .highlight { color: var(--primary-blue); font-weight: 700; }
     .login-error {
-      color: #EF4444;
-      font-size: 13px;
-      font-weight: 600;
-      text-align: center;
-      padding: 8px 12px;
-      background: #FEE2E2;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      display: none;
+      color: #EF4444; font-size: 13px; font-weight: 600; text-align: center;
+      padding: 8px 12px; background: #FEE2E2; border-radius: 8px; margin-bottom: 12px; display: none;
     }
-    .login-error.show {
-      display: block;
-    }
+    .login-error.show { display: block; }
     
-    /* ===== GUDANG SELECTOR ===== */
     .gudang-selector {
-      display:grid; 
-      grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); 
-      gap:12px; 
-      margin:16px 0;
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin:16px 0;
     }
     .gudang-card {
-      padding:16px; 
-      border:2px solid var(--line); 
-      border-radius:14px; 
-      cursor:pointer;
-      text-align:center; 
-      transition:all 0.2s; 
-      background:white;
+      padding:16px; border:2px solid var(--line); border-radius:14px; cursor:pointer;
+      text-align:center; transition:all 0.2s; background:white;
     }
     .gudang-card:hover { border-color: var(--primary-blue); transform:translateY(-2px); }
     .gudang-card.selected { 
-      border-color: var(--primary-blue); 
-      background: var(--primary-blue-light); 
+      border-color: var(--primary-blue); background: var(--primary-blue-light); 
       box-shadow:0 0 0 4px rgba(37,99,235,0.15); 
     }
     
-    /* ===== TABLES ===== */
     .records-table { 
-      width:100%; 
-      border-collapse:collapse; 
-      font-size:13px; 
+      width:100%; border-collapse:collapse; font-size:13px; 
     }
     .records-table th { 
-      background:#F8FAFB; 
-      padding:12px 14px; 
-      text-align:left; 
-      border-bottom:2px solid var(--line); 
-      font-weight:700; 
-      color:var(--text-muted); 
-      white-space:nowrap; 
-      font-size:11px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      background:#F8FAFB; padding:12px 14px; text-align:left; 
+      border-bottom:2px solid var(--line); font-weight:700; color:var(--text-muted); 
+      white-space:nowrap; font-size:11px; text-transform: uppercase; letter-spacing: 0.5px;
     }
-    .records-table td { 
-      padding:12px 14px; 
-      border-bottom:1px solid #F3F4F6; 
-      vertical-align:middle; 
-    }
-    .records-table tr:hover td {
-      background: #FAFBFC;
-    }
+    .records-table td { padding:12px 14px; border-bottom:1px solid #F3F4F6; vertical-align:middle; }
+    .records-table tr:hover td { background: #FAFBFC; }
     
-    /* ===== STOK SUMMARY ===== */
     .stok-summary {
       background: var(--primary-blue-very-light);
       border: 1px solid var(--primary-blue-light);
@@ -644,27 +379,12 @@
       flex-wrap: wrap;
       gap: 8px;
     }
-    .stok-summary .label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-    .stok-summary .value {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--primary-blue);
-    }
-    .stok-summary .value.masuk {
-      color: var(--primary-blue);
-    }
-    .stok-summary .value.keluar {
-      color: #EF4444;
-    }
-    .stok-summary .value.total {
-      color: #059669;
-    }
+    .stok-summary .label { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+    .stok-summary .value { font-size: 16px; font-weight: 800; color: var(--primary-blue); }
+    .stok-summary .value.masuk { color: var(--primary-blue); }
+    .stok-summary .value.keluar { color: #EF4444; }
+    .stok-summary .value.total { color: #059669; }
     
-    /* ===== SOP CHECKLIST ===== */
     .sop-container {
       background: var(--bg-light);
       border-radius: 14px;
@@ -680,13 +400,8 @@
       overflow-y: auto;
       padding-right: 4px;
     }
-    .sop-grid::-webkit-scrollbar {
-      width: 4px;
-    }
-    .sop-grid::-webkit-scrollbar-thumb {
-      background: #CBD5E1;
-      border-radius: 4px;
-    }
+    .sop-grid::-webkit-scrollbar { width: 4px; }
+    .sop-grid::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
     .sop-item {
       display: flex;
       align-items: flex-start;
@@ -700,30 +415,16 @@
       font-size: 13px;
       line-height: 1.4;
     }
-    .sop-item:hover {
-      border-color: var(--primary-blue);
-      background: var(--primary-blue-light);
-      transform: translateX(4px);
-    }
+    .sop-item:hover { border-color: var(--primary-blue); background: var(--primary-blue-light); transform: translateX(4px); }
     .sop-item.checked {
       background: var(--primary-blue-light);
       border-color: var(--primary-blue);
       border-left: 4px solid var(--primary-blue);
     }
-    .sop-item .sop-number {
-      font-weight: 700;
-      color: var(--primary-blue);
-      min-width: 28px;
-      font-size: 12px;
-    }
-    .sop-item .sop-text {
-      flex: 1;
-      color: var(--text-dark);
-    }
+    .sop-item .sop-number { font-weight: 700; color: var(--primary-blue); min-width: 28px; font-size: 12px; }
+    .sop-item .sop-text { flex: 1; color: var(--text-dark); }
     .sop-item .sop-check {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
+      width: 24px; height: 24px; border-radius: 50%;
       border: 2px solid #CBD5E1;
       display: flex;
       align-items: center;
@@ -733,15 +434,8 @@
       margin-top: 1px;
       background: white;
     }
-    .sop-item.checked .sop-check {
-      background: var(--primary-blue);
-      border-color: var(--primary-blue);
-      color: white;
-    }
-    .sop-item .sop-check i {
-      width: 14px;
-      height: 14px;
-    }
+    .sop-item.checked .sop-check { background: var(--primary-blue); border-color: var(--primary-blue); color: white; }
+    .sop-item .sop-check i { width: 14px; height: 14px; }
     .sop-progress {
       display: flex;
       align-items: center;
@@ -750,27 +444,9 @@
       padding-top: 14px;
       border-top: 1px solid var(--line);
     }
-    .sop-progress-bar {
-      flex: 1;
-      height: 6px;
-      background: #E5E7EB;
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .sop-progress-fill {
-      height: 100%;
-      background: var(--blue-gradient);
-      border-radius: 99px;
-      transition: width 0.4s ease;
-      width: 0%;
-    }
-    .sop-progress-text {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-muted);
-      min-width: 50px;
-      text-align: right;
-    }
+    .sop-progress-bar { flex: 1; height: 6px; background: #E5E7EB; border-radius: 99px; overflow: hidden; }
+    .sop-progress-fill { height: 100%; background: var(--blue-gradient); border-radius: 99px; transition: width 0.4s ease; width: 0%; }
+    .sop-progress-text { font-size: 12px; font-weight: 700; color: var(--text-muted); min-width: 50px; text-align: right; }
     .sop-summary {
       margin-top: 10px;
       padding: 10px 14px;
@@ -781,62 +457,28 @@
       display: none;
       border: 1px solid rgba(245,158,11,0.2);
     }
-    .sop-summary.show {
-      display: block;
-    }
-    .sop-summary strong {
-      color: var(--text-dark);
-    }
+    .sop-summary.show { display: block; }
+    .sop-summary strong { color: var(--text-dark); }
     
-    /* ===== ABOUT SECTION ===== */
-    .about-section ul {
-      list-style: none;
-      padding: 0;
-      margin: 12px 0 0;
-    }
-    .about-section ul li {
-      padding: 6px 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-    }
-    .about-section ul li i {
-      width: 18px;
-      height: 18px;
-    }
+    .about-section ul { list-style: none; padding: 0; margin: 12px 0 0; }
+    .about-section ul li { padding: 6px 0; display: flex; align-items: center; gap: 10px; font-size: 14px; }
+    .about-section ul li i { width: 18px; height: 18px; }
     
-    /* ===== RETUR PAGE ===== */
     .retur-page { 
-      display: none; 
-      padding: 20px; 
-      max-width: 900px; 
-      margin: 0 auto; 
-      background: var(--bg-light); 
-      min-height: 100vh; 
+      display: none; padding: 20px; max-width: 900px; margin: 0 auto; 
+      background: var(--bg-light); min-height: 100vh; 
     }
     .retur-page.active { display: block; }
-    .return-scan-row-compact { 
-      display: flex; 
-      gap: 8px; 
-      align-items: center; 
-      flex-wrap: wrap; 
-    }
-    .return-barcode-input { 
-      flex: 0 1 200px; 
-      min-width: 120px; 
-      max-width: 260px; 
+    .return-scan-row-compact { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .return-barcode-input { flex: 0 1 200px; min-width: 120px; max-width: 260px; }
+    
+    .settings-section h4 { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text-dark); }
+    
+    /* Map modal - no geocoder */
+    .leaflet-control-geocoder {
+      display: none !important;
     }
     
-    /* ===== SETTINGS ===== */
-    .settings-section h4 {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--text-dark);
-    }
-    
-    /* ===== RESPONSIVE ===== */
     @media(min-width:768px) {
       .dashboard-grid { grid-template-columns:1fr 1fr; }
       .main-content { padding: 20px; }
@@ -850,9 +492,6 @@
       .bottom-nav .nav-item i { width: 20px; height: 20px; }
       .login-card { padding: 28px 20px; }
       .login-title { font-size: 24px; }
-      .leaflet-control-geocoder input {
-        width: 150px !important;
-      }
     }
   </style>
 </head>
@@ -869,9 +508,7 @@
       <p class="login-subtitle">Sistem Cegah Insiden Network</p>
     </div>
 
-    <div class="login-divider">
-      <span>Login</span>
-    </div>
+    <div class="login-divider"><span>Login</span></div>
 
     <div id="login-error" class="login-error">
       <i data-lucide="alert-circle" style="width:16px;display:inline;vertical-align:middle;"></i>
@@ -905,12 +542,8 @@
     </form>
 
     <div class="login-footer">
-      <p>
-        Default: <span class="highlight">admin</span> / <span class="highlight">admin123</span>
-      </p>
-      <p style="margin-top:4px;font-size:10px;color:#94A3B8;">
-        &copy; 2026 BUCIN - Barisan Utama Cegah Insiden
-      </p>
+      <p>Default: <span class="highlight">admin</span> / <span class="highlight">admin123</span></p>
+      <p style="margin-top:4px;font-size:10px;color:#94A3B8;">&copy; 2026 BUCIN - Barisan Utama Cegah Insiden</p>
     </div>
   </div>
 </div>
@@ -919,9 +552,7 @@
 <div id="app-shell" class="hidden">
   <header class="top-header">
     <div style="display:flex;align-items:center;gap:12px;">
-      <div class="brand-mark">
-        <i data-lucide="cloud" style="width:20px;height:20px;"></i>
-      </div>
+      <div class="brand-mark"><i data-lucide="cloud" style="width:20px;height:20px;"></i></div>
       <span class="brand-text">BUCIN</span>
     </div>
     <div style="display:flex;gap:6px;align-items:center;">
@@ -951,13 +582,6 @@
             Grafik Statistik Insiden
           </h3>
           <canvas id="chartIncidents" height="200"></canvas>
-        </div>
-        <div class="card">
-          <h3 style="margin:0 0 14px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
-            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#F59E0B;"></span>
-            Grafik Aset Register
-          </h3>
-          <canvas id="chartAssets" height="200"></canvas>
         </div>
       </div>
 
@@ -1056,46 +680,16 @@
 
   <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
-    <div class="nav-item active" data-cat="dashboard">
-      <i data-lucide="layout-dashboard"></i>
-      <span>Home</span>
-    </div>
-    <div class="nav-item" data-cat="Data OF Cut">
-      <i data-lucide="scissors"></i>
-      <span>OF Cut</span>
-    </div>
-    <div class="nav-item" data-cat="Pekerjaan Pihak Ke-3">
-      <i data-lucide="users"></i>
-      <span>P3</span>
-    </div>
-    <div class="nav-item" data-cat="Temuan Lapangan">
-      <i data-lucide="search-check"></i>
-      <span>Temuan</span>
-    </div>
-    <div class="nav-item" data-cat="OPM/OLS">
-      <i data-lucide="activity"></i>
-      <span>OPM</span>
-    </div>
-    <div class="nav-item" data-cat="Joint">
-      <i data-lucide="link"></i>
-      <span>Joint</span>
-    </div>
-    <div class="nav-item" data-cat="Handhole">
-      <i data-lucide="archive"></i>
-      <span>HH</span>
-    </div>
-    <div class="nav-item" data-cat="Alkur/Material">
-      <i data-lucide="wrench"></i>
-      <span>Alkur</span>
-    </div>
-    <div class="nav-item" data-cat="Stok Spare">
-      <i data-lucide="package"></i>
-      <span>Spare</span>
-    </div>
-    <div class="nav-item" data-cat="Patch Cord">
-      <i data-lucide="cable"></i>
-      <span>Patch</span>
-    </div>
+    <div class="nav-item active" data-cat="dashboard"><i data-lucide="layout-dashboard"></i><span>Home</span></div>
+    <div class="nav-item" data-cat="Data OF Cut"><i data-lucide="scissors"></i><span>OF Cut</span></div>
+    <div class="nav-item" data-cat="Pekerjaan Pihak Ke-3"><i data-lucide="users"></i><span>P3</span></div>
+    <div class="nav-item" data-cat="Temuan Lapangan"><i data-lucide="search-check"></i><span>Temuan</span></div>
+    <div class="nav-item" data-cat="OPM/OLS"><i data-lucide="activity"></i><span>OPM</span></div>
+    <div class="nav-item" data-cat="Joint"><i data-lucide="link"></i><span>Joint</span></div>
+    <div class="nav-item" data-cat="Handhole"><i data-lucide="archive"></i><span>HH</span></div>
+    <div class="nav-item" data-cat="Alkur/Material"><i data-lucide="wrench"></i><span>Alkur</span></div>
+    <div class="nav-item" data-cat="Stok Spare"><i data-lucide="package"></i><span>Spare</span></div>
+    <div class="nav-item" data-cat="Patch Cord"><i data-lucide="cable"></i><span>Patch</span></div>
   </nav>
 </div>
 
@@ -1110,18 +704,9 @@
       <p style="color:var(--text-muted);font-size:13px;margin-top:4px;">Pilih lokasi penempatan stok terlebih dahulu</p>
     </div>
     <div class="gudang-selector">
-      <div class="gudang-card" data-gudang="CLS MAMI" onclick="selectGudang(this)">
-        <i data-lucide="building-2"></i>
-        <span>CLS MAMI</span>
-      </div>
-      <div class="gudang-card" data-gudang="DC MANADO CENTRUM" onclick="selectGudang(this)">
-        <i data-lucide="building"></i>
-        <span>DC MANADO</span>
-      </div>
-      <div class="gudang-card" data-gudang="CLS KAUDITAN" onclick="selectGudang(this)">
-        <i data-lucide="store"></i>
-        <span>CLS KAUDITAN</span>
-      </div>
+      <div class="gudang-card" data-gudang="CLS MAMI" onclick="selectGudang(this)"><i data-lucide="building-2"></i><span>CLS MAMI</span></div>
+      <div class="gudang-card" data-gudang="DC MANADO CENTRUM" onclick="selectGudang(this)"><i data-lucide="building"></i><span>DC MANADO</span></div>
+      <div class="gudang-card" data-gudang="CLS KAUDITAN" onclick="selectGudang(this)"><i data-lucide="store"></i><span>CLS KAUDITAN</span></div>
     </div>
     <button onclick="closeGudangModal()" class="btn-secondary" style="width:100%;margin-top:8px;justify-content:center;">Batal</button>
   </div>
@@ -1245,7 +830,7 @@
            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Lokasi <span style="color:#EF4444;">*</span></label>
            <div style="display:flex;gap:8px;align-items:center;">
              <input type="text" id="inp-loc" class="field-control" placeholder="Cari lokasi..." required style="flex:1;">
-             <button type="button" id="btn-loc-map" class="btn-secondary" style="padding:8px 14px;border-radius:12px;white-space:nowrap;" title="Cari di Peta">
+             <button type="button" id="btn-loc-map" class="btn-secondary" style="padding:8px 12px;border-radius:12px;white-space:nowrap;" title="Cari di Peta">
                <i data-lucide="map-pin" style="width:18px;"></i>
              </button>
            </div>
@@ -1260,7 +845,7 @@
         <div id="sop-container" style="display:none;">
           <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">
             SOP / Prosedur yang Dilakukan <span style="color:#EF4444;">*</span>
-            <span style="font-weight:400;color:var(--text-muted);font-size:11px;">(Pilih lebih dari 1)</span>
+            <span style="font-weight:400;color:var(--text-muted);font-size:11px;">(Pilih 1 atau lebih)</span>
           </label>
           <div class="sop-container">
             <div class="sop-grid" id="sop-grid"></div>
@@ -1287,37 +872,36 @@
       
       <div style="margin-top:24px;display:flex;gap:12px;">
         <button type="button" onclick="closeModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
-        <button type="submit" class="btn-primary" style="flex:2;justify-content:center;">Simpan</button>
+        <button type="submit" id="btn-submit-form" class="btn-primary" style="flex:2;justify-content:center;">Simpan</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- Modal Peta untuk Pencarian Lokasi -->
+<!-- Modal Peta untuk Pencarian Lokasi - Tanpa Geocoder di dalam -->
 <div id="map-modal" class="modal-layer hidden">
   <div class="modal-card" style="max-width:700px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
       <h3 style="margin:0;font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;">
         <i data-lucide="map" style="width:22px;color:var(--primary-blue);"></i>
-        Cari Lokasi
+        Cari & Pilih Lokasi
       </h3>
       <button onclick="closeMapModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
     </div>
-    <div style="margin-bottom:12px;">
-      <div style="display:flex;gap:8px;">
-        <input type="text" id="map-search-input" class="field-control" placeholder="Cari lokasi..." style="flex:1;" onkeydown="if(event.key==='Enter') searchLocation()">
-        <button onclick="searchLocation()" class="btn-primary" style="padding:0 20px;border-radius:12px;">
-          <i data-lucide="search" style="width:18px;"></i>
-        </button>
-        <button onclick="getCurrentLocation()" class="btn-secondary" style="padding:0 16px;border-radius:12px;" title="Lokasi Saya">
-          <i data-lucide="crosshair" style="width:18px;"></i>
-        </button>
-      </div>
+    <!-- Pencarian Lokasi di luar maps -->
+    <div style="margin-bottom:12px;display:flex;gap:8px;">
+      <input type="text" id="map-search-input" class="field-control" placeholder="Cari lokasi..." style="flex:1;" onkeydown="if(event.key==='Enter') searchLocation()">
+      <button onclick="searchLocation()" class="btn-primary" style="padding:0 20px;border-radius:12px;">
+        <i data-lucide="search" style="width:18px;"></i>
+      </button>
+      <button onclick="getCurrentLocation()" class="btn-secondary" style="padding:0 16px;border-radius:12px;" title="Lokasi Saya">
+        <i data-lucide="crosshair" style="width:18px;"></i>
+      </button>
     </div>
     <div id="map-modal-container" style="height:400px;border-radius:12px;border:1px solid var(--line);overflow:hidden;"></div>
     <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end;">
       <button onclick="closeMapModal()" class="btn-secondary">Batal</button>
-      <button onclick="selectMapLocation()" class="btn-primary" id="btn-select-location">Pilih Lokasi Ini</button>
+      <button onclick="selectMapLocation()" class="btn-primary" id="btn-select-location" disabled>Pilih Lokasi Ini</button>
     </div>
   </div>
 </div>
@@ -1497,18 +1081,18 @@ let currentCategory = 'dashboard';
 let appData = {};
 let map = null;
 let mapModal = null;
-let mapModalGeocoder = null;
 let selectedMapLocation = null;
+let mapModalMarker = null;
 let markers = [];
 let kmlLayers = [];
 let quaggaRunning = false;
 let returnItems = [];
 let selectedGudang = '';
 let chartIncidents = null;
-let chartAssets = null;
 let editingKey = null;
 let selectedSOP = [];
 let scannerStream = null;
+let isSubmitting = false;
 
 // MASTER BARCODES
 const MASTER_BARCODES = {
@@ -1843,10 +1427,29 @@ function setupEventListeners() {
       document.getElementById('opacity-value').textContent = this.value + '%';
     });
   }
+  
+  // Back button support for HP
+  window.addEventListener('popstate', function(e) {
+    if (document.getElementById('retur-page').classList.contains('active')) {
+      document.getElementById('retur-page').classList.add('hidden');
+      document.getElementById('app-shell').classList.remove('hidden');
+      stopScanner('ret');
+    } else if (!document.getElementById('form-modal').classList.contains('hidden')) {
+      closeModal();
+    } else if (!document.getElementById('gudang-modal').classList.contains('hidden')) {
+      closeGudangModal();
+    } else if (!document.getElementById('map-modal').classList.contains('hidden')) {
+      closeMapModal();
+    } else if (!document.getElementById('history-modal').classList.contains('hidden')) {
+      document.getElementById('history-modal').classList.add('hidden');
+    } else if (!document.getElementById('settings-modal').classList.contains('hidden')) {
+      document.getElementById('settings-modal').classList.add('hidden');
+    }
+  });
 }
 
 // ============================================================
-// MAP MODAL FUNCTIONS
+// MAP MODAL FUNCTIONS - Tanpa Geocoder di dalam maps
 // ============================================================
 function openMapModal() {
   const modal = document.getElementById('map-modal');
@@ -1861,31 +1464,6 @@ function openMapModal() {
         attribution: 'Google' 
       }).addTo(mapModal);
       
-      // Add geocoder
-      if (typeof L.Control.Geocoder !== 'undefined') {
-        mapModalGeocoder = L.Control.geocoder({
-          defaultMarkGeocode: true,
-          placeholder: 'Cari lokasi...',
-          errorMessage: 'Lokasi tidak ditemukan',
-          showResultIcons: true,
-          collapsed: false,
-          position: 'topleft'
-        })
-        .on('markgeocode', function(e) {
-          const center = e.geocode.center;
-          selectedMapLocation = {
-            lat: center.lat,
-            lng: center.lng,
-            name: e.geocode.name
-          };
-          document.getElementById('inp-loc').value = e.geocode.name;
-          document.getElementById('inp-coords').value = center.lat.toFixed(5) + ', ' + center.lng.toFixed(5);
-          closeMapModal();
-          showToast('📍 Lokasi ditemukan: ' + e.geocode.name, 'success');
-        })
-        .addTo(mapModal);
-      }
-      
       // Click on map to select location
       mapModal.on('click', function(e) {
         selectedMapLocation = {
@@ -1894,11 +1472,12 @@ function openMapModal() {
           name: 'Lokasi Terpilih'
         };
         // Add marker
-        if (mapModal._marker) {
-          mapModal.removeLayer(mapModal._marker);
+        if (mapModalMarker) {
+          mapModal.removeLayer(mapModalMarker);
         }
-        mapModal._marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mapModal);
+        mapModalMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mapModal);
         document.getElementById('btn-select-location').disabled = false;
+        showToast('📍 Lokasi dipilih di peta', 'success');
       });
       
       // Resize map after modal opens
@@ -1916,14 +1495,16 @@ function openMapModal() {
 
 function closeMapModal() {
   document.getElementById('map-modal').classList.add('hidden');
-  if (mapModal && mapModal._marker) {
-    mapModal.removeLayer(mapModal._marker);
-    mapModal._marker = null;
+  if (mapModalMarker) {
+    mapModal.removeLayer(mapModalMarker);
+    mapModalMarker = null;
   }
   selectedMapLocation = null;
   document.getElementById('btn-select-location').disabled = true;
+  document.getElementById('map-search-input').value = '';
 }
 
+// Fungsi pencarian lokasi menggunakan Leaflet Geocoder via fetch
 function searchLocation() {
   const query = document.getElementById('map-search-input').value.trim();
   if (!query) {
@@ -1931,25 +1512,47 @@ function searchLocation() {
     return;
   }
   
-  if (mapModalGeocoder) {
-    mapModalGeocoder._geocode(query, function(results) {
-      if (results && results.length > 0) {
-        const result = results[0];
-        const center = result.center;
+  // Gunakan Nominatim API untuk geocoding
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&countrycodes=id`;
+  
+  showToast('🔍 Mencari lokasi...', 'success');
+  
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.length > 0) {
+        const result = data[0];
+        const lat = parseFloat(result.lat);
+        const lng = parseFloat(result.lon);
+        
         selectedMapLocation = {
-          lat: center.lat,
-          lng: center.lng,
-          name: result.name
+          lat: lat,
+          lng: lng,
+          name: result.display_name || query
         };
-        document.getElementById('inp-loc').value = result.name;
-        document.getElementById('inp-coords').value = center.lat.toFixed(5) + ', ' + center.lng.toFixed(5);
-        closeMapModal();
-        showToast('📍 Lokasi ditemukan: ' + result.name, 'success');
+        
+        // Pindah peta ke lokasi
+        if (mapModal) {
+          mapModal.setView([lat, lng], 15);
+          if (mapModalMarker) {
+            mapModal.removeLayer(mapModalMarker);
+          }
+          mapModalMarker = L.marker([lat, lng]).addTo(mapModal);
+          document.getElementById('btn-select-location').disabled = false;
+        }
+        
+        document.getElementById('inp-loc').value = result.display_name || query;
+        document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
+        
+        showToast('✅ Lokasi ditemukan', 'success');
       } else {
         showToast('❌ Lokasi tidak ditemukan', 'error');
       }
+    })
+    .catch(err => {
+      console.error('❌ Geocoding error:', err);
+      showToast('❌ Gagal mencari lokasi: ' + err.message, 'error');
     });
-  }
 }
 
 function getCurrentLocation() {
@@ -1958,6 +1561,8 @@ function getCurrentLocation() {
     return;
   }
   
+  showToast('📍 Mendapatkan lokasi Anda...', 'success');
+  
   navigator.geolocation.getCurrentPosition(
     function(pos) {
       const lat = pos.coords.latitude;
@@ -1965,11 +1570,33 @@ function getCurrentLocation() {
       
       if (mapModal) {
         mapModal.setView([lat, lng], 15);
-        if (mapModal._marker) {
-          mapModal.removeLayer(mapModal._marker);
+        if (mapModalMarker) {
+          mapModal.removeLayer(mapModalMarker);
         }
-        mapModal._marker = L.marker([lat, lng]).addTo(mapModal);
+        mapModalMarker = L.marker([lat, lng]).addTo(mapModal);
         document.getElementById('btn-select-location').disabled = false;
+        
+        selectedMapLocation = {
+          lat: lat,
+          lng: lng,
+          name: 'Lokasi Saya'
+        };
+        
+        // Reverse geocoding untuk dapat nama
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`)
+          .then(response => response.json())
+          .then(data => {
+            if (data && data.display_name) {
+              selectedMapLocation.name = data.display_name;
+              document.getElementById('inp-loc').value = data.display_name;
+              document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
+            }
+          })
+          .catch(() => {
+            document.getElementById('inp-loc').value = 'Lokasi Saya';
+            document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
+          });
+        
         showToast('📍 Lokasi Anda ditemukan', 'success');
       }
     },
@@ -2038,6 +1665,7 @@ function openForm() {
   const modal = document.getElementById('form-modal');
   modal.classList.remove('hidden');
   editingKey = null;
+  isSubmitting = false;
   
   document.getElementById('inp-cat').value = currentCategory;
   document.getElementById('modal-title').textContent = 'Tambah Data - ' + currentCategory;
@@ -2105,14 +1733,19 @@ function closeModal() {
 function submitForm(e) {
   e.preventDefault();
   
+  if (isSubmitting) return;
+  isSubmitting = true;
+  
   if (!currentUser) {
     showToast('❌ Silakan login terlebih dahulu', 'error');
+    isSubmitting = false;
     return;
   }
   
   const cat = document.getElementById('inp-cat').value;
   const isStock = ['Stok Spare', 'Patch Cord'].includes(cat);
   const isPatch = cat === 'Patch Cord';
+  const isAlkur = cat === 'Alkur/Material';
   
   let data = {
     date: document.getElementById('inp-date').value,
@@ -2132,23 +1765,25 @@ function submitForm(e) {
     
     if (!pcType || !pcLength) {
       showToast('❌ Isi semua field patch cord', 'error');
+      isSubmitting = false;
       return;
     }
     
     data.gudang = selectedGudang;
     data.pcType = pcType;
     data.pcLength = pcLength;
-    data.qty = parseInt(document.getElementById('inp-pc-qty').value);
+    data.qty = parseInt(document.getElementById('inp-pc-qty').value) || 1;
     data.trType = document.getElementById('inp-pc-trtype').value;
     data.notes = document.getElementById('inp-notes').value;
     
   } else if (isStock) {
-    const barcode = document.getElementById('inp-barcode').value;
-    const spec = document.getElementById('inp-spec').value;
-    const qty = parseInt(document.getElementById('inp-qty').value);
+    const barcode = document.getElementById('inp-barcode').value.trim();
+    const spec = document.getElementById('inp-spec').value.trim();
+    const qty = parseInt(document.getElementById('inp-qty').value) || 1;
     
     if (!barcode || !spec) {
       showToast('❌ Isi barcode dan nama barang', 'error');
+      isSubmitting = false;
       return;
     }
     
@@ -2160,22 +1795,26 @@ function submitForm(e) {
     data.notes = document.getElementById('inp-notes').value;
     
   } else {
-    const location = document.getElementById('inp-loc').value;
-    const coords = document.getElementById('inp-coords').value;
+    const location = document.getElementById('inp-loc').value.trim();
+    const coords = document.getElementById('inp-coords').value.trim();
     
     if (!location) {
       showToast('❌ Isi nama lokasi', 'error');
+      isSubmitting = false;
       return;
     }
     
     data.location = location;
-    data.coords = coords;
-    data.notes = document.getElementById('inp-notes').value;
+    data.coords = coords || '';
+    data.notes = document.getElementById('inp-notes').value || '';
     
     const sopValue = document.getElementById('form-sop').value;
     if (sopValue) {
       try {
-        data.sop = JSON.parse(sopValue);
+        const parsed = JSON.parse(sopValue);
+        if (parsed && parsed.length > 0) {
+          data.sop = parsed;
+        }
       } catch(e) {
         data.sop = [];
       }
@@ -2183,23 +1822,58 @@ function submitForm(e) {
   }
   
   const ref = db.ref('data/' + cat);
-  if (editingKey) {
-    ref.child(editingKey).update(data);
-    showToast('✅ Data diperbarui', 'success');
-  } else {
+  const submitPromise = editingKey ? 
+    ref.child(editingKey).update(data) : 
     ref.push(data);
-    showToast('✅ Data disimpan', 'success');
-  }
   
-  closeModal();
-  
-  setTimeout(() => {
-    updateStokSummary();
-  }, 500);
+  submitPromise.then(() => {
+    showToast('✅ Data berhasil disimpan', 'success');
+    
+    // Untuk menu Spare, Alkur, Patch Cord - modal tetap terbuka
+    // Untuk menu lain - modal tertutup
+    if (isStock || isAlkur) {
+      // Reset form tapi tetap di modal
+      document.getElementById('inp-barcode').value = '';
+      document.getElementById('inp-spec').value = '';
+      document.getElementById('inp-qty').value = '1';
+      document.getElementById('inp-pc-qty').value = '1';
+      document.getElementById('inp-notes').value = '';
+      
+      // Reset patch cord specific
+      if (isPatch) {
+        document.getElementById('inp-pc-type').value = '';
+        document.getElementById('inp-pc-type-custom').classList.add('hidden');
+        document.getElementById('inp-pc-type-custom').value = '';
+        document.getElementById('inp-pc-length').value = '';
+        document.getElementById('inp-pc-length-custom').classList.add('hidden');
+        document.getElementById('inp-pc-length-custom').value = '';
+      }
+      
+      // Update date to today
+      document.getElementById('inp-date').valueAsDate = new Date();
+      
+      // Fokus ke barcode
+      document.getElementById('inp-barcode').focus();
+    } else {
+      closeModal();
+    }
+    
+    isSubmitting = false;
+    
+    // Update stok summary setelah data disimpan
+    setTimeout(() => {
+      updateStokSummary();
+      renderTable();
+    }, 500);
+  }).catch((err) => {
+    console.error('❌ Error saving data:', err);
+    showToast('❌ Gagal menyimpan data: ' + err.message, 'error');
+    isSubmitting = false;
+  });
 }
 
 // ============================================================
-// SCANNER FUNCTIONS - IMPROVED
+// SCANNER FUNCTIONS
 // ============================================================
 function toggleScanner(type) {
   const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
@@ -2211,13 +1885,11 @@ function toggleScanner(type) {
     return;
   }
   
-  // Cek dukungan kamera
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     showToast('❌ Kamera tidak didukung di browser ini', 'error');
     return;
   }
   
-  // Aktifkan scanner
   container.classList.add('active');
   showToast('📷 Mengaktifkan kamera...', 'success');
   
@@ -2226,7 +1898,6 @@ function toggleScanner(type) {
   
   if (!video) return;
   
-  // Gunakan Quagga untuk barcode scanning
   if (typeof Quagga !== 'undefined') {
     try {
       Quagga.init({
@@ -2269,13 +1940,11 @@ function toggleScanner(type) {
         quaggaRunning = true;
         showToast('📷 Scanner siap, arahkan ke barcode', 'success');
         
-        // Hapus listener lama
         Quagga.offDetected();
         
         Quagga.onDetected(function(result) {
           const code = result.codeResult.code;
           if (code && code.length > 3) {
-            // Vibrate jika support
             if (navigator.vibrate) {
               navigator.vibrate(100);
             }
@@ -2301,7 +1970,6 @@ function toggleScanner(type) {
       container.classList.remove('active');
     }
   } else {
-    // Fallback: gunakan getUserMedia langsung untuk preview
     navigator.mediaDevices.getUserMedia({ 
       video: { facingMode: "environment" } 
     })
@@ -2323,7 +1991,6 @@ function stopScanner(type) {
   const container = document.getElementById(containerId);
   if (container) container.classList.remove('active');
   
-  // Stop Quagga
   if (quaggaRunning && typeof Quagga !== 'undefined') {
     try {
       Quagga.stop();
@@ -2331,7 +1998,6 @@ function stopScanner(type) {
     quaggaRunning = false;
   }
   
-  // Stop stream jika ada
   if (scannerStream) {
     scannerStream.getTracks().forEach(track => track.stop());
     scannerStream = null;
@@ -2450,7 +2116,6 @@ function updateMapMarkers() {
 function initCharts() {
   try {
     const ctx1 = document.getElementById('chartIncidents').getContext('2d');
-    const ctx2 = document.getElementById('chartAssets').getContext('2d');
     
     if (typeof Chart !== 'undefined') {
       chartIncidents = new Chart(ctx1, {
@@ -2472,22 +2137,6 @@ function initCharts() {
           maintainAspectRatio: true
         }
       });
-      
-      chartAssets = new Chart(ctx2, {
-        type: 'pie',
-        data: {
-          labels: ['OPM/OLS', 'Joint', 'Handhole'],
-          datasets: [{
-            data: [0,0,0],
-            backgroundColor: ['#2563EB', '#F59E0B', '#8B5CF6']
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } },
-          maintainAspectRatio: true
-        }
-      });
       updateCharts();
     }
   } catch(e) {
@@ -2497,7 +2146,7 @@ function initCharts() {
 
 function updateCharts() {
   try {
-    const counts = { 'Data OF Cut': 0, 'Pekerjaan Pihak Ke-3': 0, 'Temuan Lapangan': 0, 'OPM/OLS': 0, 'Joint': 0, 'Handhole': 0 };
+    const counts = { 'Data OF Cut': 0, 'Pekerjaan Pihak Ke-3': 0, 'Temuan Lapangan': 0 };
     Object.keys(appData).forEach(cat => {
       if (counts[cat] !== undefined) counts[cat] = Object.keys(appData[cat] || {}).length;
     });
@@ -2505,10 +2154,6 @@ function updateCharts() {
     if (chartIncidents) {
       chartIncidents.data.datasets[0].data = [counts['Data OF Cut'], counts['Pekerjaan Pihak Ke-3'], counts['Temuan Lapangan']];
       chartIncidents.update();
-    }
-    if (chartAssets) {
-      chartAssets.data.datasets[0].data = [counts['OPM/OLS'], counts['Joint'], counts['Handhole']];
-      chartAssets.update();
     }
   } catch(e) {
     console.error('Update charts error:', e);
@@ -2574,9 +2219,8 @@ function renderTable() {
     } else {
       let sopDisplay = '-';
       if (item.sop && Array.isArray(item.sop) && item.sop.length > 0) {
-        sopDisplay = item.sop.map(id => {
-          const sop = SOP_DATA.find(s => s.id === id);
-          return sop ? `${sop.id}` : '';
+        sopDisplay = item.sop.map(s => {
+          return s.label || s.id || '';
         }).filter(Boolean).join(', ');
       }
       tbody.innerHTML += `<tr>
@@ -2667,7 +2311,13 @@ function updateSOPUI() {
   }
   
   const hiddenInput = document.getElementById('form-sop');
-  if (hiddenInput) hiddenInput.value = JSON.stringify(selectedSOP);
+  if (hiddenInput) {
+    const selectedData = selectedSOP.map(id => {
+      const sop = SOP_DATA.find(s => s.id === id);
+      return sop ? { id: sop.id, label: sop.text } : null;
+    }).filter(Boolean);
+    hiddenInput.value = JSON.stringify(selectedData);
+  }
 }
 
 function handlePatchCordTypeChange() {
@@ -2827,30 +2477,35 @@ function saveRetur() {
     createdAt: Date.now() 
   };
   
-  db.ref('returs').push(returData);
-  
-  returnItems.forEach(item => {
-    db.ref('data/Stok Spare').push({ 
-      date: returData.date, 
-      barcode: item.barcode, 
-      spec: item.name, 
-      trType: 'Retur', 
-      qty: item.qty, 
-      gudang: returData.gudang, 
-      postBy: currentUser ? currentUser.name : 'System', 
-      notes: `Retur No: ${returData.no}`, 
-      createdAt: Date.now() 
+  db.ref('returs').push(returData).then(() => {
+    const promises = returnItems.map(item => {
+      return db.ref('data/Stok Spare').push({ 
+        date: returData.date, 
+        barcode: item.barcode, 
+        spec: item.name, 
+        trType: 'Retur', 
+        qty: item.qty, 
+        gudang: returData.gudang, 
+        postBy: currentUser ? currentUser.name : 'System', 
+        notes: `Retur No: ${returData.no}`, 
+        createdAt: Date.now() 
+      });
     });
-  });
-  
-  showToast('✅ Retur disimpan', 'success');
-  initReturPage();
-  setTimeout(() => {
+    
+    return Promise.all(promises);
+  }).then(() => {
+    showToast('✅ Retur disimpan', 'success');
+    initReturPage();
     if (currentCategory === 'Stok Spare') {
-      updateStokSummary();
-      renderTable();
+      setTimeout(() => {
+        updateStokSummary();
+        renderTable();
+      }, 500);
     }
-  }, 500);
+  }).catch(err => {
+    console.error('❌ Error saving retur:', err);
+    showToast('❌ Gagal menyimpan retur: ' + err.message, 'error');
+  });
 }
 
 function printReturExcel() {
