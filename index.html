@@ -25,10 +25,11 @@
       --primary-blue: #2563EB;
       --primary-blue-dark: #1D4ED8;
       --primary-blue-light: #DBEAFE;
-      --primary-blue-gradient: linear-gradient(135deg, #2563EB, #1D4ED8);
+      --primary-blue-very-light: #EFF6FF;
+      --blue-gradient: linear-gradient(135deg, #2563EB, #1D4ED8);
       --accent-gold: linear-gradient(135deg, #F59E0B, #D97706);
       --accent-gold-light: #FEF3C7;
-      --bg-light: #F0F4FF;
+      --bg-light: #EFF6FF;
       --card-bg: #FFFFFF;
       --text-dark: #1E293B;
       --text-muted: #64748B;
@@ -36,7 +37,6 @@
       --radius: 16px;
       --shadow: 0 4px 12px rgba(37,99,235,0.10);
       --shadow-hover: 0 8px 24px rgba(37,99,235,0.18);
-      --blue-gradient: linear-gradient(135deg, #2563EB, #1D4ED8);
     }
     
     * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
@@ -94,25 +94,27 @@
       transform: none !important;
     }
     
-    /* ===== BADGE HOT ===== */
-    .badge-hot {
-      background: #EF4444;
-      color: white;
-      font-size: 10px;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 8px;
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      letter-spacing: 0.3px;
-      box-shadow: 0 2px 8px rgba(239,68,68,0.3);
-      animation: pulse-badge 2s infinite;
-      z-index: 2;
+    /* ===== BUTTON SECONDARY ===== */
+    .btn-secondary {
+      background: var(--bg-light);
+      color: var(--text-dark);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      font-weight: 600;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
-    @keyframes pulse-badge {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
+    .btn-secondary:hover {
+      background: #DBEAFE;
+      border-color: var(--primary-blue);
+    }
+    .btn-secondary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
     
     /* ===== HEADER ===== */
@@ -138,13 +140,6 @@
       box-shadow: 0 4px 12px rgba(37,99,235,0.35);
       font-size:20px;
       font-weight:800;
-      position:relative;
-    }
-    .brand-mark .badge-hot {
-      top: -8px;
-      right: -8px;
-      font-size: 8px;
-      padding: 1px 6px;
     }
     .brand-text {
       font-weight:800;
@@ -202,12 +197,6 @@
     }
     .nav-item i { width:24px; height:24px; transition:transform 0.2s; }
     .nav-item.active i { transform:scale(1.1); }
-    .nav-item .badge-hot {
-      top: -2px;
-      right: -4px;
-      font-size: 8px;
-      padding: 1px 6px;
-    }
     
     /* ===== HERO PANEL ===== */
     .hero-panel { 
@@ -276,29 +265,6 @@
       background-repeat: no-repeat;
       background-position: right 14px center;
       padding-right: 40px;
-    }
-    
-    /* ===== BUTTON SECONDARY ===== */
-    .btn-secondary {
-      background: var(--bg-light);
-      color: var(--text-dark);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      font-weight: 600;
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-secondary:hover {
-      background: #E8EEF9;
-      border-color: var(--primary-blue);
-    }
-    .btn-secondary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
     }
     
     /* ===== ICON BUTTON ===== */
@@ -378,7 +344,6 @@
       box-shadow:0 2px 8px rgba(0,0,0,0.08);
       color:var(--text-dark); 
       transition:all 0.2s;
-      position:relative;
     }
     .custom-map-btn:hover { 
       background:white; 
@@ -389,12 +354,6 @@
       background: var(--blue-gradient);
       color:white; 
       border-color:var(--primary-blue);
-    }
-    .custom-map-btn .badge-hot {
-      top: -4px;
-      right: -4px;
-      font-size: 7px;
-      padding: 1px 5px;
     }
     
     /* ===== SCANNER ===== */
@@ -515,13 +474,6 @@
       height: 72px;
       font-size: 32px;
       border-radius: 20px;
-      position:relative;
-    }
-    .login-card .brand-mark .badge-hot {
-      top: -8px;
-      right: -8px;
-      font-size: 9px;
-      padding: 2px 8px;
     }
     .login-title {
       font-size: 28px;
@@ -601,19 +553,12 @@
       text-align:center; 
       transition:all 0.2s; 
       background:white;
-      position:relative;
     }
     .gudang-card:hover { border-color: var(--primary-blue); transform:translateY(-2px); }
     .gudang-card.selected { 
       border-color: var(--primary-blue); 
       background: var(--primary-blue-light); 
       box-shadow:0 0 0 4px rgba(37,99,235,0.15); 
-    }
-    .gudang-card .badge-hot {
-      top: -8px;
-      right: -8px;
-      font-size: 8px;
-      padding: 1px 6px;
     }
     
     /* ===== TABLES ===== */
@@ -678,7 +623,6 @@
       transition: all 0.2s ease;
       font-size: 13px;
       line-height: 1.4;
-      position:relative;
     }
     .sop-item:hover {
       border-color: var(--primary-blue);
@@ -760,20 +704,12 @@
       color: var(--text-muted);
       display: none;
       border: 1px solid rgba(245,158,11,0.2);
-      position:relative;
     }
     .sop-summary.show {
       display: block;
     }
     .sop-summary strong {
       color: var(--text-dark);
-    }
-    .sop-summary .badge-hot {
-      position: static;
-      display: inline-block;
-      font-size: 8px;
-      padding: 1px 8px;
-      margin-left: 6px;
     }
     
     /* ===== ABOUT SECTION ===== */
@@ -846,11 +782,9 @@
 <!-- ===== LOGIN SCREEN ===== -->
 <div id="login-screen" class="login-screen">
   <div class="login-card">
-    <!-- Logo Section -->
     <div style="text-align:center;">
-      <div class="brand-mark" style="margin:0 auto;position:relative;">
+      <div class="brand-mark" style="margin:0 auto;">
         <i data-lucide="cloud" style="width:32px;height:32px;"></i>
-        <span class="badge-hot">v2</span>
       </div>
       <h1 class="login-title">BUCIN</h1>
       <p class="login-subtitle">Sistem Cegah Insiden Network</p>
@@ -860,13 +794,11 @@
       <span>Login</span>
     </div>
 
-    <!-- Error Message -->
     <div id="login-error" class="login-error">
       <i data-lucide="alert-circle" style="width:16px;display:inline;vertical-align:middle;"></i>
       <span id="login-error-text">Username atau password salah</span>
     </div>
 
-    <!-- Form Login -->
     <form id="login-form" onsubmit="return handleLogin(event)">
       <div style="margin-bottom:16px;">
         <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">
@@ -893,7 +825,6 @@
       </button>
     </form>
 
-    <!-- Footer -->
     <div class="login-footer">
       <p>
         Default: <span class="highlight">admin</span> / <span class="highlight">admin123</span>
@@ -909,9 +840,8 @@
 <div id="app-shell" class="hidden">
   <header class="top-header">
     <div style="display:flex;align-items:center;gap:12px;">
-      <div class="brand-mark" style="position:relative;">
+      <div class="brand-mark">
         <i data-lucide="cloud" style="width:20px;height:20px;"></i>
-        <span class="badge-hot">v2</span>
       </div>
       <span class="brand-text">BUCIN</span>
     </div>
@@ -936,8 +866,7 @@
       </div>
       
       <div class="dashboard-grid">
-        <div class="card" style="position:relative;">
-          <span class="badge-hot" style="top:-8px;right:-8px;">LIVE</span>
+        <div class="card">
           <h3 style="margin:0 0 14px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
             <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-blue);"></span>
             Grafik Statistik Insiden
@@ -953,8 +882,7 @@
         </div>
       </div>
 
-      <div class="card" style="padding:0;overflow:hidden;position:relative;">
-        <span class="badge-hot" style="top:-8px;right:-8px;">MAP</span>
+      <div class="card" style="padding:0;overflow:hidden;">
         <div style="padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
           <h3 style="margin:0;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
             <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-blue);"></span>
@@ -974,16 +902,12 @@
             <button class="custom-map-btn" onclick="toggleMapLayer('street')" title="Jalan"><i data-lucide="map" style="width:18px;"></i></button>
             <button class="custom-map-btn" onclick="toggleMapLayer('hybrid')" title="Hybrid"><i data-lucide="layers" style="width:18px;"></i></button>
             <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
-            <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out" style="position:relative;">
-              <i data-lucide="minus" style="width:18px;"></i>
-              <span class="badge-hot" style="font-size:7px;padding:1px 5px;">-</span>
-            </button>
+            <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
           </div>
         </div>
       </div>
 
-      <div class="card" style="margin-top:20px;position:relative;">
-        <span class="badge-hot" style="top:-8px;right:-8px;">INFO</span>
+      <div class="card" style="margin-top:20px;">
         <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
           <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-gold);"></span>
           About Us - Tim Patroli BUCIN
@@ -1006,9 +930,8 @@
           <button id="btn-history" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;">
             <i data-lucide="history" style="width:16px;"></i> Riwayat
           </button>
-          <button id="btn-retur-page" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;position:relative;">
+          <button id="btn-retur-page" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;">
             <i data-lucide="undo-2" style="width:16px;"></i> Retur
-            <span class="badge-hot" style="top:-8px;right:-8px;font-size:7px;padding:1px 6px;">NEW</span>
           </button>
           <button id="btn-add" class="btn-primary" style="padding:8px 20px;font-size:13px;border-radius:20px;">
             <i data-lucide="plus" style="width:16px;"></i> Tambah
@@ -1016,7 +939,7 @@
         </div>
       </div>
       
-      <div class="card" style="padding:0;overflow:hidden;position:relative;">
+      <div class="card" style="padding:0;overflow:hidden;">
         <div style="padding:14px 16px;border-bottom:1px solid var(--line);">
           <input id="search-input" type="text" class="field-control" placeholder="Cari data..." style="height:42px;border-radius:20px;">
         </div>
@@ -1034,7 +957,7 @@
     </section>
   </main>
 
-  <!-- BOTTOM NAV -->
+  <!-- BOTTOM NAV - Tanpa Badge Merah -->
   <nav class="bottom-nav">
     <div class="nav-item active" data-cat="dashboard">
       <i data-lucide="layout-dashboard"></i>
@@ -1043,7 +966,6 @@
     <div class="nav-item" data-cat="Data OF Cut">
       <i data-lucide="scissors"></i>
       <span>OF Cut</span>
-      <span class="badge-hot">12</span>
     </div>
     <div class="nav-item" data-cat="Pekerjaan Pihak Ke-3">
       <i data-lucide="users"></i>
@@ -1052,7 +974,6 @@
     <div class="nav-item" data-cat="Temuan Lapangan">
       <i data-lucide="search-check"></i>
       <span>Temuan</span>
-      <span class="badge-hot">5</span>
     </div>
     <div class="nav-item" data-cat="OPM/OLS">
       <i data-lucide="activity"></i>
@@ -1085,24 +1006,22 @@
 <div id="gudang-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="text-align:center;margin-bottom:8px;">
-      <div style="width:56px;height:56px;background:var(--primary-blue-light);border-radius:16px;display:grid;place-items:center;margin:0 auto 12px;position:relative;">
+      <div style="width:56px;height:56px;background:var(--primary-blue-light);border-radius:16px;display:grid;place-items:center;margin:0 auto 12px;">
         <i data-lucide="warehouse" style="width:28px;color:var(--primary-blue);"></i>
-        <span class="badge-hot" style="top:-8px;right:-8px;">Pilih</span>
       </div>
       <h3 style="margin:0;font-size:20px;font-weight:800;">Pilih Gudang</h3>
       <p style="color:var(--text-muted);font-size:13px;margin-top:4px;">Pilih lokasi penempatan stok terlebih dahulu</p>
     </div>
     <div class="gudang-selector">
-      <div class="gudang-card" data-gudang="CLS MAMI" onclick="selectGudang(this)" style="position:relative;">
+      <div class="gudang-card" data-gudang="CLS MAMI" onclick="selectGudang(this)">
         <i data-lucide="building-2"></i>
         <span>CLS MAMI</span>
       </div>
-      <div class="gudang-card" data-gudang="DC MANADO CENTRUM" onclick="selectGudang(this)" style="position:relative;">
+      <div class="gudang-card" data-gudang="DC MANADO CENTRUM" onclick="selectGudang(this)">
         <i data-lucide="building"></i>
         <span>DC MANADO</span>
-        <span class="badge-hot" style="top:-8px;right:-8px;font-size:7px;padding:1px 6px;">POP</span>
       </div>
-      <div class="gudang-card" data-gudang="CLS KAUDITAN" onclick="selectGudang(this)" style="position:relative;">
+      <div class="gudang-card" data-gudang="CLS KAUDITAN" onclick="selectGudang(this)">
         <i data-lucide="store"></i>
         <span>CLS KAUDITAN</span>
       </div>
@@ -1169,8 +1088,7 @@
 
         <!-- PATCH CORD FIELDS -->
         <div id="field-patchcord" class="hidden">
-          <div style="background:#DBEAFE;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #93C5FD;position:relative;">
-            <span class="badge-hot" style="top:-8px;right:-8px;font-size:7px;padding:1px 6px;">PC</span>
+          <div style="background:#DBEAFE;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #93C5FD;">
             <div style="font-size:12px;font-weight:600;color:#1D4ED8;margin-bottom:4px;">📦 Spesifikasi Patch Cord</div>
             <div id="patchcord-gudang-display" style="font-size:14px;font-weight:700;color:var(--primary-blue);"></div>
           </div>
@@ -1273,14 +1191,13 @@
   </div>
 </div>
 
-<!-- ===== HALAMAN RETUR - FIXED ===== -->
+<!-- ===== HALAMAN RETUR ===== -->
 <div id="retur-page" class="retur-page">
   <div style="max-width:800px;margin:0 auto;">
     <button id="back-to-main" class="btn-secondary" style="margin-bottom:20px;border-radius:20px;padding:8px 18px;">
       <i data-lucide="arrow-left" style="width:16px;"></i> Kembali
     </button>
-    <div class="card" style="position:relative;">
-      <span class="badge-hot" style="top:-8px;right:-8px;">RETUR</span>
+    <div class="card">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line);">
         <div style="width:48px;height:48px;background:var(--accent-gold-light);border-radius:14px;display:grid;place-items:center;border:1px solid rgba(245,158,11,0.2);">
           <i data-lucide="undo-2" style="width:24px;color:#D97706;"></i>
@@ -1312,8 +1229,7 @@
         </select>
       </div>
 
-      <div style="background:var(--bg-light);padding:18px;border-radius:14px;border:2px dashed var(--line);margin-bottom:18px;position:relative;">
-        <span class="badge-hot" style="top:-10px;right:-10px;font-size:7px;padding:1px 6px;">SCAN</span>
+      <div style="background:var(--bg-light);padding:18px;border-radius:14px;border:2px dashed var(--line);margin-bottom:18px;">
         <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Scan / Input Barang Retur</label>
         <div class="return-scan-row-compact" style="margin-top:8px;">
           <input id="ret-barcode" type="text" class="field-control return-barcode-input" placeholder="Ketik atau Scan Barcode">
@@ -1393,11 +1309,11 @@
       <div style="display:grid;gap:12px;">
         <div>
           <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Warna Gradient 1</label>
-          <input type="color" id="set-bg-color1" value="#F0F4FF" style="width:100%;height:40px;border-radius:8px;border:1px solid var(--line);cursor:pointer;">
+          <input type="color" id="set-bg-color1" value="#EFF6FF" style="width:100%;height:40px;border-radius:8px;border:1px solid var(--line);cursor:pointer;">
         </div>
         <div>
           <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Warna Gradient 2</label>
-          <input type="color" id="set-bg-color2" value="#E0E7FF" style="width:100%;height:40px;border-radius:8px;border:1px solid var(--line);cursor:pointer;">
+          <input type="color" id="set-bg-color2" value="#DBEAFE" style="width:100%;height:40px;border-radius:8px;border:1px solid var(--line);cursor:pointer;">
         </div>
         <div>
           <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Gambar Background (URL)</label>
@@ -2379,7 +2295,7 @@ function downloadHistoryExcel() {
 }
 
 // ============================================================
-// RETUR FUNCTIONS - FIXED
+// RETUR FUNCTIONS
 // ============================================================
 function initReturPage() {
   document.getElementById('ret-no').value = 'RET-' + Date.now().toString().slice(-6);
@@ -2403,7 +2319,6 @@ function addReturItem() {
     return;
   }
   
-  // Cek duplikat
   const existing = returnItems.find(item => item.barcode === barcode);
   if (existing) {
     existing.qty += qty;
@@ -2470,7 +2385,6 @@ function saveRetur() {
   
   db.ref('returs').push(returData);
   
-  // Tambahkan ke stok spare
   returnItems.forEach(item => {
     db.ref('data/Stok Spare').push({ 
       date: returData.date, 
