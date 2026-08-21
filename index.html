@@ -18,8 +18,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
   <style>
     :root {
@@ -178,17 +176,18 @@
     .records-table th { background:#f8fafc; padding:12px; text-align:left; border-bottom:1px solid var(--line); font-weight:600; color:#64748b; white-space:nowrap; }
     .records-table td { padding:12px; border-bottom:1px solid #f1f5f9; vertical-align:middle; }
 
+    /* MAP CONTROLS ICON ONLY */
     .leaflet-control-zoom { display:none !important; }
     .custom-map-controls {
       position:absolute; top:12px; right:12px; z-index:1000;
-      display:flex; flex-direction:column; gap:8px;
+      display:flex; flex-direction:column; gap:6px;
     }
     .custom-map-btn {
       background:rgba(255,255,255,0.95); backdrop-filter:blur(10px);
       border:1px solid rgba(0,0,0,0.1); border-radius:10px;
-      padding:8px 14px; font-size:12px; font-weight:600; color:var(--ink);
+      width:36px; height:36px; display:grid; place-items:center;
       cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.1);
-      display:flex; align-items:center; gap:6px; transition:all 0.2s;
+      color:var(--ink); transition:all 0.2s;
     }
     .custom-map-btn:hover { background:white; transform:translateY(-1px); }
     .custom-map-btn.active { background:var(--primary); color:white; border-color:var(--primary); }
@@ -204,10 +203,10 @@
       <p style="color:#64748b;font-size:14px;">Sistem Cegah Insiden Network</p>
     </div>
     <label style="font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;display:block;">Nama Pengguna</label>
-    <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" style="margin-bottom:16px;">
+    <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" required style="margin-bottom:16px;">
     <label style="font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;display:block;">Kata Sandi</label>
     <div style="position:relative;margin-bottom:28px;">
-      <input id="login-password" type="password" class="field-control" placeholder="Masukkan password">
+      <input id="login-password" type="password" class="field-control" placeholder="Masukkan password" required>
       <button id="toggle-pass" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#94a3b8;cursor:pointer;"><i data-lucide="eye" style="width:20px;"></i></button>
     </div>
     <button id="login-btn" class="primary-button" style="height:52px;font-size:16px;">Masuk Sistem</button>
@@ -256,12 +255,13 @@
         </div>
         <div id="map-wrapper" style="position:relative;">
           <div id="map-container"></div>
+          <!-- TOMBOL MAPS IKON SAJA -->
           <div class="custom-map-controls">
-            <button class="custom-map-btn active" onclick="toggleMapLayer('satellite')"><i data-lucide="satellite" style="width:14px;"></i> Satelit</button>
-            <button class="custom-map-btn" onclick="toggleMapLayer('street')"><i data-lucide="map" style="width:14px;"></i> Jalan</button>
-            <button class="custom-map-btn" onclick="toggleMapLayer('hybrid')"><i data-lucide="layers" style="width:14px;"></i> Hybrid</button>
-            <button class="custom-map-btn" onclick="zoomIn()"><i data-lucide="plus" style="width:14px;"></i> Zoom In</button>
-            <button class="custom-map-btn" onclick="zoomOut()"><i data-lucide="minus" style="width:14px;"></i> Zoom Out</button>
+            <button class="custom-map-btn active" onclick="toggleMapLayer('satellite')" title="Satelit"><i data-lucide="satellite" style="width:18px;"></i></button>
+            <button class="custom-map-btn" onclick="toggleMapLayer('street')" title="Jalan"><i data-lucide="map" style="width:18px;"></i></button>
+            <button class="custom-map-btn" onclick="toggleMapLayer('hybrid')" title="Hybrid"><i data-lucide="layers" style="width:18px;"></i></button>
+            <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
+            <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
           </div>
         </div>
       </div>
@@ -353,10 +353,11 @@
       <input type="hidden" id="inp-gudang-selected">
       <div style="display:grid;gap:14px;">
         <div>
-          <label style="font-size:12px;font-weight:600;color:#475569;">Tanggal</label>
+          <label style="font-size:12px;font-weight:600;color:#475569;">Tanggal <span style="color:#ef4444">*</span></label>
           <input type="date" id="inp-date" class="field-control" required>
         </div>
         
+        <!-- STOCK FIELDS (SPARE) -->
         <div id="field-stock" class="hidden">
           <div style="background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:12px;">
             <div style="font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;">Gudang Terpilih</div>
@@ -364,18 +365,28 @@
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
             <div>
-              <label style="font-size:12px;font-weight:600;color:#475569;">Barcode</label>
+              <label style="font-size:12px;font-weight:600;color:#475569;">Barcode <span style="color:#ef4444">*</span></label>
               <div style="display:flex;gap:8px;">
-                <input type="text" id="inp-barcode" class="field-control" placeholder="Scan/Ketik">
+                <input type="text" id="inp-barcode" class="field-control" placeholder="Scan/Ketik" required>
                 <button type="button" id="btn-scan-modal" class="secondary-button" style="padding:0 14px;"><i data-lucide="camera"></i></button>
               </div>
             </div>
             <div>
-              <label style="font-size:12px;font-weight:600;color:#475569;">Tipe Transaksi</label>
-              <select id="inp-tr-type" class="field-control">
+              <label style="font-size:12px;font-weight:600;color:#475569;">Nama Barang <span style="color:#ef4444">*</span></label>
+              <input type="text" id="inp-spec" class="field-control" placeholder="Otomatis dari barcode" required>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+            <div>
+              <label style="font-size:12px;font-weight:600;color:#475569;">Tipe Transaksi <span style="color:#ef4444">*</span></label>
+              <select id="inp-tr-type" class="field-control" required>
                 <option value="Masuk">Barang Masuk</option>
                 <option value="Keluar">Barang Keluar</option>
               </select>
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:600;color:#475569;">Jumlah <span style="color:#ef4444">*</span></label>
+              <input type="number" id="inp-qty" class="field-control" value="1" min="1" required>
             </div>
           </div>
           <div id="modal-scanner" class="scanner-wrapper">
@@ -386,6 +397,7 @@
           </div>
         </div>
 
+        <!-- PATCH CORD FIELDS -->
         <div id="field-patchcord" class="hidden">
           <div style="background:#f0fdf4;padding:12px;border-radius:12px;margin-bottom:12px;border:1px solid #bbf7d0;">
             <div style="font-size:12px;font-weight:600;color:#166534;margin-bottom:6px;">📦 Spesifikasi Patch Cord</div>
@@ -393,8 +405,8 @@
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
             <div>
-              <label style="font-size:12px;font-weight:600;color:#475569;">Jenis Konektor</label>
-              <select id="inp-pc-type" class="field-control" onchange="handlePatchCordTypeChange()">
+              <label style="font-size:12px;font-weight:600;color:#475569;">Jenis Konektor <span style="color:#ef4444">*</span></label>
+              <select id="inp-pc-type" class="field-control" required onchange="handlePatchCordTypeChange()">
                 <option value="">-- Pilih Jenis --</option>
                 <option value="SC/UPC">SC/UPC</option>
                 <option value="SC/APC">SC/APC</option>
@@ -410,8 +422,8 @@
               <input type="text" id="inp-pc-type-custom" class="field-control hidden" placeholder="Ketik jenis konektor" style="margin-top:8px;">
             </div>
             <div>
-              <label style="font-size:12px;font-weight:600;color:#475569;">Panjang Kabel</label>
-              <select id="inp-pc-length" class="field-control" onchange="handlePatchCordLengthChange()">
+              <label style="font-size:12px;font-weight:600;color:#475569;">Panjang Kabel <span style="color:#ef4444">*</span></label>
+              <select id="inp-pc-length" class="field-control" required onchange="handlePatchCordLengthChange()">
                 <option value="">-- Pilih Panjang --</option>
                 <option value="0.5m">0.5 Meter</option>
                 <option value="1m">1 Meter</option>
@@ -429,12 +441,12 @@
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
             <div>
-              <label style="font-size:12px;font-weight:600;color:#475569;">Jumlah</label>
-              <input type="number" id="inp-pc-qty" class="field-control" value="1" min="1">
+              <label style="font-size:12px;font-weight:600;color:#475569;">Jumlah <span style="color:#ef4444">*</span></label>
+              <input type="number" id="inp-pc-qty" class="field-control" value="1" min="1" required>
             </div>
             <div>
-              <label style="font-size:12px;font-weight:600;color:#475569;">Tipe Transaksi</label>
-              <select id="inp-pc-trtype" class="field-control">
+              <label style="font-size:12px;font-weight:600;color:#475569;">Tipe Transaksi <span style="color:#ef4444">*</span></label>
+              <select id="inp-pc-trtype" class="field-control" required>
                 <option value="Masuk">Barang Masuk</option>
                 <option value="Keluar">Barang Keluar</option>
               </select>
@@ -442,23 +454,18 @@
           </div>
         </div>
 
+        <!-- NORMAL FIELDS (NON-STOCK) -->
         <div id="field-normal">
-           <label style="font-size:12px;font-weight:600;color:#475569;">Nama Lokasi</label>
-           <input type="text" id="inp-loc" class="field-control">
+           <label style="font-size:12px;font-weight:600;color:#475569;">Nama Lokasi <span style="color:#ef4444">*</span></label>
+           <input type="text" id="inp-loc" class="field-control" required>
         </div>
         
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div id="field-coords-wrap" class="hidden">
-            <label style="font-size:12px;font-weight:600;color:#475569;">Titik Koordinat</label>
-            <input type="text" id="inp-coords" class="field-control" placeholder="Otomatis dari peta" readonly>
-          </div>
-          <div id="field-qty-wrap">
-            <label style="font-size:12px;font-weight:600;color:#475569;">Jumlah</label>
-            <input type="number" id="inp-qty" class="field-control" value="1">
-          </div>
+        <div id="field-coords-wrap" class="hidden">
+          <label style="font-size:12px;font-weight:600;color:#475569;">Titik Koordinat <span style="color:#ef4444">*</span></label>
+          <input type="text" id="inp-coords" class="field-control" placeholder="Klik pada peta untuk mengisi" readonly required>
         </div>
         
-        <div>
+        <div id="field-notes-wrap">
           <label style="font-size:12px;font-weight:600;color:#475569;">SOP / Keterangan</label>
           <textarea id="inp-notes" class="field-control" rows="2" style="resize:none;" placeholder="Deskripsikan SOP atau keterangan..."></textarea>
         </div>
@@ -671,7 +678,6 @@
   let quaggaRunning = false;
   let returnItems = [];
   let selectedGudang = '';
-  let pendingCategory = '';
   let inactivityTimer = null;
   let chartIncidents = null;
   let chartAssets = null;
@@ -685,11 +691,14 @@
     bgOpacity: 100
   };
 
+  // MASTER BARCODES UNTUK AUTO-FILL NAMA SPARE
   const MASTER_BARCODES = {
     '123456': 'Patch Cord SC-SC 3m',
     '789012': 'Patch Cord LC-LC 5m',
     '111222': 'Adapter SC Simplex',
-    '333444': 'Kabel Drop Core 2'
+    '333444': 'Kabel Drop Core 2',
+    '555666': 'Splice Tray 12 Core',
+    '777888': 'ODP Box 4 Port'
   };
 
   const COORD_CATEGORIES = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM/OLS', 'Joint', 'Handhole', 'Alkur/Material'];
@@ -713,7 +722,7 @@
     if(inactivityTimer) clearTimeout(inactivityTimer);
     inactivityTimer = setTimeout(() => {
       if(currentUser) {
-        showToast('⏰ Sesi tidak aktif selama 15 menit. Logout otomatis.', true);
+        showToast(' Sesi tidak aktif selama 15 menit. Logout otomatis.', true);
         location.reload();
       }
     }, 15 * 60 * 1000);
@@ -811,6 +820,13 @@
     
     document.getElementById('btn-scan-modal').addEventListener('click', () => toggleScanner('modal'));
     document.getElementById('btn-stop-modal-scan').addEventListener('click', () => stopScanner('modal'));
+    
+    // AUTO-FILL NAMA SPARE SAAT BARCODE DIKETIK
+    document.getElementById('inp-barcode').addEventListener('input', function() {
+      if(currentCategory === 'Stok Spare' && MASTER_BARCODES[this.value]) {
+        document.getElementById('inp-spec').value = MASTER_BARCODES[this.value];
+      }
+    });
 
     document.getElementById('add-user-btn').addEventListener('click', () => {
       document.getElementById('user-modal').classList.remove('hidden');
@@ -888,7 +904,6 @@
   function handleAddClick() {
     const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
     if(isStock) {
-      pendingCategory = currentCategory;
       selectedGudang = '';
       document.querySelectorAll('.gudang-card').forEach(c => c.classList.remove('selected'));
       document.getElementById('gudang-modal').classList.remove('hidden');
@@ -1038,7 +1053,7 @@
     if(currentCategory === 'Patch Cord') {
       thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
     } else if(isStock) {
-      thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Barcode</th><th>Item</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
+      thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Barcode</th><th>Nama</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
     } else {
       thead.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>SOP</th><th>User</th><th>Aksi</th></tr>';
     }
@@ -1065,7 +1080,7 @@
           <td style="white-space:nowrap;">${item.date}</td>
           <td><span style="font-size:11px;font-weight:600;color:#475569;">${item.gudang || '-'}</span></td>
           <td>${item.barcode || '-'}</td>
-          <td>${item.spec || item.notes || '-'}</td>
+          <td>${item.spec || '-'}</td>
           <td><span style="padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;background:${bgType}">${item.trType}</span></td>
           <td>${item.qty}</td>
           <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
@@ -1119,10 +1134,12 @@
     const isPatchCord = currentCategory === 'Patch Cord';
     const needsCoords = COORD_CATEGORIES.includes(currentCategory);
     
+    // HAPUS SOP DARI STOK & PATCH CORD
+    document.getElementById('field-notes-wrap').classList.toggle('hidden', isStock);
+    
     document.getElementById('field-stock').classList.toggle('hidden', !isStock || isPatchCord);
     document.getElementById('field-patchcord').classList.toggle('hidden', !isPatchCord);
     document.getElementById('field-normal').classList.toggle('hidden', isStock);
-    document.getElementById('field-qty-wrap').classList.toggle('hidden', isPatchCord);
     document.getElementById('field-coords-wrap').classList.toggle('hidden', !needsCoords);
     
     if(isStock && selectedGudang) {
@@ -1134,6 +1151,7 @@
     }
     
     document.getElementById('inp-barcode').value = '';
+    document.getElementById('inp-spec').value = '';
     document.getElementById('inp-loc').value = '';
     document.getElementById('inp-coords').value = '';
     document.getElementById('inp-notes').value = '';
@@ -1165,7 +1183,6 @@
     const newData = {
       date: document.getElementById('inp-date').value,
       postBy: currentUser.name,
-      notes: document.getElementById('inp-notes').value,
       createdAt: Date.now()
     };
 
@@ -1184,12 +1201,12 @@
       newData.trType = document.getElementById('inp-tr-type').value;
       newData.gudang = selectedGudang;
       newData.qty = parseInt(document.getElementById('inp-qty').value);
-      newData.spec = document.getElementById('inp-loc').value || 'Item Stok';
+      newData.spec = document.getElementById('inp-spec').value;
       updateExistingStock(cat, newData);
     } else {
       newData.location = document.getElementById('inp-loc').value;
       newData.coords = document.getElementById('inp-coords').value;
-      newData.qty = parseInt(document.getElementById('inp-qty').value);
+      newData.notes = document.getElementById('inp-notes').value;
     }
 
     db.ref('data/' + cat).push(newData);
@@ -1283,7 +1300,10 @@
         if(code && code.length > 3 && !format.toLowerCase().includes('qr')) {
           if(type === 'modal') {
             document.getElementById('inp-barcode').value = code;
-            if(MASTER_BARCODES[code]) document.getElementById('inp-loc').value = MASTER_BARCODES[code];
+            // AUTO-FILL NAMA SPARE SAAT SCAN
+            if(currentCategory === 'Stok Spare' && MASTER_BARCODES[code]) {
+              document.getElementById('inp-spec').value = MASTER_BARCODES[code];
+            }
           } else {
             document.getElementById('ret-barcode').value = code;
             document.getElementById('ret-item-name').value = MASTER_BARCODES[code] || 'Barang Tidak Dikenal';
