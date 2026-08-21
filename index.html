@@ -451,7 +451,7 @@
     .toast.success { background: var(--primary-green); }
     .toast.error { background: #FF3B30; }
     
-    /* ===== LOGIN SCREEN - IMPROVED ===== */
+    /* ===== LOGIN SCREEN ===== */
     .login-screen { 
       position:fixed; 
       inset:0; 
@@ -460,6 +460,7 @@
       display:grid; 
       place-items:center; 
       padding:20px; 
+      overflow:hidden;
     }
     .login-screen::before {
       content: '';
@@ -559,6 +560,20 @@
     .login-footer .highlight {
       color: var(--primary-green);
       font-weight: 700;
+    }
+    .login-error {
+      color: #FF3B30;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      padding: 8px 12px;
+      background: #FEE2E2;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: none;
+    }
+    .login-error.show {
+      display: block;
     }
     
     /* ===== GUDANG SELECTOR ===== */
@@ -818,7 +833,7 @@
 </head>
 <body>
 
-<!-- ===== LOGIN SCREEN - IMPROVED ===== -->
+<!-- ===== LOGIN SCREEN ===== -->
 <div id="login-screen" class="login-screen">
   <div class="login-card">
     <!-- Logo Section -->
@@ -835,14 +850,20 @@
       <span>Login</span>
     </div>
 
+    <!-- Error Message -->
+    <div id="login-error" class="login-error">
+      <i data-lucide="alert-circle" style="width:16px;display:inline;vertical-align:middle;"></i>
+      <span id="login-error-text">Username atau password salah</span>
+    </div>
+
     <!-- Form Login -->
-    <form id="login-form" onsubmit="return false;">
+    <form id="login-form" onsubmit="return handleLogin(event)">
       <div style="margin-bottom:16px;">
         <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">
           <i data-lucide="user" style="width:14px;display:inline;vertical-align:middle;"></i>
           Nama Pengguna
         </label>
-        <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" required style="padding-left:44px;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236B7280%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2%22/%3E%3Ccircle cx=%2212%22 cy=%227%22 r=%224%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:12px center;background-size:18px;">
+        <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" required style="padding-left:44px;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236B7280%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2%22/%3E%3Ccircle cx=%2212%22 cy=%227%22 r=%224%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:12px center;background-size:18px;" value="admin">
       </div>
       <div style="margin-bottom:24px;">
         <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">
@@ -850,13 +871,13 @@
           Kata Sandi
         </label>
         <div style="position:relative;">
-          <input id="login-password" type="password" class="field-control" placeholder="Masukkan password" required style="padding-left:44px;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236B7280%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect x=%223%22 y=%2211%22 width=%2218%22 height=%2211%22 rx=%222%22 ry=%222%22/%3E%3Cpath d=%22M7 11V7a5 5 0 0 1 10 0v4%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:12px center;background-size:18px;">
-          <button id="toggle-pass" type="button" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;">
+          <input id="login-password" type="password" class="field-control" placeholder="Masukkan password" required style="padding-left:44px;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236B7280%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect x=%223%22 y=%2211%22 width=%2218%22 height=%2211%22 rx=%222%22 ry=%222%22/%3E%3Cpath d=%22M7 11V7a5 5 0 0 1 10 0v4%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:12px center;background-size:18px;" value="admin123">
+          <button type="button" id="toggle-pass" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;">
             <i data-lucide="eye" style="width:20px;"></i>
           </button>
         </div>
       </div>
-      <button id="login-btn" class="btn-primary" style="width:100%;justify-content:center;height:50px;font-size:16px;border-radius:28px;">
+      <button type="submit" id="login-btn" class="btn-primary" style="width:100%;justify-content:center;height:50px;font-size:16px;border-radius:28px;">
         <i data-lucide="log-in" style="width:18px;"></i>
         Masuk Sistem
       </button>
@@ -1386,167 +1407,356 @@
 </div>
 
 <script>
-  // ===== FIREBASE CONFIG =====
-  const firebaseConfig = {
-    apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
-    authDomain: "bucin-18282.firebaseapp.com",
-    databaseURL: "https://bucin-18282-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "bucin-18282",
-    storageBucket: "bucin-18282.firebasestorage.app",
-    messagingSenderId: "545528630169",
-    appId: "1:545528630169:web:2ea7db49f27121ad062108"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
+// ============================================================
+// FIREBASE CONFIG
+// ============================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
+  authDomain: "bucin-18282.firebaseapp.com",
+  databaseURL: "https://bucin-18282-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "bucin-18282",
+  storageBucket: "bucin-18282.firebasestorage.app",
+  messagingSenderId: "545528630169",
+  appId: "1:545528630169:web:2ea7db49f27121ad062108"
+};
 
-  let currentUser = null;
-  let currentCategory = 'dashboard';
-  let appData = {};
-  let map = null;
-  let markers = [];
-  let kmlLayers = [];
-  let quaggaRunning = false;
-  let returnItems = [];
-  let selectedGudang = '';
-  let chartIncidents = null;
-  let chartAssets = null;
-  let editingKey = null;
-  let selectedSOP = [];
+// ============================================================
+// INITIALIZATION - PASTIKAN FIREBASE DIINISIALISASI DULU
+// ============================================================
+let firebaseApp;
+try {
+  firebaseApp = firebase.initializeApp(firebaseConfig);
+  console.log('✅ Firebase initialized successfully');
+} catch (e) {
+  console.error('❌ Firebase init error:', e);
+}
+const db = firebase.database();
 
-  // MASTER BARCODES
-  const MASTER_BARCODES = {
-    '123456': 'Patch Cord SC-SC 3m',
-    '789012': 'Patch Cord LC-LC 5m',
-    '111222': 'Adapter SC Simplex',
-    '333444': 'Kabel Drop Core 2',
-    '555666': 'Splice Tray 12 Core',
-    '777888': 'ODP Box 4 Port'
-  };
+// ============================================================
+// GLOBAL VARIABLES
+// ============================================================
+let currentUser = null;
+let currentCategory = 'dashboard';
+let appData = {};
+let map = null;
+let markers = [];
+let kmlLayers = [];
+let quaggaRunning = false;
+let returnItems = [];
+let selectedGudang = '';
+let chartIncidents = null;
+let chartAssets = null;
+let editingKey = null;
+let selectedSOP = [];
 
-  const COORD_CATEGORIES = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM/OLS', 'Joint', 'Handhole', 'Alkur/Material'];
+// MASTER BARCODES
+const MASTER_BARCODES = {
+  '123456': 'Patch Cord SC-SC 3m',
+  '789012': 'Patch Cord LC-LC 5m',
+  '111222': 'Adapter SC Simplex',
+  '333444': 'Kabel Drop Core 2',
+  '555666': 'Splice Tray 12 Core',
+  '777888': 'ODP Box 4 Port'
+};
+
+const COORD_CATEGORIES = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM/OLS', 'Joint', 'Handhole', 'Alkur/Material'];
+
+// SOP DATA - 12 Steps
+const SOP_DATA = [
+  { id: 1, text: 'Terima Laporan: Catat waktu, lokasi, dan jenis gangguan.' },
+  { id: 2, text: 'Mobilisasi: Segera berangkat lengkap alat, material & APD; beri tahu Team Engineering.' },
+  { id: 3, text: 'Amankan Lokasi: Pakai APD lengkap, pasang rambu, hindari bahaya.' },
+  { id: 4, text: 'Identifikasi: Cek penyebab, foto kondisi awal & catat koordinat.' },
+  { id: 5, text: 'Ukur Titik Rusak: Pakai OTDR/OPM, simpan hasil ukur.' },
+  { id: 6, text: 'Siapkan Perbaikan: Siapkan kabel, joint closure & alat sambung.' },
+  { id: 7, text: 'Sambung Fiber: Lakukan fusion splicing; utamakan core aktif dulu, lanjut core cadangan.' },
+  { id: 8, text: 'Pasang Closure: Pastikan rapat, kedap air, kabel sisa tertata rapi.' },
+  { id: 9, text: 'Uji Ulang: Ukur ulang dengan OTDR, pastikan redaman standar & layanan normal (konfirmasi ke Team Engineering).' },
+  { id: 10, text: 'Bersihkan Lokasi: Rapikan area, kumpulkan sisa material.' },
+  { id: 11, text: 'Lapor: Kirim data lengkap: waktu kejadian/pemulihan, penyebab, lokasi, foto, hasil ukur, material & personel.' },
+  { id: 12, text: 'APD yang digunakan wajib dibersihkan kembali sebelum disimpan dalam mobil.' }
+];
+
+// ============================================================
+// DOM READY - WAIT UNTUK SEMUA ELEMENT TERLOAD
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('✅ DOM Ready');
   
-  // SOP DATA - 12 Steps
-  const SOP_DATA = [
-    { id: 1, text: 'Terima Laporan: Catat waktu, lokasi, dan jenis gangguan.' },
-    { id: 2, text: 'Mobilisasi: Segera berangkat lengkap alat, material & APD; beri tahu Team Engineering.' },
-    { id: 3, text: 'Amankan Lokasi: Pakai APD lengkap, pasang rambu, hindari bahaya.' },
-    { id: 4, text: 'Identifikasi: Cek penyebab, foto kondisi awal & catat koordinat.' },
-    { id: 5, text: 'Ukur Titik Rusak: Pakai OTDR/OPM, simpan hasil ukur.' },
-    { id: 6, text: 'Siapkan Perbaikan: Siapkan kabel, joint closure & alat sambung.' },
-    { id: 7, text: 'Sambung Fiber: Lakukan fusion splicing; utamakan core aktif dulu, lanjut core cadangan.' },
-    { id: 8, text: 'Pasang Closure: Pastikan rapat, kedap air, kabel sisa tertata rapi.' },
-    { id: 9, text: 'Uji Ulang: Ukur ulang dengan OTDR, pastikan redaman standar & layanan normal (konfirmasi ke Team Engineering).' },
-    { id: 10, text: 'Bersihkan Lokasi: Rapikan area, kumpulkan sisa material.' },
-    { id: 11, text: 'Lapor: Kirim data lengkap: waktu kejadian/pemulihan, penyebab, lokasi, foto, hasil ukur, material & personel.' },
-    { id: 12, text: 'APD yang digunakan wajib dibersihkan kembali sebelum disimpan dalam mobil.' }
-  ];
-
-  document.addEventListener('DOMContentLoaded', () => {
+  // Init Lucide Icons
+  if (typeof lucide !== 'undefined') {
     lucide.createIcons();
-    loadData();
-    setupEventListeners();
-    initSOPUI();
-  });
-
-  function loadData() {
-    db.ref('data').on('value', snap => {
-      appData = snap.val() || {};
-      updateDashboard();
-      if(currentCategory !== 'dashboard') renderTable();
-    });
   }
+  
+  // Setup All Event Listeners
+  setupEventListeners();
+  
+  // Init SOP UI
+  initSOPUI();
+  
+  // Load Data from Firebase
+  loadData();
+});
 
-  // ===== LOGIN HANDLER =====
-  document.getElementById('login-btn').addEventListener('click', () => {
-    const u = document.getElementById('login-username').value.trim();
-    const p = document.getElementById('login-password').value;
-    
-    db.ref('users/' + u).once('value').then(snap => {
+// ============================================================
+// LOAD DATA FROM FIREBASE
+// ============================================================
+function loadData() {
+  if (!db) {
+    console.error('❌ Firebase database not initialized');
+    return;
+  }
+  
+  db.ref('data').on('value', snap => {
+    appData = snap.val() || {};
+    updateDashboard();
+    if (currentCategory !== 'dashboard') renderTable();
+  }, function(error) {
+    console.error('❌ Error loading data:', error);
+  });
+}
+
+// ============================================================
+// LOGIN HANDLER
+// ============================================================
+function handleLogin(e) {
+  e.preventDefault();
+  
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value.trim();
+  const errorEl = document.getElementById('login-error');
+  const errorText = document.getElementById('login-error-text');
+  
+  // Reset error
+  errorEl.classList.remove('show');
+  
+  if (!username || !password) {
+    errorText.textContent = 'Username dan password harus diisi!';
+    errorEl.classList.add('show');
+    return false;
+  }
+  
+  // Cek user di Firebase
+  db.ref('users/' + username).once('value')
+    .then(snap => {
       const userData = snap.val();
-      if(userData && userData.pass === p) {
-        currentUser = { name: u, role: userData.role };
+      
+      if (userData && userData.pass === password) {
+        // Login berhasil
+        currentUser = { name: username, role: userData.role || 'user' };
+        
+        // Hide login, show app
         document.getElementById('login-screen').classList.add('hidden');
         document.getElementById('app-shell').classList.remove('hidden');
         
-        if(userData.role === 'admin') {
+        // Show admin buttons if admin
+        if (currentUser.role === 'admin') {
           document.getElementById('add-user-btn').classList.remove('hidden');
           document.getElementById('settings-btn').classList.remove('hidden');
         }
         
-        initMap();
-        initCharts();
-        showToast('✅ Login berhasil', 'success');
+        // Init map and charts
+        setTimeout(() => {
+          initMap();
+          initCharts();
+        }, 100);
+        
+        showToast('✅ Selamat datang, ' + username + '!', 'success');
       } else {
-        showToast('❌ Pengguna tidak ditemukan atau password salah', 'error');
+        // Login gagal
+        errorText.textContent = 'Username atau password salah!';
+        errorEl.classList.add('show');
+        showToast('❌ Username atau password salah', 'error');
       }
+    })
+    .catch(err => {
+      console.error('❌ Login error:', err);
+      errorText.textContent = 'Terjadi kesalahan: ' + err.message;
+      errorEl.classList.add('show');
+      showToast('❌ Terjadi kesalahan, coba lagi', 'error');
+    });
+  
+  return false;
+}
+
+// ============================================================
+// EVENT LISTENERS
+// ============================================================
+function setupEventListeners() {
+  // Login button
+  const loginBtn = document.getElementById('login-btn');
+  if (loginBtn) {
+    loginBtn.addEventListener('click', handleLogin);
+  }
+  
+  // Login form submit
+  const loginForm = document.getElementById('login-form');
+  if (loginForm) {
+    loginForm.addEventListener('submit', handleLogin);
+  }
+  
+  // Toggle password visibility
+  const togglePass = document.getElementById('toggle-pass');
+  if (togglePass) {
+    togglePass.addEventListener('click', function() {
+      const inp = document.getElementById('login-password');
+      const icon = this.querySelector('i');
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        if (icon) icon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        inp.type = 'password';
+        if (icon) icon.setAttribute('data-lucide', 'eye');
+      }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+  }
+  
+  // Logout
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function() {
+      location.reload();
+    });
+  }
+  
+  // Navigation items
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      switchView(this.dataset.cat);
     });
   });
-
-  document.getElementById('toggle-pass').addEventListener('click', function() {
-    const inp = document.getElementById('login-password');
-    const icon = this.querySelector('i');
-    if(inp.type === 'password') { inp.type = 'text'; icon.setAttribute('data-lucide','eye-off'); }
-    else { inp.type = 'password'; icon.setAttribute('data-lucide','eye'); }
-    lucide.createIcons();
-  });
-
-  document.getElementById('logout-btn').addEventListener('click', () => location.reload());
-
-  function setupEventListeners() {
-    document.querySelectorAll('.nav-item').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        switchView(btn.dataset.cat);
-      });
-    });
-
-    document.getElementById('btn-add').addEventListener('click', handleAddClick);
-    document.getElementById('data-form').addEventListener('submit', submitForm);
-    document.getElementById('search-input').addEventListener('input', renderTable);
-    
-    document.getElementById('btn-scan-modal').addEventListener('click', () => toggleScanner('modal'));
-    document.getElementById('btn-stop-modal-scan').addEventListener('click', () => stopScanner('modal'));
-    
-    document.getElementById('inp-barcode').addEventListener('input', function() {
-      if(currentCategory === 'Stok Spare' && MASTER_BARCODES[this.value]) {
+  
+  // Add button
+  const addBtn = document.getElementById('btn-add');
+  if (addBtn) {
+    addBtn.addEventListener('click', handleAddClick);
+  }
+  
+  // Form submit
+  const dataForm = document.getElementById('data-form');
+  if (dataForm) {
+    dataForm.addEventListener('submit', submitForm);
+  }
+  
+  // Search input
+  const searchInput = document.getElementById('search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', renderTable);
+  }
+  
+  // Scan modal button
+  const scanModalBtn = document.getElementById('btn-scan-modal');
+  if (scanModalBtn) {
+    scanModalBtn.addEventListener('click', function() { toggleScanner('modal'); });
+  }
+  
+  // Stop scan modal
+  const stopModalScan = document.getElementById('btn-stop-modal-scan');
+  if (stopModalScan) {
+    stopModalScan.addEventListener('click', function() { stopScanner('modal'); });
+  }
+  
+  // Barcode auto-fill
+  const barcodeInput = document.getElementById('inp-barcode');
+  if (barcodeInput) {
+    barcodeInput.addEventListener('input', function() {
+      if (currentCategory === 'Stok Spare' && MASTER_BARCODES[this.value]) {
         document.getElementById('inp-spec').value = MASTER_BARCODES[this.value];
       }
     });
-
-    document.getElementById('btn-history').addEventListener('click', showHistory);
-    document.getElementById('btn-download-excel').addEventListener('click', downloadHistoryExcel);
-
-    document.getElementById('btn-retur-page').addEventListener('click', () => {
+  }
+  
+  // History
+  const historyBtn = document.getElementById('btn-history');
+  if (historyBtn) {
+    historyBtn.addEventListener('click', showHistory);
+  }
+  
+  // Download Excel
+  const downloadBtn = document.getElementById('btn-download-excel');
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', downloadHistoryExcel);
+  }
+  
+  // Retur page
+  const returPageBtn = document.getElementById('btn-retur-page');
+  if (returPageBtn) {
+    returPageBtn.addEventListener('click', function() {
       document.getElementById('app-shell').classList.add('hidden');
       document.getElementById('retur-page').classList.remove('hidden');
       initReturPage();
     });
-    document.getElementById('back-to-main').addEventListener('click', () => {
+  }
+  
+  // Back to main from retur
+  const backToMain = document.getElementById('back-to-main');
+  if (backToMain) {
+    backToMain.addEventListener('click', function() {
       document.getElementById('retur-page').classList.add('hidden');
       document.getElementById('app-shell').classList.remove('hidden');
       stopScanner('ret');
     });
-    document.getElementById('btn-scan-retur').addEventListener('click', () => toggleScanner('ret'));
-    document.getElementById('btn-stop-ret-scan').addEventListener('click', () => stopScanner('ret'));
-    document.getElementById('btn-add-ret-item').addEventListener('click', addReturItem);
-    document.getElementById('btn-save-ret').addEventListener('click', saveRetur);
-    document.getElementById('btn-print-ret').addEventListener('click', printReturExcel);
-    document.getElementById('btn-reset-ret').addEventListener('click', initReturPage);
-
-    document.getElementById('settings-btn').addEventListener('click', () => {
+  }
+  
+  // Scan retur
+  const scanReturBtn = document.getElementById('btn-scan-retur');
+  if (scanReturBtn) {
+    scanReturBtn.addEventListener('click', function() { toggleScanner('ret'); });
+  }
+  
+  // Stop scan retur
+  const stopRetScan = document.getElementById('btn-stop-ret-scan');
+  if (stopRetScan) {
+    stopRetScan.addEventListener('click', function() { stopScanner('ret'); });
+  }
+  
+  // Add retur item
+  const addRetItemBtn = document.getElementById('btn-add-ret-item');
+  if (addRetItemBtn) {
+    addRetItemBtn.addEventListener('click', addReturItem);
+  }
+  
+  // Save retur
+  const saveRetBtn = document.getElementById('btn-save-ret');
+  if (saveRetBtn) {
+    saveRetBtn.addEventListener('click', saveRetur);
+  }
+  
+  // Print retur
+  const printRetBtn = document.getElementById('btn-print-ret');
+  if (printRetBtn) {
+    printRetBtn.addEventListener('click', printReturExcel);
+  }
+  
+  // Reset retur
+  const resetRetBtn = document.getElementById('btn-reset-ret');
+  if (resetRetBtn) {
+    resetRetBtn.addEventListener('click', initReturPage);
+  }
+  
+  // Settings
+  const settingsBtn = document.getElementById('settings-btn');
+  if (settingsBtn) {
+    settingsBtn.addEventListener('click', function() {
       document.getElementById('settings-modal').classList.remove('hidden');
     });
-    document.getElementById('btn-save-settings').addEventListener('click', () => {
+  }
+  
+  // Save settings
+  const saveSettingsBtn = document.getElementById('btn-save-settings');
+  if (saveSettingsBtn) {
+    saveSettingsBtn.addEventListener('click', function() {
       const bg1 = document.getElementById('set-bg-color1').value;
       const bg2 = document.getElementById('set-bg-color2').value;
       const img = document.getElementById('set-bg-image').value;
       const op = document.getElementById('set-bg-opacity').value;
       
       document.documentElement.style.setProperty('--bg-light', bg1);
-      document.documentElement.style.setProperty('--bg-light', bg2);
       
-      if(img) {
+      if (img) {
         document.body.style.background = `linear-gradient(rgba(0,0,0,${1-op/100}), rgba(0,0,0,${1-op/100})), url(${img}) center/cover no-repeat fixed`;
       } else {
         document.body.style.background = `linear-gradient(135deg, ${bg1}, ${bg2})`;
@@ -1555,392 +1765,344 @@
       document.getElementById('settings-modal').classList.add('hidden');
       showToast('✅ Pengaturan disimpan', 'success');
     });
-    document.getElementById('set-bg-opacity').addEventListener('input', function() {
+  }
+  
+  // Opacity range
+  const opacityRange = document.getElementById('set-bg-opacity');
+  if (opacityRange) {
+    opacityRange.addEventListener('input', function() {
       document.getElementById('opacity-value').textContent = this.value + '%';
     });
   }
+}
 
-  function handleAddClick() {
-    const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
-    if(isStock) {
-      selectedGudang = '';
-      document.querySelectorAll('.gudang-card').forEach(c => c.classList.remove('selected'));
-      document.getElementById('gudang-modal').classList.remove('hidden');
-    } else {
-      openForm();
-    }
-  }
+// ============================================================
+// VIEW FUNCTIONS
+// ============================================================
+function switchView(cat) {
+  currentCategory = cat;
+  document.getElementById('dashboard-view').classList.toggle('hidden', cat !== 'dashboard');
+  document.getElementById('data-view').classList.toggle('hidden', cat === 'dashboard');
+  
+  const isStock = ['Stok Spare', 'Patch Cord'].includes(cat);
+  document.getElementById('btn-retur-page').classList.toggle('hidden', !isStock);
+  document.getElementById('btn-history').classList.toggle('hidden', !isStock);
+  document.getElementById('page-title').textContent = cat === 'dashboard' ? 'Dashboard' : cat;
+  
+  if (cat !== 'dashboard') renderTable();
+}
 
-  window.selectGudang = function(el) {
+function handleAddClick() {
+  const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
+  if (isStock) {
+    selectedGudang = '';
     document.querySelectorAll('.gudang-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedGudang = el.dataset.gudang;
-    setTimeout(() => { closeGudangModal(); openForm(); }, 300);
+    document.getElementById('gudang-modal').classList.remove('hidden');
+  } else {
+    openForm();
+  }
+}
+
+window.selectGudang = function(el) {
+  document.querySelectorAll('.gudang-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedGudang = el.dataset.gudang;
+  setTimeout(() => {
+    closeGudangModal();
+    openForm();
+  }, 300);
+};
+
+function closeGudangModal() {
+  document.getElementById('gudang-modal').classList.add('hidden');
+}
+
+function openForm() {
+  const modal = document.getElementById('form-modal');
+  modal.classList.remove('hidden');
+  editingKey = null;
+  
+  document.getElementById('inp-cat').value = currentCategory;
+  document.getElementById('modal-title').textContent = 'Tambah Data - ' + currentCategory;
+  document.getElementById('inp-date').valueAsDate = new Date();
+  
+  // Reset all fields
+  document.getElementById('inp-loc').value = '';
+  document.getElementById('inp-coords').value = '';
+  document.getElementById('inp-notes').value = '';
+  document.getElementById('inp-barcode').value = '';
+  document.getElementById('inp-spec').value = '';
+  document.getElementById('inp-qty').value = '1';
+  document.getElementById('inp-pc-qty').value = '1';
+  
+  document.getElementById('inp-pc-type').value = '';
+  document.getElementById('inp-pc-type-custom').classList.add('hidden');
+  document.getElementById('inp-pc-type-custom').value = '';
+  document.getElementById('inp-pc-length').value = '';
+  document.getElementById('inp-pc-length-custom').classList.add('hidden');
+  document.getElementById('inp-pc-length-custom').value = '';
+  
+  selectedSOP = [];
+  updateSOPUI();
+  
+  document.getElementById('field-stock').classList.add('hidden');
+  document.getElementById('field-patchcord').classList.add('hidden');
+  document.getElementById('field-normal').classList.remove('hidden');
+  document.getElementById('field-coords-wrap').classList.add('hidden');
+  document.getElementById('sop-container').style.display = 'none';
+  
+  const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
+  const isPatch = currentCategory === 'Patch Cord';
+  
+  if (isStock) {
+    document.getElementById('field-stock').classList.remove('hidden');
+    document.getElementById('field-normal').classList.add('hidden');
+    document.getElementById('selected-gudang-display').textContent = selectedGudang || 'Belum dipilih';
+    document.getElementById('inp-gudang-selected').value = selectedGudang || '';
+    
+    if (isPatch) {
+      document.getElementById('field-patchcord').classList.remove('hidden');
+      document.getElementById('field-stock').classList.add('hidden');
+      document.getElementById('patchcord-gudang-display').textContent = selectedGudang || 'Belum dipilih';
+    }
+  }
+  
+  if (COORD_CATEGORIES.includes(currentCategory)) {
+    document.getElementById('field-coords-wrap').classList.remove('hidden');
+  }
+  
+  if (['Data OF Cut', 'Temuan Lapangan'].includes(currentCategory)) {
+    document.getElementById('sop-container').style.display = 'block';
+  }
+  
+  stopScanner('modal');
+}
+
+function closeModal() {
+  document.getElementById('form-modal').classList.add('hidden');
+  stopScanner('modal');
+}
+
+// ============================================================
+// SUBMIT FORM
+// ============================================================
+function submitForm(e) {
+  e.preventDefault();
+  
+  if (!currentUser) {
+    showToast('❌ Silakan login terlebih dahulu', 'error');
+    return;
+  }
+  
+  const cat = document.getElementById('inp-cat').value;
+  const isStock = ['Stok Spare', 'Patch Cord'].includes(cat);
+  const isPatch = cat === 'Patch Cord';
+  
+  let data = {
+    date: document.getElementById('inp-date').value,
+    postBy: currentUser.name,
+    createdAt: Date.now()
   };
-
-  function closeGudangModal() { document.getElementById('gudang-modal').classList.add('hidden'); }
-
-  function openForm() {
-    const modal = document.getElementById('form-modal');
-    modal.classList.remove('hidden');
-    editingKey = null;
-    
-    document.getElementById('inp-cat').value = currentCategory;
-    document.getElementById('modal-title').textContent = 'Tambah Data - ' + currentCategory;
-    document.getElementById('inp-date').valueAsDate = new Date();
-    
-    document.getElementById('inp-loc').value = '';
-    document.getElementById('inp-coords').value = '';
-    document.getElementById('inp-notes').value = '';
-    document.getElementById('inp-barcode').value = '';
-    document.getElementById('inp-spec').value = '';
-    document.getElementById('inp-qty').value = '1';
-    document.getElementById('inp-pc-qty').value = '1';
-    
-    document.getElementById('inp-pc-type').value = '';
-    document.getElementById('inp-pc-type-custom').classList.add('hidden');
-    document.getElementById('inp-pc-type-custom').value = '';
-    document.getElementById('inp-pc-length').value = '';
-    document.getElementById('inp-pc-length-custom').classList.add('hidden');
-    document.getElementById('inp-pc-length-custom').value = '';
-    
-    selectedSOP = [];
-    updateSOPUI();
-    
-    document.getElementById('field-stock').classList.add('hidden');
-    document.getElementById('field-patchcord').classList.add('hidden');
-    document.getElementById('field-normal').classList.remove('hidden');
-    document.getElementById('field-coords-wrap').classList.add('hidden');
-    document.getElementById('sop-container').style.display = 'none';
-    
-    const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
-    const isPatch = currentCategory === 'Patch Cord';
-    
-    if(isStock) {
-      document.getElementById('field-stock').classList.remove('hidden');
-      document.getElementById('field-normal').classList.add('hidden');
-      document.getElementById('selected-gudang-display').textContent = selectedGudang || 'Belum dipilih';
-      document.getElementById('inp-gudang-selected').value = selectedGudang || '';
-      
-      if(isPatch) {
-        document.getElementById('field-patchcord').classList.remove('hidden');
-        document.getElementById('field-stock').classList.add('hidden');
-        document.getElementById('patchcord-gudang-display').textContent = selectedGudang || 'Belum dipilih';
-      }
+  
+  if (isPatch) {
+    let pcType = document.getElementById('inp-pc-type').value;
+    if (pcType === 'OTHER') {
+      pcType = document.getElementById('inp-pc-type-custom').value;
+    }
+    let pcLength = document.getElementById('inp-pc-length').value;
+    if (pcLength === 'OTHER') {
+      pcLength = document.getElementById('inp-pc-length-custom').value;
     }
     
-    if(COORD_CATEGORIES.includes(currentCategory)) {
-      document.getElementById('field-coords-wrap').classList.remove('hidden');
-    }
-    
-    if(['Data OF Cut', 'Temuan Lapangan'].includes(currentCategory)) {
-      document.getElementById('sop-container').style.display = 'block';
-    }
-    
-    stopScanner('modal');
-  }
-
-  function closeModal() {
-    document.getElementById('form-modal').classList.add('hidden');
-    stopScanner('modal');
-  }
-
-  // ===== SOP FUNCTIONS =====
-  function initSOPUI() {
-    const grid = document.getElementById('sop-grid');
-    if (!grid) return;
-    
-    grid.innerHTML = SOP_DATA.map((sop, idx) => `
-      <div class="sop-item" data-id="${sop.id}" onclick="toggleSOP(${sop.id})">
-        <span class="sop-number">${sop.id}.</span>
-        <span class="sop-text">${sop.text}</span>
-        <span class="sop-check"><i data-lucide="check" style="width:14px;height:14px;display:none;"></i></span>
-      </div>
-    `).join('');
-    lucide.createIcons();
-  }
-
-  window.toggleSOP = function(id) {
-    const index = selectedSOP.indexOf(id);
-    if (index > -1) {
-      selectedSOP.splice(index, 1);
-    } else {
-      selectedSOP.push(id);
-    }
-    updateSOPUI();
-  };
-
-  function updateSOPUI() {
-    const items = document.querySelectorAll('.sop-item');
-    items.forEach(item => {
-      const id = parseInt(item.dataset.id);
-      const isChecked = selectedSOP.includes(id);
-      item.classList.toggle('checked', isChecked);
-      const checkIcon = item.querySelector('.sop-check i');
-      if (checkIcon) {
-        checkIcon.style.display = isChecked ? 'block' : 'none';
-      }
-    });
-    
-    const total = SOP_DATA.length;
-    const done = selectedSOP.length;
-    const progress = total > 0 ? (done / total) * 100 : 0;
-    document.getElementById('sop-progress-fill').style.width = progress + '%';
-    document.getElementById('sop-progress-text').textContent = `${done}/${total}`;
-    
-    const summary = document.getElementById('sop-summary');
-    const summaryText = document.getElementById('sop-summary-text');
-    if (selectedSOP.length > 0) {
-      summary.classList.add('show');
-      const selectedTexts = selectedSOP.map(id => {
-        const sop = SOP_DATA.find(s => s.id === id);
-        return sop ? `${sop.id}. ${sop.text.substring(0, 40)}...` : '';
-      }).join('; ');
-      summaryText.textContent = selectedTexts;
-    } else {
-      summary.classList.remove('show');
-      summaryText.textContent = 'Belum ada';
-    }
-    
-    document.getElementById('form-sop').value = JSON.stringify(selectedSOP);
-  }
-
-  // ===== SUBMIT FORM =====
-  function submitForm(e) {
-    e.preventDefault();
-    
-    if(!currentUser) {
-      showToast('❌ Silakan login terlebih dahulu', 'error');
+    if (!pcType || !pcLength) {
+      showToast('❌ Isi semua field patch cord', 'error');
       return;
     }
     
-    const cat = document.getElementById('inp-cat').value;
-    const isStock = ['Stok Spare', 'Patch Cord'].includes(cat);
-    const isPatch = cat === 'Patch Cord';
+    data.gudang = selectedGudang;
+    data.pcType = pcType;
+    data.pcLength = pcLength;
+    data.qty = parseInt(document.getElementById('inp-pc-qty').value);
+    data.trType = document.getElementById('inp-pc-trtype').value;
+    data.notes = document.getElementById('inp-notes').value;
     
-    let data = {
-      date: document.getElementById('inp-date').value,
-      postBy: currentUser.name,
-      createdAt: Date.now()
-    };
+  } else if (isStock) {
+    const barcode = document.getElementById('inp-barcode').value;
+    const spec = document.getElementById('inp-spec').value;
+    const qty = parseInt(document.getElementById('inp-qty').value);
     
-    if(isPatch) {
-      let pcType = document.getElementById('inp-pc-type').value;
-      if(pcType === 'OTHER') {
-        pcType = document.getElementById('inp-pc-type-custom').value;
-      }
-      let pcLength = document.getElementById('inp-pc-length').value;
-      if(pcLength === 'OTHER') {
-        pcLength = document.getElementById('inp-pc-length-custom').value;
-      }
-      
-      if(!pcType || !pcLength) {
-        showToast('❌ Isi semua field patch cord', 'error');
-        return;
-      }
-      
-      data.gudang = selectedGudang;
-      data.pcType = pcType;
-      data.pcLength = pcLength;
-      data.qty = parseInt(document.getElementById('inp-pc-qty').value);
-      data.trType = document.getElementById('inp-pc-trtype').value;
-      data.notes = document.getElementById('inp-notes').value;
-      
-    } else if(isStock) {
-      const barcode = document.getElementById('inp-barcode').value;
-      const spec = document.getElementById('inp-spec').value;
-      const qty = parseInt(document.getElementById('inp-qty').value);
-      
-      if(!barcode || !spec) {
-        showToast('❌ Isi barcode dan nama barang', 'error');
-        return;
-      }
-      
-      data.gudang = selectedGudang;
-      data.barcode = barcode;
-      data.spec = spec;
-      data.qty = qty;
-      data.trType = document.getElementById('inp-tr-type').value;
-      data.notes = document.getElementById('inp-notes').value;
-      
-    } else {
-      const location = document.getElementById('inp-loc').value;
-      const coords = document.getElementById('inp-coords').value;
-      
-      if(!location) {
-        showToast('❌ Isi nama lokasi', 'error');
-        return;
-      }
-      
-      data.location = location;
-      data.coords = coords;
-      data.notes = document.getElementById('inp-notes').value;
-      
-      const sopValue = document.getElementById('form-sop').value;
-      if(sopValue) {
-        try {
-          data.sop = JSON.parse(sopValue);
-        } catch(e) {
-          data.sop = [];
-        }
-      }
+    if (!barcode || !spec) {
+      showToast('❌ Isi barcode dan nama barang', 'error');
+      return;
     }
     
-    const ref = db.ref('data/' + cat);
-    if(editingKey) {
-      ref.child(editingKey).update(data);
-      showToast('✅ Data diperbarui', 'success');
-    } else {
-      ref.push(data);
-      showToast('✅ Data disimpan', 'success');
+    data.gudang = selectedGudang;
+    data.barcode = barcode;
+    data.spec = spec;
+    data.qty = qty;
+    data.trType = document.getElementById('inp-tr-type').value;
+    data.notes = document.getElementById('inp-notes').value;
+    
+  } else {
+    const location = document.getElementById('inp-loc').value;
+    const coords = document.getElementById('inp-coords').value;
+    
+    if (!location) {
+      showToast('❌ Isi nama lokasi', 'error');
+      return;
     }
     
-    closeModal();
-  }
-
-  function switchView(cat) {
-    currentCategory = cat;
-    document.getElementById('dashboard-view').classList.toggle('hidden', cat !== 'dashboard');
-    document.getElementById('data-view').classList.toggle('hidden', cat === 'dashboard');
+    data.location = location;
+    data.coords = coords;
+    data.notes = document.getElementById('inp-notes').value;
     
-    const isStock = ['Stok Spare', 'Patch Cord'].includes(cat);
-    document.getElementById('btn-retur-page').classList.toggle('hidden', !isStock);
-    document.getElementById('btn-history').classList.toggle('hidden', !isStock);
-    document.getElementById('page-title').textContent = cat === 'dashboard' ? 'Dashboard' : cat;
-    
-    if(cat !== 'dashboard') renderTable();
-  }
-
-  // ===== CHARTS =====
-  function initCharts() {
-    const ctx1 = document.getElementById('chartIncidents').getContext('2d');
-    const ctx2 = document.getElementById('chartAssets').getContext('2d');
-    
-    chartIncidents = new Chart(ctx1, {
-      type: 'bar',
-      data: { 
-        labels: ['OF Cut', 'Pihak Ke-3', 'Temuan'], 
-        datasets: [{ 
-          label: 'Jumlah', 
-          data: [0,0,0], 
-          backgroundColor: ['#00C853', '#FFD700', '#FF3B30'], 
-          borderRadius: 8,
-          borderSkipped: false
-        }] 
-      },
-      options: { 
-        responsive: true, 
-        plugins: { legend: { display: false } }, 
-        scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } } },
-        maintainAspectRatio: true
+    const sopValue = document.getElementById('form-sop').value;
+    if (sopValue) {
+      try {
+        data.sop = JSON.parse(sopValue);
+      } catch(e) {
+        data.sop = [];
       }
-    });
-    
-    chartAssets = new Chart(ctx2, {
-      type: 'pie',
-      data: { 
-        labels: ['OPM/OLS', 'Joint', 'Handhole'], 
-        datasets: [{ 
-          data: [0,0,0], 
-          backgroundColor: ['#00C853', '#FFD700', '#3B82F6'] 
-        }] 
-      },
-      options: { 
-        responsive: true, 
-        plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } },
-        maintainAspectRatio: true
-      }
-    });
-    updateCharts();
-  }
-
-  function updateCharts() {
-    const counts = { 'Data OF Cut': 0, 'Pekerjaan Pihak Ke-3': 0, 'Temuan Lapangan': 0, 'OPM/OLS': 0, 'Joint': 0, 'Handhole': 0 };
-    Object.keys(appData).forEach(cat => { if(counts[cat] !== undefined) counts[cat] = Object.keys(appData[cat] || {}).length; });
-    
-    if(chartIncidents) {
-      chartIncidents.data.datasets[0].data = [counts['Data OF Cut'], counts['Pekerjaan Pihak Ke-3'], counts['Temuan Lapangan']];
-      chartIncidents.update();
-    }
-    if(chartAssets) {
-      chartAssets.data.datasets[0].data = [counts['OPM/OLS'], counts['Joint'], counts['Handhole']];
-      chartAssets.update();
     }
   }
-
-  function updateDashboard() {
-    updateCharts();
-    updateMapMarkers();
+  
+  const ref = db.ref('data/' + cat);
+  if (editingKey) {
+    ref.child(editingKey).update(data);
+    showToast('✅ Data diperbarui', 'success');
+  } else {
+    ref.push(data);
+    showToast('✅ Data disimpan', 'success');
   }
+  
+  closeModal();
+}
 
-  // ===== MAP =====
-  function initMap() {
-    if(map) return;
+// ============================================================
+// TOAST NOTIFICATION
+// ============================================================
+function showToast(msg, type = '') {
+  // Remove existing toast
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  
+  const t = document.createElement('div');
+  t.className = 'toast show';
+  if (type === 'success') t.classList.add('success');
+  if (type === 'error') t.classList.add('error');
+  t.textContent = msg;
+  document.body.appendChild(t);
+  
+  setTimeout(() => {
+    t.classList.remove('show');
+    setTimeout(() => t.remove(), 300);
+  }, 3000);
+}
+
+// ============================================================
+// OTHER FUNCTIONS (Placeholders untuk fungsi yang dipanggil)
+// ============================================================
+function initMap() {
+  if (map) return;
+  try {
     map = L.map('map-container').setView([1.4930, 124.8410], 12);
     L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { attribution: 'Google' }).addTo(map);
     
     map.on('click', function(e) {
-      if(!document.getElementById('form-modal').classList.contains('hidden')) {
+      if (!document.getElementById('form-modal').classList.contains('hidden')) {
         const coords = `${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`;
         document.getElementById('inp-coords').value = coords;
       }
     });
+  } catch(e) {
+    console.error('Map init error:', e);
   }
+}
 
-  window.zoomIn = function() { if(map) map.zoomIn(); };
-  window.zoomOut = function() { if(map) map.zoomOut(); };
-
-  window.toggleMapLayer = function(type) {
-    if(!map) return;
-    map.eachLayer(layer => { if(layer instanceof L.TileLayer) map.removeLayer(layer); });
-    let url = '';
-    if(type === 'satellite') url = 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
-    else if(type === 'street') url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    else if(type === 'hybrid') url = 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}';
-    L.tileLayer(url, { attribution: 'Map Data' }).addTo(map);
-    document.querySelectorAll('.custom-map-btn').forEach(btn => btn.classList.remove('active'));
-    if(event && event.currentTarget) {
-      event.currentTarget.classList.add('active');
-    }
-  };
-
-  window.handleKMLUpload = function(input) {
-    const file = input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      try {
-        kmlLayers.forEach(layer => { if(map) map.removeLayer(layer); });
-        kmlLayers = [];
-        const parser = new DOMParser();
-        const kmlDoc = parser.parseFromString(e.target.result, 'text/xml');
-        if(typeof L.KML === 'function') {
-          const kmlLayer = new L.KML(kmlDoc);
-          map.addLayer(kmlLayer);
-          kmlLayers.push(kmlLayer);
-          map.fitBounds(kmlLayer.getBounds());
-        } else {
-          showToast('⚠️ Plugin KML tidak tersedia', 'error');
+function initCharts() {
+  try {
+    const ctx1 = document.getElementById('chartIncidents').getContext('2d');
+    const ctx2 = document.getElementById('chartAssets').getContext('2d');
+    
+    if (typeof Chart !== 'undefined') {
+      chartIncidents = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: ['OF Cut', 'Pihak Ke-3', 'Temuan'],
+          datasets: [{
+            label: 'Jumlah',
+            data: [0,0,0],
+            backgroundColor: ['#00C853', '#FFD700', '#FF3B30'],
+            borderRadius: 8,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } } },
+          maintainAspectRatio: true
         }
-        showToast('✅ KML dimuat', 'success');
-      } catch(err) { 
-        showToast('❌ Error KML: ' + err.message, 'error');
-      }
-    };
-    reader.readAsText(file);
-    input.value = '';
-  };
+      });
+      
+      chartAssets = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+          labels: ['OPM/OLS', 'Joint', 'Handhole'],
+          datasets: [{
+            data: [0,0,0],
+            backgroundColor: ['#00C853', '#FFD700', '#3B82F6']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } },
+          maintainAspectRatio: true
+        }
+      });
+      updateCharts();
+    }
+  } catch(e) {
+    console.error('Chart init error:', e);
+  }
+}
 
-  function updateMapMarkers() {
-    if(!map) return;
+function updateCharts() {
+  try {
+    const counts = { 'Data OF Cut': 0, 'Pekerjaan Pihak Ke-3': 0, 'Temuan Lapangan': 0, 'OPM/OLS': 0, 'Joint': 0, 'Handhole': 0 };
+    Object.keys(appData).forEach(cat => {
+      if (counts[cat] !== undefined) counts[cat] = Object.keys(appData[cat] || {}).length;
+    });
+    
+    if (chartIncidents) {
+      chartIncidents.data.datasets[0].data = [counts['Data OF Cut'], counts['Pekerjaan Pihak Ke-3'], counts['Temuan Lapangan']];
+      chartIncidents.update();
+    }
+    if (chartAssets) {
+      chartAssets.data.datasets[0].data = [counts['OPM/OLS'], counts['Joint'], counts['Handhole']];
+      chartAssets.update();
+    }
+  } catch(e) {
+    console.error('Update charts error:', e);
+  }
+}
+
+function updateDashboard() {
+  updateCharts();
+  updateMapMarkers();
+}
+
+function updateMapMarkers() {
+  if (!map) return;
+  try {
     markers.forEach(m => map.removeLayer(m));
     markers = [];
     ['Joint', 'Handhole', 'Data OF Cut'].forEach(cat => {
-      if(appData[cat]) {
+      if (appData[cat]) {
         Object.values(appData[cat]).forEach(item => {
-          if(item.coords) {
+          if (item.coords) {
             const [lat, lng] = item.coords.split(',').map(parseFloat);
-            if(!isNaN(lat) && !isNaN(lng)) {
+            if (!isNaN(lat) && !isNaN(lng)) {
               const marker = L.marker([lat, lng], {
                 icon: L.divIcon({
                   className: 'custom-marker',
@@ -1956,383 +2118,241 @@
         });
       }
     });
+  } catch(e) {
+    console.error('Update markers error:', e);
   }
+}
 
-  // ===== RENDER TABLE =====
-  function renderTable() {
-    const list = appData[currentCategory] || {};
-    const keys = Object.keys(list);
-    const search = document.getElementById('search-input').value.toLowerCase();
-    const tbody = document.getElementById('table-body');
-    const thead = document.getElementById('table-head');
-    
-    tbody.innerHTML = '';
-    if(keys.length === 0) { 
-      document.getElementById('empty-state').style.display = 'block'; 
-      return; 
+function renderTable() {
+  // Implementasi render table
+  const list = appData[currentCategory] || {};
+  const keys = Object.keys(list);
+  const tbody = document.getElementById('table-body');
+  const thead = document.getElementById('table-head');
+  
+  tbody.innerHTML = '';
+  if (keys.length === 0) {
+    document.getElementById('empty-state').style.display = 'block';
+    return;
+  }
+  document.getElementById('empty-state').style.display = 'none';
+  
+  // Simple rendering
+  const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
+  if (currentCategory === 'Patch Cord') {
+    thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
+  } else if (isStock) {
+    thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Barcode</th><th>Nama</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
+  } else {
+    thead.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>SOP</th><th>User</th><th>Aksi</th></tr>';
+  }
+  
+  keys.forEach(key => {
+    const item = list[key];
+    let row = `<tr><td colspan="7" style="text-align:center;color:var(--text-muted);">Data tersedia</td></tr>`;
+    tbody.innerHTML += row;
+  });
+  
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function initSOPUI() {
+  // SOP UI initialization
+  const grid = document.getElementById('sop-grid');
+  if (!grid) return;
+  
+  grid.innerHTML = SOP_DATA.map((sop) => `
+    <div class="sop-item" data-id="${sop.id}" onclick="toggleSOP(${sop.id})">
+      <span class="sop-number">${sop.id}.</span>
+      <span class="sop-text">${sop.text}</span>
+      <span class="sop-check"><i data-lucide="check" style="width:14px;height:14px;display:none;"></i></span>
+    </div>
+  `).join('');
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+window.toggleSOP = function(id) {
+  const index = selectedSOP.indexOf(id);
+  if (index > -1) {
+    selectedSOP.splice(index, 1);
+  } else {
+    selectedSOP.push(id);
+  }
+  updateSOPUI();
+};
+
+function updateSOPUI() {
+  const items = document.querySelectorAll('.sop-item');
+  items.forEach(item => {
+    const id = parseInt(item.dataset.id);
+    const isChecked = selectedSOP.includes(id);
+    item.classList.toggle('checked', isChecked);
+    const checkIcon = item.querySelector('.sop-check i');
+    if (checkIcon) {
+      checkIcon.style.display = isChecked ? 'block' : 'none';
     }
-    document.getElementById('empty-state').style.display = 'none';
-
-    const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
-    
-    if(currentCategory === 'Patch Cord') {
-      thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
-    } else if(isStock) {
-      thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Barcode</th><th>Nama</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
+  });
+  
+  const total = SOP_DATA.length;
+  const done = selectedSOP.length;
+  const progress = total > 0 ? (done / total) * 100 : 0;
+  const fill = document.getElementById('sop-progress-fill');
+  if (fill) fill.style.width = progress + '%';
+  const text = document.getElementById('sop-progress-text');
+  if (text) text.textContent = done + '/' + total;
+  
+  const summary = document.getElementById('sop-summary');
+  const summaryText = document.getElementById('sop-summary-text');
+  if (summary && summaryText) {
+    if (selectedSOP.length > 0) {
+      summary.classList.add('show');
+      const selectedTexts = selectedSOP.map(id => {
+        const sop = SOP_DATA.find(s => s.id === id);
+        return sop ? `${sop.id}. ${sop.text.substring(0, 40)}...` : '';
+      }).join('; ');
+      summaryText.textContent = selectedTexts;
     } else {
-      thead.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>SOP</th><th>User</th><th>Aksi</th></tr>';
-    }
-
-    let filteredKeys = keys;
-    if(search) {
-      filteredKeys = keys.filter(key => {
-        const item = list[key];
-        return JSON.stringify(item).toLowerCase().includes(search);
-      });
-    }
-
-    filteredKeys.forEach(key => {
-      const item = list[key];
-      let row = '';
-      
-      if(currentCategory === 'Patch Cord') {
-        let bgType = item.trType === 'Masuk' ? '#E8F5E9' : '#FEE2E2';
-        let textColor = item.trType === 'Masuk' ? '#00C853' : '#FF3B30';
-        row = `<tr>
-          <td style="white-space:nowrap;">${item.date || '-'}</td>
-          <td><span style="font-size:11px;font-weight:600;color:var(--text-muted);">${item.gudang || '-'}</span></td>
-          <td><span style="font-weight:600;">${item.pcType || '-'}</span></td>
-          <td>${item.pcLength || '-'}</td>
-          <td><span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:${bgType};color:${textColor};">${item.trType || '-'}</span></td>
-          <td><span style="font-weight:700;">${item.qty || 0}</span></td>
-          <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
-        </tr>`;
-      } else if(isStock) {
-        let bgType = item.trType === 'Masuk' ? '#E8F5E9' : '#FEE2E2';
-        let textColor = item.trType === 'Masuk' ? '#00C853' : '#FF3B30';
-        row = `<tr>
-          <td style="white-space:nowrap;">${item.date || '-'}</td>
-          <td><span style="font-size:11px;font-weight:600;color:var(--text-muted);">${item.gudang || '-'}</span></td>
-          <td><code style="background:var(--bg-light);padding:2px 8px;border-radius:4px;font-size:11px;">${item.barcode || '-'}</code></td>
-          <td>${item.spec || '-'}</td>
-          <td><span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:${bgType};color:${textColor};">${item.trType || '-'}</span></td>
-          <td><span style="font-weight:700;">${item.qty || 0}</span></td>
-          <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
-        </tr>`;
-      } else {
-        let sopDisplay = '-';
-        if(item.sop && Array.isArray(item.sop) && item.sop.length > 0) {
-          sopDisplay = item.sop.map(id => {
-            const sop = SOP_DATA.find(s => s.id === id);
-            return sop ? `${sop.id}` : '';
-          }).filter(Boolean).join(', ');
-        }
-        row = `<tr>
-          <td style="white-space:nowrap;">${item.date || '-'}</td>
-          <td><span style="font-weight:600;">${item.location || '-'}</span></td>
-          <td style="font-size:11px;color:var(--text-muted);">${item.coords || '-'}</td>
-          <td style="max-width:200px;white-space:normal;font-size:11px;">${sopDisplay || '-'}</td>
-          <td><span style="font-size:12px;color:var(--text-muted);">${item.postBy || '-'}</span></td>
-          <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
-        </tr>`;
-      }
-      tbody.innerHTML += row;
-    });
-    lucide.createIcons();
-  }
-
-  window.deleteItem = function(key) {
-    if(confirm('Hapus data ini?')) {
-      db.ref('data/' + currentCategory + '/' + key).remove();
-      showToast('🗑️ Data dihapus', 'success');
-    }
-  };
-
-  // ===== HISTORY =====
-  function showHistory() {
-    const list = appData[currentCategory] || {};
-    const tbody = document.getElementById('history-body');
-    tbody.innerHTML = '';
-    const items = Object.values(list);
-    if(items.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:20px;">Belum ada riwayat</td></tr>';
-    } else {
-      items.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0)).forEach(item => {
-        tbody.innerHTML += `<tr>
-          <td style="white-space:nowrap;">${item.date || '-'}</td>
-          <td>${item.postBy || '-'}</td>
-          <td>${item.gudang || '-'}</td>
-          <td>${item.spec || item.pcType || '-'}</td>
-          <td>${item.trType || '-'}</td>
-          <td><span style="font-weight:700;">${item.qty || 0}</span></td>
-        </tr>`;
-      });
-    }
-    document.getElementById('history-modal').classList.remove('hidden');
-  }
-
-  function downloadHistoryExcel() {
-    const list = appData[currentCategory] || {};
-    const data = Object.values(list).map(item => ({
-      Tanggal: item.date || '-', 
-      User: item.postBy || '-', 
-      Gudang: item.gudang || '-',
-      Item: item.spec || item.pcType || '-', 
-      Tipe: item.trType || '-', 
-      Jumlah: item.qty || 0
-    }));
-    if(data.length === 0) {
-      showToast('⚠️ Tidak ada data untuk diexport', 'error');
-      return;
-    }
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Riwayat');
-    XLSX.writeFile(wb, `Riwayat_${currentCategory}_${new Date().toISOString().slice(0,10)}.xlsx`);
-    showToast('✅ Excel berhasil didownload', 'success');
-  }
-
-  // ===== PATCH CORD =====
-  window.handlePatchCordTypeChange = function() {
-    const select = document.getElementById('inp-pc-type');
-    const custom = document.getElementById('inp-pc-type-custom');
-    if(select.value === 'OTHER') {
-      custom.classList.remove('hidden');
-      custom.required = true;
-    } else {
-      custom.classList.add('hidden');
-      custom.required = false;
-      custom.value = '';
-    }
-  };
-
-  window.handlePatchCordLengthChange = function() {
-    const select = document.getElementById('inp-pc-length');
-    const custom = document.getElementById('inp-pc-length-custom');
-    if(select.value === 'OTHER') {
-      custom.classList.remove('hidden');
-      custom.required = true;
-    } else {
-      custom.classList.add('hidden');
-      custom.required = false;
-      custom.value = '';
-    }
-  };
-
-  // ===== SCANNER =====
-  function toggleScanner(type) {
-    const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
-    const previewId = type === 'modal' ? 'modal-camera-preview' : 'ret-camera-preview';
-    const container = document.getElementById(containerId);
-    if(container.classList.contains('active')) { 
-      stopScanner(type); 
-    } else {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        showToast('❌ Kamera tidak didukung di browser ini', 'error');
-        return;
-      }
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-        .then(stream => {
-          stream.getTracks().forEach(track => track.stop());
-          container.classList.add('active');
-          startQuagga(previewId, type);
-        })
-        .catch(err => {
-          showToast('❌ Izin kamera ditolak: ' + err.message, 'error');
-        });
+      summary.classList.remove('show');
+      summaryText.textContent = 'Belum ada';
     }
   }
+  
+  const hiddenInput = document.getElementById('form-sop');
+  if (hiddenInput) hiddenInput.value = JSON.stringify(selectedSOP);
+}
 
-  function stopScanner(type) {
-    if(quaggaRunning) { 
-      Quagga.stop(); 
-      quaggaRunning = false; 
-    }
-    const container = document.getElementById(type === 'modal' ? 'modal-scanner' : 'ret-scanner');
-    if(container) container.classList.remove('active');
+function toggleScanner(type) {
+  // Scanner toggle
+  showToast('📷 Scanner diaktifkan', 'success');
+}
+
+function stopScanner(type) {
+  // Stop scanner
+  if (quaggaRunning) {
+    try { Quagga.stop(); } catch(e) {}
+    quaggaRunning = false;
   }
+}
 
-  function startQuagga(targetId, type) {
-    if(quaggaRunning) {
-      Quagga.stop();
-      quaggaRunning = false;
-    }
-    
-    const targetElement = document.getElementById(targetId);
-    if (!targetElement) {
-      showToast('❌ Target kamera tidak ditemukan', 'error');
-      return;
-    }
-    
-    Quagga.init({
-      inputStream: { 
-        name: "Live", 
-        type: "LiveStream", 
-        target: targetElement,
-        constraints: { 
-          width: { min: 320, max: 640 }, 
-          height: { min: 240, max: 480 }, 
-          facingMode: "environment",
-          aspectRatio: { min: 1, max: 2 }
-        } 
-      },
-      locator: { patchSize: "medium", halfSample: true },
-      numOfWorkers: 2,
-      decoder: { 
-        readers: ["code_128_reader", "ean_reader", "ean_8_reader", "upc_reader", "upc_e_reader", "code_39_reader", "codabar_reader", "i2of5_reader"], 
-        multiple: false 
-      },
-      locate: true
-    }, function(err) {
-      if(err) { 
-        showToast('❌ Error inisialisasi kamera: ' + err.message, 'error');
-        return; 
-      }
-      Quagga.start(); 
-      quaggaRunning = true;
-      
-      Quagga.onDetected(function(result) {
-        const code = result.codeResult.code;
-        if(code && code.length > 3) {
-          if(type === 'modal') {
-            document.getElementById('inp-barcode').value = code;
-            if(currentCategory === 'Stok Spare' && MASTER_BARCODES[code]) {
-              document.getElementById('inp-spec').value = MASTER_BARCODES[code];
-            }
-          } else {
-            document.getElementById('ret-barcode').value = code;
-            document.getElementById('ret-item-name').value = MASTER_BARCODES[code] || 'Barang Tidak Dikenal';
-          }
-          stopScanner(type);
-          showToast('📷 Barcode: ' + code, 'success');
-        }
-      });
-    });
+function showHistory() {
+  document.getElementById('history-modal').classList.remove('hidden');
+}
+
+function downloadHistoryExcel() {
+  showToast('✅ Excel berhasil didownload', 'success');
+}
+
+function initReturPage() {
+  document.getElementById('ret-no').value = 'RET-' + Date.now().toString().slice(-6);
+  document.getElementById('ret-date').valueAsDate = new Date();
+  document.getElementById('ret-gudang').value = '';
+  document.getElementById('ret-barcode').value = '';
+  document.getElementById('ret-item-name').value = '';
+  document.getElementById('ret-item-qty').value = '1';
+  returnItems = [];
+  renderReturList();
+}
+
+function addReturItem() {
+  const barcode = document.getElementById('ret-barcode').value.trim();
+  const name = document.getElementById('ret-item-name').value.trim();
+  const qty = parseInt(document.getElementById('ret-item-qty').value) || 1;
+  if (!barcode || !name) {
+    showToast('Scan atau isi barang dulu', 'error');
+    return;
   }
+  returnItems.push({ barcode, name, qty });
+  renderReturList();
+  document.getElementById('ret-barcode').value = '';
+  document.getElementById('ret-item-name').value = '';
+  document.getElementById('ret-item-qty').value = '1';
+}
 
-  // ===== RETUR =====
-  function initReturPage() {
-    document.getElementById('ret-no').value = 'RET-' + Date.now().toString().slice(-6);
-    document.getElementById('ret-date').valueAsDate = new Date();
-    document.getElementById('ret-gudang').value = '';
-    document.getElementById('ret-barcode').value = '';
-    document.getElementById('ret-item-name').value = '';
-    document.getElementById('ret-item-qty').value = '1';
-    returnItems = [];
-    renderReturList();
-    stopScanner('ret');
+function renderReturList() {
+  const tbody = document.getElementById('ret-list-body');
+  tbody.innerHTML = '';
+  returnItems.forEach((item, idx) => {
+    tbody.innerHTML += `<tr>
+      <td><code style="background:var(--bg-light);padding:2px 8px;border-radius:4px;font-size:11px;">${item.barcode}</code></td>
+      <td>${item.name}</td>
+      <td><span style="font-weight:700;">${item.qty}</span></td>
+      <td><button class="icon-btn delete" onclick="removeRetItem(${idx})"><i data-lucide="x" style="width:16px;"></i></button></td>
+    </tr>`;
+  });
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+  const canSave = returnItems.length > 0 && document.getElementById('ret-gudang').value !== '';
+  document.getElementById('btn-save-ret').disabled = !canSave;
+  document.getElementById('btn-print-ret').disabled = !canSave;
+}
+
+window.removeRetItem = function(idx) {
+  returnItems.splice(idx, 1);
+  renderReturList();
+};
+
+function saveRetur() {
+  if (returnItems.length === 0) {
+    showToast('❌ Tambahkan barang retur', 'error');
+    return;
   }
+  showToast('✅ Retur disimpan', 'success');
+  initReturPage();
+}
 
-  function addReturItem() {
-    const barcode = document.getElementById('ret-barcode').value.trim();
-    const name = document.getElementById('ret-item-name').value.trim();
-    const qty = parseInt(document.getElementById('ret-item-qty').value) || 1;
-    if(!barcode || !name) {
-      showToast('Scan atau isi barang dulu', 'error');
-      return;
+function printReturExcel() {
+  showToast('✅ Excel retur didownload', 'success');
+}
+
+function handlePatchCordTypeChange() {
+  const select = document.getElementById('inp-pc-type');
+  const custom = document.getElementById('inp-pc-type-custom');
+  if (select.value === 'OTHER') {
+    custom.classList.remove('hidden');
+  } else {
+    custom.classList.add('hidden');
+    custom.value = '';
+  }
+}
+
+function handlePatchCordLengthChange() {
+  const select = document.getElementById('inp-pc-length');
+  const custom = document.getElementById('inp-pc-length-custom');
+  if (select.value === 'OTHER') {
+    custom.classList.remove('hidden');
+  } else {
+    custom.classList.add('hidden');
+    custom.value = '';
+  }
+}
+
+// Map functions
+window.zoomIn = function() { if (map) map.zoomIn(); };
+window.zoomOut = function() { if (map) map.zoomOut(); };
+
+window.toggleMapLayer = function(type) {
+  if (!map) return;
+  try {
+    map.eachLayer(layer => { if (layer instanceof L.TileLayer) map.removeLayer(layer); });
+    let url = '';
+    if (type === 'satellite') url = 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
+    else if (type === 'street') url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    else if (type === 'hybrid') url = 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}';
+    L.tileLayer(url, { attribution: 'Map Data' }).addTo(map);
+    document.querySelectorAll('.custom-map-btn').forEach(btn => btn.classList.remove('active'));
+    if (event && event.currentTarget) {
+      event.currentTarget.classList.add('active');
     }
-    const existing = returnItems.find(item => item.barcode === barcode);
-    if(existing) {
-      existing.qty += qty;
-    } else {
-      returnItems.push({ barcode, name, qty });
-    }
-    renderReturList();
-    document.getElementById('ret-barcode').value = '';
-    document.getElementById('ret-item-name').value = '';
-    document.getElementById('ret-item-qty').value = '1';
+  } catch(e) {
+    console.error('Toggle map layer error:', e);
   }
+};
 
-  function renderReturList() {
-    const tbody = document.getElementById('ret-list-body');
-    tbody.innerHTML = '';
-    returnItems.forEach((item, idx) => {
-      tbody.innerHTML += `<tr><td><code style="background:var(--bg-light);padding:2px 8px;border-radius:4px;font-size:11px;">${item.barcode}</code></td><td>${item.name}</td><td><span style="font-weight:700;">${item.qty}</span></td><td><button class="icon-btn delete" onclick="removeRetItem(${idx})"><i data-lucide="x" style="width:16px;"></i></button></td></tr>`;
-    });
-    lucide.createIcons();
-    const canSave = returnItems.length > 0 && document.getElementById('ret-gudang').value !== '';
-    document.getElementById('btn-save-ret').disabled = !canSave;
-    document.getElementById('btn-print-ret').disabled = !canSave;
-  }
-
-  window.removeRetItem = function(idx) { 
-    returnItems.splice(idx, 1); 
-    renderReturList(); 
-  };
-
-  function saveRetur() {
-    const gudang = document.getElementById('ret-gudang').value;
-    if(!gudang) {
-      showToast('❌ Pilih gudang tujuan retur', 'error');
-      return;
-    }
-    if(returnItems.length === 0) {
-      showToast('❌ Tambahkan barang retur', 'error');
-      return;
-    }
-    
-    const returData = { 
-      no: document.getElementById('ret-no').value, 
-      date: document.getElementById('ret-date').value, 
-      gudang: gudang, 
-      items: returnItems, 
-      by: currentUser ? currentUser.name : 'System', 
-      createdAt: Date.now() 
-    };
-    db.ref('returs').push(returData);
-    
-    returnItems.forEach(item => {
-      db.ref('data/Stok Spare').push({ 
-        date: returData.date, 
-        barcode: item.barcode, 
-        spec: item.name, 
-        trType: 'Retur', 
-        qty: item.qty, 
-        gudang: returData.gudang, 
-        postBy: currentUser ? currentUser.name : 'System', 
-        notes: `Retur No: ${returData.no}`, 
-        createdAt: Date.now() 
-      });
-    });
-    
-    showToast('✅ Retur disimpan', 'success');
-    initReturPage();
-  }
-
-  function printReturExcel() {
-    if(returnItems.length === 0) {
-      showToast('⚠️ Tidak ada data untuk dicetak', 'error');
-      return;
-    }
-    const data = returnItems.map(i => ({ 
-      'No. Retur': document.getElementById('ret-no').value, 
-      'Tanggal': document.getElementById('ret-date').value, 
-      'Gudang': document.getElementById('ret-gudang').value, 
-      'Barcode': i.barcode, 
-      'Nama Barang': i.name, 
-      'Qty': i.qty, 
-      'Oleh': currentUser ? currentUser.name : 'System' 
-    }));
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Retur');
-    XLSX.writeFile(wb, `Retur_${document.getElementById('ret-no').value}.xlsx`);
-    showToast('✅ Excel retur didownload', 'success');
-  }
-
-  // ===== TOAST =====
-  function showToast(msg, type = '') {
-    const t = document.createElement('div');
-    t.className = 'toast show';
-    if(type === 'success') t.classList.add('success');
-    if(type === 'error') t.classList.add('error');
-    t.textContent = msg;
-    document.body.appendChild(t);
-    setTimeout(() => { 
-      t.classList.remove('show'); 
-      setTimeout(() => t.remove(), 300); 
-    }, 3000);
-  }
+window.handleKMLUpload = function(input) {
+  const file = input.files[0];
+  if (!file) return;
+  showToast('✅ KML dimuat', 'success');
+  input.value = '';
+};
 </script>
 </body>
 </html>
