@@ -12,6 +12,8 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Libre+Franklin:wght@700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
   
@@ -355,6 +357,48 @@
       border-color:var(--primary-blue);
     }
     
+    /* Leaflet Geocoder styling */
+    .leaflet-control-geocoder {
+      border-radius: 12px !important;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15) !important;
+      border: none !important;
+    }
+    .leaflet-control-geocoder input {
+      border-radius: 12px !important;
+      height: 40px !important;
+      padding: 0 16px !important;
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 14px !important;
+      border: 1px solid var(--line) !important;
+    }
+    .leaflet-control-geocoder input:focus {
+      border-color: var(--primary-blue) !important;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.12) !important;
+    }
+    .leaflet-control-geocoder .leaflet-control-geocoder-icon {
+      border-radius: 0 12px 12px 0 !important;
+      background: var(--primary-blue) !important;
+      color: white !important;
+    }
+    .leaflet-control-geocoder .leaflet-control-geocoder-icon:before {
+      border-top: 2px solid white !important;
+      border-left: 2px solid white !important;
+    }
+    .leaflet-control-geocoder-results {
+      border-radius: 0 0 12px 12px !important;
+      border: 1px solid var(--line) !important;
+      border-top: none !important;
+    }
+    .leaflet-control-geocoder-results a {
+      padding: 8px 16px !important;
+      font-family: 'DM Sans', sans-serif !important;
+      font-size: 13px !important;
+    }
+    .leaflet-control-geocoder-results a:hover {
+      background: var(--primary-blue-light) !important;
+      color: var(--primary-blue) !important;
+    }
+    
     /* ===== SCANNER ===== */
     .scanner-wrapper {
       position: relative; 
@@ -587,6 +631,39 @@
       background: #FAFBFC;
     }
     
+    /* ===== STOK SUMMARY ===== */
+    .stok-summary {
+      background: var(--primary-blue-very-light);
+      border: 1px solid var(--primary-blue-light);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .stok-summary .label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .stok-summary .value {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--primary-blue);
+    }
+    .stok-summary .value.masuk {
+      color: var(--primary-blue);
+    }
+    .stok-summary .value.keluar {
+      color: #EF4444;
+    }
+    .stok-summary .value.total {
+      color: #059669;
+    }
+    
     /* ===== SOP CHECKLIST ===== */
     .sop-container {
       background: var(--bg-light);
@@ -773,6 +850,9 @@
       .bottom-nav .nav-item i { width: 20px; height: 20px; }
       .login-card { padding: 28px 20px; }
       .login-title { font-size: 24px; }
+      .leaflet-control-geocoder input {
+        width: 150px !important;
+      }
     }
   </style>
 </head>
@@ -937,6 +1017,24 @@
           </button>
         </div>
       </div>
+
+      <!-- Stok Summary untuk Spare & Patch Cord -->
+      <div id="stok-summary-container" class="hidden">
+        <div class="stok-summary">
+          <div>
+            <span class="label">📦 Total Stok</span>
+            <div class="value total" id="total-stok-value">0</div>
+          </div>
+          <div>
+            <span class="label">📥 Barang Masuk</span>
+            <div class="value masuk" id="total-masuk-value">0</div>
+          </div>
+          <div>
+            <span class="label">📤 Barang Keluar</span>
+            <div class="value keluar" id="total-keluar-value">0</div>
+          </div>
+        </div>
+      </div>
       
       <div class="card" style="padding:0;overflow:hidden;">
         <div style="padding:14px 16px;border-bottom:1px solid var(--line);">
@@ -956,7 +1054,7 @@
     </section>
   </main>
 
-  <!-- BOTTOM NAV - Tanpa Badge Merah -->
+  <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <div class="nav-item active" data-cat="dashboard">
       <i data-lucide="layout-dashboard"></i>
@@ -1145,7 +1243,12 @@
         <!-- NORMAL FIELDS -->
         <div id="field-normal">
            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Lokasi <span style="color:#EF4444;">*</span></label>
-           <input type="text" id="inp-loc" class="field-control" required>
+           <div style="display:flex;gap:8px;align-items:center;">
+             <input type="text" id="inp-loc" class="field-control" placeholder="Cari lokasi..." required style="flex:1;">
+             <button type="button" id="btn-loc-map" class="btn-secondary" style="padding:8px 14px;border-radius:12px;white-space:nowrap;" title="Cari di Peta">
+               <i data-lucide="map-pin" style="width:18px;"></i>
+             </button>
+           </div>
         </div>
         
         <div id="field-coords-wrap" class="hidden">
@@ -1187,6 +1290,35 @@
         <button type="submit" class="btn-primary" style="flex:2;justify-content:center;">Simpan</button>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- Modal Peta untuk Pencarian Lokasi -->
+<div id="map-modal" class="modal-layer hidden">
+  <div class="modal-card" style="max-width:700px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h3 style="margin:0;font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;">
+        <i data-lucide="map" style="width:22px;color:var(--primary-blue);"></i>
+        Cari Lokasi
+      </h3>
+      <button onclick="closeMapModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+    </div>
+    <div style="margin-bottom:12px;">
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="map-search-input" class="field-control" placeholder="Cari lokasi..." style="flex:1;" onkeydown="if(event.key==='Enter') searchLocation()">
+        <button onclick="searchLocation()" class="btn-primary" style="padding:0 20px;border-radius:12px;">
+          <i data-lucide="search" style="width:18px;"></i>
+        </button>
+        <button onclick="getCurrentLocation()" class="btn-secondary" style="padding:0 16px;border-radius:12px;" title="Lokasi Saya">
+          <i data-lucide="crosshair" style="width:18px;"></i>
+        </button>
+      </div>
+    </div>
+    <div id="map-modal-container" style="height:400px;border-radius:12px;border:1px solid var(--line);overflow:hidden;"></div>
+    <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end;">
+      <button onclick="closeMapModal()" class="btn-secondary">Batal</button>
+      <button onclick="selectMapLocation()" class="btn-primary" id="btn-select-location">Pilih Lokasi Ini</button>
+    </div>
   </div>
 </div>
 
@@ -1364,6 +1496,9 @@ let currentUser = null;
 let currentCategory = 'dashboard';
 let appData = {};
 let map = null;
+let mapModal = null;
+let mapModalGeocoder = null;
+let selectedMapLocation = null;
 let markers = [];
 let kmlLayers = [];
 let quaggaRunning = false;
@@ -1373,6 +1508,7 @@ let chartIncidents = null;
 let chartAssets = null;
 let editingKey = null;
 let selectedSOP = [];
+let scannerStream = null;
 
 // MASTER BARCODES
 const MASTER_BARCODES = {
@@ -1429,10 +1565,49 @@ function loadData() {
   db.ref('data').on('value', snap => {
     appData = snap.val() || {};
     updateDashboard();
-    if (currentCategory !== 'dashboard') renderTable();
+    if (currentCategory !== 'dashboard') {
+      renderTable();
+      updateStokSummary();
+    }
   }, function(error) {
     console.error('❌ Error loading data:', error);
   });
+}
+
+// ============================================================
+// UPDATE STOK SUMMARY
+// ============================================================
+function updateStokSummary() {
+  const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
+  const container = document.getElementById('stok-summary-container');
+  
+  if (!isStock) {
+    container.classList.add('hidden');
+    return;
+  }
+  
+  container.classList.remove('hidden');
+  
+  const list = appData[currentCategory] || {};
+  const items = Object.values(list);
+  
+  let totalMasuk = 0;
+  let totalKeluar = 0;
+  
+  items.forEach(item => {
+    const qty = parseInt(item.qty) || 0;
+    if (item.trType === 'Masuk') {
+      totalMasuk += qty;
+    } else if (item.trType === 'Keluar' || item.trType === 'Retur') {
+      totalKeluar += qty;
+    }
+  });
+  
+  const totalStok = totalMasuk - totalKeluar;
+  
+  document.getElementById('total-stok-value').textContent = totalStok;
+  document.getElementById('total-masuk-value').textContent = totalMasuk;
+  document.getElementById('total-keluar-value').textContent = totalKeluar;
 }
 
 // ============================================================
@@ -1569,6 +1744,14 @@ function setupEventListeners() {
     });
   }
   
+  // Location search button
+  const btnLocMap = document.getElementById('btn-loc-map');
+  if (btnLocMap) {
+    btnLocMap.addEventListener('click', function() {
+      openMapModal();
+    });
+  }
+  
   // History
   const historyBtn = document.getElementById('btn-history');
   if (historyBtn) historyBtn.addEventListener('click', showHistory);
@@ -1663,6 +1846,149 @@ function setupEventListeners() {
 }
 
 // ============================================================
+// MAP MODAL FUNCTIONS
+// ============================================================
+function openMapModal() {
+  const modal = document.getElementById('map-modal');
+  modal.classList.remove('hidden');
+  
+  // Init map modal if not exists
+  if (!mapModal) {
+    setTimeout(() => {
+      const container = document.getElementById('map-modal-container');
+      mapModal = L.map(container).setView([1.4930, 124.8410], 13);
+      L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { 
+        attribution: 'Google' 
+      }).addTo(mapModal);
+      
+      // Add geocoder
+      if (typeof L.Control.Geocoder !== 'undefined') {
+        mapModalGeocoder = L.Control.geocoder({
+          defaultMarkGeocode: true,
+          placeholder: 'Cari lokasi...',
+          errorMessage: 'Lokasi tidak ditemukan',
+          showResultIcons: true,
+          collapsed: false,
+          position: 'topleft'
+        })
+        .on('markgeocode', function(e) {
+          const center = e.geocode.center;
+          selectedMapLocation = {
+            lat: center.lat,
+            lng: center.lng,
+            name: e.geocode.name
+          };
+          document.getElementById('inp-loc').value = e.geocode.name;
+          document.getElementById('inp-coords').value = center.lat.toFixed(5) + ', ' + center.lng.toFixed(5);
+          closeMapModal();
+          showToast('📍 Lokasi ditemukan: ' + e.geocode.name, 'success');
+        })
+        .addTo(mapModal);
+      }
+      
+      // Click on map to select location
+      mapModal.on('click', function(e) {
+        selectedMapLocation = {
+          lat: e.latlng.lat,
+          lng: e.latlng.lng,
+          name: 'Lokasi Terpilih'
+        };
+        // Add marker
+        if (mapModal._marker) {
+          mapModal.removeLayer(mapModal._marker);
+        }
+        mapModal._marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mapModal);
+        document.getElementById('btn-select-location').disabled = false;
+      });
+      
+      // Resize map after modal opens
+      setTimeout(() => {
+        mapModal.invalidateSize();
+      }, 300);
+      
+    }, 100);
+  } else {
+    setTimeout(() => {
+      mapModal.invalidateSize();
+    }, 300);
+  }
+}
+
+function closeMapModal() {
+  document.getElementById('map-modal').classList.add('hidden');
+  if (mapModal && mapModal._marker) {
+    mapModal.removeLayer(mapModal._marker);
+    mapModal._marker = null;
+  }
+  selectedMapLocation = null;
+  document.getElementById('btn-select-location').disabled = true;
+}
+
+function searchLocation() {
+  const query = document.getElementById('map-search-input').value.trim();
+  if (!query) {
+    showToast('Masukkan nama lokasi yang dicari', 'error');
+    return;
+  }
+  
+  if (mapModalGeocoder) {
+    mapModalGeocoder._geocode(query, function(results) {
+      if (results && results.length > 0) {
+        const result = results[0];
+        const center = result.center;
+        selectedMapLocation = {
+          lat: center.lat,
+          lng: center.lng,
+          name: result.name
+        };
+        document.getElementById('inp-loc').value = result.name;
+        document.getElementById('inp-coords').value = center.lat.toFixed(5) + ', ' + center.lng.toFixed(5);
+        closeMapModal();
+        showToast('📍 Lokasi ditemukan: ' + result.name, 'success');
+      } else {
+        showToast('❌ Lokasi tidak ditemukan', 'error');
+      }
+    });
+  }
+}
+
+function getCurrentLocation() {
+  if (!navigator.geolocation) {
+    showToast('❌ Geolocation tidak didukung browser ini', 'error');
+    return;
+  }
+  
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+      
+      if (mapModal) {
+        mapModal.setView([lat, lng], 15);
+        if (mapModal._marker) {
+          mapModal.removeLayer(mapModal._marker);
+        }
+        mapModal._marker = L.marker([lat, lng]).addTo(mapModal);
+        document.getElementById('btn-select-location').disabled = false;
+        showToast('📍 Lokasi Anda ditemukan', 'success');
+      }
+    },
+    function(err) {
+      showToast('❌ Gagal mendapatkan lokasi: ' + err.message, 'error');
+    }
+  );
+}
+
+function selectMapLocation() {
+  if (selectedMapLocation) {
+    document.getElementById('inp-loc').value = selectedMapLocation.name || 'Lokasi Terpilih';
+    document.getElementById('inp-coords').value = selectedMapLocation.lat.toFixed(5) + ', ' + selectedMapLocation.lng.toFixed(5);
+    closeMapModal();
+    showToast('✅ Lokasi dipilih', 'success');
+  }
+}
+
+// ============================================================
 // VIEW FUNCTIONS
 // ============================================================
 function switchView(cat) {
@@ -1675,7 +2001,12 @@ function switchView(cat) {
   document.getElementById('btn-history').classList.toggle('hidden', !isStock);
   document.getElementById('page-title').textContent = cat === 'dashboard' ? 'Dashboard' : cat;
   
-  if (cat !== 'dashboard') renderTable();
+  if (cat !== 'dashboard') {
+    renderTable();
+    updateStokSummary();
+  } else {
+    document.getElementById('stok-summary-container').classList.add('hidden');
+  }
 }
 
 function handleAddClick() {
@@ -1861,6 +2192,156 @@ function submitForm(e) {
   }
   
   closeModal();
+  
+  setTimeout(() => {
+    updateStokSummary();
+  }, 500);
+}
+
+// ============================================================
+// SCANNER FUNCTIONS - IMPROVED
+// ============================================================
+function toggleScanner(type) {
+  const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  
+  if (container.classList.contains('active')) {
+    stopScanner(type);
+    return;
+  }
+  
+  // Cek dukungan kamera
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    showToast('❌ Kamera tidak didukung di browser ini', 'error');
+    return;
+  }
+  
+  // Aktifkan scanner
+  container.classList.add('active');
+  showToast('📷 Mengaktifkan kamera...', 'success');
+  
+  const videoId = type === 'modal' ? 'modal-camera-preview' : 'ret-camera-preview';
+  const video = document.getElementById(videoId);
+  
+  if (!video) return;
+  
+  // Gunakan Quagga untuk barcode scanning
+  if (typeof Quagga !== 'undefined') {
+    try {
+      Quagga.init({
+        inputStream: {
+          name: "Live",
+          type: "LiveStream",
+          target: video,
+          constraints: {
+            width: { min: 320, max: 640 },
+            height: { min: 240, max: 480 },
+            facingMode: "environment",
+            aspectRatio: { min: 1, max: 2 }
+          }
+        },
+        locator: { patchSize: "medium", halfSample: true },
+        numOfWorkers: 2,
+        decoder: {
+          readers: [
+            "code_128_reader",
+            "ean_reader",
+            "ean_8_reader",
+            "upc_reader",
+            "upc_e_reader",
+            "code_39_reader",
+            "codabar_reader",
+            "i2of5_reader"
+          ],
+          multiple: false
+        },
+        locate: true
+      }, function(err) {
+        if (err) {
+          console.error('❌ Quagga init error:', err);
+          showToast('❌ Error inisialisasi kamera: ' + err.message, 'error');
+          container.classList.remove('active');
+          return;
+        }
+        
+        Quagga.start();
+        quaggaRunning = true;
+        showToast('📷 Scanner siap, arahkan ke barcode', 'success');
+        
+        // Hapus listener lama
+        Quagga.offDetected();
+        
+        Quagga.onDetected(function(result) {
+          const code = result.codeResult.code;
+          if (code && code.length > 3) {
+            // Vibrate jika support
+            if (navigator.vibrate) {
+              navigator.vibrate(100);
+            }
+            
+            if (type === 'modal') {
+              document.getElementById('inp-barcode').value = code;
+              if (currentCategory === 'Stok Spare' && MASTER_BARCODES[code]) {
+                document.getElementById('inp-spec').value = MASTER_BARCODES[code];
+              }
+            } else {
+              document.getElementById('ret-barcode').value = code;
+              document.getElementById('ret-item-name').value = MASTER_BARCODES[code] || 'Barang Tidak Dikenal';
+            }
+            
+            stopScanner(type);
+            showToast('✅ Barcode: ' + code, 'success');
+          }
+        });
+      });
+    } catch(e) {
+      console.error('❌ Scanner error:', e);
+      showToast('❌ Error: ' + e.message, 'error');
+      container.classList.remove('active');
+    }
+  } else {
+    // Fallback: gunakan getUserMedia langsung untuk preview
+    navigator.mediaDevices.getUserMedia({ 
+      video: { facingMode: "environment" } 
+    })
+    .then(stream => {
+      scannerStream = stream;
+      video.srcObject = stream;
+      video.play();
+      showToast('📷 Kamera aktif - gunakan tombol stop untuk berhenti', 'success');
+    })
+    .catch(err => {
+      showToast('❌ Izin kamera ditolak: ' + err.message, 'error');
+      container.classList.remove('active');
+    });
+  }
+}
+
+function stopScanner(type) {
+  const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
+  const container = document.getElementById(containerId);
+  if (container) container.classList.remove('active');
+  
+  // Stop Quagga
+  if (quaggaRunning && typeof Quagga !== 'undefined') {
+    try {
+      Quagga.stop();
+    } catch(e) {}
+    quaggaRunning = false;
+  }
+  
+  // Stop stream jika ada
+  if (scannerStream) {
+    scannerStream.getTracks().forEach(track => track.stop());
+    scannerStream = null;
+  }
+  
+  const videoId = type === 'modal' ? 'modal-camera-preview' : 'ret-camera-preview';
+  const video = document.getElementById(videoId);
+  if (video && video.srcObject) {
+    video.srcObject = null;
+  }
 }
 
 // ============================================================
@@ -1896,6 +2377,7 @@ function initMap() {
       if (!document.getElementById('form-modal').classList.contains('hidden')) {
         const coords = `${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`;
         document.getElementById('inp-coords').value = coords;
+        showToast('📍 Koordinat dipilih: ' + coords, 'success');
       }
     });
   } catch(e) {
@@ -2115,6 +2597,9 @@ window.deleteItem = function(key) {
   if (confirm('Hapus data ini?')) {
     db.ref('data/' + currentCategory + '/' + key).remove();
     showToast('🗑️ Data dihapus', 'success');
+    setTimeout(() => {
+      updateStokSummary();
+    }, 500);
   }
 };
 
@@ -2183,46 +2668,6 @@ function updateSOPUI() {
   
   const hiddenInput = document.getElementById('form-sop');
   if (hiddenInput) hiddenInput.value = JSON.stringify(selectedSOP);
-}
-
-// ============================================================
-// SCANNER FUNCTIONS
-// ============================================================
-function toggleScanner(type) {
-  const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  
-  if (container.classList.contains('active')) {
-    stopScanner(type);
-    return;
-  }
-  
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    showToast('❌ Kamera tidak didukung', 'error');
-    return;
-  }
-  
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-    .then(stream => {
-      stream.getTracks().forEach(track => track.stop());
-      container.classList.add('active');
-      showToast('📷 Scanner aktif - arahkan ke barcode', 'success');
-    })
-    .catch(err => {
-      showToast('❌ Izin kamera ditolak: ' + err.message, 'error');
-    });
-}
-
-function stopScanner(type) {
-  const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
-  const container = document.getElementById(containerId);
-  if (container) container.classList.remove('active');
-  
-  if (quaggaRunning) {
-    try { Quagga.stop(); } catch(e) {}
-    quaggaRunning = false;
-  }
 }
 
 function handlePatchCordTypeChange() {
@@ -2400,6 +2845,12 @@ function saveRetur() {
   
   showToast('✅ Retur disimpan', 'success');
   initReturPage();
+  setTimeout(() => {
+    if (currentCategory === 'Stok Spare') {
+      updateStokSummary();
+      renderTable();
+    }
+  }, 500);
 }
 
 function printReturExcel() {
