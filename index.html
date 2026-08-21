@@ -5,22 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>BUCIN — Cegah Insiden Network</title>
   
-  <!-- CDN Libraries -->
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   
-  <!-- Map & KML -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax_modules/@placemark/leaflet-kml/1.0.0/index.min.js"></script>
   
-  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
-  <!-- Scanner & PDF -->
   <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
@@ -182,7 +178,6 @@
     .records-table th { background:#f8fafc; padding:12px; text-align:left; border-bottom:1px solid var(--line); font-weight:600; color:#64748b; white-space:nowrap; }
     .records-table td { padding:12px; border-bottom:1px solid #f1f5f9; vertical-align:middle; }
 
-    /* Custom Map Controls Position */
     .leaflet-control-zoom { display:none !important; }
     .custom-map-controls {
       position:absolute; top:12px; right:12px; z-index:1000;
@@ -201,7 +196,6 @@
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
 <div id="login-screen" class="login-screen">
   <div class="login-card">
     <div style="text-align:center;margin-bottom:28px;">
@@ -221,7 +215,6 @@
   </div>
 </div>
 
-<!-- APP SHELL -->
 <div id="app-shell" class="hidden">
   <header class="top-header">
     <div style="display:flex;align-items:center;gap:12px;">
@@ -229,7 +222,6 @@
       <span style="font-weight:800;color:var(--primary);font-size:20px;">BUCIN</span>
     </div>
     <div style="display:flex;gap:8px;align-items:center;">
-      <!-- TOMBOL PENGATURAN DI SAMPING ADD USER -->
       <button id="add-user-btn" class="icon-btn hidden" title="Tambah User"><i data-lucide="user-plus" style="width:22px;"></i></button>
       <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:22px;"></i></button>
       <button id="logout-btn" class="icon-btn" title="Keluar"><i data-lucide="log-out" style="width:22px;"></i></button>
@@ -237,14 +229,12 @@
   </header>
 
   <main class="main-content">
-    <!-- DASHBOARD VIEW -->
     <section id="dashboard-view">
       <div class="hero-panel">
         <h1 style="margin:0;font-size:24px;font-weight:800;line-height:1.2;" id="hero-title">Barisan Utama<br>Cegah Insiden</h1>
         <p style="margin:8px 0 0;opacity:0.9;font-size:14px;" id="hero-subtitle">Pusat Operasi Jaringan Sulawesi Utara</p>
       </div>
       
-      <!-- GRAFIK STATISTIK (CHART.JS) -->
       <div class="dashboard-grid">
         <div class="chart-card">
           <h3 style="margin:0 0 14px;font-size:16px;font-weight:700;">Grafik Statistik Insiden</h3>
@@ -266,7 +256,6 @@
         </div>
         <div id="map-wrapper" style="position:relative;">
           <div id="map-container"></div>
-          <!-- ZOOM CONTROLS DI POJOK KANAN ATAS -->
           <div class="custom-map-controls">
             <button class="custom-map-btn active" onclick="toggleMapLayer('satellite')"><i data-lucide="satellite" style="width:14px;"></i> Satelit</button>
             <button class="custom-map-btn" onclick="toggleMapLayer('street')"><i data-lucide="map" style="width:14px;"></i> Jalan</button>
@@ -277,7 +266,6 @@
         </div>
       </div>
 
-      <!-- ABOUT US SECTION -->
       <div class="about-section">
         <h3>About Us - Tim Patroli BUCIN</h3>
         <p>Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara. Kami bekerja 24/7 untuk memastikan konektivitas tetap optimal.</p>
@@ -291,7 +279,6 @@
       </div>
     </section>
 
-    <!-- DATA VIEW -->
     <section id="data-view" class="hidden">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
         <h2 id="page-title" style="margin:0;font-size:22px;font-weight:800;">Data Operasional</h2>
@@ -317,7 +304,6 @@
     </section>
   </main>
 
-  <!-- BOTTOM NAVIGATION -->
   <nav class="bottom-nav">
     <div class="nav-item active" data-cat="dashboard"><i data-lucide="layout-dashboard"></i><span>Home</span></div>
     <div class="nav-item" data-cat="Data OF Cut"><i data-lucide="scissors"></i><span>OF Cut</span></div>
@@ -332,7 +318,6 @@
   </nav>
 </div>
 
-<!-- GUDANG SELECTOR MODAL -->
 <div id="gudang-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="text-align:center;margin-bottom:8px;">
@@ -357,7 +342,6 @@
   </div>
 </div>
 
-<!-- FORM INPUT MODAL -->
 <div id="form-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
@@ -373,7 +357,6 @@
           <input type="date" id="inp-date" class="field-control" required>
         </div>
         
-        <!-- Stock Fields -->
         <div id="field-stock" class="hidden">
           <div style="background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:12px;">
             <div style="font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;">Gudang Terpilih</div>
@@ -403,10 +386,9 @@
           </div>
         </div>
 
-        <!-- PATCH CORD FIELDS -->
         <div id="field-patchcord" class="hidden">
           <div style="background:#f0fdf4;padding:12px;border-radius:12px;margin-bottom:12px;border:1px solid #bbf7d0;">
-            <div style="font-size:12px;font-weight:600;color:#166534;margin-bottom:6px;"> Spesifikasi Patch Cord</div>
+            <div style="font-size:12px;font-weight:600;color:#166534;margin-bottom:6px;">📦 Spesifikasi Patch Cord</div>
             <div id="patchcord-gudang-display" style="font-size:14px;font-weight:700;color:#16a34a;"></div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
@@ -460,7 +442,6 @@
           </div>
         </div>
 
-        <!-- Normal Fields (Non-Stock) -->
         <div id="field-normal">
            <label style="font-size:12px;font-weight:600;color:#475569;">Nama Lokasi</label>
            <input type="text" id="inp-loc" class="field-control">
@@ -491,7 +472,6 @@
   </div>
 </div>
 
-<!-- HISTORY MODAL -->
 <div id="history-modal" class="modal-layer hidden">
   <div class="modal-card" style="max-width:700px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
@@ -510,7 +490,6 @@
   </div>
 </div>
 
-<!-- RETUR PAGE -->
 <div id="retur-page" class="hidden" style="min-height:100vh;background:#f8fafc;padding:20px;padding-bottom:100px;">
   <div style="max-width:800px;margin:0 auto;">
     <button id="back-to-main" class="secondary-button" style="margin-bottom:20px;display:flex;align-items:center;gap:6px;"><i data-lucide="arrow-left" style="width:16px;"></i> Kembali</button>
@@ -579,11 +558,10 @@
   </div>
 </div>
 
-<!-- SETTINGS MODAL -->
 <div id="settings-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <h3 style="margin:0;font-size:20px;font-weight:800;">⚙️ Pengaturan</h3>
+      <h3 style="margin:0;font-size:20px;font-weight:800;">️ Pengaturan</h3>
       <button onclick="document.getElementById('settings-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;"><i data-lucide="x" style="width:26px;color:#64748b;"></i></button>
     </div>
     
@@ -641,7 +619,6 @@
   </div>
 </div>
 
-<!-- ADD USER MODAL -->
 <div id="user-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
@@ -672,7 +649,6 @@
 </div>
 
 <script>
-  // ================= CONFIGURATION =================
   const firebaseConfig = {
     apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
     authDomain: "bucin-18282.firebaseapp.com",
@@ -686,7 +662,6 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  // State
   let currentUser = null;
   let currentCategory = 'dashboard';
   let appData = {};
@@ -701,7 +676,6 @@
   let chartIncidents = null;
   let chartAssets = null;
 
-  // App Settings
   let appSettings = {
     heroTitle: 'Barisan Utama Cegah Insiden',
     heroSubtitle: 'Pusat Operasi Jaringan Sulawesi Utara',
@@ -718,10 +692,8 @@
     '333444': 'Kabel Drop Core 2'
   };
 
-  // Categories that need coords & SOP
   const COORD_CATEGORIES = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM/OLS', 'Joint', 'Handhole', 'Alkur/Material'];
 
-  // ================= INITIALIZATION =================
   document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
     loadSettings();
@@ -787,7 +759,6 @@
     });
   }
 
-  // ================= AUTH =================
   document.getElementById('login-btn').addEventListener('click', () => {
     const u = document.getElementById('login-username').value.trim();
     const p = document.getElementById('login-password').value;
@@ -809,7 +780,7 @@
         showToast('✅ Login berhasil');
         resetInactivityTimer();
       } else {
-        showToast(' Pengguna tidak ditemukan atau password salah', true);
+        showToast('❌ Pengguna tidak ditemukan atau password salah', true);
       }
     });
   });
@@ -824,7 +795,6 @@
 
   document.getElementById('logout-btn').addEventListener('click', () => location.reload());
 
-  // ================= NAVIGATION =================
   function setupEventListeners() {
     document.querySelectorAll('.nav-item').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -856,11 +826,9 @@
       showToast('✅ User berhasil ditambahkan');
     });
 
-    // History Button
     document.getElementById('btn-history').addEventListener('click', showHistory);
     document.getElementById('btn-download-excel').addEventListener('click', downloadHistoryExcel);
 
-    // Retur Page
     document.getElementById('btn-retur-page').addEventListener('click', () => {
       document.getElementById('app-shell').classList.add('hidden');
       document.getElementById('retur-page').classList.remove('hidden');
@@ -878,7 +846,6 @@
     document.getElementById('btn-print-ret').addEventListener('click', printReturExcel);
     document.getElementById('btn-reset-ret').addEventListener('click', initReturPage);
 
-    // Settings
     document.getElementById('settings-btn').addEventListener('click', () => {
       document.getElementById('settings-modal').classList.remove('hidden');
     });
@@ -890,7 +857,6 @@
       appSettings.bgImage = document.getElementById('set-bg-image').value;
       appSettings.bgOpacity = parseInt(document.getElementById('set-bg-opacity').value);
       
-      // Handle uploaded image
       const uploadInput = document.getElementById('set-bg-upload');
       if(uploadInput.files.length > 0) {
         const reader = new FileReader();
@@ -953,7 +919,6 @@
     if(cat !== 'dashboard') renderTable();
   }
 
-  // ================= CHARTS =================
   function initCharts() {
     const ctx1 = document.getElementById('chartIncidents').getContext('2d');
     const ctx2 = document.getElementById('chartAssets').getContext('2d');
@@ -987,7 +952,6 @@
     }
   }
 
-  // ================= DASHBOARD & MAP =================
   function updateDashboard() {
     updateCharts();
     updateMapMarkers();
@@ -1058,7 +1022,6 @@
     });
   }
 
-  // ================= TABLE & CRUD =================
   function renderTable() {
     const list = appData[currentCategory] || {};
     const keys = Object.keys(list);
@@ -1096,6 +1059,17 @@
           <td>${item.qty}</td>
           <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
         </tr>`;
+      } else if(isStock) {
+        let bgType = item.trType === 'Masuk' ? '#dcfce7' : '#fee2e2';
+        row = `<tr>
+          <td style="white-space:nowrap;">${item.date}</td>
+          <td><span style="font-size:11px;font-weight:600;color:#475569;">${item.gudang || '-'}</span></td>
+          <td>${item.barcode || '-'}</td>
+          <td>${item.spec || item.notes || '-'}</td>
+          <td><span style="padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;background:${bgType}">${item.trType}</span></td>
+          <td>${item.qty}</td>
+          <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
+        </tr>`;
       } else {
         row = `<tr>
           <td style="white-space:nowrap;">${item.date}</td>
@@ -1111,7 +1085,6 @@
     lucide.createIcons();
   }
 
-  // ================= PATCH CORD DROPDOWN HANDLERS =================
   window.handlePatchCordTypeChange = function() {
     const sel = document.getElementById('inp-pc-type');
     const custom = document.getElementById('inp-pc-type-custom');
@@ -1137,7 +1110,6 @@
     };
   }
 
-  // ================= FORM HANDLING =================
   function openForm() {
     document.getElementById('form-modal').classList.remove('hidden');
     document.getElementById('inp-cat').value = currentCategory;
@@ -1245,7 +1217,6 @@
     }
   };
 
-  // ================= HISTORY =================
   function showHistory() {
     const list = appData[currentCategory] || {};
     const tbody = document.getElementById('history-body');
@@ -1275,7 +1246,6 @@
     XLSX.writeFile(wb, `Riwayat_${currentCategory}_${new Date().toISOString().slice(0,10)}.xlsx`);
   }
 
-  // ================= SCANNER =================
   function toggleScanner(type) {
     const containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
     const previewId = type === 'modal' ? 'modal-camera-preview' : 'ret-camera-preview';
@@ -1325,7 +1295,6 @@
     });
   }
 
-  // ================= RETUR =================
   function initReturPage() {
     document.getElementById('ret-no').value = 'RET-' + Date.now().toString().slice(-6);
     document.getElementById('ret-date').valueAsDate = new Date();
@@ -1381,7 +1350,6 @@
     XLSX.writeFile(wb, `Retur_${document.getElementById('ret-no').value}.xlsx`);
   }
 
-  // ================= UTILS =================
   function showToast(msg, isError=false) {
     const t = document.createElement('div');
     t.className = 'toast show';
@@ -1393,4 +1361,3 @@
 </script>
 </body>
 </html>
-
