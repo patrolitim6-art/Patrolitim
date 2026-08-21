@@ -20,7 +20,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
   <style>
-    /* ===== THEME VARIABLES - BIRU ===== */
+    /* ===== THEME VARIABLES ===== */
     :root {
       --primary-blue: #2563EB;
       --primary-blue-dark: #1D4ED8;
@@ -188,6 +188,15 @@
       border-radius: 50%;
     }
     .hero-panel h1, .hero-panel p { position: relative; z-index: 1; }
+    .hero-panel .hero-image {
+      position: relative;
+      z-index: 1;
+      margin-top: 12px;
+      border-radius: 12px;
+      overflow: hidden;
+      max-height: 120px;
+      object-fit: cover;
+    }
     
     .field-control { 
       width:100%; min-height:46px; border:2px solid var(--line); border-radius:12px; 
@@ -255,6 +264,10 @@
     }
     .custom-map-btn:hover { background:white; transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.12); }
     .custom-map-btn.active { background: var(--blue-gradient); color:white; border-color:var(--primary-blue); }
+    
+    .leaflet-control-geocoder {
+      display: none !important;
+    }
     
     .scanner-wrapper {
       position: relative; width: 100%; max-width: 400px; height: 260px;
@@ -473,10 +486,30 @@
     .return-barcode-input { flex: 0 1 200px; min-width: 120px; max-width: 260px; }
     
     .settings-section h4 { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text-dark); }
+    .settings-section .upload-area {
+      border: 2px dashed var(--line);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .settings-section .upload-area:hover {
+      border-color: var(--primary-blue);
+      background: var(--primary-blue-light);
+    }
+    .settings-section .upload-area img {
+      max-width: 100%;
+      max-height: 100px;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
     
-    /* Map modal - no geocoder */
-    .leaflet-control-geocoder {
-      display: none !important;
+    .chart-container {
+      height: 160px;
+    }
+    .chart-container canvas {
+      max-height: 160px;
     }
     
     @media(min-width:768px) {
@@ -568,7 +601,14 @@
       <div class="hero-panel">
         <h1 style="margin:0;font-size:26px;font-weight:800;line-height:1.2;" id="hero-title">Barisan Utama<br>Cegah Insiden</h1>
         <p style="margin:8px 0 0;opacity:0.9;font-size:15px;font-weight:500;" id="hero-subtitle">Pusat Operasi Jaringan Sulawesi Utara</p>
-        <div style="position:relative;z-index:1;margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+        <!-- Hero Image dari pengaturan -->
+        <div id="hero-image-container" style="display:none;margin-top:12px;position:relative;z-index:1;border-radius:12px;overflow:hidden;max-height:120px;">
+          <img id="hero-image-display" src="" alt="Hero Image" style="width:100%;object-fit:cover;max-height:120px;">
+          <div style="position:absolute;bottom:8px;right:12px;background:rgba(0,0,0,0.5);color:white;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:600;">
+            <i data-lucide="image" style="width:12px;display:inline;"></i> Hero
+          </div>
+        </div>
+        <div style="position:relative;z-index:1;margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
           <span style="background:rgba(255,255,255,0.2);padding:4px 14px;border-radius:99px;font-size:11px;font-weight:600;backdrop-filter:blur(4px);">🔵 Aktif</span>
           <span style="background:rgba(251,191,36,0.25);padding:4px 14px;border-radius:99px;font-size:11px;font-weight:600;backdrop-filter:blur(4px);">⭐ Prioritas</span>
           <span style="background:rgba(239,68,68,0.2);padding:4px 14px;border-radius:99px;font-size:11px;font-weight:600;backdrop-filter:blur(4px);">🔥 Hot</span>
@@ -577,11 +617,35 @@
       
       <div class="dashboard-grid">
         <div class="card">
-          <h3 style="margin:0 0 14px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
+          <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
             <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-blue);"></span>
             Grafik Statistik Insiden
           </h3>
-          <canvas id="chartIncidents" height="200"></canvas>
+          <div class="chart-container">
+            <canvas id="chartIncidents"></canvas>
+          </div>
+        </div>
+        <!-- About Us -->
+        <div class="card">
+          <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-gold);"></span>
+            About Us - Tim Patroli BUCIN
+          </h3>
+          <p style="font-size:13px;color:var(--text-muted);line-height:1.6;" id="about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
+          <ul style="margin-top:8px;">
+            <li style="display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0;color:var(--text-muted);">
+              <i data-lucide="check-circle-2" style="width:16px;color:var(--primary-blue);"></i> Pemantauan ruas kabel OF Cut & Joint
+            </li>
+            <li style="display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0;color:var(--text-muted);">
+              <i data-lucide="check-circle-2" style="width:16px;color:var(--primary-blue);"></i> Koordinasi pihak ketiga konstruksi
+            </li>
+            <li style="display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0;color:var(--text-muted);">
+              <i data-lucide="check-circle-2" style="width:16px;color:var(--primary-blue);"></i> Penanganan temuan lapangan real-time
+            </li>
+            <li style="display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0;color:var(--text-muted);">
+              <i data-lucide="check-circle-2" style="width:16px;color:var(--primary-blue);"></i> Manajemen stok Patch Cord & Spare
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -608,20 +672,6 @@
             <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
           </div>
         </div>
-      </div>
-
-      <div class="card" style="margin-top:20px;">
-        <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
-          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-gold);"></span>
-          About Us - Tim Patroli BUCIN
-        </h3>
-        <p style="font-size:14px;color:var(--text-muted);line-height:1.6;">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
-        <ul>
-          <li><i data-lucide="check-circle-2" style="width:18px;color:var(--primary-blue);"></i> Pemantauan rutin ruas kabel OF Cut & Joint</li>
-          <li><i data-lucide="check-circle-2" style="width:18px;color:var(--primary-blue);"></i> Koordinasi dengan pihak ketiga untuk pekerjaan konstruksi</li>
-          <li><i data-lucide="check-circle-2" style="width:18px;color:var(--primary-blue);"></i> Penanganan temuan lapangan secara real-time</li>
-          <li><i data-lucide="check-circle-2" style="width:18px;color:var(--primary-blue);"></i> Manajemen stok Patch Cord & Spare Part terintegrasi</li>
-        </ul>
       </div>
     </section>
 
@@ -760,6 +810,11 @@
               <input type="number" id="inp-qty" class="field-control" value="1" min="1" required>
             </div>
           </div>
+          <!-- Keterangan WAJIB untuk Stok Spare dan Patch Cord -->
+          <div style="margin-top:8px;">
+            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan <span style="color:#EF4444;">*</span></label>
+            <textarea id="inp-notes-stock" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Wajib diisi: keterangan barang..." required></textarea>
+          </div>
           <div id="modal-scanner" class="scanner-wrapper">
              <video id="modal-camera-preview" autoplay playsinline muted></video>
              <div class="scanner-guide"></div>
@@ -823,6 +878,11 @@
               </select>
             </div>
           </div>
+          <!-- Keterangan WAJIB untuk Patch Cord -->
+          <div style="margin-top:8px;">
+            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan <span style="color:#EF4444;">*</span></label>
+            <textarea id="inp-notes-patch" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Wajib diisi: keterangan patch cord..." required></textarea>
+          </div>
         </div>
 
         <!-- NORMAL FIELDS -->
@@ -864,6 +924,7 @@
           </div>
         </div>
 
+        <!-- Keterangan untuk menu non-stock -->
         <div id="field-notes-wrap">
           <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan Tambahan</label>
           <textarea id="inp-notes" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Catatan tambahan..."></textarea>
@@ -878,7 +939,7 @@
   </div>
 </div>
 
-<!-- Modal Peta untuk Pencarian Lokasi - Tanpa Geocoder di dalam -->
+<!-- Modal Peta untuk Pencarian Lokasi -->
 <div id="map-modal" class="modal-layer hidden">
   <div class="modal-card" style="max-width:700px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
@@ -888,7 +949,6 @@
       </h3>
       <button onclick="closeMapModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
     </div>
-    <!-- Pencarian Lokasi di luar maps -->
     <div style="margin-bottom:12px;display:flex;gap:8px;">
       <input type="text" id="map-search-input" class="field-control" placeholder="Cari lokasi..." style="flex:1;" onkeydown="if(event.key==='Enter') searchLocation()">
       <button onclick="searchLocation()" class="btn-primary" style="padding:0 20px;border-radius:12px;">
@@ -1019,6 +1079,28 @@
       </h3>
       <button onclick="document.getElementById('settings-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
     </div>
+    
+    <!-- Hero Image Upload -->
+    <div class="settings-section" style="margin-bottom:20px;">
+      <h4>🖼️ Gambar Hero Dashboard</h4>
+      <div class="upload-area" onclick="document.getElementById('hero-image-input').click()">
+        <i data-lucide="image" style="width:32px;height:32px;color:var(--text-muted);"></i>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:4px;">Klik untuk upload gambar</p>
+        <input type="file" id="hero-image-input" accept="image/*" style="display:none;" onchange="uploadHeroImage(this)">
+        <div id="hero-image-preview" style="display:none;margin-top:8px;">
+          <img id="hero-image-preview-img" src="" alt="Preview" style="max-width:100%;max-height:100px;border-radius:8px;">
+        </div>
+      </div>
+      <button id="btn-remove-hero" class="btn-secondary" style="margin-top:8px;width:100%;justify-content:center;color:#EF4444;border-color:#EF4444;">Hapus Gambar</button>
+    </div>
+    
+    <!-- Edit About Text -->
+    <div class="settings-section" style="margin-bottom:20px;">
+      <h4>📝 Edit Keterangan About</h4>
+      <textarea id="about-text-input" class="field-control" rows="3" style="border-radius:12px;resize:vertical;" placeholder="Tulis keterangan about..."></textarea>
+      <button id="btn-save-about" class="btn-primary" style="width:100%;margin-top:8px;justify-content:center;">Simpan Keterangan</button>
+    </div>
+    
     <div class="settings-section">
       <h4>🎨 Tampilan Background</h4>
       <div style="display:grid;gap:12px;">
@@ -1043,7 +1125,7 @@
         </div>
       </div>
     </div>
-    <button id="btn-save-settings" class="btn-primary" style="width:100%;justify-content:center;border-radius:20px;padding:12px;">Simpan Pengaturan</button>
+    <button id="btn-save-settings" class="btn-primary" style="width:100%;justify-content:center;border-radius:20px;padding:12px;margin-top:16px;">Simpan Pengaturan</button>
   </div>
 </div>
 
@@ -1093,6 +1175,7 @@ let editingKey = null;
 let selectedSOP = [];
 let scannerStream = null;
 let isSubmitting = false;
+let heroImageData = null;
 
 // MASTER BARCODES
 const MASTER_BARCODES = {
@@ -1135,7 +1218,34 @@ document.addEventListener('DOMContentLoaded', function() {
   setupEventListeners();
   initSOPUI();
   loadData();
+  loadSettings();
 });
+
+// ============================================================
+// LOAD SETTINGS
+// ============================================================
+function loadSettings() {
+  db.ref('settings').once('value').then(snap => {
+    const settings = snap.val() || {};
+    if (settings.heroImage) {
+      heroImageData = settings.heroImage;
+      document.getElementById('hero-image-container').style.display = 'block';
+      document.getElementById('hero-image-display').src = settings.heroImage;
+    }
+    if (settings.aboutText) {
+      document.getElementById('about-text').textContent = settings.aboutText;
+    }
+    if (settings.bgColor1) {
+      document.getElementById('set-bg-color1').value = settings.bgColor1;
+    }
+    if (settings.bgColor2) {
+      document.getElementById('set-bg-color2').value = settings.bgColor2;
+    }
+    if (settings.bgImage) {
+      document.getElementById('set-bg-image').value = settings.bgImage;
+    }
+  }).catch(err => console.error('❌ Error loading settings:', err));
+}
 
 // ============================================================
 // LOAD DATA
@@ -1223,9 +1333,13 @@ function handleLogin(e) {
         document.getElementById('login-screen').classList.add('hidden');
         document.getElementById('app-shell').classList.remove('hidden');
         
+        // Admin hanya bisa lihat Add User dan Settings
         if (currentUser.role === 'admin') {
           document.getElementById('add-user-btn').classList.remove('hidden');
           document.getElementById('settings-btn').classList.remove('hidden');
+        } else {
+          document.getElementById('add-user-btn').classList.add('hidden');
+          document.getElementById('settings-btn').classList.add('hidden');
         }
         
         setTimeout(() => {
@@ -1397,9 +1511,42 @@ function setupEventListeners() {
   if (settingsBtn) {
     settingsBtn.addEventListener('click', function() {
       document.getElementById('settings-modal').classList.remove('hidden');
+      document.getElementById('about-text-input').value = document.getElementById('about-text').textContent;
     });
   }
   
+  // Save About
+  const saveAboutBtn = document.getElementById('btn-save-about');
+  if (saveAboutBtn) {
+    saveAboutBtn.addEventListener('click', function() {
+      const text = document.getElementById('about-text-input').value.trim();
+      if (text) {
+        document.getElementById('about-text').textContent = text;
+        db.ref('settings/aboutText').set(text);
+        showToast('✅ Keterangan About disimpan', 'success');
+        document.getElementById('settings-modal').classList.add('hidden');
+      } else {
+        showToast('❌ Keterangan tidak boleh kosong', 'error');
+      }
+    });
+  }
+  
+  // Remove Hero Image
+  const removeHeroBtn = document.getElementById('btn-remove-hero');
+  if (removeHeroBtn) {
+    removeHeroBtn.addEventListener('click', function() {
+      if (confirm('Hapus gambar hero?')) {
+        heroImageData = null;
+        document.getElementById('hero-image-container').style.display = 'none';
+        document.getElementById('hero-image-display').src = '';
+        document.getElementById('hero-image-preview').style.display = 'none';
+        db.ref('settings/heroImage').remove();
+        showToast('✅ Gambar hero dihapus', 'success');
+      }
+    });
+  }
+  
+  // Save Settings
   const saveSettingsBtn = document.getElementById('btn-save-settings');
   if (saveSettingsBtn) {
     saveSettingsBtn.addEventListener('click', function() {
@@ -1407,6 +1554,9 @@ function setupEventListeners() {
       const bg2 = document.getElementById('set-bg-color2').value;
       const img = document.getElementById('set-bg-image').value;
       const op = document.getElementById('set-bg-opacity').value;
+      
+      const settings = { bgColor1: bg1, bgColor2: bg2, bgImage: img, bgOpacity: op };
+      db.ref('settings').update(settings);
       
       document.documentElement.style.setProperty('--bg-light', bg1);
       
@@ -1418,6 +1568,28 @@ function setupEventListeners() {
       
       document.getElementById('settings-modal').classList.add('hidden');
       showToast('✅ Pengaturan disimpan', 'success');
+    });
+  }
+  
+  // Hero Image Upload
+  const heroInput = document.getElementById('hero-image-input');
+  if (heroInput) {
+    heroInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const imageData = event.target.result;
+          heroImageData = imageData;
+          document.getElementById('hero-image-container').style.display = 'block';
+          document.getElementById('hero-image-display').src = imageData;
+          document.getElementById('hero-image-preview').style.display = 'block';
+          document.getElementById('hero-image-preview-img').src = imageData;
+          db.ref('settings/heroImage').set(imageData);
+          showToast('✅ Gambar hero diupload', 'success');
+        };
+        reader.readAsDataURL(file);
+      }
     });
   }
   
@@ -1449,13 +1621,12 @@ function setupEventListeners() {
 }
 
 // ============================================================
-// MAP MODAL FUNCTIONS - Tanpa Geocoder di dalam maps
+// MAP MODAL FUNCTIONS
 // ============================================================
 function openMapModal() {
   const modal = document.getElementById('map-modal');
   modal.classList.remove('hidden');
   
-  // Init map modal if not exists
   if (!mapModal) {
     setTimeout(() => {
       const container = document.getElementById('map-modal-container');
@@ -1464,14 +1635,12 @@ function openMapModal() {
         attribution: 'Google' 
       }).addTo(mapModal);
       
-      // Click on map to select location
       mapModal.on('click', function(e) {
         selectedMapLocation = {
           lat: e.latlng.lat,
           lng: e.latlng.lng,
           name: 'Lokasi Terpilih'
         };
-        // Add marker
         if (mapModalMarker) {
           mapModal.removeLayer(mapModalMarker);
         }
@@ -1480,7 +1649,6 @@ function openMapModal() {
         showToast('📍 Lokasi dipilih di peta', 'success');
       });
       
-      // Resize map after modal opens
       setTimeout(() => {
         mapModal.invalidateSize();
       }, 300);
@@ -1504,7 +1672,6 @@ function closeMapModal() {
   document.getElementById('map-search-input').value = '';
 }
 
-// Fungsi pencarian lokasi menggunakan Leaflet Geocoder via fetch
 function searchLocation() {
   const query = document.getElementById('map-search-input').value.trim();
   if (!query) {
@@ -1512,7 +1679,6 @@ function searchLocation() {
     return;
   }
   
-  // Gunakan Nominatim API untuk geocoding
   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&countrycodes=id`;
   
   showToast('🔍 Mencari lokasi...', 'success');
@@ -1531,7 +1697,6 @@ function searchLocation() {
           name: result.display_name || query
         };
         
-        // Pindah peta ke lokasi
         if (mapModal) {
           mapModal.setView([lat, lng], 15);
           if (mapModalMarker) {
@@ -1582,7 +1747,6 @@ function getCurrentLocation() {
           name: 'Lokasi Saya'
         };
         
-        // Reverse geocoding untuk dapat nama
         fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`)
           .then(response => response.json())
           .then(data => {
@@ -1674,6 +1838,8 @@ function openForm() {
   document.getElementById('inp-loc').value = '';
   document.getElementById('inp-coords').value = '';
   document.getElementById('inp-notes').value = '';
+  document.getElementById('inp-notes-stock').value = '';
+  document.getElementById('inp-notes-patch').value = '';
   document.getElementById('inp-barcode').value = '';
   document.getElementById('inp-spec').value = '';
   document.getElementById('inp-qty').value = '1';
@@ -1694,6 +1860,7 @@ function openForm() {
   document.getElementById('field-normal').classList.remove('hidden');
   document.getElementById('field-coords-wrap').classList.add('hidden');
   document.getElementById('sop-container').style.display = 'none';
+  document.getElementById('field-notes-wrap').classList.remove('hidden');
   
   const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
   const isPatch = currentCategory === 'Patch Cord';
@@ -1703,6 +1870,7 @@ function openForm() {
     document.getElementById('field-normal').classList.add('hidden');
     document.getElementById('selected-gudang-display').textContent = selectedGudang || 'Belum dipilih';
     document.getElementById('inp-gudang-selected').value = selectedGudang || '';
+    document.getElementById('field-notes-wrap').classList.add('hidden');
     
     if (isPatch) {
       document.getElementById('field-patchcord').classList.remove('hidden');
@@ -1728,7 +1896,7 @@ function closeModal() {
 }
 
 // ============================================================
-// SUBMIT FORM
+// SUBMIT FORM - FIXED
 // ============================================================
 function submitForm(e) {
   e.preventDefault();
@@ -1763,8 +1931,16 @@ function submitForm(e) {
       pcLength = document.getElementById('inp-pc-length-custom').value;
     }
     
+    const notes = document.getElementById('inp-notes-patch').value.trim();
+    
     if (!pcType || !pcLength) {
       showToast('❌ Isi semua field patch cord', 'error');
+      isSubmitting = false;
+      return;
+    }
+    
+    if (!notes) {
+      showToast('❌ Keterangan wajib diisi', 'error');
       isSubmitting = false;
       return;
     }
@@ -1774,15 +1950,22 @@ function submitForm(e) {
     data.pcLength = pcLength;
     data.qty = parseInt(document.getElementById('inp-pc-qty').value) || 1;
     data.trType = document.getElementById('inp-pc-trtype').value;
-    data.notes = document.getElementById('inp-notes').value;
+    data.notes = notes;
     
   } else if (isStock) {
     const barcode = document.getElementById('inp-barcode').value.trim();
     const spec = document.getElementById('inp-spec').value.trim();
     const qty = parseInt(document.getElementById('inp-qty').value) || 1;
+    const notes = document.getElementById('inp-notes-stock').value.trim();
     
     if (!barcode || !spec) {
       showToast('❌ Isi barcode dan nama barang', 'error');
+      isSubmitting = false;
+      return;
+    }
+    
+    if (!notes) {
+      showToast('❌ Keterangan wajib diisi', 'error');
       isSubmitting = false;
       return;
     }
@@ -1792,7 +1975,7 @@ function submitForm(e) {
     data.spec = spec;
     data.qty = qty;
     data.trType = document.getElementById('inp-tr-type').value;
-    data.notes = document.getElementById('inp-notes').value;
+    data.notes = notes;
     
   } else {
     const location = document.getElementById('inp-loc').value.trim();
@@ -1830,16 +2013,15 @@ function submitForm(e) {
     showToast('✅ Data berhasil disimpan', 'success');
     
     // Untuk menu Spare, Alkur, Patch Cord - modal tetap terbuka
-    // Untuk menu lain - modal tertutup
     if (isStock || isAlkur) {
-      // Reset form tapi tetap di modal
+      // Reset form
       document.getElementById('inp-barcode').value = '';
       document.getElementById('inp-spec').value = '';
       document.getElementById('inp-qty').value = '1';
       document.getElementById('inp-pc-qty').value = '1';
-      document.getElementById('inp-notes').value = '';
+      document.getElementById('inp-notes-stock').value = '';
+      document.getElementById('inp-notes-patch').value = '';
       
-      // Reset patch cord specific
       if (isPatch) {
         document.getElementById('inp-pc-type').value = '';
         document.getElementById('inp-pc-type-custom').classList.add('hidden');
@@ -1849,10 +2031,7 @@ function submitForm(e) {
         document.getElementById('inp-pc-length-custom').value = '';
       }
       
-      // Update date to today
       document.getElementById('inp-date').valueAsDate = new Date();
-      
-      // Fokus ke barcode
       document.getElementById('inp-barcode').focus();
     } else {
       closeModal();
@@ -1860,7 +2039,6 @@ function submitForm(e) {
     
     isSubmitting = false;
     
-    // Update stok summary setelah data disimpan
     setTimeout(() => {
       updateStokSummary();
       renderTable();
@@ -2126,15 +2304,25 @@ function initCharts() {
             label: 'Jumlah',
             data: [0,0,0],
             backgroundColor: ['#2563EB', '#F59E0B', '#EF4444'],
-            borderRadius: 8,
+            borderRadius: 6,
             borderSkipped: false
           }]
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } } },
-          maintainAspectRatio: true
+          scales: { 
+            y: { 
+              beginAtZero: true, 
+              grid: { color: 'rgba(0,0,0,0.05)' },
+              ticks: { font: { size: 10 } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 10 } }
+            }
+          }
         }
       });
       updateCharts();
@@ -2389,7 +2577,7 @@ function downloadHistoryExcel() {
 }
 
 // ============================================================
-// RETUR FUNCTIONS
+// RETUR FUNCTIONS - FIXED
 // ============================================================
 function initReturPage() {
   document.getElementById('ret-no').value = 'RET-' + Date.now().toString().slice(-6);
@@ -2477,35 +2665,37 @@ function saveRetur() {
     createdAt: Date.now() 
   };
   
-  db.ref('returs').push(returData).then(() => {
-    const promises = returnItems.map(item => {
-      return db.ref('data/Stok Spare').push({ 
-        date: returData.date, 
-        barcode: item.barcode, 
-        spec: item.name, 
-        trType: 'Retur', 
-        qty: item.qty, 
-        gudang: returData.gudang, 
-        postBy: currentUser ? currentUser.name : 'System', 
-        notes: `Retur No: ${returData.no}`, 
-        createdAt: Date.now() 
+  db.ref('returs').push(returData)
+    .then(() => {
+      const promises = returnItems.map(item => {
+        return db.ref('data/Stok Spare').push({ 
+          date: returData.date, 
+          barcode: item.barcode, 
+          spec: item.name, 
+          trType: 'Retur', 
+          qty: item.qty, 
+          gudang: returData.gudang, 
+          postBy: currentUser ? currentUser.name : 'System', 
+          notes: `Retur No: ${returData.no}`, 
+          createdAt: Date.now() 
+        });
       });
+      return Promise.all(promises);
+    })
+    .then(() => {
+      showToast('✅ Retur disimpan', 'success');
+      initReturPage();
+      if (currentCategory === 'Stok Spare') {
+        setTimeout(() => {
+          updateStokSummary();
+          renderTable();
+        }, 500);
+      }
+    })
+    .catch(err => {
+      console.error('❌ Error saving retur:', err);
+      showToast('❌ Gagal menyimpan retur: ' + err.message, 'error');
     });
-    
-    return Promise.all(promises);
-  }).then(() => {
-    showToast('✅ Retur disimpan', 'success');
-    initReturPage();
-    if (currentCategory === 'Stok Spare') {
-      setTimeout(() => {
-        updateStokSummary();
-        renderTable();
-      }, 500);
-    }
-  }).catch(err => {
-    console.error('❌ Error saving retur:', err);
-    showToast('❌ Gagal menyimpan retur: ' + err.message, 'error');
-  });
 }
 
 function printReturExcel() {
