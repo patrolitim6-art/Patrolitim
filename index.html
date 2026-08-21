@@ -4,46 +4,47 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>BUCIN — Cegah Insiden Network</title>
-  
+
+  <!-- CDN Libraries -->
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax_modules/@placemark/leaflet-kml/1.0.0/index.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Libre+Franklin:wght@700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
   
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
-
   <style>
+    /* ===== VARIABEL & RESET ===== */
     :root {
       --primary:#2563eb; --primary-light:#dbeafe; --ink:#0f172a; --muted:#64748b;
       --line:#e2e8f0; --card-bg:#ffffff; --radius:16px;
       --bg-grad1:#f8fafc; --bg-grad2:#f1f5f9;
+      --blue: #1877f2; --blue-dark: #0f5ec7;
     }
-    * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    * { box-sizing:border-box; margin: 0; padding: 0; -webkit-tap-highlight-color:transparent; }
     body { 
-      margin:0; font-family:'Inter','DM Sans',sans-serif; 
+      margin:0; font-family:'DM Sans', sans-serif; 
       background:linear-gradient(135deg, var(--bg-grad1), var(--bg-grad2)); 
       color:var(--ink); overflow-x:hidden; padding-bottom:80px; 
       transition: background 0.3s ease;
     }
     
+    /* HEADER & NAV */
     .top-header { 
       position:sticky; top:0; z-index:40; height:60px; 
       border-bottom:1px solid rgba(226,232,240,.8); backdrop-filter:blur(20px); 
-      background:rgba(255,255,255,0.85); display:flex; align-items:center; justify-content:space-between; padding:0 16px; 
+      background:rgba(255,255,255,0.9); display:flex; align-items:center; justify-content:space-between; padding:0 16px; 
     }
     .brand-mark { 
       width:36px; height:36px; border-radius:12px; display:grid; place-items:center; 
       color:white; background:linear-gradient(135deg,#3b82f6,#1d4ed8); 
       box-shadow:0 4px 12px rgba(37,99,235,0.3);
     }
-    
     .bottom-nav { 
       position:fixed; bottom:0; left:0; right:0; height:70px; 
       background:rgba(255,255,255,0.95); backdrop-filter:blur(20px);
@@ -57,8 +58,8 @@
     }
     .nav-item.active { color:var(--primary); font-weight:600; transform:translateY(-2px); }
     .nav-item i { width:24px; height:24px; transition:transform 0.2s; }
-    .nav-item:hover i { transform:scale(1.1); }
     
+    /* MAIN CONTENT */
     .main-content { max-width:1280px; margin:auto; padding:16px; }
     .hero-panel { 
       border-radius:20px; padding:24px; 
@@ -66,20 +67,39 @@
       color:white; box-shadow:0 12px 32px rgba(37,99,235,0.25); margin-bottom:20px; 
       position:relative; overflow:hidden;
     }
-    
     .dashboard-grid { display:grid; grid-template-columns:1fr; gap:16px; margin-bottom:20px; }
     @media(min-width:768px) { .dashboard-grid { grid-template-columns:1fr 1fr; } }
+    
     .chart-card { 
       background:var(--card-bg); border:1px solid var(--line); border-radius:var(--radius); 
       padding:18px; box-shadow:0 4px 16px rgba(0,0,0,0.04); 
     }
-    #map-container { height:320px; border-radius:var(--radius); border:1px solid var(--line); z-index:1; }
     
+    /* MAPS CONTROLS (IKON SAJA) */
+    #map-container { height:320px; border-radius:var(--radius); border:1px solid var(--line); z-index:1; }
+    .leaflet-control-zoom { display:none !important; }
+    .custom-map-controls {
+      position:absolute; top:12px; right:12px; z-index:1000;
+      display:flex; flex-direction:column; gap:6px;
+    }
+    .custom-map-btn {
+      background:rgba(255,255,255,0.95); backdrop-filter:blur(10px);
+      border:1px solid rgba(0,0,0,0.1); border-radius:10px;
+      width:36px; height:36px; display:grid; place-items:center;
+      cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.1);
+      color:var(--ink); transition:all 0.2s;
+    }
+    .custom-map-btn:hover { background:white; transform:translateY(-1px); }
+    .custom-map-btn.active { background:var(--primary); color:white; border-color:var(--primary); }
+
+    /* FORMS & BUTTONS */
     .field-control { 
       width:100%; min-height:44px; border:1px solid #cbd5e1; border-radius:12px; 
       background:white; padding:0 14px; font-size:14px; outline:none; transition:all 0.2s; 
     }
     .field-control:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(37,99,235,0.15); }
+    .field-error { border-color: #ef4444 !important; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important; }
+    
     .primary-button { 
       background:var(--primary); color:white; border:0; border-radius:12px; 
       padding:12px 24px; font-weight:700; cursor:pointer; width:100%; 
@@ -96,7 +116,8 @@
     }
     .icon-btn:hover { background:#f1f5f9; color:var(--primary); }
     .icon-btn.delete { color:#ef4444; }
-    
+
+    /* MODALS */
     .modal-layer { 
       position:fixed; z-index:100; inset:0; background:rgba(15,23,42,0.6); 
       backdrop-filter:blur(8px); display:grid; place-items:end; 
@@ -106,10 +127,10 @@
       background:white; width:100%; max-width:520px; border-radius:24px 24px 0 0; 
       max-height:85vh; overflow-y:auto; padding:24px; animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1); 
     }
-    @media(min-width:640px) { .modal-card { border-radius:24px; } }
     @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
     .hidden { display:none !important; }
 
+    /* SCANNER STYLES (From v18) */
     .scanner-wrapper {
       position: relative; width: 100%; max-width: 360px; height: 240px;
       margin: 12px auto; border-radius: 16px; overflow: hidden; background: #0f172a;
@@ -128,7 +149,8 @@
       animation: scanLine 1.5s infinite ease-in-out; pointer-events: none;
     }
     @keyframes scanLine { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-    
+
+    /* TOAST */
     .toast { 
       position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-20px); 
       background:#0f172a; color:white; padding:12px 28px; border-radius:99px; 
@@ -137,6 +159,7 @@
     }
     .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
+    /* LOGIN */
     .login-screen { 
       position:fixed; inset:0; background:linear-gradient(135deg, #2563eb, #1e40af); 
       z-index:200; display:grid; place-items:center; padding:20px; 
@@ -146,6 +169,7 @@
       box-shadow:0 24px 64px rgba(0,0,0,0.3); 
     }
 
+    /* GUDANG SELECTOR */
     .gudang-selector {
       display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin:16px 0;
     }
@@ -154,47 +178,41 @@
       text-align:center; transition:all 0.2s; background:white;
     }
     .gudang-card.selected { border-color:var(--primary); background:var(--primary-light); box-shadow:0 0 0 3px rgba(37,99,235,0.15); }
-    .gudang-card i { width:28px; height:28px; color:var(--primary); margin-bottom:8px; }
-    .gudang-card span { display:block; font-weight:600; font-size:13px; }
-
-    .settings-section { margin-bottom:20px; }
-    .settings-section h4 { font-size:13px; font-weight:700; color:#475569; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em; }
-    .color-picker-row { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
-    .color-picker-row input[type="color"] { width:40px; height:40px; border:0; border-radius:10px; cursor:pointer; }
     
+    /* SETTINGS & ABOUT */
+    .settings-section { margin-bottom:20px; }
     .about-section { 
       background:var(--card-bg); border:1px solid var(--line); border-radius:var(--radius); 
       padding:20px; margin-top:20px; box-shadow:0 4px 16px rgba(0,0,0,0.04);
     }
-    .about-section h3 { font-size:18px; font-weight:800; margin-bottom:12px; color:var(--primary); }
-    .about-section p { font-size:14px; line-height:1.7; color:#475569; margin-bottom:8px; }
-    .about-section ul { list-style:none; padding:0; }
-    .about-section li { font-size:14px; color:#475569; padding:6px 0; border-bottom:1px solid #f1f5f9; display:flex; align-items:center; gap:8px; }
-    .about-section li:last-child { border-bottom:none; }
-
     .records-table { width:100%; border-collapse:collapse; font-size:13px; }
     .records-table th { background:#f8fafc; padding:12px; text-align:left; border-bottom:1px solid var(--line); font-weight:600; color:#64748b; white-space:nowrap; }
     .records-table td { padding:12px; border-bottom:1px solid #f1f5f9; vertical-align:middle; }
 
-    /* MAP CONTROLS ICON ONLY */
-    .leaflet-control-zoom { display:none !important; }
-    .custom-map-controls {
-      position:absolute; top:12px; right:12px; z-index:1000;
-      display:flex; flex-direction:column; gap:6px;
-    }
-    .custom-map-btn {
-      background:rgba(255,255,255,0.95); backdrop-filter:blur(10px);
-      border:1px solid rgba(0,0,0,0.1); border-radius:10px;
-      width:36px; height:36px; display:grid; place-items:center;
-      cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.1);
-      color:var(--ink); transition:all 0.2s;
-    }
-    .custom-map-btn:hover { background:white; transform:translateY(-1px); }
-    .custom-map-btn.active { background:var(--primary); color:white; border-color:var(--primary); }
+    /* PROCEDURE GRID (From v18) */
+    .procedure-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap: 6px; margin-top: 6px; }
+    .procedure-main-btn { border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px;
+      background: #f8fafc; font-weight: 700; font-size: 0.65rem; cursor: pointer; transition: .2s;
+      text-align: center; color: var(--ink); line-height: 1.2; }
+    .procedure-main-btn:hover { border-color: var(--blue); background: #e6f1ff; }
+    .procedure-main-btn.active { border-color: var(--blue); background: rgba(24,119,242,.12);
+      box-shadow: inset 0 0 0 1px var(--blue); }
+    .procedure-checklist { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px;
+      padding: 6px 8px; background: #f8fafc; border-radius: 6px; border: 1px solid var(--line); }
+    .check-item { padding: 2px 8px; border-radius: 4px; font-size: 0.65rem;
+      font-weight: 600; border: 1px solid var(--line); background: white; cursor: pointer; transition: .2s; }
+    .check-item.checked { background: var(--blue); color: white; border-color: var(--blue); }
+
+    /* RETUR PAGE (From v18) */
+    .retur-page { display: none; padding: 20px; max-width: 900px; margin: 0 auto; background: #f8fafc; min-height: 100vh; }
+    .retur-page.active { display: block; }
+    .return-scan-row-compact { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .return-barcode-input { flex: 0 1 200px; min-width: 100px; max-width: 240px; }
   </style>
 </head>
 <body>
 
+<!-- LOGIN SCREEN -->
 <div id="login-screen" class="login-screen">
   <div class="login-card">
     <div style="text-align:center;margin-bottom:28px;">
@@ -214,6 +232,7 @@
   </div>
 </div>
 
+<!-- APP SHELL -->
 <div id="app-shell" class="hidden">
   <header class="top-header">
     <div style="display:flex;align-items:center;gap:12px;">
@@ -228,6 +247,7 @@
   </header>
 
   <main class="main-content">
+    <!-- DASHBOARD VIEW -->
     <section id="dashboard-view">
       <div class="hero-panel">
         <h1 style="margin:0;font-size:24px;font-weight:800;line-height:1.2;" id="hero-title">Barisan Utama<br>Cegah Insiden</h1>
@@ -268,17 +288,17 @@
 
       <div class="about-section">
         <h3>About Us - Tim Patroli BUCIN</h3>
-        <p>Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara. Kami bekerja 24/7 untuk memastikan konektivitas tetap optimal.</p>
+        <p>Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
         <ul>
           <li><i data-lucide="check-circle-2" style="width:16px;color:#10b981;"></i> Pemantauan rutin ruas kabel OF Cut & Joint</li>
           <li><i data-lucide="check-circle-2" style="width:16px;color:#10b981;"></i> Koordinasi dengan pihak ketiga untuk pekerjaan konstruksi</li>
           <li><i data-lucide="check-circle-2" style="width:16px;color:#10b981;"></i> Penanganan temuan lapangan secara real-time</li>
           <li><i data-lucide="check-circle-2" style="width:16px;color:#10b981;"></i> Manajemen stok Patch Cord & Spare Part terintegrasi</li>
-          <li><i data-lucide="check-circle-2" style="width:16px;color:#10b981;"></i> Pelaporan insiden berbasis koordinat GPS akurat</li>
         </ul>
       </div>
     </section>
 
+    <!-- DATA VIEW -->
     <section id="data-view" class="hidden">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
         <h2 id="page-title" style="margin:0;font-size:22px;font-weight:800;">Data Operasional</h2>
@@ -304,6 +324,7 @@
     </section>
   </main>
 
+  <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <div class="nav-item active" data-cat="dashboard"><i data-lucide="layout-dashboard"></i><span>Home</span></div>
     <div class="nav-item" data-cat="Data OF Cut"><i data-lucide="scissors"></i><span>OF Cut</span></div>
@@ -318,6 +339,7 @@
   </nav>
 </div>
 
+<!-- MODAL GUDANG -->
 <div id="gudang-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="text-align:center;margin-bottom:8px;">
@@ -342,6 +364,7 @@
   </div>
 </div>
 
+<!-- MODAL FORM UTAMA -->
 <div id="form-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
@@ -465,6 +488,14 @@
           <input type="text" id="inp-coords" class="field-control" placeholder="Klik pada peta untuk mengisi" readonly required>
         </div>
         
+        <!-- PROSEDUR (FROM V18) -->
+        <div class="field-group full" id="procedure-container" style="display:none;">
+          <label style="font-size:12px;font-weight:600;color:#475569;">Prosedur Perbaikan <span style="color:red">*</span></label>
+          <div class="procedure-grid" id="procedure-grid"></div>
+          <div class="procedure-checklist" id="procedure-checklist" style="display:none;"></div>
+          <input type="hidden" id="form-procedure" value="">
+        </div>
+
         <div id="field-notes-wrap">
           <label style="font-size:12px;font-weight:600;color:#475569;">SOP / Keterangan</label>
           <textarea id="inp-notes" class="field-control" rows="2" style="resize:none;" placeholder="Deskripsikan SOP atau keterangan..."></textarea>
@@ -479,25 +510,8 @@
   </div>
 </div>
 
-<div id="history-modal" class="modal-layer hidden">
-  <div class="modal-card" style="max-width:700px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-      <h3 style="margin:0;font-size:20px;font-weight:800;">Riwayat Transaksi</h3>
-      <button onclick="document.getElementById('history-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;"><i data-lucide="x" style="width:26px;color:#64748b;"></i></button>
-    </div>
-    <div style="display:flex;gap:8px;margin-bottom:16px;">
-      <button id="btn-download-excel" class="primary-button" style="width:auto;padding:10px 16px;display:flex;align-items:center;gap:6px;"><i data-lucide="file-spreadsheet" style="width:16px;"></i> Download Excel</button>
-    </div>
-    <div style="overflow-x:auto;max-height:400px;overflow-y:auto;">
-      <table class="records-table">
-        <thead><tr><th>Tgl</th><th>User</th><th>Gudang</th><th>Item</th><th>Tipe</th><th>Qty</th></tr></thead>
-        <tbody id="history-body"></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<div id="retur-page" class="hidden" style="min-height:100vh;background:#f8fafc;padding:20px;padding-bottom:100px;">
+<!-- HALAMAN RETUR (FROM V18) -->
+<div id="retur-page" class="retur-page">
   <div style="max-width:800px;margin:0 auto;">
     <button id="back-to-main" class="secondary-button" style="margin-bottom:20px;display:flex;align-items:center;gap:6px;"><i data-lucide="arrow-left" style="width:16px;"></i> Kembali</button>
     <div class="chart-card">
@@ -534,8 +548,8 @@
 
       <div style="background:#f8fafc;padding:18px;border-radius:14px;border:2px dashed var(--line);margin-bottom:18px;">
         <label style="font-size:12px;font-weight:600;color:#475569;">Scan / Input Barang Retur</label>
-        <div style="display:flex;gap:10px;margin-top:8px;">
-          <input id="ret-barcode" type="text" class="field-control" placeholder="Ketik atau Scan Barcode">
+        <div class="return-scan-row-compact" style="margin-top:8px;">
+          <input id="ret-barcode" type="text" class="field-control return-barcode-input" placeholder="Ketik atau Scan Barcode">
           <button id="btn-scan-retur" class="secondary-button" style="white-space:nowrap;display:flex;align-items:center;gap:6px;"><i data-lucide="camera" style="width:14px;"></i> Scan</button>
         </div>
         <div id="ret-scanner" class="scanner-wrapper">
@@ -565,43 +579,42 @@
   </div>
 </div>
 
+<!-- MODAL HISTORY -->
+<div id="history-modal" class="modal-layer hidden">
+  <div class="modal-card" style="max-width:700px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h3 style="margin:0;font-size:20px;font-weight:800;">Riwayat Transaksi</h3>
+      <button onclick="document.getElementById('history-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;"><i data-lucide="x" style="width:26px;color:#64748b;"></i></button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button id="btn-download-excel" class="primary-button" style="width:auto;padding:10px 16px;display:flex;align-items:center;gap:6px;"><i data-lucide="file-spreadsheet" style="width:16px;"></i> Download Excel</button>
+    </div>
+    <div style="overflow-x:auto;max-height:400px;overflow-y:auto;">
+      <table class="records-table">
+        <thead><tr><th>Tgl</th><th>User</th><th>Gudang</th><th>Item</th><th>Tipe</th><th>Qty</th></tr></thead>
+        <tbody id="history-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SETTINGS -->
 <div id="settings-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
       <h3 style="margin:0;font-size:20px;font-weight:800;">️ Pengaturan</h3>
       <button onclick="document.getElementById('settings-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;"><i data-lucide="x" style="width:26px;color:#64748b;"></i></button>
     </div>
-    
-    <div class="settings-section">
-      <h4>Keterangan Dashboard</h4>
-      <div style="display:grid;gap:12px;">
-        <div>
-          <label style="font-size:12px;font-weight:600;color:#475569;">Judul Hero</label>
-          <input type="text" id="set-hero-title" class="field-control" value="Barisan Utama Cegah Insiden">
-        </div>
-        <div>
-          <label style="font-size:12px;font-weight:600;color:#475569;">Subjudul Hero</label>
-          <input type="text" id="set-hero-subtitle" class="field-control" value="Pusat Operasi Jaringan Sulawesi Utara">
-        </div>
-      </div>
-    </div>
-
     <div class="settings-section">
       <h4>Tampilan Background</h4>
       <div style="display:grid;gap:12px;">
         <div>
           <label style="font-size:12px;font-weight:600;color:#475569;">Warna Gradient 1</label>
-          <div class="color-picker-row">
-            <input type="color" id="set-bg-color1" value="#f8fafc">
-            <input type="text" id="set-bg-color1-text" class="field-control" value="#f8fafc" style="flex:1;">
-          </div>
+          <input type="color" id="set-bg-color1" value="#f8fafc" style="width:100%;height:40px;">
         </div>
         <div>
           <label style="font-size:12px;font-weight:600;color:#475569;">Warna Gradient 2</label>
-          <div class="color-picker-row">
-            <input type="color" id="set-bg-color2" value="#f1f5f9">
-            <input type="text" id="set-bg-color2-text" class="field-control" value="#f1f5f9" style="flex:1;">
-          </div>
+          <input type="color" id="set-bg-color2" value="#f1f5f9" style="width:100%;height:40px;">
         </div>
         <div>
           <label style="font-size:12px;font-weight:600;color:#475569;">Gambar Background (URL)</label>
@@ -614,48 +627,14 @@
             <span id="opacity-value" style="font-size:14px;font-weight:600;min-width:40px;">100%</span>
           </div>
         </div>
-        <div style="margin-top:8px;">
-          <label style="font-size:12px;font-weight:600;color:#475569;">Upload Gambar Background</label>
-          <input type="file" id="set-bg-upload" accept="image/*" class="field-control" style="padding:8px;">
-          <p style="font-size:11px;color:#94a3b8;margin-top:4px;">Unggah gambar langsung dari perangkat</p>
-        </div>
       </div>
     </div>
-
     <button id="btn-save-settings" class="primary-button" style="margin-top:8px;">Simpan Pengaturan</button>
   </div>
 </div>
 
-<div id="user-modal" class="modal-layer hidden">
-  <div class="modal-card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-      <h3 style="margin:0;font-size:20px;font-weight:800;">Tambah Pengguna</h3>
-      <button onclick="document.getElementById('user-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;"><i data-lucide="x" style="width:26px;color:#64748b;"></i></button>
-    </div>
-    <form id="add-user-form">
-      <div style="display:grid;gap:14px;">
-        <div>
-          <label style="font-size:12px;font-weight:600;color:#475569;">Username</label>
-          <input type="text" id="new-username" class="field-control" required>
-        </div>
-        <div>
-          <label style="font-size:12px;font-weight:600;color:#475569;">Password</label>
-          <input type="password" id="new-password" class="field-control" required>
-        </div>
-        <div>
-          <label style="font-size:12px;font-weight:600;color:#475569;">Role</label>
-          <select id="new-role" class="field-control">
-            <option value="operator">Operator</option>
-            <option value="admin">Administrator</option>
-          </select>
-        </div>
-      </div>
-      <button type="submit" class="primary-button" style="margin-top:20px;">Simpan Pengguna</button>
-    </form>
-  </div>
-</div>
-
 <script>
+  // FIREBASE CONFIG
   const firebaseConfig = {
     apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
     authDomain: "bucin-18282.firebaseapp.com",
@@ -665,7 +644,6 @@
     messagingSenderId: "545528630169",
     appId: "1:545528630169:web:2ea7db49f27121ad062108"
   };
-
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
@@ -678,18 +656,9 @@
   let quaggaRunning = false;
   let returnItems = [];
   let selectedGudang = '';
-  let inactivityTimer = null;
   let chartIncidents = null;
   let chartAssets = null;
-
-  let appSettings = {
-    heroTitle: 'Barisan Utama Cegah Insiden',
-    heroSubtitle: 'Pusat Operasi Jaringan Sulawesi Utara',
-    bgColor1: '#f8fafc',
-    bgColor2: '#f1f5f9',
-    bgImage: '',
-    bgOpacity: 100
-  };
+  let selectedProcedures = {};
 
   // MASTER BARCODES UNTUK AUTO-FILL NAMA SPARE
   const MASTER_BARCODES = {
@@ -702,63 +671,21 @@
   };
 
   const COORD_CATEGORIES = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM/OLS', 'Joint', 'Handhole', 'Alkur/Material'];
+  
+  // PROCEDURE DATA (FROM V18)
+  const PROCEDURE_DATA = [
+    { id: 'terima_laporan', label: 'Terima Laporan', items: ['Catat waktu', 'Catat lokasi'] },
+    { id: 'mobilisasi', label: 'Mobilisasi', items: ['Lengkapi alat & APD'] },
+    { id: 'identifikasi', label: 'Identifikasi', items: ['Cek penyebab gangguan', 'Foto kondisi'] },
+    { id: 'perbaikan', label: 'Perbaikan', items: ['Splicing', 'Testing OTDR'] }
+  ];
 
   document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
-    loadSettings();
     loadData();
     setupEventListeners();
-    startInactivityTimer();
+    initProcedureUI();
   });
-
-  function startInactivityTimer() {
-    resetInactivityTimer();
-    ['click', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
-      document.addEventListener(evt, resetInactivityTimer, { passive: true });
-    });
-  }
-
-  function resetInactivityTimer() {
-    if(inactivityTimer) clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(() => {
-      if(currentUser) {
-        showToast(' Sesi tidak aktif selama 15 menit. Logout otomatis.', true);
-        location.reload();
-      }
-    }, 15 * 60 * 1000);
-  }
-
-  function loadSettings() {
-    db.ref('settings').on('value', snap => {
-      const s = snap.val();
-      if(s) { appSettings = {...appSettings, ...s}; applySettings(); }
-    });
-  }
-
-  function applySettings() {
-    document.getElementById('set-hero-title').value = appSettings.heroTitle;
-    document.getElementById('set-hero-subtitle').value = appSettings.heroSubtitle;
-    document.getElementById('set-bg-color1').value = appSettings.bgColor1;
-    document.getElementById('set-bg-color1-text').value = appSettings.bgColor1;
-    document.getElementById('set-bg-color2').value = appSettings.bgColor2;
-    document.getElementById('set-bg-color2-text').value = appSettings.bgColor2;
-    document.getElementById('set-bg-image').value = appSettings.bgImage || '';
-    document.getElementById('set-bg-opacity').value = appSettings.bgOpacity || 100;
-    document.getElementById('opacity-value').textContent = (appSettings.bgOpacity || 100) + '%';
-
-    const heroTitleEl = document.getElementById('hero-title');
-    const heroSubEl = document.getElementById('hero-subtitle');
-    if(heroTitleEl) heroTitleEl.innerHTML = appSettings.heroTitle.replace(/\n/g,'<br>');
-    if(heroSubEl) heroSubEl.textContent = appSettings.heroSubtitle;
-
-    const opacity = (appSettings.bgOpacity || 100) / 100;
-    if(appSettings.bgImage) {
-      document.body.style.background = `linear-gradient(rgba(0,0,0,${1-opacity}), rgba(0,0,0,${1-opacity})), url(${appSettings.bgImage}) center/cover no-repeat fixed`;
-    } else {
-      document.body.style.background = `linear-gradient(135deg, ${appSettings.bgColor1}, ${appSettings.bgColor2})`;
-      document.body.style.opacity = opacity;
-    }
-  }
 
   function loadData() {
     db.ref('data').on('value', snap => {
@@ -768,6 +695,7 @@
     });
   }
 
+  // LOGIN HANDLER
   document.getElementById('login-btn').addEventListener('click', () => {
     const u = document.getElementById('login-username').value.trim();
     const p = document.getElementById('login-password').value;
@@ -787,7 +715,6 @@
         initMap();
         initCharts();
         showToast('✅ Login berhasil');
-        resetInactivityTimer();
       } else {
         showToast('❌ Pengguna tidak ditemukan atau password salah', true);
       }
@@ -810,7 +737,6 @@
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         switchView(btn.dataset.cat);
-        resetInactivityTimer();
       });
     });
 
@@ -826,20 +752,6 @@
       if(currentCategory === 'Stok Spare' && MASTER_BARCODES[this.value]) {
         document.getElementById('inp-spec').value = MASTER_BARCODES[this.value];
       }
-    });
-
-    document.getElementById('add-user-btn').addEventListener('click', () => {
-      document.getElementById('user-modal').classList.remove('hidden');
-    });
-    document.getElementById('add-user-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const u = document.getElementById('new-username').value.trim();
-      const p = document.getElementById('new-password').value;
-      const r = document.getElementById('new-role').value;
-      db.ref('users/' + u).set({ pass: p, role: r });
-      document.getElementById('user-modal').classList.add('hidden');
-      document.getElementById('add-user-form').reset();
-      showToast('✅ User berhasil ditambahkan');
     });
 
     document.getElementById('btn-history').addEventListener('click', showHistory);
@@ -866,36 +778,23 @@
       document.getElementById('settings-modal').classList.remove('hidden');
     });
     document.getElementById('btn-save-settings').addEventListener('click', () => {
-      appSettings.heroTitle = document.getElementById('set-hero-title').value;
-      appSettings.heroSubtitle = document.getElementById('set-hero-subtitle').value;
-      appSettings.bgColor1 = document.getElementById('set-bg-color1').value;
-      appSettings.bgColor2 = document.getElementById('set-bg-color2').value;
-      appSettings.bgImage = document.getElementById('set-bg-image').value;
-      appSettings.bgOpacity = parseInt(document.getElementById('set-bg-opacity').value);
+      const bg1 = document.getElementById('set-bg-color1').value;
+      const bg2 = document.getElementById('set-bg-color2').value;
+      const img = document.getElementById('set-bg-image').value;
+      const op = document.getElementById('set-bg-opacity').value;
       
-      const uploadInput = document.getElementById('set-bg-upload');
-      if(uploadInput.files.length > 0) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          appSettings.bgImage = e.target.result;
-          db.ref('settings').set(appSettings);
-        };
-        reader.readAsDataURL(uploadInput.files[0]);
+      document.documentElement.style.setProperty('--bg-grad1', bg1);
+      document.documentElement.style.setProperty('--bg-grad2', bg2);
+      
+      if(img) {
+        document.body.style.background = `linear-gradient(rgba(0,0,0,${1-op/100}), rgba(0,0,0,${1-op/100})), url(${img}) center/cover no-repeat fixed`;
       } else {
-        db.ref('settings').set(appSettings);
+        document.body.style.background = `linear-gradient(135deg, ${bg1}, ${bg2})`;
       }
       
       document.getElementById('settings-modal').classList.add('hidden');
       showToast('✅ Pengaturan disimpan');
     });
-
-    ['set-bg-color1', 'set-bg-color2'].forEach(id => {
-      const colorInput = document.getElementById(id);
-      const textInput = document.getElementById(id + '-text');
-      colorInput.addEventListener('input', () => { textInput.value = colorInput.value; });
-      textInput.addEventListener('input', () => { if(/^#[0-9a-f]{6}$/i.test(textInput.value)) colorInput.value = textInput.value; });
-    });
-
     document.getElementById('set-bg-opacity').addEventListener('input', function() {
       document.getElementById('opacity-value').textContent = this.value + '%';
     });
@@ -941,7 +840,7 @@
     chartIncidents = new Chart(ctx1, {
       type: 'bar',
       data: { labels: ['OF Cut', 'Pihak Ke-3', 'Temuan'], datasets: [{ label: 'Jumlah', data: [0,0,0], backgroundColor: ['#eab308','#f43f5e','#8b5cf6'], borderRadius: 8 }] },
-      options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+      options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
     });
     
     chartAssets = new Chart(ctx2, {
@@ -949,7 +848,6 @@
       data: { labels: ['OPM/OLS', 'Joint', 'Handhole'], datasets: [{ data: [0,0,0], backgroundColor: ['#10b981','#f97316','#0ea5e9'] }] },
       options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
     });
-    
     updateCharts();
   }
 
@@ -1092,139 +990,11 @@
           <td style="font-size:11px;">${item.coords || '-'}</td>
           <td style="max-width:200px;white-space:normal;">${item.notes || '-'}</td>
           <td>${item.postBy || '-'}</td>
-          <td><button class="icon-btn delete" onclick="deleteItem('${key}')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>
-        </tr>`;
-      }
+          <td><button class="icon-btn delete" onclick="deleteItem('N-M9s2')"><i data-lucide="trash-2" style="width:16px;"></i></button></td> 
+</tr>
       tbody.innerHTML += row;
     });
     lucide.createIcons();
-  }
-
-  window.handlePatchCordTypeChange = function() {
-    const sel = document.getElementById('inp-pc-type');
-    const custom = document.getElementById('inp-pc-type-custom');
-    if(sel.value === 'OTHER') { custom.classList.remove('hidden'); custom.focus(); }
-    else { custom.classList.add('hidden'); custom.value = ''; }
-  };
-
-  window.handlePatchCordLengthChange = function() {
-    const sel = document.getElementById('inp-pc-length');
-    const custom = document.getElementById('inp-pc-length-custom');
-    if(sel.value === 'OTHER') { custom.classList.remove('hidden'); custom.focus(); }
-    else { custom.classList.add('hidden'); custom.value = ''; }
-  };
-
-  function getPatchCordSpecs() {
-    const typeSel = document.getElementById('inp-pc-type');
-    const lenSel = document.getElementById('inp-pc-length');
-    const typeCustom = document.getElementById('inp-pc-type-custom');
-    const lenCustom = document.getElementById('inp-pc-length-custom');
-    return {
-      type: typeSel.value === 'OTHER' ? typeCustom.value : typeSel.value,
-      length: lenSel.value === 'OTHER' ? lenCustom.value : lenSel.value
-    };
-  }
-
-  function openForm() {
-    document.getElementById('form-modal').classList.remove('hidden');
-    document.getElementById('inp-cat').value = currentCategory;
-    document.getElementById('inp-date').valueAsDate = new Date();
-    
-    const isStock = ['Stok Spare', 'Patch Cord'].includes(currentCategory);
-    const isPatchCord = currentCategory === 'Patch Cord';
-    const needsCoords = COORD_CATEGORIES.includes(currentCategory);
-    
-    // HAPUS SOP DARI STOK & PATCH CORD
-    document.getElementById('field-notes-wrap').classList.toggle('hidden', isStock);
-    
-    document.getElementById('field-stock').classList.toggle('hidden', !isStock || isPatchCord);
-    document.getElementById('field-patchcord').classList.toggle('hidden', !isPatchCord);
-    document.getElementById('field-normal').classList.toggle('hidden', isStock);
-    document.getElementById('field-coords-wrap').classList.toggle('hidden', !needsCoords);
-    
-    if(isStock && selectedGudang) {
-      document.getElementById('inp-gudang-selected').value = selectedGudang;
-      document.getElementById('selected-gudang-display').textContent = selectedGudang;
-    }
-    if(isPatchCord && selectedGudang) {
-      document.getElementById('patchcord-gudang-display').textContent = selectedGudang;
-    }
-    
-    document.getElementById('inp-barcode').value = '';
-    document.getElementById('inp-spec').value = '';
-    document.getElementById('inp-loc').value = '';
-    document.getElementById('inp-coords').value = '';
-    document.getElementById('inp-notes').value = '';
-    document.getElementById('inp-qty').value = '1';
-    document.getElementById('inp-tr-type').value = 'Masuk';
-    document.getElementById('inp-pc-type').value = '';
-    document.getElementById('inp-pc-length').value = '';
-    document.getElementById('inp-pc-type-custom').value = '';
-    document.getElementById('inp-pc-length-custom').value = '';
-    document.getElementById('inp-pc-type-custom').classList.add('hidden');
-    document.getElementById('inp-pc-length-custom').classList.add('hidden');
-    document.getElementById('inp-pc-qty').value = '1';
-    document.getElementById('inp-pc-trtype').value = 'Masuk';
-    document.getElementById('modal-title').textContent = isPatchCord ? 'Input Patch Cord' : 'Tambah Data';
-  }
-
-  function closeModal() {
-    document.getElementById('form-modal').classList.add('hidden');
-    stopScanner('modal');
-    selectedGudang = '';
-  }
-
-  function submitForm(e) {
-    e.preventDefault();
-    const cat = document.getElementById('inp-cat').value;
-    const isStock = ['Stok Spare', 'Patch Cord'].includes(cat);
-    const isPatchCord = cat === 'Patch Cord';
-    
-    const newData = {
-      date: document.getElementById('inp-date').value,
-      postBy: currentUser.name,
-      createdAt: Date.now()
-    };
-
-    if(isPatchCord) {
-      const specs = getPatchCordSpecs();
-      if(!specs.type || !specs.length) { showToast('Pilih jenis dan panjang patch cord!', true); return; }
-      newData.pcType = specs.type;
-      newData.pcLength = specs.length;
-      newData.qty = parseInt(document.getElementById('inp-pc-qty').value);
-      newData.trType = document.getElementById('inp-pc-trtype').value;
-      newData.gudang = selectedGudang;
-      newData.spec = `Patch Cord ${specs.type} ${specs.length}`;
-      updateExistingStock(cat, newData);
-    } else if(isStock) {
-      newData.barcode = document.getElementById('inp-barcode').value;
-      newData.trType = document.getElementById('inp-tr-type').value;
-      newData.gudang = selectedGudang;
-      newData.qty = parseInt(document.getElementById('inp-qty').value);
-      newData.spec = document.getElementById('inp-spec').value;
-      updateExistingStock(cat, newData);
-    } else {
-      newData.location = document.getElementById('inp-loc').value;
-      newData.coords = document.getElementById('inp-coords').value;
-      newData.notes = document.getElementById('inp-notes').value;
-    }
-
-    db.ref('data/' + cat).push(newData);
-    closeModal();
-    showToast('✅ Data disimpan');
-  }
-
-  function updateExistingStock(category, newItem) {
-    const list = appData[category] || {};
-    Object.keys(list).forEach(key => {
-      const existing = list[key];
-      if(existing.gudang === newItem.gudang && existing.spec === newItem.spec) {
-        let newQty = existing.qty;
-        if(newItem.trType === 'Masuk') newQty += newItem.qty;
-        else newQty = Math.max(0, newQty - newItem.qty);
-        db.ref('data/' + category + '/' + key).update({ qty: newQty });
-      }
-    });
   }
 
   window.deleteItem = function(key) {
@@ -1300,7 +1070,6 @@
         if(code && code.length > 3 && !format.toLowerCase().includes('qr')) {
           if(type === 'modal') {
             document.getElementById('inp-barcode').value = code;
-            // AUTO-FILL NAMA SPARE SAAT SCAN
             if(currentCategory === 'Stok Spare' && MASTER_BARCODES[code]) {
               document.getElementById('inp-spec').value = MASTER_BARCODES[code];
             }
@@ -1313,6 +1082,79 @@
         }
       });
     });
+  }
+
+  function initProcedureUI() {
+    const grid = document.getElementById('procedure-grid');
+    if (!grid) return;
+    grid.innerHTML = PROCEDURE_DATA.map((proc, idx) => `
+      <button type="button" class="procedure-main-btn" data-id="${proc.id}" data-idx="${idx}">
+        ${proc.label}
+      </button>
+    `).join('');
+    document.querySelectorAll('.procedure-main-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const id = this.dataset.id;
+        const idx = parseInt(this.dataset.idx);
+        toggleProcedure(id, idx);
+      });
+    });
+  }
+
+  function toggleProcedure(id, idx) {
+    const proc = PROCEDURE_DATA[idx];
+    if (!proc) return;
+    const isActive = selectedProcedures[id]?.active || false;
+    if (isActive) { delete selectedProcedures[id]; } 
+    else { 
+      selectedProcedures[id] = { active: true, items: proc.items.map(item => ({ label: item, checked: false })) }; 
+    }
+    updateProcedureUI();
+  }
+
+  window.toggleProcedureItem = function(procId, itemIdx) {
+    const proc = selectedProcedures[procId];
+    if (!proc) return;
+    proc.items[itemIdx].checked = !proc.items[itemIdx].checked;
+    updateProcedureUI();
+  };
+
+  function updateProcedureUI() {
+    const checklist = document.getElementById('procedure-checklist');
+    const hiddenInput = document.getElementById('form-procedure');
+    
+    document.querySelectorAll('.procedure-main-btn').forEach(btn => {
+      const id = btn.dataset.id;
+      const proc = selectedProcedures[id];
+      btn.classList.toggle('active', !!proc?.active);
+    });
+    
+    const activeProcs = Object.keys(selectedProcedures).filter(id => selectedProcedures[id]?.active);
+    if (activeProcs.length === 0) { checklist.style.display = 'none'; hiddenInput.value = ''; return; }
+    
+    checklist.style.display = 'flex';
+    let html = '';
+    activeProcs.forEach(procId => {
+      const proc = selectedProcedures[procId];
+      const procData = PROCEDURE_DATA.find(p => p.id === procId);
+      if (!procData) return;
+      html += `<span style="font-size:0.6rem; font-weight:700; width:100%; color:var(--blue);">📌 ${procData.label}</span>`;
+      proc.items.forEach((item, idx) => {
+        html += `<button type="button" class="check-item ${item.checked ? 'checked' : ''}" onclick="window.toggleProcedureItem('${procId}', ${idx})">${item.label}</button>`;
+      });
+    });
+    checklist.innerHTML = html;
+    
+    const selected = [];
+    Object.keys(selectedProcedures).forEach(procId => {
+      const proc = selectedProcedures[procId];
+      if (!proc?.active) return;
+      const checkedItems = proc.items.filter(item => item.checked).map(item => item.label);
+      if (checkedItems.length > 0) {
+        selected.push({ id: procId, label: PROCEDURE_DATA.find(p => p.id === procId)?.label || procId, items: checkedItems });
+      }
+    });
+    hiddenInput.value = JSON.stringify(selected);
   }
 
   function initReturPage() {
@@ -1378,6 +1220,8 @@
     document.body.appendChild(t);
     setTimeout(() => { t.classList.remove('show'); setTimeout(()=>t.remove(), 300); }, 2500);
   }
+
+})();
 </script>
 </body>
 </html>
