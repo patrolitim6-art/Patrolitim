@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+         <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8" />
@@ -160,6 +160,63 @@
             cursor: not-allowed;
         }
 
+        /* Icon-only buttons */
+        .btn-icon {
+            width: 42px;
+            height: 42px;
+            min-height: 42px;
+            padding: 0;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--line);
+            background: var(--card-bg);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 18px;
+            box-shadow: none;
+            flex-shrink: 0;
+        }
+        .btn-icon:hover {
+            background: var(--primary-blue-light);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        .btn-icon.primary {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        .btn-icon.primary:hover {
+            background: var(--primary-blue-dark);
+            border-color: var(--primary-blue-dark);
+            color: white;
+        }
+        .btn-icon.danger {
+            background: #EF4444;
+            color: white;
+            border-color: #EF4444;
+        }
+        .btn-icon.danger:hover {
+            background: #DC2626;
+            border-color: #DC2626;
+            color: white;
+        }
+        .btn-icon.gold {
+            background: var(--accent-gold);
+            color: white;
+            border-color: #D97706;
+        }
+        .btn-icon.gold:hover {
+            background: #D97706;
+            border-color: #D97706;
+            color: white;
+        }
+
         .top-header {
             position: sticky;
             top: 0;
@@ -216,17 +273,17 @@
         }
         .nav-item {
             flex: 0 0 auto;
-            min-width: 64px;
+            min-width: 56px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 2px;
             color: var(--text-muted);
-            font-size: 10px;
+            font-size: 9px;
             cursor: pointer;
             transition: all 0.2s ease;
-            padding: 0 6px;
+            padding: 0 4px;
             position: relative;
         }
         .nav-item.active {
@@ -246,8 +303,8 @@
             border-radius: 0 0 4px 4px;
         }
         .nav-item i {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             transition: transform 0.2s;
         }
         .nav-item.active i {
@@ -301,12 +358,12 @@
 
         .field-control {
             width: 100%;
-            min-height: 48px;
+            min-height: 42px;
             border: 2px solid var(--line);
-            border-radius: 12px;
+            border-radius: 10px;
             background: white;
-            padding: 0 16px;
-            font-size: 14px;
+            padding: 0 14px;
+            font-size: 13px;
             outline: none;
             transition: all 0.2s;
             font-family: inherit;
@@ -320,20 +377,24 @@
             box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
         }
         textarea.field-control {
-            padding: 12px 16px;
+            padding: 12px 14px;
             resize: vertical;
+            min-height: 80px;
         }
         select.field-control {
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 14px center;
-            padding-right: 40px;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+        input[type="date"].field-control {
+            min-height: 42px;
         }
 
         .icon-btn {
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
             border-radius: 10px;
             display: grid;
             place-items: center;
@@ -342,6 +403,7 @@
             border: none;
             color: var(--text-muted);
             transition: all 0.2s;
+            flex-shrink: 0;
         }
         .icon-btn:hover {
             background: var(--bg-light);
@@ -520,9 +582,9 @@
             transform: translateX(-50%) translateY(-20px);
             background: var(--text-dark);
             color: white;
-            padding: 14px 32px;
+            padding: 12px 28px;
             border-radius: 99px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             z-index: 999;
             opacity: 0;
@@ -699,18 +761,18 @@
 
         .gudang-tabs {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             margin-bottom: 12px;
             flex-wrap: wrap;
         }
         .gudang-tab {
-            padding: 8px 20px;
-            border-radius: 24px;
+            padding: 6px 16px;
+            border-radius: 20px;
             border: 1px solid var(--line);
             background: var(--card-bg);
             cursor: pointer;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
             transition: all 0.2s;
         }
@@ -728,22 +790,22 @@
         .records-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 12px;
         }
         .records-table th {
             background: #F8FAFB;
-            padding: 12px 14px;
+            padding: 10px 12px;
             text-align: left;
             border-bottom: 2px solid var(--line);
             font-weight: 700;
             color: var(--text-muted);
             white-space: nowrap;
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         .records-table td {
-            padding: 12px 14px;
+            padding: 10px 12px;
             border-bottom: 1px solid #F3F4F6;
             vertical-align: middle;
         }
@@ -755,21 +817,21 @@
             background: var(--primary-blue-very-light);
             border: 1px solid var(--primary-blue-light);
             border-radius: 12px;
-            padding: 12px 16px;
+            padding: 10px 14px;
             margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
         }
         .stok-summary .label {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-muted);
         }
         .stok-summary .value {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             color: var(--primary-blue);
         }
@@ -958,7 +1020,6 @@
             max-height: 160px;
         }
 
-        /* ===== PEMUSNAHAN PAGE ===== */
         .pemusnahan-page {
             display: none;
             padding: 20px;
@@ -971,9 +1032,45 @@
             display: block;
         }
 
-        /* ===== PEMUSNAHAN HISTORY MODAL ===== */
         .pemusnahan-history-modal .modal-card {
             max-width: 800px;
+        }
+
+        /* Filter periode */
+        .filter-period {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 2px 6px;
+        }
+        .filter-period input[type="date"] {
+            border: none;
+            background: transparent;
+            padding: 6px 4px;
+            font-size: 12px;
+            font-family: inherit;
+            color: var(--text-dark);
+            outline: none;
+            width: 120px;
+            min-height: 32px;
+        }
+        .filter-period input[type="date"]:focus {
+            border: none;
+            box-shadow: none;
+        }
+        .filter-period .period-separator {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+        .filter-period .btn-icon {
+            width: 32px;
+            height: 32px;
+            min-height: 32px;
+            border-radius: 8px;
+            font-size: 14px;
         }
 
         @media(min-width:768px) {
@@ -998,12 +1095,12 @@
                 padding: 12px;
             }
             .bottom-nav .nav-item {
-                min-width: 56px;
-                font-size: 9px;
+                min-width: 48px;
+                font-size: 8px;
             }
             .bottom-nav .nav-item i {
-                width: 20px;
-                height: 20px;
+                width: 18px;
+                height: 18px;
             }
             .login-card {
                 padding: 28px 20px;
@@ -1017,6 +1114,15 @@
                 padding: 10px 18px;
                 font-size: 13px;
                 min-height: 42px;
+            }
+            .btn-icon {
+                width: 36px;
+                height: 36px;
+                min-height: 36px;
+            }
+            .filter-period input[type="date"] {
+                width: 90px;
+                font-size: 11px;
             }
         }
     </style>
@@ -1081,7 +1187,7 @@
                 <div class="brand-mark"><i data-lucide="cloud" style="width:20px;height:20px;"></i></div>
                 <span class="brand-text">BUCIN</span>
             </div>
-            <div style="display:flex;gap:6px;align-items:center;">
+            <div style="display:flex;gap:4px;align-items:center;">
                 <button id="add-user-btn" class="icon-btn hidden" title="Tambah User"><i data-lucide="user-plus" style="width:20px;"></i></button>
                 <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:20px;"></i></button>
                 <button id="logout-btn" class="icon-btn" title="Keluar"><i data-lucide="log-out" style="width:20px;"></i></button>
@@ -1133,13 +1239,13 @@
                             <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-blue);"></span>
                             Peta Lokasi Aset
                         </h3>
-                        <div style="display:flex;gap:8px;">
-                            <label for="kml-upload" class="btn-secondary" style="padding:6px 14px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;border-radius:20px;">
-                                <i data-lucide="upload" style="width:14px;"></i> KML
-                            </label>
+                        <div style="display:flex;gap:6px;">
+                            <button class="btn-icon" onclick="document.getElementById('kml-upload').click()" title="Upload KML">
+                                <i data-lucide="upload" style="width:16px;"></i>
+                            </button>
                             <input type="file" id="kml-upload" accept=".kml" style="display:none;" onchange="handleKMLUpload(this)">
-                            <button id="btn-download-kml" class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;" onclick="downloadKML()">
-                                <i data-lucide="download" style="width:14px;"></i> KML
+                            <button class="btn-icon" onclick="downloadKML()" title="Download KML">
+                                <i data-lucide="download" style="width:16px;"></i>
                             </button>
                         </div>
                     </div>
@@ -1158,21 +1264,43 @@
 
             <!-- DATA VIEW -->
             <section id="data-view" class="hidden">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
-                    <h2 id="page-title" style="margin:0;font-size:22px;font-weight:800;">Data Operasional</h2>
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                        <button id="btn-history" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;">
-                            <i data-lucide="history" style="width:16px;"></i> Riwayat
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+                    <h2 id="page-title" style="margin:0;font-size:20px;font-weight:800;">Data Operasional</h2>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+                        <!-- Tombol Riwayat (hanya untuk Stok Spare) -->
+                        <button id="btn-history" class="btn-icon hidden" title="Riwayat">
+                            <i data-lucide="history" style="width:18px;"></i>
                         </button>
-                        <button id="btn-retur-page" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;">
-                            <i data-lucide="undo-2" style="width:16px;"></i> Retur
+                        <!-- Tombol Retur (hanya untuk Stok Spare) -->
+                        <button id="btn-retur-page" class="btn-icon hidden gold" title="Retur">
+                            <i data-lucide="undo-2" style="width:18px;"></i>
                         </button>
-                        <button id="btn-download-excel-page" class="btn-secondary" style="padding:8px 16px;font-size:13px;border-radius:20px;">
-                            <i data-lucide="file-spreadsheet" style="width:16px;"></i> Excel
+                        <!-- Tombol Download Excel -->
+                        <button id="btn-download-excel-page" class="btn-icon" title="Download Excel">
+                            <i data-lucide="file-spreadsheet" style="width:18px;"></i>
                         </button>
-                        <button id="btn-add" class="btn-primary" style="padding:8px 20px;font-size:13px;border-radius:20px;">
-                            <i data-lucide="plus" style="width:16px;"></i> Tambah
+                        <!-- Tombol Tambah -->
+                        <button id="btn-add" class="btn-icon primary" title="Tambah Data">
+                            <i data-lucide="plus" style="width:18px;"></i>
                         </button>
+                    </div>
+                </div>
+
+                <!-- Filter Periode & Pencarian -->
+                <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+                    <div class="filter-period" id="filter-period-container">
+                        <input type="date" id="filter-start-date" placeholder="Mulai" title="Tanggal Mulai">
+                        <span class="period-separator">—</span>
+                        <input type="date" id="filter-end-date" placeholder="Sampai" title="Tanggal Sampai">
+                        <button class="btn-icon" id="btn-filter-apply" title="Terapkan Filter" style="width:32px;height:32px;min-height:32px;border-radius:8px;">
+                            <i data-lucide="check" style="width:14px;"></i>
+                        </button>
+                        <button class="btn-icon" id="btn-filter-clear" title="Hapus Filter" style="width:32px;height:32px;min-height:32px;border-radius:8px;">
+                            <i data-lucide="x" style="width:14px;"></i>
+                        </button>
+                    </div>
+                    <div style="flex:1;min-width:150px;">
+                        <input id="search-input" type="text" class="field-control" placeholder="Cari data..." style="height:42px;border-radius:10px;">
                     </div>
                 </div>
 
@@ -1195,7 +1323,7 @@
 
                     <!-- Tabs Gudang -->
                     <div class="gudang-tabs" id="gudang-tabs-container">
-                        <button class="gudang-tab active" data-gudang="all" onclick="filterGudang('all')">Semua Gudang</button>
+                        <button class="gudang-tab active" data-gudang="all" onclick="filterGudang('all')">Semua</button>
                         <button class="gudang-tab" data-gudang="CLS MAMI" onclick="filterGudang('CLS MAMI')">CLS MAMI</button>
                         <button class="gudang-tab" data-gudang="DC MANADO CENTRUM" onclick="filterGudang('DC MANADO CENTRUM')">DC MANADO</button>
                         <button class="gudang-tab" data-gudang="CLS KAUDITAN" onclick="filterGudang('CLS KAUDITAN')">CLS KAUDITAN</button>
@@ -1203,9 +1331,6 @@
                 </div>
 
                 <div class="card" style="padding:0;overflow:hidden;">
-                    <div style="padding:14px 16px;border-bottom:1px solid var(--line);">
-                        <input id="search-input" type="text" class="field-control" placeholder="Cari data..." style="height:42px;border-radius:20px;">
-                    </div>
                     <div style="overflow-x:auto;">
                         <table class="records-table">
                             <thead id="table-head"></thead>
@@ -1231,6 +1356,14 @@
                                 <h2 style="margin:0;font-size:20px;font-weight:800;">Pemusnahan Barang</h2>
                                 <p style="color:var(--text-muted);font-size:13px;margin-top:2px;">Kelola pemusnahan barang dari stok</p>
                             </div>
+                            <div style="margin-left:auto;display:flex;gap:6px;">
+                                <button id="btn-pem-history" class="btn-icon" title="Riwayat Pemusnahan">
+                                    <i data-lucide="history" style="width:18px;"></i>
+                                </button>
+                                <button id="btn-pem-excel" class="btn-icon" title="Download Excel Pemusnahan">
+                                    <i data-lucide="file-spreadsheet" style="width:18px;"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <form id="pemusnahan-form" onsubmit="return submitPemusnahanPage(event)">
@@ -1239,7 +1372,9 @@
                                     <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Barcode <span style="color:#EF4444;">*</span></label>
                                     <div style="display:flex;gap:8px;">
                                         <input type="text" id="pem-barcode" class="field-control" placeholder="Scan atau ketik barcode" required style="flex:1;" oninput="autoFillPemusnahan()">
-                                        <button type="button" id="btn-scan-pem" class="btn-secondary" style="padding:0 14px;border-radius:12px;"><i data-lucide="camera"></i></button>
+                                        <button type="button" id="btn-scan-pem" class="btn-icon" title="Scan Barcode">
+                                            <i data-lucide="camera" style="width:18px;"></i>
+                                        </button>
                                     </div>
                                     <div id="pem-scanner" class="scanner-wrapper">
                                         <video id="pem-camera-preview" autoplay playsinline muted></video>
@@ -1277,15 +1412,9 @@
                                 <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Alasan Pemusnahan <span style="color:#EF4444;">*</span></label>
                                 <textarea id="pem-alasan" class="field-control" rows="2" placeholder="Alasan pemusnahan..." required></textarea>
                             </div>
-                            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;">
                                 <button type="submit" class="btn-danger" style="flex:2;justify-content:center;min-height:48px;">
                                     <i data-lucide="trash-2" style="width:18px;"></i> Konfirmasi Pemusnahan
-                                </button>
-                                <button type="button" id="btn-pem-history" class="btn-secondary" style="flex:1;justify-content:center;min-height:48px;">
-                                    <i data-lucide="history" style="width:18px;"></i> Riwayat
-                                </button>
-                                <button type="button" id="btn-pem-excel" class="btn-secondary" style="flex:1;justify-content:center;min-height:48px;">
-                                    <i data-lucide="file-spreadsheet" style="width:18px;"></i> Excel
                                 </button>
                             </div>
                         </form>
@@ -1356,7 +1485,9 @@
                                 <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Barcode <span style="color:#EF4444;">*</span></label>
                                 <div style="display:flex;gap:8px;">
                                     <input type="text" id="inp-barcode" class="field-control" placeholder="Scan/Ketik" required>
-                                    <button type="button" id="btn-scan-modal" class="btn-secondary" style="padding:0 14px;border-radius:12px;"><i data-lucide="camera"></i></button>
+                                    <button type="button" id="btn-scan-modal" class="btn-icon" title="Scan Barcode">
+                                        <i data-lucide="camera" style="width:18px;"></i>
+                                    </button>
                                 </div>
                             </div>
                             <div>
@@ -1449,7 +1580,7 @@
                         </div>
                     </div>
 
-                    <!-- ALKUR FIELDS - Nama, Jenis, Merk, Jumlah, Kondisi, Keterangan -->
+                    <!-- ALKUR FIELDS -->
                     <div id="field-alkur" class="hidden">
                         <div style="background:var(--accent-gold-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(245,158,11,0.3);">
                             <div style="font-size:12px;font-weight:600;color:#D97706;margin-bottom:4px;">🔧 Data Material/Alkur</div>
@@ -1499,12 +1630,12 @@
                         </div>
                     </div>
 
-                    <!-- NORMAL FIELDS (untuk kategori yang memerlukan lokasi) -->
+                    <!-- NORMAL FIELDS -->
                     <div id="field-normal">
                         <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Lokasi <span style="color:#EF4444;">*</span></label>
                         <div style="display:flex;gap:8px;align-items:center;">
                             <input type="text" id="inp-loc" class="field-control" placeholder="Cari lokasi..." required style="flex:1;">
-                            <button type="button" id="btn-loc-map" class="btn-secondary" style="padding:8px 12px;border-radius:12px;white-space:nowrap;" title="Cari di Peta">
+                            <button type="button" id="btn-loc-map" class="btn-icon" title="Cari di Peta">
                                 <i data-lucide="map-pin" style="width:18px;"></i>
                             </button>
                         </div>
@@ -1565,10 +1696,10 @@
             </div>
             <div style="margin-bottom:12px;display:flex;gap:8px;">
                 <input type="text" id="map-search-input" class="field-control" placeholder="Cari lokasi..." style="flex:1;" onkeydown="if(event.key==='Enter') searchLocation()">
-                <button onclick="searchLocation()" class="btn-primary" style="padding:0 20px;border-radius:12px;">
+                <button onclick="searchLocation()" class="btn-icon primary" title="Cari">
                     <i data-lucide="search" style="width:18px;"></i>
                 </button>
-                <button onclick="getCurrentLocation()" class="btn-secondary" style="padding:0 16px;border-radius:12px;" title="Lokasi Saya">
+                <button onclick="getCurrentLocation()" class="btn-icon" title="Lokasi Saya">
                     <i data-lucide="crosshair" style="width:18px;"></i>
                 </button>
             </div>
@@ -1623,8 +1754,8 @@
                 <button onclick="document.getElementById('pem-history-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
             </div>
             <div style="display:flex;gap:8px;margin-bottom:16px;">
-                <button id="btn-pem-history-excel" class="btn-primary" style="padding:8px 16px;font-size:13px;border-radius:20px;display:flex;align-items:center;gap:6px;">
-                    <i data-lucide="file-spreadsheet" style="width:16px;"></i> Download Excel
+                <button id="btn-pem-history-excel" class="btn-icon primary" title="Download Excel Pemusnahan">
+                    <i data-lucide="file-spreadsheet" style="width:18px;"></i>
                 </button>
             </div>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto;">
@@ -1639,8 +1770,8 @@
     <!-- ===== HALAMAN RETUR ===== -->
     <div id="retur-page" class="retur-page">
         <div style="max-width:800px;margin:0 auto;">
-            <button id="back-to-main" class="btn-secondary" style="margin-bottom:20px;border-radius:20px;padding:8px 18px;">
-                <i data-lucide="arrow-left" style="width:16px;"></i> Kembali
+            <button id="back-to-main" class="btn-icon" style="margin-bottom:20px;" title="Kembali">
+                <i data-lucide="arrow-left" style="width:20px;"></i>
             </button>
             <div class="card">
                 <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line);">
@@ -1678,8 +1809,8 @@
                     <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Scan / Input Barang Retur</label>
                     <div class="return-scan-row-compact" style="margin-top:8px;">
                         <input id="ret-barcode" type="text" class="field-control return-barcode-input" placeholder="Ketik atau Scan Barcode">
-                        <button id="btn-scan-retur" class="btn-secondary" style="white-space:nowrap;border-radius:12px;padding:8px 14px;">
-                            <i data-lucide="camera" style="width:14px;"></i> Scan
+                        <button id="btn-scan-retur" class="btn-icon" title="Scan Barcode">
+                            <i data-lucide="camera" style="width:18px;"></i>
                         </button>
                     </div>
                     <div id="ret-scanner" class="scanner-wrapper">
@@ -1840,9 +1971,11 @@
         let barcodeCache = {};
         let selectedGudangFilter = 'all';
         let pemusnahanHistory = [];
+        let filterStartDate = '';
+        let filterEndDate = '';
 
         // ============================================================
-        // DEFAULT KML DATA (shortened for brevity - same as before)
+        // DEFAULT KML DATA
         // ============================================================
         const defaultKmlString = `<?xml version="1.0" encoding="UTF-8"?>
         <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -2004,7 +2137,7 @@
         }
 
         // ============================================================
-        // PARSE KML KE LAYER (sama seperti sebelumnya)
+        // PARSE KML KE LAYER
         // ============================================================
         function parseKmlToLayers(xml) {
             var styles = {};
@@ -2187,6 +2320,7 @@
                         loadSettings();
                         loadBarcodeCache();
                         loadPemusnahanHistory();
+                        setupFilterEvents();
                         return;
                     }
                 } catch(e) {}
@@ -2198,7 +2332,48 @@
             loadSettings();
             loadBarcodeCache();
             loadPemusnahanHistory();
+            setupFilterEvents();
         });
+
+        // ============================================================
+        // SETUP FILTER EVENTS
+        // ============================================================
+        function setupFilterEvents() {
+            document.getElementById('btn-filter-apply').addEventListener('click', function() {
+                filterStartDate = document.getElementById('filter-start-date').value;
+                filterEndDate = document.getElementById('filter-end-date').value;
+                renderTable();
+                showToast('✅ Filter periode diterapkan', 'success');
+            });
+
+            document.getElementById('btn-filter-clear').addEventListener('click', function() {
+                document.getElementById('filter-start-date').value = '';
+                document.getElementById('filter-end-date').value = '';
+                filterStartDate = '';
+                filterEndDate = '';
+                renderTable();
+                showToast('🔄 Filter periode dihapus', 'info');
+            });
+        }
+
+        // ============================================================
+        // FILTER FUNCTIONS
+        // ============================================================
+        function isDateInRange(dateStr) {
+            if (!filterStartDate && !filterEndDate) return true;
+            if (!dateStr) return true;
+            var date = new Date(dateStr);
+            var start = filterStartDate ? new Date(filterStartDate) : null;
+            var end = filterEndDate ? new Date(filterEndDate) : null;
+            if (start && end) {
+                return date >= start && date <= end;
+            } else if (start) {
+                return date >= start;
+            } else if (end) {
+                return date <= end;
+            }
+            return true;
+        }
 
         // ============================================================
         // LOAD BARCODE CACHE
@@ -2430,7 +2605,6 @@
         function switchView(cat) {
             currentCategory = cat;
 
-            // Sembunyikan semua view
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('data-view').classList.add('hidden');
             document.getElementById('pemusnahan-view').classList.remove('active');
@@ -2473,7 +2647,6 @@
                 return;
             }
 
-            // Cari di semua kategori
             var found = false;
             var categories = ['Stok Spare', 'Patch Cord'];
             for (var c of categories) {
@@ -2484,7 +2657,6 @@
                         namaField.value = item.spec || item.pcType || 'Unknown';
                         stokInfo.textContent = '✅ Barang ditemukan di ' + c;
                         stokTersedia.value = item.qty || 0;
-                        // Set kategori otomatis
                         document.getElementById('pem-kategori').value = c;
                         found = true;
                         break;
@@ -2501,7 +2673,6 @@
         }
 
         function loadPemusnahanData() {
-            // Reset form jika kategori berubah
             var barcode = document.getElementById('pem-barcode').value.trim();
             if (barcode) {
                 autoFillPemusnahan();
@@ -2537,7 +2708,6 @@
             submitBtn.disabled = true;
             submitBtn.textContent = 'Memproses...';
 
-            // Cari key barang berdasarkan barcode
             var targetKey = null;
             var list = appData[kategori] || {};
             for (var key in list) {
@@ -2590,7 +2760,6 @@
                 })
                 .then(function() {
                     showToast('✅ Pemusnahan berhasil! Stok berkurang ' + jumlah + ' unit', 'success');
-                    // Reset form
                     document.getElementById('pem-barcode').value = '';
                     document.getElementById('pem-nama').value = '';
                     document.getElementById('pem-stok-info').textContent = '';
@@ -2755,7 +2924,6 @@
                 stopModalScan.addEventListener('click', function() { stopScanner('modal'); });
             }
 
-            // Scan untuk Pemusnahan
             var scanPemBtn = document.getElementById('btn-scan-pem');
             if (scanPemBtn) {
                 scanPemBtn.addEventListener('click', function() { toggleScanner('pem'); });
@@ -2788,15 +2956,12 @@
                 document.getElementById('add-user-modal').classList.remove('hidden');
             });
 
-            // Pemusnahan events
             document.getElementById('btn-pem-history').addEventListener('click', showPemusnahanHistory);
             document.getElementById('btn-pem-excel').addEventListener('click', downloadPemusnahanExcel);
             document.getElementById('btn-pem-history-excel').addEventListener('click', downloadPemusnahanExcel);
 
-            // Barcode auto-fill for pemusnahan
             document.getElementById('pem-barcode').addEventListener('input', autoFillPemusnahan);
 
-            // Retur events
             var returPageBtn = document.getElementById('btn-retur-page');
             if (returPageBtn) {
                 returPageBtn.addEventListener('click', function() {
@@ -3747,7 +3912,6 @@
             if (map) return;
             try {
                 map = L.map('map-container', { zoomControl: false, maxZoom: 22 }).setView([1.4930, 124.8410], 12);
-                // Gunakan ESRI World Imagery untuk kualitas tinggi
                 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
                     attribution: 'ESRI',
                     maxZoom: 22,
@@ -3993,6 +4157,14 @@
                     filteredKeys = keys.filter(function(key) {
                         var item = list[key];
                         return item.gudang === selectedGudangFilter;
+                    });
+                }
+
+                // Filter by date range
+                if (filterStartDate || filterEndDate) {
+                    filteredKeys = filteredKeys.filter(function(key) {
+                        var item = list[key];
+                        return isDateInRange(item.date);
                     });
                 }
 
