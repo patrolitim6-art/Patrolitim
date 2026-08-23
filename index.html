@@ -1,4 +1,4 @@
-         <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8" />
@@ -160,7 +160,6 @@
             cursor: not-allowed;
         }
 
-        /* Icon-only buttons */
         .btn-icon {
             width: 42px;
             height: 42px;
@@ -1073,6 +1072,47 @@
             font-size: 14px;
         }
 
+        /* Tabel sementara untuk multi-item */
+        .temp-table-wrapper {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+        .temp-table-wrapper table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        .temp-table-wrapper th {
+            background: #F8FAFB;
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 2px solid var(--line);
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        .temp-table-wrapper td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #F3F4F6;
+            vertical-align: middle;
+        }
+        .temp-table-wrapper tr:hover td {
+            background: #FAFBFC;
+        }
+        .temp-table-wrapper .empty-row td {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px;
+        }
+
         @media(min-width:768px) {
             .dashboard-grid {
                 grid-template-columns: 1fr 1fr;
@@ -1267,19 +1307,15 @@
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
                     <h2 id="page-title" style="margin:0;font-size:20px;font-weight:800;">Data Operasional</h2>
                     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
-                        <!-- Tombol Riwayat (hanya untuk Stok Spare) -->
                         <button id="btn-history" class="btn-icon hidden" title="Riwayat">
                             <i data-lucide="history" style="width:18px;"></i>
                         </button>
-                        <!-- Tombol Retur (hanya untuk Stok Spare) -->
                         <button id="btn-retur-page" class="btn-icon hidden gold" title="Retur">
                             <i data-lucide="undo-2" style="width:18px;"></i>
                         </button>
-                        <!-- Tombol Download Excel -->
                         <button id="btn-download-excel-page" class="btn-icon" title="Download Excel">
                             <i data-lucide="file-spreadsheet" style="width:18px;"></i>
                         </button>
-                        <!-- Tombol Tambah -->
                         <button id="btn-add" class="btn-icon primary" title="Tambah Data">
                             <i data-lucide="plus" style="width:18px;"></i>
                         </button>
@@ -1360,13 +1396,22 @@
                                 <button id="btn-pem-history" class="btn-icon" title="Riwayat Pemusnahan">
                                     <i data-lucide="history" style="width:18px;"></i>
                                 </button>
-                                <button id="btn-pem-excel" class="btn-icon" title="Download Excel Pemusnahan">
-                                    <i data-lucide="file-spreadsheet" style="width:18px;"></i>
-                                </button>
                             </div>
                         </div>
 
                         <form id="pemusnahan-form" onsubmit="return submitPemusnahanPage(event)">
+                            <!-- Pilih Gudang -->
+                            <div style="margin-bottom:16px;">
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Gudang <span style="color:#EF4444;">*</span></label>
+                                <select id="pem-gudang" class="field-control" required onchange="loadPemusnahanData()">
+                                    <option value="">-- Pilih Gudang --</option>
+                                    <option value="CLS MAMI">CLS MAMI</option>
+                                    <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
+                                    <option value="CLS KAUDITAN">CLS KAUDITAN</option>
+                                </select>
+                            </div>
+
+                            <!-- Form Input Item -->
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
                                 <div>
                                     <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Barcode <span style="color:#EF4444;">*</span></label>
@@ -1392,14 +1437,6 @@
                             </div>
                             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
                                 <div>
-                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Kategori <span style="color:#EF4444;">*</span></label>
-                                    <select id="pem-kategori" class="field-control" required onchange="loadPemusnahanData()">
-                                        <option value="">-- Pilih --</option>
-                                        <option value="Stok Spare">Stok Spare</option>
-                                        <option value="Patch Cord">Patch Cord</option>
-                                    </select>
-                                </div>
-                                <div>
                                     <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Stok Tersedia</label>
                                     <input type="text" id="pem-stok-tersedia" class="field-control" readonly style="background:var(--bg-light);">
                                 </div>
@@ -1407,14 +1444,42 @@
                                     <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Jumlah Dimusnahkan <span style="color:#EF4444;">*</span></label>
                                     <input type="number" id="pem-jumlah" class="field-control" value="1" min="1" required>
                                 </div>
+                                <div style="display:flex;align-items:flex-end;">
+                                    <button type="button" id="btn-add-pem-item" class="btn-primary" style="width:100%;min-height:42px;border-radius:10px;">
+                                        <i data-lucide="plus" style="width:16px;"></i> Tambah Item
+                                    </button>
+                                </div>
                             </div>
+
+                            <!-- Tabel Sementara -->
+                            <div class="temp-table-wrapper" id="pem-temp-table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Barcode</th>
+                                            <th>Nama</th>
+                                            <th>Jumlah</th>
+                                            <th style="width:60px;">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pem-temp-body">
+                                        <tr class="empty-row"><td colspan="4">Belum ada item</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Alasan -->
                             <div style="margin-bottom:16px;">
                                 <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Alasan Pemusnahan <span style="color:#EF4444;">*</span></label>
                                 <textarea id="pem-alasan" class="field-control" rows="2" placeholder="Alasan pemusnahan..." required></textarea>
                             </div>
+
                             <div style="display:flex;gap:8px;flex-wrap:wrap;">
                                 <button type="submit" class="btn-danger" style="flex:2;justify-content:center;min-height:48px;">
                                     <i data-lucide="trash-2" style="width:18px;"></i> Konfirmasi Pemusnahan
+                                </button>
+                                <button type="button" id="btn-pem-reset" class="btn-secondary" style="flex:1;justify-content:center;min-height:48px;">
+                                    <i data-lucide="refresh-cw" style="width:18px;"></i> Reset
                                 </button>
                             </div>
                         </form>
@@ -1458,46 +1523,59 @@
         </div>
     </div>
 
-    <!-- ===== MODAL FORM UTAMA ===== -->
+    <!-- ===== MODAL FORM UTAMA (Stok Spare Multi-Item) ===== -->
     <div id="form-modal" class="modal-layer hidden">
         <div class="modal-card">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-                <h3 id="modal-title" style="margin:0;font-size:20px;font-weight:800;">Tambah Data</h3>
+                <h3 id="modal-title" style="margin:0;font-size:20px;font-weight:800;">Tambah Stok Spare</h3>
                 <button onclick="closeModal()" style="border:0;background:none;cursor:pointer;padding:4px;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
             </div>
-            <form id="data-form">
-                <input type="hidden" id="inp-cat">
-                <input type="hidden" id="inp-gudang-selected">
+            <form id="data-form" onsubmit="return submitSpareBatch(event)">
+                <input type="hidden" id="inp-cat" value="Stok Spare">
                 <div style="display:grid;gap:14px;">
                     <div>
                         <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tanggal <span style="color:#EF4444;">*</span></label>
                         <input type="date" id="inp-date" class="field-control" required>
                     </div>
 
-                    <!-- STOCK FIELDS (Stok Spare) -->
-                    <div id="field-stock" class="hidden">
-                        <div style="background:var(--bg-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid var(--line);">
-                            <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:4px;">Gudang Terpilih</div>
-                            <div id="selected-gudang-display" style="font-size:14px;font-weight:700;color:var(--primary-blue);"></div>
-                        </div>
+                    <!-- Pilih Gudang -->
+                    <div>
+                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Gudang <span style="color:#EF4444;">*</span></label>
+                        <select id="inp-gudang-spare" class="field-control" required>
+                            <option value="">-- Pilih Gudang --</option>
+                            <option value="CLS MAMI">CLS MAMI</option>
+                            <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
+                            <option value="CLS KAUDITAN">CLS KAUDITAN</option>
+                        </select>
+                    </div>
+
+                    <!-- Form Input Item -->
+                    <div style="background:var(--bg-light);padding:16px;border-radius:12px;border:1px solid var(--line);">
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                             <div>
                                 <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Barcode <span style="color:#EF4444;">*</span></label>
                                 <div style="display:flex;gap:8px;">
-                                    <input type="text" id="inp-barcode" class="field-control" placeholder="Scan/Ketik" required>
+                                    <input type="text" id="inp-barcode" class="field-control" placeholder="Scan/Ketik" required style="flex:1;">
                                     <button type="button" id="btn-scan-modal" class="btn-icon" title="Scan Barcode">
                                         <i data-lucide="camera" style="width:18px;"></i>
                                     </button>
                                 </div>
+                                <div id="modal-scanner" class="scanner-wrapper">
+                                    <video id="modal-camera-preview" autoplay playsinline muted></video>
+                                    <div class="scanner-guide"></div>
+                                    <div class="scanner-laser"></div>
+                                    <div class="scanner-status">Mencari Barcode...</div>
+                                    <button type="button" id="btn-stop-modal-scan" class="btn-primary" style="position:absolute;bottom:12px;right:12px;padding:6px 14px;font-size:11px;background:#EF4444;border-radius:12px;z-index:10;">Stop</button>
+                                </div>
                             </div>
                             <div>
                                 <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Barang <span style="color:#EF4444;">*</span></label>
-                                <input type="text" id="inp-spec" class="field-control" placeholder="Otomatis dari database jika pernah diinput" required>
+                                <input type="text" id="inp-spec" class="field-control" placeholder="Nama barang" required>
                             </div>
                         </div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;">
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tipe Transaksi <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tipe <span style="color:#EF4444;">*</span></label>
                                 <select id="inp-tr-type" class="field-control" required>
                                     <option value="Masuk">Barang Masuk</option>
                                     <option value="Keluar">Barang Keluar</option>
@@ -1507,178 +1585,43 @@
                                 <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jumlah <span style="color:#EF4444;">*</span></label>
                                 <input type="number" id="inp-qty" class="field-control" value="1" min="1" required>
                             </div>
+                            <div style="display:flex;align-items:flex-end;">
+                                <button type="button" id="btn-add-spare-item" class="btn-primary" style="width:100%;min-height:42px;border-radius:10px;">
+                                    <i data-lucide="plus" style="width:16px;"></i> Tambah
+                                </button>
+                            </div>
                         </div>
                         <div style="margin-top:8px;">
                             <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan <span style="color:#EF4444;">*</span></label>
                             <textarea id="inp-notes-stock" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Wajib diisi: keterangan barang..." required></textarea>
                         </div>
-                        <div id="modal-scanner" class="scanner-wrapper">
-                            <video id="modal-camera-preview" autoplay playsinline muted></video>
-                            <div class="scanner-guide"></div>
-                            <div class="scanner-laser"></div>
-                            <div class="scanner-status">Mencari Barcode...</div>
-                            <button type="button" id="btn-stop-modal-scan" class="btn-primary" style="position:absolute;bottom:12px;right:12px;padding:6px 14px;font-size:11px;background:#EF4444;border-radius:12px;z-index:10;">Stop</button>
-                        </div>
                     </div>
 
-                    <!-- PATCH CORD FIELDS - TANPA BARCODE (barcode otomatis) -->
-                    <div id="field-patchcord" class="hidden">
-                        <div style="background:#DBEAFE;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #93C5FD;">
-                            <div style="font-size:12px;font-weight:600;color:#1D4ED8;margin-bottom:4px;">📦 Spesifikasi Patch Cord</div>
-                            <div id="patchcord-gudang-display" style="font-size:14px;font-weight:700;color:var(--primary-blue);"></div>
-                        </div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-                            <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis Patch Cord <span style="color:#EF4444;">*</span></label>
-                                <select id="inp-pc-type" class="field-control" required>
-                                    <option value="">-- Pilih Jenis --</option>
-                                    <option value="SC-SC">SC-SC</option>
-                                    <option value="LC-LC">LC-LC</option>
-                                    <option value="FC-FC">FC-FC</option>
-                                    <option value="ST-ST">ST-ST</option>
-                                    <option value="SC-FC">SC-FC</option>
-                                    <option value="FC-ST">FC-ST</option>
-                                    <option value="ST-SC">ST-SC</option>
-                                    <option value="FC-LC">FC-LC</option>
-                                    <option value="LC-ST">LC-ST</option>
-                                    <option value="LC-SC">LC-SC</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Panjang Kabel <span style="color:#EF4444;">*</span></label>
-                                <select id="inp-pc-length" class="field-control" required>
-                                    <option value="">-- Pilih Panjang --</option>
-                                    <option value="0.5m">0.5 Meter</option>
-                                    <option value="1m">1 Meter</option>
-                                    <option value="2m">2 Meter</option>
-                                    <option value="3m">3 Meter</option>
-                                    <option value="5m">5 Meter</option>
-                                    <option value="10m">10 Meter</option>
-                                    <option value="15m">15 Meter</option>
-                                    <option value="20m">20 Meter</option>
-                                    <option value="30m">30 Meter</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                            <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jumlah <span style="color:#EF4444;">*</span></label>
-                                <input type="number" id="inp-pc-qty" class="field-control" value="1" min="1" required>
-                            </div>
-                            <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tipe Transaksi <span style="color:#EF4444;">*</span></label>
-                                <select id="inp-pc-trtype" class="field-control" required>
-                                    <option value="Masuk">Barang Masuk</option>
-                                    <option value="Keluar">Barang Keluar</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div style="margin-top:8px;">
-                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan</label>
-                            <span style="font-size:11px;color:var(--text-muted);">(Opsional jika Barang Masuk, Wajib jika Barang Keluar)</span>
-                            <textarea id="inp-notes-patch" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Keterangan..."></textarea>
-                        </div>
-                    </div>
-
-                    <!-- ALKUR FIELDS -->
-                    <div id="field-alkur" class="hidden">
-                        <div style="background:var(--accent-gold-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(245,158,11,0.3);">
-                            <div style="font-size:12px;font-weight:600;color:#D97706;margin-bottom:4px;">🔧 Data Material/Alkur</div>
-                        </div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                            <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Material <span style="color:#EF4444;">*</span></label>
-                                <input type="text" id="inp-alkur-nama" class="field-control" placeholder="Nama material" required>
-                            </div>
-                            <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis <span style="color:#EF4444;">*</span></label>
-                                <input type="text" id="inp-alkur-jenis" class="field-control" placeholder="Jenis material" required>
-                            </div>
-                        </div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;">
-                            <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Merk <span style="color:#EF4444;">*</span></label>
-                                <input type="text" id="inp-alkur-merk" class="field-control" placeholder="Merk" required>
-                            </div>
-                            <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jumlah <span style="color:#EF4444;">*</span></label>
-                                <input type="number" id="inp-alkur-jumlah" class="field-control" value="1" min="1" required>
-                            </div>
-                            <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Kondisi <span style="color:#EF4444;">*</span></label>
-                                <select id="inp-alkur-kondisi" class="field-control" required>
-                                    <option value="">-- Pilih --</option>
-                                    <option value="Baik">Baik</option>
-                                    <option value="Rusak Ringan">Rusak Ringan</option>
-                                    <option value="Rusak Berat">Rusak Berat</option>
-                                    <option value="Perlu Perbaikan">Perlu Perbaikan</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div style="margin-top:12px;">
-                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan</label>
-                            <textarea id="inp-alkur-keterangan" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Catatan tambahan (opsional)"></textarea>
-                        </div>
-                        <div style="margin-top:12px;">
-                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Lokasi Penyimpanan <span style="color:#EF4444;">*</span></label>
-                            <select id="inp-alkur-lokasi" class="field-control" required>
-                                <option value="">-- Pilih Lokasi --</option>
-                                <option value="CLS MAMI">CLS MAMI</option>
-                                <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
-                                <option value="CLS KAUDITAN">CLS KAUDITAN</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- NORMAL FIELDS -->
-                    <div id="field-normal">
-                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Lokasi <span style="color:#EF4444;">*</span></label>
-                        <div style="display:flex;gap:8px;align-items:center;">
-                            <input type="text" id="inp-loc" class="field-control" placeholder="Cari lokasi..." required style="flex:1;">
-                            <button type="button" id="btn-loc-map" class="btn-icon" title="Cari di Peta">
-                                <i data-lucide="map-pin" style="width:18px;"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- FIELD COORDINATES -->
-                    <div id="field-coords-wrap" class="hidden">
-                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Titik Koordinat <span style="color:#EF4444;">*</span></label>
-                        <input type="text" id="inp-coords" class="field-control" placeholder="Klik pada peta untuk mengisi" readonly required>
-                    </div>
-
-                    <!-- SOP CHECKLIST -->
-                    <div id="sop-container" style="display:none;">
-                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">
-                            SOP / Prosedur yang Dilakukan <span style="color:#EF4444;">*</span>
-                            <span style="font-weight:400;color:var(--text-muted);font-size:11px;">(Pilih 1 atau lebih)</span>
-                        </label>
-                        <div class="sop-container">
-                            <div class="sop-grid" id="sop-grid"></div>
-                            <div class="sop-progress">
-                                <span style="font-size:11px;font-weight:600;color:var(--text-muted);">Progress:</span>
-                                <div class="sop-progress-bar">
-                                    <div class="sop-progress-fill" id="sop-progress-fill"></div>
-                                </div>
-                                <span class="sop-progress-text" id="sop-progress-text">0/12</span>
-                            </div>
-                            <div class="sop-summary" id="sop-summary">
-                                <strong>📋 Rangkuman SOP yang dipilih:</strong>
-                                <span id="sop-summary-text">Belum ada</span>
-                            </div>
-                            <input type="hidden" id="form-sop" value="">
-                        </div>
-                    </div>
-
-                    <div id="field-notes-wrap">
-                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan Tambahan</label>
-                        <textarea id="inp-notes" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Catatan tambahan..."></textarea>
+                    <!-- Tabel Sementara -->
+                    <div class="temp-table-wrapper" id="spare-temp-table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Barcode</th>
+                                    <th>Nama</th>
+                                    <th>Tipe</th>
+                                    <th>Jumlah</th>
+                                    <th>Keterangan</th>
+                                    <th style="width:60px;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="spare-temp-body">
+                                <tr class="empty-row"><td colspan="6">Belum ada item</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
                 <div style="margin-top:24px;display:flex;gap:12px;">
                     <button type="button" onclick="closeModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
-                    <button type="submit" id="btn-submit-form" class="btn-primary" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
+                    <button type="submit" id="btn-submit-form" class="btn-primary" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">
+                        <i data-lucide="save" style="width:18px;"></i> Simpan Semua
+                    </button>
                 </div>
             </form>
         </div>
@@ -1760,7 +1703,7 @@
             </div>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto;">
                 <table class="records-table">
-                    <thead><tr><th>Tgl</th><th>User</th><th>Kategori</th><th>Nama</th><th>Jumlah</th><th>Alasan</th></tr></thead>
+                    <thead><tr><th>Tgl</th><th>User</th><th>Gudang</th><th>Barcode</th><th>Nama</th><th>Jumlah</th><th>Alasan</th></tr></thead>
                     <tbody id="pem-history-body"></tbody>
                 </table>
             </div>
@@ -1973,6 +1916,8 @@
         let pemusnahanHistory = [];
         let filterStartDate = '';
         let filterEndDate = '';
+        let spareTempItems = [];
+        let pemTempItems = [];
 
         // ============================================================
         // DEFAULT KML DATA
@@ -2321,6 +2266,8 @@
                         loadBarcodeCache();
                         loadPemusnahanHistory();
                         setupFilterEvents();
+                        setupSpareFormEvents();
+                        setupPemFormEvents();
                         return;
                     }
                 } catch(e) {}
@@ -2333,46 +2280,330 @@
             loadBarcodeCache();
             loadPemusnahanHistory();
             setupFilterEvents();
+            setupSpareFormEvents();
+            setupPemFormEvents();
         });
 
         // ============================================================
-        // SETUP FILTER EVENTS
+        // SETUP SPARE FORM EVENTS
         // ============================================================
-        function setupFilterEvents() {
-            document.getElementById('btn-filter-apply').addEventListener('click', function() {
-                filterStartDate = document.getElementById('filter-start-date').value;
-                filterEndDate = document.getElementById('filter-end-date').value;
-                renderTable();
-                showToast('✅ Filter periode diterapkan', 'success');
+        function setupSpareFormEvents() {
+            document.getElementById('btn-add-spare-item').addEventListener('click', function() {
+                addSpareTempItem();
             });
 
-            document.getElementById('btn-filter-clear').addEventListener('click', function() {
-                document.getElementById('filter-start-date').value = '';
-                document.getElementById('filter-end-date').value = '';
-                filterStartDate = '';
-                filterEndDate = '';
-                renderTable();
-                showToast('🔄 Filter periode dihapus', 'info');
+            // Enter key pada barcode untuk menambah item
+            document.getElementById('inp-barcode').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addSpareTempItem();
+                }
             });
         }
 
-        // ============================================================
-        // FILTER FUNCTIONS
-        // ============================================================
-        function isDateInRange(dateStr) {
-            if (!filterStartDate && !filterEndDate) return true;
-            if (!dateStr) return true;
-            var date = new Date(dateStr);
-            var start = filterStartDate ? new Date(filterStartDate) : null;
-            var end = filterEndDate ? new Date(filterEndDate) : null;
-            if (start && end) {
-                return date >= start && date <= end;
-            } else if (start) {
-                return date >= start;
-            } else if (end) {
-                return date <= end;
+        function addSpareTempItem() {
+            var barcode = document.getElementById('inp-barcode').value.trim();
+            var spec = document.getElementById('inp-spec').value.trim();
+            var trType = document.getElementById('inp-tr-type').value;
+            var qty = parseInt(document.getElementById('inp-qty').value) || 1;
+            var notes = document.getElementById('inp-notes-stock').value.trim();
+            var gudang = document.getElementById('inp-gudang-spare').value;
+
+            if (!gudang) {
+                showToast('❌ Pilih gudang terlebih dahulu', 'error');
+                return;
             }
-            return true;
+            if (!barcode) {
+                showToast('❌ Isi barcode', 'error');
+                return;
+            }
+            if (!spec) {
+                showToast('❌ Isi nama barang', 'error');
+                return;
+            }
+            if (!notes) {
+                showToast('❌ Isi keterangan', 'error');
+                return;
+            }
+
+            // Cek duplikat di temp
+            var existing = spareTempItems.find(function(item) { return item.barcode === barcode && item.gudang === gudang; });
+            if (existing) {
+                existing.qty += qty;
+                showToast('✅ Qty diperbarui untuk: ' + spec, 'success');
+            } else {
+                spareTempItems.push({
+                    barcode: barcode,
+                    spec: spec,
+                    trType: trType,
+                    qty: qty,
+                    notes: notes,
+                    gudang: gudang
+                });
+                showToast('✅ Item ditambahkan: ' + spec, 'success');
+            }
+
+            renderSpareTempTable();
+
+            // Reset form input
+            document.getElementById('inp-barcode').value = '';
+            document.getElementById('inp-spec').value = '';
+            document.getElementById('inp-qty').value = '1';
+            document.getElementById('inp-notes-stock').value = '';
+            document.getElementById('inp-barcode').focus();
+        }
+
+        function renderSpareTempTable() {
+            var tbody = document.getElementById('spare-temp-body');
+            if (!tbody) return;
+
+            if (spareTempItems.length === 0) {
+                tbody.innerHTML = '<tr class="empty-row"><td colspan="6">Belum ada item</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            spareTempItems.forEach(function(item, idx) {
+                tbody.innerHTML += '<tr>' +
+                    '<td><code style="background:var(--bg-light);padding:2px 6px;border-radius:4px;font-size:11px;">' +
+                    item.barcode + '</code></td>' +
+                    '<td>' + item.spec + '</td>' +
+                    '<td><span style="padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;' +
+                    (item.trType === 'Masuk' ? 'background:#DBEAFE;color:#2563EB;' :
+                        'background:#FEE2E2;color:#EF4444;') +
+                    '">' + item.trType + '</span></td>' +
+                    '<td><span style="font-weight:700;">' + item.qty + '</span></td>' +
+                    '<td style="max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + item
+                    .notes + '</td>' +
+                    '<td><button class="icon-btn delete" onclick="removeSpareTempItem(' + idx +
+                    ')"><i data-lucide="x" style="width:16px;"></i></button></td>' +
+                    '</tr>';
+            });
+
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function removeSpareTempItem(idx) {
+            spareTempItems.splice(idx, 1);
+            renderSpareTempTable();
+            showToast('🗑️ Item dihapus', 'success');
+        }
+
+        function submitSpareBatch(e) {
+            e.preventDefault();
+
+            var gudang = document.getElementById('inp-gudang-spare').value;
+            var date = document.getElementById('inp-date').value;
+
+            if (!gudang) {
+                showToast('❌ Pilih gudang', 'error');
+                return;
+            }
+            if (!date) {
+                showToast('❌ Pilih tanggal', 'error');
+                return;
+            }
+            if (spareTempItems.length === 0) {
+                showToast('❌ Tambahkan minimal 1 item', 'error');
+                return;
+            }
+
+            var submitBtn = document.getElementById('btn-submit-form');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i data-lucide="loader-circle" style="width:18px;animation:spin 1s linear infinite;"></i> Menyimpan...';
+
+            var promises = spareTempItems.map(function(item) {
+                var cat = 'Stok Spare';
+                var uniqueKey = item.barcode + '|' + item.gudang;
+
+                // Cek apakah sudah ada di database
+                return new Promise(function(resolve, reject) {
+                    var items = appData[cat] || {};
+                    var existingKey = null;
+                    var existingData = null;
+                    for (var key in items) {
+                        var existingItem = items[key];
+                        var itemKey = existingItem.barcode + '|' + existingItem.gudang;
+                        if (itemKey === uniqueKey) {
+                            existingKey = key;
+                            existingData = existingItem;
+                            break;
+                        }
+                    }
+
+                    var data = {
+                        date: date,
+                        postBy: currentUser ? currentUser.name : 'System',
+                        barcode: item.barcode,
+                        spec: item.spec,
+                        gudang: item.gudang,
+                        trType: item.trType,
+                        notes: item.notes,
+                        createdAt: Date.now()
+                    };
+
+                    if (existingKey) {
+                        var newQty = parseInt(existingData.qty) + (item.trType === 'Masuk' ? item.qty : -item.qty);
+                        if (newQty < 0) newQty = 0;
+                        return db.ref('data/' + cat + '/' + existingKey).update({
+                            qty: newQty,
+                            date: date,
+                            notes: item.notes,
+                            postBy: currentUser ? currentUser.name : 'System'
+                        }).then(function() {
+                            resolve();
+                        }).catch(function(err) {
+                            reject(err);
+                        });
+                    } else {
+                        data.qty = item.qty;
+                        return db.ref('data/' + cat).push(data).then(function() {
+                            resolve();
+                        }).catch(function(err) {
+                            reject(err);
+                        });
+                    }
+                });
+            });
+
+            Promise.all(promises)
+                .then(function() {
+                    showToast('✅ ' + spareTempItems.length + ' item berhasil disimpan!', 'success');
+                    spareTempItems = [];
+                    renderSpareTempTable();
+                    document.getElementById('inp-date').valueAsDate = new Date();
+                    document.getElementById('inp-gudang-spare').value = '';
+                    setTimeout(function() {
+                        updateStokSummary();
+                        renderTable();
+                        updateQuickStats();
+                        updateMapMarkers();
+                    }, 300);
+                    closeModal();
+                })
+                .catch(function(err) {
+                    console.error('❌ Error saving batch:', err);
+                    showToast('❌ Gagal menyimpan: ' + err.message, 'error');
+                })
+                .finally(function() {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i data-lucide="save" style="width:18px;"></i> Simpan Semua';
+                });
+        }
+
+        // ============================================================
+        // SETUP PEMUSNAHAN FORM EVENTS
+        // ============================================================
+        function setupPemFormEvents() {
+            document.getElementById('btn-add-pem-item').addEventListener('click', function() {
+                addPemTempItem();
+            });
+
+            document.getElementById('pem-barcode').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addPemTempItem();
+                }
+            });
+
+            document.getElementById('btn-pem-reset').addEventListener('click', function() {
+                pemTempItems = [];
+                renderPemTempTable();
+                document.getElementById('pem-barcode').value = '';
+                document.getElementById('pem-nama').value = '';
+                document.getElementById('pem-stok-info').textContent = '';
+                document.getElementById('pem-stok-tersedia').value = '';
+                document.getElementById('pem-jumlah').value = '1';
+                document.getElementById('pem-alasan').value = '';
+                document.getElementById('pem-gudang').value = '';
+                showToast('🔄 Form direset', 'info');
+            });
+        }
+
+        function addPemTempItem() {
+            var barcode = document.getElementById('pem-barcode').value.trim();
+            var nama = document.getElementById('pem-nama').value.trim();
+            var gudang = document.getElementById('pem-gudang').value;
+            var jumlah = parseInt(document.getElementById('pem-jumlah').value) || 1;
+            var stokTersedia = parseInt(document.getElementById('pem-stok-tersedia').value) || 0;
+
+            if (!gudang) {
+                showToast('❌ Pilih gudang terlebih dahulu', 'error');
+                return;
+            }
+            if (!barcode) {
+                showToast('❌ Isi barcode', 'error');
+                return;
+            }
+            if (!nama) {
+                showToast('❌ Nama barang tidak ditemukan, scan barcode terlebih dahulu', 'error');
+                return;
+            }
+            if (jumlah > stokTersedia) {
+                showToast('❌ Jumlah melebihi stok tersedia (' + stokTersedia + ')', 'error');
+                return;
+            }
+
+            // Cek duplikat di temp
+            var existing = pemTempItems.find(function(item) { return item.barcode === barcode && item.gudang === gudang; });
+            if (existing) {
+                var newTotal = existing.jumlah + jumlah;
+                if (newTotal > stokTersedia) {
+                    showToast('❌ Total melebihi stok tersedia (' + stokTersedia + ')', 'error');
+                    return;
+                }
+                existing.jumlah = newTotal;
+                showToast('✅ Jumlah diperbarui untuk: ' + nama, 'success');
+            } else {
+                pemTempItems.push({
+                    barcode: barcode,
+                    nama: nama,
+                    jumlah: jumlah,
+                    gudang: gudang,
+                    stokTersedia: stokTersedia
+                });
+                showToast('✅ Item ditambahkan: ' + nama, 'success');
+            }
+
+            renderPemTempTable();
+
+            // Reset form
+            document.getElementById('pem-barcode').value = '';
+            document.getElementById('pem-nama').value = '';
+            document.getElementById('pem-stok-info').textContent = '';
+            document.getElementById('pem-stok-tersedia').value = '';
+            document.getElementById('pem-jumlah').value = '1';
+            document.getElementById('pem-barcode').focus();
+        }
+
+        function renderPemTempTable() {
+            var tbody = document.getElementById('pem-temp-body');
+            if (!tbody) return;
+
+            if (pemTempItems.length === 0) {
+                tbody.innerHTML = '<tr class="empty-row"><td colspan="4">Belum ada item</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            pemTempItems.forEach(function(item, idx) {
+                tbody.innerHTML += '<tr>' +
+                    '<td><code style="background:var(--bg-light);padding:2px 6px;border-radius:4px;font-size:11px;">' +
+                    item.barcode + '</code></td>' +
+                    '<td>' + item.nama + '</td>' +
+                    '<td><span style="font-weight:700;color:#EF4444;">' + item.jumlah + '</span></td>' +
+                    '<td><button class="icon-btn delete" onclick="removePemTempItem(' + idx +
+                    ')"><i data-lucide="x" style="width:16px;"></i></button></td>' +
+                    '</tr>';
+            });
+
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function removePemTempItem(idx) {
+            pemTempItems.splice(idx, 1);
+            renderPemTempTable();
+            showToast('🗑️ Item dihapus', 'success');
         }
 
         // ============================================================
@@ -2618,6 +2849,8 @@
                 document.getElementById('pemusnahan-view').classList.add('active');
                 document.getElementById('page-title').textContent = 'Pemusnahan Barang';
                 loadPemusnahanData();
+                pemTempItems = [];
+                renderPemTempTable();
             } else {
                 document.getElementById('data-view').classList.remove('hidden');
                 var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
@@ -2635,12 +2868,12 @@
         // ============================================================
         function autoFillPemusnahan() {
             var barcode = document.getElementById('pem-barcode').value.trim();
-            var kategori = document.getElementById('pem-kategori').value;
+            var gudang = document.getElementById('pem-gudang').value;
             var namaField = document.getElementById('pem-nama');
             var stokInfo = document.getElementById('pem-stok-info');
             var stokTersedia = document.getElementById('pem-stok-tersedia');
 
-            if (!barcode || barcode.length < 3) {
+            if (!barcode || barcode.length < 3 || !gudang) {
                 namaField.value = '';
                 stokInfo.textContent = '';
                 stokTersedia.value = '';
@@ -2653,11 +2886,10 @@
                 var list = appData[c] || {};
                 for (var key in list) {
                     var item = list[key];
-                    if (item.barcode && item.barcode.toLowerCase() === barcode.toLowerCase()) {
+                    if (item.barcode && item.barcode.toLowerCase() === barcode.toLowerCase() && item.gudang === gudang) {
                         namaField.value = item.spec || item.pcType || 'Unknown';
-                        stokInfo.textContent = '✅ Barang ditemukan di ' + c;
+                        stokInfo.textContent = '✅ Barang ditemukan di ' + c + ' - ' + gudang;
                         stokTersedia.value = item.qty || 0;
-                        document.getElementById('pem-kategori').value = c;
                         found = true;
                         break;
                     }
@@ -2666,8 +2898,8 @@
             }
 
             if (!found) {
-                namaField.value = '❌ Barcode tidak ditemukan';
-                stokInfo.textContent = '⚠️ Barcode tidak terdaftar di database';
+                namaField.value = '❌ Barcode tidak ditemukan di gudang ini';
+                stokInfo.textContent = '⚠️ Barcode tidak terdaftar di gudang ' + gudang;
                 stokTersedia.value = '0';
             }
         }
@@ -2682,91 +2914,91 @@
         function submitPemusnahanPage(e) {
             e.preventDefault();
 
-            var kategori = document.getElementById('pem-kategori').value;
-            var barcode = document.getElementById('pem-barcode').value.trim();
-            var nama = document.getElementById('pem-nama').value.trim();
-            var jumlah = parseInt(document.getElementById('pem-jumlah').value) || 1;
+            var gudang = document.getElementById('pem-gudang').value;
             var alasan = document.getElementById('pem-alasan').value.trim();
-            var stokTersedia = parseInt(document.getElementById('pem-stok-tersedia').value) || 0;
 
-            if (!kategori || !barcode || !nama || jumlah < 1 || !alasan) {
-                showToast('❌ Semua field harus diisi', 'error');
-                return false;
+            if (!gudang) {
+                showToast('❌ Pilih gudang', 'error');
+                return;
+            }
+            if (pemTempItems.length === 0) {
+                showToast('❌ Tambahkan minimal 1 item untuk dimusnahkan', 'error');
+                return;
+            }
+            if (!alasan) {
+                showToast('❌ Isi alasan pemusnahan', 'error');
+                return;
             }
 
-            if (jumlah > stokTersedia) {
-                showToast('❌ Jumlah melebihi stok tersedia (' + stokTersedia + ')', 'error');
-                return false;
-            }
-
-            if (!confirm('Konfirmasi pemusnahan ' + jumlah + ' unit ' + nama + ' dari ' + kategori +
+            if (!confirm('Konfirmasi pemusnahan ' + pemTempItems.length + ' item dari gudang ' + gudang +
                     '?\nAlasan: ' + alasan)) {
-                return false;
+                return;
             }
 
             var submitBtn = e.target.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Memproses...';
 
-            var targetKey = null;
-            var list = appData[kategori] || {};
-            for (var key in list) {
-                var item = list[key];
-                if (item.barcode && item.barcode.toLowerCase() === barcode.toLowerCase()) {
-                    targetKey = key;
-                    break;
-                }
-            }
-
-            if (!targetKey) {
-                showToast('❌ Barang tidak ditemukan di database', 'error');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Konfirmasi Pemusnahan';
-                return false;
-            }
-
-            var ref = db.ref('data/' + kategori + '/' + targetKey);
-            ref.once('value')
-                .then(function(snap) {
-                    var item = snap.val();
-                    if (!item) {
-                        showToast('❌ Data tidak ditemukan', 'error');
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Konfirmasi Pemusnahan';
-                        return;
+            var promises = pemTempItems.map(function(item) {
+                var cat = 'Stok Spare';
+                var targetKey = null;
+                var list = appData[cat] || {};
+                for (var key in list) {
+                    var existingItem = list[key];
+                    if (existingItem.barcode && existingItem.barcode.toLowerCase() === item.barcode.toLowerCase() &&
+                        existingItem.gudang === gudang) {
+                        targetKey = key;
+                        break;
                     }
+                }
 
-                    var newQty = (item.qty || 0) - jumlah;
+                if (!targetKey) {
+                    return Promise.reject(new Error('Barang ' + item.nama + ' tidak ditemukan di gudang ' + gudang));
+                }
+
+                var ref = db.ref('data/' + cat + '/' + targetKey);
+                return ref.once('value').then(function(snap) {
+                    var existingData = snap.val();
+                    if (!existingData) {
+                        throw new Error('Data tidak ditemukan untuk ' + item.nama);
+                    }
+                    var newQty = (existingData.qty || 0) - item.jumlah;
                     if (newQty < 0) newQty = 0;
 
                     return ref.update({
                         qty: newQty,
-                        notes: (item.notes || '') + ' | Pemusnahan: ' + alasan + ' (' + jumlah + ' unit)',
+                        notes: (existingData.notes || '') + ' | Pemusnahan: ' + alasan + ' (' + item.jumlah +
+                            ' unit)',
                         lastUpdate: Date.now()
                     }).then(function() {
                         var historyData = {
                             date: new Date().toISOString().slice(0, 10),
                             postBy: currentUser ? currentUser.name : 'System',
-                            kategori: kategori,
-                            barcode: barcode,
-                            nama: nama,
-                            jumlah: jumlah,
+                            gudang: gudang,
+                            barcode: item.barcode,
+                            nama: item.nama,
+                            jumlah: item.jumlah,
                             alasan: alasan,
                             trType: 'Pemusnahan',
                             createdAt: Date.now()
                         };
                         return db.ref('history/pemusnahan').push(historyData);
                     });
-                })
+                });
+            });
+
+            Promise.all(promises)
                 .then(function() {
-                    showToast('✅ Pemusnahan berhasil! Stok berkurang ' + jumlah + ' unit', 'success');
+                    showToast('✅ Pemusnahan ' + pemTempItems.length + ' item berhasil!', 'success');
+                    pemTempItems = [];
+                    renderPemTempTable();
                     document.getElementById('pem-barcode').value = '';
                     document.getElementById('pem-nama').value = '';
                     document.getElementById('pem-stok-info').textContent = '';
                     document.getElementById('pem-stok-tersedia').value = '';
                     document.getElementById('pem-jumlah').value = '1';
                     document.getElementById('pem-alasan').value = '';
-                    document.getElementById('pem-kategori').value = '';
+                    document.getElementById('pem-gudang').value = '';
                     setTimeout(function() {
                         updateStokSummary();
                         renderTable();
@@ -2792,13 +3024,15 @@
             tbody.innerHTML = '';
 
             if (pemusnahanHistory.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:20px;">Belum ada riwayat pemusnahan</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px;">Belum ada riwayat pemusnahan</td></tr>';
             } else {
                 pemusnahanHistory.forEach(function(item) {
                     tbody.innerHTML += '<tr>' +
                         '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
                         '<td>' + (item.postBy || '-') + '</td>' +
-                        '<td>' + (item.kategori || '-') + '</td>' +
+                        '<td>' + (item.gudang || '-') + '</td>' +
+                        '<td><code style="background:var(--bg-light);padding:2px 6px;border-radius:4px;font-size:11px;">' +
+                        (item.barcode || '-') + '</code></td>' +
                         '<td>' + (item.nama || '-') + '</td>' +
                         '<td><span style="font-weight:700;color:#EF4444;">' + (item.jumlah || 0) + '</span></td>' +
                         '<td style="max-width:150px;white-space:normal;font-size:12px;">' + (item.alasan || '-') +
@@ -2820,7 +3054,7 @@
                 return {
                     'Tanggal': item.date || '-',
                     'User': item.postBy || '-',
-                    'Kategori': item.kategori || '-',
+                    'Gudang': item.gudang || '-',
                     'Barcode': item.barcode || '-',
                     'Nama': item.nama || '-',
                     'Jumlah': item.jumlah || 0,
@@ -2833,6 +3067,46 @@
             XLSX.utils.book_append_sheet(wb, ws, 'Pemusnahan');
             XLSX.writeFile(wb, 'Pemusnahan_' + new Date().toISOString().slice(0, 10) + '.xlsx');
             showToast('✅ Excel pemusnahan berhasil didownload', 'success');
+        }
+
+        // ============================================================
+        // SETUP FILTER EVENTS
+        // ============================================================
+        function setupFilterEvents() {
+            document.getElementById('btn-filter-apply').addEventListener('click', function() {
+                filterStartDate = document.getElementById('filter-start-date').value;
+                filterEndDate = document.getElementById('filter-end-date').value;
+                renderTable();
+                showToast('✅ Filter periode diterapkan', 'success');
+            });
+
+            document.getElementById('btn-filter-clear').addEventListener('click', function() {
+                document.getElementById('filter-start-date').value = '';
+                document.getElementById('filter-end-date').value = '';
+                filterStartDate = '';
+                filterEndDate = '';
+                renderTable();
+                showToast('🔄 Filter periode dihapus', 'info');
+            });
+        }
+
+        // ============================================================
+        // FILTER FUNCTIONS
+        // ============================================================
+        function isDateInRange(dateStr) {
+            if (!filterStartDate && !filterEndDate) return true;
+            if (!dateStr) return true;
+            var date = new Date(dateStr);
+            var start = filterStartDate ? new Date(filterStartDate) : null;
+            var end = filterEndDate ? new Date(filterEndDate) : null;
+            if (start && end) {
+                return date >= start && date <= end;
+            } else if (start) {
+                return date >= start;
+            } else if (end) {
+                return date <= end;
+            }
+            return true;
         }
 
         // ============================================================
@@ -2878,38 +3152,24 @@
             });
 
             var addBtn = document.getElementById('btn-add');
-            if (addBtn) addBtn.addEventListener('click', handleAddClick);
-
-            var submitBtn = document.getElementById('btn-submit-form');
-            if (submitBtn) {
-                submitBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    submitForm(e);
-                });
-            }
-
-            var dataForm = document.getElementById('data-form');
-            if (dataForm) {
-                dataForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    submitForm(e);
-                });
-            }
-
-            var searchInput = document.getElementById('search-input');
-            if (searchInput) searchInput.addEventListener('input', renderTable);
-
-            var barcodeInput = document.getElementById('inp-barcode');
-            if (barcodeInput) {
-                barcodeInput.addEventListener('input', function() {
+            if (addBtn) {
+                addBtn.addEventListener('click', function() {
                     if (currentCategory === 'Stok Spare') {
-                        var code = this.value.trim();
-                        if (code && barcodeCache[code]) {
-                            document.getElementById('inp-spec').value = barcodeCache[code];
-                        } else if (code && code.length > 3) {
-                            document.getElementById('inp-spec').value = '';
-                            document.getElementById('inp-spec').placeholder = 'Input nama barang baru...';
-                        }
+                        // Buka modal spare dengan form multi-item
+                        document.getElementById('form-modal').classList.remove('hidden');
+                        document.getElementById('modal-title').textContent = 'Tambah Stok Spare';
+                        document.getElementById('inp-cat').value = 'Stok Spare';
+                        document.getElementById('inp-date').valueAsDate = new Date();
+                        document.getElementById('inp-gudang-spare').value = '';
+                        spareTempItems = [];
+                        renderSpareTempTable();
+                        // Reset input
+                        document.getElementById('inp-barcode').value = '';
+                        document.getElementById('inp-spec').value = '';
+                        document.getElementById('inp-qty').value = '1';
+                        document.getElementById('inp-notes-stock').value = '';
+                    } else {
+                        handleAddClick();
                     }
                 });
             }
@@ -2957,10 +3217,12 @@
             });
 
             document.getElementById('btn-pem-history').addEventListener('click', showPemusnahanHistory);
-            document.getElementById('btn-pem-excel').addEventListener('click', downloadPemusnahanExcel);
             document.getElementById('btn-pem-history-excel').addEventListener('click', downloadPemusnahanExcel);
 
             document.getElementById('pem-barcode').addEventListener('input', autoFillPemusnahan);
+            document.getElementById('pem-gudang').addEventListener('change', function() {
+                autoFillPemusnahan();
+            });
 
             var returPageBtn = document.getElementById('btn-retur-page');
             if (returPageBtn) {
@@ -3459,7 +3721,7 @@
         }
 
         // ============================================================
-        // HANDLE ADD CLICK
+        // HANDLE ADD CLICK (untuk kategori lain)
         // ============================================================
         function handleAddClick() {
             var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
@@ -3572,7 +3834,7 @@
         }
 
         // ============================================================
-        // SUBMIT FORM
+        // SUBMIT FORM (untuk kategori lain selain Stok Spare multi-item)
         // ============================================================
         function submitForm(e) {
             if (e && e.preventDefault) {
@@ -4160,7 +4422,6 @@
                     });
                 }
 
-                // Filter by date range
                 if (filterStartDate || filterEndDate) {
                     filteredKeys = filteredKeys.filter(function(key) {
                         var item = list[key];
