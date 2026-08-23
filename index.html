@@ -620,7 +620,6 @@
   <main class="main-content">
     <!-- DASHBOARD VIEW -->
     <section id="dashboard-view">
-      <!-- HERO PANEL - HANYA TULISAN -->
       <div class="hero-panel">
         <h1 style="margin:0;font-size:26px;font-weight:800;line-height:1.2;" id="hero-title">Barisan Utama<br>Cegah Insiden</h1>
         <p style="margin:8px 0 0;opacity:0.9;font-size:15px;font-weight:500;" id="hero-subtitle">Pusat Operasi Jaringan Sulawesi Utara</p>
@@ -1438,13 +1437,28 @@ function setupEventListeners() {
   var addBtn = document.getElementById('btn-add');
   if (addBtn) addBtn.addEventListener('click', handleAddClick);
   
-  // FORM SUBMIT - Perbaikan utama
+  // ===== PERBAIKAN UTAMA: FORM SUBMIT =====
+  // Gunakan event listener langsung pada tombol, bukan form submit
+  var submitBtn = document.getElementById('btn-submit-form');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('✅ Tombol simpan diklik');
+      submitForm(e);
+    });
+    console.log('✅ Submit button listener attached');
+  } else {
+    console.error('❌ Tombol submit tidak ditemukan!');
+  }
+  
+  // Backup: form submit juga
   var dataForm = document.getElementById('data-form');
   if (dataForm) {
-    dataForm.addEventListener('submit', submitForm);
-    console.log('✅ Form submit listener attached');
-  } else {
-    console.error('❌ Form not found!');
+    dataForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      console.log('✅ Form submit event triggered');
+      submitForm(e);
+    });
   }
   
   // Search
@@ -2064,8 +2078,12 @@ function closeModal() {
 // SUBMIT FORM - FIXED
 // ============================================================
 function submitForm(e) {
-  e.preventDefault();
-  console.log('✅ Submit form triggered');
+  // Jika e ada, prevent default
+  if (e && e.preventDefault) {
+    e.preventDefault();
+  }
+  
+  console.log('✅ submitForm() called');
   
   if (isSubmitting) {
     showToast('⏳ Sedang memproses...', 'error');
