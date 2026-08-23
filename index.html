@@ -1047,7 +1047,6 @@
                     <h1 style="margin:0;font-size:26px;font-weight:800;line-height:1.2;" id="hero-title">Barisan Utama<br>Cegah Insiden</h1>
                     <p style="margin:8px 0 0;opacity:0.9;font-size:15px;font-weight:500;" id="hero-subtitle">Pusat Operasi Jaringan Sulawesi Utara</p>
                     <p class="hero-about" id="hero-about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
-                    <!-- Badge removed per request -->
                 </div>
 
                 <!-- GRAFIK -->
@@ -2392,7 +2391,9 @@
             if (returPageBtn) {
                 returPageBtn.addEventListener('click', function() {
                     document.getElementById('app-shell').classList.add('hidden');
-                    document.getElementById('retur-page').classList.remove('hidden');
+                    var returPage = document.getElementById('retur-page');
+                    returPage.classList.remove('hidden');
+                    returPage.classList.add('active');
                     initReturPage();
                 });
             }
@@ -2400,7 +2401,9 @@
             var backToMain = document.getElementById('back-to-main');
             if (backToMain) {
                 backToMain.addEventListener('click', function() {
-                    document.getElementById('retur-page').classList.add('hidden');
+                    var returPage = document.getElementById('retur-page');
+                    returPage.classList.remove('active');
+                    returPage.classList.add('hidden');
                     document.getElementById('app-shell').classList.remove('hidden');
                     stopScanner('ret');
                 });
@@ -2498,6 +2501,7 @@
             // Back button support
             window.addEventListener('popstate', function(e) {
                 if (document.getElementById('retur-page').classList.contains('active')) {
+                    document.getElementById('retur-page').classList.remove('active');
                     document.getElementById('retur-page').classList.add('hidden');
                     document.getElementById('app-shell').classList.remove('hidden');
                     stopScanner('ret');
@@ -2982,7 +2986,6 @@
                     document.getElementById('field-patchcord').classList.remove('hidden');
                     document.getElementById('field-stock').classList.add('hidden');
                     document.getElementById('patchcord-gudang-display').textContent = selectedGudang || 'Belum dipilih';
-                    // For Patch Cord, notes field is inside patchcord section
                     document.getElementById('field-notes-wrap').classList.add('hidden');
                 }
             }
@@ -3890,21 +3893,21 @@
         // ============================================================
         function initReturPage() {
             console.log('✅ initReturPage() called');
-
-            document.getElementById('ret-no').value = 'RET-' + Date.now().toString().slice(-6);
-            document.getElementById('ret-date').valueAsDate = new Date();
-            document.getElementById('ret-gudang').value = '';
-            document.getElementById('ret-barcode').value = '';
-            document.getElementById('ret-item-name').value = '';
-            document.getElementById('ret-item-qty').value = '1';
-
-            returnItems = [];
-
-            renderReturList();
-
-            stopScanner('ret');
-
-            showToast('🔄 Halaman retur direset', 'success');
+            try {
+                document.getElementById('ret-no').value = 'RET-' + Date.now().toString().slice(-6);
+                document.getElementById('ret-date').valueAsDate = new Date();
+                document.getElementById('ret-gudang').value = '';
+                document.getElementById('ret-barcode').value = '';
+                document.getElementById('ret-item-name').value = '';
+                document.getElementById('ret-item-qty').value = '1';
+                returnItems = [];
+                renderReturList();
+                stopScanner('ret');
+                showToast('🔄 Halaman retur direset', 'success');
+            } catch(e) {
+                console.error('❌ Error initReturPage:', e);
+                showToast('❌ Error: ' + e.message, 'error');
+            }
         }
 
         function addReturItem() {
