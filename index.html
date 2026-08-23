@@ -918,329 +918,15 @@
             border-color: var(--primary-blue);
             background: var(--primary-blue-light);
         }
+        .settings-section .upload-area input[type="file"] {
+            display: none;
+        }
 
         .chart-container {
             height: 160px;
         }
         .chart-container canvas {
             max-height: 160px;
-        }
-
-        /* ===== AI CHAT MODAL ===== */
-        #ai-modal .modal-card {
-            max-width: 700px;
-            padding: 0;
-            overflow: hidden;
-            border-radius: 24px;
-        }
-        #ai-modal .ai-header {
-            padding: 18px 24px;
-            background: var(--blue-gradient);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            flex-shrink: 0;
-        }
-        #ai-modal .ai-header h3 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        #ai-modal .ai-header h3 .badge {
-            font-size: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 2px 10px;
-            border-radius: 99px;
-            font-weight: 600;
-        }
-        #ai-modal .ai-header .close-ai {
-            background: rgba(255, 255, 255, 0.15);
-            border: none;
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            transition: background 0.2s;
-        }
-        #ai-modal .ai-header .close-ai:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        #ai-modal .ai-body {
-            padding: 20px 24px;
-            max-height: 440px;
-            overflow-y: auto;
-            background: #F8FAFC;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            min-height: 200px;
-        }
-        #ai-modal .ai-body .ai-msg {
-            max-width: 92%;
-            padding: 12px 16px;
-            border-radius: 16px;
-            font-size: 14px;
-            line-height: 1.6;
-            animation: slideUp 0.3s ease;
-            word-break: break-word;
-        }
-        #ai-modal .ai-body .ai-msg.user {
-            align-self: flex-end;
-            background: var(--primary-blue);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-        #ai-modal .ai-body .ai-msg.ai {
-            align-self: flex-start;
-            background: white;
-            color: var(--text-dark);
-            border: 1px solid var(--line);
-            border-bottom-left-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-        #ai-modal .ai-body .ai-msg.ai .cmd-block {
-            background: #F1F5F9;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            margin-top: 8px;
-            border-left: 3px solid var(--primary-blue);
-            overflow-x: auto;
-            white-space: pre-wrap;
-        }
-        #ai-modal .ai-body .ai-msg.ai .cmd-done {
-            color: #059669;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 8px;
-            background: #ECFDF5;
-            padding: 4px 12px;
-            border-radius: 99px;
-            font-size: 12px;
-        }
-        #ai-modal .ai-body .ai-msg.ai .cmd-fail {
-            color: #EF4444;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 8px;
-            background: #FEE2E2;
-            padding: 4px 12px;
-            border-radius: 99px;
-            font-size: 12px;
-        }
-        #ai-modal .ai-body .ai-msg.ai .cmd-warn {
-            color: #D97706;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 8px;
-            background: #FEF3C7;
-            padding: 4px 12px;
-            border-radius: 99px;
-            font-size: 12px;
-        }
-        #ai-modal .ai-body .ai-msg.ai .error-detail {
-            background: #FEF2F2;
-            border: 1px solid #FECACA;
-            border-radius: 8px;
-            padding: 8px 12px;
-            margin-top: 6px;
-            font-size: 12px;
-            color: #991B1B;
-        }
-        #ai-modal .ai-body .ai-msg.ai .fix-btn {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 4px 16px;
-            background: var(--blue-gradient);
-            color: white;
-            border-radius: 99px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-        #ai-modal .ai-body .ai-msg.ai .fix-btn:hover {
-            transform: scale(1.05);
-        }
-        #ai-modal .ai-body .typing-indicator {
-            align-self: flex-start;
-            background: white;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            padding: 12px 20px;
-            font-size: 13px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        #ai-modal .ai-body .typing-indicator .dot {
-            animation: pulse-dot 1.4s infinite;
-            font-size: 20px;
-            line-height: 1;
-        }
-        #ai-modal .ai-body .typing-indicator .dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        #ai-modal .ai-body .typing-indicator .dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        @keyframes pulse-dot {
-            0%,
-            60%,
-            100% {
-                opacity: 0.2;
-                transform: translateY(0);
-            }
-            30% {
-                opacity: 1;
-                transform: translateY(-4px);
-            }
-        }
-
-        #ai-modal .ai-footer {
-            padding: 16px 24px;
-            background: white;
-            border-top: 1px solid var(--line);
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-shrink: 0;
-            flex-wrap: wrap;
-        }
-        #ai-modal .ai-footer input {
-            flex: 1;
-            min-height: 44px;
-            border: 2px solid var(--line);
-            border-radius: 12px;
-            padding: 0 16px;
-            font-size: 14px;
-            outline: none;
-            font-family: inherit;
-            transition: border-color 0.2s;
-            min-width: 120px;
-        }
-        #ai-modal .ai-footer input:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-        }
-        #ai-modal .ai-footer button {
-            min-height: 44px;
-            padding: 0 20px;
-            border-radius: 12px;
-            border: none;
-            background: var(--blue-gradient);
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-        #ai-modal .ai-footer button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-        }
-        #ai-modal .ai-footer button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        #ai-modal .ai-footer .ai-status {
-            font-size: 11px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        #ai-modal .ai-footer .ai-status .dot-online {
-            width: 8px;
-            height: 8px;
-            background: #10B981;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .ai-suggestions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 8px;
-        }
-        .ai-suggestions .chip {
-            background: var(--bg-light);
-            border: 1px solid var(--line);
-            border-radius: 99px;
-            padding: 4px 14px;
-            font-size: 11px;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .ai-suggestions .chip:hover {
-            border-color: var(--primary-blue);
-            color: var(--primary-blue);
-            background: var(--primary-blue-light);
-        }
-        .ai-suggestions .chip.danger {
-            border-color: #FCA5A5;
-            color: #DC2626;
-        }
-        .ai-suggestions .chip.danger:hover {
-            background: #FEE2E2;
-            border-color: #EF4444;
-        }
-
-        /* AI Error Scanner Badge */
-        .error-badge {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            z-index: 60;
-            background: #EF4444;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 99px;
-            font-size: 11px;
-            font-weight: 700;
-            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            gap: 6px;
-            animation: pulse-badge 2s infinite;
-        }
-        .error-badge.show {
-            display: flex;
-        }
-        @keyframes pulse-badge {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
         }
 
         @media(min-width:768px) {
@@ -1283,25 +969,6 @@
                 padding: 10px 18px;
                 font-size: 13px;
                 min-height: 42px;
-            }
-            #ai-modal .ai-body {
-                max-height: 300px;
-                padding: 16px;
-            }
-            #ai-modal .ai-footer {
-                padding: 12px 16px;
-                flex-direction: column;
-            }
-            #ai-modal .ai-footer input {
-                min-width: 100%;
-            }
-            #ai-modal .ai-footer button {
-                width: 100%;
-                justify-content: center;
-            }
-            #ai-modal .ai-footer .ai-status {
-                width: 100%;
-                justify-content: center;
             }
         }
     </style>
@@ -1359,12 +1026,6 @@
         </div>
     </div>
 
-    <!-- ===== ERROR BADGE ===== -->
-    <div id="error-badge" class="error-badge" onclick="openAIModal()">
-        <i data-lucide="alert-triangle" style="width:14px;"></i>
-        <span id="error-count">0</span> Error Terdeteksi
-    </div>
-
     <!-- ===== APP SHELL ===== -->
     <div id="app-shell" class="hidden">
         <header class="top-header">
@@ -1373,11 +1034,6 @@
                 <span class="brand-text">BUCIN</span>
             </div>
             <div style="display:flex;gap:6px;align-items:center;">
-                <!-- Tombol AI untuk Admin -->
-                <button id="ai-btn" class="icon-btn hidden" title="AI Assistant" style="background:var(--blue-gradient);color:white;border-radius:12px;width:40px;height:40px;position:relative;">
-                    <i data-lucide="bot" style="width:22px;height:22px;"></i>
-                    <span style="position:absolute;top:-4px;right:-4px;width:10px;height:10px;background:#10B981;border-radius:50%;border:2px solid white;"></span>
-                </button>
                 <button id="add-user-btn" class="icon-btn hidden" title="Tambah User"><i data-lucide="user-plus" style="width:20px;"></i></button>
                 <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:20px;"></i></button>
                 <button id="logout-btn" class="icon-btn" title="Keluar"><i data-lucide="log-out" style="width:20px;"></i></button>
@@ -1439,6 +1095,9 @@
                                 <i data-lucide="upload" style="width:14px;"></i> KML
                             </label>
                             <input type="file" id="kml-upload" accept=".kml" style="display:none;" onchange="handleKMLUpload(this)">
+                            <button id="btn-download-kml" class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;" onclick="downloadKML()">
+                                <i data-lucide="download" style="width:14px;"></i> KML
+                            </button>
                         </div>
                     </div>
                     <div id="map-wrapper" style="position:relative;">
@@ -1464,6 +1123,9 @@
                         </button>
                         <button id="btn-retur-page" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;">
                             <i data-lucide="undo-2" style="width:16px;"></i> Retur
+                        </button>
+                        <button id="btn-download-excel-page" class="btn-secondary" style="padding:8px 16px;font-size:13px;border-radius:20px;">
+                            <i data-lucide="file-spreadsheet" style="width:16px;"></i> Excel
                         </button>
                         <button id="btn-add" class="btn-primary" style="padding:8px 20px;font-size:13px;border-radius:20px;">
                             <i data-lucide="plus" style="width:16px;"></i> Tambah
@@ -1565,7 +1227,7 @@
                         <input type="date" id="inp-date" class="field-control" required>
                     </div>
 
-                    <!-- STOCK FIELDS -->
+                    <!-- STOCK FIELDS (Stok Spare) -->
                     <div id="field-stock" class="hidden">
                         <div style="background:var(--bg-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid var(--line);">
                             <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:4px;">Gudang Terpilih</div>
@@ -1610,7 +1272,7 @@
                         </div>
                     </div>
 
-                    <!-- PATCH CORD FIELDS - TIDAK ADA BARCODE -->
+                    <!-- PATCH CORD FIELDS - TANPA BARCODE -->
                     <div id="field-patchcord" class="hidden">
                         <div style="background:#DBEAFE;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #93C5FD;">
                             <div style="font-size:12px;font-weight:600;color:#1D4ED8;margin-bottom:4px;">📦 Spesifikasi Patch Cord</div>
@@ -1668,7 +1330,7 @@
                         </div>
                     </div>
 
-                    <!-- NORMAL FIELDS -->
+                    <!-- NORMAL FIELDS (untuk kategori yang memerlukan lokasi) -->
                     <div id="field-normal">
                         <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Lokasi <span style="color:#EF4444;">*</span></label>
                         <div style="display:flex;gap:8px;align-items:center;">
@@ -1679,9 +1341,21 @@
                         </div>
                     </div>
 
+                    <!-- FIELD COORDINATES -->
                     <div id="field-coords-wrap" class="hidden">
                         <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Titik Koordinat <span style="color:#EF4444;">*</span></label>
                         <input type="text" id="inp-coords" class="field-control" placeholder="Klik pada peta untuk mengisi" readonly required>
+                    </div>
+
+                    <!-- FIELD LOKASI PENYIMPANAN UNTUK ALKUR -->
+                    <div id="field-lokasi-alkur" class="hidden">
+                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Lokasi Penyimpanan <span style="color:#EF4444;">*</span></label>
+                        <select id="inp-lokasi-alkur" class="field-control" required>
+                            <option value="">-- Pilih Lokasi --</option>
+                            <option value="CLS MAMI">CLS MAMI</option>
+                            <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
+                            <option value="CLS KAUDITAN">CLS KAUDITAN</option>
+                        </select>
                     </div>
 
                     <!-- SOP CHECKLIST -->
@@ -1749,6 +1423,34 @@
                 <button onclick="closeMapModal()" class="btn-secondary">Batal</button>
                 <button onclick="selectMapLocation()" class="btn-primary" id="btn-select-location" disabled>Pilih Lokasi Ini</button>
             </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL ADD USER ===== -->
+    <div id="add-user-modal" class="modal-layer hidden">
+        <div class="modal-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+                <h3 style="margin:0;font-size:20px;font-weight:800;">Tambah User</h3>
+                <button onclick="document.getElementById('add-user-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+            </div>
+            <form id="add-user-form" onsubmit="return submitAddUser(event)">
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Username</label>
+                    <input type="text" id="new-username" class="field-control" placeholder="Nama pengguna" required>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Password</label>
+                    <input type="password" id="new-password" class="field-control" placeholder="Kata sandi" required>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Role</label>
+                    <select id="new-role" class="field-control">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">Tambah User</button>
+            </form>
         </div>
     </div>
 
@@ -1842,17 +1544,15 @@
                 </h3>
                 <button onclick="document.getElementById('history-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
             </div>
-            <div style="display:flex;gap:8px;margin-bottom:16px;">
-                <button id="btn-download-excel" class="btn-primary" style="padding:8px 16px;font-size:13px;border-radius:20px;width:auto;display:flex;align-items:center;gap:6px;">
-                    <i data-lucide="file-spreadsheet" style="width:16px;"></i> Download Excel
-                </button>
-            </div>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto;">
                 <table class="records-table">
                     <thead><tr><th>Tgl</th><th>User</th><th>Gudang</th><th>Item</th><th>Tipe</th><th>Qty</th></tr></thead>
                     <tbody id="history-body"></tbody>
                 </table>
             </div>
+            <button id="btn-download-excel-history" class="btn-primary" style="width:100%;margin-top:16px;justify-content:center;">
+                <i data-lucide="file-spreadsheet" style="width:16px;"></i> Download Excel
+            </button>
         </div>
     </div>
 
@@ -1885,8 +1585,16 @@
                         <input type="color" id="set-bg-color2" value="#DBEAFE" style="width:100%;height:40px;border-radius:8px;border:1px solid var(--line);cursor:pointer;">
                     </div>
                     <div>
-                        <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Gambar Background (URL)</label>
-                        <input type="text" id="set-bg-image" class="field-control" placeholder="https://example.com/image.jpg" style="border-radius:12px;">
+                        <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Upload Gambar Background</label>
+                        <div class="upload-area" onclick="document.getElementById('bg-image-input').click()">
+                            <i data-lucide="upload" style="width:24px;height:24px;margin-bottom:4px;color:var(--primary-blue);"></i>
+                            <p style="font-size:12px;color:var(--text-muted);">Klik untuk upload gambar (JPG, PNG)</p>
+                            <input type="file" id="bg-image-input" accept="image/*" onchange="handleBgImageUpload(this)">
+                        </div>
+                        <div id="bg-image-preview" style="margin-top:8px;display:none;">
+                            <img id="bg-image-preview-img" src="" alt="Preview" style="max-width:100%;max-height:100px;border-radius:8px;border:1px solid var(--line);">
+                            <button onclick="removeBgImage()" class="btn-secondary" style="margin-top:4px;padding:4px 12px;font-size:11px;">Hapus Gambar</button>
+                        </div>
                     </div>
                     <div>
                         <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Transparansi Background</label>
@@ -1900,63 +1608,6 @@
             <button id="btn-save-settings" class="btn-primary" style="width:100%;justify-content:center;border-radius:20px;padding:12px;margin-top:16px;">Simpan Pengaturan</button>
         </div>
     </div>
-
-    <!-- ===== MODAL AI ASSISTANT (Super Intelligent) ===== -->
-    <div id="ai-modal" class="modal-layer hidden">
-        <div class="modal-card" style="max-width:700px;padding:0;border-radius:24px;overflow:hidden;">
-            <div class="ai-header">
-                <h3>
-                    <i data-lucide="brain" style="width:24px;height:24px;"></i>
-                    AI Smart Assistant
-                    <span class="badge">v4.0</span>
-                </h3>
-                <button class="close-ai" onclick="closeAIModal()">
-                    <i data-lucide="x" style="width:20px;height:20px;"></i>
-                </button>
-            </div>
-            <div class="ai-body" id="ai-body">
-                <div class="ai-msg ai">
-                    <strong>🧠 AI Super Assistant — BUCIN</strong><br>
-                    Saya adalah asisten cerdas dengan pemahaman bahasa alami tingkat lanjut. Saya dapat memahami hampir semua pertanyaan dan perintah dalam bahasa Indonesia, mengingat konteks percakapan, dan membantu Anda mengelola sistem dengan cara yang paling alami.
-                    <br><br>
-                    <strong>✨ Kemampuan Saya:</strong><br>
-                    • 💬 <strong>Percakapan alami</strong> — Bicaralah seperti ke teman<br>
-                    • 🧠 <strong>Memori kontekstual</strong> — Saya ingat percakapan kita<br>
-                    • 🔍 <strong>Diagnosis cerdas</strong> — Deteksi & perbaiki error otomatis<br>
-                    • 🎨 <strong>Modifikasi UI</strong> — Ubah tampilan dengan perintah sederhana<br>
-                    • 📊 <strong>Analisis data</strong> — Tampilkan ringkasan data dengan cepat<br>
-                    • ⚡ <strong>Eksekusi kode</strong> — Jalankan JavaScript secara dinamis<br>
-                    • ❓ <strong>Tanya jawab</strong> — Saya tahu banyak tentang sistem ini<br>
-                    <br>
-                    <strong>📌 Coba katakan:</strong><br>
-                    "Halo, apa kabar?"<br>
-                    "Tolong scan sistem"<br>
-                    "Tampilkan data stok"<br>
-                    "Ubah judul hero menjadi BUCIN Hebat"<br>
-                    "Buka halaman retur"<br>
-                    "Apa itu OF Cut?"<br>
-                    "Bantu saya, sistem error"<br>
-                    <div class="ai-suggestions" style="margin-top:10px;">
-                        <span class="chip" onclick="fillAIInput('Halo, apa kabar?')">👋 Sapaan</span>
-                        <span class="chip" onclick="fillAIInput('Tolong scan sistem')">🔍 Scan</span>
-                        <span class="chip" onclick="fillAIInput('Tampilkan data stok')">📦 Stok</span>
-                        <span class="chip" onclick="fillAIInput('Apa itu OF Cut?')">❓ Tanya</span>
-                        <span class="chip" onclick="fillAIInput('Buka dashboard')">🏠 Navigasi</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ai-footer">
-                <input type="text" id="ai-input" placeholder="Ketik apa saja..." onkeydown="if(event.key==='Enter') sendAICommand()">
-                <button id="ai-send-btn" onclick="sendAICommand()">
-                    <i data-lucide="send" style="width:18px;height:18px;"></i> Kirim
-                </button>
-                <div class="ai-status">
-                    <span class="dot-online"></span> Online
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <script>
         // ============================================================
@@ -2334,18 +1985,39 @@
                 lucide.createIcons();
             }
 
+            // Check session
+            var savedSession = localStorage.getItem('bucin_session');
+            if (savedSession) {
+                try {
+                    var session = JSON.parse(savedSession);
+                    if (session && session.username && session.role) {
+                        currentUser = { name: session.username, role: session.role };
+                        document.getElementById('login-screen').classList.add('hidden');
+                        document.getElementById('app-shell').classList.remove('hidden');
+                        if (currentUser.role === 'admin') {
+                            document.getElementById('add-user-btn').classList.remove('hidden');
+                            document.getElementById('settings-btn').classList.remove('hidden');
+                        }
+                        setTimeout(function() {
+                            initMap();
+                            initCharts();
+                            updateQuickStats();
+                        }, 100);
+                        setupEventListeners();
+                        initSOPUI();
+                        loadData();
+                        loadSettings();
+                        loadBarcodeCache();
+                        return;
+                    }
+                } catch(e) {}
+            }
+
             setupEventListeners();
             initSOPUI();
             loadData();
             loadSettings();
             loadBarcodeCache();
-
-            // Auto-scan for errors after page loads
-            setTimeout(function() {
-                if (currentUser && currentUser.role === 'admin') {
-                    autoScanErrors();
-                }
-            }, 3000);
         });
 
         // ============================================================
@@ -2483,20 +2155,16 @@
                     if (userData && userData.pass === password) {
                         currentUser = { name: username, role: userData.role || 'user' };
 
+                        // Save session
+                        localStorage.setItem('bucin_session', JSON.stringify({ username: username, role: currentUser.role }));
+
                         document.getElementById('login-screen').classList.add('hidden');
                         document.getElementById('app-shell').classList.remove('hidden');
 
-                        // Tampilkan tombol AI hanya untuk admin
                         if (currentUser.role === 'admin') {
-                            document.getElementById('ai-btn').classList.remove('hidden');
                             document.getElementById('add-user-btn').classList.remove('hidden');
                             document.getElementById('settings-btn').classList.remove('hidden');
-                            // Auto-scan errors for admin
-                            setTimeout(function() {
-                                autoScanErrors();
-                            }, 2000);
                         } else {
-                            document.getElementById('ai-btn').classList.add('hidden');
                             document.getElementById('add-user-btn').classList.add('hidden');
                             document.getElementById('settings-btn').classList.add('hidden');
                         }
@@ -2586,6 +2254,7 @@
             var logoutBtn = document.getElementById('logout-btn');
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function() {
+                    localStorage.removeItem('bucin_session');
                     location.reload();
                 });
             }
@@ -2665,8 +2334,20 @@
             var historyBtn = document.getElementById('btn-history');
             if (historyBtn) historyBtn.addEventListener('click', showHistory);
 
-            var downloadBtn = document.getElementById('btn-download-excel');
-            if (downloadBtn) downloadBtn.addEventListener('click', downloadHistoryExcel);
+            // Download Excel per page
+            document.getElementById('btn-download-excel-page').addEventListener('click', function() {
+                downloadPageExcel();
+            });
+
+            // Download Excel history
+            document.getElementById('btn-download-excel-history').addEventListener('click', function() {
+                downloadHistoryExcel();
+            });
+
+            // Add user
+            document.getElementById('add-user-btn').addEventListener('click', function() {
+                document.getElementById('add-user-modal').classList.remove('hidden');
+            });
 
             // ===== RETUR PAGE EVENTS =====
             var returPageBtn = document.getElementById('btn-retur-page');
@@ -2749,7 +2430,7 @@
                 saveSettingsBtn.addEventListener('click', function() {
                     var bg1 = document.getElementById('set-bg-color1').value;
                     var bg2 = document.getElementById('set-bg-color2').value;
-                    var img = document.getElementById('set-bg-image').value;
+                    var img = document.getElementById('set-bg-image') ? document.getElementById('set-bg-image').value : '';
                     var op = document.getElementById('set-bg-opacity').value;
 
                     var settings = { bgColor1: bg1, bgColor2: bg2, bgImage: img, bgOpacity: op };
@@ -2776,14 +2457,6 @@
                 });
             }
 
-            // AI BUTTON
-            var aiBtn = document.getElementById('ai-btn');
-            if (aiBtn) {
-                aiBtn.addEventListener('click', function() {
-                    openAIModal();
-                });
-            }
-
             // Back button support
             window.addEventListener('popstate', function(e) {
                 if (document.getElementById('retur-page').classList.contains('active')) {
@@ -2800,18 +2473,8 @@
                     document.getElementById('history-modal').classList.add('hidden');
                 } else if (!document.getElementById('settings-modal').classList.contains('hidden')) {
                     document.getElementById('settings-modal').classList.add('hidden');
-                } else if (!document.getElementById('ai-modal').classList.contains('hidden')) {
-                    closeAIModal();
-                }
-            });
-
-            // Keyboard shortcut: Ctrl+Shift+A to open AI
-            document.addEventListener('keydown', function(e) {
-                if (e.ctrlKey && e.shiftKey && e.key === 'A') {
-                    e.preventDefault();
-                    if (currentUser && currentUser.role === 'admin') {
-                        openAIModal();
-                    }
+                } else if (!document.getElementById('add-user-modal').classList.contains('hidden')) {
+                    document.getElementById('add-user-modal').classList.add('hidden');
                 }
             });
         }
@@ -3001,23 +2664,43 @@
             if (!mapModal) {
                 setTimeout(function() {
                     var container = document.getElementById('map-modal-container');
-                    mapModal = L.map(container).setView([1.4930, 124.8410], 13);
+                    mapModal = L.map(container, { zoomControl: false }).setView([1.4930, 124.8410], 13);
                     L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-                        attribution: 'Google'
+                        attribution: 'Google',
+                        maxZoom: 22
                     }).addTo(mapModal);
 
                     mapModal.on('click', function(e) {
+                        var lat = e.latlng.lat;
+                        var lng = e.latlng.lng;
                         selectedMapLocation = {
-                            lat: e.latlng.lat,
-                            lng: e.latlng.lng,
+                            lat: lat,
+                            lng: lng,
                             name: 'Lokasi Terpilih'
                         };
                         if (mapModalMarker) {
                             mapModal.removeLayer(mapModalMarker);
                         }
-                        mapModalMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mapModal);
+                        mapModalMarker = L.marker([lat, lng]).addTo(mapModal);
                         document.getElementById('btn-select-location').disabled = false;
-                        showToast('📍 Lokasi dipilih di peta', 'success');
+                        // Reverse geocoding untuk nama lokasi
+                        fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng +
+                                '&zoom=18&addressdetails=1')
+                            .then(function(response) { return response.json(); })
+                            .then(function(data) {
+                                var name = data.display_name || 'Lokasi Terpilih';
+                                selectedMapLocation.name = name;
+                                document.getElementById('inp-loc').value = name;
+                                document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(
+                                5);
+                                showToast('📍 Lokasi dipilih: ' + name, 'success');
+                            })
+                            .catch(function() {
+                                document.getElementById('inp-loc').value = 'Lokasi Terpilih';
+                                document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(
+                                5);
+                                showToast('📍 Lokasi dipilih', 'success');
+                            });
                     });
 
                     setTimeout(function() {
@@ -3177,6 +2860,7 @@
 
         function handleAddClick() {
             var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
+            var isAlkur = currentCategory === 'Alkur/Material';
             if (isStock) {
                 selectedGudang = '';
                 document.querySelectorAll('.gudang-card').forEach(function(c) { c.classList.remove('selected'); });
@@ -3222,6 +2906,7 @@
 
             document.getElementById('inp-pc-type').value = '';
             document.getElementById('inp-pc-length').value = '';
+            document.getElementById('inp-lokasi-alkur').value = '';
 
             selectedSOP = [];
             updateSOPUI();
@@ -3230,11 +2915,13 @@
             document.getElementById('field-patchcord').classList.add('hidden');
             document.getElementById('field-normal').classList.remove('hidden');
             document.getElementById('field-coords-wrap').classList.add('hidden');
+            document.getElementById('field-lokasi-alkur').classList.add('hidden');
             document.getElementById('sop-container').style.display = 'none';
             document.getElementById('field-notes-wrap').classList.remove('hidden');
 
             var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
             var isPatch = currentCategory === 'Patch Cord';
+            var isAlkur = currentCategory === 'Alkur/Material';
 
             if (isStock) {
                 document.getElementById('field-stock').classList.remove('hidden');
@@ -3248,6 +2935,13 @@
                     document.getElementById('field-stock').classList.add('hidden');
                     document.getElementById('patchcord-gudang-display').textContent = selectedGudang || 'Belum dipilih';
                 }
+            }
+
+            if (isAlkur) {
+                document.getElementById('field-normal').classList.add('hidden');
+                document.getElementById('field-coords-wrap').classList.add('hidden');
+                document.getElementById('field-lokasi-alkur').classList.remove('hidden');
+                document.getElementById('field-notes-wrap').classList.remove('hidden');
             }
 
             if (COORD_CATEGORIES.indexOf(currentCategory) !== -1) {
@@ -3313,7 +3007,7 @@
                 }
             }
 
-            if (isStock) {
+            if (isStock && !isPatch) {
                 var barcode = document.getElementById('inp-barcode').value.trim();
                 var spec = document.getElementById('inp-spec').value.trim();
                 var notesStock = document.getElementById('inp-notes-stock').value.trim();
@@ -3332,7 +3026,15 @@
                 }
             }
 
-            if (!isStock && !isPatch) {
+            if (isAlkur) {
+                var lokasi = document.getElementById('inp-lokasi-alkur').value;
+                if (!lokasi) {
+                    showToast('❌ Pilih lokasi penyimpanan', 'error');
+                    return;
+                }
+            }
+
+            if (!isStock && !isPatch && !isAlkur) {
                 var location = document.getElementById('inp-loc').value.trim();
                 if (!location) {
                     showToast('❌ Isi nama lokasi', 'error');
@@ -3435,7 +3137,9 @@
                                 document.getElementById('inp-notes-stock').value = '';
                                 document.getElementById('inp-notes-patch').value = '';
                                 document.getElementById('inp-date').valueAsDate = new Date();
-                                document.getElementById('inp-barcode').focus();
+                                if (!isPatch) {
+                                    document.getElementById('inp-barcode').focus();
+                                }
                             }
 
                             setTimeout(function() {
@@ -3454,6 +3158,9 @@
 
                     return;
                 }
+            } else if (isAlkur) {
+                data.lokasi = document.getElementById('inp-lokasi-alkur').value;
+                data.notes = document.getElementById('inp-notes').value.trim() || '';
             } else {
                 data.location = document.getElementById('inp-loc').value.trim();
                 data.coords = document.getElementById('inp-coords').value.trim() || '';
@@ -3495,14 +3202,20 @@
                         document.getElementById('inp-pc-qty').value = '1';
                         document.getElementById('inp-notes-stock').value = '';
                         document.getElementById('inp-notes-patch').value = '';
+                        document.getElementById('inp-notes').value = '';
 
                         if (isPatch) {
                             document.getElementById('inp-pc-type').value = '';
                             document.getElementById('inp-pc-length').value = '';
                         }
+                        if (isAlkur) {
+                            document.getElementById('inp-lokasi-alkur').value = '';
+                        }
 
                         document.getElementById('inp-date').valueAsDate = new Date();
-                        document.getElementById('inp-barcode').focus();
+                        if (!isPatch && !isAlkur) {
+                            document.getElementById('inp-barcode').focus();
+                        }
                     } else {
                         closeModal();
                     }
@@ -3553,23 +3266,78 @@
         function initMap() {
             if (map) return;
             try {
-                map = L.map('map-container').setView([1.4930, 124.8410], 12);
-                L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { attribution: 'Google' }).addTo(map);
+                map = L.map('map-container', { zoomControl: false }).setView([1.4930, 124.8410], 12);
+                L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+                    attribution: 'Google',
+                    maxZoom: 22
+                }).addTo(map);
 
                 map.on('click', function(e) {
                     if (!document.getElementById('form-modal').classList.contains('hidden')) {
                         var coords = e.latlng.lat.toFixed(5) + ', ' + e.latlng.lng.toFixed(5);
                         document.getElementById('inp-coords').value = coords;
-                        showToast('📍 Koordinat dipilih: ' + coords, 'success');
+                        // Reverse geocoding
+                        fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + e.latlng.lat + '&lon=' + e
+                                .latlng.lng + '&zoom=18&addressdetails=1')
+                            .then(function(response) { return response.json(); })
+                            .then(function(data) {
+                                var name = data.display_name || 'Lokasi Terpilih';
+                                document.getElementById('inp-loc').value = name;
+                                showToast('📍 Lokasi: ' + name, 'success');
+                            })
+                            .catch(function() {
+                                document.getElementById('inp-loc').value = 'Lokasi Terpilih';
+                                showToast('📍 Koordinat dipilih: ' + coords, 'success');
+                            });
                     }
                 });
 
                 // MUAT KML DEFAULT
                 loadDefaultKml();
 
+                // Tampilkan marker dari data yang sudah ada
+                loadMarkersFromData();
+
             } catch (e) {
                 console.error('Map init error:', e);
             }
+        }
+
+        function loadMarkersFromData() {
+            if (!map) return;
+            // Hapus marker lama
+            markers.forEach(function(m) { map.removeLayer(m); });
+            markers = [];
+
+            // Iterasi semua kategori yang memiliki lokasi
+            var categories = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM/OLS', 'Joint', 'Handhole'];
+            categories.forEach(function(cat) {
+                var items = appData[cat] || {};
+                Object.keys(items).forEach(function(key) {
+                    var item = items[key];
+                    if (item.coords) {
+                        var parts = item.coords.split(',');
+                        if (parts.length === 2) {
+                            var lat = parseFloat(parts[0].trim());
+                            var lng = parseFloat(parts[1].trim());
+                            if (!isNaN(lat) && !isNaN(lng)) {
+                                var popupText = '<strong>' + (item.location || 'Lokasi') + '</strong><br>' +
+                                    'Kategori: ' + cat + '<br>' +
+                                    'Tanggal: ' + (item.date || '-') + '<br>' +
+                                    'Koordinat: ' + item.coords + '<br>' +
+                                    'User: ' + (item.postBy || '-');
+                                var marker = L.marker([lat, lng]).bindPopup(popupText);
+                                marker.addTo(map);
+                                markers.push(marker);
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        function updateMapMarkers() {
+            loadMarkersFromData();
         }
 
         window.zoomIn = function() { if (map) map.zoomIn(); };
@@ -3583,7 +3351,7 @@
                 if (type === 'satellite') url = 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
                 else if (type === 'street') url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
                 else if (type === 'hybrid') url = 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}';
-                L.tileLayer(url, { attribution: 'Map Data' }).addTo(map);
+                L.tileLayer(url, { attribution: 'Map Data', maxZoom: 22 }).addTo(map);
                 document.querySelectorAll('.custom-map-btn').forEach(function(btn) { btn.classList.remove('active'); });
                 if (event && event.currentTarget) {
                     event.currentTarget.classList.add('active');
@@ -3624,6 +3392,20 @@
             reader.readAsText(file);
             input.value = '';
         };
+
+        function downloadKML() {
+            // Download default KML
+            var blob = new Blob([defaultKmlString], { type: 'application/vnd.google-earth.kml+xml' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'BUCIN_Map.kml';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('✅ KML berhasil diunduh', 'success');
+        }
 
         // ============================================================
         // CHART FUNCTIONS - Line Chart
@@ -3733,11 +3515,14 @@
                 document.getElementById('empty-state').style.display = 'none';
 
                 var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
+                var isAlkur = currentCategory === 'Alkur/Material';
 
                 if (currentCategory === 'Patch Cord') {
                     thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
                 } else if (isStock) {
                     thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Barcode</th><th>Nama</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
+                } else if (isAlkur) {
+                    thead.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Keterangan</th><th>User</th><th>Aksi</th></tr>';
                 } else {
                     thead.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>SOP</th><th>User</th><th>Aksi</th></tr>';
                 }
@@ -3780,6 +3565,16 @@
                             '<td><button class="icon-btn delete" onclick="deleteItem(\'' + key +
                             '\')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>' +
                             '</tr>';
+                    } else if (isAlkur) {
+                        tbody.innerHTML += '<tr>' +
+                            '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
+                            '<td><span style="font-weight:600;">' + (item.lokasi || '-') + '</span></td>' +
+                            '<td>' + (item.notes || '-') + '</td>' +
+                            '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
+                            '</span></td>' +
+                            '<td><button class="icon-btn delete" onclick="deleteItem(\'' + key +
+                            '\')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>' +
+                            '</tr>';
                     } else {
                         var sopDisplay = '-';
                         if (item.sop && Array.isArray(item.sop) && item.sop.length > 0) {
@@ -3815,6 +3610,7 @@
                 setTimeout(function() {
                     updateStokSummary();
                     updateQuickStats();
+                    updateMapMarkers();
                 }, 500);
             }
         };
@@ -3910,9 +3706,7 @@
             { id: 12, text: 'APD yang digunakan wajib dibersihkan kembali sebelum disimpan dalam mobil.' }
         ];
 
-        var COORD_CATEGORIES = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM/OLS', 'Joint', 'Handhole',
-            'Alkur/Material'
-        ];
+        var COORD_CATEGORIES = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM/OLS', 'Joint', 'Handhole'];
 
         // ============================================================
         // HISTORY FUNCTIONS
@@ -3960,6 +3754,35 @@
             var wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Riwayat');
             XLSX.writeFile(wb, 'Riwayat_' + currentCategory + '_' + new Date().toISOString().slice(0, 10) + '.xlsx');
+            showToast('✅ Excel berhasil didownload', 'success');
+        }
+
+        function downloadPageExcel() {
+            var list = appData[currentCategory] || {};
+            var data = Object.values(list).map(function(item) {
+                var row = {
+                    Tanggal: item.date || '-',
+                    User: item.postBy || '-'
+                };
+                if (item.gudang) row.Gudang = item.gudang;
+                if (item.spec) row.Item = item.spec;
+                if (item.pcType) row.Item = item.pcType + ' ' + (item.pcLength || '');
+                if (item.trType) row.Tipe = item.trType;
+                if (item.qty) row.Jumlah = item.qty;
+                if (item.location) row.Lokasi = item.location;
+                if (item.coords) row.Koordinat = item.coords;
+                if (item.lokasi) row.Lokasi = item.lokasi;
+                if (item.notes) row.Keterangan = item.notes;
+                return row;
+            });
+            if (data.length === 0) {
+                showToast('⚠️ Tidak ada data untuk diexport', 'error');
+                return;
+            }
+            var ws = XLSX.utils.json_to_sheet(data);
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, currentCategory);
+            XLSX.writeFile(wb, currentCategory + '_' + new Date().toISOString().slice(0, 10) + '.xlsx');
             showToast('✅ Excel berhasil didownload', 'success');
         }
 
@@ -4160,747 +3983,59 @@
             }
         }
 
+        // ============================================================
+        // ADD USER
+        // ============================================================
+        function submitAddUser(e) {
+            e.preventDefault();
+            var username = document.getElementById('new-username').value.trim();
+            var password = document.getElementById('new-password').value.trim();
+            var role = document.getElementById('new-role').value;
+
+            if (!username || !password) {
+                showToast('❌ Username dan password harus diisi', 'error');
+                return false;
+            }
+
+            db.ref('users/' + username).set({ pass: password, role: role })
+                .then(function() {
+                    showToast('✅ User ' + username + ' berhasil ditambahkan', 'success');
+                    document.getElementById('add-user-modal').classList.add('hidden');
+                    document.getElementById('new-username').value = '';
+                    document.getElementById('new-password').value = '';
+                })
+                .catch(function(err) {
+                    console.error('❌ Error adding user:', err);
+                    showToast('❌ Gagal menambahkan user: ' + err.message, 'error');
+                });
+
+            return false;
+        }
 
         // ============================================================
-        // ===================== SUPER INTELLIGENT AI ==================
+        // BACKGROUND IMAGE UPLOAD
         // ============================================================
+        function handleBgImageUpload(input) {
+            var file = input.files[0];
+            if (!file) return;
 
-        // ----- AI MEMORY & CONTEXT -----
-        let aiMemory = {
-            lastCommand: '',
-            preferences: {},
-            conversationHistory: [],
-            userName: null,
-            currentContext: {},
-            lastAction: null,
-            userSentiment: 'neutral',
-            sessionStart: Date.now()
-        };
-
-        // ----- ERROR DETECTION -----
-        let detectedErrors = [];
-        let errorLog = [];
-
-        function autoScanErrors() {
-            detectedErrors = [];
-            errorLog = [];
-
-            if (!db) {
-                detectedErrors.push({ severity: 'critical', component: 'Firebase', message: 'Firebase tidak terinisialisasi' });
-            }
-            if (!appData || Object.keys(appData).length === 0) {
-                detectedErrors.push({ severity: 'warning', component: 'Data', message: 'Data belum dimuat atau kosong' });
-            }
-            if (!map) {
-                detectedErrors.push({ severity: 'warning', component: 'Map', message: 'Peta belum diinisialisasi' });
-            }
-            if (!chartIncidents) {
-                detectedErrors.push({ severity: 'info', component: 'Chart', message: 'Grafik belum diinisialisasi' });
-            }
-            if (typeof Quagga === 'undefined') {
-                detectedErrors.push({ severity: 'info', component: 'Scanner', message: 'Library scanner tidak tersedia' });
-            }
-            if (Object.keys(barcodeCache).length === 0) {
-                detectedErrors.push({ severity: 'info', component: 'Barcode', message: 'Cache barcode kosong' });
-            }
-
-            updateErrorBadge();
-            return detectedErrors;
-        }
-
-        function updateErrorBadge() {
-            var badge = document.getElementById('error-badge');
-            var count = document.getElementById('error-count');
-            var errors = detectedErrors.filter(function(e) { return e.severity === 'critical' || e.severity === 'warning'; });
-            if (errors.length > 0) {
-                badge.classList.add('show');
-                count.textContent = errors.length;
-            } else {
-                badge.classList.remove('show');
-            }
-        }
-
-        // ----- AI CORE -----
-
-        function openAIModal() {
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast('❌ Hanya admin yang dapat mengakses AI', 'error');
-                return;
-            }
-            document.getElementById('ai-modal').classList.remove('hidden');
-            document.getElementById('ai-input').focus();
-            aiMemory.userName = currentUser.name;
-            aiMemory.sessionStart = Date.now();
-            // Auto-scan
-            setTimeout(autoScanErrors, 300);
-        }
-
-        function closeAIModal() {
-            document.getElementById('ai-modal').classList.add('hidden');
-        }
-
-        function fillAIInput(text) {
-            document.getElementById('ai-input').value = text;
-            document.getElementById('ai-input').focus();
-            sendAICommand();
-        }
-
-        function sendAICommand() {
-            var input = document.getElementById('ai-input');
-            var text = input.value.trim();
-            if (!text) {
-                showToast('💬 Ketik pesan atau perintah', 'error');
-                return;
-            }
-
-            // Store in memory
-            aiMemory.lastCommand = text;
-            aiMemory.conversationHistory.push({ role: 'user', content: text, timestamp: Date.now() });
-
-            addAIMessage('user', text);
-
-            input.value = '';
-            input.disabled = true;
-            document.getElementById('ai-send-btn').disabled = true;
-
-            showTypingIndicator();
-
-            setTimeout(function() {
-                removeTypingIndicator();
-                var result = processSuperAI(text);
-                aiMemory.conversationHistory.push({ role: 'ai', content: result, timestamp: Date.now() });
-                addAIMessage('ai', result);
-                input.disabled = false;
-                document.getElementById('ai-send-btn').disabled = false;
-                input.focus();
-                if (typeof lucide !== 'undefined') lucide.createIcons();
-                setTimeout(autoScanErrors, 500);
-            }, 600);
-        }
-
-        // ----- SUPER AI PROCESSING -----
-        function processSuperAI(cmd) {
-            var lower = cmd.toLowerCase().trim();
-
-            // ==========================================================
-            // 1. GREETINGS & PERSONAL
-            // ==========================================================
-            if (lower.match(/^(halo|hai|hello|hey|selamat|pagi|siang|malam|apa kabar|assalamualaikum|salam)/i)) {
-                var name = aiMemory.userName || 'Admin';
-                var hour = new Date().getHours();
-                var timeGreeting = hour < 12 ? 'Selamat pagi' : hour < 18 ? 'Selamat siang' : 'Selamat malam';
-                var responses = [
-                    timeGreeting + ', ' + name + '! 👋 Senang bertemu dengan Anda lagi. Ada yang bisa saya bantu?',
-                    'Halo ' + name + '! 😊 Apa kabar? Saya siap membantu Anda mengelola sistem BUCIN.',
-                    'Hey ' + name + '! 👋 Saya senang Anda membuka chat ini. Ada yang ingin Anda tanyakan?'
-                ];
-                return responses[Math.floor(Math.random() * responses.length)];
-            }
-
-            // ==========================================================
-            // 2. THANKS & GOODBYE
-            // ==========================================================
-            if (lower.match(/terima kasih|thank|makasih|thanks|ok|oke|baik/i) && !lower.match(/data|stok|scan|fix|tampilkan/)) {
-                var replies = [
-                    'Sama-sama! 😊 Senang bisa membantu. Ada lagi yang bisa saya bantu?',
-                    'Dengan senang hati! 💙 Jangan ragu untuk bertanya lagi jika ada masalah.',
-                    'Terima kasih kembali! 🙌 Saya siap membantu kapan saja.',
-                    'Baik! 😄 Saya selalu di sini untuk Anda.'
-                ];
-                return replies[Math.floor(Math.random() * replies.length)];
-            }
-
-            if (lower.match(/bye|dadah|sampai jumpa|selamat tinggal|goodbye|exit|tutup/i)) {
-                return 'Sampai jumpa, ' + (aiMemory.userName || 'Admin') +
-                    '! 👋 Semoga hari Anda menyenangkan. Kapan saja Anda butuh bantuan, saya siap membantu.';
-            }
-
-            // ==========================================================
-            // 3. COMPLAINTS & EMOTIONAL SUPPORT
-            // ==========================================================
-            if (lower.match(/error|rusak|gagal|tidak bisa|tidak jalan|masalah|bug|bobrok|bermasalah|jelek|susah|bingung|pusing/i)) {
-                if (lower.match(/sistem|web|aplikasi|app|bucin|data|tampilan|login|map|chart|stok/i)) {
-                    return performFix({ fixTarget: 'all' }) +
-                        '\n\n💡 Jika masih ada masalah, coba katakan <code>scan</code> untuk diagnosis lengkap, atau sebutkan komponen spesifik seperti <code>fix map</code>.';
-                }
-                return '😔 Saya turut prihatin dengan masalah yang Anda hadapi. Mari kita perbaiki bersama. Coba katakan <code>scan</code> untuk mendiagnosis sistem, atau ceritakan lebih detail apa yang terjadi agar saya bisa membantu lebih tepat.';
-            }
-
-            // ==========================================================
-            // 4. KNOWLEDGE BASE - Tanya Jawab Sistem
-            // ==========================================================
-            if (lower.match(/apa itu|jelaskan|what is|definisi|pengertian|bucin|sistem|insiden|of cut|opm|joint|handhole|patroli|tim|fiber|optik|jaringan/i)) {
-                return answerKnowledgeQuestion(cmd);
-            }
-
-            // ==========================================================
-            // 5. DATA QUERIES - "tampilkan", "lihat", "data"
-            // ==========================================================
-            if (lower.match(/tampilkan|lihat|data|stok|spare|patch|of cut|temuan|opm|joint|handhole|alkur|material|daftar|list|show|display/i) &&
-                !lower.match(/fix|scan|report|grafik|chart|buka|navigasi|ubah|ganti|tambah|hapus|execute|run|jalankan/)) {
-                return showSmartData(cmd);
-            }
-
-            // ==========================================================
-            // 6. CHART / VISUALIZATION
-            // ==========================================================
-            if (lower.match(/grafik|chart|diagram|visual|plot|statistik|grafik|chart/i) &&
-                !lower.match(/fix|scan|report|data|tampilkan|lihat/)) {
-                return '📊 Saya bisa membantu Anda membuat grafik. Saat ini grafik statistik insiden sudah tersedia di Dashboard. Untuk jenis grafik lain, sebutkan data spesifiknya, misalnya "buat grafik stok per gudang" atau "tampilkan diagram OF Cut per bulan". Fitur ini akan segera hadir dengan lebih banyak opsi.';
-            }
-
-            // ==========================================================
-            // 7. NAVIGATION
-            // ==========================================================
-            if (lower.match(/buka|pergi|ke|navigasi|pindah|menu|tab|halaman|page|dashboard|home|retur|history|stok|spare|patch|of cut|temuan|opm|joint|handhole|alkur|material/i) &&
-                !lower.match(/data|tampilkan|lihat/)) {
-                return navigateSmart(cmd);
-            }
-
-            // ==========================================================
-            // 8. UI MODIFICATION
-            // ==========================================================
-            if (lower.match(/ubah|ganti|tambah|hapus|modifikasi|style|warna|judul|background|tombol|font|ukuran|tampilan|desain|ui/i) &&
-                !lower.match(/data|stok|spare/)) {
-                return modifyUISmart(cmd);
-            }
-
-            // ==========================================================
-            // 9. EXECUTE CODE
-            // ==========================================================
-            if (lower.match(/execute|jalankan|run|eval|eksekusi|code|kode|javascript|js|console/i)) {
-                return executeCodeSmart(cmd);
-            }
-
-            // ==========================================================
-            // 10. SCAN / DIAGNOSE / FIX / REPORT / RESET
-            // ==========================================================
-            if (lower.match(/^(scan|diagnose|diagnosa|cek|check|periksa|kesehatan|status|system check)/i)) {
-                return performScan();
-            }
-
-            if (lower.match(/^(report|laporan|detail|full report|report all|semua data|ringkasan|summary)/i)) {
-                return generateReport();
-            }
-
-            if (lower.match(/^fix|perbaiki|perbaikan|betulkan|koreksi|repair|solve|atasi/i)) {
-                var fixTarget = cmd.replace(/^(fix|perbaiki|perbaikan|betulkan|koreksi|repair|solve|atasi)\s*/i, '').trim() ||
-                    'all';
-                return performFix({ fixTarget: fixTarget });
-            }
-
-            if (lower.match(/^(reset|reset semua|ulang|restart|refresh|reload|muat ulang)/i)) {
-                return performReset();
-            }
-
-            // ==========================================================
-            // 11. PERSONAL QUESTIONS
-            // ==========================================================
-            if (lower.match(/nama (saya|aku)|panggil|sapa|siapa|nama saya|namaku/i)) {
-                var nameMatch = cmd.match(/nama (saya|aku) ([\w\s]+)|(?:panggil|sapa) (saya|aku) ([\w\s]+)/i);
-                if (nameMatch) {
-                    var newName = nameMatch[2] || nameMatch[4] || 'Admin';
-                    aiMemory.userName = newName.trim();
-                    return 'Hai, ' + aiMemory.userName +
-                        '! 😊 Senang berkenalan dengan Anda. Sekarang saya akan memanggil Anda ' + aiMemory.userName +
-                        '. Ada yang bisa saya bantu?';
-                }
-                return 'Hai! Saya adalah AI Assistant untuk sistem BUCIN. Saya dapat membantu Anda mengelola data, mendiagnosis masalah, dan banyak lagi. Beri tahu saya nama Anda agar saya bisa menyapa lebih personal!';
-            }
-
-            if (lower.match(/siapa kamu|siapa anda|apa kamu|kamu siapa|your name|who are you/i)) {
-                return '🧠 Saya adalah AI Smart Assistant untuk sistem BUCIN (Barisan Utama Cegah Insiden Network). Saya dirancang untuk membantu Anda mengelola sistem, mendiagnosis masalah, dan menjawab pertanyaan tentang operasional jaringan fiber optik. Saya bisa diajak bicara seperti teman, lho! 😊';
-            }
-
-            if (lower.match(/kamu pintar|canggih|hebat|keren|awesome|smart|brilliant|pintar sekali|jenius/i)) {
-                return 'Terima kasih atas pujiannya! 🥰 Saya berusaha menjadi asisten yang membantu dan mudah diajak bicara. Masih banyak yang bisa saya pelajari, tapi saya akan selalu berusaha memberi yang terbaik untuk Anda!';
-            }
-
-            // ==========================================================
-            // 12. HUMOR & FUN
-            // ==========================================================
-            if (lower.match(/joke|lelucon|humor|cerita lucu|funny|make me laugh|ketawa|tawa|lawak|humor/i)) {
-                var jokes = [
-                    '😂 Mengapa serat optik tidak pernah kesepian? Karena selalu ada core yang menemani! (maaf, humor admin 😄)',
-                    '🤣 Apa perbedaan antara teknisi fiber dan dokter? Dokter menyembuhkan pasien, teknisi fiber menyambungkan core!',
-                    '😆 Kenapa kabel fiber tidak mau berdebat? Karena dia selalu kalah dalam "argumen"!',
-                    '🤪 Apa kata kabel fiber pada konektor? "Aku sangat bergantung padamu!"'
-                ];
-                return jokes[Math.floor(Math.random() * jokes.length)];
-            }
-
-            if (lower.match(/cuaca|weather|hujan|panas|berawan|cerah|badai/i)) {
-                return '🌤️ Maaf, saya tidak memiliki akses ke data cuaca real-time. Tapi di Sulawesi Utara, cuaca biasanya tropis sepanjang tahun. Jika Anda ingin informasi cuaca, coba buka aplikasi cuaca favorit Anda!';
-            }
-
-            // ==========================================================
-            // 13. DEFAULT - NATURAL LANGUAGE FALLBACK
-            // ==========================================================
-            return naturalLanguageResponse(cmd);
-        }
-
-        // ----- KNOWLEDGE BASE -----
-        function answerKnowledgeQuestion(cmd) {
-            var lower = cmd.toLowerCase();
-            if (lower.includes('bucin')) {
-                return '📌 <strong>Apa itu BUCIN?</strong><br>BUCIN adalah singkatan dari <strong>Barisan Utama Cegah Insiden Network</strong>. Ini adalah sistem manajemen operasional untuk tim patroli jaringan fiber optik di Sulawesi Utara. Fitur utama meliputi pencatatan insiden (OF Cut, Temuan Lapangan, Pekerjaan Pihak Ketiga), manajemen stok (Spare Parts, Patch Cord), dan pemetaan aset. Sistem ini dirancang untuk meningkatkan efisiensi dan akurasi dalam penanganan gangguan jaringan.';
-            }
-            if (lower.includes('of cut') || lower.includes('ofcut')) {
-                return '🔍 <strong>Insiden OF Cut</strong><br>OF Cut (Optical Fiber Cut) adalah gangguan pada kabel serat optik yang menyebabkan terputusnya layanan. Penyebabnya bisa bermacam-macam: galian tanah, bencana alam, atau kerusakan teknis. BUCIN mencatat setiap kejadian OF Cut dengan detail lokasi, waktu, penyebab, dan tindakan perbaikan yang dilakukan. Tim patroli menggunakan SOP standar untuk memastikan pemulihan cepat dan akurat.';
-            }
-            if (lower.includes('opm') || lower.includes('otdr')) {
-                return '📊 <strong>OPM/OLS</strong><br>OPM (Optical Power Meter) dan OLS (Optical Light Source) adalah alat ukur yang digunakan untuk mengukur daya optik dan redaman pada jaringan fiber. OPM digunakan untuk mengukur daya optik yang diterima, sedangkan OLS digunakan sebagai sumber cahaya untuk pengujian. Keduanya sangat penting untuk memastikan kualitas sinyal dan mendeteksi kerusakan pada jaringan.';
-            }
-            if (lower.includes('joint') || lower.includes('sambungan')) {
-                return '🔗 <strong>Joint</strong><br>Joint adalah titik sambungan kabel fiber optik yang dilakukan dengan teknik fusion splicing. Joint digunakan untuk menyambung kabel yang putus atau untuk membuat cabang jaringan. Kualitas joint sangat mempengaruhi redaman dan performa jaringan secara keseluruhan.';
-            }
-            if (lower.includes('handhole') || lower.includes('hh') || lower.includes('manhole')) {
-                return '🕳️ <strong>Handhole / Manhole</strong><br>Handhole adalah lubang akses untuk pemeliharaan jaringan bawah tanah. Di dalamnya biasanya terdapat kabel fiber, joint, atau perangkat jaringan lainnya. Handhole memungkinkan teknisi untuk melakukan inspeksi, perbaikan, dan pemeliharaan tanpa harus menggali permukaan.';
-            }
-            if (lower.includes('stok') || lower.includes('spare') || lower.includes('material')) {
-                return '📦 <strong>Manajemen Stok Material</strong><br>BUCIN membantu Anda mengelola stok barang seperti spare parts, patch cord, dan material lainnya. Setiap transaksi (masuk/keluar) dicatat dengan barcode dan digudangkan, sehingga Anda selalu tahu jumlah stok aktual di setiap lokasi. Fitur ini sangat penting untuk memastikan ketersediaan material saat terjadi insiden.';
-            }
-            if (lower.includes('patch cord')) {
-                return '🔌 <strong>Patch Cord</strong><br>Patch cord adalah kabel serat optik pendek dengan konektor di kedua ujungnya. Digunakan untuk menghubungkan perangkat jaringan seperti switch, router, atau panel patch. BUCIN mencatat jenis, panjang, dan jumlah patch cord di setiap gudang untuk memastikan ketersediaan saat diperlukan.';
-            }
-            if (lower.includes('tim') || lower.includes('patroli') || lower.includes('operasional')) {
-                return '👥 <strong>Tim Operasional BUCIN</strong><br>Tim patroli BUCIN terdiri dari teknisi dan ahli jaringan yang bertugas menjaga keandalan infrastruktur fiber optik. Mereka melakukan patroli rutin, merespons insiden, melakukan perbaikan, dan mendokumentasikan setiap kejadian. Semua data operasional terekam dalam sistem BUCIN untuk evaluasi dan perbaikan berkelanjutan.';
-            }
-            return '🤔 Saya bisa menjawab pertanyaan tentang BUCIN, OF Cut, OPM, Joint, Handhole, Stok Material, Patch Cord, dan Tim Operasional. Sebutkan topik yang Anda minati, misalnya "apa itu OF Cut" atau "jelaskan manajemen stok".';
-        }
-
-        // ----- SMART DATA DISPLAY -----
-        function showSmartData(cmd) {
-            var lower = cmd.toLowerCase();
-            var targetCat = null;
-
-            // Detect category
-            var categories = {
-                'stok': 'Stok Spare',
-                'spare': 'Stok Spare',
-                'patch': 'Patch Cord',
-                'of cut': 'Data OF Cut',
-                'temuan': 'Temuan Lapangan',
-                'pihak': 'Pekerjaan Pihak Ke-3',
-                'opm': 'OPM/OLS',
-                'joint': 'Joint',
-                'handhole': 'Handhole',
-                'alkur': 'Alkur/Material',
-                'material': 'Alkur/Material'
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var dataUrl = e.target.result;
+                document.getElementById('bg-image-preview').style.display = 'block';
+                document.getElementById('bg-image-preview-img').src = dataUrl;
+                document.getElementById('set-bg-image').value = dataUrl;
+                showToast('✅ Gambar berhasil diupload', 'success');
             };
-
-            for (var key in categories) {
-                if (lower.includes(key)) {
-                    targetCat = categories[key];
-                    break;
-                }
-            }
-
-            if (!targetCat) targetCat = currentCategory;
-
-            var list = appData[targetCat] || {};
-            var items = Object.values(list);
-            if (items.length === 0) {
-                return '📭 Tidak ada data di kategori <strong>' + targetCat + '</strong>. Coba tambahkan data terlebih dahulu.';
-            }
-
-            var msg = '📋 <strong>Data ' + targetCat + ' (' + items.length + ' item)</strong><br>';
-            var sample = items.slice(0, 8);
-            sample.forEach(function(item, idx) {
-                var label = item.spec || item.pcType || item.location || 'Item';
-                var detail = item.trType ? ' [' + item.trType + ']' : '';
-                var qty = item.qty ? ' — Qty: ' + item.qty : '';
-                var gudang = item.gudang ? ' (@' + item.gudang + ')' : '';
-                msg += (idx + 1) + '. ' + label + detail + qty + gudang + '<br>';
-            });
-            if (items.length > 8) msg += '... dan ' + (items.length - 8) + ' item lainnya.';
-            msg +=
-                '<br><span style="font-size:12px;color:var(--text-muted);">Ketik <code>tampilkan semua ' + targetCat +
-                '</code> untuk detail lengkap.</span>';
-            return msg;
+            reader.readAsDataURL(file);
         }
 
-        // ----- SMART NAVIGATION -----
-        function navigateSmart(cmd) {
-            var lower = cmd.toLowerCase();
-            var navMap = {
-                'dashboard': 'dashboard',
-                'home': 'dashboard',
-                'data': 'Data OF Cut',
-                'of cut': 'Data OF Cut',
-                'temuan': 'Temuan Lapangan',
-                'stok': 'Stok Spare',
-                'spare': 'Stok Spare',
-                'patch': 'Patch Cord',
-                'retur': 'retur',
-                'history': 'history',
-                'opm': 'OPM/OLS',
-                'joint': 'Joint',
-                'handhole': 'Handhole',
-                'alkur': 'Alkur/Material',
-                'material': 'Alkur/Material'
-            };
-
-            var target = null;
-            for (var key in navMap) {
-                if (lower.includes(key)) {
-                    target = navMap[key];
-                    break;
-                }
-            }
-
-            if (!target) target = 'dashboard';
-
-            var found = false;
-            if (target === 'retur') {
-                document.getElementById('btn-retur-page')?.click();
-                found = true;
-            } else if (target === 'history') {
-                document.getElementById('btn-history')?.click();
-                found = true;
-            } else {
-                document.querySelectorAll('.nav-item').forEach(function(btn) {
-                    if (btn.dataset.cat.toLowerCase().includes(target) || btn.textContent.toLowerCase().includes(
-                            target)) {
-                        btn.click();
-                        found = true;
-                    }
-                });
-            }
-
-            if (found) return '🧭 Berpindah ke <strong>' + (navMap[Object.keys(navMap).find(k => navMap[k] === target)] ||
-                target) + '</strong>.';
-            return '❌ Tidak dapat menemukan navigasi ke "' + target + '". Coba: dashboard, data, of cut, temuan, stok, patch, retur, history.';
+        function removeBgImage() {
+            document.getElementById('bg-image-preview').style.display = 'none';
+            document.getElementById('bg-image-preview-img').src = '';
+            document.getElementById('set-bg-image').value = '';
+            showToast('🗑️ Gambar dihapus', 'success');
         }
-
-        // ----- SMART UI MODIFICATION -----
-        function modifyUISmart(cmd) {
-            var lower = cmd.toLowerCase();
-
-            // Change hero title
-            if (lower.match(/ubah\s+judul\s+hero\s+menjadi\s+["']?(.+?)["']?$/i)) {
-                var match = cmd.match(/ubah\s+judul\s+hero\s+menjadi\s+["']?(.+?)["']?$/i);
-                var newTitle = match[1].trim();
-                var el = document.getElementById('hero-title');
-                if (el) { el.innerHTML = newTitle.replace(/\\n/g, '<br>'); return '✅ Judul hero diubah menjadi: <strong>"' +
-                        newTitle + '"</strong>'; }
-                return '❌ Gagal mengubah judul hero.';
-            }
-
-            // Change main color
-            if (lower.match(/ganti\s+warna\s+utama\s+menjadi\s+([#0-9a-fA-F]{6}|[#0-9a-fA-F]{3})/i)) {
-                var match = cmd.match(/ganti\s+warna\s+utama\s+menjadi\s+([#0-9a-fA-F]{6}|[#0-9a-fA-F]{3})/i);
-                var color = match[1].trim();
-                if (!color.startsWith('#')) color = '#' + color;
-                document.documentElement.style.setProperty('--primary-blue', color);
-                document.documentElement.style.setProperty('--primary-blue-dark', color);
-                document.querySelectorAll('.btn-primary, .brand-mark, .hero-panel, .custom-map-btn.active, .ai-header, .login-screen')
-                    .forEach(function(el) { el.style.background = 'linear-gradient(135deg, ' + color + ', ' + color +
-                        'DD)'; });
-                return '✅ Warna utama diubah menjadi <strong>' + color + '</strong>';
-            }
-
-            // Change background
-            if (lower.match(/ganti\s+background\s+menjadi\s+([#0-9a-fA-F]{6}|[#0-9a-fA-F]{3})/i)) {
-                var match = cmd.match(/ganti\s+background\s+menjadi\s+([#0-9a-fA-F]{6}|[#0-9a-fA-F]{3})/i);
-                var color = match[1].trim();
-                if (!color.startsWith('#')) color = '#' + color;
-                document.documentElement.style.setProperty('--bg-light', color);
-                document.body.style.background = color;
-                db.ref('settings/bgColor1').set(color);
-                return '✅ Background diubah menjadi <strong>' + color + '</strong>';
-            }
-
-            // Add button
-            if (lower.match(/tambah\s+tombol\s+dengan\s+label\s+["']?(.+?)["']?$/i)) {
-                var match = cmd.match(/tambah\s+tombol\s+dengan\s+label\s+["']?(.+?)["']?$/i);
-                var label = match[1].trim();
-                var header = document.querySelector('.top-header > div:last-child');
-                if (header) {
-                    var btn = document.createElement('button');
-                    btn.className = 'btn-primary';
-                    btn.style.cssText =
-                        'padding:6px 16px;font-size:12px;border-radius:20px;min-height:36px;background:var(--blue-gradient);';
-                    btn.textContent = label;
-                    btn.onclick = function() { showToast('🔘 Tombol ' + label + ' diklik!', 'success'); };
-                    header.insertBefore(btn, header.firstChild);
-                    return '✅ Tombol <strong>"' + label + '"</strong> ditambahkan di header!';
-                }
-                return '❌ Gagal menambahkan tombol.';
-            }
-
-            // Show notification
-            if (lower.match(/tampilkan\s+notifikasi\s+["']?(.+?)["']?$/i)) {
-                var match = cmd.match(/tampilkan\s+notifikasi\s+["']?(.+?)["']?$/i);
-                var msg = match[1].trim();
-                showToast('💬 ' + msg, 'success');
-                return '✅ Notifikasi ditampilkan: <strong>"' + msg + '"</strong>';
-            }
-
-            return '❌ Perintah modifikasi UI tidak dikenali. Contoh: <code>ubah judul hero menjadi "BUCIN Hebat"</code>, <code>ganti warna utama menjadi #7C3AED</code>, <code>tambah tombol dengan label "Cetak"</code>.';
-        }
-
-        // ----- EXECUTE CODE SMART -----
-        function executeCodeSmart(cmd) {
-            var codeMatch = cmd.match(/^(execute|jalankan|run|eval|eksekusi|code|kode)\s+([\s\S]+)$/i);
-            if (!codeMatch) return '❌ Berikan kode JavaScript yang akan dijalankan, misalnya: <code>execute alert("Halo")</code>';
-            var code = codeMatch[2].trim();
-            try {
-                var result = new Function('return (' + code + ')')();
-                if (result !== undefined) return '✅ Eksekusi berhasil. Hasil: <code>' + JSON.stringify(result) + '</code>';
-                return '✅ Kode berhasil dijalankan (tanpa nilai balik).';
-            } catch (e) {
-                return '❌ Error eksekusi: ' + e.message;
-            }
-        }
-
-        // ----- NATURAL LANGUAGE RESPONSE (Advanced) -----
-        function naturalLanguageResponse(cmd) {
-            var lower = cmd.toLowerCase();
-
-            // Try to understand if user is asking about something
-            if (lower.includes('bagaimana') || lower.includes('cara') || lower.includes('tutorial') || lower.includes('langkah')) {
-                return '📖 Saya bisa membantu Anda dengan panduan dan tutorial. Sebutkan topik yang ingin Anda pelajari, misalnya "cara menambahkan data", "bagaimana mengelola stok", atau "tutorial menggunakan peta".';
-            }
-
-            if (lower.includes('siapa') || lower.includes('siapa yang') || lower.includes('who')) {
-                return '👤 Saya bisa membantu Anda mencari tahu tentang tim atau pengguna. Sebutkan nama atau jabatan yang ingin Anda ketahui, misalnya "siapa admin?" atau "siapa teknisi lapangan?".';
-            }
-
-            if (lower.includes('kapan') || lower.includes('waktu') || lower.includes('tanggal') || lower.includes('jam') || lower
-                .includes('date')) {
-                var now = new Date();
-                var dateStr = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-                var timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-                return '🕐 Sekarang adalah <strong>' + dateStr + ' pukul ' + timeStr + ' WIB</strong>. Ada jadwal tertentu yang ingin Anda ketahui?';
-            }
-
-            if (lower.includes('di mana') || lower.includes('lokasi') || lower.includes('alamat') || lower.includes('where')) {
-                return '📍 Saya bisa membantu mencari lokasi. Sebutkan nama tempat atau aset yang ingin Anda cari, misalnya "di mana CLS MAMI?" atau "lokasi joint terdekat".';
-            }
-
-            if (lower.includes('kenapa') || lower.includes('mengapa') || lower.includes('why') || lower.includes('sebab')) {
-                return '❓ Saya bisa membantu menjelaskan penyebab suatu kejadian. Sebutkan masalah yang Anda alami, misalnya "kenapa OF Cut terjadi?" atau "mengapa stok kosong?".';
-            }
-
-            // Default: generic helpful response
-            return '🤔 Hmm, saya belum sepenuhnya mengerti maksud Anda. Coba perjelas atau gunakan kata kunci seperti <code>help</code> untuk melihat semua perintah yang saya mengerti. Saya siap membantu! 💪';
-        }
-
-        // ----- AI UI HELPERS -----
-
-        function addAIMessage(role, html) {
-            var body = document.getElementById('ai-body');
-            var div = document.createElement('div');
-            div.className = 'ai-msg ' + role;
-            div.innerHTML = html;
-            body.appendChild(div);
-            body.scrollTop = body.scrollHeight;
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-        }
-
-        function showTypingIndicator() {
-            var body = document.getElementById('ai-body');
-            var div = document.createElement('div');
-            div.className = 'typing-indicator';
-            div.id = 'typing-indicator';
-            div.innerHTML = 'AI sedang berpikir<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>';
-            body.appendChild(div);
-            body.scrollTop = body.scrollHeight;
-        }
-
-        function removeTypingIndicator() {
-            var el = document.getElementById('typing-indicator');
-            if (el) el.remove();
-        }
-
-        // ----- FIX, SCAN, REPORT, RESET (reused with enhancements) -----
-
-        function performScan() {
-            autoScanErrors();
-            if (detectedErrors.length === 0) {
-                return '✅ <strong>Hasil Scan:</strong> Tidak ditemukan masalah! Sistem berjalan dengan baik. 🎉';
-            }
-            var critical = detectedErrors.filter(function(e) { return e.severity === 'critical'; });
-            var warnings = detectedErrors.filter(function(e) { return e.severity === 'warning'; });
-            var infos = detectedErrors.filter(function(e) { return e.severity === 'info'; });
-
-            var msg = '🔍 <strong>Hasil Scan Error:</strong><br>';
-            if (critical.length > 0) {
-                msg += '❌ <strong>Critical (' + critical.length + '):</strong><br>';
-                critical.forEach(function(e) {
-                    msg += '• <span style="color:#EF4444;">' + e.component + ':</span> ' + e.message + '<br>';
-                });
-            }
-            if (warnings.length > 0) {
-                msg += '⚠️ <strong>Warning (' + warnings.length + '):</strong><br>';
-                warnings.forEach(function(e) {
-                    msg += '• <span style="color:#F59E0B;">' + e.component + ':</span> ' + e.message + '<br>';
-                });
-            }
-            if (infos.length > 0) {
-                msg += 'ℹ️ <strong>Info (' + infos.length + '):</strong><br>';
-                infos.forEach(function(e) {
-                    msg += '• <span style="color:#6366F1;">' + e.component + ':</span> ' + e.message + '<br>';
-                });
-            }
-            msg +=
-                '<br><span style="font-size:12px;color:var(--text-muted);">Ketik <code>fix all</code> untuk perbaiki semua, atau <code>fix [komponen]</code> untuk spesifik.</span>';
-            return msg;
-        }
-
-        function generateReport() {
-            autoScanErrors();
-            var now = new Date().toLocaleString('id-ID');
-            var totalData = 0;
-            var catCount = 0;
-            Object.keys(appData).forEach(function(cat) {
-                if (cat !== 'dashboard' && typeof appData[cat] === 'object') {
-                    var count = Object.keys(appData[cat] || {}).length;
-                    if (count > 0) { totalData += count;
-                        catCount++; }
-                }
-            });
-
-            var msg = '📊 <strong>Laporan Sistem BUCIN</strong><br>';
-            msg += '🕐 ' + now + '<br><br>';
-            msg += '<strong>🔹 Status:</strong><br>';
-            msg += '• User: ' + (currentUser ? currentUser.name : 'Tidak login') + '<br>';
-            msg += '• Kategori: ' + currentCategory + '<br>';
-            msg += '• Total Data: ' + totalData + ' item (' + catCount + ' kategori)<br>';
-            msg += '• Firebase: ' + (db ? '✅ Terkoneksi' : '❌ Tidak terhubung') + '<br>';
-            msg += '• Map: ' + (map ? '✅ Aktif' : '❌ Tidak aktif') + '<br>';
-            msg += '• Chart: ' + (chartIncidents ? '✅ Aktif' : '❌ Tidak aktif') + '<br><br>';
-
-            if (detectedErrors.length > 0) {
-                msg += '<strong>🔸 Error Terdeteksi (' + detectedErrors.length + '):</strong><br>';
-                detectedErrors.forEach(function(e) {
-                    var icon = e.severity === 'critical' ? '❌' : e.severity === 'warning' ? '⚠️' : 'ℹ️';
-                    msg += icon + ' ' + e.component + ': ' + e.message + '<br>';
-                });
-            } else {
-                msg += '✅ <strong>Tidak ada error terdeteksi.</strong><br>';
-            }
-
-            msg +=
-                '<br><span style="font-size:12px;color:var(--text-muted);">Ketik <code>scan</code> untuk scan ulang, <code>fix all</code> untuk perbaiki otomatis.</span>';
-            return msg;
-        }
-
-        function performFix(entities) {
-            var target = (entities.fixTarget || 'all').toLowerCase();
-            var fixed = [];
-            var failed = [];
-
-            if (target === 'all' || target === 'semua') {
-                var errorsToFix = detectedErrors.filter(function(e) { return e.severity === 'critical' || e
-                        .severity === 'warning'; });
-                if (errorsToFix.length === 0) return '✅ Tidak ada error yang perlu diperbaiki. Sistem sudah sehat!';
-                errorsToFix.forEach(function(e) {
-                    var result = attemptFix(e);
-                    if (result.success) fixed.push(e.component + ': ' + result.message);
-                    else failed.push(e.component + ': ' + result.message);
-                });
-            } else {
-                var found = detectedErrors.filter(function(e) {
-                    return e.component.toLowerCase().includes(target) || e.message.toLowerCase().includes(target);
-                });
-                if (found.length === 0) {
-                    return '❌ Tidak ditemukan error yang cocok dengan "' + target + '". Ketik <code>scan</code> untuk melihat daftar.';
-                }
-                found.forEach(function(e) {
-                    var result = attemptFix(e);
-                    if (result.success) fixed.push(e.component + ': ' + result.message);
-                    else failed.push(e.component + ': ' + result.message);
-                });
-            }
-
-            var msg = '🔧 <strong>Perbaikan:</strong><br>';
-            if (fixed.length > 0) msg += '✅ ' + fixed.join('<br>✅ ') + '<br>';
-            if (failed.length > 0) msg += '❌ ' + failed.join('<br>❌ ') + '<br>';
-            setTimeout(autoScanErrors, 300);
-            return msg;
-        }
-
-        function attemptFix(error) {
-            var component = error.component.toLowerCase();
-            var result = { success: false, message: 'Tidak dapat diperbaiki otomatis' };
-
-            switch (component) {
-                case 'firebase':
-                    try {
-                        if (!firebaseApp) { firebaseApp = firebase.initializeApp(firebaseConfig);
-                            result.success = true;
-                            result.message = 'Firebase berhasil diinisialisasi ulang'; } else { result.success = true;
-                            result.message = 'Firebase sudah aktif'; }
-                    } catch (e) { result.message = 'Gagal: ' + e.message; }
-                    break;
-                case 'map':
-                    try {
-                        if (!map) { initMap();
-                            result.success = true;
-                            result.message = 'Peta berhasil diinisialisasi'; } else { result.success = true;
-                            result.message = 'Peta sudah aktif'; }
-                    } catch (e) { result.message = 'Gagal: ' + e.message; }
-                    break;
-                case 'chart':
-                    try {
-                        if (!chartIncidents) { initCharts();
-                            result.success = true;
-                            result.message = 'Grafik berhasil diinisialisasi'; } else { result.success = true;
-                            result.message = 'Grafik sudah aktif'; }
-                    } catch (e) { result.message = 'Gagal: ' + e.message; }
-                    break;
-                case 'data':
-                    try { loadData();
-                        result.success = true;
-                        result.message = 'Data dimuat ulang'; } catch (e) { result.message = 'Gagal: ' + e.message; }
-                    break;
-                case 'barcode':
-                    try { loadBarcodeCache();
-                        result.success = true;
-                        result.message = 'Cache barcode dimuat ulang'; } catch (e) { result.message = 'Gagal: ' + e
-                            .message; }
-                    break;
-                default:
-                    result.message = 'Komponen "' + component + '" tidak dikenal untuk perbaikan otomatis';
-            }
-
-            if (result.success) {
-                var index = detectedErrors.indexOf(error);
-                if (index > -1) { detectedErrors.splice(index, 1);
-                    updateErrorBadge(); }
-            }
-            return result;
-        }
-
-        function performReset() {
-            detectedErrors = [];
-            errorLog = [];
-            updateErrorBadge();
-            loadData();
-            setTimeout(function() {
-                initMap();
-                initCharts();
-                updateQuickStats();
-                autoScanErrors();
-            }, 500);
-            return '🔄 <strong>Reset Selesai!</strong> Sistem telah di-reset dan dimuat ulang.';
-        }
-
-        // ============================================================
-        // MAP MARKERS
-        // ============================================================
-        function updateMapMarkers() { /* placeholder */ }
-
-        // ============================================================
-        // EXTRA: Handle uncaught errors for better diagnostics
-        // ============================================================
-        window.addEventListener('error', function(e) {
-            errorLog.push({ type: 'console', message: e.message, source: e.filename, line: e.lineno, col: e.colno,
-                timestamp: Date.now() });
-            setTimeout(autoScanErrors, 500);
-        });
     </script>
 </body>
 </html>
