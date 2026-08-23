@@ -106,6 +106,35 @@
             cursor: not-allowed;
             transform: none !important;
         }
+        .btn-danger {
+            background: #EF4444;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            font-weight: 700;
+            padding: 12px 28px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            min-height: 52px;
+            font-size: 16px;
+        }
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+        .btn-danger:active {
+            transform: scale(0.97);
+        }
+        .btn-danger:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
 
         .btn-secondary {
             background: var(--bg-light);
@@ -929,6 +958,24 @@
             max-height: 160px;
         }
 
+        /* ===== PEMUSNAHAN PAGE ===== */
+        .pemusnahan-page {
+            display: none;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-light);
+            min-height: 100vh;
+        }
+        .pemusnahan-page.active {
+            display: block;
+        }
+
+        /* ===== PEMUSNAHAN HISTORY MODAL ===== */
+        .pemusnahan-history-modal .modal-card {
+            max-width: 800px;
+        }
+
         @media(min-width:768px) {
             .dashboard-grid {
                 grid-template-columns: 1fr 1fr;
@@ -965,7 +1012,8 @@
                 font-size: 24px;
             }
             .btn-primary,
-            .btn-secondary {
+            .btn-secondary,
+            .btn-danger {
                 padding: 10px 18px;
                 font-size: 13px;
                 min-height: 42px;
@@ -1098,7 +1146,7 @@
                     <div id="map-wrapper" style="position:relative;">
                         <div id="map-container"></div>
                         <div class="custom-map-controls">
-                            <button class="custom-map-btn active" onclick="toggleMapLayer('satellite')" title="Satelit"><i data-lucide="satellite" style="width:18px;"></i></button>
+                            <button class="custom-map-btn active" onclick="toggleMapLayer('satellite')" title="Satelit ESRI"><i data-lucide="satellite" style="width:18px;"></i></button>
                             <button class="custom-map-btn" onclick="toggleMapLayer('street')" title="Jalan"><i data-lucide="map" style="width:18px;"></i></button>
                             <button class="custom-map-btn" onclick="toggleMapLayer('hybrid')" title="Hybrid"><i data-lucide="layers" style="width:18px;"></i></button>
                             <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
@@ -1113,23 +1161,15 @@
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
                     <h2 id="page-title" style="margin:0;font-size:22px;font-weight:800;">Data Operasional</h2>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                        <!-- Tombol Riwayat (hanya untuk Stok Spare) -->
                         <button id="btn-history" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;">
                             <i data-lucide="history" style="width:16px;"></i> Riwayat
                         </button>
-                        <!-- Tombol Retur (hanya untuk Stok Spare) -->
                         <button id="btn-retur-page" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;">
                             <i data-lucide="undo-2" style="width:16px;"></i> Retur
                         </button>
-                        <!-- Tombol Pemusnahan (untuk Stok Spare dan Patch Cord) -->
-                        <button id="btn-pemusnahan" class="btn-secondary" style="padding:8px 16px;font-size:13px;border-radius:20px;">
-                            <i data-lucide="trash-2" style="width:16px;"></i> Pemusnahan
-                        </button>
-                        <!-- Tombol Download Excel -->
                         <button id="btn-download-excel-page" class="btn-secondary" style="padding:8px 16px;font-size:13px;border-radius:20px;">
                             <i data-lucide="file-spreadsheet" style="width:16px;"></i> Excel
                         </button>
-                        <!-- Tombol Tambah -->
                         <button id="btn-add" class="btn-primary" style="padding:8px 20px;font-size:13px;border-radius:20px;">
                             <i data-lucide="plus" style="width:16px;"></i> Tambah
                         </button>
@@ -1178,6 +1218,80 @@
                     </div>
                 </div>
             </section>
+
+            <!-- PEMUSNAHAN PAGE -->
+            <section id="pemusnahan-view" class="pemusnahan-page">
+                <div style="max-width:800px;margin:0 auto;">
+                    <div class="card">
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line);">
+                            <div style="width:48px;height:48px;background:#FEE2E2;border-radius:14px;display:grid;place-items:center;border:1px solid rgba(239,68,68,0.2);">
+                                <i data-lucide="trash-2" style="width:24px;color:#EF4444;"></i>
+                            </div>
+                            <div>
+                                <h2 style="margin:0;font-size:20px;font-weight:800;">Pemusnahan Barang</h2>
+                                <p style="color:var(--text-muted);font-size:13px;margin-top:2px;">Kelola pemusnahan barang dari stok</p>
+                            </div>
+                        </div>
+
+                        <form id="pemusnahan-form" onsubmit="return submitPemusnahanPage(event)">
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Barcode <span style="color:#EF4444;">*</span></label>
+                                    <div style="display:flex;gap:8px;">
+                                        <input type="text" id="pem-barcode" class="field-control" placeholder="Scan atau ketik barcode" required style="flex:1;" oninput="autoFillPemusnahan()">
+                                        <button type="button" id="btn-scan-pem" class="btn-secondary" style="padding:0 14px;border-radius:12px;"><i data-lucide="camera"></i></button>
+                                    </div>
+                                    <div id="pem-scanner" class="scanner-wrapper">
+                                        <video id="pem-camera-preview" autoplay playsinline muted></video>
+                                        <div class="scanner-guide"></div>
+                                        <div class="scanner-laser"></div>
+                                        <div class="scanner-status">Mencari Barcode...</div>
+                                        <button type="button" id="btn-stop-pem-scan" class="btn-primary" style="position:absolute;bottom:12px;right:12px;padding:6px 14px;font-size:11px;background:#EF4444;border-radius:12px;z-index:10;">Stop</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Nama Barang <span style="color:#EF4444;">*</span></label>
+                                    <input type="text" id="pem-nama" class="field-control" placeholder="Otomatis dari barcode" readonly required>
+                                    <div id="pem-stok-info" style="font-size:11px;color:var(--text-muted);margin-top:4px;"></div>
+                                </div>
+                            </div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Kategori <span style="color:#EF4444;">*</span></label>
+                                    <select id="pem-kategori" class="field-control" required onchange="loadPemusnahanData()">
+                                        <option value="">-- Pilih --</option>
+                                        <option value="Stok Spare">Stok Spare</option>
+                                        <option value="Patch Cord">Patch Cord</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Stok Tersedia</label>
+                                    <input type="text" id="pem-stok-tersedia" class="field-control" readonly style="background:var(--bg-light);">
+                                </div>
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Jumlah Dimusnahkan <span style="color:#EF4444;">*</span></label>
+                                    <input type="number" id="pem-jumlah" class="field-control" value="1" min="1" required>
+                                </div>
+                            </div>
+                            <div style="margin-bottom:16px;">
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Alasan Pemusnahan <span style="color:#EF4444;">*</span></label>
+                                <textarea id="pem-alasan" class="field-control" rows="2" placeholder="Alasan pemusnahan..." required></textarea>
+                            </div>
+                            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                                <button type="submit" class="btn-danger" style="flex:2;justify-content:center;min-height:48px;">
+                                    <i data-lucide="trash-2" style="width:18px;"></i> Konfirmasi Pemusnahan
+                                </button>
+                                <button type="button" id="btn-pem-history" class="btn-secondary" style="flex:1;justify-content:center;min-height:48px;">
+                                    <i data-lucide="history" style="width:18px;"></i> Riwayat
+                                </button>
+                                <button type="button" id="btn-pem-excel" class="btn-secondary" style="flex:1;justify-content:center;min-height:48px;">
+                                    <i data-lucide="file-spreadsheet" style="width:18px;"></i> Excel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <!-- BOTTOM NAV -->
@@ -1192,6 +1306,7 @@
             <div class="nav-item" data-cat="Alkur/Material"><i data-lucide="wrench"></i><span>Alkur</span></div>
             <div class="nav-item" data-cat="Stok Spare"><i data-lucide="package"></i><span>Spare</span></div>
             <div class="nav-item" data-cat="Patch Cord"><i data-lucide="cable"></i><span>Patch</span></div>
+            <div class="nav-item" data-cat="pemusnahan"><i data-lucide="trash-2"></i><span>Pemusnahan</span></div>
         </nav>
     </div>
 
@@ -1497,44 +1612,27 @@
         </div>
     </div>
 
-    <!-- ===== MODAL PEMUSNAHAN ===== -->
-    <div id="pemusnahan-modal" class="modal-layer hidden">
-        <div class="modal-card">
+    <!-- ===== MODAL PEMUSNAHAN HISTORY ===== -->
+    <div id="pem-history-modal" class="modal-layer hidden pemusnahan-history-modal">
+        <div class="modal-card" style="max-width:700px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
                 <h3 style="margin:0;font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;">
-                    <i data-lucide="trash-2" style="width:22px;color:#EF4444;"></i>
-                    Pemusnahan Barang
+                    <i data-lucide="history" style="width:22px;color:#EF4444;"></i>
+                    Riwayat Pemusnahan
                 </h3>
-                <button onclick="document.getElementById('pemusnahan-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+                <button onclick="document.getElementById('pem-history-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
             </div>
-            <form id="pemusnahan-form" onsubmit="return submitPemusnahan(event)">
-                <div style="margin-bottom:16px;">
-                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Kategori Barang <span style="color:#EF4444;">*</span></label>
-                    <select id="pem-kategori" class="field-control" required onchange="loadPemusnahanBarang()">
-                        <option value="">-- Pilih Kategori --</option>
-                        <option value="Stok Spare">Stok Spare</option>
-                        <option value="Patch Cord">Patch Cord</option>
-                    </select>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Pilih Barang <span style="color:#EF4444;">*</span></label>
-                    <select id="pem-barang" class="field-control" required>
-                        <option value="">-- Pilih Barang --</option>
-                    </select>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Jumlah Dimusnahkan <span style="color:#EF4444;">*</span></label>
-                    <input type="number" id="pem-jumlah" class="field-control" value="1" min="1" required>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Alasan Pemusnahan <span style="color:#EF4444;">*</span></label>
-                    <textarea id="pem-alasan" class="field-control" rows="2" placeholder="Alasan pemusnahan..." required></textarea>
-                </div>
-                <div style="display:flex;gap:12px;">
-                    <button type="button" onclick="document.getElementById('pemusnahan-modal').classList.add('hidden')" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
-                    <button type="submit" class="btn-primary" style="flex:2;justify-content:center;background:#EF4444;">Konfirmasi Pemusnahan</button>
-                </div>
-            </form>
+            <div style="display:flex;gap:8px;margin-bottom:16px;">
+                <button id="btn-pem-history-excel" class="btn-primary" style="padding:8px 16px;font-size:13px;border-radius:20px;display:flex;align-items:center;gap:6px;">
+                    <i data-lucide="file-spreadsheet" style="width:16px;"></i> Download Excel
+                </button>
+            </div>
+            <div style="overflow-x:auto;max-height:400px;overflow-y:auto;">
+                <table class="records-table">
+                    <thead><tr><th>Tgl</th><th>User</th><th>Kategori</th><th>Nama</th><th>Jumlah</th><th>Alasan</th></tr></thead>
+                    <tbody id="pem-history-body"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -1741,9 +1839,10 @@
         let isSubmitting = false;
         let barcodeCache = {};
         let selectedGudangFilter = 'all';
+        let pemusnahanHistory = [];
 
         // ============================================================
-        // DEFAULT KML DATA
+        // DEFAULT KML DATA (shortened for brevity - same as before)
         // ============================================================
         const defaultKmlString = `<?xml version="1.0" encoding="UTF-8"?>
         <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -1905,7 +2004,7 @@
         }
 
         // ============================================================
-        // PARSE KML KE LAYER
+        // PARSE KML KE LAYER (sama seperti sebelumnya)
         // ============================================================
         function parseKmlToLayers(xml) {
             var styles = {};
@@ -1992,7 +2091,6 @@
                 var styleUrl = pm.getElementsByTagName("styleUrl")[0]?.textContent || "";
                 var description = pm.getElementsByTagName("description")[0]?.textContent || "";
 
-                // Point
                 var point = pm.getElementsByTagName("Point")[0];
                 if (point) {
                     var coordsElem = point.getElementsByTagName("coordinates")[0];
@@ -2004,7 +2102,6 @@
                             var lat = parseFloat(parts[1]);
                             var color = getColorFromStyleUrl(styleUrl);
                             if (!color) color = "#3388ff";
-
                             var marker = L.circleMarker([lat, lon], {
                                 radius: 7,
                                 fillColor: color,
@@ -2019,7 +2116,6 @@
                     }
                 }
 
-                // LineString
                 var lineString = pm.getElementsByTagName("LineString")[0];
                 if (lineString) {
                     var coordsElem = lineString.getElementsByTagName("coordinates")[0];
@@ -2038,7 +2134,6 @@
                         if (latlngs.length > 1) {
                             var color = getColorFromStyleUrl(styleUrl);
                             if (!color) color = "#3388ff";
-
                             var polyline = L.polyline(latlngs, {
                                 color: color,
                                 weight: 4,
@@ -2069,7 +2164,6 @@
                 lucide.createIcons();
             }
 
-            // Check session
             var savedSession = localStorage.getItem('bucin_session');
             if (savedSession) {
                 try {
@@ -2092,6 +2186,7 @@
                         loadData();
                         loadSettings();
                         loadBarcodeCache();
+                        loadPemusnahanHistory();
                         return;
                     }
                 } catch(e) {}
@@ -2102,6 +2197,7 @@
             loadData();
             loadSettings();
             loadBarcodeCache();
+            loadPemusnahanHistory();
         });
 
         // ============================================================
@@ -2165,19 +2261,35 @@
                     appData = snap.val() || {};
                     console.log('✅ Data loaded');
                     updateDashboard();
-                    if (currentCategory !== 'dashboard') {
+                    if (currentCategory !== 'dashboard' && currentCategory !== 'pemusnahan') {
                         renderTable();
                         updateStokSummary();
                     }
-                    // Update map markers
                     updateMapMarkers();
-                    // Update pemusnahan dropdown
-                    loadPemusnahanBarang();
                 } catch (e) {
                     console.error('❌ Error processing data:', e);
                 }
             }, function(error) {
                 console.error('❌ Error loading data:', error);
+            });
+        }
+
+        // ============================================================
+        // LOAD PEMUSNAHAN HISTORY
+        // ============================================================
+        function loadPemusnahanHistory() {
+            db.ref('history/pemusnahan').on('value', function(snap) {
+                var data = snap.val() || {};
+                pemusnahanHistory = Object.keys(data).map(function(key) {
+                    var item = data[key];
+                    item._key = key;
+                    return item;
+                });
+                pemusnahanHistory.sort(function(a, b) {
+                    return (b.createdAt || 0) - (a.createdAt || 0);
+                });
+            }, function(error) {
+                console.error('❌ Error loading pemusnahan history:', error);
             });
         }
 
@@ -2246,7 +2358,6 @@
                     if (userData && userData.pass === password) {
                         currentUser = { name: username, role: userData.role || 'user' };
 
-                        // Save session
                         localStorage.setItem('bucin_session', JSON.stringify({ username: username, role: currentUser.role }));
 
                         document.getElementById('login-screen').classList.add('hidden');
@@ -2314,17 +2425,257 @@
         }
 
         // ============================================================
+        // SWITCH VIEW
+        // ============================================================
+        function switchView(cat) {
+            currentCategory = cat;
+
+            // Sembunyikan semua view
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('data-view').classList.add('hidden');
+            document.getElementById('pemusnahan-view').classList.remove('active');
+            document.getElementById('pemusnahan-view').classList.add('hidden');
+
+            if (cat === 'dashboard') {
+                document.getElementById('dashboard-view').classList.remove('hidden');
+                document.getElementById('page-title').textContent = 'Dashboard';
+            } else if (cat === 'pemusnahan') {
+                document.getElementById('pemusnahan-view').classList.remove('hidden');
+                document.getElementById('pemusnahan-view').classList.add('active');
+                document.getElementById('page-title').textContent = 'Pemusnahan Barang';
+                loadPemusnahanData();
+            } else {
+                document.getElementById('data-view').classList.remove('hidden');
+                var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
+                var isPatch = cat === 'Patch Cord';
+                document.getElementById('btn-retur-page').classList.toggle('hidden', !isStock || isPatch);
+                document.getElementById('btn-history').classList.toggle('hidden', !isStock);
+                document.getElementById('page-title').textContent = cat;
+                renderTable();
+                updateStokSummary();
+            }
+        }
+
+        // ============================================================
+        // PEMUSNAHAN FUNCTIONS
+        // ============================================================
+        function autoFillPemusnahan() {
+            var barcode = document.getElementById('pem-barcode').value.trim();
+            var kategori = document.getElementById('pem-kategori').value;
+            var namaField = document.getElementById('pem-nama');
+            var stokInfo = document.getElementById('pem-stok-info');
+            var stokTersedia = document.getElementById('pem-stok-tersedia');
+
+            if (!barcode || barcode.length < 3) {
+                namaField.value = '';
+                stokInfo.textContent = '';
+                stokTersedia.value = '';
+                return;
+            }
+
+            // Cari di semua kategori
+            var found = false;
+            var categories = ['Stok Spare', 'Patch Cord'];
+            for (var c of categories) {
+                var list = appData[c] || {};
+                for (var key in list) {
+                    var item = list[key];
+                    if (item.barcode && item.barcode.toLowerCase() === barcode.toLowerCase()) {
+                        namaField.value = item.spec || item.pcType || 'Unknown';
+                        stokInfo.textContent = '✅ Barang ditemukan di ' + c;
+                        stokTersedia.value = item.qty || 0;
+                        // Set kategori otomatis
+                        document.getElementById('pem-kategori').value = c;
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) break;
+            }
+
+            if (!found) {
+                namaField.value = '❌ Barcode tidak ditemukan';
+                stokInfo.textContent = '⚠️ Barcode tidak terdaftar di database';
+                stokTersedia.value = '0';
+            }
+        }
+
+        function loadPemusnahanData() {
+            // Reset form jika kategori berubah
+            var barcode = document.getElementById('pem-barcode').value.trim();
+            if (barcode) {
+                autoFillPemusnahan();
+            }
+        }
+
+        function submitPemusnahanPage(e) {
+            e.preventDefault();
+
+            var kategori = document.getElementById('pem-kategori').value;
+            var barcode = document.getElementById('pem-barcode').value.trim();
+            var nama = document.getElementById('pem-nama').value.trim();
+            var jumlah = parseInt(document.getElementById('pem-jumlah').value) || 1;
+            var alasan = document.getElementById('pem-alasan').value.trim();
+            var stokTersedia = parseInt(document.getElementById('pem-stok-tersedia').value) || 0;
+
+            if (!kategori || !barcode || !nama || jumlah < 1 || !alasan) {
+                showToast('❌ Semua field harus diisi', 'error');
+                return false;
+            }
+
+            if (jumlah > stokTersedia) {
+                showToast('❌ Jumlah melebihi stok tersedia (' + stokTersedia + ')', 'error');
+                return false;
+            }
+
+            if (!confirm('Konfirmasi pemusnahan ' + jumlah + ' unit ' + nama + ' dari ' + kategori +
+                    '?\nAlasan: ' + alasan)) {
+                return false;
+            }
+
+            var submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Memproses...';
+
+            // Cari key barang berdasarkan barcode
+            var targetKey = null;
+            var list = appData[kategori] || {};
+            for (var key in list) {
+                var item = list[key];
+                if (item.barcode && item.barcode.toLowerCase() === barcode.toLowerCase()) {
+                    targetKey = key;
+                    break;
+                }
+            }
+
+            if (!targetKey) {
+                showToast('❌ Barang tidak ditemukan di database', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Konfirmasi Pemusnahan';
+                return false;
+            }
+
+            var ref = db.ref('data/' + kategori + '/' + targetKey);
+            ref.once('value')
+                .then(function(snap) {
+                    var item = snap.val();
+                    if (!item) {
+                        showToast('❌ Data tidak ditemukan', 'error');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Konfirmasi Pemusnahan';
+                        return;
+                    }
+
+                    var newQty = (item.qty || 0) - jumlah;
+                    if (newQty < 0) newQty = 0;
+
+                    return ref.update({
+                        qty: newQty,
+                        notes: (item.notes || '') + ' | Pemusnahan: ' + alasan + ' (' + jumlah + ' unit)',
+                        lastUpdate: Date.now()
+                    }).then(function() {
+                        var historyData = {
+                            date: new Date().toISOString().slice(0, 10),
+                            postBy: currentUser ? currentUser.name : 'System',
+                            kategori: kategori,
+                            barcode: barcode,
+                            nama: nama,
+                            jumlah: jumlah,
+                            alasan: alasan,
+                            trType: 'Pemusnahan',
+                            createdAt: Date.now()
+                        };
+                        return db.ref('history/pemusnahan').push(historyData);
+                    });
+                })
+                .then(function() {
+                    showToast('✅ Pemusnahan berhasil! Stok berkurang ' + jumlah + ' unit', 'success');
+                    // Reset form
+                    document.getElementById('pem-barcode').value = '';
+                    document.getElementById('pem-nama').value = '';
+                    document.getElementById('pem-stok-info').textContent = '';
+                    document.getElementById('pem-stok-tersedia').value = '';
+                    document.getElementById('pem-jumlah').value = '1';
+                    document.getElementById('pem-alasan').value = '';
+                    document.getElementById('pem-kategori').value = '';
+                    setTimeout(function() {
+                        updateStokSummary();
+                        renderTable();
+                        updateQuickStats();
+                        updateMapMarkers();
+                        loadPemusnahanHistory();
+                    }, 300);
+                })
+                .catch(function(err) {
+                    console.error('❌ Error pemusnahan:', err);
+                    showToast('❌ Gagal memusnahkan: ' + err.message, 'error');
+                })
+                .finally(function() {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Konfirmasi Pemusnahan';
+                });
+
+            return false;
+        }
+
+        function showPemusnahanHistory() {
+            var tbody = document.getElementById('pem-history-body');
+            tbody.innerHTML = '';
+
+            if (pemusnahanHistory.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:20px;">Belum ada riwayat pemusnahan</td></tr>';
+            } else {
+                pemusnahanHistory.forEach(function(item) {
+                    tbody.innerHTML += '<tr>' +
+                        '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
+                        '<td>' + (item.postBy || '-') + '</td>' +
+                        '<td>' + (item.kategori || '-') + '</td>' +
+                        '<td>' + (item.nama || '-') + '</td>' +
+                        '<td><span style="font-weight:700;color:#EF4444;">' + (item.jumlah || 0) + '</span></td>' +
+                        '<td style="max-width:150px;white-space:normal;font-size:12px;">' + (item.alasan || '-') +
+                        '</td>' +
+                        '</tr>';
+                });
+            }
+
+            document.getElementById('pem-history-modal').classList.remove('hidden');
+        }
+
+        function downloadPemusnahanExcel() {
+            if (pemusnahanHistory.length === 0) {
+                showToast('⚠️ Tidak ada data pemusnahan untuk diexport', 'error');
+                return;
+            }
+
+            var data = pemusnahanHistory.map(function(item) {
+                return {
+                    'Tanggal': item.date || '-',
+                    'User': item.postBy || '-',
+                    'Kategori': item.kategori || '-',
+                    'Barcode': item.barcode || '-',
+                    'Nama': item.nama || '-',
+                    'Jumlah': item.jumlah || 0,
+                    'Alasan': item.alasan || '-'
+                };
+            });
+
+            var ws = XLSX.utils.json_to_sheet(data);
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Pemusnahan');
+            XLSX.writeFile(wb, 'Pemusnahan_' + new Date().toISOString().slice(0, 10) + '.xlsx');
+            showToast('✅ Excel pemusnahan berhasil didownload', 'success');
+        }
+
+        // ============================================================
         // EVENT LISTENERS
         // ============================================================
         function setupEventListeners() {
-            // Login
             var loginBtn = document.getElementById('login-btn');
             if (loginBtn) loginBtn.addEventListener('click', handleLogin);
 
             var loginForm = document.getElementById('login-form');
             if (loginForm) loginForm.addEventListener('submit', handleLogin);
 
-            // Toggle password
             var togglePass = document.getElementById('toggle-pass');
             if (togglePass) {
                 togglePass.addEventListener('click', function() {
@@ -2341,7 +2692,6 @@
                 });
             }
 
-            // Logout
             var logoutBtn = document.getElementById('logout-btn');
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function() {
@@ -2350,7 +2700,6 @@
                 });
             }
 
-            // Navigation
             document.querySelectorAll('.nav-item').forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
@@ -2359,16 +2708,13 @@
                 });
             });
 
-            // Add button
             var addBtn = document.getElementById('btn-add');
             if (addBtn) addBtn.addEventListener('click', handleAddClick);
 
-            // Submit button
             var submitBtn = document.getElementById('btn-submit-form');
             if (submitBtn) {
                 submitBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    console.log('✅ Tombol simpan diklik');
                     submitForm(e);
                 });
             }
@@ -2377,16 +2723,13 @@
             if (dataForm) {
                 dataForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    console.log('✅ Form submit event triggered');
                     submitForm(e);
                 });
             }
 
-            // Search
             var searchInput = document.getElementById('search-input');
             if (searchInput) searchInput.addEventListener('input', renderTable);
 
-            // Barcode auto-fill
             var barcodeInput = document.getElementById('inp-barcode');
             if (barcodeInput) {
                 barcodeInput.addEventListener('input', function() {
@@ -2402,7 +2745,6 @@
                 });
             }
 
-            // Scan modal
             var scanModalBtn = document.getElementById('btn-scan-modal');
             if (scanModalBtn) {
                 scanModalBtn.addEventListener('click', function() { toggleScanner('modal'); });
@@ -2413,7 +2755,17 @@
                 stopModalScan.addEventListener('click', function() { stopScanner('modal'); });
             }
 
-            // Location search button
+            // Scan untuk Pemusnahan
+            var scanPemBtn = document.getElementById('btn-scan-pem');
+            if (scanPemBtn) {
+                scanPemBtn.addEventListener('click', function() { toggleScanner('pem'); });
+            }
+
+            var stopPemScan = document.getElementById('btn-stop-pem-scan');
+            if (stopPemScan) {
+                stopPemScan.addEventListener('click', function() { stopScanner('pem'); });
+            }
+
             var btnLocMap = document.getElementById('btn-loc-map');
             if (btnLocMap) {
                 btnLocMap.addEventListener('click', function() {
@@ -2421,32 +2773,30 @@
                 });
             }
 
-            // History
             var historyBtn = document.getElementById('btn-history');
             if (historyBtn) historyBtn.addEventListener('click', showHistory);
 
-            // Download Excel per page
             document.getElementById('btn-download-excel-page').addEventListener('click', function() {
                 downloadPageExcel();
             });
 
-            // Download Excel history
             document.getElementById('btn-download-excel-history').addEventListener('click', function() {
                 downloadHistoryExcel();
             });
 
-            // Add user
             document.getElementById('add-user-btn').addEventListener('click', function() {
                 document.getElementById('add-user-modal').classList.remove('hidden');
             });
 
-            // Pemusnahan button
-            document.getElementById('btn-pemusnahan').addEventListener('click', function() {
-                document.getElementById('pemusnahan-modal').classList.remove('hidden');
-                loadPemusnahanBarang();
-            });
+            // Pemusnahan events
+            document.getElementById('btn-pem-history').addEventListener('click', showPemusnahanHistory);
+            document.getElementById('btn-pem-excel').addEventListener('click', downloadPemusnahanExcel);
+            document.getElementById('btn-pem-history-excel').addEventListener('click', downloadPemusnahanExcel);
 
-            // ===== RETUR PAGE EVENTS =====
+            // Barcode auto-fill for pemusnahan
+            document.getElementById('pem-barcode').addEventListener('input', autoFillPemusnahan);
+
+            // Retur events
             var returPageBtn = document.getElementById('btn-retur-page');
             if (returPageBtn) {
                 returPageBtn.addEventListener('click', function() {
@@ -2499,7 +2849,6 @@
                 resetRetBtn.addEventListener('click', initReturPage);
             }
 
-            // Settings
             var settingsBtn = document.getElementById('settings-btn');
             if (settingsBtn) {
                 settingsBtn.addEventListener('click', function() {
@@ -2509,7 +2858,6 @@
                 });
             }
 
-            // Save Hero About
             var saveHeroAboutBtn = document.getElementById('btn-save-hero-about');
             if (saveHeroAboutBtn) {
                 saveHeroAboutBtn.addEventListener('click', function() {
@@ -2525,7 +2873,6 @@
                 });
             }
 
-            // Save Settings
             var saveSettingsBtn = document.getElementById('btn-save-settings');
             if (saveSettingsBtn) {
                 saveSettingsBtn.addEventListener('click', function() {
@@ -2558,7 +2905,6 @@
                 });
             }
 
-            // Back button support
             window.addEventListener('popstate', function(e) {
                 if (document.getElementById('retur-page').classList.contains('active')) {
                     document.getElementById('retur-page').classList.remove('active');
@@ -2577,8 +2923,8 @@
                     document.getElementById('settings-modal').classList.add('hidden');
                 } else if (!document.getElementById('add-user-modal').classList.contains('hidden')) {
                     document.getElementById('add-user-modal').classList.add('hidden');
-                } else if (!document.getElementById('pemusnahan-modal').classList.contains('hidden')) {
-                    document.getElementById('pemusnahan-modal').classList.add('hidden');
+                } else if (!document.getElementById('pem-history-modal').classList.contains('hidden')) {
+                    document.getElementById('pem-history-modal').classList.add('hidden');
                 }
             });
         }
@@ -2587,7 +2933,7 @@
         // SCANNER FUNCTIONS
         // ============================================================
         function toggleScanner(type) {
-            var containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
+            var containerId = type === 'modal' ? 'modal-scanner' : (type === 'ret' ? 'ret-scanner' : 'pem-scanner');
             var container = document.getElementById(containerId);
             if (!container) return;
 
@@ -2603,7 +2949,8 @@
 
             container.classList.add('active');
 
-            var videoId = type === 'modal' ? 'modal-camera-preview' : 'ret-camera-preview';
+            var videoId = type === 'modal' ? 'modal-camera-preview' : (type === 'ret' ? 'ret-camera-preview' :
+                'pem-camera-preview');
             var video = document.getElementById(videoId);
             if (!video) return;
 
@@ -2695,7 +3042,7 @@
                                                 showToast('📷 Barcode baru: ' + code +
                                                     ', silakan input nama', 'success');
                                             }
-                                        } else {
+                                        } else if (type === 'ret') {
                                             document.getElementById('ret-barcode').value = code;
                                             if (barcodeCache[code]) {
                                                 document.getElementById('ret-item-name').value = barcodeCache[
@@ -2704,6 +3051,9 @@
                                                 document.getElementById('ret-item-name').value =
                                                     'Barang Tidak Dikenal';
                                             }
+                                        } else {
+                                            document.getElementById('pem-barcode').value = code;
+                                            autoFillPemusnahan();
                                         }
 
                                         setTimeout(function() {
@@ -2731,7 +3081,7 @@
         }
 
         function stopScanner(type) {
-            var containerId = type === 'modal' ? 'modal-scanner' : 'ret-scanner';
+            var containerId = type === 'modal' ? 'modal-scanner' : (type === 'ret' ? 'ret-scanner' : 'pem-scanner');
             var container = document.getElementById(containerId);
             if (container) {
                 container.classList.remove('active');
@@ -2751,7 +3101,8 @@
                 scannerStream = null;
             }
 
-            var videoId = type === 'modal' ? 'modal-camera-preview' : 'ret-camera-preview';
+            var videoId = type === 'modal' ? 'modal-camera-preview' : (type === 'ret' ? 'ret-camera-preview' :
+                'pem-camera-preview');
             var video = document.getElementById(videoId);
             if (video && video.srcObject) {
                 video.srcObject = null;
@@ -2789,7 +3140,6 @@
                         }
                         mapModalMarker = L.marker([lat, lng]).addTo(mapModal);
                         document.getElementById('btn-select-location').disabled = false;
-                        // Reverse geocoding untuk nama lokasi
                         fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng +
                                 '&zoom=18&addressdetails=1')
                             .then(function(response) { return response.json(); })
@@ -2944,33 +3294,8 @@
         }
 
         // ============================================================
-        // VIEW FUNCTIONS
+        // HANDLE ADD CLICK
         // ============================================================
-        function switchView(cat) {
-            currentCategory = cat;
-            document.getElementById('dashboard-view').classList.toggle('hidden', cat !== 'dashboard');
-            document.getElementById('data-view').classList.toggle('hidden', cat === 'dashboard');
-
-            var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
-            var isPatch = cat === 'Patch Cord';
-
-            // Retur hanya untuk Stok Spare (bukan Patch Cord)
-            document.getElementById('btn-retur-page').classList.toggle('hidden', !isStock || isPatch);
-            // Riwayat hanya untuk Stok Spare dan Patch Cord
-            document.getElementById('btn-history').classList.toggle('hidden', !isStock);
-            // Pemusnahan untuk Stok Spare dan Patch Cord
-            document.getElementById('btn-pemusnahan').classList.toggle('hidden', !isStock);
-
-            document.getElementById('page-title').textContent = cat === 'dashboard' ? 'Dashboard' : cat;
-
-            if (cat !== 'dashboard') {
-                renderTable();
-                updateStokSummary();
-            } else {
-                document.getElementById('stok-summary-container').classList.add('hidden');
-            }
-        }
-
         function handleAddClick() {
             var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
             var isAlkur = currentCategory === 'Alkur/Material';
@@ -3020,7 +3345,6 @@
             document.getElementById('inp-pc-type').value = '';
             document.getElementById('inp-pc-length').value = '';
 
-            // Alkur fields
             document.getElementById('inp-alkur-nama').value = '';
             document.getElementById('inp-alkur-jenis').value = '';
             document.getElementById('inp-alkur-merk').value = '';
@@ -3090,8 +3414,6 @@
                 e.preventDefault();
             }
 
-            console.log('✅ submitForm() called');
-
             if (isSubmitting) {
                 showToast('⏳ Sedang memproses...', 'error');
                 return;
@@ -3103,7 +3425,6 @@
             }
 
             var cat = document.getElementById('inp-cat').value;
-            console.log('Category:', cat);
 
             var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
             var isPatch = cat === 'Patch Cord';
@@ -3124,12 +3445,10 @@
                     showToast('❌ Pilih panjang kabel', 'error');
                     return;
                 }
-                // Keterangan wajib jika barang keluar
                 if (trType === 'Keluar' && !notesPatch) {
                     showToast('❌ Keterangan wajib diisi untuk barang keluar', 'error');
                     return;
                 }
-                // Keterangan opsional jika masuk, tapi jika diisi tetap boleh
             }
 
             if (isStock && !isPatch) {
@@ -3174,14 +3493,12 @@
                 }
             }
 
-            // Data awal
             var data = {
                 date: document.getElementById('inp-date').value,
                 postBy: currentUser.name,
                 createdAt: Date.now()
             };
 
-            // Khusus stock: cek duplikat dan update qty
             if (isStock) {
                 var gudang = selectedGudang;
                 var qty = parseInt(document.getElementById('inp-qty').value) || 1;
@@ -3196,7 +3513,6 @@
                     data.trType = trType;
                     data.notes = document.getElementById('inp-notes-patch').value.trim() || '';
 
-                    // Generate barcode otomatis
                     var jenisMap = {
                         'SC-SC': 'SCSC',
                         'LC-LC': 'LCLC',
@@ -3235,7 +3551,6 @@
                     var uniqueKey = data.barcode + '|' + data.gudang;
                 }
 
-                // Cari existing data
                 var existingKey = null;
                 var existingData = null;
                 var items = appData[cat] || {};
@@ -3340,8 +3655,6 @@
                 }
             }
 
-            console.log('Data to save (new):', data);
-
             isSubmitting = true;
             var submitBtn = document.getElementById('btn-submit-form');
             submitBtn.disabled = true;
@@ -3428,14 +3741,15 @@
         }
 
         // ============================================================
-        // MAP FUNCTIONS - INIT MAP MEMUAT KML DEFAULT
+        // MAP FUNCTIONS
         // ============================================================
         function initMap() {
             if (map) return;
             try {
                 map = L.map('map-container', { zoomControl: false, maxZoom: 22 }).setView([1.4930, 124.8410], 12);
-                L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-                    attribution: 'Google',
+                // Gunakan ESRI World Imagery untuk kualitas tinggi
+                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'ESRI',
                     maxZoom: 22,
                     tileSize: 512,
                     zoomOffset: -1
@@ -3445,7 +3759,6 @@
                     if (!document.getElementById('form-modal').classList.contains('hidden')) {
                         var coords = e.latlng.lat.toFixed(5) + ', ' + e.latlng.lng.toFixed(5);
                         document.getElementById('inp-coords').value = coords;
-                        // Reverse geocoding
                         fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + e.latlng.lat + '&lon=' + e
                                 .latlng.lng + '&zoom=18&addressdetails=1')
                             .then(function(response) { return response.json(); })
@@ -3461,10 +3774,7 @@
                     }
                 });
 
-                // MUAT KML DEFAULT
                 loadDefaultKml();
-
-                // Tampilkan marker dari data yang sudah ada
                 loadMarkersFromData();
 
             } catch (e) {
@@ -3474,11 +3784,9 @@
 
         function loadMarkersFromData() {
             if (!map) return;
-            // Hapus marker lama
             markers.forEach(function(m) { map.removeLayer(m); });
             markers = [];
 
-            // Iterasi semua kategori yang memiliki lokasi
             var categories = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM/OLS', 'Joint', 'Handhole'];
             categories.forEach(function(cat) {
                 var items = appData[cat] || {};
@@ -3521,7 +3829,7 @@
                 map.eachLayer(function(layer) { if (layer instanceof L.TileLayer) map.removeLayer(layer); });
                 var url = '';
                 if (type === 'satellite') {
-                    url = 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
+                    url = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
                 } else if (type === 'street') {
                     url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
                 } else if (type === 'hybrid') {
@@ -3575,7 +3883,6 @@
         };
 
         function downloadKML() {
-            // Download default KML
             var blob = new Blob([defaultKmlString], { type: 'application/vnd.google-earth.kml+xml' });
             var url = URL.createObjectURL(blob);
             var a = document.createElement('a');
@@ -3589,7 +3896,7 @@
         }
 
         // ============================================================
-        // CHART FUNCTIONS - Line Chart
+        // CHART FUNCTIONS
         // ============================================================
         function initCharts() {
             try {
@@ -3717,7 +4024,7 @@
                 filteredKeys.forEach(function(key) {
                     var item = list[key];
                     var bgType = item.trType === 'Masuk' ? '#DBEAFE' : (item.trType === 'Pemusnahan' ? '#FEE2E2' :
-                    '#FEE2E2');
+                        '#FEE2E2');
                     var textColor = item.trType === 'Masuk' ? '#2563EB' : (item.trType === 'Pemusnahan' ? '#EF4444' :
                         '#EF4444');
 
@@ -3881,9 +4188,6 @@
             }
         }
 
-        // ============================================================
-        // SOP DATA
-        // ============================================================
         var SOP_DATA = [
             { id: 1, text: 'Terima Laporan: Catat waktu, lokasi, dan jenis gangguan.' },
             { id: 2, text: 'Mobilisasi: Segera berangkat lengkap alat, material & APD; beri tahu Team Engineering.' },
@@ -3989,7 +4293,6 @@
         // RETUR FUNCTIONS
         // ============================================================
         function initReturPage() {
-            console.log('✅ initReturPage() called');
             try {
                 document.getElementById('ret-no').value = 'RET-' + Date.now().toString().slice(-6);
                 document.getElementById('ret-date').valueAsDate = new Date();
@@ -4008,8 +4311,6 @@
         }
 
         function addReturItem() {
-            console.log('✅ addReturItem() called');
-
             var barcode = document.getElementById('ret-barcode').value.trim();
             var name = document.getElementById('ret-item-name').value.trim();
             var qty = parseInt(document.getElementById('ret-item-qty').value) || 1;
@@ -4038,13 +4339,8 @@
         }
 
         function renderReturList() {
-            console.log('✅ renderReturList() called, items:', returnItems.length);
-
             var tbody = document.getElementById('ret-list-body');
-            if (!tbody) {
-                console.error('❌ ret-list-body not found');
-                return;
-            }
+            if (!tbody) return;
 
             tbody.innerHTML = '';
 
@@ -4075,20 +4371,15 @@
 
             if (saveBtn) saveBtn.disabled = !canSave;
             if (printBtn) printBtn.disabled = !canSave;
-
-            console.log('Can save:', canSave);
         }
 
         window.removeRetItem = function(idx) {
-            console.log('✅ removeRetItem() called, index:', idx);
             returnItems.splice(idx, 1);
             renderReturList();
             showToast('🗑️ Barang dihapus', 'success');
         };
 
         function saveRetur() {
-            console.log('✅ saveRetur() called');
-
             var gudang = document.getElementById('ret-gudang').value;
             if (!gudang) {
                 showToast('❌ Pilih gudang tujuan retur', 'error');
@@ -4152,8 +4443,6 @@
         }
 
         function printReturExcel() {
-            console.log('✅ printReturExcel() called');
-
             if (returnItems.length === 0) {
                 showToast('⚠️ Tidak ada data untuk dicetak', 'error');
                 return;
@@ -4181,136 +4470,6 @@
                 console.error('❌ Error printing excel:', e);
                 showToast('❌ Gagal print excel: ' + e.message, 'error');
             }
-        }
-
-        // ============================================================
-        // PEMUSNAHAN FUNCTIONS
-        // ============================================================
-        function loadPemusnahanBarang() {
-            var kategori = document.getElementById('pem-kategori').value;
-            var selectBarang = document.getElementById('pem-barang');
-            selectBarang.innerHTML = '<option value="">-- Pilih Barang --</option>';
-
-            if (!kategori) return;
-
-            var list = appData[kategori] || {};
-            var items = Object.keys(list).map(function(key) {
-                var item = list[key];
-                item._key = key;
-                return item;
-            });
-
-            // Urutkan berdasarkan nama
-            items.sort(function(a, b) {
-                var nameA = (a.spec || a.pcType || a.nama || '').toLowerCase();
-                var nameB = (b.spec || b.pcType || b.nama || '').toLowerCase();
-                return nameA.localeCompare(nameB);
-            });
-
-            items.forEach(function(item) {
-                var label = item.spec || item.pcType || item.nama || 'Unknown';
-                if (item.barcode) label += ' (' + item.barcode + ')';
-                if (item.gudang) label += ' - ' + item.gudang;
-                if (item.qty !== undefined) label += ' [Stok: ' + item.qty + ']';
-                var option = document.createElement('option');
-                option.value = item._key;
-                option.textContent = label;
-                option.dataset.qty = item.qty || 0;
-                option.dataset.nama = item.spec || item.pcType || item.nama || 'Unknown';
-                selectBarang.appendChild(option);
-            });
-        }
-
-        function submitPemusnahan(e) {
-            e.preventDefault();
-
-            var kategori = document.getElementById('pem-kategori').value;
-            var barangKey = document.getElementById('pem-barang').value;
-            var jumlah = parseInt(document.getElementById('pem-jumlah').value) || 1;
-            var alasan = document.getElementById('pem-alasan').value.trim();
-
-            if (!kategori || !barangKey || jumlah < 1 || !alasan) {
-                showToast('❌ Semua field harus diisi', 'error');
-                return false;
-            }
-
-            var selectedOption = document.getElementById('pem-barang').selectedOptions[0];
-            var stokTersedia = parseInt(selectedOption.dataset.qty) || 0;
-            var namaBarang = selectedOption.dataset.nama || 'Unknown';
-
-            if (jumlah > stokTersedia) {
-                showToast('❌ Jumlah melebihi stok tersedia (' + stokTersedia + ')', 'error');
-                return false;
-            }
-
-            if (!confirm('Konfirmasi pemusnahan ' + jumlah + ' unit ' + namaBarang + ' dari ' + kategori +
-                    '?\nAlasan: ' + alasan)) {
-                return false;
-            }
-
-            var submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Memproses...';
-
-            var ref = db.ref('data/' + kategori + '/' + barangKey);
-            ref.once('value')
-                .then(function(snap) {
-                    var item = snap.val();
-                    if (!item) {
-                        showToast('❌ Data tidak ditemukan', 'error');
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Konfirmasi Pemusnahan';
-                        return;
-                    }
-
-                    var newQty = (item.qty || 0) - jumlah;
-                    if (newQty < 0) newQty = 0;
-
-                    // Update stok
-                    return ref.update({
-                        qty: newQty,
-                        notes: (item.notes || '') + ' | Pemusnahan: ' + alasan + ' (' + jumlah + ' unit)',
-                        lastUpdate: Date.now()
-                    }).then(function() {
-                        // Catat history pemusnahan
-                        var historyData = {
-                            date: new Date().toISOString().slice(0, 10),
-                            postBy: currentUser ? currentUser.name : 'System',
-                            kategori: kategori,
-                            barangKey: barangKey,
-                            nama: namaBarang,
-                            jumlah: jumlah,
-                            alasan: alasan,
-                            trType: 'Pemusnahan',
-                            createdAt: Date.now()
-                        };
-                        return db.ref('history/pemusnahan').push(historyData);
-                    });
-                })
-                .then(function() {
-                    showToast('✅ Pemusnahan berhasil! Stok berkurang ' + jumlah + ' unit', 'success');
-                    document.getElementById('pemusnahan-modal').classList.add('hidden');
-                    document.getElementById('pem-kategori').value = '';
-                    document.getElementById('pem-barang').innerHTML = '<option value="">-- Pilih Barang --</option>';
-                    document.getElementById('pem-jumlah').value = '1';
-                    document.getElementById('pem-alasan').value = '';
-                    setTimeout(function() {
-                        updateStokSummary();
-                        renderTable();
-                        updateQuickStats();
-                        updateMapMarkers();
-                    }, 300);
-                })
-                .catch(function(err) {
-                    console.error('❌ Error pemusnahan:', err);
-                    showToast('❌ Gagal memusnahkan: ' + err.message, 'error');
-                })
-                .finally(function() {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Konfirmasi Pemusnahan';
-                });
-
-            return false;
         }
 
         // ============================================================
