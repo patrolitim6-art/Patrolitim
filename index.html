@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -78,8 +78,8 @@
       justify-content: center;
       gap: 8px;
       box-shadow: 0 4px 12px rgba(37,99,235,0.3);
-      min-height: 48px;
-      font-size: 15px;
+      min-height: 52px;
+      font-size: 16px;
     }
     .btn-primary:hover {
       transform: translateY(-2px);
@@ -642,7 +642,6 @@
             <canvas id="chartIncidents"></canvas>
           </div>
         </div>
-        <!-- About Us dipindah ke bawah Maps, jadi di sini hanya grafik -->
         <div class="card">
           <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
             <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-gold);"></span>
@@ -687,7 +686,7 @@
         </div>
       </div>
 
-      <!-- ABOUT US - DIPINDAH KE BAWAH MAPS -->
+      <!-- ABOUT US - DI BAWAH MAPS -->
       <div class="card about-section">
         <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
           <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-gold);"></span>
@@ -1439,9 +1438,14 @@ function setupEventListeners() {
   var addBtn = document.getElementById('btn-add');
   if (addBtn) addBtn.addEventListener('click', handleAddClick);
   
-  // Form submit
+  // FORM SUBMIT - Perbaikan utama
   var dataForm = document.getElementById('data-form');
-  if (dataForm) dataForm.addEventListener('submit', submitForm);
+  if (dataForm) {
+    dataForm.addEventListener('submit', submitForm);
+    console.log('✅ Form submit listener attached');
+  } else {
+    console.error('❌ Form not found!');
+  }
   
   // Search
   var searchInput = document.getElementById('search-input');
@@ -2061,6 +2065,7 @@ function closeModal() {
 // ============================================================
 function submitForm(e) {
   e.preventDefault();
+  console.log('✅ Submit form triggered');
   
   if (isSubmitting) {
     showToast('⏳ Sedang memproses...', 'error');
@@ -2073,6 +2078,8 @@ function submitForm(e) {
   }
   
   var cat = document.getElementById('inp-cat').value;
+  console.log('Category:', cat);
+  
   var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
   var isPatch = cat === 'Patch Cord';
   var isAlkur = cat === 'Alkur/Material';
@@ -2170,6 +2177,8 @@ function submitForm(e) {
     }
   }
   
+  console.log('Data to save:', data);
+  
   // Simpan
   isSubmitting = true;
   var submitBtn = document.getElementById('btn-submit-form');
@@ -2184,6 +2193,7 @@ function submitForm(e) {
   submitPromise
     .then(function() {
       showToast('✅ Data berhasil disimpan', 'success');
+      console.log('✅ Data saved successfully');
       
       if (isStock || isAlkur || isPatch) {
         document.getElementById('inp-barcode').value = '';
@@ -2217,7 +2227,7 @@ function submitForm(e) {
     .finally(function() {
       isSubmitting = false;
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Simpan';
+      submitBtn.textContent = 'Simpan Data';
     });
 }
 
