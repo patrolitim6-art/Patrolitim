@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -70,7 +70,7 @@
       border: none;
       border-radius: 24px;
       font-weight: 700;
-      padding: 10px 24px;
+      padding: 12px 28px;
       cursor: pointer;
       transition: all 0.2s ease;
       display: inline-flex;
@@ -78,6 +78,8 @@
       justify-content: center;
       gap: 8px;
       box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+      min-height: 48px;
+      font-size: 15px;
     }
     .btn-primary:hover {
       transform: translateY(-2px);
@@ -92,12 +94,14 @@
       border: 1px solid var(--line);
       border-radius: 24px;
       font-weight: 600;
-      padding: 10px 20px;
+      padding: 12px 24px;
       cursor: pointer;
       transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      min-height: 48px;
+      font-size: 15px;
     }
     .btn-secondary:hover {
       background: #DBEAFE;
@@ -165,11 +169,14 @@
     .nav-item.active i { transform:scale(1.1); }
     
     .hero-panel { 
-      border-radius: 20px; padding: 28px 24px; 
+      border-radius: 20px; 
+      padding: 28px 24px; 
       background: var(--blue-gradient);
       color: white; 
       box-shadow: 0 12px 32px rgba(37,99,235,0.3); 
-      margin-bottom:20px; position:relative; overflow:hidden;
+      margin-bottom:20px; 
+      position:relative; 
+      overflow:hidden;
     }
     .hero-panel::before {
       content: '';
@@ -190,7 +197,7 @@
     .hero-panel h1, .hero-panel p { position: relative; z-index: 1; }
     
     .field-control { 
-      width:100%; min-height:46px; border:2px solid var(--line); border-radius:12px; 
+      width:100%; min-height:48px; border:2px solid var(--line); border-radius:12px; 
       background:white; padding:0 16px; font-size:14px; outline:none; transition:all 0.2s; 
       font-family: inherit;
     }
@@ -212,7 +219,7 @@
     }
     
     .icon-btn { 
-      width:38px; height:38px; border-radius:10px; display:grid; place-items:center; 
+      width:42px; height:42px; border-radius:10px; display:grid; place-items:center; 
       cursor:pointer; background:transparent; border:none;
       color:var(--text-muted); transition:all 0.2s; 
     }
@@ -256,9 +263,7 @@
     .custom-map-btn:hover { background:white; transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.12); }
     .custom-map-btn.active { background: var(--blue-gradient); color:white; border-color:var(--primary-blue); }
     
-    .leaflet-control-geocoder {
-      display: none !important;
-    }
+    .leaflet-control-geocoder { display: none !important; }
     
     .scanner-wrapper {
       position: relative; 
@@ -273,49 +278,25 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
     .scanner-wrapper.active { display: block; }
-    .scanner-wrapper video { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: cover;
-    }
+    .scanner-wrapper video { width: 100%; height: 100%; object-fit: cover; }
     .scanner-guide {
-      position: absolute; 
-      top: 50%; left: 50%; 
-      transform: translate(-50%, -50%);
-      width: 220px; 
-      height: 100px; 
-      border: 2px solid var(--primary-blue); 
-      border-radius: 12px;
-      box-shadow: 0 0 0 9999px rgba(0,0,0,0.5); 
-      pointer-events: none;
-      z-index: 5;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 220px; height: 100px; border: 2px solid var(--primary-blue); border-radius: 12px;
+      box-shadow: 0 0 0 9999px rgba(0,0,0,0.5); pointer-events: none; z-index: 5;
     }
     .scanner-laser {
-      position: absolute; 
-      top: 50%; left: 10%; right: 10%; 
-      height: 2px;
-      background: #EF4444; 
-      box-shadow: 0 0 12px #EF4444;
-      animation: scanLine 1.5s infinite ease-in-out; 
-      pointer-events: none;
-      z-index: 5;
+      position: absolute; top: 50%; left: 10%; right: 10%; height: 2px;
+      background: #EF4444; box-shadow: 0 0 12px #EF4444;
+      animation: scanLine 1.5s infinite ease-in-out; pointer-events: none; z-index: 5;
     }
     @keyframes scanLine { 
       0%, 100% { opacity: 0.2; top: 20%; } 
       50% { opacity: 1; top: 80%; } 
     }
     .scanner-status {
-      position: absolute;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.7);
-      color: white;
-      padding: 4px 16px;
-      border-radius: 99px;
-      font-size: 11px;
-      font-weight: 600;
-      z-index: 10;
+      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.7); color: white; padding: 4px 16px;
+      border-radius: 99px; font-size: 11px; font-weight: 600; z-index: 10;
       backdrop-filter: blur(4px);
     }
     
@@ -522,18 +503,34 @@
       border-color: var(--primary-blue);
       background: var(--primary-blue-light);
     }
-    .settings-section .upload-area img {
-      max-width: 100%;
-      max-height: 100px;
-      border-radius: 8px;
-      margin-top: 8px;
-    }
     
     .chart-container {
       height: 160px;
     }
     .chart-container canvas {
       max-height: 160px;
+    }
+    
+    .about-section {
+      margin-top: 20px;
+    }
+    .about-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0;
+    }
+    .about-section ul li {
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .about-section ul li i {
+      width: 18px;
+      height: 18px;
+      color: var(--primary-blue);
     }
     
     @media(min-width:768px) {
@@ -549,6 +546,7 @@
       .bottom-nav .nav-item i { width: 20px; height: 20px; }
       .login-card { padding: 28px 20px; }
       .login-title { font-size: 24px; }
+      .btn-primary, .btn-secondary { padding: 10px 18px; font-size: 13px; min-height: 42px; }
     }
   </style>
 </head>
@@ -622,22 +620,18 @@
   <main class="main-content">
     <!-- DASHBOARD VIEW -->
     <section id="dashboard-view">
+      <!-- HERO PANEL - HANYA TULISAN -->
       <div class="hero-panel">
         <h1 style="margin:0;font-size:26px;font-weight:800;line-height:1.2;" id="hero-title">Barisan Utama<br>Cegah Insiden</h1>
         <p style="margin:8px 0 0;opacity:0.9;font-size:15px;font-weight:500;" id="hero-subtitle">Pusat Operasi Jaringan Sulawesi Utara</p>
-        <div id="hero-image-container" style="display:none;margin-top:12px;position:relative;z-index:1;border-radius:12px;overflow:hidden;max-height:120px;">
-          <img id="hero-image-display" src="" alt="Hero Image" style="width:100%;object-fit:cover;max-height:120px;">
-          <div style="position:absolute;bottom:8px;right:12px;background:rgba(0,0,0,0.5);color:white;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:600;">
-            <i data-lucide="image" style="width:12px;display:inline;"></i> Hero
-          </div>
-        </div>
-        <div style="position:relative;z-index:1;margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+        <div style="position:relative;z-index:1;margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
           <span style="background:rgba(255,255,255,0.2);padding:4px 14px;border-radius:99px;font-size:11px;font-weight:600;backdrop-filter:blur(4px);">🔵 Aktif</span>
           <span style="background:rgba(251,191,36,0.25);padding:4px 14px;border-radius:99px;font-size:11px;font-weight:600;backdrop-filter:blur(4px);">⭐ Prioritas</span>
           <span style="background:rgba(239,68,68,0.2);padding:4px 14px;border-radius:99px;font-size:11px;font-weight:600;backdrop-filter:blur(4px);">🔥 Hot</span>
         </div>
       </div>
       
+      <!-- GRAFIK -->
       <div class="dashboard-grid">
         <div class="card">
           <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
@@ -648,29 +642,26 @@
             <canvas id="chartIncidents"></canvas>
           </div>
         </div>
+        <!-- About Us dipindah ke bawah Maps, jadi di sini hanya grafik -->
         <div class="card">
           <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
             <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-gold);"></span>
-            About Us - Tim Patroli BUCIN
+            Statistik Cepat
           </h3>
-          <p style="font-size:13px;color:var(--text-muted);line-height:1.6;" id="about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
-          <ul style="margin-top:8px;">
-            <li style="display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0;color:var(--text-muted);">
-              <i data-lucide="check-circle-2" style="width:16px;color:var(--primary-blue);"></i> Pemantauan ruas kabel OF Cut & Joint
-            </li>
-            <li style="display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0;color:var(--text-muted);">
-              <i data-lucide="check-circle-2" style="width:16px;color:var(--primary-blue);"></i> Koordinasi pihak ketiga konstruksi
-            </li>
-            <li style="display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0;color:var(--text-muted);">
-              <i data-lucide="check-circle-2" style="width:16px;color:var(--primary-blue);"></i> Penanganan temuan lapangan real-time
-            </li>
-            <li style="display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0;color:var(--text-muted);">
-              <i data-lucide="check-circle-2" style="width:16px;color:var(--primary-blue);"></i> Manajemen stok Patch Cord & Spare
-            </li>
-          </ul>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
+            <div style="background:var(--bg-light);padding:12px;border-radius:12px;text-align:center;">
+              <div style="font-size:24px;font-weight:800;color:var(--primary-blue);" id="quick-total">0</div>
+              <div style="font-size:11px;color:var(--text-muted);">Total Data</div>
+            </div>
+            <div style="background:var(--bg-light);padding:12px;border-radius:12px;text-align:center;">
+              <div style="font-size:24px;font-weight:800;color:#F59E0B;" id="quick-categories">0</div>
+              <div style="font-size:11px;color:var(--text-muted);">Kategori</div>
+            </div>
+          </div>
         </div>
       </div>
 
+      <!-- MAPS -->
       <div class="card" style="padding:0;overflow:hidden;">
         <div style="padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
           <h3 style="margin:0;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
@@ -694,6 +685,21 @@
             <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
           </div>
         </div>
+      </div>
+
+      <!-- ABOUT US - DIPINDAH KE BAWAH MAPS -->
+      <div class="card about-section">
+        <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-gold);"></span>
+          About Us - Tim Patroli BUCIN
+        </h3>
+        <p style="font-size:14px;color:var(--text-muted);line-height:1.6;" id="about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
+        <ul>
+          <li><i data-lucide="check-circle-2" style="width:18px;"></i> Pemantauan ruas kabel OF Cut & Joint</li>
+          <li><i data-lucide="check-circle-2" style="width:18px;"></i> Koordinasi pihak ketiga konstruksi</li>
+          <li><i data-lucide="check-circle-2" style="width:18px;"></i> Penanganan temuan lapangan real-time</li>
+          <li><i data-lucide="check-circle-2" style="width:18px;"></i> Manajemen stok Patch Cord & Spare</li>
+        </ul>
       </div>
     </section>
 
@@ -815,7 +821,7 @@
             </div>
             <div>
               <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Barang <span style="color:#EF4444;">*</span></label>
-              <input type="text" id="inp-spec" class="field-control" placeholder="Otomatis dari barcode jika pernah diinput" required>
+              <input type="text" id="inp-spec" class="field-control" placeholder="Otomatis dari database jika pernah diinput" required>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
@@ -949,7 +955,7 @@
       
       <div style="margin-top:24px;display:flex;gap:12px;">
         <button type="button" onclick="closeModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
-        <button type="submit" id="btn-submit-form" class="btn-primary" style="flex:2;justify-content:center;">Simpan</button>
+        <button type="submit" id="btn-submit-form" class="btn-primary" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
       </div>
     </form>
   </div>
@@ -1098,19 +1104,6 @@
     </div>
     
     <div class="settings-section" style="margin-bottom:20px;">
-      <h4>🖼️ Gambar Hero Dashboard</h4>
-      <div class="upload-area" onclick="document.getElementById('hero-image-input').click()">
-        <i data-lucide="image" style="width:32px;height:32px;color:var(--text-muted);"></i>
-        <p style="font-size:13px;color:var(--text-muted);margin-top:4px;">Klik untuk upload gambar</p>
-        <input type="file" id="hero-image-input" accept="image/*" style="display:none;" onchange="uploadHeroImage(this)">
-        <div id="hero-image-preview" style="display:none;margin-top:8px;">
-          <img id="hero-image-preview-img" src="" alt="Preview" style="max-width:100%;max-height:100px;border-radius:8px;">
-        </div>
-      </div>
-      <button id="btn-remove-hero" class="btn-secondary" style="margin-top:8px;width:100%;justify-content:center;color:#EF4444;border-color:#EF4444;">Hapus Gambar</button>
-    </div>
-    
-    <div class="settings-section" style="margin-bottom:20px;">
       <h4>📝 Edit Keterangan About</h4>
       <textarea id="about-text-input" class="field-control" rows="3" style="border-radius:12px;resize:vertical;" placeholder="Tulis keterangan about..."></textarea>
       <button id="btn-save-about" class="btn-primary" style="width:100%;margin-top:8px;justify-content:center;">Simpan Keterangan</button>
@@ -1190,8 +1183,6 @@ let editingKey = null;
 let selectedSOP = [];
 let scannerStream = null;
 let isSubmitting = false;
-let heroImageData = null;
-// Cache untuk barcode lookup
 let barcodeCache = {};
 
 // ============================================================
@@ -1212,7 +1203,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================================
-// LOAD BARCODE CACHE - Cari semua barcode yang pernah diinput
+// LOAD BARCODE CACHE
 // ============================================================
 function loadBarcodeCache() {
   db.ref('data/Stok Spare').once('value', function(snap) {
@@ -1229,13 +1220,9 @@ function loadBarcodeCache() {
   });
 }
 
-// ============================================================
-// UPDATE BARCODE CACHE - Tambah barcode baru ke cache
-// ============================================================
 function updateBarcodeCache(barcode, spec) {
   if (barcode && spec) {
     barcodeCache[barcode] = spec;
-    console.log('✅ Barcode added to cache:', barcode, '->', spec);
   }
 }
 
@@ -1245,11 +1232,6 @@ function updateBarcodeCache(barcode, spec) {
 function loadSettings() {
   db.ref('settings').once('value').then(function(snap) {
     var settings = snap.val() || {};
-    if (settings.heroImage) {
-      heroImageData = settings.heroImage;
-      document.getElementById('hero-image-container').style.display = 'block';
-      document.getElementById('hero-image-display').src = settings.heroImage;
-    }
     if (settings.aboutText) {
       document.getElementById('about-text').textContent = settings.aboutText;
     }
@@ -1369,6 +1351,7 @@ function handleLogin(e) {
         setTimeout(function() {
           initMap();
           initCharts();
+          updateQuickStats();
         }, 100);
         
         showToast('✅ Selamat datang, ' + username + '!', 'success');
@@ -1386,6 +1369,25 @@ function handleLogin(e) {
     });
   
   return false;
+}
+
+// ============================================================
+// QUICK STATS
+// ============================================================
+function updateQuickStats() {
+  var totalData = 0;
+  var categories = 0;
+  Object.keys(appData).forEach(function(cat) {
+    if (cat !== 'dashboard' && typeof appData[cat] === 'object') {
+      var count = Object.keys(appData[cat] || {}).length;
+      if (count > 0) {
+        totalData += count;
+        categories++;
+      }
+    }
+  });
+  document.getElementById('quick-total').textContent = totalData;
+  document.getElementById('quick-categories').textContent = categories;
 }
 
 // ============================================================
@@ -1445,7 +1447,7 @@ function setupEventListeners() {
   var searchInput = document.getElementById('search-input');
   if (searchInput) searchInput.addEventListener('input', renderTable);
   
-  // Barcode auto-fill dari database
+  // Barcode auto-fill
   var barcodeInput = document.getElementById('inp-barcode');
   if (barcodeInput) {
     barcodeInput.addEventListener('input', function() {
@@ -1453,9 +1455,7 @@ function setupEventListeners() {
         var code = this.value.trim();
         if (code && barcodeCache[code]) {
           document.getElementById('inp-spec').value = barcodeCache[code];
-          showToast('✅ Nama barang ditemukan dari database', 'success');
         } else if (code && code.length > 3) {
-          // Barcode baru, biarkan user input manual
           document.getElementById('inp-spec').value = '';
           document.getElementById('inp-spec').placeholder = 'Input nama barang baru...';
         }
@@ -1563,21 +1563,6 @@ function setupEventListeners() {
     });
   }
   
-  // Remove Hero Image
-  var removeHeroBtn = document.getElementById('btn-remove-hero');
-  if (removeHeroBtn) {
-    removeHeroBtn.addEventListener('click', function() {
-      if (confirm('Hapus gambar hero?')) {
-        heroImageData = null;
-        document.getElementById('hero-image-container').style.display = 'none';
-        document.getElementById('hero-image-display').src = '';
-        document.getElementById('hero-image-preview').style.display = 'none';
-        db.ref('settings/heroImage').remove();
-        showToast('✅ Gambar hero dihapus', 'success');
-      }
-    });
-  }
-  
   // Save Settings
   var saveSettingsBtn = document.getElementById('btn-save-settings');
   if (saveSettingsBtn) {
@@ -1603,26 +1588,6 @@ function setupEventListeners() {
     });
   }
   
-  // Hero Image Upload
-  function uploadHeroImage(input) {
-    var file = input.files[0];
-    if (file) {
-      var reader = new FileReader();
-      reader.onload = function(event) {
-        var imageData = event.target.result;
-        heroImageData = imageData;
-        document.getElementById('hero-image-container').style.display = 'block';
-        document.getElementById('hero-image-display').src = imageData;
-        document.getElementById('hero-image-preview').style.display = 'block';
-        document.getElementById('hero-image-preview-img').src = imageData;
-        db.ref('settings/heroImage').set(imageData);
-        showToast('✅ Gambar hero diupload', 'success');
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-  window.uploadHeroImage = uploadHeroImage;
-  
   var opacityRange = document.getElementById('set-bg-opacity');
   if (opacityRange) {
     opacityRange.addEventListener('input', function() {
@@ -1630,7 +1595,7 @@ function setupEventListeners() {
     });
   }
   
-  // Back button support for HP
+  // Back button support
   window.addEventListener('popstate', function(e) {
     if (document.getElementById('retur-page').classList.contains('active')) {
       document.getElementById('retur-page').classList.add('hidden');
@@ -1751,7 +1716,6 @@ function toggleScanner(type) {
               
               if (type === 'modal') {
                 document.getElementById('inp-barcode').value = code;
-                // Cek di cache
                 if (barcodeCache[code]) {
                   document.getElementById('inp-spec').value = barcodeCache[code];
                   showToast('✅ Barcode: ' + code + ' - Nama ditemukan', 'success');
@@ -2093,7 +2057,7 @@ function closeModal() {
 }
 
 // ============================================================
-// SUBMIT FORM
+// SUBMIT FORM - FIXED
 // ============================================================
 function submitForm(e) {
   e.preventDefault();
@@ -2113,7 +2077,7 @@ function submitForm(e) {
   var isPatch = cat === 'Patch Cord';
   var isAlkur = cat === 'Alkur/Material';
   
-  // Validasi field
+  // Validasi
   if (isPatch) {
     var pcType = document.getElementById('inp-pc-type').value;
     var pcLength = document.getElementById('inp-pc-length').value;
@@ -2160,7 +2124,7 @@ function submitForm(e) {
     }
   }
   
-  // Siapkan data
+  // Data
   var data = {
     date: document.getElementById('inp-date').value,
     postBy: currentUser.name,
@@ -2179,7 +2143,6 @@ function submitForm(e) {
     var barcodeVal = document.getElementById('inp-barcode').value.trim();
     var specVal = document.getElementById('inp-spec').value.trim();
     
-    // Update barcode cache dengan data baru
     updateBarcodeCache(barcodeVal, specVal);
     
     data.gudang = selectedGudang;
@@ -2207,7 +2170,7 @@ function submitForm(e) {
     }
   }
   
-  // Simpan ke Firebase
+  // Simpan
   isSubmitting = true;
   var submitBtn = document.getElementById('btn-submit-form');
   submitBtn.disabled = true;
@@ -2222,7 +2185,6 @@ function submitForm(e) {
     .then(function() {
       showToast('✅ Data berhasil disimpan', 'success');
       
-      // Reset form untuk input beruntun
       if (isStock || isAlkur || isPatch) {
         document.getElementById('inp-barcode').value = '';
         document.getElementById('inp-spec').value = '';
@@ -2242,10 +2204,10 @@ function submitForm(e) {
         closeModal();
       }
       
-      // Update stok dan tabel
       setTimeout(function() {
         updateStokSummary();
         renderTable();
+        updateQuickStats();
       }, 300);
     })
     .catch(function(err) {
@@ -2425,6 +2387,7 @@ function updateCharts() {
 function updateDashboard() {
   updateCharts();
   updateMapMarkers();
+  updateQuickStats();
 }
 
 // ============================================================
@@ -2510,6 +2473,7 @@ window.deleteItem = function(key) {
     showToast('🗑️ Data dihapus', 'success');
     setTimeout(function() {
       updateStokSummary();
+      updateQuickStats();
     }, 500);
   }
 };
@@ -2771,6 +2735,7 @@ function saveRetur() {
         setTimeout(function() {
           updateStokSummary();
           renderTable();
+          updateQuickStats();
         }, 500);
       }
     })
