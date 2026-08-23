@@ -1113,15 +1113,23 @@
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
                     <h2 id="page-title" style="margin:0;font-size:22px;font-weight:800;">Data Operasional</h2>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <!-- Tombol Riwayat (hanya untuk Stok Spare) -->
                         <button id="btn-history" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;">
                             <i data-lucide="history" style="width:16px;"></i> Riwayat
                         </button>
+                        <!-- Tombol Retur (hanya untuk Stok Spare) -->
                         <button id="btn-retur-page" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;">
                             <i data-lucide="undo-2" style="width:16px;"></i> Retur
                         </button>
+                        <!-- Tombol Pemusnahan (untuk Stok Spare dan Patch Cord) -->
+                        <button id="btn-pemusnahan" class="btn-secondary" style="padding:8px 16px;font-size:13px;border-radius:20px;">
+                            <i data-lucide="trash-2" style="width:16px;"></i> Pemusnahan
+                        </button>
+                        <!-- Tombol Download Excel -->
                         <button id="btn-download-excel-page" class="btn-secondary" style="padding:8px 16px;font-size:13px;border-radius:20px;">
                             <i data-lucide="file-spreadsheet" style="width:16px;"></i> Excel
                         </button>
+                        <!-- Tombol Tambah -->
                         <button id="btn-add" class="btn-primary" style="padding:8px 20px;font-size:13px;border-radius:20px;">
                             <i data-lucide="plus" style="width:16px;"></i> Tambah
                         </button>
@@ -1267,7 +1275,7 @@
                         </div>
                     </div>
 
-                    <!-- PATCH CORD FIELDS - TANPA BARCODE -->
+                    <!-- PATCH CORD FIELDS - TANPA BARCODE (barcode otomatis) -->
                     <div id="field-patchcord" class="hidden">
                         <div style="background:#DBEAFE;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #93C5FD;">
                             <div style="font-size:12px;font-weight:600;color:#1D4ED8;margin-bottom:4px;">📦 Spesifikasi Patch Cord</div>
@@ -1485,6 +1493,47 @@
                     </select>
                 </div>
                 <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">Tambah User</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== MODAL PEMUSNAHAN ===== -->
+    <div id="pemusnahan-modal" class="modal-layer hidden">
+        <div class="modal-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+                <h3 style="margin:0;font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="trash-2" style="width:22px;color:#EF4444;"></i>
+                    Pemusnahan Barang
+                </h3>
+                <button onclick="document.getElementById('pemusnahan-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+            </div>
+            <form id="pemusnahan-form" onsubmit="return submitPemusnahan(event)">
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Kategori Barang <span style="color:#EF4444;">*</span></label>
+                    <select id="pem-kategori" class="field-control" required onchange="loadPemusnahanBarang()">
+                        <option value="">-- Pilih Kategori --</option>
+                        <option value="Stok Spare">Stok Spare</option>
+                        <option value="Patch Cord">Patch Cord</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Pilih Barang <span style="color:#EF4444;">*</span></label>
+                    <select id="pem-barang" class="field-control" required>
+                        <option value="">-- Pilih Barang --</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Jumlah Dimusnahkan <span style="color:#EF4444;">*</span></label>
+                    <input type="number" id="pem-jumlah" class="field-control" value="1" min="1" required>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Alasan Pemusnahan <span style="color:#EF4444;">*</span></label>
+                    <textarea id="pem-alasan" class="field-control" rows="2" placeholder="Alasan pemusnahan..." required></textarea>
+                </div>
+                <div style="display:flex;gap:12px;">
+                    <button type="button" onclick="document.getElementById('pemusnahan-modal').classList.add('hidden')" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
+                    <button type="submit" class="btn-primary" style="flex:2;justify-content:center;background:#EF4444;">Konfirmasi Pemusnahan</button>
+                </div>
             </form>
         </div>
     </div>
@@ -2122,6 +2171,8 @@
                     }
                     // Update map markers
                     updateMapMarkers();
+                    // Update pemusnahan dropdown
+                    loadPemusnahanBarang();
                 } catch (e) {
                     console.error('❌ Error processing data:', e);
                 }
@@ -2149,21 +2200,24 @@
 
             var totalMasuk = 0;
             var totalKeluar = 0;
+            var totalPemusnahan = 0;
 
             items.forEach(function(item) {
                 var qty = parseInt(item.qty) || 0;
                 if (item.trType === 'Masuk') {
                     totalMasuk += qty;
-                } else if (item.trType === 'Keluar' || item.trType === 'Retur') {
+                } else if (item.trType === 'Keluar') {
                     totalKeluar += qty;
+                } else if (item.trType === 'Pemusnahan') {
+                    totalPemusnahan += qty;
                 }
             });
 
-            var totalStok = totalMasuk - totalKeluar;
+            var totalStok = totalMasuk - totalKeluar - totalPemusnahan;
 
             document.getElementById('total-stok-value').textContent = totalStok;
             document.getElementById('total-masuk-value').textContent = totalMasuk;
-            document.getElementById('total-keluar-value').textContent = totalKeluar;
+            document.getElementById('total-keluar-value').textContent = totalKeluar + totalPemusnahan;
         }
 
         // ============================================================
@@ -2386,6 +2440,12 @@
                 document.getElementById('add-user-modal').classList.remove('hidden');
             });
 
+            // Pemusnahan button
+            document.getElementById('btn-pemusnahan').addEventListener('click', function() {
+                document.getElementById('pemusnahan-modal').classList.remove('hidden');
+                loadPemusnahanBarang();
+            });
+
             // ===== RETUR PAGE EVENTS =====
             var returPageBtn = document.getElementById('btn-retur-page');
             if (returPageBtn) {
@@ -2517,6 +2577,8 @@
                     document.getElementById('settings-modal').classList.add('hidden');
                 } else if (!document.getElementById('add-user-modal').classList.contains('hidden')) {
                     document.getElementById('add-user-modal').classList.add('hidden');
+                } else if (!document.getElementById('pemusnahan-modal').classList.contains('hidden')) {
+                    document.getElementById('pemusnahan-modal').classList.add('hidden');
                 }
             });
         }
@@ -2890,8 +2952,15 @@
             document.getElementById('data-view').classList.toggle('hidden', cat === 'dashboard');
 
             var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
-            document.getElementById('btn-retur-page').classList.toggle('hidden', !isStock);
+            var isPatch = cat === 'Patch Cord';
+
+            // Retur hanya untuk Stok Spare (bukan Patch Cord)
+            document.getElementById('btn-retur-page').classList.toggle('hidden', !isStock || isPatch);
+            // Riwayat hanya untuk Stok Spare dan Patch Cord
             document.getElementById('btn-history').classList.toggle('hidden', !isStock);
+            // Pemusnahan untuk Stok Spare dan Patch Cord
+            document.getElementById('btn-pemusnahan').classList.toggle('hidden', !isStock);
+
             document.getElementById('page-title').textContent = cat === 'dashboard' ? 'Dashboard' : cat;
 
             if (cat !== 'dashboard') {
@@ -3127,7 +3196,29 @@
                     data.trType = trType;
                     data.notes = document.getElementById('inp-notes-patch').value.trim() || '';
 
-                    var uniqueKey = data.pcType + '|' + data.pcLength + '|' + data.gudang;
+                    // Generate barcode otomatis
+                    var jenisMap = {
+                        'SC-SC': 'SCSC',
+                        'LC-LC': 'LCLC',
+                        'FC-FC': 'FCFC',
+                        'ST-ST': 'STST',
+                        'SC-FC': 'SCFC',
+                        'FC-ST': 'FCST',
+                        'ST-SC': 'STSC',
+                        'FC-LC': 'FCLC',
+                        'LC-ST': 'LCST',
+                        'LC-SC': 'LCSC'
+                    };
+                    var kodeJenis = jenisMap[data.pcType] || 'XXXX';
+                    var panjangNum = data.pcLength.replace('m', '').trim();
+                    var kodePanjang = panjangNum;
+                    if (panjangNum.includes('.')) {
+                        kodePanjang = panjangNum.replace('.', '');
+                    }
+                    kodePanjang = kodePanjang.padStart(2, '0');
+                    data.barcode = 'PC' + kodeJenis + kodePanjang;
+
+                    var uniqueKey = data.barcode;
                 } else {
                     var barcodeVal = document.getElementById('inp-barcode').value.trim();
                     var specVal = document.getElementById('inp-spec').value.trim();
@@ -3152,7 +3243,7 @@
                     var item = items[key];
                     var itemKey = '';
                     if (isPatch) {
-                        itemKey = item.pcType + '|' + item.pcLength + '|' + item.gudang;
+                        itemKey = item.barcode;
                     } else {
                         itemKey = item.barcode + '|' + item.gudang;
                     }
@@ -3180,6 +3271,7 @@
                     } else {
                         updateData.pcType = data.pcType;
                         updateData.pcLength = data.pcLength;
+                        updateData.barcode = data.barcode;
                     }
 
                     db.ref('data/' + cat + '/' + existingKey).update(updateData)
@@ -3607,7 +3699,7 @@
                 var isAlkur = currentCategory === 'Alkur/Material';
 
                 if (currentCategory === 'Patch Cord') {
-                    thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
+                    thead.innerHTML = '<tr><th>Tgl</th><th>Barcode</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
                 } else if (isStock) {
                     thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Barcode</th><th>Nama</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
                 } else if (isAlkur) {
@@ -3624,12 +3716,16 @@
 
                 filteredKeys.forEach(function(key) {
                     var item = list[key];
-                    var bgType = item.trType === 'Masuk' ? '#DBEAFE' : '#FEE2E2';
-                    var textColor = item.trType === 'Masuk' ? '#2563EB' : '#EF4444';
+                    var bgType = item.trType === 'Masuk' ? '#DBEAFE' : (item.trType === 'Pemusnahan' ? '#FEE2E2' :
+                    '#FEE2E2');
+                    var textColor = item.trType === 'Masuk' ? '#2563EB' : (item.trType === 'Pemusnahan' ? '#EF4444' :
+                        '#EF4444');
 
                     if (currentCategory === 'Patch Cord') {
                         tbody.innerHTML += '<tr>' +
                             '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
+                            '<td><code style="background:var(--bg-light);padding:2px 8px;border-radius:4px;font-size:11px;">' +
+                            (item.barcode || '-') + '</code></td>' +
                             '<td><span style="font-size:11px;font-weight:600;color:var(--text-muted);">' + (item
                                 .gudang || '-') + '</span></td>' +
                             '<td><span style="font-weight:600;">' + (item.pcType || '-') + '</span></td>' +
@@ -3862,6 +3958,7 @@
                     User: item.postBy || '-'
                 };
                 if (item.gudang) row.Gudang = item.gudang;
+                if (item.barcode) row.Barcode = item.barcode;
                 if (item.spec) row.Item = item.spec;
                 if (item.pcType) row.Item = item.pcType + ' ' + (item.pcLength || '');
                 if (item.trType) row.Tipe = item.trType;
@@ -4035,7 +4132,7 @@
                 .then(function() {
                     showToast('✅ Retur disimpan! ' + returnItems.length + ' barang', 'success');
 
-                    if (currentCategory === 'Stok Spare' || currentCategory === 'Patch Cord') {
+                    if (currentCategory === 'Stok Spare') {
                         setTimeout(function() {
                             updateStokSummary();
                             renderTable();
@@ -4084,6 +4181,136 @@
                 console.error('❌ Error printing excel:', e);
                 showToast('❌ Gagal print excel: ' + e.message, 'error');
             }
+        }
+
+        // ============================================================
+        // PEMUSNAHAN FUNCTIONS
+        // ============================================================
+        function loadPemusnahanBarang() {
+            var kategori = document.getElementById('pem-kategori').value;
+            var selectBarang = document.getElementById('pem-barang');
+            selectBarang.innerHTML = '<option value="">-- Pilih Barang --</option>';
+
+            if (!kategori) return;
+
+            var list = appData[kategori] || {};
+            var items = Object.keys(list).map(function(key) {
+                var item = list[key];
+                item._key = key;
+                return item;
+            });
+
+            // Urutkan berdasarkan nama
+            items.sort(function(a, b) {
+                var nameA = (a.spec || a.pcType || a.nama || '').toLowerCase();
+                var nameB = (b.spec || b.pcType || b.nama || '').toLowerCase();
+                return nameA.localeCompare(nameB);
+            });
+
+            items.forEach(function(item) {
+                var label = item.spec || item.pcType || item.nama || 'Unknown';
+                if (item.barcode) label += ' (' + item.barcode + ')';
+                if (item.gudang) label += ' - ' + item.gudang;
+                if (item.qty !== undefined) label += ' [Stok: ' + item.qty + ']';
+                var option = document.createElement('option');
+                option.value = item._key;
+                option.textContent = label;
+                option.dataset.qty = item.qty || 0;
+                option.dataset.nama = item.spec || item.pcType || item.nama || 'Unknown';
+                selectBarang.appendChild(option);
+            });
+        }
+
+        function submitPemusnahan(e) {
+            e.preventDefault();
+
+            var kategori = document.getElementById('pem-kategori').value;
+            var barangKey = document.getElementById('pem-barang').value;
+            var jumlah = parseInt(document.getElementById('pem-jumlah').value) || 1;
+            var alasan = document.getElementById('pem-alasan').value.trim();
+
+            if (!kategori || !barangKey || jumlah < 1 || !alasan) {
+                showToast('❌ Semua field harus diisi', 'error');
+                return false;
+            }
+
+            var selectedOption = document.getElementById('pem-barang').selectedOptions[0];
+            var stokTersedia = parseInt(selectedOption.dataset.qty) || 0;
+            var namaBarang = selectedOption.dataset.nama || 'Unknown';
+
+            if (jumlah > stokTersedia) {
+                showToast('❌ Jumlah melebihi stok tersedia (' + stokTersedia + ')', 'error');
+                return false;
+            }
+
+            if (!confirm('Konfirmasi pemusnahan ' + jumlah + ' unit ' + namaBarang + ' dari ' + kategori +
+                    '?\nAlasan: ' + alasan)) {
+                return false;
+            }
+
+            var submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Memproses...';
+
+            var ref = db.ref('data/' + kategori + '/' + barangKey);
+            ref.once('value')
+                .then(function(snap) {
+                    var item = snap.val();
+                    if (!item) {
+                        showToast('❌ Data tidak ditemukan', 'error');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Konfirmasi Pemusnahan';
+                        return;
+                    }
+
+                    var newQty = (item.qty || 0) - jumlah;
+                    if (newQty < 0) newQty = 0;
+
+                    // Update stok
+                    return ref.update({
+                        qty: newQty,
+                        notes: (item.notes || '') + ' | Pemusnahan: ' + alasan + ' (' + jumlah + ' unit)',
+                        lastUpdate: Date.now()
+                    }).then(function() {
+                        // Catat history pemusnahan
+                        var historyData = {
+                            date: new Date().toISOString().slice(0, 10),
+                            postBy: currentUser ? currentUser.name : 'System',
+                            kategori: kategori,
+                            barangKey: barangKey,
+                            nama: namaBarang,
+                            jumlah: jumlah,
+                            alasan: alasan,
+                            trType: 'Pemusnahan',
+                            createdAt: Date.now()
+                        };
+                        return db.ref('history/pemusnahan').push(historyData);
+                    });
+                })
+                .then(function() {
+                    showToast('✅ Pemusnahan berhasil! Stok berkurang ' + jumlah + ' unit', 'success');
+                    document.getElementById('pemusnahan-modal').classList.add('hidden');
+                    document.getElementById('pem-kategori').value = '';
+                    document.getElementById('pem-barang').innerHTML = '<option value="">-- Pilih Barang --</option>';
+                    document.getElementById('pem-jumlah').value = '1';
+                    document.getElementById('pem-alasan').value = '';
+                    setTimeout(function() {
+                        updateStokSummary();
+                        renderTable();
+                        updateQuickStats();
+                        updateMapMarkers();
+                    }, 300);
+                })
+                .catch(function(err) {
+                    console.error('❌ Error pemusnahan:', err);
+                    showToast('❌ Gagal memusnahkan: ' + err.message, 'error');
+                })
+                .finally(function() {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Konfirmasi Pemusnahan';
+                });
+
+            return false;
         }
 
         // ============================================================
