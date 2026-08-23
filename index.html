@@ -513,6 +513,12 @@
         .toast.error {
             background: #EF4444;
         }
+        .toast.warning {
+            background: #F59E0B;
+        }
+        .toast.info {
+            background: #6366F1;
+        }
 
         .login-screen {
             position: fixed;
@@ -922,7 +928,7 @@
 
         /* ===== AI CHAT MODAL ===== */
         #ai-modal .modal-card {
-            max-width: 600px;
+            max-width: 700px;
             padding: 0;
             overflow: hidden;
             border-radius: 24px;
@@ -945,6 +951,13 @@
             align-items: center;
             gap: 10px;
         }
+        #ai-modal .ai-header h3 .badge {
+            font-size: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 10px;
+            border-radius: 99px;
+            font-weight: 600;
+        }
         #ai-modal .ai-header .close-ai {
             background: rgba(255, 255, 255, 0.15);
             border: none;
@@ -963,7 +976,7 @@
 
         #ai-modal .ai-body {
             padding: 20px 24px;
-            max-height: 420px;
+            max-height: 440px;
             overflow-y: auto;
             background: #F8FAFC;
             display: flex;
@@ -972,11 +985,11 @@
             min-height: 200px;
         }
         #ai-modal .ai-body .ai-msg {
-            max-width: 85%;
+            max-width: 92%;
             padding: 12px 16px;
             border-radius: 16px;
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
             animation: slideUp 0.3s ease;
             word-break: break-word;
         }
@@ -992,6 +1005,7 @@
             color: var(--text-dark);
             border: 1px solid var(--line);
             border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
         #ai-modal .ai-body .ai-msg.ai .cmd-block {
             background: #F1F5F9;
@@ -1027,6 +1041,43 @@
             padding: 4px 12px;
             border-radius: 99px;
             font-size: 12px;
+        }
+        #ai-modal .ai-body .ai-msg.ai .cmd-warn {
+            color: #D97706;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            background: #FEF3C7;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 12px;
+        }
+        #ai-modal .ai-body .ai-msg.ai .error-detail {
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 6px;
+            font-size: 12px;
+            color: #991B1B;
+        }
+        #ai-modal .ai-body .ai-msg.ai .fix-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 16px;
+            background: var(--blue-gradient);
+            color: white;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        #ai-modal .ai-body .ai-msg.ai .fix-btn:hover {
+            transform: scale(1.05);
         }
         #ai-modal .ai-body .typing-indicator {
             align-self: flex-start;
@@ -1072,6 +1123,7 @@
             gap: 10px;
             align-items: center;
             flex-shrink: 0;
+            flex-wrap: wrap;
         }
         #ai-modal .ai-footer input {
             flex: 1;
@@ -1083,6 +1135,7 @@
             outline: none;
             font-family: inherit;
             transition: border-color 0.2s;
+            min-width: 120px;
         }
         #ai-modal .ai-footer input:focus {
             border-color: var(--primary-blue);
@@ -1113,13 +1166,26 @@
             cursor: not-allowed;
             transform: none !important;
         }
+        #ai-modal .ai-footer .ai-status {
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        #ai-modal .ai-footer .ai-status .dot-online {
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+            display: inline-block;
+        }
 
-        /* AI suggestions */
         .ai-suggestions {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            margin-top: 4px;
+            margin-top: 8px;
         }
         .ai-suggestions .chip {
             background: var(--bg-light);
@@ -1135,6 +1201,46 @@
             border-color: var(--primary-blue);
             color: var(--primary-blue);
             background: var(--primary-blue-light);
+        }
+        .ai-suggestions .chip.danger {
+            border-color: #FCA5A5;
+            color: #DC2626;
+        }
+        .ai-suggestions .chip.danger:hover {
+            background: #FEE2E2;
+            border-color: #EF4444;
+        }
+
+        /* AI Error Scanner Badge */
+        .error-badge {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            z-index: 60;
+            background: #EF4444;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 700;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            animation: pulse-badge 2s infinite;
+        }
+        .error-badge.show {
+            display: flex;
+        }
+        @keyframes pulse-badge {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         @media(min-width:768px) {
@@ -1184,12 +1290,16 @@
             }
             #ai-modal .ai-footer {
                 padding: 12px 16px;
-                flex-wrap: wrap;
+                flex-direction: column;
             }
             #ai-modal .ai-footer input {
                 min-width: 100%;
             }
             #ai-modal .ai-footer button {
+                width: 100%;
+                justify-content: center;
+            }
+            #ai-modal .ai-footer .ai-status {
                 width: 100%;
                 justify-content: center;
             }
@@ -1247,6 +1357,12 @@
                 <p style="margin-top:4px;font-size:10px;color:#94A3B8;">&copy; 2026 BUCIN - Barisan Utama Cegah Insiden</p>
             </div>
         </div>
+    </div>
+
+    <!-- ===== ERROR BADGE ===== -->
+    <div id="error-badge" class="error-badge" onclick="openAIModal()">
+        <i data-lucide="alert-triangle" style="width:14px;"></i>
+        <span id="error-count">0</span> Error Terdeteksi
     </div>
 
     <!-- ===== APP SHELL ===== -->
@@ -1785,13 +1901,14 @@
         </div>
     </div>
 
-    <!-- ===== MODAL AI ASSISTANT ===== -->
+    <!-- ===== MODAL AI ASSISTANT (Enhanced) ===== -->
     <div id="ai-modal" class="modal-layer hidden">
-        <div class="modal-card" style="max-width:600px;padding:0;border-radius:24px;overflow:hidden;">
+        <div class="modal-card" style="max-width:700px;padding:0;border-radius:24px;overflow:hidden;">
             <div class="ai-header">
                 <h3>
                     <i data-lucide="bot" style="width:24px;height:24px;"></i>
-                    AI Assistant <span style="font-size:12px;font-weight:400;opacity:0.8;margin-left:4px;">— Admin</span>
+                    AI Diagnostic & Repair
+                    <span class="badge">v2.0</span>
                 </h3>
                 <button class="close-ai" onclick="closeAIModal()">
                     <i data-lucide="x" style="width:20px;height:20px;"></i>
@@ -1799,28 +1916,34 @@
             </div>
             <div class="ai-body" id="ai-body">
                 <div class="ai-msg ai">
-                    👋 Halo Admin! Saya adalah AI asisten untuk BUCIN. <br>
-                    <strong>Kamu bisa menyuruh saya:</strong><br>
-                    • <code>ubah judul hero menjadi "..."</code><br>
-                    • <code>ubah teks about menjadi "..."</code><br>
-                    • <code>ganti warna utama menjadi #...</code><br>
-                    • <code>tambah tombol baru dengan label "..."</code><br>
-                    • <code>hapus elemen dengan id ...</code><br>
-                    • <code>tampilkan notifikasi "..."</code><br>
-                    • <code>refresh data</code>
+                    <strong>🤖 AI Diagnostic & Repair Assistant</strong><br>
+                    Saya adalah asisten cerdas yang dapat mendeteksi, mendiagnosis, dan memperbaiki berbagai masalah di web BUCIN.
+                    <br><br>
+                    <strong>🔍 Saya bisa:</strong><br>
+                    • <code>scan</code> — Scan seluruh halaman untuk mencari error<br>
+                    • <code>fix [problem]</code> — Perbaiki masalah tertentu<br>
+                    • <code>diagnose</code> — Cek kesehatan sistem<br>
+                    • <code>report</code> — Tampilkan laporan error lengkap<br>
+                    • <code>help</code> — Tampilkan semua perintah<br>
+                    <br>
+                    <strong>📌 Contoh: "scan", "fix data tidak muncul", "diagnose"</strong>
                     <div class="ai-suggestions" style="margin-top:10px;">
-                        <span class="chip" onclick="fillAIInput('ubah judul hero menjadi "BUCIN - Sistem Cegah Insiden"')">🎯 Ubah Judul</span>
-                        <span class="chip" onclick="fillAIInput('ganti warna utama menjadi #7C3AED')">🎨 Ganti Warna</span>
-                        <span class="chip" onclick="fillAIInput('tampilkan notifikasi "Halo Admin!"')">💬 Notifikasi</span>
-                        <span class="chip" onclick="fillAIInput('refresh data')">🔄 Refresh</span>
+                        <span class="chip" onclick="fillAIInput('scan')">🔍 Scan Error</span>
+                        <span class="chip" onclick="fillAIInput('diagnose')">🩺 Diagnose</span>
+                        <span class="chip" onclick="fillAIInput('fix data tidak muncul')">🔧 Fix Data</span>
+                        <span class="chip" onclick="fillAIInput('report')">📊 Report</span>
+                        <span class="chip danger" onclick="fillAIInput('reset semua')">🔄 Reset</span>
                     </div>
                 </div>
             </div>
             <div class="ai-footer">
-                <input type="text" id="ai-input" placeholder="Ketik perintah untuk AI..." onkeydown="if(event.key==='Enter') sendAICommand()">
+                <input type="text" id="ai-input" placeholder="Ketik perintah atau deskripsikan masalah..." onkeydown="if(event.key==='Enter') sendAICommand()">
                 <button id="ai-send-btn" onclick="sendAICommand()">
                     <i data-lucide="send" style="width:18px;height:18px;"></i> Kirim
                 </button>
+                <div class="ai-status">
+                    <span class="dot-online"></span> Online
+                </div>
             </div>
         </div>
     </div>
@@ -2207,6 +2330,13 @@
             loadData();
             loadSettings();
             loadBarcodeCache();
+
+            // Auto-scan for errors after page loads
+            setTimeout(function() {
+                if (currentUser && currentUser.role === 'admin') {
+                    autoScanErrors();
+                }
+            }, 3000);
         });
 
         // ============================================================
@@ -2352,6 +2482,10 @@
                             document.getElementById('ai-btn').classList.remove('hidden');
                             document.getElementById('add-user-btn').classList.remove('hidden');
                             document.getElementById('settings-btn').classList.remove('hidden');
+                            // Auto-scan errors for admin
+                            setTimeout(function() {
+                                autoScanErrors();
+                            }, 2000);
                         } else {
                             document.getElementById('ai-btn').classList.add('hidden');
                             document.getElementById('add-user-btn').classList.add('hidden');
@@ -2659,6 +2793,16 @@
                     document.getElementById('settings-modal').classList.add('hidden');
                 } else if (!document.getElementById('ai-modal').classList.contains('hidden')) {
                     closeAIModal();
+                }
+            });
+
+            // Keyboard shortcut: Ctrl+Shift+A to open AI
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                    e.preventDefault();
+                    if (currentUser && currentUser.role === 'admin') {
+                        openAIModal();
+                    }
                 }
             });
         }
@@ -3383,6 +3527,8 @@
             t.className = 'toast show';
             if (type === 'success') t.classList.add('success');
             if (type === 'error') t.classList.add('error');
+            if (type === 'warning') t.classList.add('warning');
+            if (type === 'info') t.classList.add('info');
             t.textContent = msg;
             document.body.appendChild(t);
 
@@ -4007,8 +4153,109 @@
 
 
         // ============================================================
-        // ===================== AI ASSISTANT ==========================
+        // ===================== AI ENHANCED ===========================
         // ============================================================
+
+        // ----- ERROR DETECTION & DIAGNOSIS -----
+        let detectedErrors = [];
+        let errorLog = [];
+
+        function autoScanErrors() {
+            detectedErrors = [];
+            errorLog = [];
+
+            // Check Firebase connection
+            if (!db) {
+                detectedErrors.push({ severity: 'critical', component: 'Firebase', message: 'Firebase tidak terinisialisasi' });
+            }
+
+            // Check data loading
+            if (!appData || Object.keys(appData).length === 0) {
+                detectedErrors.push({ severity: 'warning', component: 'Data', message: 'Data belum dimuat atau kosong' });
+            }
+
+            // Check map
+            if (!map) {
+                detectedErrors.push({ severity: 'warning', component: 'Map', message: 'Peta belum diinisialisasi' });
+            }
+
+            // Check chart
+            if (!chartIncidents) {
+                detectedErrors.push({ severity: 'info', component: 'Chart', message: 'Grafik belum diinisialisasi' });
+            }
+
+            // Check scanner availability
+            if (typeof Quagga === 'undefined') {
+                detectedErrors.push({ severity: 'info', component: 'Scanner', message: 'Library scanner tidak tersedia' });
+            }
+
+            // Check barcode cache
+            if (Object.keys(barcodeCache).length === 0) {
+                detectedErrors.push({ severity: 'info', component: 'Barcode', message: 'Cache barcode kosong' });
+            }
+
+            // Check navigation items
+            var navItems = document.querySelectorAll('.nav-item');
+            if (navItems.length === 0) {
+                detectedErrors.push({ severity: 'warning', component: 'UI', message: 'Navigasi tidak ditemukan' });
+            }
+
+            // Check if any data view is empty but should have data
+            var dataView = document.getElementById('data-view');
+            if (dataView && !dataView.classList.contains('hidden')) {
+                var list = appData[currentCategory] || {};
+                if (Object.keys(list).length === 0) {
+                    detectedErrors.push({ severity: 'info', component: 'Data View', message: 'Tidak ada data di kategori ' +
+                            currentCategory });
+                }
+            }
+
+            // Check for console errors (captured via error event)
+            // This is passive - we'll catch errors as they happen
+
+            // Update badge
+            updateErrorBadge();
+
+            // Log to chat if AI is open
+            if (!document.getElementById('ai-modal').classList.contains('hidden')) {
+                if (detectedErrors.length > 0) {
+                    addAIMessage('ai', '🔍 <strong>Auto-Scan Selesai:</strong> Ditemukan ' + detectedErrors.length +
+                        ' isu. Ketik <code>report</code> untuk detail.');
+                } else {
+                    addAIMessage('ai', '✅ <strong>Auto-Scan Selesai:</strong> Tidak ditemukan masalah. Sistem sehat!');
+                }
+            }
+
+            return detectedErrors;
+        }
+
+        function updateErrorBadge() {
+            var badge = document.getElementById('error-badge');
+            var count = document.getElementById('error-count');
+            var errors = detectedErrors.filter(function(e) { return e.severity === 'critical' || e.severity === 'warning'; });
+            if (errors.length > 0) {
+                badge.classList.add('show');
+                count.textContent = errors.length;
+            } else {
+                badge.classList.remove('show');
+            }
+        }
+
+        // Capture console errors
+        window.addEventListener('error', function(e) {
+            errorLog.push({
+                type: 'console',
+                message: e.message,
+                source: e.filename,
+                line: e.lineno,
+                col: e.colno,
+                timestamp: Date.now()
+            });
+            // Re-scan after error
+            setTimeout(autoScanErrors, 500);
+        });
+
+        // ----- AI CORE FUNCTIONS -----
 
         function openAIModal() {
             if (!currentUser || currentUser.role !== 'admin') {
@@ -4017,6 +4264,8 @@
             }
             document.getElementById('ai-modal').classList.remove('hidden');
             document.getElementById('ai-input').focus();
+            // Auto-scan when opening
+            setTimeout(autoScanErrors, 300);
         }
 
         function closeAIModal() {
@@ -4037,17 +4286,14 @@
                 return;
             }
 
-            // Tambahkan pesan user ke chat
             addAIMessage('user', text);
 
             input.value = '';
             input.disabled = true;
             document.getElementById('ai-send-btn').disabled = true;
 
-            // Tampilkan loading
             showTypingIndicator();
 
-            // Proses command
             setTimeout(function() {
                 removeTypingIndicator();
                 var result = processAICommand(text);
@@ -4055,16 +4301,215 @@
                 input.disabled = false;
                 document.getElementById('ai-send-btn').disabled = false;
                 input.focus();
-            }, 500);
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                // Re-scan after any fix
+                setTimeout(autoScanErrors, 500);
+            }, 600);
         }
 
         function processAICommand(cmd) {
-            cmd = cmd.toLowerCase().trim();
+            cmd = cmd.trim();
 
             // ==========================================================
-            // 1. UBAH JUDUL HERO
+            // 1. SCAN / DIAGNOSE / CHECK
             // ==========================================================
-            var matchJudul = cmd.match(/ubah\s+judul\s+hero\s+menjadi\s+["']?(.+?)["']?$/);
+            if (cmd.match(/^(scan|diagnose|check|cek|scan error|diagnosa)$/i)) {
+                autoScanErrors();
+                if (detectedErrors.length === 0) {
+                    return '✅ <strong>Hasil Scan:</strong> Tidak ditemukan masalah! Sistem berjalan dengan baik. 🎉';
+                }
+                var critical = detectedErrors.filter(function(e) { return e.severity === 'critical'; });
+                var warnings = detectedErrors.filter(function(e) { return e.severity === 'warning'; });
+                var infos = detectedErrors.filter(function(e) { return e.severity === 'info'; });
+
+                var msg = '🔍 <strong>Hasil Scan Error:</strong><br>';
+                if (critical.length > 0) {
+                    msg += '❌ <strong>Critical (' + critical.length + '):</strong><br>';
+                    critical.forEach(function(e) {
+                        msg += '• <span style="color:#EF4444;">' + e.component + ':</span> ' + e.message + '<br>';
+                    });
+                }
+                if (warnings.length > 0) {
+                    msg += '⚠️ <strong>Warning (' + warnings.length + '):</strong><br>';
+                    warnings.forEach(function(e) {
+                        msg += '• <span style="color:#F59E0B;">' + e.component + ':</span> ' + e.message + '<br>';
+                    });
+                }
+                if (infos.length > 0) {
+                    msg += 'ℹ️ <strong>Info (' + infos.length + '):</strong><br>';
+                    infos.forEach(function(e) {
+                        msg += '• <span style="color:#6366F1;">' + e.component + ':</span> ' + e.message + '<br>';
+                    });
+                }
+                msg +=
+                    '<br><span style="font-size:12px;color:var(--text-muted);">Ketik <code>fix [nama]</code> untuk perbaiki, atau <code>report</code> untuk laporan lengkap.</span>';
+                return msg;
+            }
+
+            // ==========================================================
+            // 2. REPORT (Laporan Lengkap)
+            // ==========================================================
+            if (cmd.match(/^(report|laporan|detail)$/i)) {
+                autoScanErrors();
+                var now = new Date().toLocaleString('id-ID');
+                var msg = '📊 <strong>Laporan Sistem BUCIN</strong><br>';
+                msg += '🕐 ' + now + '<br><br>';
+
+                // System info
+                msg += '<strong>🔹 Status Sistem:</strong><br>';
+                msg += '• User: ' + (currentUser ? currentUser.name : 'Tidak login') + '<br>';
+                msg += '• Kategori: ' + currentCategory + '<br>';
+                msg += '• Total Data: ' + Object.keys(appData).reduce(function(acc, cat) {
+                    if (cat !== 'dashboard' && typeof appData[cat] === 'object') {
+                        return acc + Object.keys(appData[cat] || {}).length;
+                    }
+                    return acc;
+                }, 0) + ' item<br>';
+                msg += '• Firebase: ' + (db ? '✅ Terkoneksi' : '❌ Tidak terhubung') + '<br>';
+                msg += '• Map: ' + (map ? '✅ Aktif' : '❌ Tidak aktif') + '<br>';
+                msg += '• Chart: ' + (chartIncidents ? '✅ Aktif' : '❌ Tidak aktif') + '<br><br>';
+
+                // Errors
+                if (detectedErrors.length > 0) {
+                    msg += '<strong>🔸 Error Terdeteksi (' + detectedErrors.length + '):</strong><br>';
+                    detectedErrors.forEach(function(e, i) {
+                        var icon = e.severity === 'critical' ? '❌' : e.severity === 'warning' ? '⚠️' : 'ℹ️';
+                        msg += icon + ' ' + e.component + ': ' + e.message + '<br>';
+                    });
+                } else {
+                    msg += '✅ <strong>Tidak ada error terdeteksi.</strong><br>';
+                }
+
+                // Console errors
+                if (errorLog.length > 0) {
+                    msg += '<br><strong>🔸 Console Errors (' + errorLog.length + '):</strong><br>';
+                    var recent = errorLog.slice(-5);
+                    recent.forEach(function(e) {
+                        msg += '• ' + e.message + ' (line ' + (e.line || '?') + ')<br>';
+                    });
+                }
+
+                msg +=
+                    '<br><span style="font-size:12px;color:var(--text-muted);">Ketik <code>scan</code> untuk scan ulang, <code>fix all</code> untuk perbaiki otomatis.</span>';
+                return msg;
+            }
+
+            // ==========================================================
+            // 3. FIX (Perbaiki Error)
+            // ==========================================================
+            var fixMatch = cmd.match(/^fix\s+(.+)$/i);
+            if (fixMatch) {
+                var target = fixMatch[1].trim().toLowerCase();
+                var fixed = [];
+                var failed = [];
+
+                if (target === 'all' || target === 'semua') {
+                    // Fix all detected errors
+                    var errorsToFix = detectedErrors.filter(function(e) { return e.severity === 'critical' || e
+                            .severity === 'warning'; });
+                    if (errorsToFix.length === 0) {
+                        return '✅ Tidak ada error yang perlu diperbaiki. Sistem sudah sehat!';
+                    }
+                    errorsToFix.forEach(function(e) {
+                        var result = attemptFix(e);
+                        if (result.success) {
+                            fixed.push(e.component + ': ' + result.message);
+                        } else {
+                            failed.push(e.component + ': ' + result.message);
+                        }
+                    });
+                    var msg = '🔧 <strong>Perbaikan Otomatis:</strong><br>';
+                    if (fixed.length > 0) {
+                        msg += '✅ Berhasil memperbaiki:<br>• ' + fixed.join('<br>• ') + '<br>';
+                    }
+                    if (failed.length > 0) {
+                        msg += '❌ Gagal memperbaiki:<br>• ' + failed.join('<br>• ') + '<br>';
+                    }
+                    setTimeout(autoScanErrors, 300);
+                    return msg;
+                }
+
+                // Fix specific component
+                var found = detectedErrors.filter(function(e) {
+                    return e.component.toLowerCase().includes(target) ||
+                        e.message.toLowerCase().includes(target);
+                });
+
+                if (found.length === 0) {
+                    return '❌ Tidak ditemukan error yang cocok dengan "' + target + '". Ketik <code>scan</code> untuk melihat daftar error.';
+                }
+
+                found.forEach(function(e) {
+                    var result = attemptFix(e);
+                    if (result.success) {
+                        fixed.push(e.component + ': ' + result.message);
+                    } else {
+                        failed.push(e.component + ': ' + result.message);
+                    }
+                });
+
+                var msg = '🔧 <strong>Perbaikan:</strong><br>';
+                if (fixed.length > 0) {
+                    msg += '✅ ' + fixed.join('<br>✅ ') + '<br>';
+                }
+                if (failed.length > 0) {
+                    msg += '❌ ' + failed.join('<br>❌ ') + '<br>';
+                }
+                setTimeout(autoScanErrors, 300);
+                return msg;
+            }
+
+            // ==========================================================
+            // 4. RESET
+            // ==========================================================
+            if (cmd.match(/^(reset|reset semua|reset all|ulang)$/i)) {
+                detectedErrors = [];
+                errorLog = [];
+                updateErrorBadge();
+                // Reload data
+                loadData();
+                setTimeout(function() {
+                    initMap();
+                    initCharts();
+                    updateQuickStats();
+                    autoScanErrors();
+                }, 500);
+                return '🔄 <strong>Reset Selesai!</strong> Sistem telah di-reset dan dimuat ulang.';
+            }
+
+            // ==========================================================
+            // 5. HELP
+            // ==========================================================
+            if (cmd.match(/^(help|bantuan|\?)$/i)) {
+                return `
+                <strong>🤖 AI Diagnostic & Repair — Daftar Perintah</strong><br><br>
+                <strong>🔍 Diagnosis:</strong><br>
+                • <code>scan</code> — Scan error pada seluruh sistem<br>
+                • <code>diagnose</code> — Sama dengan scan<br>
+                • <code>report</code> — Laporan lengkap sistem<br>
+                <br>
+                <strong>🔧 Perbaikan:</strong><br>
+                • <code>fix [komponen]</code> — Perbaiki error tertentu (contoh: <code>fix map</code>)<br>
+                • <code>fix all</code> — Perbaiki semua error otomatis<br>
+                • <code>reset</code> — Reset dan reload sistem<br>
+                <br>
+                <strong>🎨 Modifikasi UI:</strong><br>
+                • <code>ubah judul hero menjadi "..."</code><br>
+                • <code>ganti warna utama menjadi #...</code><br>
+                • <code>tambah tombol dengan label "..."</code><br>
+                • <code>tampilkan notifikasi "..."</code><br>
+                • <code>tambah elemen div dengan id "x" di "hero-panel"</code><br>
+                <br>
+                <strong>⌨️ Shortcut:</strong> Ctrl+Shift+A untuk buka AI
+              `;
+            }
+
+            // ==========================================================
+            // 6. UI MODIFICATION COMMANDS (from previous version)
+            // ==========================================================
+
+            // Ubah judul hero
+            var matchJudul = cmd.match(/ubah\s+judul\s+hero\s+menjadi\s+["']?(.+?)["']?$/i);
             if (matchJudul) {
                 var newTitle = matchJudul[1].trim();
                 var heroTitle = document.getElementById('hero-title');
@@ -4075,60 +4520,49 @@
                 return '❌ Gagal mengubah judul hero. Elemen tidak ditemukan.';
             }
 
-            // ==========================================================
-            // 2. UBAH TEKS ABOUT
-            // ==========================================================
-            var matchAbout = cmd.match(/ubah\s+teks\s+about\s+menjadi\s+["']?(.+?)["']?$/);
+            // Ubah teks about
+            var matchAbout = cmd.match(/ubah\s+teks\s+about\s+menjadi\s+["']?(.+?)["']?$/i);
             if (matchAbout) {
                 var newAbout = matchAbout[1].trim();
                 var aboutEl = document.getElementById('hero-about-text');
                 if (aboutEl) {
                     aboutEl.textContent = newAbout;
-                    // Simpan ke Firebase
                     db.ref('settings/heroAbout').set(newAbout);
                     return '✅ Teks About berhasil diubah menjadi: <strong>"' + newAbout + '"</strong>';
                 }
                 return '❌ Gagal mengubah teks About. Elemen tidak ditemukan.';
             }
 
-            // ==========================================================
-            // 3. GANTI WARNA UTAMA
-            // ==========================================================
-            var matchWarna = cmd.match(/ganti\s+warna\s+utama\s+menjadi\s+([#0-9a-fA-F]{6}|[#0-9a-fA-F]{3})/);
+            // Ganti warna utama
+            var matchWarna = cmd.match(/ganti\s+warna\s+utama\s+menjadi\s+([#0-9a-fA-F]{6}|[#0-9a-fA-F]{3})/i);
             if (matchWarna) {
                 var color = matchWarna[1].trim();
                 if (!color.startsWith('#')) color = '#' + color;
                 document.documentElement.style.setProperty('--primary-blue', color);
                 document.documentElement.style.setProperty('--primary-blue-dark', color);
-                // Update gradient
                 document.querySelectorAll('.btn-primary').forEach(function(el) {
                     el.style.background = color;
                 });
-                document.querySelectorAll('.brand-mark, .hero-panel, .custom-map-btn.active, .ai-header').forEach(
-                function(el) {
+                document.querySelectorAll('.brand-mark, .hero-panel, .custom-map-btn.active, .ai-header, .login-screen')
+                .forEach(function(el) {
                     el.style.background = 'linear-gradient(135deg, ' + color + ', ' + color + 'DD)';
                 });
                 return '✅ Warna utama berhasil diubah menjadi <strong>' + color + '</strong>';
             }
 
-            // ==========================================================
-            // 4. GANTI WARNA BACKGROUND
-            // ==========================================================
-            var matchBg = cmd.match(/ganti\s+background\s+menjadi\s+([#0-9a-fA-F]{6}|[#0-9a-fA-F]{3})/);
+            // Ganti background
+            var matchBg = cmd.match(/ganti\s+background\s+menjadi\s+([#0-9a-fA-F]{6}|[#0-9a-fA-F]{3})/i);
             if (matchBg) {
                 var bgColor = matchBg[1].trim();
                 if (!bgColor.startsWith('#')) bgColor = '#' + bgColor;
                 document.documentElement.style.setProperty('--bg-light', bgColor);
                 document.body.style.background = bgColor;
-                // Simpan ke settings
                 db.ref('settings/bgColor1').set(bgColor);
                 return '✅ Background berhasil diubah menjadi <strong>' + bgColor + '</strong>';
             }
 
-            // ==========================================================
-            // 5. TAMBAHKAN TOMBOL
-            // ==========================================================
-            var matchBtn = cmd.match(/tambah\s+tombol\s+dengan\s+label\s+["']?(.+?)["']?$/);
+            // Tambah tombol
+            var matchBtn = cmd.match(/tambah\s+tombol\s+dengan\s+label\s+["']?(.+?)["']?$/i);
             if (matchBtn) {
                 var label = matchBtn[1].trim();
                 var headerRight = document.querySelector('.top-header > div:last-child');
@@ -4145,10 +4579,8 @@
                 return '❌ Gagal menambahkan tombol. Header tidak ditemukan.';
             }
 
-            // ==========================================================
-            // 6. HAPUS ELEMEN
-            // ==========================================================
-            var matchHapus = cmd.match(/hapus\s+elemen\s+dengan\s+id\s+["']?(.+?)["']?$/);
+            // Hapus elemen
+            var matchHapus = cmd.match(/hapus\s+elemen\s+dengan\s+id\s+["']?(.+?)["']?$/i);
             if (matchHapus) {
                 var id = matchHapus[1].trim();
                 var el = document.getElementById(id);
@@ -4159,20 +4591,16 @@
                 return '❌ Elemen dengan id <strong>"' + id + '"</strong> tidak ditemukan.';
             }
 
-            // ==========================================================
-            // 7. TAMPILKAN NOTIFIKASI
-            // ==========================================================
-            var matchNotif = cmd.match(/tampilkan\s+notifikasi\s+["']?(.+?)["']?$/);
+            // Tampilkan notifikasi
+            var matchNotif = cmd.match(/tampilkan\s+notifikasi\s+["']?(.+?)["']?$/i);
             if (matchNotif) {
                 var msg = matchNotif[1].trim();
                 showToast('💬 ' + msg, 'success');
                 return '✅ Notifikasi ditampilkan: <strong>"' + msg + '"</strong>';
             }
 
-            // ==========================================================
-            // 8. REFRESH DATA
-            // ==========================================================
-            if (cmd === 'refresh data' || cmd === 'refresh') {
+            // Refresh data
+            if (cmd.match(/^(refresh|refresh data|reload)$/i)) {
                 loadData();
                 setTimeout(function() {
                     updateDashboard();
@@ -4180,41 +4608,183 @@
                         renderTable();
                         updateStokSummary();
                     }
+                    autoScanErrors();
                 }, 500);
                 return '🔄 Data berhasil di-refresh!';
             }
 
-            // ==========================================================
-            // 9. TAMPILKAN BANTUAN
-            // ==========================================================
-            if (cmd === 'help' || cmd === 'bantuan' || cmd === '?') {
-                return `
-                <strong>📋 Daftar Perintah AI:</strong><br>
-                • <code>ubah judul hero menjadi "..."</code><br>
-                • <code>ubah teks about menjadi "..."</code><br>
-                • <code>ganti warna utama menjadi #...</code><br>
-                • <code>ganti background menjadi #...</code><br>
-                • <code>tambah tombol dengan label "..."</code><br>
-                • <code>hapus elemen dengan id "..."</code><br>
-                • <code>tampilkan notifikasi "..."</code><br>
-                • <code>refresh data</code><br>
-                • <code>help</code> — tampilkan bantuan ini
-              `;
+            // Ubah teks elemen berdasarkan selector
+            var matchUbahTeks = cmd.match(/ubah\s+teks\s+di\s+["']?(.+?)["']?\s+menjadi\s+["']?(.+?)["']?$/i);
+            if (matchUbahTeks) {
+                var selector = matchUbahTeks[1].trim();
+                var newText = matchUbahTeks[2].trim();
+                var el = document.querySelector(selector);
+                if (el) {
+                    el.textContent = newText;
+                    return '✅ Teks elemen <code>' + selector + '</code> diubah menjadi <strong>"' + newText + '"</strong>';
+                }
+                return '❌ Elemen dengan selector <code>' + selector + '</code> tidak ditemukan.';
+            }
+
+            // Tambah elemen HTML
+            var matchTambah = cmd.match(/tambah\s+elemen\s+(\w+)\s+dengan\s+id\s+["']?(.+?)["']?\s+di\s+["']?(.+?)["']?/i);
+            if (matchTambah) {
+                var tag = matchTambah[1].trim();
+                var idEl = matchTambah[2].trim();
+                var parentSelector = matchTambah[3].trim();
+                var parent = document.querySelector(parentSelector);
+                if (parent) {
+                    var newEl = document.createElement(tag);
+                    newEl.id = idEl;
+                    newEl.textContent = 'Elemen baru (id: ' + idEl + ')';
+                    parent.appendChild(newEl);
+                    return '✅ Elemen <code>&lt;' + tag + ' id="' + idEl + '"&gt;</code> berhasil ditambahkan di dalam <code>' +
+                        parentSelector + '</code>';
+                }
+                return '❌ Induk elemen dengan selector <code>' + parentSelector + '</code> tidak ditemukan.';
+            }
+
+            // Tambah CSS
+            var matchCSS = cmd.match(/tambah\s+css\s+["']?(.+?)["']?$/i);
+            if (matchCSS) {
+                var css = matchCSS[1].trim();
+                var style = document.createElement('style');
+                style.textContent = css;
+                document.head.appendChild(style);
+                return '✅ CSS berhasil ditambahkan:\n<code>' + css + '</code>';
             }
 
             // ==========================================================
-            // 10. DEFAULT: TIDAK DIKENAL
+            // 7. DEFAULT: TIDAK DIKENAL
             // ==========================================================
             return `
             ❌ Perintah tidak dikenali.<br>
-            <strong>Contoh perintah:</strong><br>
-            • <code>ubah judul hero menjadi "BUCIN - Hebat"</code><br>
-            • <code>ganti warna utama menjadi #7C3AED</code><br>
-            • <code>tampilkan notifikasi "Halo Admin!"</code><br>
-            • <code>refresh data</code><br>
-            • <code>help</code> — tampilkan semua perintah
+            <strong>Perintah yang tersedia:</strong><br>
+            • <code>scan</code> — Scan error<br>
+            • <code>diagnose</code> — Diagnosa sistem<br>
+            • <code>report</code> — Laporan lengkap<br>
+            • <code>fix [komponen]</code> — Perbaiki error<br>
+            • <code>fix all</code> — Perbaiki semua<br>
+            • <code>reset</code> — Reset sistem<br>
+            • <code>help</code> — Bantuan lengkap<br>
+            <br>
+            <strong>Atau perintah modifikasi UI:</strong><br>
+            • <code>ubah judul hero menjadi "..."</code><br>
+            • <code>ganti warna utama menjadi #...</code><br>
+            • <code>tampilkan notifikasi "..."</code>
           `;
         }
+
+        // ----- ATTEMPT FIX -----
+        function attemptFix(error) {
+            var component = error.component.toLowerCase();
+            var result = { success: false, message: 'Tidak dapat diperbaiki otomatis' };
+
+            switch (component) {
+                case 'firebase':
+                    // Try re-initializing
+                    try {
+                        if (!firebaseApp) {
+                            firebaseApp = firebase.initializeApp(firebaseConfig);
+                            result.success = true;
+                            result.message = 'Firebase berhasil diinisialisasi ulang';
+                        } else {
+                            result.success = true;
+                            result.message = 'Firebase sudah aktif';
+                        }
+                    } catch (e) {
+                        result.message = 'Gagal inisialisasi Firebase: ' + e.message;
+                    }
+                    break;
+
+                case 'map':
+                    try {
+                        if (!map) {
+                            initMap();
+                            result.success = true;
+                            result.message = 'Peta berhasil diinisialisasi';
+                        } else {
+                            result.success = true;
+                            result.message = 'Peta sudah aktif';
+                        }
+                    } catch (e) {
+                        result.message = 'Gagal inisialisasi peta: ' + e.message;
+                    }
+                    break;
+
+                case 'chart':
+                    try {
+                        if (!chartIncidents) {
+                            initCharts();
+                            result.success = true;
+                            result.message = 'Grafik berhasil diinisialisasi';
+                        } else {
+                            result.success = true;
+                            result.message = 'Grafik sudah aktif';
+                        }
+                    } catch (e) {
+                        result.message = 'Gagal inisialisasi grafik: ' + e.message;
+                    }
+                    break;
+
+                case 'data':
+                    try {
+                        loadData();
+                        result.success = true;
+                        result.message = 'Data dimuat ulang';
+                    } catch (e) {
+                        result.message = 'Gagal memuat data: ' + e.message;
+                    }
+                    break;
+
+                case 'barcode':
+                    try {
+                        loadBarcodeCache();
+                        result.success = true;
+                        result.message = 'Cache barcode dimuat ulang';
+                    } catch (e) {
+                        result.message = 'Gagal memuat cache barcode: ' + e.message;
+                    }
+                    break;
+
+                case 'ui':
+                case 'navigasi':
+                    try {
+                        // Re-attach navigation events
+                        document.querySelectorAll('.nav-item').forEach(function(btn) {
+                            btn.removeEventListener('click', function() {});
+                            btn.addEventListener('click', function() {
+                                document.querySelectorAll('.nav-item').forEach(function(b) { b.classList
+                                        .remove('active'); });
+                                this.classList.add('active');
+                                switchView(this.dataset.cat);
+                            });
+                        });
+                        result.success = true;
+                        result.message = 'Navigasi diperbaiki';
+                    } catch (e) {
+                        result.message = 'Gagal perbaiki navigasi: ' + e.message;
+                    }
+                    break;
+
+                default:
+                    // Try generic fix: reinitialize the component if possible
+                    result.message = 'Komponen "' + component + '" tidak dikenal untuk perbaikan otomatis';
+            }
+
+            // Remove from detected errors if fixed
+            if (result.success) {
+                var index = detectedErrors.indexOf(error);
+                if (index > -1) {
+                    detectedErrors.splice(index, 1);
+                    updateErrorBadge();
+                }
+            }
+
+            return result;
+        }
+
+        // ----- AI UI HELPERS -----
 
         function addAIMessage(role, html) {
             var body = document.getElementById('ai-body');
@@ -4234,7 +4804,7 @@
             var div = document.createElement('div');
             div.className = 'typing-indicator';
             div.id = 'typing-indicator';
-            div.innerHTML = 'AI sedang berpikir<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>';
+            div.innerHTML = 'AI sedang menganalisis<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>';
             body.appendChild(div);
             body.scrollTop = body.scrollHeight;
         }
