@@ -28,23 +28,26 @@
     </script>
 
     <style>
-        /* ===== THEME VARIABLES ===== */
+        /* ============================================================
+           THEME: Breathtakingly Beautiful Coastline
+           Warna diadaptasi dari gambar peta laut & daratan
+           ============================================================ */
         :root {
-            --primary-blue: #2563EB;
-            --primary-blue-dark: #1D4ED8;
-            --primary-blue-light: #DBEAFE;
-            --primary-blue-very-light: #EFF6FF;
-            --blue-gradient: linear-gradient(135deg, #2563EB, #1D4ED8);
-            --accent-gold: linear-gradient(135deg, #F59E0B, #D97706);
-            --accent-gold-light: #FEF3C7;
-            --bg-light: #EFF6FF;
+            --primary-blue: #0077B6;
+            --primary-blue-dark: #005F8A;
+            --primary-blue-light: #90E0EF;
+            --primary-blue-very-light: #CAF0F8;
+            --blue-gradient: linear-gradient(135deg, #0077B6, #00B4D8);
+            --accent-gold: linear-gradient(135deg, #F4A261, #E76F51);
+            --accent-gold-light: #FDF0D5;
+            --bg-light: #E0F7FA;
             --card-bg: #FFFFFF;
-            --text-dark: #1E293B;
-            --text-muted: #64748B;
-            --line: #E2E8F0;
+            --text-dark: #023047;
+            --text-muted: #457B9D;
+            --line: #B2DFEE;
             --radius: 16px;
-            --shadow: 0 4px 12px rgba(37, 99, 235, 0.10);
-            --shadow-hover: 0 8px 24px rgba(37, 99, 235, 0.18);
+            --shadow: 0 4px 12px rgba(0, 119, 182, 0.15);
+            --shadow-hover: 0 8px 24px rgba(0, 119, 182, 0.25);
         }
 
         * {
@@ -62,6 +65,8 @@
             overflow-x: hidden;
             padding-bottom: 80px;
             transition: background 0.3s ease;
+            background-image: radial-gradient(circle at 10% 30%, rgba(144, 224, 239, 0.3) 0%, transparent 60%),
+                              radial-gradient(circle at 90% 70%, rgba(0, 180, 216, 0.2) 0%, transparent 50%);
         }
 
         .card {
@@ -70,7 +75,7 @@
             box-shadow: var(--shadow);
             padding: 16px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: 1px solid rgba(37, 99, 235, 0.06);
+            border: 1px solid rgba(0, 119, 182, 0.08);
         }
         .card:hover {
             transform: translateY(-4px);
@@ -78,7 +83,7 @@
         }
 
         .btn-primary {
-            background: var(--primary-blue);
+            background: var(--blue-gradient);
             color: white;
             border: none;
             border-radius: 24px;
@@ -90,13 +95,13 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 119, 182, 0.35);
             min-height: 52px;
             font-size: 16px;
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 119, 182, 0.45);
         }
         .btn-primary:active {
             transform: scale(0.97);
@@ -106,8 +111,9 @@
             cursor: not-allowed;
             transform: none !important;
         }
+
         .btn-danger {
-            background: #EF4444;
+            background: #E76F51;
             color: white;
             border: none;
             border-radius: 24px;
@@ -119,13 +125,13 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 4px 12px rgba(231, 111, 81, 0.3);
             min-height: 52px;
             font-size: 16px;
         }
         .btn-danger:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 6px 20px rgba(231, 111, 81, 0.4);
         }
         .btn-danger:active {
             transform: scale(0.97);
@@ -152,12 +158,64 @@
             font-size: 15px;
         }
         .btn-secondary:hover {
-            background: #DBEAFE;
+            background: var(--primary-blue-very-light);
             border-color: var(--primary-blue);
         }
-        .btn-secondary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+
+        .btn-icon {
+            width: 42px;
+            height: 42px;
+            min-height: 42px;
+            padding: 0;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--line);
+            background: var(--card-bg);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 18px;
+            box-shadow: none;
+            flex-shrink: 0;
+        }
+        .btn-icon:hover {
+            background: var(--primary-blue-light);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        .btn-icon.primary {
+            background: var(--blue-gradient);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        .btn-icon.primary:hover {
+            background: var(--primary-blue-dark);
+            border-color: var(--primary-blue-dark);
+            color: white;
+        }
+        .btn-icon.danger {
+            background: #E76F51;
+            color: white;
+            border-color: #E76F51;
+        }
+        .btn-icon.danger:hover {
+            background: #D65A3A;
+            border-color: #D65A3A;
+            color: white;
+        }
+        .btn-icon.gold {
+            background: var(--accent-gold);
+            color: white;
+            border-color: #E76F51;
+        }
+        .btn-icon.gold:hover {
+            background: #E76F51;
+            border-color: #E76F51;
+            color: white;
         }
 
         .top-header {
@@ -167,12 +225,12 @@
             height: 64px;
             border-bottom: 1px solid var(--line);
             backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.88);
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 8px rgba(0, 119, 182, 0.08);
         }
         .brand-mark {
             width: 40px;
@@ -182,7 +240,7 @@
             place-items: center;
             color: white;
             background: var(--blue-gradient);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+            box-shadow: 0 4px 12px rgba(0, 119, 182, 0.35);
             font-size: 20px;
             font-weight: 800;
         }
@@ -209,7 +267,7 @@
             z-index: 50;
             padding-bottom: env(safe-area-inset-bottom);
             scrollbar-width: none;
-            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 -4px 12px rgba(0, 119, 182, 0.06);
         }
         .bottom-nav::-webkit-scrollbar {
             display: none;
@@ -259,7 +317,7 @@
             padding: 28px 24px;
             background: var(--blue-gradient);
             color: white;
-            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 12px 32px rgba(0, 119, 182, 0.35);
             margin-bottom: 20px;
             position: relative;
             overflow: hidden;
@@ -271,7 +329,7 @@
             right: -20%;
             width: 300px;
             height: 300px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 50%;
         }
         .hero-panel::after {
@@ -281,7 +339,7 @@
             left: -10%;
             width: 200px;
             height: 200px;
-            background: rgba(251, 191, 36, 0.1);
+            background: rgba(244, 162, 97, 0.15);
             border-radius: 50%;
         }
         .hero-panel h1,
@@ -313,11 +371,11 @@
         }
         .field-control:focus {
             border-color: var(--primary-blue);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+            box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.15);
         }
         .field-control.error {
-            border-color: #EF4444;
-            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+            border-color: #E76F51;
+            box-shadow: 0 0 0 4px rgba(231, 111, 81, 0.15);
         }
         textarea.field-control {
             padding: 12px 16px;
@@ -325,7 +383,7 @@
         }
         select.field-control {
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23457B9D' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 14px center;
             padding-right: 40px;
@@ -348,17 +406,17 @@
             color: var(--primary-blue);
         }
         .icon-btn.delete {
-            color: #EF4444;
+            color: #E76F51;
         }
         .icon-btn.delete:hover {
-            background: #FEE2E2;
+            background: #FDE8E3;
         }
 
         .modal-layer {
             position: fixed;
             z-index: 100;
             inset: 0;
-            background: rgba(30, 41, 59, 0.5);
+            background: rgba(2, 48, 71, 0.5);
             backdrop-filter: blur(8px);
             display: grid;
             place-items: end;
@@ -377,7 +435,7 @@
             overflow-y: auto;
             padding: 24px;
             animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 24px 64px rgba(0, 119, 182, 0.2);
         }
         @keyframes slideUp {
             from {
@@ -420,21 +478,21 @@
         .custom-map-btn {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 119, 182, 0.1);
             border-radius: 10px;
             width: 38px;
             height: 38px;
             display: grid;
             place-items: center;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 8px rgba(0, 119, 182, 0.08);
             color: var(--text-dark);
             transition: all 0.2s;
         }
         .custom-map-btn:hover {
             background: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 12px rgba(0, 119, 182, 0.15);
         }
         .custom-map-btn.active {
             background: var(--blue-gradient);
@@ -450,9 +508,9 @@
             margin: 12px auto;
             border-radius: 16px;
             overflow: hidden;
-            background: #0f172a;
+            background: #0F2A3B;
             display: none;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 119, 182, 0.3);
         }
         .scanner-wrapper.active {
             display: block;
@@ -481,8 +539,8 @@
             left: 10%;
             right: 10%;
             height: 2px;
-            background: #EF4444;
-            box-shadow: 0 0 12px #EF4444;
+            background: #E76F51;
+            box-shadow: 0 0 12px #E76F51;
             animation: scanLine 1.5s infinite ease-in-out;
             pointer-events: none;
             z-index: 5;
@@ -528,7 +586,7 @@
             opacity: 0;
             transition: all 0.3s ease;
             pointer-events: none;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 119, 182, 0.2);
             max-width: 90%;
             text-align: center;
         }
@@ -540,13 +598,13 @@
             background: var(--primary-blue);
         }
         .toast.error {
-            background: #EF4444;
+            background: #E76F51;
         }
         .toast.warning {
-            background: #F59E0B;
+            background: #F4A261;
         }
         .toast.info {
-            background: #6366F1;
+            background: #2A9D8F;
         }
 
         .login-screen {
@@ -566,7 +624,7 @@
             right: -20%;
             width: 500px;
             height: 500px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 50%;
             pointer-events: none;
         }
@@ -577,7 +635,7 @@
             left: -20%;
             width: 400px;
             height: 400px;
-            background: rgba(251, 191, 36, 0.08);
+            background: rgba(244, 162, 97, 0.1);
             border-radius: 50%;
             pointer-events: none;
         }
@@ -587,7 +645,7 @@
             border-radius: 28px;
             width: 100%;
             max-width: 420px;
-            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 24px 64px rgba(0, 119, 182, 0.25);
             position: relative;
             z-index: 1;
             animation: slideUpLogin 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -658,12 +716,12 @@
             font-weight: 700;
         }
         .login-error {
-            color: #EF4444;
+            color: #E76F51;
             font-size: 13px;
             font-weight: 600;
             text-align: center;
             padding: 8px 12px;
-            background: #FEE2E2;
+            background: #FDE8E3;
             border-radius: 8px;
             margin-bottom: 12px;
             display: none;
@@ -694,7 +752,7 @@
         .gudang-card.selected {
             border-color: var(--primary-blue);
             background: var(--primary-blue-light);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+            box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.15);
         }
 
         .gudang-tabs {
@@ -719,10 +777,10 @@
             color: var(--primary-blue);
         }
         .gudang-tab.active {
-            background: var(--primary-blue);
+            background: var(--blue-gradient);
             color: white;
             border-color: var(--primary-blue);
-            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 119, 182, 0.3);
         }
 
         .records-table {
@@ -731,7 +789,7 @@
             font-size: 13px;
         }
         .records-table th {
-            background: #F8FAFB;
+            background: #E6F7FA;
             padding: 12px 14px;
             text-align: left;
             border-bottom: 2px solid var(--line);
@@ -744,16 +802,15 @@
         }
         .records-table td {
             padding: 12px 14px;
-            border-bottom: 1px solid #F3F4F6;
+            border-bottom: 1px solid #F3F8FA;
             vertical-align: middle;
         }
         .records-table tr:hover td {
-            background: #FAFBFC;
+            background: #F0F9FC;
         }
-        /* Garis pembatas periode bulanan */
         .records-table .month-separator td {
             border-top: 3px solid var(--primary-blue);
-            background: rgba(37,99,235,0.05);
+            background: rgba(0, 119, 182, 0.06);
         }
 
         .stok-summary {
@@ -782,10 +839,10 @@
             color: var(--primary-blue);
         }
         .stok-summary .value.keluar {
-            color: #EF4444;
+            color: #E76F51;
         }
         .stok-summary .value.total {
-            color: #059669;
+            color: #2A9D8F;
         }
 
         .sop-container {
@@ -807,7 +864,7 @@
             width: 4px;
         }
         .sop-grid::-webkit-scrollbar-thumb {
-            background: #CBD5E1;
+            background: #B2DFEE;
             border-radius: 4px;
         }
         .sop-item {
@@ -847,7 +904,7 @@
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            border: 2px solid #CBD5E1;
+            border: 2px solid #B2DFEE;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -876,7 +933,7 @@
         .sop-progress-bar {
             flex: 1;
             height: 6px;
-            background: #E5E7EB;
+            background: #E0F0F5;
             border-radius: 99px;
             overflow: hidden;
         }
@@ -902,7 +959,7 @@
             font-size: 12px;
             color: var(--text-muted);
             display: none;
-            border: 1px solid rgba(245, 158, 11, 0.2);
+            border: 1px solid rgba(244, 162, 97, 0.2);
         }
         .sop-summary.show {
             display: block;
@@ -963,7 +1020,6 @@
             max-height: 160px;
         }
 
-        /* ===== PEMUSNAHAN PAGE ===== */
         .pemusnahan-page {
             display: none;
             padding: 20px;
@@ -975,13 +1031,10 @@
         .pemusnahan-page.active {
             display: block;
         }
-
-        /* ===== PEMUSNAHAN HISTORY MODAL ===== */
         .pemusnahan-history-modal .modal-card {
             max-width: 800px;
         }
 
-        /* ===== FILTER BAR ===== */
         .filter-bar {
             display: flex;
             gap: 12px;
@@ -1166,7 +1219,7 @@
                                 <div style="font-size:11px;color:var(--text-muted);">Total Data</div>
                             </div>
                             <div style="background:var(--bg-light);padding:12px;border-radius:12px;text-align:center;">
-                                <div style="font-size:24px;font-weight:800;color:#F59E0B;" id="quick-categories">0</div>
+                                <div style="font-size:24px;font-weight:800;color:#F4A261;" id="quick-categories">0</div>
                                 <div style="font-size:11px;color:var(--text-muted);">Kategori</div>
                             </div>
                         </div>
@@ -1285,8 +1338,8 @@
                 <div style="max-width:800px;margin:0 auto;">
                     <div class="card">
                         <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line);">
-                            <div style="width:48px;height:48px;background:#FEE2E2;border-radius:14px;display:grid;place-items:center;border:1px solid rgba(239,68,68,0.2);">
-                                <i data-lucide="trash-2" style="width:24px;color:#EF4444;"></i>
+                            <div style="width:48px;height:48px;background:#FDE8E3;border-radius:14px;display:grid;place-items:center;border:1px solid rgba(231,111,81,0.2);">
+                                <i data-lucide="trash-2" style="width:24px;color:#E76F51;"></i>
                             </div>
                             <div>
                                 <h2 style="margin:0;font-size:20px;font-weight:800;">Pemusnahan Barang</h2>
@@ -1297,7 +1350,7 @@
                         <form id="pemusnahan-form" onsubmit="return submitPemusnahanPage(event)">
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
                                 <div>
-                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Barcode <span style="color:#EF4444;">*</span></label>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Barcode <span style="color:#E76F51;">*</span></label>
                                     <div style="display:flex;gap:8px;">
                                         <input type="text" id="pem-barcode" class="field-control" placeholder="Scan atau ketik barcode" required style="flex:1;" oninput="autoFillPemusnahan()">
                                         <button type="button" id="btn-scan-pem" class="btn-secondary" style="padding:0 14px;border-radius:12px;"><i data-lucide="camera"></i></button>
@@ -1307,18 +1360,18 @@
                                         <div class="scanner-guide"></div>
                                         <div class="scanner-laser"></div>
                                         <div class="scanner-status">Mencari Barcode...</div>
-                                        <button type="button" id="btn-stop-pem-scan" class="btn-primary" style="position:absolute;bottom:12px;right:12px;padding:6px 14px;font-size:11px;background:#EF4444;border-radius:12px;z-index:10;">Stop</button>
+                                        <button type="button" id="btn-stop-pem-scan" class="btn-primary" style="position:absolute;bottom:12px;right:12px;padding:6px 14px;font-size:11px;background:#E76F51;border-radius:12px;z-index:10;">Stop</button>
                                     </div>
                                 </div>
                                 <div>
-                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Nama Barang <span style="color:#EF4444;">*</span></label>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Nama Barang <span style="color:#E76F51;">*</span></label>
                                     <input type="text" id="pem-nama" class="field-control" placeholder="Otomatis dari barcode" readonly required>
                                     <div id="pem-stok-info" style="font-size:11px;color:var(--text-muted);margin-top:4px;"></div>
                                 </div>
                             </div>
                             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
                                 <div>
-                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Kategori <span style="color:#EF4444;">*</span></label>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Kategori <span style="color:#E76F51;">*</span></label>
                                     <select id="pem-kategori" class="field-control" required onchange="loadPemusnahanData()">
                                         <option value="">-- Pilih --</option>
                                         <option value="Stok Spare">Stok Spare</option>
@@ -1330,12 +1383,12 @@
                                     <input type="text" id="pem-stok-tersedia" class="field-control" readonly style="background:var(--bg-light);">
                                 </div>
                                 <div>
-                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Jumlah Dimusnahkan <span style="color:#EF4444;">*</span></label>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Jumlah Dimusnahkan <span style="color:#E76F51;">*</span></label>
                                     <input type="number" id="pem-jumlah" class="field-control" value="1" min="1" required>
                                 </div>
                             </div>
                             <div style="margin-bottom:16px;">
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Alasan Pemusnahan <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Alasan Pemusnahan <span style="color:#E76F51;">*</span></label>
                                 <textarea id="pem-alasan" class="field-control" rows="2" placeholder="Alasan pemusnahan..." required></textarea>
                             </div>
                             <div style="display:flex;gap:12px;flex-wrap:wrap;">
@@ -1402,7 +1455,7 @@
                 <input type="hidden" id="inp-gudang-selected">
                 <div style="display:grid;gap:14px;">
                     <div>
-                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tanggal <span style="color:#EF4444;">*</span></label>
+                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tanggal <span style="color:#E76F51;">*</span></label>
                         <input type="date" id="inp-date" class="field-control" required>
                     </div>
 
@@ -1414,32 +1467,32 @@
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Barcode <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Barcode <span style="color:#E76F51;">*</span></label>
                                 <div style="display:flex;gap:8px;">
                                     <input type="text" id="inp-barcode" class="field-control" placeholder="Scan/Ketik" required>
                                     <button type="button" id="btn-scan-modal" class="btn-secondary" style="padding:0 14px;border-radius:12px;"><i data-lucide="camera"></i></button>
                                 </div>
                             </div>
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Barang <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Barang <span style="color:#E76F51;">*</span></label>
                                 <input type="text" id="inp-spec" class="field-control" placeholder="Otomatis dari database jika pernah diinput" required>
                             </div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tipe Transaksi <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tipe Transaksi <span style="color:#E76F51;">*</span></label>
                                 <select id="inp-tr-type" class="field-control" required>
                                     <option value="Masuk">Barang Masuk</option>
                                     <option value="Keluar">Barang Keluar</option>
                                 </select>
                             </div>
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jumlah <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jumlah <span style="color:#E76F51;">*</span></label>
                                 <input type="number" id="inp-qty" class="field-control" value="1" min="1" required>
                             </div>
                         </div>
                         <div style="margin-top:8px;">
-                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan <span style="color:#EF4444;">*</span></label>
+                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan <span style="color:#E76F51;">*</span></label>
                             <textarea id="inp-notes-stock" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Wajib diisi: keterangan barang..." required></textarea>
                         </div>
                         <div id="modal-scanner" class="scanner-wrapper">
@@ -1447,19 +1500,19 @@
                             <div class="scanner-guide"></div>
                             <div class="scanner-laser"></div>
                             <div class="scanner-status">Mencari Barcode...</div>
-                            <button type="button" id="btn-stop-modal-scan" class="btn-primary" style="position:absolute;bottom:12px;right:12px;padding:6px 14px;font-size:11px;background:#EF4444;border-radius:12px;z-index:10;">Stop</button>
+                            <button type="button" id="btn-stop-modal-scan" class="btn-primary" style="position:absolute;bottom:12px;right:12px;padding:6px 14px;font-size:11px;background:#E76F51;border-radius:12px;z-index:10;">Stop</button>
                         </div>
                     </div>
 
                     <!-- PATCH CORD FIELDS -->
                     <div id="field-patchcord" class="hidden">
-                        <div style="background:#DBEAFE;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #93C5FD;">
-                            <div style="font-size:12px;font-weight:600;color:#1D4ED8;margin-bottom:4px;">📦 Spesifikasi Patch Cord</div>
+                        <div style="background:#CAF0F8;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #90E0EF;">
+                            <div style="font-size:12px;font-weight:600;color:#0077B6;margin-bottom:4px;">📦 Spesifikasi Patch Cord</div>
                             <div id="patchcord-gudang-display" style="font-size:14px;font-weight:700;color:var(--primary-blue);"></div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis Patch Cord <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis Patch Cord <span style="color:#E76F51;">*</span></label>
                                 <select id="inp-pc-type" class="field-control" required>
                                     <option value="">-- Pilih Jenis --</option>
                                     <option value="SC-SC">SC-SC</option>
@@ -1475,7 +1528,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Panjang Kabel <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Panjang Kabel <span style="color:#E76F51;">*</span></label>
                                 <select id="inp-pc-length" class="field-control" required>
                                     <option value="">-- Pilih Panjang --</option>
                                     <option value="0.5m">0.5 Meter</option>
@@ -1492,11 +1545,11 @@
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jumlah <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jumlah <span style="color:#E76F51;">*</span></label>
                                 <input type="number" id="inp-pc-qty" class="field-control" value="1" min="1" required>
                             </div>
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tipe Transaksi <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tipe Transaksi <span style="color:#E76F51;">*</span></label>
                                 <select id="inp-pc-trtype" class="field-control" required>
                                     <option value="Masuk">Barang Masuk</option>
                                     <option value="Keluar">Barang Keluar</option>
@@ -1512,30 +1565,30 @@
 
                     <!-- ALKUR FIELDS -->
                     <div id="field-alkur" class="hidden">
-                        <div style="background:var(--accent-gold-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(245,158,11,0.3);">
-                            <div style="font-size:12px;font-weight:600;color:#D97706;margin-bottom:4px;">🔧 Data Material/Alkur</div>
+                        <div style="background:var(--accent-gold-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(244,162,97,0.3);">
+                            <div style="font-size:12px;font-weight:600;color:#E76F51;margin-bottom:4px;">🔧 Data Material/Alkur</div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Material <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Material <span style="color:#E76F51;">*</span></label>
                                 <input type="text" id="inp-alkur-nama" class="field-control" placeholder="Nama material" required>
                             </div>
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis <span style="color:#E76F51;">*</span></label>
                                 <input type="text" id="inp-alkur-jenis" class="field-control" placeholder="Jenis material" required>
                             </div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;">
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Merk <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Merk <span style="color:#E76F51;">*</span></label>
                                 <input type="text" id="inp-alkur-merk" class="field-control" placeholder="Merk" required>
                             </div>
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jumlah <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jumlah <span style="color:#E76F51;">*</span></label>
                                 <input type="number" id="inp-alkur-jumlah" class="field-control" value="1" min="1" required>
                             </div>
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Kondisi <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Kondisi <span style="color:#E76F51;">*</span></label>
                                 <select id="inp-alkur-kondisi" class="field-control" required>
                                     <option value="">-- Pilih --</option>
                                     <option value="Baik">Baik</option>
@@ -1550,7 +1603,7 @@
                             <textarea id="inp-alkur-keterangan" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Catatan tambahan (opsional)"></textarea>
                         </div>
                         <div style="margin-top:12px;">
-                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Lokasi Penyimpanan <span style="color:#EF4444;">*</span></label>
+                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Lokasi Penyimpanan <span style="color:#E76F51;">*</span></label>
                             <select id="inp-alkur-lokasi" class="field-control" required>
                                 <option value="">-- Pilih Lokasi --</option>
                                 <option value="CLS MAMI">CLS MAMI</option>
@@ -1562,7 +1615,7 @@
 
                     <!-- NORMAL FIELDS (Lokasi & Koordinat) -->
                     <div id="field-normal" class="hidden">
-                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Lokasi <span style="color:#EF4444;">*</span></label>
+                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Lokasi <span style="color:#E76F51;">*</span></label>
                         <div style="display:flex;gap:8px;align-items:center;">
                             <input type="text" id="inp-loc" class="field-control" placeholder="Cari lokasi..." required style="flex:1;">
                             <button type="button" id="btn-loc-map" class="btn-secondary" style="padding:8px 12px;border-radius:12px;white-space:nowrap;" title="Cari di Peta">
@@ -1573,17 +1626,17 @@
 
                     <!-- FIELD COORDINATES -->
                     <div id="field-coords-wrap" class="hidden">
-                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Titik Koordinat <span style="color:#EF4444;">*</span></label>
+                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Titik Koordinat <span style="color:#E76F51;">*</span></label>
                         <input type="text" id="inp-coords" class="field-control" placeholder="Klik pada peta untuk mengisi" readonly required>
                     </div>
 
                     <!-- FIELD KHUSUS Handhole & Joint: Kondisi -->
                     <div id="field-kondisi" class="hidden">
-                        <div style="background:#E0F2FE;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #7DD3FC;">
-                            <div style="font-size:12px;font-weight:600;color:#0369A1;margin-bottom:4px;">🔍 Kondisi</div>
+                        <div style="background:#CAF0F8;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #90E0EF;">
+                            <div style="font-size:12px;font-weight:600;color:#0077B6;margin-bottom:4px;">🔍 Kondisi</div>
                         </div>
                         <div>
-                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Kondisi <span style="color:#EF4444;">*</span></label>
+                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Kondisi <span style="color:#E76F51;">*</span></label>
                             <select id="inp-kondisi" class="field-control" required>
                                 <option value="">-- Pilih --</option>
                                 <option value="Baik">Baik</option>
@@ -1595,12 +1648,12 @@
 
                     <!-- FIELD KHUSUS OPM/OLS: Ruas, Slot, Port, DBM, Dari, Ke -->
                     <div id="field-opm" class="hidden">
-                        <div style="background:#FEF3C7;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(245,158,11,0.3);">
-                            <div style="font-size:12px;font-weight:600;color:#D97706;margin-bottom:4px;">📡 Data OPM/OLS</div>
+                        <div style="background:#FDF0D5;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(244,162,97,0.3);">
+                            <div style="font-size:12px;font-weight:600;color:#E76F51;margin-bottom:4px;">📡 Data OPM/OLS</div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Ruas <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Ruas <span style="color:#E76F51;">*</span></label>
                                 <select id="inp-opm-ruas" class="field-control" required>
                                     <option value="">-- Pilih --</option>
                                     <option value="1">1</option>
@@ -1610,7 +1663,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Slot <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Slot <span style="color:#E76F51;">*</span></label>
                                 <select id="inp-opm-slot" class="field-control" required>
                                     <option value="">-- Pilih --</option>
                                     <option value="1">1</option>
@@ -1622,7 +1675,7 @@
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;">
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Port <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Port <span style="color:#E76F51;">*</span></label>
                                 <select id="inp-opm-port" class="field-control" required>
                                     <option value="">-- Pilih --</option>
                                     <option value="1">1</option><option value="2">2</option><option value="3">3</option>
@@ -1636,11 +1689,11 @@
                                 </select>
                             </div>
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">DBM <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">DBM <span style="color:#E76F51;">*</span></label>
                                 <input type="number" step="0.01" id="inp-opm-dbm" class="field-control" placeholder="Contoh: -15.5" required>
                             </div>
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Dari <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Dari <span style="color:#E76F51;">*</span></label>
                                 <select id="inp-opm-dari" class="field-control" required>
                                     <option value="">-- Pilih --</option>
                                     <option value="CLS MAMI">CLS MAMI</option>
@@ -1656,7 +1709,7 @@
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Ke <span style="color:#EF4444;">*</span></label>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Ke <span style="color:#E76F51;">*</span></label>
                                 <select id="inp-opm-ke" class="field-control" required>
                                     <option value="">-- Pilih --</option>
                                     <option value="CLS MAMI">CLS MAMI</option>
@@ -1672,10 +1725,10 @@
                         </div>
                     </div>
 
-                    <!-- SOP CHECKLIST - hanya untuk OF Cut, Temuan Lapangan, P3 -->
+                    <!-- SOP CHECKLIST -->
                     <div id="sop-container" style="display:none;">
                         <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">
-                            SOP / Prosedur yang Dilakukan <span style="color:#EF4444;">*</span>
+                            SOP / Prosedur yang Dilakukan <span style="color:#E76F51;">*</span>
                             <span style="font-weight:400;color:var(--text-muted);font-size:11px;">(Pilih 1 atau lebih)</span>
                         </label>
                         <div class="sop-container">
@@ -1773,7 +1826,7 @@
         <div class="modal-card" style="max-width:700px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
                 <h3 style="margin:0;font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;">
-                    <i data-lucide="history" style="width:22px;color:#EF4444;"></i>
+                    <i data-lucide="history" style="width:22px;color:#E76F51;"></i>
                     Riwayat Pemusnahan
                 </h3>
                 <button onclick="document.getElementById('pem-history-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
@@ -1800,8 +1853,8 @@
             </button>
             <div class="card">
                 <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line);">
-                    <div style="width:48px;height:48px;background:var(--accent-gold-light);border-radius:14px;display:grid;place-items:center;border:1px solid rgba(245,158,11,0.2);">
-                        <i data-lucide="undo-2" style="width:24px;color:#D97706;"></i>
+                    <div style="width:48px;height:48px;background:var(--accent-gold-light);border-radius:14px;display:grid;place-items:center;border:1px solid rgba(244,162,97,0.2);">
+                        <i data-lucide="undo-2" style="width:24px;color:#E76F51;"></i>
                     </div>
                     <div>
                         <h2 style="margin:0;font-size:20px;font-weight:800;">Manajemen Retur</h2>
@@ -1843,7 +1896,7 @@
                         <div class="scanner-guide"></div>
                         <div class="scanner-laser"></div>
                         <div class="scanner-status">Mencari Barcode...</div>
-                        <button id="btn-stop-ret-scan" class="btn-primary" style="position:absolute;bottom:12px;right:12px;padding:6px 14px;font-size:11px;background:#EF4444;border-radius:12px;z-index:10;">Stop</button>
+                        <button id="btn-stop-ret-scan" class="btn-primary" style="position:absolute;bottom:12px;right:12px;padding:6px 14px;font-size:11px;background:#E76F51;border-radius:12px;z-index:10;">Stop</button>
                     </div>
                     <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-top:12px;">
                         <input id="ret-item-name" type="text" class="field-control" placeholder="Nama Barang" readonly>
@@ -1916,11 +1969,11 @@
                 <div style="display:grid;gap:12px;">
                     <div>
                         <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Warna Gradient 1</label>
-                        <input type="color" id="set-bg-color1" value="#EFF6FF" style="width:100%;height:40px;border-radius:8px;border:1px solid var(--line);cursor:pointer;">
+                        <input type="color" id="set-bg-color1" value="#E0F7FA" style="width:100%;height:40px;border-radius:8px;border:1px solid var(--line);cursor:pointer;">
                     </div>
                     <div>
                         <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Warna Gradient 2</label>
-                        <input type="color" id="set-bg-color2" value="#DBEAFE" style="width:100%;height:40px;border-radius:8px;border:1px solid var(--line);cursor:pointer;">
+                        <input type="color" id="set-bg-color2" value="#CAF0F8" style="width:100%;height:40px;border-radius:8px;border:1px solid var(--line);cursor:pointer;">
                     </div>
                     <div>
                         <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Upload Gambar Background</label>
@@ -2822,7 +2875,7 @@
                         '<td>' + (item.postBy || '-') + '</td>' +
                         '<td>' + (item.kategori || '-') + '</td>' +
                         '<td>' + (item.nama || '-') + '</td>' +
-                        '<td><span style="font-weight:700;color:#EF4444;">' + (item.jumlah || 0) + '</span></td>' +
+                        '<td><span style="font-weight:700;color:#E76F51;">' + (item.jumlah || 0) + '</span></td>' +
                         '<td style="max-width:150px;white-space:normal;font-size:12px;">' + (item.alasan || '-') +
                         '</td>' +
                         '</tr>';
@@ -3932,7 +3985,7 @@
         }
 
         // ============================================================
-        // RENDER TABLE (dengan filter periode, garis pemisah bulanan, dan kolom OPM baru)
+        // RENDER TABLE
         // ============================================================
         function renderTable() {
             try {
@@ -3943,7 +3996,6 @@
 
                 tbody.innerHTML = '';
 
-                // Filter gudang
                 if (selectedGudangFilter !== 'all') {
                     keys = keys.filter(function(key) {
                         var item = list[key];
@@ -3951,7 +4003,6 @@
                     });
                 }
 
-                // Filter pencarian
                 var search = document.getElementById('search-input')?.value.toLowerCase() || '';
                 if (search) {
                     keys = keys.filter(function(key) {
@@ -3960,7 +4011,6 @@
                     });
                 }
 
-                // Filter periode
                 var now = new Date();
                 var startDate = null;
                 if (currentPeriod === 'weekly') {
@@ -3997,7 +4047,6 @@
                 var isHandholeOrJoint = ['Handhole', 'Joint'].indexOf(currentCategory) !== -1;
                 var isOpm = currentCategory === 'OPM/OLS';
 
-                // ===== HEADER =====
                 if (currentCategory === 'Patch Cord') {
                     thead.innerHTML = '<tr><th>Tgl</th><th>Barcode</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
                 } else if (isStock) {
@@ -4012,7 +4061,6 @@
                     thead.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>SOP</th><th>User</th><th>Aksi</th></tr>';
                 }
 
-                // ===== BODY dengan garis pemisah bulanan =====
                 var prevMonth = '';
                 keys.sort(function(a, b) {
                     var da = list[a].date || '';
@@ -4022,10 +4070,10 @@
 
                 keys.forEach(function(key, idx) {
                     var item = list[key];
-                    var bgType = item.trType === 'Masuk' ? '#DBEAFE' : (item.trType === 'Pemusnahan' ? '#FEE2E2' :
-                        '#FEE2E2');
-                    var textColor = item.trType === 'Masuk' ? '#2563EB' : (item.trType === 'Pemusnahan' ? '#EF4444' :
-                        '#EF4444');
+                    var bgType = item.trType === 'Masuk' ? '#CAF0F8' : (item.trType === 'Pemusnahan' ? '#FDE8E3' :
+                        '#FDE8E3');
+                    var textColor = item.trType === 'Masuk' ? '#0077B6' : (item.trType === 'Pemusnahan' ? '#E76F51' :
+                        '#E76F51');
 
                     var currentMonth = item.date ? item.date.substring(0, 7) : '';
                     if (currentMonth && currentMonth !== prevMonth && idx > 0) {
@@ -4070,9 +4118,9 @@
                             '<td>' + (item.merk || '-') + '</td>' +
                             '<td><span style="font-weight:700;">' + (item.jumlah || 0) + '</span></td>' +
                             '<td><span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;' +
-                            (item.kondisi === 'Baik' ? 'background:#DBEAFE;color:#2563EB;' :
-                                item.kondisi === 'Rusak Ringan' ? 'background:#FEF3C7;color:#D97706;' :
-                                'background:#FEE2E2;color:#EF4444;') +
+                            (item.kondisi === 'Baik' ? 'background:#CAF0F8;color:#0077B6;' :
+                                item.kondisi === 'Rusak Ringan' ? 'background:#FDF0D5;color:#E76F51;' :
+                                'background:#FDE8E3;color:#E76F51;') +
                             '">' + (item.kondisi || '-') + '</span></td>' +
                             '<td>' + (item.lokasi || '-') + '</td>' +
                             '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
@@ -4087,9 +4135,9 @@
                             '<td style="font-size:11px;color:var(--text-muted);">' + (item.coords || '-') +
                             '</td>' +
                             '<td><span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;' +
-                            (item.kondisi === 'Baik' ? 'background:#DBEAFE;color:#2563EB;' :
-                                item.kondisi === 'Kurang Baik' ? 'background:#FEF3C7;color:#D97706;' :
-                                'background:#FEE2E2;color:#EF4444;') +
+                            (item.kondisi === 'Baik' ? 'background:#CAF0F8;color:#0077B6;' :
+                                item.kondisi === 'Kurang Baik' ? 'background:#FDF0D5;color:#E76F51;' :
+                                'background:#FDE8E3;color:#E76F51;') +
                             '">' + (item.kondisi || '-') + '</span></td>' +
                             '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
                             '</span></td>' +
@@ -4097,7 +4145,6 @@
                             '\')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>' +
                             '</tr>';
                     } else if (isOpm) {
-                        // OPM/OLS: Ruas, Slot, Port, DBM, Dari, Ke (2 kolom terpisah)
                         tbody.innerHTML += '<tr>' +
                             '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
                             '<td>' + (item.ruas || '-') + '</td>' +
@@ -4410,9 +4457,9 @@
                             datasets: [{
                                 label: 'Jumlah Insiden',
                                 data: [0, 0, 0],
-                                backgroundColor: 'rgba(37,99,235,0.1)',
-                                borderColor: '#2563EB',
-                                pointBackgroundColor: '#2563EB',
+                                backgroundColor: 'rgba(0,119,182,0.1)',
+                                borderColor: '#0077B6',
+                                pointBackgroundColor: '#0077B6',
                                 pointBorderColor: '#fff',
                                 fill: true,
                                 tension: 0.3,
@@ -4426,9 +4473,9 @@
                                 legend: { display: false },
                                 tooltip: {
                                     backgroundColor: 'rgba(255,255,255,0.9)',
-                                    titleColor: '#1E293B',
-                                    bodyColor: '#1E293B',
-                                    borderColor: '#2563EB',
+                                    titleColor: '#023047',
+                                    bodyColor: '#023047',
+                                    borderColor: '#0077B6',
                                     borderWidth: 1
                                 }
                             },
@@ -4567,7 +4614,7 @@
         }
 
         // ============================================================
-        // RETUR FUNCTIONS
+        // RETUR FUNCTIONS (same as before)
         // ============================================================
         function initReturPage() {
             try {
@@ -4803,8 +4850,8 @@
             showToast('🗑️ Gambar dihapus', 'success');
         }
 
-        console.log('✅ Semua perubahan diterapkan sesuai permintaan.');
-        console.log('✅ OPM/OLS: kolom Dari-Ke dipecah menjadi Dari dan Ke.');
+        console.log('✅ Tema Coastline berhasil diterapkan!');
+        console.log('✅ Semua fungsi tetap berjalan normal.');
     </script>
 </body>
 </html>
