@@ -1842,6 +1842,44 @@
         let pemusnahanHistory = [];
 
         // ============================================================
+        // GENERATE BARCODE PATCH CORD (sesuai permintaan)
+        // ============================================================
+        function generateBarcodePatchCord(jenis_pc, panjang_meter) {
+            // 1. Awalan "PC" + 4 huruf jenis (kapital, jika kurang tambah spasi)
+            const base = "PC";
+            // Mapping jenis ke 4 huruf
+            const jenisMap = {
+                'SC-SC': 'SCSC',
+                'LC-LC': 'LCLC',
+                'FC-FC': 'FCFC',
+                'ST-ST': 'STST',
+                'SC-FC': 'SCFC',
+                'FC-ST': 'FCST',
+                'ST-SC': 'STSC',
+                'FC-LC': 'FCLC',
+                'LC-ST': 'LCST',
+                'LC-SC': 'LCSC'
+            };
+            const typePart = (jenisMap[jenis_pc] || 'XXXX').padEnd(4, ' ');
+
+            // 2. Konversi panjang ke 3 digit dengan aturan khusus
+            let lengthPart;
+            if (panjang_meter === 0.5) {
+                lengthPart = "505";
+            } else if (panjang_meter === 5) {
+                lengthPart = "005";
+            } else if (panjang_meter === 50) {
+                lengthPart = "050";
+            } else {
+                // Untuk angka bulat (1, 2, 10, 100, dst)
+                const intLength = Math.round(panjang_meter);
+                lengthPart = String(intLength).padStart(3, '0');
+            }
+
+            return base + typePart + lengthPart;
+        }
+
+        // ============================================================
         // DEFAULT KML DATA (shortened for brevity - same as before)
         // ============================================================
         const defaultKmlString = `<?xml version="1.0" encoding="UTF-8"?>
@@ -3394,7 +3432,8 @@
                 document.getElementById('field-coords-wrap').classList.remove('hidden');
             }
 
-            if (['Data OF Cut', 'Temuan Lapangan'].indexOf(currentCategory) !== -1) {
+            // TAMPILKAN SOP UNTUK: OF Cut, Temuan Lapangan, DAN Pekerjaan Pihak Ke-3
+            if (['Data OF Cut', 'Temuan Lapangan', 'Pekerjaan Pihak Ke-3'].indexOf(currentCategory) !== -1) {
                 document.getElementById('sop-container').style.display = 'block';
             }
 
@@ -3513,26 +3552,9 @@
                     data.trType = trType;
                     data.notes = document.getElementById('inp-notes-patch').value.trim() || '';
 
-                    var jenisMap = {
-                        'SC-SC': 'SCSC',
-                        'LC-LC': 'LCLC',
-                        'FC-FC': 'FCFC',
-                        'ST-ST': 'STST',
-                        'SC-FC': 'SCFC',
-                        'FC-ST': 'FCST',
-                        'ST-SC': 'STSC',
-                        'FC-LC': 'FCLC',
-                        'LC-ST': 'LCST',
-                        'LC-SC': 'LCSC'
-                    };
-                    var kodeJenis = jenisMap[data.pcType] || 'XXXX';
-                    var panjangNum = data.pcLength.replace('m', '').trim();
-                    var kodePanjang = panjangNum;
-                    if (panjangNum.includes('.')) {
-                        kodePanjang = panjangNum.replace('.', '');
-                    }
-                    kodePanjang = kodePanjang.padStart(2, '0');
-                    data.barcode = 'PC' + kodeJenis + kodePanjang;
+                    // --- GENERATE BARCODE OTOMATIS PATCH CORD ---
+                    var panjangMeter = parseFloat(data.pcLength.replace('m', '').trim());
+                    data.barcode = generateBarcodePatchCord(data.pcType, panjangMeter);
 
                     var uniqueKey = data.barcode;
                 } else {
@@ -4005,8 +4027,9 @@
                 var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
                 var isAlkur = currentCategory === 'Alkur/Material';
 
+                // ===== PATCH CORD: HILANGKAN KOLOM BARCODE =====
                 if (currentCategory === 'Patch Cord') {
-                    thead.innerHTML = '<tr><th>Tgl</th><th>Barcode</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
+                    thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
                 } else if (isStock) {
                     thead.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Barcode</th><th>Nama</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
                 } else if (isAlkur) {
@@ -4029,10 +4052,9 @@
                         '#EF4444');
 
                     if (currentCategory === 'Patch Cord') {
+                        // TANPA KOLOM BARCODE
                         tbody.innerHTML += '<tr>' +
                             '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
-                            '<td><code style="background:var(--bg-light);padding:2px 8px;border-radius:4px;font-size:11px;">' +
-                            (item.barcode || '-') + '</code></td>' +
                             '<td><span style="font-size:11px;font-weight:600;color:var(--text-muted);">' + (item
                                 .gudang || '-') + '</span></td>' +
                             '<td><span style="font-weight:600;">' + (item.pcType || '-') + '</span></td>' +
