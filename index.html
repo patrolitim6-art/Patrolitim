@@ -1451,7 +1451,7 @@
                         </div>
                     </div>
 
-                    <!-- PATCH CORD FIELDS - dengan barcode otomatis dan ditampilkan di tabel -->
+                    <!-- PATCH CORD FIELDS -->
                     <div id="field-patchcord" class="hidden">
                         <div style="background:#DBEAFE;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #93C5FD;">
                             <div style="font-size:12px;font-weight:600;color:#1D4ED8;margin-bottom:4px;">📦 Spesifikasi Patch Cord</div>
@@ -1577,7 +1577,7 @@
                         <input type="text" id="inp-coords" class="field-control" placeholder="Klik pada peta untuk mengisi" readonly required>
                     </div>
 
-                    <!-- FIELD KHUSUS Handhole & Joint: Kondisi (Baik, Kurang Baik, Rusak) -->
+                    <!-- FIELD KHUSUS Handhole & Joint: Kondisi -->
                     <div id="field-kondisi" class="hidden">
                         <div style="background:#E0F2FE;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #7DD3FC;">
                             <div style="font-size:12px;font-weight:600;color:#0369A1;margin-bottom:4px;">🔍 Kondisi</div>
@@ -1593,7 +1593,7 @@
                         </div>
                     </div>
 
-                    <!-- FIELD KHUSUS OPM/OLS: Ruas, Slot, Port, DBM, Dari-Ke -->
+                    <!-- FIELD KHUSUS OPM/OLS: Ruas, Slot, Port, DBM, Dari, Ke -->
                     <div id="field-opm" class="hidden">
                         <div style="background:#FEF3C7;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(245,158,11,0.3);">
                             <div style="font-size:12px;font-weight:600;color:#D97706;margin-bottom:4px;">📡 Data OPM/OLS</div>
@@ -1640,8 +1640,24 @@
                                 <input type="number" step="0.01" id="inp-opm-dbm" class="field-control" placeholder="Contoh: -15.5" required>
                             </div>
                             <div>
-                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Dari-Ke <span style="color:#EF4444;">*</span></label>
-                                <select id="inp-opm-dari-ke" class="field-control" required>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Dari <span style="color:#EF4444;">*</span></label>
+                                <select id="inp-opm-dari" class="field-control" required>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="CLS MAMI">CLS MAMI</option>
+                                    <option value="CLS MALALAYANG">CLS MALALAYANG</option>
+                                    <option value="STO BAHU">STO BAHU</option>
+                                    <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
+                                    <option value="TTC TELING">TTC TELING</option>
+                                    <option value="STO AMD">STO AMD</option>
+                                    <option value="STO KAUDITAN">STO KAUDITAN</option>
+                                    <option value="CLS KAUDITAN">CLS KAUDITAN</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Ke <span style="color:#EF4444;">*</span></label>
+                                <select id="inp-opm-ke" class="field-control" required>
                                     <option value="">-- Pilih --</option>
                                     <option value="CLS MAMI">CLS MAMI</option>
                                     <option value="CLS MALALAYANG">CLS MALALAYANG</option>
@@ -2624,7 +2640,6 @@
                 document.getElementById('btn-history').classList.toggle('hidden', !isStock);
                 document.getElementById('page-title').textContent = cat;
 
-                // Tampilkan filter bar untuk semua menu kecuali Alkur, Spare, Patch Cord
                 var filterBar = document.getElementById('filter-bar-container');
                 if (['Alkur/Material', 'Stok Spare', 'Patch Cord'].indexOf(cat) !== -1) {
                     filterBar.style.display = 'none';
@@ -3540,7 +3555,8 @@
             document.getElementById('inp-opm-slot').value = '';
             document.getElementById('inp-opm-port').value = '';
             document.getElementById('inp-opm-dbm').value = '';
-            document.getElementById('inp-opm-dari-ke').value = '';
+            document.getElementById('inp-opm-dari').value = '';
+            document.getElementById('inp-opm-ke').value = '';
             document.getElementById('inp-kondisi').value = '';
 
             selectedSOP = [];
@@ -3611,7 +3627,7 @@
         }
 
         // ============================================================
-        // SUBMIT FORM (dengan semua logika baru)
+        // SUBMIT FORM (dengan logika baru untuk OPM: Dari dan Ke terpisah)
         // ============================================================
         function submitForm(e) {
             if (e && e.preventDefault) {
@@ -3815,18 +3831,20 @@
                 var slot = document.getElementById('inp-opm-slot').value;
                 var port = document.getElementById('inp-opm-port').value;
                 var dbm = parseFloat(document.getElementById('inp-opm-dbm').value);
-                var dari_ke = document.getElementById('inp-opm-dari-ke').value;
+                var dari = document.getElementById('inp-opm-dari').value;
+                var ke = document.getElementById('inp-opm-ke').value;
                 var notes = document.getElementById('inp-notes').value.trim();
 
-                if (!ruas || !slot || !port || isNaN(dbm) || !dari_ke) {
-                    showToast('❌ Isi semua field OPM/OLS', 'error');
+                if (!ruas || !slot || !port || isNaN(dbm) || !dari || !ke) {
+                    showToast('❌ Isi semua field OPM/OLS (Ruas, Slot, Port, DBM, Dari, Ke)', 'error');
                     return;
                 }
                 data.ruas = ruas;
                 data.slot = slot;
                 data.port = port;
                 data.dbm = dbm;
-                data.dari_ke = dari_ke;
+                data.dari = dari;
+                data.ke = ke;
                 data.notes = notes;
                 // Lokasi & koordinat tidak disimpan
             }
@@ -3914,7 +3932,7 @@
         }
 
         // ============================================================
-        // RENDER TABLE (dengan filter periode, garis pemisah bulanan, kolom sesuai menu)
+        // RENDER TABLE (dengan filter periode, garis pemisah bulanan, dan kolom OPM baru)
         // ============================================================
         function renderTable() {
             try {
@@ -3942,7 +3960,7 @@
                     });
                 }
 
-                // Filter periode (weekly, monthly, yearly)
+                // Filter periode
                 var now = new Date();
                 var startDate = null;
                 if (currentPeriod === 'weekly') {
@@ -3989,7 +4007,7 @@
                 } else if (isHandholeOrJoint) {
                     thead.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th>User</th><th>Aksi</th></tr>';
                 } else if (isOpm) {
-                    thead.innerHTML = '<tr><th>Tgl</th><th>Ruas</th><th>Slot</th><th>Port</th><th>DBM</th><th>Dari-Ke</th><th>User</th><th>Aksi</th></tr>';
+                    thead.innerHTML = '<tr><th>Tgl</th><th>Ruas</th><th>Slot</th><th>Port</th><th>DBM</th><th>Dari</th><th>Ke</th><th>User</th><th>Aksi</th></tr>';
                 } else {
                     thead.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>SOP</th><th>User</th><th>Aksi</th></tr>';
                 }
@@ -4079,13 +4097,15 @@
                             '\')"><i data-lucide="trash-2" style="width:16px;"></i></button></td>' +
                             '</tr>';
                     } else if (isOpm) {
+                        // OPM/OLS: Ruas, Slot, Port, DBM, Dari, Ke (2 kolom terpisah)
                         tbody.innerHTML += '<tr>' +
                             '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
                             '<td>' + (item.ruas || '-') + '</td>' +
                             '<td>' + (item.slot || '-') + '</td>' +
                             '<td>' + (item.port || '-') + '</td>' +
                             '<td>' + (item.dbm || '-') + '</td>' +
-                            '<td><span style="font-weight:600;">' + (item.dari_ke || '-') + '</span></td>' +
+                            '<td><span style="font-weight:600;">' + (item.dari || '-') + '</span></td>' +
+                            '<td><span style="font-weight:600;">' + (item.ke || '-') + '</span></td>' +
                             '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
                             '</span></td>' +
                             '<td><button class="icon-btn delete" onclick="deleteItem(\'' + key +
@@ -4531,7 +4551,8 @@
                 if (item.slot) row.Slot = item.slot;
                 if (item.port) row.Port = item.port;
                 if (item.dbm) row.DBM = item.dbm;
-                if (item.dari_ke) row['Dari-Ke'] = item.dari_ke;
+                if (item.dari) row.Dari = item.dari;
+                if (item.ke) row.Ke = item.ke;
                 return row;
             });
             if (data.length === 0) {
@@ -4783,6 +4804,7 @@
         }
 
         console.log('✅ Semua perubahan diterapkan sesuai permintaan.');
+        console.log('✅ OPM/OLS: kolom Dari-Ke dipecah menjadi Dari dan Ke.');
     </script>
 </body>
 </html>
