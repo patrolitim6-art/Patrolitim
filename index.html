@@ -1233,8 +1233,6 @@
                     <p class="hero-about" id="hero-about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
                 </div>
 
-                <!-- CAROUSEL DIHAPUS -->
-
                 <!-- GRAFIK (full width) -->
                 <div class="dashboard-grid">
                     <div class="card chart-card">
@@ -1320,7 +1318,7 @@
                     12. APD yang digunakan wajib dibersihkan kembali sebelum disimpan dalam mobil.
                 </div>
 
-                <!-- Sub-tabs untuk P3/Temuan -->
+                <!-- Sub-tabs untuk P3 dan Temuan (tabel terpisah) -->
                 <div id="sub-tabs-container" class="sub-tabs hidden">
                     <button class="sub-tab active" data-sub="p3" onclick="switchSubTab('p3')">Pekerjaan Pihak Ke-3</button>
                     <button class="sub-tab" data-sub="temuan" onclick="switchSubTab('temuan')">Temuan Lapangan</button>
@@ -1578,7 +1576,7 @@
                         </div>
                     </div>
 
-                    <!-- PATCH CORD FIELDS (dengan opsi Lainnya) -->
+                    <!-- PATCH CORD FIELDS (tanpa barcode) -->
                     <div id="field-patchcord" class="hidden">
                         <div style="background:#CAF0F8;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #90E0EF;">
                             <div style="font-size:12px;font-weight:600;color:#0077B6;margin-bottom:4px;">📦 Spesifikasi Patch Cord</div>
@@ -1619,7 +1617,7 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- Untuk opsi lainnya, kita tambahkan input text jika dipilih (bisa via JS) -->
+                        <!-- Untuk opsi lainnya -->
                         <div id="patchcord-lainnya" class="hidden" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
                             <div>
                                 <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis Lainnya</label>
@@ -1866,9 +1864,6 @@
                         </div>
                     </div>
 
-                    <!-- FIELD KETERANGAN TAMBAHAN DIHAPUS -->
-                    <!-- <div id="field-notes-wrap"> ... </div> -->
-
                 </div>
 
                 <div style="margin-top:24px;display:flex;gap:12px;">
@@ -1938,19 +1933,19 @@
         </div>
     </div>
 
-    <!-- ===== MODAL HISTORY ===== -->
+    <!-- ===== MODAL HISTORY (untuk spare) ===== -->
     <div id="history-modal" class="modal-layer hidden">
         <div class="modal-card" style="max-width:700px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
                 <h3 style="margin:0;font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;">
                     <i data-lucide="history" style="width:22px;color:var(--primary-blue);"></i>
-                    Riwayat Transaksi
+                    Riwayat Transaksi Spare
                 </h3>
                 <button onclick="document.getElementById('history-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
             </div>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto;">
                 <table class="records-table">
-                    <thead><tr><th>Tgl</th><th>User</th><th>Gudang</th><th>Item</th><th>Tipe</th><th>Qty</th></tr></thead>
+                    <thead><tr><th>Tgl & Jam</th><th>User</th><th>SN</th><th>Nama</th><th>Lokasi Simpan</th><th>Lokasi Pakai</th><th>Status</th><th>Keterangan</th></tr></thead>
                     <tbody id="history-body"></tbody>
                 </table>
             </div>
@@ -1976,8 +1971,6 @@
                 <textarea id="hero-about-input" class="field-control" rows="3" style="border-radius:12px;resize:vertical;" placeholder="Tulis keterangan hero..."></textarea>
                 <button id="btn-save-hero-about" class="btn-primary" style="width:100%;margin-top:8px;justify-content:center;">Simpan Keterangan Hero</button>
             </div>
-
-            <!-- Bagian Slideshow Carousel DIHAPUS -->
 
             <div class="settings-section">
                 <h4>🎨 Tampilan Background</h4>
@@ -2058,16 +2051,37 @@
         let selectedGudang = '';
         let chartIncidents = null;
         let editingKey = null;
-        let selectedSOP = [];
         let scannerStream = null;
         let isSubmitting = false;
         let barcodeCache = {};
         let selectedGudangFilter = 'all';
         let currentPeriod = 'all';
         let spareAction = 'tambah';
+        let sessionTimeout = null;
+        const SESSION_TIMEOUT_MS = 3600000; // 1 jam
 
         // ============================================================
-        // GENERATE BARCODE PATCH CORD (dengan dukungan Lainnya)
+        // SESSION MANAGEMENT
+        // ============================================================
+        function resetSessionTimer() {
+            if (sessionTimeout) clearTimeout(sessionTimeout);
+            sessionTimeout = setTimeout(function() {
+                if (currentUser) {
+                    localStorage.removeItem('bucin_session');
+                    currentUser = null;
+                    document.getElementById('login-screen').classList.remove('hidden');
+                    document.getElementById('app-shell').classList.add('hidden');
+                    showToast('⏳ Sesi habis, silakan login kembali', 'warning');
+                }
+            }, SESSION_TIMEOUT_MS);
+        }
+
+        function refreshSession() {
+            if (currentUser) resetSessionTimer();
+        }
+
+        // ============================================================
+        // GENERATE BARCODE PATCH CORD (digunakan internal)
         // ============================================================
         function generateBarcodePatchCord(jenis_pc, panjang_meter) {
             const base = "PC";
@@ -2364,10 +2378,10 @@
                             var color = colorPalette[colorIdx % colorPalette.length];
                             colorIdx++;
                             var marker = L.circleMarker([lat, lon], {
-                                radius: 8,
+                                radius: 6,
                                 fillColor: color,
                                 color: "#ffffff",
-                                weight: 2,
+                                weight: 1.5,
                                 opacity: 0.9,
                                 fillOpacity: 0.85
                             });
@@ -2397,8 +2411,8 @@
                             colorIdx++;
                             var polyline = L.polyline(latlngs, {
                                 color: color,
-                                weight: 4,
-                                opacity: 0.8
+                                weight: 3,
+                                opacity: 0.7
                             });
                             var popupText = name;
                             if (description) {
@@ -2437,6 +2451,7 @@
                             document.getElementById('add-user-btn').classList.remove('hidden');
                             document.getElementById('settings-btn').classList.remove('hidden');
                         }
+                        resetSessionTimer();
                         setTimeout(function() {
                             initMap();
                             initCharts();
@@ -2450,6 +2465,10 @@
                     }
                 } catch (e) {}
             }
+
+            // Jika tidak ada session, tampilkan login
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('app-shell').classList.add('hidden');
 
             setupEventListeners();
             loadData();
@@ -2610,6 +2629,8 @@
                             document.getElementById('settings-btn').classList.add('hidden');
                         }
 
+                        resetSessionTimer();
+
                         setTimeout(function() {
                             initMap();
                             initCharts();
@@ -2634,7 +2655,7 @@
         }
 
         // ============================================================
-        // QUICK STATS (hanya total data)
+        // QUICK STATS
         // ============================================================
         function updateQuickStats() {
             var totalData = 0;
@@ -2665,9 +2686,13 @@
         }
 
         // ============================================================
-        // SWITCH VIEW
+        // SWITCH VIEW (reset pencarian)
         // ============================================================
         function switchView(cat) {
+            // Reset search input
+            var searchInput = document.getElementById('search-input');
+            if (searchInput) searchInput.value = '';
+
             if (cat === 'P3_Temuan') {
                 currentCategory = 'Pekerjaan Pihak Ke-3';
                 currentSubTab = 'p3';
@@ -2702,7 +2727,7 @@
 
             document.getElementById('page-title').textContent = isP3Temuan ? 'Pekerjaan & Temuan' : cat;
 
-            // Sub-tabs untuk P3/Temuan
+            // Sub-tabs untuk P3/Temuan (tabel terpisah)
             var subTabs = document.getElementById('sub-tabs-container');
             if (isP3Temuan) {
                 subTabs.classList.remove('hidden');
@@ -2729,10 +2754,12 @@
 
             renderTable();
             updateStokSummary();
+            // refresh session
+            refreshSession();
         }
 
         // ============================================================
-        // SUB TAB P3/TEMUAN
+        // SUB TAB P3/TEMUAN (tabel terpisah)
         // ============================================================
         function switchSubTab(tab) {
             currentSubTab = tab;
@@ -2779,6 +2806,7 @@
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function() {
                     localStorage.removeItem('bucin_session');
+                    currentUser = null;
                     location.reload();
                 });
             }
@@ -2815,6 +2843,7 @@
                 periodSelect.addEventListener('change', function() {
                     currentPeriod = this.value;
                     renderTable();
+                    refreshSession();
                 });
             }
 
@@ -2904,14 +2933,14 @@
             }
 
             var historyBtn = document.getElementById('btn-history');
-            if (historyBtn) historyBtn.addEventListener('click', showHistory);
+            if (historyBtn) historyBtn.addEventListener('click', showSpareHistory);
 
             document.getElementById('btn-download-excel-page').addEventListener('click', function() {
                 downloadPageExcel();
             });
 
             document.getElementById('btn-download-excel-history').addEventListener('click', function() {
-                downloadHistoryExcel();
+                downloadSpareHistoryExcel();
             });
 
             document.getElementById('add-user-btn').addEventListener('click', function() {
@@ -2987,6 +3016,12 @@
                 pcTypeSelect.addEventListener('change', togglePatchLain);
                 pcLengthSelect.addEventListener('change', togglePatchLain);
             }
+
+            // Auto logout setelah 1 jam inaktivitas
+            document.addEventListener('click', refreshSession);
+            document.addEventListener('keydown', refreshSession);
+            document.addEventListener('mousemove', refreshSession);
+            document.addEventListener('scroll', refreshSession);
 
             window.addEventListener('popstate', function(e) {
                 if (!document.getElementById('form-modal').classList.contains('hidden')) {
@@ -3756,11 +3791,10 @@
                 createdAt: Date.now()
             };
 
-            // ===== PATCH CORD =====
+            // ===== PATCH CORD (tanpa barcode di UI, tapi tetap disimpan internal) =====
             if (isPatch) {
                 var pcType = document.getElementById('inp-pc-type').value;
                 var pcLength = document.getElementById('inp-pc-length').value;
-                // Jika Lainnya, ambil dari input teks
                 if (pcType === 'Lainnya') {
                     pcType = document.getElementById('inp-pc-type-lain').value.trim() || 'Lainnya';
                 }
@@ -3786,7 +3820,7 @@
                 data.qty = qty;
                 data.trType = trType;
                 data.notes = notes;
-                // Generate barcode standar jika tidak Lainnya
+                // Generate barcode internal
                 var panjangMeter = parseFloat(pcLength.replace('m', '').trim());
                 if (!isNaN(panjangMeter) && pcType !== 'Lainnya' && pcLength !== 'Lainnya') {
                     data.barcode = generateBarcodePatchCord(pcType, panjangMeter);
@@ -3905,6 +3939,8 @@
                             .then(function() {
                                 showToast('✅ Stok diperbarui', 'success');
                                 updateBarcodeCache(sn, spec);
+                                // Catat riwayat
+                                logSpareHistory('Tambah Stok', sn, spec, selectedGudang, '', status, notes);
                                 closeModal();
                                 setTimeout(function() {
                                     updateStokSummary();
@@ -3928,6 +3964,7 @@
                         .then(function() {
                             showToast('✅ Stok berhasil ditambahkan', 'success');
                             updateBarcodeCache(sn, spec);
+                            logSpareHistory('Tambah Stok', sn, spec, selectedGudang, '', status, notes);
                             closeModal();
                             setTimeout(function() {
                                 updateStokSummary();
@@ -3950,6 +3987,7 @@
 
                 if (mode === 'update') {
                     var updateSn = document.getElementById('inp-update-sn').value.trim();
+                    var updateSpec = document.getElementById('inp-update-spec').value.trim();
                     var tujuan = document.getElementById('inp-update-tujuan').value;
                     var lokasiPemasangan = document.getElementById('inp-update-lokasi').value;
                     var updateNotes = document.getElementById('inp-update-notes').value.trim();
@@ -3959,12 +3997,15 @@
                         return;
                     }
 
+                    // Cari data berdasarkan SN
                     var items = appData[cat] || {};
                     var targetKey = null;
+                    var targetItem = null;
                     for (var key in items) {
                         var item = items[key];
                         if (item.sn === updateSn) {
                             targetKey = key;
+                            targetItem = item;
                             break;
                         }
                     }
@@ -3991,6 +4032,11 @@
                     db.ref('data/' + cat + '/' + targetKey).update(updateData)
                         .then(function() {
                             showToast('✅ Pemakaian barang diupdate (Status: Out)', 'success');
+                            // Catat riwayat
+                            var lokasiSimpan = targetItem.gudang + ' - ' + (targetItem.lemari || '') + ' Rak ' + (
+                                targetItem.rak || '');
+                            logSpareHistory('Update Pemakaian', updateSn, targetItem.spec || updateSn, lokasiSimpan,
+                                lokasiPemasangan, 'Out', updateNotes || '');
                             closeModal();
                             setTimeout(function() {
                                 updateStokSummary();
@@ -4150,6 +4196,90 @@
         }
 
         // ============================================================
+        // LOG SPARE HISTORY
+        // ============================================================
+        function logSpareHistory(jenis, sn, nama, lokasiSimpan, lokasiPakai, status, keterangan) {
+            var historyEntry = {
+                tanggal: new Date().toLocaleString('id-ID'),
+                user: currentUser ? currentUser.name : 'System',
+                sn: sn,
+                nama: nama,
+                lokasiSimpan: lokasiSimpan,
+                lokasiPakai: lokasiPakai || '-',
+                status: status,
+                keterangan: keterangan || ''
+            };
+            db.ref('history/spare').push(historyEntry);
+        }
+
+        // ============================================================
+        // SHOW SPARE HISTORY
+        // ============================================================
+        function showSpareHistory() {
+            db.ref('history/spare').once('value', function(snap) {
+                var data = snap.val() || {};
+                var items = Object.values(data);
+                items.sort(function(a, b) { return b.tanggal.localeCompare(a.tanggal); });
+
+                var tbody = document.getElementById('history-body');
+                tbody.innerHTML = '';
+                if (items.length === 0) {
+                    tbody.innerHTML =
+                        '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:20px;">Belum ada riwayat</td></tr>';
+                } else {
+                    items.forEach(function(item) {
+                        tbody.innerHTML += '<tr>' +
+                            '<td style="white-space:nowrap;">' + (item.tanggal || '-') + '</td>' +
+                            '<td>' + (item.user || '-') + '</td>' +
+                            '<td><code style="background:var(--bg-light);padding:2px 6px;border-radius:4px;font-size:11px;">' +
+                            (item.sn || '-') + '</code></td>' +
+                            '<td>' + (item.nama || '-') + '</td>' +
+                            '<td>' + (item.lokasiSimpan || '-') + '</td>' +
+                            '<td>' + (item.lokasiPakai || '-') + '</td>' +
+                            '<td><span style="padding:2px 8px;border-radius:8px;font-size:11px;font-weight:600;background:' +
+                            (item.status === 'Ready' ? '#CAF0F8' : '#FDE8E3') + ';color:' + (item.status === 'Ready' ?
+                                '#2A9D8F' : '#E76F51') + ';">' + (item.status || '-') + '</span></td>' +
+                            '<td style="max-width:120px;white-space:normal;font-size:11px;">' + (item.keterangan ||
+                                '') + '</td>' +
+                            '</tr>';
+                    });
+                }
+                document.getElementById('history-modal').classList.remove('hidden');
+            });
+        }
+
+        // ============================================================
+        // DOWNLOAD SPARE HISTORY EXCEL
+        // ============================================================
+        function downloadSpareHistoryExcel() {
+            db.ref('history/spare').once('value', function(snap) {
+                var data = snap.val() || {};
+                var items = Object.values(data);
+                if (items.length === 0) {
+                    showToast('⚠️ Tidak ada riwayat untuk diexport', 'error');
+                    return;
+                }
+                var excelData = items.map(function(item) {
+                    return {
+                        'Tanggal & Jam': item.tanggal || '-',
+                        'User': item.user || '-',
+                        'SN': item.sn || '-',
+                        'Nama': item.nama || '-',
+                        'Lokasi Simpan': item.lokasiSimpan || '-',
+                        'Lokasi Pakai': item.lokasiPakai || '-',
+                        'Status': item.status || '-',
+                        'Keterangan': item.keterangan || ''
+                    };
+                });
+                var ws = XLSX.utils.json_to_sheet(excelData);
+                var wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Riwayat Spare');
+                XLSX.writeFile(wb, 'Riwayat_Spare_' + new Date().toISOString().slice(0, 10) + '.xlsx');
+                showToast('✅ Excel riwayat spare didownload', 'success');
+            });
+        }
+
+        // ============================================================
         // TOAST
         // ============================================================
         function showToast(msg, type) {
@@ -4173,7 +4303,7 @@
         }
 
         // ============================================================
-        // RENDER TABLE
+        // RENDER TABLE (aksi hanya untuk admin)
         // ============================================================
         function renderTable() {
             try {
@@ -4245,13 +4375,13 @@
                 var isOfCut = cat === 'Data OF Cut';
                 var isP3Temuan = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
 
-                // Header sesuai kategori
+                // Header sesuai kategori (tanpa barcode untuk Patch)
                 if (isSpare) {
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Keterangan</th><th>Aksi</th></tr>';
                 } else if (isPatch) {
                     thead.innerHTML =
-                        '<tr><th>Tgl</th><th>Barcode</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
+                        '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
                 } else if (isAlkur) {
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>Nama</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Lokasi</th><th>User</th><th>Aksi</th></tr>';
@@ -4322,8 +4452,6 @@
                         var textColor = item.trType === 'Masuk' ? '#0077B6' : '#E76F51';
                         tbody.innerHTML += '<tr>' +
                             '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
-                            '<td><code style="background:var(--bg-light);padding:2px 8px;border-radius:4px;font-size:11px;">' +
-                            (item.barcode || '-') + '</code></td>' +
                             '<td><span style="font-size:11px;font-weight:600;color:var(--text-muted);">' + (item
                                 .gudang || '-') + '</span></td>' +
                             '<td><span style="font-weight:600;">' + (item.pcType || '-') + '</span></td>' +
@@ -4532,7 +4660,15 @@
                                     'Tanggal: ' + (item.date || '-') + '<br>' +
                                     'Koordinat: ' + item.coords + '<br>' +
                                     'User: ' + (item.postBy || '-');
-                                var marker = L.marker([lat, lng]).bindPopup(popupText);
+                                var marker = L.circleMarker([lat, lng], {
+                                    radius: 6,
+                                    fillColor: '#0077B6',
+                                    color: '#ffffff',
+                                    weight: 1.5,
+                                    opacity: 0.9,
+                                    fillOpacity: 0.8
+                                });
+                                marker.bindPopup(popupText);
                                 marker.addTo(map);
                                 markers.push(marker);
                             }
@@ -4755,55 +4891,8 @@
         }
 
         // ============================================================
-        // HISTORY FUNCTIONS
+        // DOWNLOAD PAGE EXCEL
         // ============================================================
-        function showHistory() {
-            var list = appData[currentCategory] || {};
-            var tbody = document.getElementById('history-body');
-            tbody.innerHTML = '';
-            var items = Object.values(list);
-            if (items.length === 0) {
-                tbody.innerHTML =
-                    '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:20px;">Belum ada riwayat</td></tr>';
-            } else {
-                items.sort(function(a, b) { return (b.createdAt || 0) - (a.createdAt || 0); }).forEach(function(item) {
-                    var itemName = item.spec || item.pcType || item.sn || '-';
-                    tbody.innerHTML += '<tr>' +
-                        '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
-                        '<td>' + (item.postBy || '-') + '</td>' +
-                        '<td>' + (item.gudang || '-') + '</td>' +
-                        '<td>' + itemName + '</td>' +
-                        '<td>' + (item.trType || item.status || '-') + '</td>' +
-                        '<td><span style="font-weight:700;">' + (item.qty || 1) + '</span></td>' +
-                        '</tr>';
-                });
-            }
-            document.getElementById('history-modal').classList.remove('hidden');
-        }
-
-        function downloadHistoryExcel() {
-            var list = appData[currentCategory] || {};
-            var data = Object.values(list).map(function(item) {
-                return {
-                    Tanggal: item.date || '-',
-                    User: item.postBy || '-',
-                    Gudang: item.gudang || '-',
-                    Item: item.spec || item.pcType || item.sn || '-',
-                    Tipe: item.trType || item.status || '-',
-                    Jumlah: item.qty || 1
-                };
-            });
-            if (data.length === 0) {
-                showToast('⚠️ Tidak ada data untuk diexport', 'error');
-                return;
-            }
-            var ws = XLSX.utils.json_to_sheet(data);
-            var wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Riwayat');
-            XLSX.writeFile(wb, 'Riwayat_' + currentCategory + '_' + new Date().toISOString().slice(0, 10) + '.xlsx');
-            showToast('✅ Excel berhasil didownload', 'success');
-        }
-
         function downloadPageExcel() {
             var cat = currentCategory;
             if (cat === 'P3_Temuan') {
