@@ -1242,7 +1242,7 @@
             </form>
 
             <div class="login-footer">
-                <p>Default: <span class="highlight">admin</span> / <span class="highlight">admin123</span></p>
+                <p>Default: <span class="highlight"></span> / <span class="highlight"></span></p>
                 <p style="margin-top:4px;font-size:10px;color:#94A3B8;">&copy; 2026 BUCIN - Barisan Utama Cegah Insiden</p>
             </div>
         </div>
