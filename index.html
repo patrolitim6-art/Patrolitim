@@ -29,7 +29,7 @@
 
     <style>
         /* ============================================================
-           THEME: Coastline (diadaptasi)
+           THEME: Coastline
            ============================================================ */
         :root {
             --primary-blue: #0077B6;
@@ -472,6 +472,7 @@
             border: 1px solid var(--line);
             z-index: 1;
             overflow: hidden;
+            position: relative;
         }
         @media(min-width:1024px) {
             #map-container {
@@ -513,6 +514,45 @@
             background: var(--blue-gradient);
             color: white;
             border-color: var(--primary-blue);
+        }
+
+        /* Map Legend */
+        .map-legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            padding: 10px 14px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+            font-size: 11px;
+            border: 1px solid rgba(0, 119, 182, 0.1);
+            max-width: 180px;
+        }
+        .map-legend-title {
+            font-weight: 700;
+            font-size: 11px;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 4px;
+        }
+        .map-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 2px 0;
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        .map-legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .scanner-wrapper {
@@ -1017,7 +1057,6 @@
             min-width: 160px;
         }
 
-        /* Spare action buttons */
         .spare-action-group {
             display: flex;
             gap: 10px;
@@ -1095,7 +1134,6 @@
             color: var(--primary-blue);
         }
 
-        /* Chart container full width */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -1273,6 +1311,16 @@
                     </div>
                     <div id="map-wrapper" style="position:relative;">
                         <div id="map-container"></div>
+                        <!-- Legend -->
+                        <div id="map-legend" class="map-legend">
+                            <div class="map-legend-title">📍 Kategori</div>
+                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#E76F51;"></span> OF Cut</div>
+                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#F4A261;"></span> Pihak Ke-3</div>
+                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#E9C46A;"></span> Temuan</div>
+                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#2A9D8F;"></span> OPM/OLS</div>
+                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#0077B6;"></span> Joint</div>
+                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#9B5DE5;"></span> Handhole</div>
+                        </div>
                         <div class="custom-map-controls">
                             <button class="custom-map-btn active" onclick="toggleMapLayer('satellite')" title="Satelit ESRI"><i data-lucide="satellite" style="width:18px;"></i></button>
                             <button class="custom-map-btn" onclick="toggleMapLayer('street')" title="Jalan"><i data-lucide="map" style="width:18px;"></i></button>
@@ -2060,6 +2108,16 @@
         let sessionTimeout = null;
         const SESSION_TIMEOUT_MS = 3600000; // 1 jam
 
+        // Warna untuk setiap kategori di maps
+        const CATEGORY_COLORS = {
+            'Data OF Cut': '#E76F51',
+            'Pekerjaan Pihak Ke-3': '#F4A261',
+            'Temuan Lapangan': '#E9C46A',
+            'OPM/OLS': '#2A9D8F',
+            'Joint': '#0077B6',
+            'Handhole': '#9B5DE5'
+        };
+
         // ============================================================
         // SESSION MANAGEMENT
         // ============================================================
@@ -2081,7 +2139,7 @@
         }
 
         // ============================================================
-        // GENERATE BARCODE PATCH CORD (digunakan internal)
+        // GENERATE BARCODE PATCH CORD
         // ============================================================
         function generateBarcodePatchCord(jenis_pc, panjang_meter) {
             const base = "PC";
@@ -2113,7 +2171,7 @@
         }
 
         // ============================================================
-        // DEFAULT KML DATA (warna per titik berbeda)
+        // DEFAULT KML DATA
         // ============================================================
         const defaultKmlString = `<?xml version="1.0" encoding="UTF-8"?>
         <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -2275,7 +2333,7 @@
         }
 
         // ============================================================
-        // PARSE KML KE LAYER dengan warna berbeda per titik
+        // PARSE KML KE LAYER
         // ============================================================
         function parseKmlToLayers(xml) {
             var styles = {};
@@ -2754,7 +2812,6 @@
 
             renderTable();
             updateStokSummary();
-            // refresh session
             refreshSession();
         }
 
@@ -3524,7 +3581,7 @@
             document.getElementById('field-normal').classList.add('hidden');
             document.getElementById('field-coords-wrap').classList.add('hidden');
             document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
-            'hidden');
+                'hidden');
             document.getElementById('field-opm').classList.add('hidden');
             document.getElementById('field-kondisi').classList.add('hidden');
             document.getElementById('field-ofcut').classList.add('hidden');
@@ -3791,7 +3848,7 @@
                 createdAt: Date.now()
             };
 
-            // ===== PATCH CORD (tanpa barcode di UI, tapi tetap disimpan internal) =====
+            // ===== PATCH CORD =====
             if (isPatch) {
                 var pcType = document.getElementById('inp-pc-type').value;
                 var pcLength = document.getElementById('inp-pc-length').value;
@@ -3820,7 +3877,6 @@
                 data.qty = qty;
                 data.trType = trType;
                 data.notes = notes;
-                // Generate barcode internal
                 var panjangMeter = parseFloat(pcLength.replace('m', '').trim());
                 if (!isNaN(panjangMeter) && pcType !== 'Lainnya' && pcLength !== 'Lainnya') {
                     data.barcode = generateBarcodePatchCord(pcType, panjangMeter);
@@ -3920,27 +3976,24 @@
                     data.kondisi = kondisiSpare;
                     data.notes = notes;
 
+                    // Cek apakah SN sudah ada - jika ya, update
                     var items = appData[cat] || {};
-                    var dupKey = null;
+                    var existingKey = null;
                     for (var key in items) {
                         var item = items[key];
-                        if (item.sn === sn && key !== editKey) {
-                            dupKey = key;
+                        if (item.sn === sn) {
+                            existingKey = key;
                             break;
                         }
                     }
-                    if (dupKey) {
-                        showToast('❌ SN ' + sn + ' sudah terdaftar!', 'error');
-                        return;
-                    }
 
-                    if (editKey) {
-                        db.ref('data/' + cat + '/' + editKey).update(data)
+                    if (existingKey) {
+                        // Update existing record
+                        db.ref('data/' + cat + '/' + existingKey).update(data)
                             .then(function() {
-                                showToast('✅ Stok diperbarui', 'success');
+                                showToast('✅ Stok diperbarui (SN: ' + sn + ')', 'success');
                                 updateBarcodeCache(sn, spec);
-                                // Catat riwayat
-                                logSpareHistory('Tambah Stok', sn, spec, selectedGudang, '', status, notes);
+                                logSpareHistory('Update Stok', sn, spec, selectedGudang, '', status, notes);
                                 closeModal();
                                 setTimeout(function() {
                                     updateStokSummary();
@@ -3955,6 +4008,7 @@
                         return;
                     }
 
+                    // Jika SN baru, tambahkan
                     isSubmitting = true;
                     var submitBtn = document.getElementById('btn-submit-form');
                     submitBtn.disabled = true;
@@ -3987,7 +4041,6 @@
 
                 if (mode === 'update') {
                     var updateSn = document.getElementById('inp-update-sn').value.trim();
-                    var updateSpec = document.getElementById('inp-update-spec').value.trim();
                     var tujuan = document.getElementById('inp-update-tujuan').value;
                     var lokasiPemasangan = document.getElementById('inp-update-lokasi').value;
                     var updateNotes = document.getElementById('inp-update-notes').value.trim();
@@ -4032,7 +4085,6 @@
                     db.ref('data/' + cat + '/' + targetKey).update(updateData)
                         .then(function() {
                             showToast('✅ Pemakaian barang diupdate (Status: Out)', 'success');
-                            // Catat riwayat
                             var lokasiSimpan = targetItem.gudang + ' - ' + (targetItem.lemari || '') + ' Rak ' + (
                                 targetItem.rak || '');
                             logSpareHistory('Update Pemakaian', updateSn, targetItem.spec || updateSn, lokasiSimpan,
@@ -4599,7 +4651,7 @@
         };
 
         // ============================================================
-        // MAP FUNCTIONS
+        // MAP FUNCTIONS - dengan warna per kategori
         // ============================================================
         function initMap() {
             if (map) return;
@@ -4647,6 +4699,7 @@
             var categories = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM/OLS', 'Joint', 'Handhole'];
             categories.forEach(function(cat) {
                 var items = appData[cat] || {};
+                var color = CATEGORY_COLORS[cat] || '#0077B6';
                 Object.keys(items).forEach(function(key) {
                     var item = items[key];
                     if (item.coords) {
@@ -4661,12 +4714,12 @@
                                     'Koordinat: ' + item.coords + '<br>' +
                                     'User: ' + (item.postBy || '-');
                                 var marker = L.circleMarker([lat, lng], {
-                                    radius: 6,
-                                    fillColor: '#0077B6',
+                                    radius: 7,
+                                    fillColor: color,
                                     color: '#ffffff',
                                     weight: 1.5,
                                     opacity: 0.9,
-                                    fillOpacity: 0.8
+                                    fillOpacity: 0.85
                                 });
                                 marker.bindPopup(popupText);
                                 marker.addTo(map);
