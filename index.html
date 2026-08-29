@@ -365,78 +365,6 @@
             line-height: 1.5;
         }
 
-        /* CAROUSEL */
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            height: 280px;
-            border-radius: var(--radius);
-            overflow: hidden;
-            background: #0F2A3B;
-            margin-bottom: 20px;
-        }
-        .carousel-slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-color: #0F2A3B;
-        }
-        .carousel-slide.active {
-            opacity: 1;
-        }
-        .carousel-dots {
-            position: absolute;
-            bottom: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 10;
-        }
-        .carousel-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .carousel-dot.active {
-            background: white;
-            transform: scale(1.2);
-        }
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.4);
-            color: white;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 10;
-            display: grid;
-            place-items: center;
-            transition: background 0.2s;
-            font-size: 18px;
-        }
-        .carousel-btn:hover {
-            background: rgba(0, 0, 0, 0.7);
-        }
-        .carousel-btn.prev {
-            left: 8px;
-        }
-        .carousel-btn.next {
-            right: 8px;
-        }
-
         .field-control {
             width: 100%;
             min-height: 48px;
@@ -1226,9 +1154,6 @@
             .filter-bar .filter-group {
                 flex-wrap: wrap;
             }
-            .carousel-container {
-                height: 180px;
-            }
         }
     </style>
 </head>
@@ -1308,15 +1233,7 @@
                     <p class="hero-about" id="hero-about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
                 </div>
 
-                <!-- CAROUSEL -->
-                <div class="carousel-container" id="carousel-container">
-                    <div class="carousel-slide active" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 400%22%3E%3Crect fill=%22%230077B6%22 width=%22800%22 height=%22400%22/%3E%3Ctext x=%22400%22 y=%22200%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2236%22 font-family=%22sans-serif%22%3EBUCIN Network%3C/text%3E%3C/svg%3E');"></div>
-                    <div class="carousel-slide" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 400%22%3E%3Crect fill=%22%2300B4D8%22 width=%22800%22 height=%22400%22/%3E%3Ctext x=%22400%22 y=%22200%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2236%22 font-family=%22sans-serif%22%3EJaringan Fiber Optik%3C/text%3E%3C/svg%3E');"></div>
-                    <div class="carousel-slide" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 400%22%3E%3Crect fill=%22%23F4A261%22 width=%22800%22 height=%22400%22/%3E%3Ctext x=%22400%22 y=%22200%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2236%22 font-family=%22sans-serif%22%3ESulawesi Utara%3C/text%3E%3C/svg%3E');"></div>
-                    <button class="carousel-btn prev" onclick="carouselPrev()">&#10094;</button>
-                    <button class="carousel-btn next" onclick="carouselNext()">&#10095;</button>
-                    <div class="carousel-dots" id="carousel-dots"></div>
-                </div>
+                <!-- CAROUSEL DIHAPUS -->
 
                 <!-- GRAFIK (full width) -->
                 <div class="dashboard-grid">
@@ -1534,7 +1451,7 @@
                         <input type="date" id="inp-date" class="field-control" required>
                     </div>
 
-                    <!-- STOCK FIELDS (Stok Spare) - versi baru -->
+                    <!-- STOCK FIELDS (Stok Spare) -->
                     <div id="field-stock" class="hidden">
                         <div style="background:var(--bg-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid var(--line);">
                             <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:4px;">Gudang Terpilih</div>
@@ -1661,7 +1578,7 @@
                         </div>
                     </div>
 
-                    <!-- PATCH CORD FIELDS -->
+                    <!-- PATCH CORD FIELDS (dengan opsi Lainnya) -->
                     <div id="field-patchcord" class="hidden">
                         <div style="background:#CAF0F8;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #90E0EF;">
                             <div style="font-size:12px;font-weight:600;color:#0077B6;margin-bottom:4px;">📦 Spesifikasi Patch Cord</div>
@@ -1682,6 +1599,7 @@
                                     <option value="FC-LC">FC-LC</option>
                                     <option value="LC-ST">LC-ST</option>
                                     <option value="LC-SC">LC-SC</option>
+                                    <option value="Lainnya">Lainnya</option>
                                 </select>
                             </div>
                             <div>
@@ -1697,7 +1615,19 @@
                                     <option value="15m">15 Meter</option>
                                     <option value="20m">20 Meter</option>
                                     <option value="30m">30 Meter</option>
+                                    <option value="Lainnya">Lainnya</option>
                                 </select>
+                            </div>
+                        </div>
+                        <!-- Untuk opsi lainnya, kita tambahkan input text jika dipilih (bisa via JS) -->
+                        <div id="patchcord-lainnya" class="hidden" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis Lainnya</label>
+                                <input type="text" id="inp-pc-type-lain" class="field-control" placeholder="Tulis jenis lainnya">
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Panjang Lainnya</label>
+                                <input type="text" id="inp-pc-length-lain" class="field-control" placeholder="Contoh: 50m">
                             </div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -1936,12 +1866,9 @@
                         </div>
                     </div>
 
-                    <!-- SOP CONTAINER dihapus untuk OF Cut, hanya tampil sebagai deskripsi di atas tabel -->
+                    <!-- FIELD KETERANGAN TAMBAHAN DIHAPUS -->
+                    <!-- <div id="field-notes-wrap"> ... </div> -->
 
-                    <div id="field-notes-wrap">
-                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan Tambahan</label>
-                        <textarea id="inp-notes" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Catatan tambahan..."></textarea>
-                    </div>
                 </div>
 
                 <div style="margin-top:24px;display:flex;gap:12px;">
@@ -2033,7 +1960,7 @@
         </div>
     </div>
 
-    <!-- ===== MODAL SETTINGS ===== -->
+    <!-- ===== MODAL SETTINGS (tanpa carousel) ===== -->
     <div id="settings-modal" class="modal-layer hidden">
         <div class="modal-card">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
@@ -2050,19 +1977,7 @@
                 <button id="btn-save-hero-about" class="btn-primary" style="width:100%;margin-top:8px;justify-content:center;">Simpan Keterangan Hero</button>
             </div>
 
-            <div class="settings-section" style="margin-bottom:20px;">
-                <h4>🖼️ Slideshow Carousel</h4>
-                <p style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Upload gambar untuk slideshow (max 5 gambar)</p>
-                <div style="display:flex;flex-wrap:wrap;gap:8px;" id="carousel-images-container">
-                    <!-- akan diisi JS -->
-                </div>
-                <div class="upload-area" onclick="document.getElementById('carousel-file-input').click()" style="margin-top:8px;">
-                    <i data-lucide="upload" style="width:24px;height:24px;margin-bottom:4px;color:var(--primary-blue);"></i>
-                    <p style="font-size:12px;color:var(--text-muted);">Klik untuk upload gambar (JPG, PNG)</p>
-                    <input type="file" id="carousel-file-input" accept="image/*" multiple onchange="handleCarouselUpload(this)">
-                </div>
-                <button id="btn-reset-carousel" class="btn-secondary" style="margin-top:8px;padding:6px 16px;font-size:12px;">Reset ke Default</button>
-            </div>
+            <!-- Bagian Slideshow Carousel DIHAPUS -->
 
             <div class="settings-section">
                 <h4>🎨 Tampilan Background</h4>
@@ -2150,12 +2065,9 @@
         let selectedGudangFilter = 'all';
         let currentPeriod = 'all';
         let spareAction = 'tambah';
-        let carouselImages = [];
-        let carouselIndex = 0;
-        let carouselTimer = null;
 
         // ============================================================
-        // GENERATE BARCODE PATCH CORD
+        // GENERATE BARCODE PATCH CORD (dengan dukungan Lainnya)
         // ============================================================
         function generateBarcodePatchCord(jenis_pc, panjang_meter) {
             const base = "PC";
@@ -2171,7 +2083,7 @@
                 'LC-ST': 'LCST',
                 'LC-SC': 'LCSC'
             };
-            const typePart = (jenisMap[jenis_pc] || 'XXXX').padEnd(4, ' ');
+            let typePart = (jenisMap[jenis_pc] || 'XXXX').padEnd(4, ' ');
             let lengthPart;
             if (panjang_meter === 0.5) {
                 lengthPart = "505";
@@ -2529,13 +2441,11 @@
                             initMap();
                             initCharts();
                             updateQuickStats();
-                            initCarousel();
                         }, 100);
                         setupEventListeners();
                         loadData();
                         loadSettings();
                         loadBarcodeCache();
-                        loadCarouselImages();
                         return;
                     }
                 } catch (e) {}
@@ -2545,122 +2455,7 @@
             loadData();
             loadSettings();
             loadBarcodeCache();
-            initCarousel();
-            loadCarouselImages();
         });
-
-        // ============================================================
-        // CAROUSEL
-        // ============================================================
-        function initCarousel() {
-            var slides = document.querySelectorAll('.carousel-slide');
-            var dots = document.getElementById('carousel-dots');
-            if (!dots) return;
-
-            dots.innerHTML = '';
-            slides.forEach(function(_, i) {
-                var dot = document.createElement('button');
-                dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-                dot.onclick = function() { goToSlide(i); };
-                dots.appendChild(dot);
-            });
-
-            carouselIndex = 0;
-            if (carouselTimer) clearInterval(carouselTimer);
-            carouselTimer = setInterval(carouselNext, 4000);
-        }
-
-        function goToSlide(index) {
-            var slides = document.querySelectorAll('.carousel-slide');
-            var dots = document.querySelectorAll('.carousel-dot');
-            if (index >= slides.length) index = 0;
-            if (index < 0) index = slides.length - 1;
-
-            slides.forEach(function(s, i) {
-                s.classList.toggle('active', i === index);
-            });
-            dots.forEach(function(d, i) {
-                d.classList.toggle('active', i === index);
-            });
-            carouselIndex = index;
-        }
-
-        function carouselNext() {
-            goToSlide(carouselIndex + 1);
-        }
-
-        function carouselPrev() {
-            goToSlide(carouselIndex - 1);
-        }
-
-        function loadCarouselImages() {
-            db.ref('settings/carouselImages').once('value', function(snap) {
-                var images = snap.val() || [];
-                if (images && images.length > 0) {
-                    carouselImages = images;
-                    updateCarouselSlides();
-                }
-            }).catch(function(err) {
-                console.error('❌ Error loading carousel images:', err);
-            });
-        }
-
-        function updateCarouselSlides() {
-            var container = document.getElementById('carousel-container');
-            var existingSlides = container.querySelectorAll('.carousel-slide');
-            existingSlides.forEach(function(s) { s.remove(); });
-
-            var images = carouselImages.length > 0 ? carouselImages :
-                ['data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 400%22%3E%3Crect fill=%22%230077B6%22 width=%22800%22 height=%22400%22/%3E%3Ctext x=%22400%22 y=%22200%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2236%22 font-family=%22sans-serif%22%3EBUCIN Network%3C/text%3E%3C/svg%3E',
-                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 400%22%3E%3Crect fill=%22%2300B4D8%22 width=%22800%22 height=%22400%22/%3E%3Ctext x=%22400%22 y=%22200%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2236%22 font-family=%22sans-serif%22%3EJaringan Fiber Optik%3C/text%3E%3C/svg%3E',
-                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 400%22%3E%3Crect fill=%22%23F4A261%22 width=%22800%22 height=%22400%22/%3E%3Ctext x=%22400%22 y=%22200%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2236%22 font-family=%22sans-serif%22%3ESulawesi Utara%3C/text%3E%3C/svg%3E'
-            ];
-
-            images.forEach(function(src, idx) {
-                var slide = document.createElement('div');
-                slide.className = 'carousel-slide' + (idx === 0 ? ' active' : '');
-                slide.style.backgroundImage = 'url(' + src + ')';
-                container.insertBefore(slide, container.querySelector('.carousel-btn'));
-            });
-
-            initCarousel();
-        }
-
-        function handleCarouselUpload(input) {
-            var files = input.files;
-            if (!files || files.length === 0) return;
-
-            var promises = [];
-            for (var i = 0; i < files.length; i++) {
-                promises.push(new Promise(function(resolve, reject) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        resolve(e.target.result);
-                    };
-                    reader.onerror = reject;
-                    reader.readAsDataURL(files[i]);
-                }));
-            }
-
-            Promise.all(promises).then(function(results) {
-                carouselImages = carouselImages.concat(results);
-                if (carouselImages.length > 10) carouselImages = carouselImages.slice(0, 10);
-                db.ref('settings/carouselImages').set(carouselImages);
-                updateCarouselSlides();
-                showToast('✅ ' + results.length + ' gambar ditambahkan ke slideshow', 'success');
-                input.value = '';
-            }).catch(function(err) {
-                console.error('❌ Error uploading carousel images:', err);
-                showToast('❌ Gagal upload gambar', 'error');
-            });
-        }
-
-        function resetCarousel() {
-            carouselImages = [];
-            db.ref('settings/carouselImages').set([]);
-            updateCarouselSlides();
-            showToast('🔄 Slideshow direset ke default', 'success');
-        }
 
         // ============================================================
         // LOAD BARCODE CACHE (untuk Spare)
@@ -2703,10 +2498,6 @@
                 }
                 if (settings.bgImage) {
                     document.getElementById('set-bg-image').value = settings.bgImage;
-                }
-                if (settings.carouselImages) {
-                    carouselImages = settings.carouselImages;
-                    updateCarouselSlides();
                 }
             }).catch(function(err) {
                 console.error('❌ Error loading settings:', err);
@@ -2823,7 +2614,6 @@
                             initMap();
                             initCharts();
                             updateQuickStats();
-                            initCarousel();
                         }, 100);
 
                         showToast('✅ Selamat datang, ' + username + '!', 'success');
@@ -2844,7 +2634,7 @@
         }
 
         // ============================================================
-        // QUICK STATS (hanya total data, ringkasan di dashboard dihilangkan)
+        // QUICK STATS (hanya total data)
         // ============================================================
         function updateQuickStats() {
             var totalData = 0;
@@ -2858,7 +2648,6 @@
                     }
                 }
             });
-            // update hidden fields if needed
             document.getElementById('quick-total') && (document.getElementById('quick-total').textContent = totalData);
             document.getElementById('quick-categories') && (document.getElementById('quick-categories').textContent =
             categories);
@@ -2927,7 +2716,7 @@
                 document.getElementById('inp-cat').value = cat;
             }
 
-            // SOP Description untuk OF Cut (hanya di atas tabel, bukan di form)
+            // SOP Description untuk OF Cut (hanya di atas tabel)
             var sopDesc = document.getElementById('sop-description-container');
             if (isOfCut) {
                 sopDesc.classList.remove('hidden');
@@ -2935,7 +2724,6 @@
                 sopDesc.classList.add('hidden');
             }
 
-            // Filter bar
             var filterBar = document.getElementById('filter-bar-container');
             filterBar.style.display = 'flex';
 
@@ -3136,32 +2924,6 @@
                     document.getElementById('settings-modal').classList.remove('hidden');
                     document.getElementById('hero-about-input').value = document.getElementById('hero-about-text')
                         .textContent;
-                    var container = document.getElementById('carousel-images-container');
-                    if (container) {
-                        container.innerHTML = '';
-                        carouselImages.forEach(function(img, idx) {
-                            var div = document.createElement('div');
-                            div.style.cssText =
-                                'width:80px;height:80px;border-radius:8px;overflow:hidden;border:1px solid var(--line);position:relative;';
-                            var imgEl = document.createElement('img');
-                            imgEl.src = img;
-                            imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-                            div.appendChild(imgEl);
-                            var delBtn = document.createElement('button');
-                            delBtn.innerHTML = '✕';
-                            delBtn.style.cssText =
-                                'position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:#E76F51;color:white;border:none;cursor:pointer;font-size:12px;display:grid;place-items:center;';
-                            delBtn.onclick = function() {
-                                carouselImages.splice(idx, 1);
-                                db.ref('settings/carouselImages').set(carouselImages);
-                                updateCarouselSlides();
-                                loadCarouselImages();
-                                showToast('🗑️ Gambar dihapus dari slideshow', 'success');
-                            };
-                            div.appendChild(delBtn);
-                            container.appendChild(div);
-                        });
-                    }
                 });
             }
 
@@ -3205,11 +2967,6 @@
                 });
             }
 
-            var resetCarouselBtn = document.getElementById('btn-reset-carousel');
-            if (resetCarouselBtn) {
-                resetCarouselBtn.addEventListener('click', resetCarousel);
-            }
-
             // Chart period
             var chartPeriod = document.getElementById('chart-period');
             if (chartPeriod) {
@@ -3220,6 +2977,15 @@
             var penyebabSelect = document.getElementById('inp-ofcut-penyebab');
             if (penyebabSelect) {
                 penyebabSelect.addEventListener('change', togglePenyebabLain);
+            }
+
+            // Patch Cord lainnya toggle
+            var pcTypeSelect = document.getElementById('inp-pc-type');
+            var pcLengthSelect = document.getElementById('inp-pc-length');
+            var lainDiv = document.getElementById('patchcord-lainnya');
+            if (pcTypeSelect && pcLengthSelect && lainDiv) {
+                pcTypeSelect.addEventListener('change', togglePatchLain);
+                pcLengthSelect.addEventListener('change', togglePatchLain);
             }
 
             window.addEventListener('popstate', function(e) {
@@ -3237,6 +3003,20 @@
                     document.getElementById('add-user-modal').classList.add('hidden');
                 }
             });
+        }
+
+        // ============================================================
+        // TOGGLE PATCH LAINNYA
+        // ============================================================
+        function togglePatchLain() {
+            var pcType = document.getElementById('inp-pc-type').value;
+            var pcLength = document.getElementById('inp-pc-length').value;
+            var lainDiv = document.getElementById('patchcord-lainnya');
+            if (pcType === 'Lainnya' || pcLength === 'Lainnya') {
+                lainDiv.classList.remove('hidden');
+            } else {
+                lainDiv.classList.add('hidden');
+            }
         }
 
         // ============================================================
@@ -3684,7 +3464,6 @@
             if (editData) {
                 document.getElementById('modal-title').textContent = 'Edit Data - ' + cat;
                 document.getElementById('edit-key').value = editKey || '';
-                // Populate fields from editData
                 populateFormFields(editData);
             } else {
                 document.getElementById('modal-title').textContent = 'Tambah Data - ' + cat;
@@ -3709,7 +3488,8 @@
             document.getElementById('field-alkur').classList.add('hidden');
             document.getElementById('field-normal').classList.add('hidden');
             document.getElementById('field-coords-wrap').classList.add('hidden');
-            document.getElementById('field-notes-wrap').classList.remove('hidden');
+            document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+            'hidden');
             document.getElementById('field-opm').classList.add('hidden');
             document.getElementById('field-kondisi').classList.add('hidden');
             document.getElementById('field-ofcut').classList.add('hidden');
@@ -3727,7 +3507,8 @@
                     document.getElementById('field-patchcord').classList.remove('hidden');
                     document.getElementById('field-stock').classList.add('hidden');
                     document.getElementById('patchcord-gudang-display').textContent = selectedGudang || 'Belum dipilih';
-                    document.getElementById('field-notes-wrap').classList.add('hidden');
+                    document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap')
+                        .classList.add('hidden');
                 } else if (isSpare) {
                     if (spareAction === 'update') {
                         document.getElementById('form-tambah-stok').classList.add('hidden');
@@ -3741,17 +3522,20 @@
                         document.getElementById('modal-title').textContent = 'Tambah Stok - ' + cat;
                     }
                 }
-                document.getElementById('field-notes-wrap').classList.add('hidden');
+                document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                    'hidden');
             }
 
             if (isAlkur) {
                 document.getElementById('field-alkur').classList.remove('hidden');
-                document.getElementById('field-notes-wrap').classList.add('hidden');
+                document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                    'hidden');
             }
 
             if (isOpm) {
                 document.getElementById('field-opm').classList.remove('hidden');
-                document.getElementById('field-notes-wrap').classList.remove('hidden');
+                document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                    'hidden');
                 document.getElementById('field-normal').classList.add('hidden');
                 document.getElementById('field-coords-wrap').classList.add('hidden');
             }
@@ -3760,19 +3544,24 @@
                 document.getElementById('field-normal').classList.remove('hidden');
                 document.getElementById('field-coords-wrap').classList.remove('hidden');
                 document.getElementById('field-kondisi').classList.remove('hidden');
+                document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                    'hidden');
             }
 
             if (isOfCut) {
                 document.getElementById('field-normal').classList.remove('hidden');
                 document.getElementById('field-coords-wrap').classList.remove('hidden');
                 document.getElementById('field-ofcut').classList.remove('hidden');
-                // SOP tidak ditampilkan di form, hanya di atas tabel
+                document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                    'hidden');
             }
 
             if (isP3Temuan) {
                 document.getElementById('field-normal').classList.remove('hidden');
                 document.getElementById('field-coords-wrap').classList.remove('hidden');
                 document.getElementById('field-p3temuan').classList.remove('hidden');
+                document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                    'hidden');
                 var label = document.getElementById('p3temuan-label');
                 if (label) {
                     label.textContent = cat === 'Pekerjaan Pihak Ke-3' ?
@@ -3791,9 +3580,8 @@
         function resetFormFields() {
             document.getElementById('inp-loc').value = '';
             document.getElementById('inp-coords').value = '';
-            document.getElementById('inp-notes').value = '';
-            document.getElementById('inp-notes-stock').value = '';
-            document.getElementById('inp-notes-patch').value = '';
+            document.getElementById('inp-notes-stock') && (document.getElementById('inp-notes-stock').value = '');
+            document.getElementById('inp-notes-patch') && (document.getElementById('inp-notes-patch').value = '');
             document.getElementById('inp-sn').value = '';
             document.getElementById('inp-spec').value = '';
             document.getElementById('inp-pc-qty').value = '1';
@@ -3832,14 +3620,16 @@
             document.getElementById('inp-p3-pelaksana').value = '';
             document.getElementById('inp-p3-lama').value = '';
             document.getElementById('inp-p3-keterangan').value = '';
+            document.getElementById('patchcord-lainnya') && document.getElementById('patchcord-lainnya').classList.add(
+                'hidden');
+            document.getElementById('inp-pc-type-lain') && (document.getElementById('inp-pc-type-lain').value = '');
+            document.getElementById('inp-pc-length-lain') && (document.getElementById('inp-pc-length-lain').value = '');
         }
 
         function populateFormFields(data) {
-            // Isi field berdasarkan data yang ada
             if (data.date) document.getElementById('inp-date').value = data.date;
             if (data.location) document.getElementById('inp-loc').value = data.location;
             if (data.coords) document.getElementById('inp-coords').value = data.coords;
-            if (data.notes) document.getElementById('inp-notes').value = data.notes;
 
             // Spare
             if (data.sn) document.getElementById('inp-sn').value = data.sn;
@@ -3852,8 +3642,30 @@
             if (data.notes) document.getElementById('inp-notes-stock').value = data.notes;
 
             // Patch
-            if (data.pcType) document.getElementById('inp-pc-type').value = data.pcType;
-            if (data.pcLength) document.getElementById('inp-pc-length').value = data.pcLength;
+            if (data.pcType) {
+                var pcType = data.pcType;
+                var select = document.getElementById('inp-pc-type');
+                if (['SC-SC', 'LC-LC', 'FC-FC', 'ST-ST', 'SC-FC', 'FC-ST', 'ST-SC', 'FC-LC', 'LC-ST', 'LC-SC'].indexOf(
+                        pcType) === -1) {
+                    select.value = 'Lainnya';
+                    document.getElementById('inp-pc-type-lain').value = pcType;
+                    document.getElementById('patchcord-lainnya').classList.remove('hidden');
+                } else {
+                    select.value = pcType;
+                }
+            }
+            if (data.pcLength) {
+                var pcLength = data.pcLength;
+                var selectLen = document.getElementById('inp-pc-length');
+                var validLengths = ['0.5m', '1m', '2m', '3m', '5m', '10m', '15m', '20m', '30m'];
+                if (validLengths.indexOf(pcLength) === -1) {
+                    selectLen.value = 'Lainnya';
+                    document.getElementById('inp-pc-length-lain').value = pcLength;
+                    document.getElementById('patchcord-lainnya').classList.remove('hidden');
+                } else {
+                    selectLen.value = pcLength;
+                }
+            }
             if (data.trType) document.getElementById('inp-pc-trtype').value = data.trType;
             if (data.qty) document.getElementById('inp-pc-qty').value = data.qty;
             if (data.notes) document.getElementById('inp-notes-patch').value = data.notes;
@@ -3908,7 +3720,7 @@
         }
 
         // ============================================================
-        // SUBMIT FORM (dengan logika edit)
+        // SUBMIT FORM
         // ============================================================
         function submitForm(e) {
             if (e && e.preventDefault) {
@@ -3948,6 +3760,13 @@
             if (isPatch) {
                 var pcType = document.getElementById('inp-pc-type').value;
                 var pcLength = document.getElementById('inp-pc-length').value;
+                // Jika Lainnya, ambil dari input teks
+                if (pcType === 'Lainnya') {
+                    pcType = document.getElementById('inp-pc-type-lain').value.trim() || 'Lainnya';
+                }
+                if (pcLength === 'Lainnya') {
+                    pcLength = document.getElementById('inp-pc-length-lain').value.trim() || 'Lainnya';
+                }
                 var trType = document.getElementById('inp-pc-trtype').value;
                 var qty = parseInt(document.getElementById('inp-pc-qty').value) || 1;
                 var notes = document.getElementById('inp-notes-patch').value.trim();
@@ -3967,8 +3786,13 @@
                 data.qty = qty;
                 data.trType = trType;
                 data.notes = notes;
+                // Generate barcode standar jika tidak Lainnya
                 var panjangMeter = parseFloat(pcLength.replace('m', '').trim());
-                data.barcode = generateBarcodePatchCord(pcType, panjangMeter);
+                if (!isNaN(panjangMeter) && pcType !== 'Lainnya' && pcLength !== 'Lainnya') {
+                    data.barcode = generateBarcodePatchCord(pcType, panjangMeter);
+                } else {
+                    data.barcode = 'PC-' + Date.now().toString().slice(-6);
+                }
 
                 var uniqueKey = data.barcode;
                 var existingKey = null;
@@ -4005,7 +3829,6 @@
                     return;
                 }
 
-                // Simpan baru
                 isSubmitting = true;
                 var submitBtn = document.getElementById('btn-submit-form');
                 submitBtn.disabled = true;
@@ -4127,7 +3950,6 @@
 
                 if (mode === 'update') {
                     var updateSn = document.getElementById('inp-update-sn').value.trim();
-                    var updateSpec = document.getElementById('inp-update-spec').value.trim();
                     var tujuan = document.getElementById('inp-update-tujuan').value;
                     var lokasiPemasangan = document.getElementById('inp-update-lokasi').value;
                     var updateNotes = document.getElementById('inp-update-notes').value.trim();
@@ -4234,7 +4056,6 @@
                 var dbm = parseFloat(document.getElementById('inp-opm-dbm').value);
                 var dari = document.getElementById('inp-opm-dari').value;
                 var ke = document.getElementById('inp-opm-ke').value;
-                var notes = document.getElementById('inp-notes').value.trim();
 
                 if (!ruas || !slot || !port || isNaN(dbm) || !dari || !ke) {
                     showToast('❌ Isi semua field OPM/OLS', 'error');
@@ -4246,7 +4067,6 @@
                 data.dbm = dbm;
                 data.dari = dari;
                 data.ke = ke;
-                data.notes = notes;
             }
 
             // ===== OF CUT =====
@@ -4275,7 +4095,6 @@
                 data.rute = rute;
                 data.penyebab = penyebab === 'lainnya' ? penyebabLain : penyebab;
                 data.keterangan = keteranganOf;
-                // SOP tidak disimpan, hanya tampil di atas tabel
             }
 
             // ===== P3 / TEMUAN =====
@@ -4297,7 +4116,7 @@
                 data.keterangan = keteranganP3;
             }
 
-            // ===== SIMPAN (dengan edit support) =====
+            // ===== SIMPAN =====
             isSubmitting = true;
             var submitBtn = document.getElementById('btn-submit-form');
             submitBtn.disabled = true;
@@ -4354,7 +4173,7 @@
         }
 
         // ============================================================
-        // RENDER TABLE (dengan tombol edit)
+        // RENDER TABLE
         // ============================================================
         function renderTable() {
             try {
@@ -4636,7 +4455,6 @@
                 return;
             }
 
-            // Set category
             if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
                 document.getElementById('inp-cat').value = cat;
                 currentSubTab = cat === 'Pekerjaan Pihak Ke-3' ? 'p3' : 'temuan';
@@ -4644,13 +4462,11 @@
                 document.getElementById('inp-cat').value = cat;
             }
 
-            // Set selected gudang jika ada
             if (data.gudang) {
                 selectedGudang = data.gudang;
                 document.getElementById('inp-gudang-selected').value = data.gudang;
             }
 
-            // Open form with data
             openForm(data, key);
         };
 
@@ -4806,7 +4622,7 @@
         }
 
         // ============================================================
-        // CHART FUNCTIONS (Bar chart dengan OF Cut & Pihak Ke-3)
+        // CHART FUNCTIONS
         // ============================================================
         function initCharts() {
             try {
