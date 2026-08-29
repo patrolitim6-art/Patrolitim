@@ -216,6 +216,15 @@
             border-color: #E76F51;
             color: white;
         }
+        .btn-icon.edit {
+            color: #2A9D8F;
+            border-color: #2A9D8F;
+        }
+        .btn-icon.edit:hover {
+            background: #2A9D8F;
+            color: white;
+            border-color: #2A9D8F;
+        }
 
         .top-header {
             position: sticky;
@@ -371,8 +380,10 @@
             inset: 0;
             opacity: 0;
             transition: opacity 0.8s ease;
-            background-size: cover;
+            background-size: contain;
+            background-repeat: no-repeat;
             background-position: center;
+            background-color: #0F2A3B;
         }
         .carousel-slide.active {
             opacity: 1;
@@ -479,6 +490,13 @@
         }
         .icon-btn.delete:hover {
             background: #FDE8E3;
+        }
+        .icon-btn.edit {
+            color: #2A9D8F;
+        }
+        .icon-btn.edit:hover {
+            background: #CAF0F8;
+            color: #2A9D8F;
         }
 
         .modal-layer {
@@ -1037,58 +1055,6 @@
             color: var(--text-dark);
         }
 
-        .retur-page {
-            display: none;
-            padding: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--bg-light);
-            min-height: 100vh;
-        }
-        .retur-page.active {
-            display: block;
-        }
-        .return-scan-row-compact {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .return-barcode-input {
-            flex: 0 1 200px;
-            min-width: 120px;
-            max-width: 260px;
-        }
-
-        .settings-section h4 {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--text-dark);
-        }
-        .settings-section .upload-area {
-            border: 2px dashed var(--line);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .settings-section .upload-area:hover {
-            border-color: var(--primary-blue);
-            background: var(--primary-blue-light);
-        }
-        .settings-section .upload-area input[type="file"] {
-            display: none;
-        }
-
-        .chart-container {
-            height: 200px;
-        }
-        .chart-container canvas {
-            max-height: 200px;
-        }
-
         .filter-bar {
             display: flex;
             gap: 12px;
@@ -1201,9 +1167,19 @@
             color: var(--primary-blue);
         }
 
+        /* Chart container full width */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .chart-card {
+            grid-column: 1 / -1;
+        }
+
         @media(min-width:768px) {
             .dashboard-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
             }
             .main-content {
                 padding: 20px;
@@ -1342,9 +1318,9 @@
                     <div class="carousel-dots" id="carousel-dots"></div>
                 </div>
 
-                <!-- GRAFIK -->
+                <!-- GRAFIK (full width) -->
                 <div class="dashboard-grid">
-                    <div class="card">
+                    <div class="card chart-card">
                         <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                             <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-blue);"></span>
                             Grafik Insiden OF Cut &amp; Pihak Ke-3
@@ -1361,26 +1337,10 @@
                             <canvas id="chartIncidents"></canvas>
                         </div>
                     </div>
-                    <div class="card">
-                        <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
-                            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-gold);"></span>
-                            Ringkasan
-                        </h3>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
-                            <div style="background:var(--bg-light);padding:12px;border-radius:12px;text-align:center;">
-                                <div style="font-size:24px;font-weight:800;color:var(--primary-blue);" id="quick-total">0</div>
-                                <div style="font-size:11px;color:var(--text-muted);">Total Data</div>
-                            </div>
-                            <div style="background:var(--bg-light);padding:12px;border-radius:12px;text-align:center;">
-                                <div style="font-size:24px;font-weight:800;color:#F4A261;" id="quick-categories">0</div>
-                                <div style="font-size:11px;color:var(--text-muted);">Kategori</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- MAPS -->
-                <div class="card" style="padding:0;overflow:hidden;">
+                <div class="card" style="padding:0;overflow:hidden;margin-top:20px;">
                     <div style="padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
                         <h3 style="margin:0;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
                             <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-blue);"></span>
@@ -1426,7 +1386,7 @@
                     </div>
                 </div>
 
-                <!-- SOP Description untuk OF Cut -->
+                <!-- SOP Description untuk OF Cut (hanya tampil di atas tabel) -->
                 <div id="sop-description-container" class="sop-description hidden">
                     <strong>📋 SOP Penanganan Gangguan OF Cut:</strong><br>
                     1. Terima Laporan: Catat waktu, lokasi, dan jenis gangguan.<br>
@@ -1567,6 +1527,7 @@
                 <input type="hidden" id="inp-cat">
                 <input type="hidden" id="inp-gudang-selected">
                 <input type="hidden" id="form-mode" value="tambah">
+                <input type="hidden" id="edit-key" value="">
                 <div style="display:grid;gap:14px;">
                     <div>
                         <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tanggal <span style="color:#E76F51;">*</span></label>
@@ -1911,7 +1872,7 @@
                         </div>
                     </div>
 
-                    <!-- FIELD KHUSUS OF Cut -->
+                    <!-- FIELD KHUSUS OF Cut (tanpa SOP) -->
                     <div id="field-ofcut" class="hidden">
                         <div style="background:#CAF0F8;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #90E0EF;">
                             <div style="font-size:12px;font-weight:600;color:#0077B6;margin-bottom:4px;">📏 Detail OF Cut</div>
@@ -1975,28 +1936,7 @@
                         </div>
                     </div>
 
-                    <!-- SOP CONTAINER (hanya untuk OF Cut sebagai deskripsi) -->
-                    <div id="sop-container" style="display:none;">
-                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">
-                            SOP / Prosedur yang Dilakukan <span style="color:#E76F51;">*</span>
-                            <span style="font-weight:400;color:var(--text-muted);font-size:11px;">(Pilih 1 atau lebih)</span>
-                        </label>
-                        <div class="sop-container">
-                            <div class="sop-grid" id="sop-grid"></div>
-                            <div class="sop-progress">
-                                <span style="font-size:11px;font-weight:600;color:var(--text-muted);">Progress:</span>
-                                <div class="sop-progress-bar">
-                                    <div class="sop-progress-fill" id="sop-progress-fill"></div>
-                                </div>
-                                <span class="sop-progress-text" id="sop-progress-text">0/12</span>
-                            </div>
-                            <div class="sop-summary" id="sop-summary">
-                                <strong>📋 Rangkuman SOP yang dipilih:</strong>
-                                <span id="sop-summary-text">Belum ada</span>
-                            </div>
-                            <input type="hidden" id="form-sop" value="">
-                        </div>
-                    </div>
+                    <!-- SOP CONTAINER dihapus untuk OF Cut, hanya tampil sebagai deskripsi di atas tabel -->
 
                     <div id="field-notes-wrap">
                         <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan Tambahan</label>
@@ -2191,7 +2131,7 @@
         // ============================================================
         let currentUser = null;
         let currentCategory = 'dashboard';
-        let currentSubTab = 'p3'; // untuk P3/Temuan
+        let currentSubTab = 'p3';
         let appData = {};
         let map = null;
         let mapModal = null;
@@ -2247,7 +2187,7 @@
         }
 
         // ============================================================
-        // DEFAULT KML DATA
+        // DEFAULT KML DATA (warna per titik berbeda)
         // ============================================================
         const defaultKmlString = `<?xml version="1.0" encoding="UTF-8"?>
         <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -2509,7 +2449,6 @@
                         if (parts.length >= 2) {
                             var lon = parseFloat(parts[0]);
                             var lat = parseFloat(parts[1]);
-                            // Warna unik per titik
                             var color = colorPalette[colorIdx % colorPalette.length];
                             colorIdx++;
                             var marker = L.circleMarker([lat, lon], {
@@ -2593,7 +2532,6 @@
                             initCarousel();
                         }, 100);
                         setupEventListeners();
-                        initSOPUI();
                         loadData();
                         loadSettings();
                         loadBarcodeCache();
@@ -2604,7 +2542,6 @@
             }
 
             setupEventListeners();
-            initSOPUI();
             loadData();
             loadSettings();
             loadBarcodeCache();
@@ -2829,7 +2766,6 @@
                 } else if (item.status === 'Out') {
                     totalOut += 1;
                 } else if (item.trType === 'Masuk') {
-                    // fallback untuk data lama
                     totalReady += parseInt(item.qty) || 0;
                 } else if (item.trType === 'Keluar') {
                     totalOut += parseInt(item.qty) || 0;
@@ -2908,7 +2844,7 @@
         }
 
         // ============================================================
-        // QUICK STATS
+        // QUICK STATS (hanya total data, ringkasan di dashboard dihilangkan)
         // ============================================================
         function updateQuickStats() {
             var totalData = 0;
@@ -2922,8 +2858,10 @@
                     }
                 }
             });
-            document.getElementById('quick-total').textContent = totalData;
-            document.getElementById('quick-categories').textContent = categories;
+            // update hidden fields if needed
+            document.getElementById('quick-total') && (document.getElementById('quick-total').textContent = totalData);
+            document.getElementById('quick-categories') && (document.getElementById('quick-categories').textContent =
+            categories);
         }
 
         // ============================================================
@@ -2957,6 +2895,7 @@
                 document.getElementById('stok-summary-container').classList.add('hidden');
                 document.getElementById('sub-tabs-container').classList.add('hidden');
                 document.getElementById('sop-description-container').classList.add('hidden');
+                updateQuickStats();
                 return;
             }
 
@@ -2971,7 +2910,6 @@
             var isP3Temuan = cat === 'P3_Temuan';
 
             document.getElementById('btn-history').classList.toggle('hidden', !isStock);
-            document.getElementById('btn-retur-page') && document.getElementById('btn-retur-page').classList.add('hidden');
 
             document.getElementById('page-title').textContent = isP3Temuan ? 'Pekerjaan & Temuan' : cat;
 
@@ -2979,11 +2917,9 @@
             var subTabs = document.getElementById('sub-tabs-container');
             if (isP3Temuan) {
                 subTabs.classList.remove('hidden');
-                // Set active tab
                 document.querySelectorAll('.sub-tab').forEach(function(t) {
                     t.classList.toggle('active', t.dataset.sub === currentSubTab);
                 });
-                // Update category berdasarkan sub tab
                 var realCat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
                 document.getElementById('inp-cat').value = realCat;
             } else {
@@ -2991,7 +2927,7 @@
                 document.getElementById('inp-cat').value = cat;
             }
 
-            // SOP Description untuk OF Cut
+            // SOP Description untuk OF Cut (hanya di atas tabel, bukan di form)
             var sopDesc = document.getElementById('sop-description-container');
             if (isOfCut) {
                 sopDesc.classList.remove('hidden');
@@ -3001,11 +2937,7 @@
 
             // Filter bar
             var filterBar = document.getElementById('filter-bar-container');
-            if (['Alkur/Material', 'Stok Spare', 'Patch Cord'].indexOf(cat) !== -1 || isP3Temuan) {
-                filterBar.style.display = 'flex';
-            } else {
-                filterBar.style.display = 'flex';
-            }
+            filterBar.style.display = 'flex';
 
             renderTable();
             updateStokSummary();
@@ -3130,7 +3062,6 @@
                         specField.value = barcodeCache[code];
                         info.textContent = '✅ Barang ditemukan: ' + barcodeCache[code];
                         info.style.color = '#2A9D8F';
-                        // Cek status barang
                         var list = appData['Stok Spare'] || {};
                         var found = false;
                         for (var key in list) {
@@ -3205,7 +3136,6 @@
                     document.getElementById('settings-modal').classList.remove('hidden');
                     document.getElementById('hero-about-input').value = document.getElementById('hero-about-text')
                         .textContent;
-                    // Load carousel images in settings
                     var container = document.getElementById('carousel-images-container');
                     if (container) {
                         container.innerHTML = '';
@@ -3328,8 +3258,6 @@
         // SCANNER FUNCTIONS
         // ============================================================
         function toggleScanner(type) {
-            var containerId = type === 'modal' ? 'modal-scanner' : (type === 'update' ? 'modal-scanner' : 'modal-scanner');
-            // Untuk update, gunakan scanner yang sama
             var container = document.getElementById('modal-scanner');
             if (!container) return;
 
@@ -3423,29 +3351,25 @@
 
                                         if (statusEl) statusEl.textContent = '✅ Ditemukan!';
 
-                                        if (type === 'modal' || type === 'update') {
-                                            // Cek apakah ini form tambah stok atau update
-                                            var isUpdate = document.getElementById('form-mode').value ===
-                                                'update';
-                                            if (isUpdate) {
-                                                document.getElementById('inp-update-sn').value = code;
-                                                // Trigger input event
-                                                var evt = new Event('input');
-                                                document.getElementById('inp-update-sn').dispatchEvent(evt);
+                                        var isUpdate = document.getElementById('form-mode').value ===
+                                            'update';
+                                        if (isUpdate) {
+                                            document.getElementById('inp-update-sn').value = code;
+                                            var evt = new Event('input');
+                                            document.getElementById('inp-update-sn').dispatchEvent(evt);
+                                        } else {
+                                            document.getElementById('inp-sn').value = code;
+                                            if (barcodeCache[code]) {
+                                                document.getElementById('inp-spec').value = barcodeCache[
+                                                code];
+                                                showToast('✅ SN: ' + code + ' - Nama ditemukan',
+                                                    'success');
                                             } else {
-                                                document.getElementById('inp-sn').value = code;
-                                                if (barcodeCache[code]) {
-                                                    document.getElementById('inp-spec').value = barcodeCache[
-                                                    code];
-                                                    showToast('✅ SN: ' + code + ' - Nama ditemukan',
-                                                        'success');
-                                                } else {
-                                                    document.getElementById('inp-spec').value = '';
-                                                    document.getElementById('inp-spec').placeholder =
-                                                        'Input nama barang baru...';
-                                                    showToast('📷 SN baru: ' + code +
-                                                        ', silakan input nama', 'success');
-                                                }
+                                                document.getElementById('inp-spec').value = '';
+                                                document.getElementById('inp-spec').placeholder =
+                                                    'Input nama barang baru...';
+                                                showToast('📷 SN baru: ' + code +
+                                                    ', silakan input nama', 'success');
                                             }
                                         }
 
@@ -3699,7 +3623,6 @@
                 document.getElementById('btn-ok-spare').classList.add('hidden');
                 document.getElementById('gudang-modal').classList.remove('hidden');
 
-                // Reset spare action
                 spareAction = 'tambah';
                 document.querySelectorAll('.spare-action-btn').forEach(function(b) {
                     b.classList.toggle('active', b.dataset.action === 'tambah');
@@ -3714,7 +3637,6 @@
             el.classList.add('selected');
             selectedGudang = el.dataset.gudang;
 
-            // Tampilkan action buttons untuk Spare
             if (currentCategory === 'Stok Spare') {
                 document.getElementById('spare-action-container').classList.remove('hidden');
                 document.getElementById('btn-ok-spare').classList.remove('hidden');
@@ -3749,19 +3671,124 @@
         }
 
         // ============================================================
-        // OPEN FORM
+        // OPEN FORM (dengan edit mode)
         // ============================================================
-        function openForm() {
+        function openForm(editData, editKey) {
             var modal = document.getElementById('form-modal');
             modal.classList.remove('hidden');
-            editingKey = null;
+
+            editingKey = editKey || null;
             isSubmitting = false;
 
-            document.getElementById('inp-cat').value = currentCategory;
-            document.getElementById('modal-title').textContent = 'Tambah Data - ' + currentCategory;
-            document.getElementById('inp-date').valueAsDate = new Date();
+            var cat = document.getElementById('inp-cat').value;
+            if (editData) {
+                document.getElementById('modal-title').textContent = 'Edit Data - ' + cat;
+                document.getElementById('edit-key').value = editKey || '';
+                // Populate fields from editData
+                populateFormFields(editData);
+            } else {
+                document.getElementById('modal-title').textContent = 'Tambah Data - ' + cat;
+                document.getElementById('edit-key').value = '';
+                document.getElementById('inp-date').valueAsDate = new Date();
+                resetFormFields();
+            }
 
-            // Reset semua field
+            var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
+            var isPatch = cat === 'Patch Cord';
+            var isAlkur = cat === 'Alkur/Material';
+            var isHandhole = cat === 'Handhole';
+            var isJoint = cat === 'Joint';
+            var isOpm = cat === 'OPM/OLS';
+            var isOfCut = cat === 'Data OF Cut';
+            var isP3Temuan = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
+            var isSpare = cat === 'Stok Spare';
+
+            // Sembunyikan semua field
+            document.getElementById('field-stock').classList.add('hidden');
+            document.getElementById('field-patchcord').classList.add('hidden');
+            document.getElementById('field-alkur').classList.add('hidden');
+            document.getElementById('field-normal').classList.add('hidden');
+            document.getElementById('field-coords-wrap').classList.add('hidden');
+            document.getElementById('field-notes-wrap').classList.remove('hidden');
+            document.getElementById('field-opm').classList.add('hidden');
+            document.getElementById('field-kondisi').classList.add('hidden');
+            document.getElementById('field-ofcut').classList.add('hidden');
+            document.getElementById('field-p3temuan').classList.add('hidden');
+            document.getElementById('form-tambah-stok').classList.remove('hidden');
+            document.getElementById('form-update-pemakaian').classList.add('hidden');
+            document.getElementById('form-mode').value = 'tambah';
+
+            if (isStock) {
+                document.getElementById('field-stock').classList.remove('hidden');
+                document.getElementById('selected-gudang-display').textContent = selectedGudang || 'Belum dipilih';
+                document.getElementById('inp-gudang-selected').value = selectedGudang || '';
+
+                if (isPatch) {
+                    document.getElementById('field-patchcord').classList.remove('hidden');
+                    document.getElementById('field-stock').classList.add('hidden');
+                    document.getElementById('patchcord-gudang-display').textContent = selectedGudang || 'Belum dipilih';
+                    document.getElementById('field-notes-wrap').classList.add('hidden');
+                } else if (isSpare) {
+                    if (spareAction === 'update') {
+                        document.getElementById('form-tambah-stok').classList.add('hidden');
+                        document.getElementById('form-update-pemakaian').classList.remove('hidden');
+                        document.getElementById('form-mode').value = 'update';
+                        document.getElementById('modal-title').textContent = 'Update Pemakaian - Stok Spare';
+                    } else {
+                        document.getElementById('form-tambah-stok').classList.remove('hidden');
+                        document.getElementById('form-update-pemakaian').classList.add('hidden');
+                        document.getElementById('form-mode').value = 'tambah';
+                        document.getElementById('modal-title').textContent = 'Tambah Stok - ' + cat;
+                    }
+                }
+                document.getElementById('field-notes-wrap').classList.add('hidden');
+            }
+
+            if (isAlkur) {
+                document.getElementById('field-alkur').classList.remove('hidden');
+                document.getElementById('field-notes-wrap').classList.add('hidden');
+            }
+
+            if (isOpm) {
+                document.getElementById('field-opm').classList.remove('hidden');
+                document.getElementById('field-notes-wrap').classList.remove('hidden');
+                document.getElementById('field-normal').classList.add('hidden');
+                document.getElementById('field-coords-wrap').classList.add('hidden');
+            }
+
+            if (isHandhole || isJoint) {
+                document.getElementById('field-normal').classList.remove('hidden');
+                document.getElementById('field-coords-wrap').classList.remove('hidden');
+                document.getElementById('field-kondisi').classList.remove('hidden');
+            }
+
+            if (isOfCut) {
+                document.getElementById('field-normal').classList.remove('hidden');
+                document.getElementById('field-coords-wrap').classList.remove('hidden');
+                document.getElementById('field-ofcut').classList.remove('hidden');
+                // SOP tidak ditampilkan di form, hanya di atas tabel
+            }
+
+            if (isP3Temuan) {
+                document.getElementById('field-normal').classList.remove('hidden');
+                document.getElementById('field-coords-wrap').classList.remove('hidden');
+                document.getElementById('field-p3temuan').classList.remove('hidden');
+                var label = document.getElementById('p3temuan-label');
+                if (label) {
+                    label.textContent = cat === 'Pekerjaan Pihak Ke-3' ?
+                        '📋 Data Pekerjaan Pihak Ke-3' :
+                        '📋 Data Temuan Lapangan';
+                }
+            }
+
+            if (editData) {
+                document.getElementById('inp-date').value = editData.date || '';
+            }
+
+            stopScanner('modal');
+        }
+
+        function resetFormFields() {
             document.getElementById('inp-loc').value = '';
             document.getElementById('inp-coords').value = '';
             document.getElementById('inp-notes').value = '';
@@ -3805,110 +3832,83 @@
             document.getElementById('inp-p3-pelaksana').value = '';
             document.getElementById('inp-p3-lama').value = '';
             document.getElementById('inp-p3-keterangan').value = '';
+        }
 
-            var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
-            var isPatch = currentCategory === 'Patch Cord';
-            var isAlkur = currentCategory === 'Alkur/Material';
-            var isHandhole = currentCategory === 'Handhole';
-            var isJoint = currentCategory === 'Joint';
-            var isOpm = currentCategory === 'OPM/OLS';
-            var isOfCut = currentCategory === 'Data OF Cut';
-            var isP3Temuan = (currentCategory === 'Pekerjaan Pihak Ke-3' || currentCategory === 'Temuan Lapangan');
+        function populateFormFields(data) {
+            // Isi field berdasarkan data yang ada
+            if (data.date) document.getElementById('inp-date').value = data.date;
+            if (data.location) document.getElementById('inp-loc').value = data.location;
+            if (data.coords) document.getElementById('inp-coords').value = data.coords;
+            if (data.notes) document.getElementById('inp-notes').value = data.notes;
 
-            // Sembunyikan semua field
-            document.getElementById('field-stock').classList.add('hidden');
-            document.getElementById('field-patchcord').classList.add('hidden');
-            document.getElementById('field-alkur').classList.add('hidden');
-            document.getElementById('field-normal').classList.add('hidden');
-            document.getElementById('field-coords-wrap').classList.add('hidden');
-            document.getElementById('sop-container').style.display = 'none';
-            document.getElementById('field-notes-wrap').classList.remove('hidden');
-            document.getElementById('field-opm').classList.add('hidden');
-            document.getElementById('field-kondisi').classList.add('hidden');
-            document.getElementById('field-ofcut').classList.add('hidden');
-            document.getElementById('field-p3temuan').classList.add('hidden');
-            document.getElementById('form-tambah-stok').classList.remove('hidden');
-            document.getElementById('form-update-pemakaian').classList.add('hidden');
-            document.getElementById('form-mode').value = 'tambah';
+            // Spare
+            if (data.sn) document.getElementById('inp-sn').value = data.sn;
+            if (data.spec) document.getElementById('inp-spec').value = data.spec;
+            if (data.status) document.getElementById('inp-status').value = data.status;
+            if (data.lemari) document.getElementById('inp-lemari').value = data.lemari;
+            if (data.rak) document.getElementById('inp-rak').value = data.rak;
+            if (data.riwayat) document.getElementById('inp-riwayat').value = data.riwayat;
+            if (data.kondisi) document.getElementById('inp-kondisi-spare').value = data.kondisi;
+            if (data.notes) document.getElementById('inp-notes-stock').value = data.notes;
 
-            if (isStock) {
-                document.getElementById('field-stock').classList.remove('hidden');
-                document.getElementById('selected-gudang-display').textContent = selectedGudang || 'Belum dipilih';
-                document.getElementById('inp-gudang-selected').value = selectedGudang || '';
+            // Patch
+            if (data.pcType) document.getElementById('inp-pc-type').value = data.pcType;
+            if (data.pcLength) document.getElementById('inp-pc-length').value = data.pcLength;
+            if (data.trType) document.getElementById('inp-pc-trtype').value = data.trType;
+            if (data.qty) document.getElementById('inp-pc-qty').value = data.qty;
+            if (data.notes) document.getElementById('inp-notes-patch').value = data.notes;
 
-                if (isPatch) {
-                    document.getElementById('field-patchcord').classList.remove('hidden');
-                    document.getElementById('field-stock').classList.add('hidden');
-                    document.getElementById('patchcord-gudang-display').textContent = selectedGudang || 'Belum dipilih';
-                    document.getElementById('field-notes-wrap').classList.add('hidden');
+            // Alkur
+            if (data.nama) document.getElementById('inp-alkur-nama').value = data.nama;
+            if (data.jenis) document.getElementById('inp-alkur-jenis').value = data.jenis;
+            if (data.merk) document.getElementById('inp-alkur-merk').value = data.merk;
+            if (data.jumlah) document.getElementById('inp-alkur-jumlah').value = data.jumlah;
+            if (data.lokasi) document.getElementById('inp-alkur-lokasi').value = data.lokasi;
+            if (data.keterangan) document.getElementById('inp-alkur-keterangan').value = data.keterangan;
+
+            // Handhole/Joint
+            if (data.kondisi) document.getElementById('inp-kondisi').value = data.kondisi;
+
+            // OPM
+            if (data.ruas) document.getElementById('inp-opm-ruas').value = data.ruas;
+            if (data.slot) document.getElementById('inp-opm-slot').value = data.slot;
+            if (data.port) document.getElementById('inp-opm-port').value = data.port;
+            if (data.dbm) document.getElementById('inp-opm-dbm').value = data.dbm;
+            if (data.dari) document.getElementById('inp-opm-dari').value = data.dari;
+            if (data.ke) document.getElementById('inp-opm-ke').value = data.ke;
+
+            // OF Cut
+            if (data.panjangCut) document.getElementById('inp-ofcut-panjang').value = data.panjangCut;
+            if (data.rute) document.getElementById('inp-ofcut-rute').value = data.rute;
+            if (data.penyebab) {
+                var penyebab = data.penyebab;
+                var select = document.getElementById('inp-ofcut-penyebab');
+                var isLain = ['vandalisme', 'pihak ke 3', 'bencana'].indexOf(penyebab) === -1;
+                if (isLain) {
+                    select.value = 'lainnya';
+                    document.getElementById('penyebab-lain-wrap').classList.remove('hidden');
+                    document.getElementById('inp-ofcut-penyebab-lain').value = penyebab;
                 } else {
-                    // Spare: tampilkan form sesuai action
-                    if (spareAction === 'update') {
-                        document.getElementById('form-tambah-stok').classList.add('hidden');
-                        document.getElementById('form-update-pemakaian').classList.remove('hidden');
-                        document.getElementById('form-mode').value = 'update';
-                        document.getElementById('modal-title').textContent = 'Update Pemakaian - Stok Spare';
-                    } else {
-                        document.getElementById('form-tambah-stok').classList.remove('hidden');
-                        document.getElementById('form-update-pemakaian').classList.add('hidden');
-                        document.getElementById('form-mode').value = 'tambah';
-                        document.getElementById('modal-title').textContent = 'Tambah Stok - ' + currentCategory;
-                    }
+                    select.value = penyebab;
                 }
-                document.getElementById('field-notes-wrap').classList.add('hidden');
             }
+            if (data.keterangan) document.getElementById('inp-ofcut-keterangan').value = data.keterangan;
 
-            if (isAlkur) {
-                document.getElementById('field-alkur').classList.remove('hidden');
-                document.getElementById('field-notes-wrap').classList.add('hidden');
-            }
-
-            if (isOpm) {
-                document.getElementById('field-opm').classList.remove('hidden');
-                document.getElementById('field-notes-wrap').classList.remove('hidden');
-                document.getElementById('field-normal').classList.add('hidden');
-                document.getElementById('field-coords-wrap').classList.add('hidden');
-                document.getElementById('sop-container').style.display = 'none';
-            }
-
-            if (isHandhole || isJoint) {
-                document.getElementById('field-normal').classList.remove('hidden');
-                document.getElementById('field-coords-wrap').classList.remove('hidden');
-                document.getElementById('field-kondisi').classList.remove('hidden');
-                document.getElementById('sop-container').style.display = 'none';
-            }
-
-            if (isOfCut) {
-                document.getElementById('field-normal').classList.remove('hidden');
-                document.getElementById('field-coords-wrap').classList.remove('hidden');
-                document.getElementById('field-ofcut').classList.remove('hidden');
-                document.getElementById('sop-container').style.display = 'block';
-                // SOP tetap sebagai pilihan untuk OF Cut
-            }
-
-            if (isP3Temuan) {
-                document.getElementById('field-normal').classList.remove('hidden');
-                document.getElementById('field-coords-wrap').classList.remove('hidden');
-                document.getElementById('field-p3temuan').classList.remove('hidden');
-                var label = document.getElementById('p3temuan-label');
-                if (label) {
-                    label.textContent = currentCategory === 'Pekerjaan Pihak Ke-3' ?
-                        '📋 Data Pekerjaan Pihak Ke-3' :
-                        '📋 Data Temuan Lapangan';
-                }
-                document.getElementById('sop-container').style.display = 'none';
-            }
-
-            stopScanner('modal');
+            // P3/Temuan
+            if (data.pelaksana) document.getElementById('inp-p3-pelaksana').value = data.pelaksana;
+            if (data.lamaPekerjaan) document.getElementById('inp-p3-lama').value = data.lamaPekerjaan;
+            if (data.keterangan) document.getElementById('inp-p3-keterangan').value = data.keterangan;
         }
 
         function closeModal() {
             document.getElementById('form-modal').classList.add('hidden');
             stopScanner('modal');
+            editingKey = null;
+            document.getElementById('edit-key').value = '';
         }
 
         // ============================================================
-        // SUBMIT FORM (dengan logika baru untuk semua kategori)
+        // SUBMIT FORM (dengan logika edit)
         // ============================================================
         function submitForm(e) {
             if (e && e.preventDefault) {
@@ -3926,6 +3926,8 @@
             }
 
             var cat = document.getElementById('inp-cat').value;
+            var editKey = document.getElementById('edit-key').value;
+
             var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
             var isPatch = cat === 'Patch Cord';
             var isAlkur = cat === 'Alkur/Material';
@@ -3973,28 +3975,22 @@
                 var items = appData[cat] || {};
                 for (var key in items) {
                     var item = items[key];
-                    if (item.barcode === uniqueKey) {
+                    if (item.barcode === uniqueKey && key !== editKey) {
                         existingKey = key;
                         break;
                     }
                 }
 
                 if (existingKey) {
-                    var existingData = items[existingKey];
-                    var newQty = parseInt(existingData.qty) + (trType === 'Masuk' ? qty : -qty);
-                    if (newQty < 0) newQty = 0;
-                    var updateData = {
-                        qty: newQty,
-                        date: data.date,
-                        notes: data.notes,
-                        postBy: data.postBy,
-                        pcType: data.pcType,
-                        pcLength: data.pcLength,
-                        barcode: data.barcode
-                    };
-                    db.ref('data/' + cat + '/' + existingKey).update(updateData)
+                    showToast('❌ Barcode sudah terdaftar!', 'error');
+                    return;
+                }
+
+                if (editKey) {
+                    data.qty = qty;
+                    db.ref('data/' + cat + '/' + editKey).update(data)
                         .then(function() {
-                            showToast('✅ Stok Patch Cord diperbarui', 'success');
+                            showToast('✅ Data Patch Cord diperbarui', 'success');
                             closeModal();
                             setTimeout(function() {
                                 updateStokSummary();
@@ -4008,9 +4004,37 @@
                         });
                     return;
                 }
+
+                // Simpan baru
+                isSubmitting = true;
+                var submitBtn = document.getElementById('btn-submit-form');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Menyimpan...';
+
+                db.ref('data/' + cat).push(data)
+                    .then(function() {
+                        showToast('✅ Patch Cord berhasil ditambahkan', 'success');
+                        closeModal();
+                        setTimeout(function() {
+                            updateStokSummary();
+                            renderTable();
+                            updateQuickStats();
+                            updateMapMarkers();
+                        }, 300);
+                    })
+                    .catch(function(err) {
+                        console.error('❌ Error saving patch:', err);
+                        showToast('❌ Gagal menyimpan: ' + err.message, 'error');
+                    })
+                    .finally(function() {
+                        isSubmitting = false;
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Simpan Data';
+                    });
+                return;
             }
 
-            // ===== STOK SPARE (versi baru) =====
+            // ===== STOK SPARE =====
             if (isSpare) {
                 var mode = document.getElementById('form-mode').value;
 
@@ -4039,12 +4063,11 @@
                     data.kondisi = kondisiSpare;
                     data.notes = notes;
 
-                    // Cek duplikat SN
                     var items = appData[cat] || {};
                     var dupKey = null;
                     for (var key in items) {
                         var item = items[key];
-                        if (item.sn === sn) {
+                        if (item.sn === sn && key !== editKey) {
                             dupKey = key;
                             break;
                         }
@@ -4054,7 +4077,25 @@
                         return;
                     }
 
-                    // Simpan
+                    if (editKey) {
+                        db.ref('data/' + cat + '/' + editKey).update(data)
+                            .then(function() {
+                                showToast('✅ Stok diperbarui', 'success');
+                                updateBarcodeCache(sn, spec);
+                                closeModal();
+                                setTimeout(function() {
+                                    updateStokSummary();
+                                    renderTable();
+                                    updateQuickStats();
+                                    updateMapMarkers();
+                                }, 300);
+                            })
+                            .catch(function(err) {
+                                showToast('❌ Gagal update: ' + err.message, 'error');
+                            });
+                        return;
+                    }
+
                     isSubmitting = true;
                     var submitBtn = document.getElementById('btn-submit-form');
                     submitBtn.disabled = true;
@@ -4085,7 +4126,6 @@
                 }
 
                 if (mode === 'update') {
-                    // UPDATE PEMAKAIAN
                     var updateSn = document.getElementById('inp-update-sn').value.trim();
                     var updateSpec = document.getElementById('inp-update-spec').value.trim();
                     var tujuan = document.getElementById('inp-update-tujuan').value;
@@ -4097,7 +4137,6 @@
                         return;
                     }
 
-                    // Cari data berdasarkan SN
                     var items = appData[cat] || {};
                     var targetKey = null;
                     for (var key in items) {
@@ -4170,7 +4209,6 @@
                 data.jumlah = jumlah;
                 data.lokasi = lokasi;
                 data.keterangan = keterangan;
-                // kondisi dihapus
             }
 
             // ===== HANDHOLE & JOINT =====
@@ -4220,7 +4258,6 @@
                 var penyebab = document.getElementById('inp-ofcut-penyebab').value;
                 var penyebabLain = document.getElementById('inp-ofcut-penyebab-lain').value.trim();
                 var keteranganOf = document.getElementById('inp-ofcut-keterangan').value.trim();
-                var notes = document.getElementById('inp-notes').value.trim();
 
                 if (!location || !coords || isNaN(panjangCut) || panjangCut <= 0 || !rute || !penyebab) {
                     showToast('❌ Isi semua field OF Cut (Lokasi, Koordinat, Panjang Cut, Rute, Penyebab)', 'error');
@@ -4237,20 +4274,8 @@
                 data.panjangCut = panjangCut;
                 data.rute = rute;
                 data.penyebab = penyebab === 'lainnya' ? penyebabLain : penyebab;
-                data.keterangan = keteranganOf || notes;
-
-                // SOP
-                var sopValue = document.getElementById('form-sop').value;
-                if (sopValue) {
-                    try {
-                        var parsed = JSON.parse(sopValue);
-                        if (parsed && parsed.length > 0) {
-                            data.sop = parsed;
-                        }
-                    } catch (e) {
-                        data.sop = [];
-                    }
-                }
+                data.keterangan = keteranganOf;
+                // SOP tidak disimpan, hanya tampil di atas tabel
             }
 
             // ===== P3 / TEMUAN =====
@@ -4260,7 +4285,6 @@
                 var pelaksana = document.getElementById('inp-p3-pelaksana').value.trim();
                 var lama = document.getElementById('inp-p3-lama').value.trim();
                 var keteranganP3 = document.getElementById('inp-p3-keterangan').value.trim();
-                var notes = document.getElementById('inp-notes').value.trim();
 
                 if (!location || !coords || !pelaksana || !lama) {
                     showToast('❌ Isi Lokasi, Koordinat, Pelaksana, dan Lama Pekerjaan', 'error');
@@ -4270,18 +4294,18 @@
                 data.coords = coords;
                 data.pelaksana = pelaksana;
                 data.lamaPekerjaan = lama;
-                data.keterangan = keteranganP3 || notes;
+                data.keterangan = keteranganP3;
             }
 
-            // ===== SIMPAN =====
+            // ===== SIMPAN (dengan edit support) =====
             isSubmitting = true;
             var submitBtn = document.getElementById('btn-submit-form');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Menyimpan...';
 
             var ref = db.ref('data/' + cat);
-            var submitPromise = editingKey ?
-                ref.child(editingKey).update(data) :
+            var submitPromise = editKey ?
+                ref.child(editKey).update(data) :
                 ref.push(data);
 
             submitPromise
@@ -4330,7 +4354,7 @@
         }
 
         // ============================================================
-        // RENDER TABLE (dengan kolom yang disesuaikan)
+        // RENDER TABLE (dengan tombol edit)
         // ============================================================
         function renderTable() {
             try {
@@ -4402,7 +4426,7 @@
                 var isOfCut = cat === 'Data OF Cut';
                 var isP3Temuan = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
 
-                // Generate header sesuai kategori
+                // Header sesuai kategori
                 if (isSpare) {
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Keterangan</th><th>Aksi</th></tr>';
@@ -4445,6 +4469,13 @@
                     }
                     prevMonth = currentMonth;
 
+                    var actionHtml = '';
+                    if (isAdmin) {
+                        actionHtml =
+                            '<button class="icon-btn edit" onclick="editItem(\'' + key + '\',\'' + cat + '\')" title="Edit"><i data-lucide="pencil" style="width:16px;"></i></button> ' +
+                            '<button class="icon-btn delete" onclick="deleteItem(\'' + key + '\',\'' + cat + '\')" title="Hapus"><i data-lucide="trash-2" style="width:16px;"></i></button>';
+                    }
+
                     if (isSpare) {
                         var statusColor = item.status === 'Ready' ? '#2A9D8F' : '#E76F51';
                         tbody.innerHTML += '<tr>' +
@@ -4465,10 +4496,7 @@
                             '">' + (item.kondisi || '-') + '</span></td>' +
                             '<td style="max-width:120px;white-space:normal;font-size:11px;">' + (item.notes || '') +
                             '</td>' +
-                            '<td>' +
-                            (isAdmin ? '<button class="icon-btn delete" onclick="deleteItem(\'' + key +
-                            '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '') +
-                            '</td>' +
+                            '<td>' + actionHtml + '</td>' +
                             '</tr>';
                     } else if (isPatch) {
                         var bgType = item.trType === 'Masuk' ? '#CAF0F8' : '#FDE8E3';
@@ -4484,10 +4512,7 @@
                             '<td><span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:' +
                             bgType + ';color:' + textColor + ';">' + (item.trType || '-') + '</span></td>' +
                             '<td><span style="font-weight:700;">' + (item.qty || 0) + '</span></td>' +
-                            '<td>' +
-                            (isAdmin ? '<button class="icon-btn delete" onclick="deleteItem(\'' + key +
-                            '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '') +
-                            '</td>' +
+                            '<td>' + actionHtml + '</td>' +
                             '</tr>';
                     } else if (isAlkur) {
                         tbody.innerHTML += '<tr>' +
@@ -4499,10 +4524,7 @@
                             '<td>' + (item.lokasi || '-') + '</td>' +
                             '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
                             '</span></td>' +
-                            '<td>' +
-                            (isAdmin ? '<button class="icon-btn delete" onclick="deleteItem(\'' + key +
-                            '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '') +
-                            '</td>' +
+                            '<td>' + actionHtml + '</td>' +
                             '</tr>';
                     } else if (isHandholeOrJoint) {
                         tbody.innerHTML += '<tr>' +
@@ -4517,10 +4539,7 @@
                             '">' + (item.kondisi || '-') + '</span></td>' +
                             '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
                             '</span></td>' +
-                            '<td>' +
-                            (isAdmin ? '<button class="icon-btn delete" onclick="deleteItem(\'' + key +
-                            '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '') +
-                            '</td>' +
+                            '<td>' + actionHtml + '</td>' +
                             '</tr>';
                     } else if (isOpm) {
                         tbody.innerHTML += '<tr>' +
@@ -4533,10 +4552,7 @@
                             '<td><span style="font-weight:600;">' + (item.ke || '-') + '</span></td>' +
                             '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
                             '</span></td>' +
-                            '<td>' +
-                            (isAdmin ? '<button class="icon-btn delete" onclick="deleteItem(\'' + key +
-                            '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '') +
-                            '</td>' +
+                            '<td>' + actionHtml + '</td>' +
                             '</tr>';
                     } else if (isOfCut) {
                         tbody.innerHTML += '<tr>' +
@@ -4550,10 +4566,7 @@
                             '<td style="font-size:12px;">' + (item.penyebab || '-') + '</td>' +
                             '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
                             '</span></td>' +
-                            '<td>' +
-                            (isAdmin ? '<button class="icon-btn delete" onclick="deleteItem(\'' + key +
-                            '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '') +
-                            '</td>' +
+                            '<td>' + actionHtml + '</td>' +
                             '</tr>';
                     } else if (isP3Temuan) {
                         tbody.innerHTML += '<tr>' +
@@ -4567,10 +4580,7 @@
                                 '') + '</td>' +
                             '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
                             '</span></td>' +
-                            '<td>' +
-                            (isAdmin ? '<button class="icon-btn delete" onclick="deleteItem(\'' + key +
-                            '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '') +
-                            '</td>' +
+                            '<td>' + actionHtml + '</td>' +
                             '</tr>';
                     } else {
                         tbody.innerHTML += '<tr>' +
@@ -4580,10 +4590,7 @@
                             '</td>' +
                             '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
                             '</span></td>' +
-                            '<td>' +
-                            (isAdmin ? '<button class="icon-btn delete" onclick="deleteItem(\'' + key +
-                            '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '') +
-                            '</td>' +
+                            '<td>' + actionHtml + '</td>' +
                             '</tr>';
                     }
                 });
@@ -4594,6 +4601,9 @@
             }
         }
 
+        // ============================================================
+        // DELETE ITEM (admin only)
+        // ============================================================
         window.deleteItem = function(key, cat) {
             if (!currentUser || currentUser.role !== 'admin') {
                 showToast('❌ Hanya admin yang dapat menghapus data', 'error');
@@ -4611,92 +4621,38 @@
         };
 
         // ============================================================
-        // SOP FUNCTIONS (untuk OF Cut)
+        // EDIT ITEM (admin only)
         // ============================================================
-        function initSOPUI() {
-            var grid = document.getElementById('sop-grid');
-            if (!grid) return;
+        window.editItem = function(key, cat) {
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast('❌ Hanya admin yang dapat mengedit data', 'error');
+                return;
+            }
 
-            grid.innerHTML = SOP_DATA.map(function(sop) {
-                return '<div class="sop-item" data-id="' + sop.id + '" onclick="toggleSOP(' + sop.id + ')">' +
-                    '<span class="sop-number">' + sop.id + '.</span>' +
-                    '<span class="sop-text">' + sop.text + '</span>' +
-                    '<span class="sop-check"><i data-lucide="check" style="width:14px;height:14px;display:none;"></i></span>' +
-                    '</div>';
-            }).join('');
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-        }
+            var list = appData[cat] || {};
+            var data = list[key];
+            if (!data) {
+                showToast('❌ Data tidak ditemukan', 'error');
+                return;
+            }
 
-        window.toggleSOP = function(id) {
-            var index = selectedSOP.indexOf(id);
-            if (index > -1) {
-                selectedSOP.splice(index, 1);
+            // Set category
+            if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
+                document.getElementById('inp-cat').value = cat;
+                currentSubTab = cat === 'Pekerjaan Pihak Ke-3' ? 'p3' : 'temuan';
             } else {
-                selectedSOP.push(id);
+                document.getElementById('inp-cat').value = cat;
             }
-            updateSOPUI();
+
+            // Set selected gudang jika ada
+            if (data.gudang) {
+                selectedGudang = data.gudang;
+                document.getElementById('inp-gudang-selected').value = data.gudang;
+            }
+
+            // Open form with data
+            openForm(data, key);
         };
-
-        function updateSOPUI() {
-            var items = document.querySelectorAll('.sop-item');
-            items.forEach(function(item) {
-                var id = parseInt(item.dataset.id);
-                var isChecked = selectedSOP.indexOf(id) !== -1;
-                item.classList.toggle('checked', isChecked);
-                var checkIcon = item.querySelector('.sop-check i');
-                if (checkIcon) {
-                    checkIcon.style.display = isChecked ? 'block' : 'none';
-                }
-            });
-
-            var total = SOP_DATA.length;
-            var done = selectedSOP.length;
-            var progress = total > 0 ? (done / total) * 100 : 0;
-            var fill = document.getElementById('sop-progress-fill');
-            if (fill) fill.style.width = progress + '%';
-            var text = document.getElementById('sop-progress-text');
-            if (text) text.textContent = done + '/' + total;
-
-            var summary = document.getElementById('sop-summary');
-            var summaryText = document.getElementById('sop-summary-text');
-            if (summary && summaryText) {
-                if (selectedSOP.length > 0) {
-                    summary.classList.add('show');
-                    var selectedTexts = selectedSOP.map(function(id) {
-                        var sop = SOP_DATA.find(function(s) { return s.id === id; });
-                        return sop ? sop.id + '. ' + sop.text.substring(0, 40) + '...' : '';
-                    }).join('; ');
-                    summaryText.textContent = selectedTexts;
-                } else {
-                    summary.classList.remove('show');
-                    summaryText.textContent = 'Belum ada';
-                }
-            }
-
-            var hiddenInput = document.getElementById('form-sop');
-            if (hiddenInput) {
-                var selectedData = selectedSOP.map(function(id) {
-                    var sop = SOP_DATA.find(function(s) { return s.id === id; });
-                    return sop ? { id: sop.id, label: sop.text } : null;
-                }).filter(Boolean);
-                hiddenInput.value = JSON.stringify(selectedData);
-            }
-        }
-
-        var SOP_DATA = [
-            { id: 1, text: 'Terima Laporan: Catat waktu, lokasi, dan jenis gangguan.' },
-            { id: 2, text: 'Mobilisasi: Segera berangkat lengkap alat, material & APD; beri tahu Team Engineering.' },
-            { id: 3, text: 'Amankan Lokasi: Pakai APD lengkap, pasang rambu, hindari bahaya.' },
-            { id: 4, text: 'Identifikasi: Cek penyebab, foto kondisi awal & catat koordinat.' },
-            { id: 5, text: 'Ukur Titik Rusak: Pakai OTDR/OPM, simpan hasil ukur.' },
-            { id: 6, text: 'Siapkan Perbaikan: Siapkan kabel, joint closure & alat sambung.' },
-            { id: 7, text: 'Sambung Fiber: Lakukan fusion splicing; utamakan core aktif dulu, lanjut core cadangan.' },
-            { id: 8, text: 'Pasang Closure: Pastikan rapat, kedap air, kabel sisa tertata rapi.' },
-            { id: 9, text: 'Uji Ulang: Ukur ulang dengan OTDR, pastikan redaman standar & layanan normal (konfirmasi ke Team Engineering).' },
-            { id: 10, text: 'Bersihkan Lokasi: Rapikan area, kumpulkan sisa material.' },
-            { id: 11, text: 'Lapor: Kirim data lengkap: waktu kejadian/pemulihan, penyebab, lokasi, foto, hasil ukur, material & personel.' },
-            { id: 12, text: 'APD yang digunakan wajib dibersihkan kembali sebelum disimpan dalam mobil.' }
-        ];
 
         // ============================================================
         // MAP FUNCTIONS
@@ -4927,7 +4883,6 @@
                 var ofCutCount = Object.keys(appData['Data OF Cut'] || {}).length;
                 var p3Count = Object.keys(appData['Pekerjaan Pihak Ke-3'] || {}).length;
 
-                // Filter berdasarkan periode
                 var period = document.getElementById('chart-period')?.value || 'all';
                 if (period !== 'all') {
                     var now = new Date();
