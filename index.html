@@ -3812,7 +3812,7 @@
         }
 
         // ============================================================
-        // SUBMIT FORM
+        // SUBMIT FORM (dengan perbaikan untuk OPM)
         // ============================================================
         function submitForm(e) {
             if (e && e.preventDefault) {
@@ -4146,7 +4146,7 @@
                 data.kondisi = kondisi;
             }
 
-            // ===== OPM/OLS =====
+            // ===== OPM/OLS (PERBAIKAN) =====
             if (isOpm) {
                 var ruas = document.getElementById('inp-opm-ruas').value;
                 var slot = document.getElementById('inp-opm-slot').value;
@@ -4156,15 +4156,17 @@
                 var ke = document.getElementById('inp-opm-ke').value;
 
                 if (!ruas || !slot || !port || isNaN(dbm) || !dari || !ke) {
-                    showToast('❌ Isi semua field OPM/OLS', 'error');
+                    showToast('❌ Isi semua field OPM/OLS (Ruas, Slot, Port, DBM, Dari, Ke)', 'error');
                     return;
                 }
+
                 data.ruas = ruas;
                 data.slot = slot;
                 data.port = port;
                 data.dbm = dbm;
                 data.dari = dari;
                 data.ke = ke;
+                // Tidak ada lokasi/koordinat untuk OPM
             }
 
             // ===== OF CUT =====
@@ -4427,7 +4429,7 @@
                 var isOfCut = cat === 'Data OF Cut';
                 var isP3Temuan = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
 
-                // Header sesuai kategori (tanpa barcode untuk Patch)
+                // Header sesuai kategori
                 if (isSpare) {
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Keterangan</th><th>Aksi</th></tr>';
@@ -4651,7 +4653,7 @@
         };
 
         // ============================================================
-        // MAP FUNCTIONS - dengan warna per kategori
+        // MAP FUNCTIONS - dengan warna per kategori dan legend
         // ============================================================
         function initMap() {
             if (map) return;
@@ -5055,7 +5057,7 @@
         }
 
         console.log('✅ Tema Coastline berhasil diterapkan!');
-        console.log('✅ Semua perubahan telah diterapkan.');
+        console.log('✅ Menu OPM/OLS telah diperbaiki.');
     </script>
 </body>
 </html>
