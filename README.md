@@ -1,2 +1,5063 @@
-# Patrolitim
-For my team
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>BUCIN — Cegah Insiden Network</title>
+
+    <!-- CDN Libraries -->
+    <script src="https://cdn.tailwindcss.com/3.4.17">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Libre+Franklin:wght@700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js">
+    </script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js">
+    </script>
+
+    <style>
+        /* ============================================================
+           THEME: Coastline
+           ============================================================ */
+        :root {
+            --primary-blue: #0077B6;
+            --primary-blue-dark: #005F8A;
+            --primary-blue-light: #90E0EF;
+            --primary-blue-very-light: #CAF0F8;
+            --blue-gradient: linear-gradient(135deg, #0077B6, #00B4D8);
+            --accent-gold: linear-gradient(135deg, #F4A261, #E76F51);
+            --accent-gold-light: #FDF0D5;
+            --bg-light: #E0F7FA;
+            --card-bg: #FFFFFF;
+            --text-dark: #023047;
+            --text-muted: #457B9D;
+            --line: #B2DFEE;
+            --radius: 16px;
+            --shadow: 0 4px 12px rgba(0, 119, 182, 0.15);
+            --shadow-hover: 0 8px 24px rgba(0, 119, 182, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            padding-bottom: 80px;
+            transition: background 0.3s ease;
+            background-image: radial-gradient(circle at 10% 30%, rgba(144, 224, 239, 0.3) 0%, transparent 60%),
+                radial-gradient(circle at 90% 70%, rgba(0, 180, 216, 0.2) 0%, transparent 50%);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid rgba(0, 119, 182, 0.08);
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-primary {
+            background: var(--blue-gradient);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            font-weight: 700;
+            padding: 12px 28px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 119, 182, 0.35);
+            min-height: 52px;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 119, 182, 0.45);
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-danger {
+            background: #E76F51;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            font-weight: 700;
+            padding: 12px 28px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(231, 111, 81, 0.3);
+            min-height: 52px;
+            font-size: 16px;
+        }
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 111, 81, 0.4);
+        }
+        .btn-danger:active {
+            transform: scale(0.97);
+        }
+        .btn-danger:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            font-weight: 600;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 48px;
+            font-size: 15px;
+        }
+        .btn-secondary:hover {
+            background: var(--primary-blue-very-light);
+            border-color: var(--primary-blue);
+        }
+
+        .btn-icon {
+            width: 42px;
+            height: 42px;
+            min-height: 42px;
+            padding: 0;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--line);
+            background: var(--card-bg);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 18px;
+            box-shadow: none;
+            flex-shrink: 0;
+        }
+        .btn-icon:hover {
+            background: var(--primary-blue-light);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        .btn-icon.primary {
+            background: var(--blue-gradient);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        .btn-icon.primary:hover {
+            background: var(--primary-blue-dark);
+            border-color: var(--primary-blue-dark);
+            color: white;
+        }
+        .btn-icon.danger {
+            background: #E76F51;
+            color: white;
+            border-color: #E76F51;
+        }
+        .btn-icon.danger:hover {
+            background: #D65A3A;
+            border-color: #D65A3A;
+            color: white;
+        }
+        .btn-icon.gold {
+            background: var(--accent-gold);
+            color: white;
+            border-color: #E76F51;
+        }
+        .btn-icon.gold:hover {
+            background: #E76F51;
+            border-color: #E76F51;
+            color: white;
+        }
+        .btn-icon.edit {
+            color: #2A9D8F;
+            border-color: #2A9D8F;
+        }
+        .btn-icon.edit:hover {
+            background: #2A9D8F;
+            color: white;
+            border-color: #2A9D8F;
+        }
+
+        .top-header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            height: 64px;
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.88);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 8px rgba(0, 119, 182, 0.08);
+        }
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            color: white;
+            background: var(--blue-gradient);
+            box-shadow: 0 4px 12px rgba(0, 119, 182, 0.35);
+            font-size: 20px;
+            font-weight: 800;
+        }
+        .brand-text {
+            font-weight: 800;
+            font-size: 22px;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--line);
+            display: flex;
+            overflow-x: auto;
+            z-index: 50;
+            padding-bottom: env(safe-area-inset-bottom);
+            scrollbar-width: none;
+            box-shadow: 0 -4px 12px rgba(0, 119, 182, 0.06);
+        }
+        .bottom-nav::-webkit-scrollbar {
+            display: none;
+        }
+        .nav-item {
+            flex: 0 0 auto;
+            min-width: 64px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            color: var(--text-muted);
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 0 6px;
+            position: relative;
+        }
+        .nav-item.active {
+            color: var(--primary-blue);
+            font-weight: 700;
+            transform: translateY(-2px);
+        }
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 3px;
+            background: var(--blue-gradient);
+            border-radius: 0 0 4px 4px;
+        }
+        .nav-item i {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.2s;
+        }
+        .nav-item.active i {
+            transform: scale(1.1);
+        }
+
+        .hero-panel {
+            border-radius: 20px;
+            padding: 28px 24px;
+            background: var(--blue-gradient);
+            color: white;
+            box-shadow: 0 12px 32px rgba(0, 119, 182, 0.35);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+        }
+        .hero-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 200px;
+            height: 200px;
+            background: rgba(244, 162, 97, 0.15);
+            border-radius: 50%;
+        }
+        .hero-panel h1,
+        .hero-panel p {
+            position: relative;
+            z-index: 1;
+        }
+        .hero-panel .hero-about {
+            position: relative;
+            z-index: 1;
+            margin-top: 10px;
+            opacity: 0.9;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .field-control {
+            width: 100%;
+            min-height: 48px;
+            border: 2px solid var(--line);
+            border-radius: 12px;
+            background: white;
+            padding: 0 16px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .field-control:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.15);
+        }
+        .field-control.error {
+            border-color: #E76F51;
+            box-shadow: 0 0 0 4px rgba(231, 111, 81, 0.15);
+        }
+        textarea.field-control {
+            padding: 12px 16px;
+            resize: vertical;
+        }
+        select.field-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23457B9D' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+
+        .icon-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+        .icon-btn:hover {
+            background: var(--bg-light);
+            color: var(--primary-blue);
+        }
+        .icon-btn.delete {
+            color: #E76F51;
+        }
+        .icon-btn.delete:hover {
+            background: #FDE8E3;
+        }
+        .icon-btn.edit {
+            color: #2A9D8F;
+        }
+        .icon-btn.edit:hover {
+            background: #CAF0F8;
+            color: #2A9D8F;
+        }
+
+        .modal-layer {
+            position: fixed;
+            z-index: 100;
+            inset: 0;
+            background: rgba(2, 48, 71, 0.5);
+            backdrop-filter: blur(8px);
+            display: grid;
+            place-items: end;
+        }
+        @media(min-width:640px) {
+            .modal-layer {
+                place-items: center;
+            }
+        }
+        .modal-card {
+            background: white;
+            width: 100%;
+            max-width: 560px;
+            border-radius: 24px 24px 0 0;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 24px;
+            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 24px 64px rgba(0, 119, 182, 0.2);
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .hidden {
+            display: none !important;
+        }
+
+        #map-container {
+            height: 400px;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            z-index: 1;
+            overflow: hidden;
+            position: relative;
+        }
+        @media(min-width:1024px) {
+            #map-container {
+                height: 500px;
+            }
+        }
+        .leaflet-control-zoom {
+            display: none !important;
+        }
+        .custom-map-controls {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .custom-map-btn {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 119, 182, 0.1);
+            border-radius: 10px;
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 119, 182, 0.08);
+            color: var(--text-dark);
+            transition: all 0.2s;
+        }
+        .custom-map-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 119, 182, 0.15);
+        }
+        .custom-map-btn.active {
+            background: var(--blue-gradient);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        /* Map Legend */
+        .map-legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            padding: 10px 14px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+            font-size: 11px;
+            border: 1px solid rgba(0, 119, 182, 0.1);
+            max-width: 180px;
+        }
+        .map-legend-title {
+            font-weight: 700;
+            font-size: 11px;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 4px;
+        }
+        .map-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 2px 0;
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        .map-legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .scanner-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 260px;
+            margin: 12px auto;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #0F2A3B;
+            display: none;
+            box-shadow: 0 4px 20px rgba(0, 119, 182, 0.3);
+        }
+        .scanner-wrapper.active {
+            display: block;
+        }
+        .scanner-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .scanner-guide {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 220px;
+            height: 100px;
+            border: 2px solid var(--primary-blue);
+            border-radius: 12px;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+            z-index: 5;
+        }
+        .scanner-laser {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: #E76F51;
+            box-shadow: 0 0 12px #E76F51;
+            animation: scanLine 1.5s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 5;
+        }
+        @keyframes scanLine {
+            0%,
+            100% {
+                opacity: 0.2;
+                top: 20%;
+            }
+            50% {
+                opacity: 1;
+                top: 80%;
+            }
+        }
+        .scanner-status {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 600;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+
+        .toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: var(--text-dark);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 99px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 999;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 8px 32px rgba(0, 119, 182, 0.2);
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.success {
+            background: var(--primary-blue);
+        }
+        .toast.error {
+            background: #E76F51;
+        }
+        .toast.warning {
+            background: #F4A261;
+        }
+        .toast.info {
+            background: #2A9D8F;
+        }
+
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--blue-gradient);
+            z-index: 200;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .login-screen::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .login-screen::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -20%;
+            width: 400px;
+            height: 400px;
+            background: rgba(244, 162, 97, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .login-card {
+            background: white;
+            padding: 40px 36px;
+            border-radius: 28px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 24px 64px rgba(0, 119, 182, 0.25);
+            position: relative;
+            z-index: 1;
+            animation: slideUpLogin 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideUpLogin {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .login-card .brand-mark {
+            margin: 0 auto;
+            width: 72px;
+            height: 72px;
+            font-size: 32px;
+            border-radius: 20px;
+        }
+        .login-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin: 16px 0 4px;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .login-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .login-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .login-divider::before,
+        .login-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--line);
+        }
+        .login-divider span {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--line);
+        }
+        .login-footer p {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .login-footer .highlight {
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+        .login-error {
+            color: #E76F51;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            padding: 8px 12px;
+            background: #FDE8E3;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: none;
+        }
+        .login-error.show {
+            display: block;
+        }
+
+        .gudang-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .gudang-card {
+            padding: 16px;
+            border: 2px solid var(--line);
+            border-radius: 14px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            background: white;
+        }
+        .gudang-card:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+        .gudang-card.selected {
+            border-color: var(--primary-blue);
+            background: var(--primary-blue-light);
+            box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.15);
+        }
+
+        .gudang-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .gudang-tab {
+            padding: 8px 20px;
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            background: var(--card-bg);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+        .gudang-tab:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+        .gudang-tab.active {
+            background: var(--blue-gradient);
+            color: white;
+            border-color: var(--primary-blue);
+            box-shadow: 0 2px 8px rgba(0, 119, 182, 0.3);
+        }
+
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .records-table th {
+            background: #E6F7FA;
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 2px solid var(--line);
+            font-weight: 700;
+            color: var(--text-muted);
+            white-space: nowrap;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .records-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #F3F8FA;
+            vertical-align: middle;
+        }
+        .records-table tr:hover td {
+            background: #F0F9FC;
+        }
+        .records-table .month-separator td {
+            border-top: 3px solid var(--primary-blue);
+            background: rgba(0, 119, 182, 0.06);
+        }
+
+        .stok-summary {
+            background: var(--primary-blue-very-light);
+            border: 1px solid var(--primary-blue-light);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .stok-summary .label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .stok-summary .value {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+        .stok-summary .value.masuk {
+            color: var(--primary-blue);
+        }
+        .stok-summary .value.keluar {
+            color: #E76F51;
+        }
+        .stok-summary .value.total {
+            color: #2A9D8F;
+        }
+
+        .sop-container {
+            background: var(--bg-light);
+            border-radius: 14px;
+            padding: 16px;
+            border: 1px solid var(--line);
+            margin-top: 8px;
+        }
+        .sop-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6px;
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .sop-grid::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sop-grid::-webkit-scrollbar-thumb {
+            background: #B2DFEE;
+            border-radius: 4px;
+        }
+        .sop-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 14px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .sop-item:hover {
+            border-color: var(--primary-blue);
+            background: var(--primary-blue-light);
+            transform: translateX(4px);
+        }
+        .sop-item.checked {
+            background: var(--primary-blue-light);
+            border-color: var(--primary-blue);
+            border-left: 4px solid var(--primary-blue);
+        }
+        .sop-item .sop-number {
+            font-weight: 700;
+            color: var(--primary-blue);
+            min-width: 28px;
+            font-size: 12px;
+        }
+        .sop-item .sop-text {
+            flex: 1;
+            color: var(--text-dark);
+        }
+        .sop-item .sop-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #B2DFEE;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+            margin-top: 1px;
+            background: white;
+        }
+        .sop-item.checked .sop-check {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+            color: white;
+        }
+        .sop-item .sop-check i {
+            width: 14px;
+            height: 14px;
+        }
+        .sop-progress {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--line);
+        }
+        .sop-progress-bar {
+            flex: 1;
+            height: 6px;
+            background: #E0F0F5;
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        .sop-progress-fill {
+            height: 100%;
+            background: var(--blue-gradient);
+            border-radius: 99px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .sop-progress-text {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            min-width: 50px;
+            text-align: right;
+        }
+        .sop-summary {
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: var(--accent-gold-light);
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--text-muted);
+            display: none;
+            border: 1px solid rgba(244, 162, 97, 0.2);
+        }
+        .sop-summary.show {
+            display: block;
+        }
+        .sop-summary strong {
+            color: var(--text-dark);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .filter-bar .filter-group {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 4px 8px;
+        }
+        .filter-bar .filter-group select,
+        .filter-bar .filter-group input {
+            border: none;
+            background: transparent;
+            padding: 6px 4px;
+            font-size: 13px;
+            font-family: inherit;
+            color: var(--text-dark);
+            outline: none;
+            min-height: 34px;
+        }
+        .filter-bar .filter-group select {
+            min-width: 100px;
+        }
+        .filter-bar .filter-group input[type="text"] {
+            min-width: 160px;
+        }
+
+        .spare-action-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 12px 0;
+        }
+        .spare-action-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid var(--line);
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .spare-action-btn:hover {
+            border-color: var(--primary-blue);
+            background: var(--primary-blue-light);
+            transform: translateY(-2px);
+        }
+        .spare-action-btn.active {
+            border-color: var(--primary-blue);
+            background: var(--primary-blue-light);
+            box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.15);
+        }
+        .spare-action-btn .icon {
+            display: block;
+            margin: 0 auto 4px;
+        }
+
+        .sub-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .sub-tab {
+            padding: 8px 20px;
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            background: var(--card-bg);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+        .sub-tab:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+        .sub-tab.active {
+            background: var(--blue-gradient);
+            color: white;
+            border-color: var(--primary-blue);
+            box-shadow: 0 2px 8px rgba(0, 119, 182, 0.3);
+        }
+
+        .sop-description {
+            background: var(--primary-blue-very-light);
+            border-left: 4px solid var(--primary-blue);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            line-height: 1.6;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .sop-description strong {
+            color: var(--primary-blue);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .chart-card {
+            grid-column: 1 / -1;
+        }
+
+        @media(min-width:768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .main-content {
+                padding: 20px;
+            }
+            .modal-card {
+                border-radius: 24px;
+            }
+        }
+        @media(max-width:480px) {
+            .hero-panel {
+                padding: 20px 16px;
+            }
+            .hero-panel h1 {
+                font-size: 20px;
+            }
+            .card {
+                padding: 12px;
+            }
+            .bottom-nav .nav-item {
+                min-width: 56px;
+                font-size: 9px;
+            }
+            .bottom-nav .nav-item i {
+                width: 20px;
+                height: 20px;
+            }
+            .login-card {
+                padding: 28px 20px;
+            }
+            .login-title {
+                font-size: 24px;
+            }
+            .btn-primary,
+            .btn-secondary,
+            .btn-danger {
+                padding: 10px 18px;
+                font-size: 13px;
+                min-height: 42px;
+            }
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filter-bar .filter-group {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== LOGIN SCREEN ===== -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <div style="text-align:center;">
+                <div class="brand-mark" style="margin:0 auto;">
+                    <i data-lucide="cloud" style="width:32px;height:32px;"></i>
+                </div>
+                <h1 class="login-title">BUCIN</h1>
+                <p class="login-subtitle">Sistem Cegah Insiden Network</p>
+            </div>
+
+            <div class="login-divider"><span>Login</span></div>
+
+            <div id="login-error" class="login-error">
+                <i data-lucide="alert-circle" style="width:16px;display:inline;vertical-align:middle;"></i>
+                <span id="login-error-text">Username atau password salah</span>
+            </div>
+
+            <form id="login-form" onsubmit="return handleLogin(event)">
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">
+                        <i data-lucide="user" style="width:14px;display:inline;vertical-align:middle;"></i>
+                        Nama Pengguna
+                    </label>
+                    <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" required style="padding-left:44px;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236B7280%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2%22/%3E%3Ccircle cx=%2212%22 cy=%227%22 r=%224%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:12px center;background-size:18px;" value="admin">
+                </div>
+                <div style="margin-bottom:24px;">
+                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">
+                        <i data-lucide="lock" style="width:14px;display:inline;vertical-align:middle;"></i>
+                        Kata Sandi
+                    </label>
+                    <div style="position:relative;">
+                        <input id="login-password" type="password" class="field-control" placeholder="Masukkan password" required style="padding-left:44px;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236B7280%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect x=%223%22 y=%2211%22 width=%2218%22 height=%2211%22 rx=%222%22 ry=%222%22/%3E%3Cpath d=%22M7 11V7a5 5 0 0 1 10 0v4%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:12px center;background-size:18px;" value="admin123">
+                        <button type="button" id="toggle-pass" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;">
+                            <i data-lucide="eye" style="width:20px;"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" id="login-btn" class="btn-primary" style="width:100%;justify-content:center;height:50px;font-size:16px;border-radius:28px;">
+                    <i data-lucide="log-in" style="width:18px;"></i>
+                    Masuk Sistem
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <p>Default: <span class="highlight">admin</span> / <span class="highlight">admin123</span></p>
+                <p style="margin-top:4px;font-size:10px;color:#94A3B8;">&copy; 2026 BUCIN - Barisan Utama Cegah Insiden</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== APP SHELL ===== -->
+    <div id="app-shell" class="hidden">
+        <header class="top-header">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div class="brand-mark"><i data-lucide="cloud" style="width:20px;height:20px;"></i></div>
+                <span class="brand-text">BUCIN</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+                <button id="add-user-btn" class="icon-btn hidden" title="Tambah User"><i data-lucide="user-plus" style="width:20px;"></i></button>
+                <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:20px;"></i></button>
+                <button id="logout-btn" class="icon-btn" title="Keluar"><i data-lucide="log-out" style="width:20px;"></i></button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- DASHBOARD VIEW -->
+            <section id="dashboard-view">
+                <div class="hero-panel">
+                    <h1 style="margin:0;font-size:26px;font-weight:800;line-height:1.2;" id="hero-title">Barisan Utama<br>Cegah Insiden</h1>
+                    <p style="margin:8px 0 0;opacity:0.9;font-size:15px;font-weight:500;" id="hero-subtitle">Pusat Operasi Jaringan Sulawesi Utara</p>
+                    <p class="hero-about" id="hero-about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
+                </div>
+
+                <!-- GRAFIK (full width) -->
+                <div class="dashboard-grid">
+                    <div class="card chart-card">
+                        <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-blue);"></span>
+                            Grafik Insiden OF Cut &amp; Pihak Ke-3
+                            <div style="display:flex;gap:6px;margin-left:auto;">
+                                <select id="chart-period" class="field-control" style="min-height:32px;padding:2px 12px;font-size:12px;width:auto;border-radius:8px;" onchange="updateChartPeriod()">
+                                    <option value="all">Semua</option>
+                                    <option value="weekly">Mingguan</option>
+                                    <option value="monthly">Bulanan</option>
+                                    <option value="yearly">Tahunan</option>
+                                </select>
+                            </div>
+                        </h3>
+                        <div class="chart-container">
+                            <canvas id="chartIncidents"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MAPS -->
+                <div class="card" style="padding:0;overflow:hidden;margin-top:20px;">
+                    <div style="padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                        <h3 style="margin:0;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
+                            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-blue);"></span>
+                            Peta Lokasi Aset
+                        </h3>
+                        <div style="display:flex;gap:8px;">
+                            <label for="kml-upload" class="btn-secondary" style="padding:6px 14px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;border-radius:20px;">
+                                <i data-lucide="upload" style="width:14px;"></i> KML
+                            </label>
+                            <input type="file" id="kml-upload" accept=".kml" style="display:none;" onchange="handleKMLUpload(this)">
+                            <button id="btn-download-kml" class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;" onclick="downloadKML()">
+                                <i data-lucide="download" style="width:14px;"></i> KML
+                            </button>
+                        </div>
+                    </div>
+                    <div id="map-wrapper" style="position:relative;">
+                        <div id="map-container"></div>
+                        <!-- Legend -->
+                        <div id="map-legend" class="map-legend">
+                            <div class="map-legend-title">📍 Kategori</div>
+                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#E76F51;"></span> OF Cut</div>
+                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#F4A261;"></span> Pihak Ke-3</div>
+                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#E9C46A;"></span> Temuan</div>
+                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#2A9D8F;"></span> OPM/OLS</div>
+                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#0077B6;"></span> Joint</div>
+                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#9B5DE5;"></span> Handhole</div>
+                        </div>
+                        <div class="custom-map-controls">
+                            <button class="custom-map-btn active" onclick="toggleMapLayer('satellite')" title="Satelit ESRI"><i data-lucide="satellite" style="width:18px;"></i></button>
+                            <button class="custom-map-btn" onclick="toggleMapLayer('street')" title="Jalan"><i data-lucide="map" style="width:18px;"></i></button>
+                            <button class="custom-map-btn" onclick="toggleMapLayer('hybrid')" title="Hybrid"><i data-lucide="layers" style="width:18px;"></i></button>
+                            <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
+                            <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DATA VIEW -->
+            <section id="data-view" class="hidden">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+                    <h2 id="page-title" style="margin:0;font-size:22px;font-weight:800;">Data Operasional</h2>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button id="btn-history" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;">
+                            <i data-lucide="history" style="width:16px;"></i> Riwayat
+                        </button>
+                        <button id="btn-download-excel-page" class="btn-secondary" style="padding:8px 16px;font-size:13px;border-radius:20px;">
+                            <i data-lucide="file-spreadsheet" style="width:16px;"></i> Excel
+                        </button>
+                        <button id="btn-add" class="btn-primary" style="padding:8px 20px;font-size:13px;border-radius:20px;">
+                            <i data-lucide="plus" style="width:16px;"></i> Tambah
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SOP Description untuk OF Cut (hanya tampil di atas tabel) -->
+                <div id="sop-description-container" class="sop-description hidden">
+                    <strong>📋 SOP Penanganan Gangguan OF Cut:</strong><br>
+                    1. Terima Laporan: Catat waktu, lokasi, dan jenis gangguan.<br>
+                    2. Mobilisasi: Segera berangkat lengkap alat, material &amp; APD; beri tahu Team Engineering.<br>
+                    3. Amankan Lokasi: Pakai APD lengkap, pasang rambu, hindari bahaya.<br>
+                    4. Identifikasi: Cek penyebab, foto kondisi awal &amp; catat koordinat.<br>
+                    5. Ukur Titik Rusak: Pakai OTDR/OPM, simpan hasil ukur.<br>
+                    6. Siapkan Perbaikan: Siapkan kabel, joint closure &amp; alat sambung.<br>
+                    7. Sambung Fiber: Lakukan fusion splicing; utamakan core aktif dulu, lanjut core cadangan.<br>
+                    8. Pasang Closure: Pastikan rapat, kedap air, kabel sisa tertata rapi.<br>
+                    9. Uji Ulang: Ukur ulang dengan OTDR, pastikan redaman standar &amp; layanan normal (konfirmasi ke Team Engineering).<br>
+                    10. Bersihkan Lokasi: Rapikan area, kumpulkan sisa material.<br>
+                    11. Lapor: Kirim data lengkap: waktu kejadian/pemulihan, penyebab, lokasi, foto, hasil ukur, material &amp; personel.<br>
+                    12. APD yang digunakan wajib dibersihkan kembali sebelum disimpan dalam mobil.
+                </div>
+
+                <!-- Sub-tabs untuk P3 dan Temuan (tabel terpisah) -->
+                <div id="sub-tabs-container" class="sub-tabs hidden">
+                    <button class="sub-tab active" data-sub="p3" onclick="switchSubTab('p3')">Pekerjaan Pihak Ke-3</button>
+                    <button class="sub-tab" data-sub="temuan" onclick="switchSubTab('temuan')">Temuan Lapangan</button>
+                </div>
+
+                <!-- Filter Pencarian & Periode -->
+                <div id="filter-bar-container" class="filter-bar">
+                    <div class="filter-group">
+                        <i data-lucide="search" style="width:16px;color:var(--text-muted);"></i>
+                        <input type="text" id="search-input" placeholder="Cari data..." style="min-width:160px;">
+                    </div>
+                    <div class="filter-group">
+                        <i data-lucide="calendar" style="width:16px;color:var(--text-muted);"></i>
+                        <select id="period-select">
+                            <option value="all">Semua Periode</option>
+                            <option value="weekly">Mingguan</option>
+                            <option value="monthly">Bulanan</option>
+                            <option value="yearly">Tahunan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Stok Summary & Filter Gudang (hanya untuk Spare & Patch) -->
+                <div id="stok-summary-container" class="hidden">
+                    <div class="stok-summary">
+                        <div>
+                            <span class="label">📦 Total Stok</span>
+                            <div class="value total" id="total-stok-value">0</div>
+                        </div>
+                        <div>
+                            <span class="label">📥 Ready</span>
+                            <div class="value masuk" id="total-masuk-value">0</div>
+                        </div>
+                        <div>
+                            <span class="label">📤 Out</span>
+                            <div class="value keluar" id="total-keluar-value">0</div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs Gudang -->
+                    <div class="gudang-tabs" id="gudang-tabs-container">
+                        <button class="gudang-tab active" data-gudang="all" onclick="filterGudang('all')">Semua Gudang</button>
+                        <button class="gudang-tab" data-gudang="CLS MAMI" onclick="filterGudang('CLS MAMI')">CLS MAMI</button>
+                        <button class="gudang-tab" data-gudang="DC MANADO CENTRUM" onclick="filterGudang('DC MANADO CENTRUM')">DC MANADO</button>
+                        <button class="gudang-tab" data-gudang="CLS KAUDITAN" onclick="filterGudang('CLS KAUDITAN')">CLS KAUDITAN</button>
+                    </div>
+                </div>
+
+                <div class="card" style="padding:0;overflow:hidden;">
+                    <div style="overflow-x:auto;">
+                        <table class="records-table" id="main-table">
+                            <thead id="table-head"></thead>
+                            <tbody id="table-body"></tbody>
+                        </table>
+                    </div>
+                    <div id="empty-state" style="padding:48px;text-align:center;color:var(--text-muted);display:none;">
+                        <i data-lucide="inbox" style="width:48px;height:48px;margin-bottom:12px;opacity:0.3;"></i>
+                        <p>Belum ada data</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- BOTTOM NAV -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" data-cat="dashboard"><i data-lucide="layout-dashboard"></i><span>Home</span></div>
+            <div class="nav-item" data-cat="Data OF Cut"><i data-lucide="scissors"></i><span>OF Cut</span></div>
+            <div class="nav-item" data-cat="P3_Temuan"><i data-lucide="users"></i><span>P3/Temuan</span></div>
+            <div class="nav-item" data-cat="OPM/OLS"><i data-lucide="activity"></i><span>OPM</span></div>
+            <div class="nav-item" data-cat="Joint"><i data-lucide="link"></i><span>Joint</span></div>
+            <div class="nav-item" data-cat="Handhole"><i data-lucide="archive"></i><span>HH</span></div>
+            <div class="nav-item" data-cat="Alkur/Material"><i data-lucide="wrench"></i><span>Alkur</span></div>
+            <div class="nav-item" data-cat="Stok Spare"><i data-lucide="package"></i><span>Spare</span></div>
+            <div class="nav-item" data-cat="Patch Cord"><i data-lucide="cable"></i><span>Patch</span></div>
+        </nav>
+    </div>
+
+    <!-- ===== MODAL GUDANG ===== -->
+    <div id="gudang-modal" class="modal-layer hidden">
+        <div class="modal-card">
+            <div style="text-align:center;margin-bottom:8px;">
+                <div style="width:56px;height:56px;background:var(--primary-blue-light);border-radius:16px;display:grid;place-items:center;margin:0 auto 12px;">
+                    <i data-lucide="warehouse" style="width:28px;color:var(--primary-blue);"></i>
+                </div>
+                <h3 style="margin:0;font-size:20px;font-weight:800;">Pilih Gudang</h3>
+                <p style="color:var(--text-muted);font-size:13px;margin-top:4px;">Pilih lokasi penempatan stok terlebih dahulu</p>
+            </div>
+            <div class="gudang-selector">
+                <div class="gudang-card" data-gudang="CLS MAMI" onclick="selectGudang(this)"><i data-lucide="building-2"></i><span>CLS MAMI</span></div>
+                <div class="gudang-card" data-gudang="DC MANADO CENTRUM" onclick="selectGudang(this)"><i data-lucide="building"></i><span>DC MANADO</span></div>
+                <div class="gudang-card" data-gudang="CLS KAUDITAN" onclick="selectGudang(this)"><i data-lucide="store"></i><span>CLS KAUDITAN</span></div>
+            </div>
+            <div id="spare-action-container" class="hidden" style="margin:12px 0;">
+                <div class="spare-action-group">
+                    <button class="spare-action-btn active" data-action="tambah" onclick="selectSpareAction('tambah')">
+                        <span class="icon"><i data-lucide="plus-circle" style="width:24px;height:24px;"></i></span>
+                        Tambah Stok
+                    </button>
+                    <button class="spare-action-btn" data-action="update" onclick="selectSpareAction('update')">
+                        <span class="icon"><i data-lucide="refresh-cw" style="width:24px;height:24px;"></i></span>
+                        Update Pemakaian
+                    </button>
+                </div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:8px;">
+                <button onclick="closeGudangModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
+                <button id="btn-ok-spare" onclick="confirmSpareAction()" class="btn-primary hidden" style="flex:2;justify-content:center;">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL FORM UTAMA ===== -->
+    <div id="form-modal" class="modal-layer hidden">
+        <div class="modal-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+                <h3 id="modal-title" style="margin:0;font-size:20px;font-weight:800;">Tambah Data</h3>
+                <button onclick="closeModal()" style="border:0;background:none;cursor:pointer;padding:4px;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+            </div>
+            <form id="data-form">
+                <input type="hidden" id="inp-cat">
+                <input type="hidden" id="inp-gudang-selected">
+                <input type="hidden" id="form-mode" value="tambah">
+                <input type="hidden" id="edit-key" value="">
+                <div style="display:grid;gap:14px;">
+                    <div>
+                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tanggal <span style="color:#E76F51;">*</span></label>
+                        <input type="date" id="inp-date" class="field-control" required>
+                    </div>
+
+                    <!-- STOCK FIELDS (Stok Spare) -->
+                    <div id="field-stock" class="hidden">
+                        <div style="background:var(--bg-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid var(--line);">
+                            <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:4px;">Gudang Terpilih</div>
+                            <div id="selected-gudang-display" style="font-size:14px;font-weight:700;color:var(--primary-blue);"></div>
+                        </div>
+                        <!-- Form Tambah Stok -->
+                        <div id="form-tambah-stok">
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">SN <span style="color:#E76F51;">*</span></label>
+                                    <div style="display:flex;gap:8px;">
+                                        <input type="text" id="inp-sn" class="field-control" placeholder="Scan/Ketik SN" required>
+                                        <button type="button" id="btn-scan-modal" class="btn-secondary" style="padding:0 14px;border-radius:12px;"><i data-lucide="camera"></i></button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Barang <span style="color:#E76F51;">*</span></label>
+                                    <input type="text" id="inp-spec" class="field-control" placeholder="Nama barang" required>
+                                </div>
+                            </div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Status <span style="color:#E76F51;">*</span></label>
+                                    <select id="inp-status" class="field-control" required>
+                                        <option value="Ready">Ready</option>
+                                        <option value="Out">Out</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Lemari <span style="color:#E76F51;">*</span></label>
+                                    <input type="text" id="inp-lemari" class="field-control" placeholder="Nama lemari" required>
+                                </div>
+                            </div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;">
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Rak <span style="color:#E76F51;">*</span></label>
+                                    <select id="inp-rak" class="field-control" required>
+                                        <option value="">-- Pilih --</option>
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                        <option value="D">D</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Riwayat Pemakaian <span style="color:#E76F51;">*</span></label>
+                                    <select id="inp-riwayat" class="field-control" required>
+                                        <option value="">-- Pilih --</option>
+                                        <option value="Baru">Baru</option>
+                                        <option value="Dismantle">Dismantle</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Kondisi <span style="color:#E76F51;">*</span></label>
+                                    <select id="inp-kondisi-spare" class="field-control" required>
+                                        <option value="">-- Pilih --</option>
+                                        <option value="Baik">Baik</option>
+                                        <option value="Rusak">Rusak</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top:12px;">
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan</label>
+                                <textarea id="inp-notes-stock" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Keterangan..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Form Update Pemakaian -->
+                        <div id="form-update-pemakaian" class="hidden">
+                            <div style="background:#FDF0D5;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(244,162,97,0.3);">
+                                <div style="font-size:12px;font-weight:600;color:#E76F51;margin-bottom:4px;">📝 Update Pemakaian Barang</div>
+                                <div style="font-size:11px;color:var(--text-muted);">Isi data pemakaian berdasarkan SN barang</div>
+                            </div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">SN <span style="color:#E76F51;">*</span></label>
+                                    <div style="display:flex;gap:8px;">
+                                        <input type="text" id="inp-update-sn" class="field-control" placeholder="Scan/Ketik SN" required>
+                                        <button type="button" id="btn-scan-update" class="btn-secondary" style="padding:0 14px;border-radius:12px;"><i data-lucide="camera"></i></button>
+                                    </div>
+                                    <div id="update-sn-info" style="font-size:11px;color:var(--text-muted);margin-top:4px;"></div>
+                                </div>
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Barang</label>
+                                    <input type="text" id="inp-update-spec" class="field-control" placeholder="Otomatis dari SN" readonly>
+                                </div>
+                            </div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tujuan Pemakaian <span style="color:#E76F51;">*</span></label>
+                                    <select id="inp-update-tujuan" class="field-control" required>
+                                        <option value="">-- Pilih --</option>
+                                        <option value="Replace">Replace</option>
+                                        <option value="PSB">PSB</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Lokasi Pemasangan <span style="color:#E76F51;">*</span></label>
+                                    <select id="inp-update-lokasi" class="field-control" required>
+                                        <option value="">-- Pilih --</option>
+                                        <option value="CLS MAMI">CLS MAMI</option>
+                                        <option value="CLS MALALAYANG">CLS MALALAYANG</option>
+                                        <option value="CLS KAUDITAN">CLS KAUDITAN</option>
+                                        <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
+                                        <option value="NEW CENTRIX">NEW CENTRIX</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top:12px;">
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan</label>
+                                <textarea id="inp-update-notes" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Keterangan pemakaian..."></textarea>
+                            </div>
+                            <div style="margin-top:8px;font-size:12px;color:var(--text-muted);background:var(--bg-light);padding:8px 12px;border-radius:8px;">
+                                ⚠️ Status barang akan diubah menjadi <strong>Out</strong> setelah update pemakaian.
+                            </div>
+                        </div>
+
+                        <div id="modal-scanner" class="scanner-wrapper">
+                            <video id="modal-camera-preview" autoplay playsinline muted></video>
+                            <div class="scanner-guide"></div>
+                            <div class="scanner-laser"></div>
+                            <div class="scanner-status">Mencari Barcode/SN...</div>
+                            <button type="button" id="btn-stop-modal-scan" class="btn-primary" style="position:absolute;bottom:12px;right:12px;padding:6px 14px;font-size:11px;background:#E76F51;border-radius:12px;z-index:10;">Stop</button>
+                        </div>
+                    </div>
+
+                    <!-- PATCH CORD FIELDS (tanpa barcode) -->
+                    <div id="field-patchcord" class="hidden">
+                        <div style="background:#CAF0F8;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #90E0EF;">
+                            <div style="font-size:12px;font-weight:600;color:#0077B6;margin-bottom:4px;">📦 Spesifikasi Patch Cord</div>
+                            <div id="patchcord-gudang-display" style="font-size:14px;font-weight:700;color:var(--primary-blue);"></div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis Patch Cord <span style="color:#E76F51;">*</span></label>
+                                <select id="inp-pc-type" class="field-control" required>
+                                    <option value="">-- Pilih Jenis --</option>
+                                    <option value="SC-SC">SC-SC</option>
+                                    <option value="LC-LC">LC-LC</option>
+                                    <option value="FC-FC">FC-FC</option>
+                                    <option value="ST-ST">ST-ST</option>
+                                    <option value="SC-FC">SC-FC</option>
+                                    <option value="FC-ST">FC-ST</option>
+                                    <option value="ST-SC">ST-SC</option>
+                                    <option value="FC-LC">FC-LC</option>
+                                    <option value="LC-ST">LC-ST</option>
+                                    <option value="LC-SC">LC-SC</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Panjang Kabel <span style="color:#E76F51;">*</span></label>
+                                <select id="inp-pc-length" class="field-control" required>
+                                    <option value="">-- Pilih Panjang --</option>
+                                    <option value="0.5m">0.5 Meter</option>
+                                    <option value="1m">1 Meter</option>
+                                    <option value="2m">2 Meter</option>
+                                    <option value="3m">3 Meter</option>
+                                    <option value="5m">5 Meter</option>
+                                    <option value="10m">10 Meter</option>
+                                    <option value="15m">15 Meter</option>
+                                    <option value="20m">20 Meter</option>
+                                    <option value="30m">30 Meter</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Untuk opsi lainnya -->
+                        <div id="patchcord-lainnya" class="hidden" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis Lainnya</label>
+                                <input type="text" id="inp-pc-type-lain" class="field-control" placeholder="Tulis jenis lainnya">
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Panjang Lainnya</label>
+                                <input type="text" id="inp-pc-length-lain" class="field-control" placeholder="Contoh: 50m">
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jumlah <span style="color:#E76F51;">*</span></label>
+                                <input type="number" id="inp-pc-qty" class="field-control" value="1" min="1" required>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Tipe Transaksi <span style="color:#E76F51;">*</span></label>
+                                <select id="inp-pc-trtype" class="field-control" required>
+                                    <option value="Masuk">Barang Masuk</option>
+                                    <option value="Keluar">Barang Keluar</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-top:8px;">
+                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan</label>
+                            <span style="font-size:11px;color:var(--text-muted);">(Opsional jika Barang Masuk, Wajib jika Barang Keluar)</span>
+                            <textarea id="inp-notes-patch" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Keterangan..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- ALKUR FIELDS (tanpa kondisi) -->
+                    <div id="field-alkur" class="hidden">
+                        <div style="background:var(--accent-gold-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(244,162,97,0.3);">
+                            <div style="font-size:12px;font-weight:600;color:#E76F51;margin-bottom:4px;">🔧 Data Material/Alkur</div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Material <span style="color:#E76F51;">*</span></label>
+                                <input type="text" id="inp-alkur-nama" class="field-control" placeholder="Nama material" required>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis <span style="color:#E76F51;">*</span></label>
+                                <input type="text" id="inp-alkur-jenis" class="field-control" placeholder="Jenis material" required>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Merk <span style="color:#E76F51;">*</span></label>
+                                <input type="text" id="inp-alkur-merk" class="field-control" placeholder="Merk" required>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jumlah <span style="color:#E76F51;">*</span></label>
+                                <input type="number" id="inp-alkur-jumlah" class="field-control" value="1" min="1" required>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Lokasi <span style="color:#E76F51;">*</span></label>
+                                <select id="inp-alkur-lokasi" class="field-control" required>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="CLS MAMI">CLS MAMI</option>
+                                    <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
+                                    <option value="CLS KAUDITAN">CLS KAUDITAN</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;">
+                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan</label>
+                            <textarea id="inp-alkur-keterangan" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Catatan tambahan (opsional)"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- NORMAL FIELDS (Lokasi & Koordinat) -->
+                    <div id="field-normal" class="hidden">
+                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Lokasi <span style="color:#E76F51;">*</span></label>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <input type="text" id="inp-loc" class="field-control" placeholder="Cari lokasi..." required style="flex:1;">
+                            <button type="button" id="btn-loc-map" class="btn-secondary" style="padding:8px 12px;border-radius:12px;white-space:nowrap;" title="Cari di Peta">
+                                <i data-lucide="map-pin" style="width:18px;"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- FIELD COORDINATES -->
+                    <div id="field-coords-wrap" class="hidden">
+                        <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Titik Koordinat <span style="color:#E76F51;">*</span></label>
+                        <input type="text" id="inp-coords" class="field-control" placeholder="Klik pada peta untuk mengisi" readonly required>
+                    </div>
+
+                    <!-- FIELD KHUSUS Handhole & Joint: Kondisi -->
+                    <div id="field-kondisi" class="hidden">
+                        <div style="background:#CAF0F8;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #90E0EF;">
+                            <div style="font-size:12px;font-weight:600;color:#0077B6;margin-bottom:4px;">🔍 Kondisi</div>
+                        </div>
+                        <div>
+                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Kondisi <span style="color:#E76F51;">*</span></label>
+                            <select id="inp-kondisi" class="field-control" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Baik">Baik</option>
+                                <option value="Kurang Baik">Kurang Baik</option>
+                                <option value="Rusak">Rusak</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- FIELD KHUSUS OPM/OLS -->
+                    <div id="field-opm" class="hidden">
+                        <div style="background:#FDF0D5;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(244,162,97,0.3);">
+                            <div style="font-size:12px;font-weight:600;color:#E76F51;margin-bottom:4px;">📡 Data OPM/OLS</div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Ruas <span style="color:#E76F51;">*</span></label>
+                                <select id="inp-opm-ruas" class="field-control" required>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Slot <span style="color:#E76F51;">*</span></label>
+                                <select id="inp-opm-slot" class="field-control" required>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Port <span style="color:#E76F51;">*</span></label>
+                                <select id="inp-opm-port" class="field-control" required>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                                    <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                                    <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                                    <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                                    <option value="13">13</option><option value="14">14</option><option value="15">15</option>
+                                    <option value="16">16</option><option value="17">17</option><option value="18">18</option>
+                                    <option value="19">19</option><option value="20">20</option><option value="21">21</option>
+                                    <option value="22">22</option><option value="23">23</option><option value="24">24</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">DBM <span style="color:#E76F51;">*</span></label>
+                                <input type="number" step="0.01" id="inp-opm-dbm" class="field-control" placeholder="Contoh: -15.5" required>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Dari <span style="color:#E76F51;">*</span></label>
+                                <select id="inp-opm-dari" class="field-control" required>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="CLS MAMI">CLS MAMI</option>
+                                    <option value="CLS MALALAYANG">CLS MALALAYANG</option>
+                                    <option value="STO BAHU">STO BAHU</option>
+                                    <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
+                                    <option value="TTC TELING">TTC TELING</option>
+                                    <option value="STO AMD">STO AMD</option>
+                                    <option value="STO KAUDITAN">STO KAUDITAN</option>
+                                    <option value="CLS KAUDITAN">CLS KAUDITAN</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Ke <span style="color:#E76F51;">*</span></label>
+                                <select id="inp-opm-ke" class="field-control" required>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="CLS MAMI">CLS MAMI</option>
+                                    <option value="CLS MALALAYANG">CLS MALALAYANG</option>
+                                    <option value="STO BAHU">STO BAHU</option>
+                                    <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
+                                    <option value="TTC TELING">TTC TELING</option>
+                                    <option value="STO AMD">STO AMD</option>
+                                    <option value="STO KAUDITAN">STO KAUDITAN</option>
+                                    <option value="CLS KAUDITAN">CLS KAUDITAN</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FIELD KHUSUS OF Cut (tanpa SOP) -->
+                    <div id="field-ofcut" class="hidden">
+                        <div style="background:#CAF0F8;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #90E0EF;">
+                            <div style="font-size:12px;font-weight:600;color:#0077B6;margin-bottom:4px;">📏 Detail OF Cut</div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Panjang Cut (M) <span style="color:#E76F51;">*</span></label>
+                                <input type="number" step="0.1" id="inp-ofcut-panjang" class="field-control" placeholder="Panjang cut dalam meter" required>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Rute <span style="color:#E76F51;">*</span></label>
+                                <select id="inp-ofcut-rute" class="field-control" required>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="OSP">OSP</option>
+                                    <option value="SEA US">SEA US</option>
+                                    <option value="DWDM">DWDM</option>
+                                    <option value="IGG">IGG</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Penyebab <span style="color:#E76F51;">*</span></label>
+                                <select id="inp-ofcut-penyebab" class="field-control" required onchange="togglePenyebabLain()">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="vandalisme">Vandalisme</option>
+                                    <option value="pihak ke 3">Pihak Ke-3</option>
+                                    <option value="bencana">Bencana Alam</option>
+                                    <option value="lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div id="penyebab-lain-wrap" class="hidden">
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Penyebab Lainnya <span style="color:#E76F51;">*</span></label>
+                                <input type="text" id="inp-ofcut-penyebab-lain" class="field-control" placeholder="Sebutkan penyebab">
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;">
+                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan</label>
+                            <textarea id="inp-ofcut-keterangan" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Keterangan tambahan..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- FIELD KHUSUS P3 / Temuan -->
+                    <div id="field-p3temuan" class="hidden">
+                        <div style="background:#FDF0D5;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(244,162,97,0.3);">
+                            <div style="font-size:12px;font-weight:600;color:#E76F51;margin-bottom:4px;" id="p3temuan-label">📋 Data Pekerjaan</div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Pelaksana <span style="color:#E76F51;">*</span></label>
+                                <input type="text" id="inp-p3-pelaksana" class="field-control" placeholder="Nama pelaksana" required>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Lama Pekerjaan <span style="color:#E76F51;">*</span></label>
+                                <input type="text" id="inp-p3-lama" class="field-control" placeholder="Contoh: 2 jam" required>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;">
+                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan</label>
+                            <textarea id="inp-p3-keterangan" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Keterangan pekerjaan..."></textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="margin-top:24px;display:flex;gap:12px;">
+                    <button type="button" onclick="closeModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
+                    <button type="submit" id="btn-submit-form" class="btn-primary" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== MODAL PETA ===== -->
+    <div id="map-modal" class="modal-layer hidden">
+        <div class="modal-card" style="max-width:700px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <h3 style="margin:0;font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="map" style="width:22px;color:var(--primary-blue);"></i>
+                    Cari & Pilih Lokasi
+                </h3>
+                <button onclick="closeMapModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+            </div>
+            <div style="margin-bottom:12px;display:flex;gap:8px;">
+                <input type="text" id="map-search-input" class="field-control" placeholder="Cari lokasi..." style="flex:1;" onkeydown="if(event.key==='Enter') searchLocation()">
+                <button onclick="searchLocation()" class="btn-primary" style="padding:0 20px;border-radius:12px;">
+                    <i data-lucide="search" style="width:18px;"></i>
+                </button>
+                <button onclick="getCurrentLocation()" class="btn-secondary" style="padding:0 16px;border-radius:12px;" title="Lokasi Saya">
+                    <i data-lucide="crosshair" style="width:18px;"></i>
+                </button>
+            </div>
+            <div id="map-modal-container" style="height:400px;border-radius:12px;border:1px solid var(--line);overflow:hidden;"></div>
+            <div style="position:relative;margin-top:-44px;right:12px;display:flex;flex-direction:column;gap:4px;align-items:flex-end;pointer-events:none;z-index:1000;">
+                <button onclick="mapModalZoomIn()" style="pointer-events:auto;background:white;border:1px solid #ccc;border-radius:6px;width:36px;height:36px;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,0.15);cursor:pointer;font-size:20px;font-weight:700;color:#333;">+</button>
+                <button onclick="mapModalZoomOut()" style="pointer-events:auto;background:white;border:1px solid #ccc;border-radius:6px;width:36px;height:36px;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,0.15);cursor:pointer;font-size:20px;font-weight:700;color:#333;">−</button>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end;">
+                <button onclick="closeMapModal()" class="btn-secondary">Batal</button>
+                <button onclick="selectMapLocation()" class="btn-primary" id="btn-select-location" disabled>Pilih Lokasi Ini</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL ADD USER ===== -->
+    <div id="add-user-modal" class="modal-layer hidden">
+        <div class="modal-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+                <h3 style="margin:0;font-size:20px;font-weight:800;">Tambah User</h3>
+                <button onclick="document.getElementById('add-user-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+            </div>
+            <form id="add-user-form" onsubmit="return submitAddUser(event)">
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Username</label>
+                    <input type="text" id="new-username" class="field-control" placeholder="Nama pengguna" required>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Password</label>
+                    <input type="password" id="new-password" class="field-control" placeholder="Kata sandi" required>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">Role</label>
+                    <select id="new-role" class="field-control">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">Tambah User</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== MODAL HISTORY (untuk spare) ===== -->
+    <div id="history-modal" class="modal-layer hidden">
+        <div class="modal-card" style="max-width:700px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+                <h3 style="margin:0;font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="history" style="width:22px;color:var(--primary-blue);"></i>
+                    Riwayat Transaksi Spare
+                </h3>
+                <button onclick="document.getElementById('history-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+            </div>
+            <div style="overflow-x:auto;max-height:400px;overflow-y:auto;">
+                <table class="records-table">
+                    <thead><tr><th>Tgl & Jam</th><th>User</th><th>SN</th><th>Nama</th><th>Lokasi Simpan</th><th>Lokasi Pakai</th><th>Status</th><th>Keterangan</th></tr></thead>
+                    <tbody id="history-body"></tbody>
+                </table>
+            </div>
+            <button id="btn-download-excel-history" class="btn-primary" style="width:100%;margin-top:16px;justify-content:center;">
+                <i data-lucide="file-spreadsheet" style="width:16px;"></i> Download Excel
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== MODAL SETTINGS (tanpa carousel) ===== -->
+    <div id="settings-modal" class="modal-layer hidden">
+        <div class="modal-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                <h3 style="margin:0;font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="settings" style="width:22px;color:var(--primary-blue);"></i>
+                    Pengaturan
+                </h3>
+                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+            </div>
+
+            <div class="settings-section" style="margin-bottom:20px;">
+                <h4>📝 Edit Keterangan Hero</h4>
+                <textarea id="hero-about-input" class="field-control" rows="3" style="border-radius:12px;resize:vertical;" placeholder="Tulis keterangan hero..."></textarea>
+                <button id="btn-save-hero-about" class="btn-primary" style="width:100%;margin-top:8px;justify-content:center;">Simpan Keterangan Hero</button>
+            </div>
+
+            <div class="settings-section">
+                <h4>🎨 Tampilan Background</h4>
+                <div style="display:grid;gap:12px;">
+                    <div>
+                        <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Warna Gradient 1</label>
+                        <input type="color" id="set-bg-color1" value="#E0F7FA" style="width:100%;height:40px;border-radius:8px;border:1px solid var(--line);cursor:pointer;">
+                    </div>
+                    <div>
+                        <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Warna Gradient 2</label>
+                        <input type="color" id="set-bg-color2" value="#CAF0F8" style="width:100%;height:40px;border-radius:8px;border:1px solid var(--line);cursor:pointer;">
+                    </div>
+                    <div>
+                        <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Upload Gambar Background</label>
+                        <div class="upload-area" onclick="document.getElementById('bg-image-input').click()">
+                            <i data-lucide="upload" style="width:24px;height:24px;margin-bottom:4px;color:var(--primary-blue);"></i>
+                            <p style="font-size:12px;color:var(--text-muted);">Klik untuk upload gambar (JPG, PNG)</p>
+                            <input type="file" id="bg-image-input" accept="image/*" onchange="handleBgImageUpload(this)">
+                        </div>
+                        <div id="bg-image-preview" style="margin-top:8px;display:none;">
+                            <img id="bg-image-preview-img" src="" alt="Preview" style="max-width:100%;max-height:100px;border-radius:8px;border:1px solid var(--line);">
+                            <button onclick="removeBgImage()" class="btn-secondary" style="margin-top:4px;padding:4px 12px;font-size:11px;">Hapus Gambar</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Transparansi Background</label>
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <input type="range" id="set-bg-opacity" min="0" max="100" value="100" style="flex:1;accent-color:var(--primary-blue);">
+                            <span id="opacity-value" style="font-size:14px;font-weight:700;min-width:40px;color:var(--text-dark);">100%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="btn-save-settings" class="btn-primary" style="width:100%;justify-content:center;border-radius:20px;padding:12px;margin-top:16px;">Simpan Pengaturan</button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // FIREBASE CONFIG
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
+            authDomain: "bucin-18282.firebaseapp.com",
+            databaseURL: "https://bucin-18282-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "bucin-18282",
+            storageBucket: "bucin-18282.firebasestorage.app",
+            messagingSenderId: "545528630169",
+            appId: "1:545528630169:web:2ea7db49f27121ad062108"
+        };
+
+        // ============================================================
+        // INITIALIZATION
+        // ============================================================
+        let firebaseApp;
+        try {
+            firebaseApp = firebase.initializeApp(firebaseConfig);
+            console.log('✅ Firebase initialized');
+        } catch (e) {
+            console.error('❌ Firebase init error:', e);
+        }
+        const db = firebase.database();
+
+        // ============================================================
+        // GLOBAL VARIABLES
+        // ============================================================
+        let currentUser = null;
+        let currentCategory = 'dashboard';
+        let currentSubTab = 'p3';
+        let appData = {};
+        let map = null;
+        let mapModal = null;
+        let selectedMapLocation = null;
+        let mapModalMarker = null;
+        let markers = [];
+        let kmlLayers = [];
+        let quaggaRunning = false;
+        let selectedGudang = '';
+        let chartIncidents = null;
+        let editingKey = null;
+        let scannerStream = null;
+        let isSubmitting = false;
+        let barcodeCache = {};
+        let selectedGudangFilter = 'all';
+        let currentPeriod = 'all';
+        let spareAction = 'tambah';
+        let sessionTimeout = null;
+        const SESSION_TIMEOUT_MS = 3600000; // 1 jam
+
+        // Warna untuk setiap kategori di maps
+        const CATEGORY_COLORS = {
+            'Data OF Cut': '#E76F51',
+            'Pekerjaan Pihak Ke-3': '#F4A261',
+            'Temuan Lapangan': '#E9C46A',
+            'OPM/OLS': '#2A9D8F',
+            'Joint': '#0077B6',
+            'Handhole': '#9B5DE5'
+        };
+
+        // ============================================================
+        // SESSION MANAGEMENT
+        // ============================================================
+        function resetSessionTimer() {
+            if (sessionTimeout) clearTimeout(sessionTimeout);
+            sessionTimeout = setTimeout(function() {
+                if (currentUser) {
+                    localStorage.removeItem('bucin_session');
+                    currentUser = null;
+                    document.getElementById('login-screen').classList.remove('hidden');
+                    document.getElementById('app-shell').classList.add('hidden');
+                    showToast('⏳ Sesi habis, silakan login kembali', 'warning');
+                }
+            }, SESSION_TIMEOUT_MS);
+        }
+
+        function refreshSession() {
+            if (currentUser) resetSessionTimer();
+        }
+
+        // ============================================================
+        // GENERATE BARCODE PATCH CORD
+        // ============================================================
+        function generateBarcodePatchCord(jenis_pc, panjang_meter) {
+            const base = "PC";
+            const jenisMap = {
+                'SC-SC': 'SCSC',
+                'LC-LC': 'LCLC',
+                'FC-FC': 'FCFC',
+                'ST-ST': 'STST',
+                'SC-FC': 'SCFC',
+                'FC-ST': 'FCST',
+                'ST-SC': 'STSC',
+                'FC-LC': 'FCLC',
+                'LC-ST': 'LCST',
+                'LC-SC': 'LCSC'
+            };
+            let typePart = (jenisMap[jenis_pc] || 'XXXX').padEnd(4, ' ');
+            let lengthPart;
+            if (panjang_meter === 0.5) {
+                lengthPart = "505";
+            } else if (panjang_meter === 5) {
+                lengthPart = "005";
+            } else if (panjang_meter === 50) {
+                lengthPart = "050";
+            } else {
+                const intLength = Math.round(panjang_meter);
+                lengthPart = String(intLength).padStart(3, '0');
+            }
+            return base + typePart + lengthPart;
+        }
+
+        // ============================================================
+        // DEFAULT KML DATA
+        // ============================================================
+        const defaultKmlString = `<?xml version="1.0" encoding="UTF-8"?>
+        <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+        <Document id="document">
+            <name>BUCIN Map</name>
+            <visibility>0</visibility>
+            <gx:CascadingStyle kml:id="__managed_style_2E8DC690FC3FBD3C1DFB">
+                <Style>
+                    <IconStyle><scale>1.2</scale><Icon><href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2069&amp;scale=4</href></Icon><hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/></IconStyle>
+                    <LineStyle><color>ff2dc0fb</color><width>5.99941</width></LineStyle>
+                    <PolyStyle><color>40ffffff</color></PolyStyle>
+                    <BalloonStyle><displayMode>hide</displayMode></BalloonStyle>
+                </Style>
+            </gx:CascadingStyle>
+            <gx:CascadingStyle kml:id="__managed_style_1F1AA583A53FBD3C1DFB">
+                <Style>
+                    <IconStyle><Icon><href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2069&amp;scale=4</href></Icon><hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/></IconStyle>
+                    <LineStyle><color>ff2dc0fb</color><width>3.99961</width></LineStyle>
+                    <PolyStyle><color>40ffffff</color></PolyStyle>
+                    <BalloonStyle><displayMode>hide</displayMode></BalloonStyle>
+                </Style>
+            </gx:CascadingStyle>
+            <gx:CascadingStyle kml:id="__managed_style_08D42AC0773FBD3C1DFA">
+                <styleUrl>https://earth.google.com/balloon_components/base/1.1.0.0/card_template.kml#main</styleUrl>
+                <Style>
+                    <IconStyle><scale>1.2</scale><Icon><href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href></Icon><hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/></IconStyle>
+                    <LineStyle><color>ff3c8e38</color><width>5.99941</width></LineStyle>
+                    <PolyStyle><color>40ffffff</color></PolyStyle>
+                </Style>
+            </gx:CascadingStyle>
+            <StyleMap id="__managed_style_006BE0A0173FBD3C1DDC">
+                <Pair><key>normal</key><styleUrl>#__managed_style_1E1F85F7CD3FBD3C1DDC</styleUrl></Pair>
+                <Pair><key>highlight</key><styleUrl>#__managed_style_24DDAEBBD33FBD3C1DDC</styleUrl></Pair>
+            </StyleMap>
+            <gx:CascadingStyle kml:id="__managed_style_44AAD3A7153FBD3C1DDE">
+                <styleUrl>https://earth.google.com/balloon_components/base/1.1.0.0/card_template.kml#main</styleUrl>
+                <Style>
+                    <IconStyle><Icon><href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href></Icon><hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/></IconStyle>
+                    <LineStyle><color>ff3c8e38</color><width>3.99961</width></LineStyle>
+                    <PolyStyle><color>40ffffff</color></PolyStyle>
+                </Style>
+            </gx:CascadingStyle>
+            <StyleMap id="__managed_style_01F70096503FBD3C1DFB">
+                <Pair><key>normal</key><styleUrl>#__managed_style_1F1AA583A53FBD3C1DFB</styleUrl></Pair>
+                <Pair><key>highlight</key><styleUrl>#__managed_style_2E8DC690FC3FBD3C1DFB</styleUrl></Pair>
+            </StyleMap>
+            <StyleMap id="__managed_style_3604DF4E943FBD3C1DDE">
+                <Pair><key>normal</key><styleUrl>#__managed_style_44AAD3A7153FBD3C1DDE</styleUrl></Pair>
+                <Pair><key>highlight</key><styleUrl>#__managed_style_08D42AC0773FBD3C1DFA</styleUrl></Pair>
+            </StyleMap>
+            <gx:CascadingStyle kml:id="__managed_style_2BF14EBDFE3FBD3C1DDE">
+                <Style>
+                    <IconStyle><scale>1.2</scale><Icon><href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2127&amp;scale=4</href></Icon><hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/></IconStyle>
+                    <LineStyle><color>ff2dc0fb</color><width>5.99941</width></LineStyle>
+                    <PolyStyle><color>40ffffff</color></PolyStyle>
+                    <BalloonStyle><displayMode>hide</displayMode></BalloonStyle>
+                </Style>
+            </gx:CascadingStyle>
+            <StyleMap id="__managed_style_02E35756B53FBD3C1DDE">
+                <Pair><key>normal</key><styleUrl>#__managed_style_10D0C08AF63FBD3C1DDE</styleUrl></Pair>
+                <Pair><key>highlight</key><styleUrl>#__managed_style_2BF14EBDFE3FBD3C1DDE</styleUrl></Pair>
+            </StyleMap>
+            <gx:CascadingStyle kml:id="__managed_style_2DCCEF9DBD3FBD3C1DDD">
+                <styleUrl>https://earth.google.com/balloon_components/base/1.1.0.0/card_template.kml#main</styleUrl>
+                <Style>
+                    <IconStyle><scale>1.2</scale><Icon><href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href></Icon><hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/></IconStyle>
+                    <LineStyle><color>ffd27619</color><width>5.99941</width></LineStyle>
+                    <PolyStyle><color>40ffffff</color></PolyStyle>
+                </Style>
+            </gx:CascadingStyle>
+            <gx:CascadingStyle kml:id="__managed_style_161C66F3C23FBD3C1DDD">
+                <styleUrl>https://earth.google.com/balloon_components/base/1.1.0.0/card_template.kml#main</styleUrl>
+                <Style>
+                    <IconStyle><Icon><href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href></Icon><hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/></IconStyle>
+                    <LineStyle><color>ffd27619</color><width>3.99961</width></LineStyle>
+                    <PolyStyle><color>40ffffff</color></PolyStyle>
+                </Style>
+            </gx:CascadingStyle>
+            <gx:CascadingStyle kml:id="__managed_style_24DDAEBBD33FBD3C1DDC">
+                <Style>
+                    <IconStyle><scale>1.2</scale><Icon><href>https://earth.google.com/earth/document/icon?color=f57c00&amp;id=2000&amp;scale=4</href></Icon><hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/></IconStyle>
+                    <LineStyle><color>ff2dc0fb</color><width>5.99941</width></LineStyle>
+                    <PolyStyle><color>40ffffff</color></PolyStyle>
+                    <BalloonStyle><displayMode>hide</displayMode></BalloonStyle>
+                </Style>
+            </gx:CascadingStyle>
+            <gx:CascadingStyle kml:id="__managed_style_1E1F85F7CD3FBD3C1DDC">
+                <Style>
+                    <IconStyle><Icon><href>https://earth.google.com/earth/document/icon?color=f57c00&amp;id=2000&amp;scale=4</href></Icon><hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/></IconStyle>
+                    <LineStyle><color>ff2dc0fb</color><width>3.99961</width></LineStyle>
+                    <PolyStyle><color>40ffffff</color></PolyStyle>
+                    <BalloonStyle><displayMode>hide</displayMode></BalloonStyle>
+                </Style>
+            </gx:CascadingStyle>
+            <gx:CascadingStyle kml:id="__managed_style_10D0C08AF63FBD3C1DDE">
+                <Style>
+                    <IconStyle><Icon><href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2127&amp;scale=4</href></Icon><hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/></IconStyle>
+                    <LineStyle><color>ff2dc0fb</color><width>3.99961</width></LineStyle>
+                    <PolyStyle><color>40ffffff</color></PolyStyle>
+                    <BalloonStyle><displayMode>hide</displayMode></BalloonStyle>
+                </Style>
+            </gx:CascadingStyle>
+            <StyleMap id="__managed_style_0BA03FC9D13FBD3C1DDD">
+                <Pair><key>normal</key><styleUrl>#__managed_style_161C66F3C23FBD3C1DDD</styleUrl></Pair>
+                <Pair><key>highlight</key><styleUrl>#__managed_style_2DCCEF9DBD3FBD3C1DDD</styleUrl></Pair>
+            </StyleMap>
+            <Placemark id="0CC7B0F9743FBC9955F0"><name>MANHOLE BEFROST</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.7805954980769,1.456172122744298,24.44538898142308</coordinates></Point></Placemark>
+            <Placemark id="08AF705CF53FBC9A4E50"><name>MANHOLE BEFROST</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.7806652043586,1.456072151531552,24.97124247594265</coordinates></Point></Placemark>
+            <Placemark id="0C1AE8E1333FBC9ADA44"><name>MANHOLE BEFROST</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.7808455819174,1.455991350962521,26.05078635030658</coordinates></Point></Placemark>
+            <Placemark id="056E1A1E883FBC9B239F"><name>MANHOLE BEFROST</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.7809925710669,1.455939591088495,27.89024542103499</coordinates></Point></Placemark>
+            <Placemark id="0F26F919A23FBC9BB8E4"><name>MANHOLE BEFROST</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.7817229607373,1.457645567950458,19.72269148538062</coordinates></Point></Placemark>
+            <Placemark id="02FB49CD4F3FBC9C546C"><name>MANHOLE BEFROST</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.7819663487328,1.459247482643293,8.012548139342906</coordinates></Point></Placemark>
+            <Placemark id="029F2D7EE53FBC9CA520"><name>MANHOLE BEFROST</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.7827466478253,1.460746705092295,6.28204359068299</coordinates></Point></Placemark>
+            <Placemark id="0FF28021293FBC9D182C"><name>MANHOLE BEFROST</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.7844202078101,1.460984181198205,7.632462579139793</coordinates></Point></Placemark>
+            <Placemark id="00D7D575D13FBC9E2347"><name>MANHOLE BEFROST</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.7862577592574,1.461279286637015,10.66829825859766</coordinates></Point></Placemark>
+            <Placemark id="0689B4EF503FBC9F4930"><name>BMH BEFROST</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.7861945492155,1.461397336100832,8.591972294836211</coordinates></Point></Placemark>
+            <Placemark id="0D5FC6BF603FBCA59BD8"><name>KABEL LAUT BEFROST</name><styleUrl>#__managed_style_0BA03FC9D13FBD3C1DDD</styleUrl><LineString><coordinates>124.7862016778529,1.461385914504956,0 124.7862537102498,1.461281825129391,0 124.785739379884,1.461252549630667,0 124.7855700273922,1.461208830526175,0 124.7853314847536,1.461124555774856,0 124.785000661165,1.461038364771866,0 124.7846701989171,1.460986577433241,0 124.7844185764386,1.460979711055285,0 124.7840499807271,1.460970920017377,0 124.7838319161894,1.460945282847046,0 124.7832767762061,1.460841556215968,0 124.782842801455,1.460749822899783,0 124.7827565815062,1.460737666117676,0 124.782681042535,1.460709483801692,0 124.7825967369778,1.460668435800981,0 124.7824192024038,1.460544922660092,0 124.7822625249661,1.460422515327914,0 124.7822146824718,1.460371491822872,0 124.7821494683323,1.46027902754648,0 124.7821164538677,1.460191256499047,0 124.7820860312574,1.460115681513984,0 124.782038674147,1.45978014133836,0 124.7819702967489,1.459248286347013,0 124.7819027809663,1.458678081257254,0 124.7818608285106,1.458384249488111,0 124.781798881094,1.45801815047875,0 124.7817685837807,1.457735559333469,0 124.7817324458341,1.457644257772489,0 124.7816006617488,1.457266094553484,0 124.7815062692215,1.457031786356872,0 124.7812998419316,1.456575952547944,0 124.7811906825969,1.456346127505164,0 124.7810790815421,1.456134883603088,0 124.780996249319,1.455940251367727,0 124.7808464751184,1.455994687020243,0 124.7806622072888,1.456075690844495,0 124.7805942778319,1.456173981186281,0 124.7805797051765,1.45619238981711,0 124.7804395212898,1.45611880698646,0 124.7804766572018,1.456048054671035,0</coordinates></LineString></Placemark>
+            <Placemark id="061DF629BA3FBCAA3D2C"><name>CO LOCATIONS</name><styleUrl>#__managed_style_02E35756B53FBD3C1DDE</styleUrl><Point><coordinates>124.7804800987729,1.456043461125513,26.40766985753772</coordinates></Point></Placemark>
+            <Placemark id="045ABBA6A33FBCBF1FC4"><name>KABEL 48 OSP TELIN</name><styleUrl>#__managed_style_3604DF4E943FBD3C1DDE</styleUrl><LineString><coordinates>124.7812478536225,1.460026684981967,0 124.7812157085597,1.460016133147688,0 124.781157924176,1.460132230172606,0 124.7817952386357,1.460465140533197,0 124.7823171960121,1.460729035694989,0 124.7826342242593,1.460838431148864,0 124.7829818382992,1.460889073381644,0 124.7834979289598,1.460977414319512,0 124.7839094159755,1.461039725633801,0 124.7843742548892,1.46106517152129,0 124.7848470947539,1.461103837731649,0 124.7850502137158,1.461136555932798,0 124.7854038026697,1.46124033245953,0 124.7856237772323,1.461312882100859,0 124.7858918760006,1.461359148492216,0 124.7861612685846,1.461364143078844,0 124.7865967315036,1.461361649390826,0 124.7870429815232,1.461349683281072,0 124.7875118597691,1.46135055211716,0 124.7880089401312,1.461439446310948,0 124.7883038133163,1.461476074610861,0 124.7885455782229,1.461435296694137,0 124.7887540105387,1.461355918704206,0 124.7889325762509,1.461237377724073,0 124.7893068582838,1.460923957665615,0 124.7897529605101,1.460535043546901,0 124.7899532371562,1.460420787268649,0 124.7902399074655,1.460378978928267,0 124.7906151516566,1.460372592524817,0 124.7909191601549,1.4604103857948,0 124.7913642316539,1.460469935044254,0 124.7916684386963,1.460447319797722,0 124.7921054882627,1.460318459379399,0 124.7923966049255,1.460269611457526,0 124.7925666123078,1.460250717328577,0 124.7927536270663,1.460196683316647,0 124.7929026677201,1.460116360951289,0 124.7931157635035,1.459978496771446,0 124.7933613580948,1.459887988914842,0 124.7934324909541,1.459856482405349,0 124.7935418264732,1.459808225904908,0 124.7936471650615,1.459808066047828,0 124.7939727879081,1.459839947152937,0 124.7942293438492,1.459860188614658,0 124.7944461829187,1.459880121668998,0 124.7948071975748,1.459886730366935,0 124.7950558183624,1.459873364744807,0 124.7952526698466,1.459877456278468,0 124.795842138711,1.459867739144501,0 124.7959489355111,1.459892220217415,0 124.7960088149303,1.459911281584007,0 124.7963953358642,1.460058229903471,0 124.796737635478,1.460209919809366,0 124.7968941995212,1.460288803202607,0 124.7971493081447,1.460345726398584,0 124.7974721134959,1.460303091680867,0 124.7976905272975,1.460272743060619,0 124.7980096416571,1.460247418599671,0 124.7981830439729,1.460188630164281,0 124.7984791138401,1.460094007105675,0 124.7986654655193,1.460034560769522,0 124.79883646944,1.460014139986104,0 124.7990584530662,1.460010046834976,0 124.7992430573275,1.460010845712112,0 124.7995051526087,1.460003612643378,0 124.7997444313976,1.459999727857501,0 124.8001642156747,1.459987854895764,0 124.8004739965216,1.45998911353363,0 124.8007182655446,1.459983808783286,0 124.8011239088913,1.459959079725209,0 124.8015754300892,1.459887602483668,0 124.8017960306797,1.459829577463786,0 124.8023014871474,1.459656485652507,0 124.802793491924,1.459459808716314,0 124.8033696377187,1.459229903279202,0 124.8041912496453,1.458784528669146,0 124.8047491612593,1.458497062207381,0 124.8054197444571,1.45814663902409,0 124.806104177304,1.457762209998266,0 124.8067365661653,1.457512967489102,0 124.8070620231472,1.457343054025922,0 124.807412180644,1.457130517273542,0 124.80760954934,1.457065509084879,0 124.8080919842109,1.456946240055187,0 124.8087126420408,1.45681226126802,0 124.8091162558873,1.456713012644461,0 124.8094610295029,1.45665482564822,0 124.8099091738015,1.456607295329993,0 124.8107297363564,1.456597206030845,0 124.8116420406331,1.456557853606979,0 124.8125299934458,1.456570442359382,0 124.8128769928276,1.45659736588356,0 124.8132447218034,1.456640931188164,0 124.8136145920332,1.456690131901752,0 124.8141205976564,1.456817950494434,0 124.8146403545837,1.456954510451539,0 124.8153295281939,1.457149887788163,0 124.8158600239128,1.45730261906925,0 124.8163797632096,1.457414869018403,0 124.8166712936569,1.457520686691878,0 124.8169359577413,1.457596305544169,0 124.817223677115,1.457706004746471,0 124.8176021818522,1.457860588366649,0 124.8180074038364,1.458021820965,0 124.8183066609677,1.458150794374976,0 124.8185138205714,1.45824102822781,0 124.8188644092321,1.45836918062722,0 124.8190918720989,1.458427633573075,0 124.8193884841791,1.458503953369156,0 124.8196847314181,1.45857522378905,0 124.8200195403118,1.458653301934063,0 124.8206460276116,1.458782105613718,0 124.8211707101071,1.4588847988999,0 124.8215439588621,1.459000881295786,0 124.8216841270261,1.459085512117041,0 124.8217558623025,1.459141620024971,0 124.8218949546989,1.459279679174027,0 124.8221170467651,1.459516986392762,0 124.8223773374198,1.459791778064952,0 124.8228166576523,1.46022159545741,0 124.8231024384111,1.460467863308526,0 124.8233651392368,1.460661243112164,0 124.8235154086218,1.460747464579727,0 124.8239012841613,1.460979418064498,0 124.8246308747209,1.461464451798406,0 124.8251676782811,1.46183573748226,0 124.8254202979981,1.462017922742356,0 124.8256790169329,1.462196377566702,0 124.8261792972915,1.462524259372624,0 124.8266041434509,1.462800576486662,0 124.8266798422235,1.462868425059009,0 124.8267825594251,1.463047083548757,0 124.8269963663478,1.463350990053535,0 124.827546794328,1.464084728749484,0 124.8278549075161,1.464543529534372,0 124.8281804134309,1.464997875511557,0 124.8286988803724,1.465745219017204,0 124.8290185620435,1.46619190599674,0 124.8293393465642,1.466668576076016,0 124.8294031013785,1.466664634819066,0 124.8294942068517,1.466801094009867,0 124.8297778296665,1.467253904699173,0 124.8300020384997,1.467675128045847,0 124.8302064491692,1.468065694131285,0 124.8304052499195,1.468463022457467,0 124.8307237158726,1.469058095068012,0 124.8310815688614,1.469761510692423,0 124.8313689010063,1.470341094068723,0 124.831633121991,1.470926679102985,0 124.831785734644,1.471284595924939,0 124.8321373262338,1.472032885717753,0 124.8325655230056,1.47283461719555,0 124.8330913614111,1.473910205020166,0 124.8334611056825,1.47466491935755,0 124.8335006643797,1.474687264675003,0 124.8336330152055,1.474961140279529,0 124.833621895841,1.475011180679216,0 124.8337952979662,1.475434200990929,0 124.8339020866159,1.475759569743699,0 124.8339930911067,1.476141507687618,0 124.8341051696553,1.476623173896071,0 124.834326595966,1.477703617376575,0 124.8345250231595,1.478562728065778,0 124.8347307119395,1.479507292749644,0 124.834751605035,1.479674340634695,0 124.8348285022618,1.480295446459717,0 124.8348545004897,1.480875480242182,0 124.8349684011201,1.482632169328243,0 124.8349831666016,1.482729892726347,0 124.8351315927195,1.482723524703968,0 124.8351841105817,1.483419312147974,0 124.8353623182397,1.483405014971942,0 124.8355211288186,1.483383685381621,0 124.8356513282317,1.483370091274494,0 124.8360947640264,1.483440117106273,0 124.8364302432318,1.483503468454161,0 124.8367272802256,1.483558956968331,0 124.8367799484138,1.483575972160568,0 124.8368150330954,1.483546512015098,0 124.8369391276428,1.483536038843304,0 124.8369565935037,1.48369377229703,0 124.8369835350662,1.483856238230401,0 124.8370129890755,1.484032707573508,0 124.8370818184836,1.484261863236736,0 124.8371658096107,1.484569276950336,0 124.837271476721,1.484938799387703,0 124.8374022925263,1.48541888491242,0 124.8375473702691,1.485893563314531,0 124.8376061160896,1.486100716338999,0 124.8376535162235,1.48614568158067,0 124.8377128759267,1.486170886372807,0 124.8379453669157,1.4860925283223,0 124.8383330974277,1.485960731585159,0 124.8385462784414,1.485892322951629,0 124.8386414796972,1.485854102262319,0 124.8387359436886,1.485832604862339,0 124.8389749460834,1.48579944779301,0 124.8390567796754,1.485789802981168,0 124.8391046327675,1.485782341769639,0 124.839237693673,1.485761377604089,0 124.8393945707864,1.485734303714523,0 124.8394929051773,1.485716996811006,0 124.8395983510868,1.485698891874244,0 124.8397369996419,1.485663357481013,0 124.8397588633312,1.485645918445119,0 124.8398203108921,1.485696619892945,0 124.83987562597,1.485732885130724,0 124.8399877166486,1.485940955752894,0 124.8400344084425,1.485903652499824,0 124.8400806260673,1.486003093360469,0 124.8401340459592,1.486107062307043,0 124.8402027359968,1.486243421912966,0 124.8402353944199,1.486335271035049,0 124.8402563481221,1.486425620453155,0 124.8402533710455,1.486505960775066,0 124.8402247066149,1.486651684079545,0 124.8402214169994,1.48673856006168,0 124.8402260148787,1.486896248156233,0 124.8402555613161,1.48703760996105,0 124.8402994725954,1.487177795814902,0 124.8405266828952,1.487750384337369,0 124.8406858736613,1.488177588721081,0 124.8407107073598,1.488246353075003,0 124.840747150399,1.488252188376884,0 124.8407916585672,1.488254121673259,0 124.8408147060468,1.488243150394115,0 124.8408453544483,1.488200309028294,0 124.840894014584,1.488142353329463,0 124.840966291348,1.488014238479456,0 124.8410648378799,1.487821062618409,0 124.8412014616308,1.48760716785887,0 124.841341250023,1.487347787813456,0 124.8414109054253,1.487229360130396,0 124.84147496905,1.487116213614221,0 124.8415957823345,1.48718031284917,0 124.8416252623089,1.487244653081088,0 124.8416706263023,1.487288095510826,0 124.8417426759875,1.487307017180689,0 124.8418107617426,1.487311758575962,0 124.8420903496833,1.48732345088812,0 124.8422896573289,1.487325180360031,0 124.8424453292478,1.487329027205678,0 124.8426289432254,1.487342265661002,0 124.8429347000854,1.48736141438307,0 124.8429540746179,1.487221195158576,0 124.8429406350224,1.487207357587614,0 124.8429474639767,1.487151040444444,0 124.8429671047435,1.487150099190718,0 124.8429854492976,1.486841676626129,0 124.843135709052,1.486847621133374,0 124.8431344329131,1.487032913641191,0 124.8432584314946,1.487035619911966,0 124.8432553871862,1.487110839704875,0</coordinates></LineString></Placemark>
+            <Placemark id="031D6E1DE73FBCBF3CA6"><name>OTB 48 (DC MANADO)</name><styleUrl>#__managed_style_02E35756B53FBD3C1DDE</styleUrl><Point><coordinates>124.8432553295584,1.487107929188668,23.45863245429786</coordinates></Point></Placemark>
+            <Placemark id="0C642305113FBCC1A3C0"><name>KABEL 48 OSP TELIN SEGEMN</name><styleUrl>#__managed_style_3604DF4E943FBD3C1DDE</styleUrl><LineString><coordinates>124.781248736762,1.460026951523428,0 124.7815148426801,1.460119028019299,0 124.78163809327,1.460123422827531,0 124.7817327199347,1.460101568367517,0 124.7818433282424,1.460062105721872,0 124.7818869941265,1.459996439235175,0 124.7819005687272,1.45996344446566,0 124.7818966859187,1.459906623861871,0 124.7818414655051,1.459439240308722,0 124.7817491134452,1.458658587821939,0 124.781682868836,1.457974792600884,0 124.7816720589487,1.457840523054477,0 124.7816595906514,1.457757628637262,0 124.7816099690579,1.457534461220986,0 124.7815563145139,1.457401738005415,0 124.7814799726957,1.457211717425129,0 124.7814200943102,1.457080753241099,0 124.7812813410407,1.456754437344269,0 124.7810819958371,1.456358893549194,0 124.7809958432433,1.456190425765327,0 124.7808890224487,1.45603294978269,0 124.7808625538113,1.455998671415528,0 124.7806808929377,1.45608117558542,0 124.780592449359,1.456192527250594,0 124.7804029980944,1.456093443204137,0 124.7804120924002,1.456075117314783,0</coordinates></LineString></Placemark>
+            <Placemark id="047FED13703FBCC1DE7C"><name>OTB 48 (MMR ROOM)</name><styleUrl>#__managed_style_02E35756B53FBD3C1DDE</styleUrl><Point><coordinates>124.7804131564144,1.456071508963615,26.40766985753772</coordinates></Point></Placemark>
+            <Placemark id="071FA0D1683FBCC53743"><name>MANHOLE OSP TELIN</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.8351300282118,1.482721983991595,7.759362783321755</coordinates></Point></Placemark>
+            <Placemark id="01F22CB4233FBCC6B003"><name>MANHOLE OSP TELIN</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.8239144809696,1.460997894489643,7.106620645126942</coordinates></Point></Placemark>
+            <Placemark id="08C22D9C773FBCC84197"><name>MANHOLE OSP TELIN</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.8130310642152,1.456615132889389,9.258533926696554</coordinates></Point></Placemark>
+            <Placemark id="08797D96993FBCCA7DC4"><name>MANHOLE OSP TELIN</name><styleUrl>#__managed_style_006BE0A0173FBD3C1DDC</styleUrl><Point><coordinates>124.8429549675868,1.487220443079293,23.41169862901715</coordinates></Point></Placemark>
+            <Placemark id="00D51C81CB3FBCCB4E07"><name>JOINT CUT</name><styleUrl>#__managed_style_01F70096503FBD3C1DFB</styleUrl><Point><coordinates>124.8269374266071,1.463274434361902,5.483328398397904</coordinates></Point></Placemark>
+            <Placemark id="0E8262AED03FBCCC2A34"><name>JOINT CUT</name><styleUrl>#__managed_style_01F70096503FBD3C1DFB</styleUrl><Point><coordinates>124.8272344106261,1.463672204920174,5.30188988403006</coordinates></Point></Placemark>
+            <Placemark id="0A2FA0E5073FBD30584C"><name>JOINT CUT</name><styleUrl>#__managed_style_01F70096503FBD3C1DFB</styleUrl><Point><coordinates>124.8352145219529,1.48341474852176,6.181677520701088</coordinates></Point></Placemark>
+            <Placemark id="052B4376A53FBD310B69"><name>JOINT CUT</name><styleUrl>#__managed_style_01F70096503FBD3C1DFB</styleUrl><Point><coordinates>124.8355175442979,1.48338855318233,7.498128788067071</coordinates></Point></Placemark>
+        </Document>
+        </kml>`;
+
+        // ============================================================
+        // LOAD DEFAULT KML
+        // ============================================================
+        function loadDefaultKml() {
+            if (!map) return;
+            kmlLayers.forEach(function(layer) { map.removeLayer(layer); });
+            kmlLayers = [];
+
+            try {
+                var parser = new DOMParser();
+                var xml = parser.parseFromString(defaultKmlString, "text/xml");
+                var layers = parseKmlToLayers(xml);
+                if (layers.length > 0) {
+                    var group = L.featureGroup(layers);
+                    group.addTo(map);
+                    kmlLayers.push(group);
+                    map.fitBounds(group.getBounds().pad(0.05));
+                    showToast('✅ Data KML default dimuat', 'success');
+                } else {
+                    showToast('⚠️ Tidak ada data KML yang ditemukan', 'error');
+                }
+            } catch (e) {
+                console.error('❌ Error parsing default KML:', e);
+                showToast('❌ Gagal memuat KML default', 'error');
+            }
+        }
+
+        // ============================================================
+        // PARSE KML KE LAYER
+        // ============================================================
+        function parseKmlToLayers(xml) {
+            var styles = {};
+            var styleMaps = {};
+            var colorPalette = ['#E76F51', '#F4A261', '#E9C46A', '#2A9D8F', '#0077B6', '#9B5DE5', '#FF006E', '#00BBF9',
+                '#00F5D4', '#F15BB5'
+            ];
+            var colorIdx = 0;
+
+            var cascadingStyles = xml.getElementsByTagName("gx:CascadingStyle");
+            for (var i = 0; i < cascadingStyles.length; i++) {
+                var cs = cascadingStyles[i];
+                var id = cs.getAttribute("kml:id") || cs.getAttribute("id");
+                if (id) {
+                    var styleElem = cs.getElementsByTagName("Style")[0];
+                    if (styleElem) {
+                        styles[id] = styleElem;
+                    }
+                }
+            }
+
+            var styleMapElems = xml.getElementsByTagName("StyleMap");
+            for (var i = 0; i < styleMapElems.length; i++) {
+                var sm = styleMapElems[i];
+                var id = sm.getAttribute("id");
+                if (id) {
+                    var pairs = sm.getElementsByTagName("Pair");
+                    for (var j = 0; j < pairs.length; j++) {
+                        var pair = pairs[j];
+                        var key = pair.getElementsByTagName("key")[0]?.textContent;
+                        if (key === "normal") {
+                            var styleUrl = pair.getElementsByTagName("styleUrl")[0]?.textContent;
+                            if (styleUrl) {
+                                styleMaps[id] = styleUrl.replace("#", "");
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            function getColorFromStyleUrl(styleUrl) {
+                if (!styleUrl) return null;
+                var id = styleUrl.replace("#", "");
+                if (styleMaps[id]) {
+                    id = styleMaps[id];
+                }
+                var styleElem = styles[id];
+                if (!styleElem) return null;
+
+                var iconStyle = styleElem.getElementsByTagName("IconStyle")[0];
+                if (iconStyle) {
+                    var icon = iconStyle.getElementsByTagName("Icon")[0];
+                    if (icon) {
+                        var href = icon.getElementsByTagName("href")[0];
+                        if (href) {
+                            var url = href.textContent;
+                            var match = url.match(/color=([^&]+)/);
+                            if (match) {
+                                return "#" + match[1];
+                            }
+                        }
+                    }
+                }
+
+                var lineStyle = styleElem.getElementsByTagName("LineStyle")[0];
+                if (lineStyle) {
+                    var colorElem = lineStyle.getElementsByTagName("color")[0];
+                    if (colorElem) {
+                        var colorHex = colorElem.textContent;
+                        if (colorHex.length === 8) {
+                            var rr = colorHex.substr(6, 2);
+                            var gg = colorHex.substr(4, 2);
+                            var bb = colorHex.substr(2, 2);
+                            return "#" + rr + gg + bb;
+                        }
+                    }
+                }
+                return null;
+            }
+
+            var placemarks = xml.getElementsByTagName("Placemark");
+            var layers = [];
+
+            for (var i = 0; i < placemarks.length; i++) {
+                var pm = placemarks[i];
+                var name = pm.getElementsByTagName("name")[0]?.textContent || "";
+                var styleUrl = pm.getElementsByTagName("styleUrl")[0]?.textContent || "";
+                var description = pm.getElementsByTagName("description")[0]?.textContent || "";
+
+                var point = pm.getElementsByTagName("Point")[0];
+                if (point) {
+                    var coordsElem = point.getElementsByTagName("coordinates")[0];
+                    if (coordsElem) {
+                        var coordText = coordsElem.textContent.trim();
+                        var parts = coordText.split(",");
+                        if (parts.length >= 2) {
+                            var lon = parseFloat(parts[0]);
+                            var lat = parseFloat(parts[1]);
+                            var color = colorPalette[colorIdx % colorPalette.length];
+                            colorIdx++;
+                            var marker = L.circleMarker([lat, lon], {
+                                radius: 6,
+                                fillColor: color,
+                                color: "#ffffff",
+                                weight: 1.5,
+                                opacity: 0.9,
+                                fillOpacity: 0.85
+                            });
+                            marker.bindPopup('<strong>' + name + '</strong><br>' + (description || ''));
+                            layers.push(marker);
+                        }
+                    }
+                }
+
+                var lineString = pm.getElementsByTagName("LineString")[0];
+                if (lineString) {
+                    var coordsElem = lineString.getElementsByTagName("coordinates")[0];
+                    if (coordsElem) {
+                        var coordText = coordsElem.textContent.trim();
+                        var lines = coordText.split(/\s+/);
+                        var latlngs = [];
+                        for (var j = 0; j < lines.length; j++) {
+                            var parts = lines[j].split(",");
+                            if (parts.length >= 2) {
+                                var lon = parseFloat(parts[0]);
+                                var lat = parseFloat(parts[1]);
+                                latlngs.push([lat, lon]);
+                            }
+                        }
+                        if (latlngs.length > 1) {
+                            var color = colorPalette[colorIdx % colorPalette.length];
+                            colorIdx++;
+                            var polyline = L.polyline(latlngs, {
+                                color: color,
+                                weight: 3,
+                                opacity: 0.7
+                            });
+                            var popupText = name;
+                            if (description) {
+                                var div = document.createElement('div');
+                                div.innerHTML = description;
+                                popupText += "<br>" + div.textContent;
+                            }
+                            polyline.bindPopup(popupText);
+                            layers.push(polyline);
+                        }
+                    }
+                }
+            }
+            return layers;
+        }
+
+        // ============================================================
+        // DOM READY
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ DOM Ready');
+
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+
+            var savedSession = localStorage.getItem('bucin_session');
+            if (savedSession) {
+                try {
+                    var session = JSON.parse(savedSession);
+                    if (session && session.username && session.role) {
+                        currentUser = { name: session.username, role: session.role };
+                        document.getElementById('login-screen').classList.add('hidden');
+                        document.getElementById('app-shell').classList.remove('hidden');
+                        if (currentUser.role === 'admin') {
+                            document.getElementById('add-user-btn').classList.remove('hidden');
+                            document.getElementById('settings-btn').classList.remove('hidden');
+                        }
+                        resetSessionTimer();
+                        setTimeout(function() {
+                            initMap();
+                            initCharts();
+                            updateQuickStats();
+                        }, 100);
+                        setupEventListeners();
+                        loadData();
+                        loadSettings();
+                        loadBarcodeCache();
+                        return;
+                    }
+                } catch (e) {}
+            }
+
+            // Jika tidak ada session, tampilkan login
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('app-shell').classList.add('hidden');
+
+            setupEventListeners();
+            loadData();
+            loadSettings();
+            loadBarcodeCache();
+        });
+
+        // ============================================================
+        // LOAD BARCODE CACHE (untuk Spare)
+        // ============================================================
+        function loadBarcodeCache() {
+            db.ref('data/Stok Spare').once('value', function(snap) {
+                var data = snap.val() || {};
+                var items = Object.values(data);
+                items.forEach(function(item) {
+                    if (item.sn && item.spec) {
+                        barcodeCache[item.sn] = item.spec;
+                    }
+                });
+                console.log('✅ Barcode cache loaded:', Object.keys(barcodeCache).length + ' items');
+            }).catch(function(err) {
+                console.error('❌ Error loading barcode cache:', err);
+            });
+        }
+
+        function updateBarcodeCache(sn, spec) {
+            if (sn && spec) {
+                barcodeCache[sn] = spec;
+            }
+        }
+
+        // ============================================================
+        // LOAD SETTINGS
+        // ============================================================
+        function loadSettings() {
+            db.ref('settings').once('value').then(function(snap) {
+                var settings = snap.val() || {};
+                if (settings.heroAbout) {
+                    document.getElementById('hero-about-text').textContent = settings.heroAbout;
+                }
+                if (settings.bgColor1) {
+                    document.getElementById('set-bg-color1').value = settings.bgColor1;
+                }
+                if (settings.bgColor2) {
+                    document.getElementById('set-bg-color2').value = settings.bgColor2;
+                }
+                if (settings.bgImage) {
+                    document.getElementById('set-bg-image').value = settings.bgImage;
+                }
+            }).catch(function(err) {
+                console.error('❌ Error loading settings:', err);
+            });
+        }
+
+        // ============================================================
+        // LOAD DATA
+        // ============================================================
+        function loadData() {
+            if (!db) {
+                console.error('❌ Firebase not initialized');
+                return;
+            }
+
+            db.ref('data').on('value', function(snap) {
+                try {
+                    appData = snap.val() || {};
+                    console.log('✅ Data loaded');
+                    updateDashboard();
+                    if (currentCategory !== 'dashboard') {
+                        renderTable();
+                        updateStokSummary();
+                    }
+                    updateMapMarkers();
+                } catch (e) {
+                    console.error('❌ Error processing data:', e);
+                }
+            }, function(error) {
+                console.error('❌ Error loading data:', error);
+            });
+        }
+
+        // ============================================================
+        // UPDATE STOK SUMMARY (untuk Spare & Patch)
+        // ============================================================
+        function updateStokSummary() {
+            var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
+            var container = document.getElementById('stok-summary-container');
+
+            if (!isStock) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+
+            var list = appData[currentCategory] || {};
+            var items = Object.values(list);
+
+            var totalReady = 0;
+            var totalOut = 0;
+
+            items.forEach(function(item) {
+                if (item.status === 'Ready') {
+                    totalReady += 1;
+                } else if (item.status === 'Out') {
+                    totalOut += 1;
+                } else if (item.trType === 'Masuk') {
+                    totalReady += parseInt(item.qty) || 0;
+                } else if (item.trType === 'Keluar') {
+                    totalOut += parseInt(item.qty) || 0;
+                }
+            });
+
+            var totalStok = totalReady + totalOut;
+
+            document.getElementById('total-stok-value').textContent = totalStok;
+            document.getElementById('total-masuk-value').textContent = totalReady;
+            document.getElementById('total-keluar-value').textContent = totalOut;
+        }
+
+        // ============================================================
+        // LOGIN HANDLER
+        // ============================================================
+        function handleLogin(e) {
+            e.preventDefault();
+
+            var username = document.getElementById('login-username').value.trim();
+            var password = document.getElementById('login-password').value.trim();
+            var errorEl = document.getElementById('login-error');
+            var errorText = document.getElementById('login-error-text');
+
+            errorEl.classList.remove('show');
+
+            if (!username || !password) {
+                errorText.textContent = 'Username dan password harus diisi!';
+                errorEl.classList.add('show');
+                return false;
+            }
+
+            db.ref('users/' + username).once('value')
+                .then(function(snap) {
+                    var userData = snap.val();
+
+                    if (userData && userData.pass === password) {
+                        currentUser = { name: username, role: userData.role || 'user' };
+
+                        localStorage.setItem('bucin_session', JSON.stringify({ username: username, role: currentUser
+                                .role }));
+
+                        document.getElementById('login-screen').classList.add('hidden');
+                        document.getElementById('app-shell').classList.remove('hidden');
+
+                        if (currentUser.role === 'admin') {
+                            document.getElementById('add-user-btn').classList.remove('hidden');
+                            document.getElementById('settings-btn').classList.remove('hidden');
+                        } else {
+                            document.getElementById('add-user-btn').classList.add('hidden');
+                            document.getElementById('settings-btn').classList.add('hidden');
+                        }
+
+                        resetSessionTimer();
+
+                        setTimeout(function() {
+                            initMap();
+                            initCharts();
+                            updateQuickStats();
+                        }, 100);
+
+                        showToast('✅ Selamat datang, ' + username + '!', 'success');
+                    } else {
+                        errorText.textContent = 'Username atau password salah!';
+                        errorEl.classList.add('show');
+                        showToast('❌ Username atau password salah', 'error');
+                    }
+                })
+                .catch(function(err) {
+                    console.error('❌ Login error:', err);
+                    errorText.textContent = 'Terjadi kesalahan: ' + err.message;
+                    errorEl.classList.add('show');
+                    showToast('❌ Terjadi kesalahan, coba lagi', 'error');
+                });
+
+            return false;
+        }
+
+        // ============================================================
+        // QUICK STATS
+        // ============================================================
+        function updateQuickStats() {
+            var totalData = 0;
+            var categories = 0;
+            Object.keys(appData).forEach(function(cat) {
+                if (cat !== 'dashboard' && typeof appData[cat] === 'object') {
+                    var count = Object.keys(appData[cat] || {}).length;
+                    if (count > 0) {
+                        totalData += count;
+                        categories++;
+                    }
+                }
+            });
+            document.getElementById('quick-total') && (document.getElementById('quick-total').textContent = totalData);
+            document.getElementById('quick-categories') && (document.getElementById('quick-categories').textContent =
+            categories);
+        }
+
+        // ============================================================
+        // FILTER GUDANG
+        // ============================================================
+        function filterGudang(gudang) {
+            selectedGudangFilter = gudang;
+            document.querySelectorAll('.gudang-tab').forEach(function(tab) {
+                tab.classList.toggle('active', tab.dataset.gudang === gudang);
+            });
+            renderTable();
+        }
+
+        // ============================================================
+        // SWITCH VIEW (reset pencarian)
+        // ============================================================
+        function switchView(cat) {
+            // Reset search input
+            var searchInput = document.getElementById('search-input');
+            if (searchInput) searchInput.value = '';
+
+            if (cat === 'P3_Temuan') {
+                currentCategory = 'Pekerjaan Pihak Ke-3';
+                currentSubTab = 'p3';
+            } else {
+                currentCategory = cat;
+            }
+
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('data-view').classList.add('hidden');
+
+            if (cat === 'dashboard') {
+                document.getElementById('dashboard-view').classList.remove('hidden');
+                document.getElementById('page-title').textContent = 'Dashboard';
+                document.getElementById('stok-summary-container').classList.add('hidden');
+                document.getElementById('sub-tabs-container').classList.add('hidden');
+                document.getElementById('sop-description-container').classList.add('hidden');
+                updateQuickStats();
+                return;
+            }
+
+            document.getElementById('data-view').classList.remove('hidden');
+            var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
+            var isPatch = cat === 'Patch Cord';
+            var isAlkur = cat === 'Alkur/Material';
+            var isHandhole = cat === 'Handhole';
+            var isJoint = cat === 'Joint';
+            var isOpm = cat === 'OPM/OLS';
+            var isOfCut = cat === 'Data OF Cut';
+            var isP3Temuan = cat === 'P3_Temuan';
+
+            document.getElementById('btn-history').classList.toggle('hidden', !isStock);
+
+            document.getElementById('page-title').textContent = isP3Temuan ? 'Pekerjaan & Temuan' : cat;
+
+            // Sub-tabs untuk P3/Temuan (tabel terpisah)
+            var subTabs = document.getElementById('sub-tabs-container');
+            if (isP3Temuan) {
+                subTabs.classList.remove('hidden');
+                document.querySelectorAll('.sub-tab').forEach(function(t) {
+                    t.classList.toggle('active', t.dataset.sub === currentSubTab);
+                });
+                var realCat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
+                document.getElementById('inp-cat').value = realCat;
+            } else {
+                subTabs.classList.add('hidden');
+                document.getElementById('inp-cat').value = cat;
+            }
+
+            // SOP Description untuk OF Cut (hanya di atas tabel)
+            var sopDesc = document.getElementById('sop-description-container');
+            if (isOfCut) {
+                sopDesc.classList.remove('hidden');
+            } else {
+                sopDesc.classList.add('hidden');
+            }
+
+            var filterBar = document.getElementById('filter-bar-container');
+            filterBar.style.display = 'flex';
+
+            renderTable();
+            updateStokSummary();
+            refreshSession();
+        }
+
+        // ============================================================
+        // SUB TAB P3/TEMUAN (tabel terpisah)
+        // ============================================================
+        function switchSubTab(tab) {
+            currentSubTab = tab;
+            document.querySelectorAll('.sub-tab').forEach(function(t) {
+                t.classList.toggle('active', t.dataset.sub === tab);
+            });
+            var realCat = tab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
+            document.getElementById('inp-cat').value = realCat;
+            document.getElementById('page-title').textContent = tab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
+            var label = document.getElementById('p3temuan-label');
+            if (label) {
+                label.textContent = tab === 'p3' ? '📋 Data Pekerjaan Pihak Ke-3' : '📋 Data Temuan Lapangan';
+            }
+            renderTable();
+        }
+
+        // ============================================================
+        // EVENT LISTENERS
+        // ============================================================
+        function setupEventListeners() {
+            var loginBtn = document.getElementById('login-btn');
+            if (loginBtn) loginBtn.addEventListener('click', handleLogin);
+
+            var loginForm = document.getElementById('login-form');
+            if (loginForm) loginForm.addEventListener('submit', handleLogin);
+
+            var togglePass = document.getElementById('toggle-pass');
+            if (togglePass) {
+                togglePass.addEventListener('click', function() {
+                    var inp = document.getElementById('login-password');
+                    var icon = this.querySelector('i');
+                    if (inp.type === 'password') {
+                        inp.type = 'text';
+                        if (icon) icon.setAttribute('data-lucide', 'eye-off');
+                    } else {
+                        inp.type = 'password';
+                        if (icon) icon.setAttribute('data-lucide', 'eye');
+                    }
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                });
+            }
+
+            var logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    localStorage.removeItem('bucin_session');
+                    currentUser = null;
+                    location.reload();
+                });
+            }
+
+            document.querySelectorAll('.nav-item').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
+                    this.classList.add('active');
+                    switchView(this.dataset.cat);
+                });
+            });
+
+            var addBtn = document.getElementById('btn-add');
+            if (addBtn) addBtn.addEventListener('click', handleAddClick);
+
+            var submitBtn = document.getElementById('btn-submit-form');
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    submitForm(e);
+                });
+            }
+
+            var dataForm = document.getElementById('data-form');
+            if (dataForm) {
+                dataForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    submitForm(e);
+                });
+            }
+
+            var periodSelect = document.getElementById('period-select');
+            if (periodSelect) {
+                periodSelect.addEventListener('change', function() {
+                    currentPeriod = this.value;
+                    renderTable();
+                    refreshSession();
+                });
+            }
+
+            var searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', renderTable);
+            }
+
+            // Scan SN untuk Spare
+            var snInput = document.getElementById('inp-sn');
+            if (snInput) {
+                snInput.addEventListener('input', function() {
+                    if (currentCategory === 'Stok Spare') {
+                        var code = this.value.trim();
+                        if (code && barcodeCache[code]) {
+                            document.getElementById('inp-spec').value = barcodeCache[code];
+                        } else if (code && code.length > 3) {
+                            document.getElementById('inp-spec').value = '';
+                            document.getElementById('inp-spec').placeholder = 'Input nama barang baru...';
+                        }
+                    }
+                });
+            }
+
+            // Scan SN untuk Update Pemakaian
+            var updateSnInput = document.getElementById('inp-update-sn');
+            if (updateSnInput) {
+                updateSnInput.addEventListener('input', function() {
+                    var code = this.value.trim();
+                    var info = document.getElementById('update-sn-info');
+                    var specField = document.getElementById('inp-update-spec');
+                    if (code && barcodeCache[code]) {
+                        specField.value = barcodeCache[code];
+                        info.textContent = '✅ Barang ditemukan: ' + barcodeCache[code];
+                        info.style.color = '#2A9D8F';
+                        var list = appData['Stok Spare'] || {};
+                        var found = false;
+                        for (var key in list) {
+                            var item = list[key];
+                            if (item.sn === code) {
+                                found = true;
+                                info.textContent += ' | Status: ' + (item.status || 'Ready');
+                                if (item.status === 'Out') {
+                                    info.textContent += ' ⚠️ Barang sudah Out';
+                                    info.style.color = '#E76F51';
+                                } else {
+                                    info.style.color = '#2A9D8F';
+                                }
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            info.textContent = '⚠️ SN tidak ditemukan di database';
+                            info.style.color = '#E76F51';
+                        }
+                    } else if (code && code.length > 3) {
+                        specField.value = '';
+                        info.textContent = '⚠️ SN tidak dikenali, silakan input manual';
+                        info.style.color = '#E76F51';
+                    } else {
+                        specField.value = '';
+                        info.textContent = '';
+                    }
+                });
+            }
+
+            var scanModalBtn = document.getElementById('btn-scan-modal');
+            if (scanModalBtn) {
+                scanModalBtn.addEventListener('click', function() { toggleScanner('modal'); });
+            }
+
+            var scanUpdateBtn = document.getElementById('btn-scan-update');
+            if (scanUpdateBtn) {
+                scanUpdateBtn.addEventListener('click', function() { toggleScanner('update'); });
+            }
+
+            var stopModalScan = document.getElementById('btn-stop-modal-scan');
+            if (stopModalScan) {
+                stopModalScan.addEventListener('click', function() { stopScanner('modal'); });
+            }
+
+            var btnLocMap = document.getElementById('btn-loc-map');
+            if (btnLocMap) {
+                btnLocMap.addEventListener('click', function() {
+                    openMapModal();
+                });
+            }
+
+            var historyBtn = document.getElementById('btn-history');
+            if (historyBtn) historyBtn.addEventListener('click', showSpareHistory);
+
+            document.getElementById('btn-download-excel-page').addEventListener('click', function() {
+                downloadPageExcel();
+            });
+
+            document.getElementById('btn-download-excel-history').addEventListener('click', function() {
+                downloadSpareHistoryExcel();
+            });
+
+            document.getElementById('add-user-btn').addEventListener('click', function() {
+                document.getElementById('add-user-modal').classList.remove('hidden');
+            });
+
+            var settingsBtn = document.getElementById('settings-btn');
+            if (settingsBtn) {
+                settingsBtn.addEventListener('click', function() {
+                    document.getElementById('settings-modal').classList.remove('hidden');
+                    document.getElementById('hero-about-input').value = document.getElementById('hero-about-text')
+                        .textContent;
+                });
+            }
+
+            var saveHeroAboutBtn = document.getElementById('btn-save-hero-about');
+            if (saveHeroAboutBtn) {
+                saveHeroAboutBtn.addEventListener('click', function() {
+                    var text = document.getElementById('hero-about-input').value.trim();
+                    if (text) {
+                        document.getElementById('hero-about-text').textContent = text;
+                        db.ref('settings/heroAbout').set(text);
+                        showToast('✅ Keterangan Hero disimpan', 'success');
+                        document.getElementById('settings-modal').classList.add('hidden');
+                    } else {
+                        showToast('❌ Keterangan tidak boleh kosong', 'error');
+                    }
+                });
+            }
+
+            var saveSettingsBtn = document.getElementById('btn-save-settings');
+            if (saveSettingsBtn) {
+                saveSettingsBtn.addEventListener('click', function() {
+                    var bg1 = document.getElementById('set-bg-color1').value;
+                    var bg2 = document.getElementById('set-bg-color2').value;
+                    var op = document.getElementById('set-bg-opacity').value;
+
+                    var settings = { bgColor1: bg1, bgColor2: bg2, bgOpacity: op };
+                    db.ref('settings').update(settings);
+
+                    document.documentElement.style.setProperty('--bg-light', bg1);
+                    document.body.style.background = 'linear-gradient(135deg, ' + bg1 + ', ' + bg2 + ')';
+
+                    document.getElementById('settings-modal').classList.add('hidden');
+                    showToast('✅ Pengaturan disimpan', 'success');
+                });
+            }
+
+            var opacityRange = document.getElementById('set-bg-opacity');
+            if (opacityRange) {
+                opacityRange.addEventListener('input', function() {
+                    document.getElementById('opacity-value').textContent = this.value + '%';
+                });
+            }
+
+            // Chart period
+            var chartPeriod = document.getElementById('chart-period');
+            if (chartPeriod) {
+                chartPeriod.addEventListener('change', updateChartPeriod);
+            }
+
+            // Penyebab Lain toggle
+            var penyebabSelect = document.getElementById('inp-ofcut-penyebab');
+            if (penyebabSelect) {
+                penyebabSelect.addEventListener('change', togglePenyebabLain);
+            }
+
+            // Patch Cord lainnya toggle
+            var pcTypeSelect = document.getElementById('inp-pc-type');
+            var pcLengthSelect = document.getElementById('inp-pc-length');
+            var lainDiv = document.getElementById('patchcord-lainnya');
+            if (pcTypeSelect && pcLengthSelect && lainDiv) {
+                pcTypeSelect.addEventListener('change', togglePatchLain);
+                pcLengthSelect.addEventListener('change', togglePatchLain);
+            }
+
+            // Auto logout setelah 1 jam inaktivitas
+            document.addEventListener('click', refreshSession);
+            document.addEventListener('keydown', refreshSession);
+            document.addEventListener('mousemove', refreshSession);
+            document.addEventListener('scroll', refreshSession);
+
+            window.addEventListener('popstate', function(e) {
+                if (!document.getElementById('form-modal').classList.contains('hidden')) {
+                    closeModal();
+                } else if (!document.getElementById('gudang-modal').classList.contains('hidden')) {
+                    closeGudangModal();
+                } else if (!document.getElementById('map-modal').classList.contains('hidden')) {
+                    closeMapModal();
+                } else if (!document.getElementById('history-modal').classList.contains('hidden')) {
+                    document.getElementById('history-modal').classList.add('hidden');
+                } else if (!document.getElementById('settings-modal').classList.contains('hidden')) {
+                    document.getElementById('settings-modal').classList.add('hidden');
+                } else if (!document.getElementById('add-user-modal').classList.contains('hidden')) {
+                    document.getElementById('add-user-modal').classList.add('hidden');
+                }
+            });
+        }
+
+        // ============================================================
+        // TOGGLE PATCH LAINNYA
+        // ============================================================
+        function togglePatchLain() {
+            var pcType = document.getElementById('inp-pc-type').value;
+            var pcLength = document.getElementById('inp-pc-length').value;
+            var lainDiv = document.getElementById('patchcord-lainnya');
+            if (pcType === 'Lainnya' || pcLength === 'Lainnya') {
+                lainDiv.classList.remove('hidden');
+            } else {
+                lainDiv.classList.add('hidden');
+            }
+        }
+
+        // ============================================================
+        // TOGGLE PENYEBAB LAIN
+        // ============================================================
+        function togglePenyebabLain() {
+            var select = document.getElementById('inp-ofcut-penyebab');
+            var wrap = document.getElementById('penyebab-lain-wrap');
+            if (select.value === 'lainnya') {
+                wrap.classList.remove('hidden');
+                document.getElementById('inp-ofcut-penyebab-lain').required = true;
+            } else {
+                wrap.classList.add('hidden');
+                document.getElementById('inp-ofcut-penyebab-lain').required = false;
+            }
+        }
+
+        // ============================================================
+        // SCANNER FUNCTIONS
+        // ============================================================
+        function toggleScanner(type) {
+            var container = document.getElementById('modal-scanner');
+            if (!container) return;
+
+            if (container.classList.contains('active')) {
+                stopScanner(type);
+                return;
+            }
+
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                showToast('❌ Kamera tidak didukung di browser ini', 'error');
+                return;
+            }
+
+            container.classList.add('active');
+
+            var video = document.getElementById('modal-camera-preview');
+            if (!video) return;
+
+            var statusEl = container.querySelector('.scanner-status');
+            if (statusEl) statusEl.textContent = 'Mengaktifkan kamera...';
+
+            navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: "environment",
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    }
+                })
+                .then(function(stream) {
+                    scannerStream = stream;
+                    video.srcObject = stream;
+                    video.play();
+
+                    if (statusEl) statusEl.textContent = 'Mencari Barcode/SN...';
+                    showToast('📷 Kamera aktif, arahkan ke barcode', 'success');
+
+                    if (typeof Quagga !== 'undefined') {
+                        if (quaggaRunning) {
+                            try { Quagga.stop(); } catch (e) {}
+                            quaggaRunning = false;
+                        }
+
+                        try {
+                            Quagga.init({
+                                inputStream: {
+                                    name: "Live",
+                                    type: "LiveStream",
+                                    target: video,
+                                    constraints: {
+                                        width: { min: 320, max: 640 },
+                                        height: { min: 240, max: 480 },
+                                        facingMode: "environment"
+                                    }
+                                },
+                                locator: { patchSize: "medium", halfSample: true },
+                                numOfWorkers: 2,
+                                decoder: {
+                                    readers: [
+                                        "code_128_reader",
+                                        "ean_reader",
+                                        "ean_8_reader",
+                                        "upc_reader",
+                                        "upc_e_reader",
+                                        "code_39_reader",
+                                        "codabar_reader",
+                                        "i2of5_reader"
+                                    ],
+                                    multiple: false
+                                },
+                                locate: true
+                            }, function(err) {
+                                if (err) {
+                                    console.error('❌ Quagga init error:', err);
+                                    if (statusEl) statusEl.textContent = 'Error: ' + err.message;
+                                    showToast('❌ Error scanner: ' + err.message, 'error');
+                                    return;
+                                }
+
+                                Quagga.start();
+                                quaggaRunning = true;
+                                if (statusEl) statusEl.textContent = 'Mencari Barcode/SN...';
+
+                                Quagga.offDetected();
+
+                                Quagga.onDetected(function(result) {
+                                    var code = result.codeResult.code;
+                                    if (code && code.length > 3) {
+                                        if (navigator.vibrate) {
+                                            navigator.vibrate(100);
+                                        }
+
+                                        if (statusEl) statusEl.textContent = '✅ Ditemukan!';
+
+                                        var isUpdate = document.getElementById('form-mode').value ===
+                                            'update';
+                                        if (isUpdate) {
+                                            document.getElementById('inp-update-sn').value = code;
+                                            var evt = new Event('input');
+                                            document.getElementById('inp-update-sn').dispatchEvent(evt);
+                                        } else {
+                                            document.getElementById('inp-sn').value = code;
+                                            if (barcodeCache[code]) {
+                                                document.getElementById('inp-spec').value = barcodeCache[
+                                                code];
+                                                showToast('✅ SN: ' + code + ' - Nama ditemukan',
+                                                    'success');
+                                            } else {
+                                                document.getElementById('inp-spec').value = '';
+                                                document.getElementById('inp-spec').placeholder =
+                                                    'Input nama barang baru...';
+                                                showToast('📷 SN baru: ' + code +
+                                                    ', silakan input nama', 'success');
+                                            }
+                                        }
+
+                                        setTimeout(function() {
+                                            stopScanner(type);
+                                        }, 300);
+                                    }
+                                });
+                            });
+                        } catch (e) {
+                            console.error('❌ Scanner error:', e);
+                            if (statusEl) statusEl.textContent = 'Error: ' + e.message;
+                            showToast('❌ Error: ' + e.message, 'error');
+                        }
+                    } else {
+                        showToast('⚠️ Library scanner tidak tersedia', 'error');
+                        if (statusEl) statusEl.textContent = 'Scanner tidak tersedia';
+                    }
+                })
+                .catch(function(err) {
+                    console.error('❌ Camera error:', err);
+                    showToast('❌ Izin kamera ditolak: ' + err.message, 'error');
+                    container.classList.remove('active');
+                    if (statusEl) statusEl.textContent = 'Kamera ditolak';
+                });
+        }
+
+        function stopScanner(type) {
+            var container = document.getElementById('modal-scanner');
+            if (container) {
+                container.classList.remove('active');
+                var statusEl = container.querySelector('.scanner-status');
+                if (statusEl) statusEl.textContent = 'Mencari Barcode/SN...';
+            }
+
+            if (quaggaRunning && typeof Quagga !== 'undefined') {
+                try {
+                    Quagga.stop();
+                } catch (e) {}
+                quaggaRunning = false;
+            }
+
+            if (scannerStream) {
+                scannerStream.getTracks().forEach(function(track) { track.stop(); });
+                scannerStream = null;
+            }
+
+            var video = document.getElementById('modal-camera-preview');
+            if (video && video.srcObject) {
+                video.srcObject = null;
+            }
+        }
+
+        // ============================================================
+        // MAP MODAL FUNCTIONS
+        // ============================================================
+        function openMapModal() {
+            var modal = document.getElementById('map-modal');
+            modal.classList.remove('hidden');
+
+            if (!mapModal) {
+                setTimeout(function() {
+                    var container = document.getElementById('map-modal-container');
+                    mapModal = L.map(container, { zoomControl: false, maxZoom: 22 }).setView([1.4930, 124.8410],
+                    13);
+                    L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+                        attribution: 'Google',
+                        maxZoom: 22,
+                        tileSize: 512,
+                        zoomOffset: -1
+                    }).addTo(mapModal);
+
+                    mapModal.on('click', function(e) {
+                        var lat = e.latlng.lat;
+                        var lng = e.latlng.lng;
+                        selectedMapLocation = {
+                            lat: lat,
+                            lng: lng,
+                            name: 'Lokasi Terpilih'
+                        };
+                        if (mapModalMarker) {
+                            mapModal.removeLayer(mapModalMarker);
+                        }
+                        mapModalMarker = L.marker([lat, lng]).addTo(mapModal);
+                        document.getElementById('btn-select-location').disabled = false;
+                        fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' +
+                                lng +
+                                '&zoom=18&addressdetails=1')
+                            .then(function(response) { return response.json(); })
+                            .then(function(data) {
+                                var name = data.display_name || 'Lokasi Terpilih';
+                                selectedMapLocation.name = name;
+                                document.getElementById('inp-loc').value = name;
+                                document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng
+                                    .toFixed(5);
+                                showToast('📍 Lokasi dipilih: ' + name, 'success');
+                            })
+                            .catch(function() {
+                                document.getElementById('inp-loc').value = 'Lokasi Terpilih';
+                                document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng
+                                    .toFixed(5);
+                                showToast('📍 Lokasi dipilih', 'success');
+                            });
+                    });
+
+                    setTimeout(function() {
+                        mapModal.invalidateSize();
+                    }, 300);
+
+                }, 100);
+            } else {
+                setTimeout(function() {
+                    mapModal.invalidateSize();
+                }, 300);
+            }
+        }
+
+        function mapModalZoomIn() { if (mapModal) mapModal.zoomIn(); }
+
+        function mapModalZoomOut() { if (mapModal) mapModal.zoomOut(); }
+
+        function closeMapModal() {
+            document.getElementById('map-modal').classList.add('hidden');
+            if (mapModalMarker) {
+                mapModal.removeLayer(mapModalMarker);
+                mapModalMarker = null;
+            }
+            selectedMapLocation = null;
+            document.getElementById('btn-select-location').disabled = true;
+            document.getElementById('map-search-input').value = '';
+        }
+
+        function searchLocation() {
+            var query = document.getElementById('map-search-input').value.trim();
+            if (!query) {
+                showToast('Masukkan nama lokasi yang dicari', 'error');
+                return;
+            }
+
+            var url = 'https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(query) +
+                '&limit=5&countrycodes=id';
+
+            showToast('🔍 Mencari lokasi...', 'success');
+
+            fetch(url)
+                .then(function(response) { return response.json(); })
+                .then(function(data) {
+                    if (data && data.length > 0) {
+                        var result = data[0];
+                        var lat = parseFloat(result.lat);
+                        var lng = parseFloat(result.lon);
+
+                        selectedMapLocation = {
+                            lat: lat,
+                            lng: lng,
+                            name: result.display_name || query
+                        };
+
+                        if (mapModal) {
+                            mapModal.setView([lat, lng], 15);
+                            if (mapModalMarker) {
+                                mapModal.removeLayer(mapModalMarker);
+                            }
+                            mapModalMarker = L.marker([lat, lng]).addTo(mapModal);
+                            document.getElementById('btn-select-location').disabled = false;
+                        }
+
+                        document.getElementById('inp-loc').value = result.display_name || query;
+                        document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
+
+                        closeMapModal();
+                        showToast('✅ Lokasi dipilih: ' + (result.display_name || query), 'success');
+                    } else {
+                        showToast('❌ Lokasi tidak ditemukan', 'error');
+                    }
+                })
+                .catch(function(err) {
+                    console.error('❌ Geocoding error:', err);
+                    showToast('❌ Gagal mencari lokasi: ' + err.message, 'error');
+                });
+        }
+
+        function getCurrentLocation() {
+            if (!navigator.geolocation) {
+                showToast('❌ Geolocation tidak didukung browser ini', 'error');
+                return;
+            }
+
+            showToast('📍 Mendapatkan lokasi Anda...', 'success');
+
+            navigator.geolocation.getCurrentPosition(
+                function(pos) {
+                    var lat = pos.coords.latitude;
+                    var lng = pos.coords.longitude;
+
+                    if (mapModal) {
+                        mapModal.setView([lat, lng], 15);
+                        if (mapModalMarker) {
+                            mapModal.removeLayer(mapModalMarker);
+                        }
+                        mapModalMarker = L.marker([lat, lng]).addTo(mapModal);
+                        document.getElementById('btn-select-location').disabled = false;
+
+                        fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' +
+                                lng + '&zoom=18&addressdetails=1')
+                            .then(function(response) { return response.json(); })
+                            .then(function(data) {
+                                var name = data.display_name || 'Lokasi Saya';
+                                document.getElementById('inp-loc').value = name;
+                                document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng
+                                    .toFixed(5);
+                                closeMapModal();
+                                showToast('📍 Lokasi Anda ditemukan', 'success');
+                            })
+                            .catch(function() {
+                                document.getElementById('inp-loc').value = 'Lokasi Saya';
+                                document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng
+                                    .toFixed(5);
+                                closeMapModal();
+                                showToast('📍 Lokasi Anda ditemukan (tanpa nama)', 'success');
+                            });
+                    }
+                },
+                function(err) {
+                    showToast('❌ Gagal mendapatkan lokasi: ' + err.message, 'error');
+                }
+            );
+        }
+
+        function selectMapLocation() {
+            if (selectedMapLocation) {
+                document.getElementById('inp-loc').value = selectedMapLocation.name || 'Lokasi Terpilih';
+                document.getElementById('inp-coords').value = selectedMapLocation.lat.toFixed(5) + ', ' + selectedMapLocation
+                    .lng.toFixed(5);
+                closeMapModal();
+                showToast('✅ Lokasi dipilih', 'success');
+            }
+        }
+
+        // ============================================================
+        // HANDLE ADD CLICK
+        // ============================================================
+        function handleAddClick() {
+            var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
+            var isAlkur = currentCategory === 'Alkur/Material';
+
+            if (isStock) {
+                selectedGudang = '';
+                document.querySelectorAll('.gudang-card').forEach(function(c) { c.classList.remove('selected'); });
+                document.getElementById('spare-action-container').classList.add('hidden');
+                document.getElementById('btn-ok-spare').classList.add('hidden');
+                document.getElementById('gudang-modal').classList.remove('hidden');
+
+                spareAction = 'tambah';
+                document.querySelectorAll('.spare-action-btn').forEach(function(b) {
+                    b.classList.toggle('active', b.dataset.action === 'tambah');
+                });
+            } else {
+                openForm();
+            }
+        }
+
+        window.selectGudang = function(el) {
+            document.querySelectorAll('.gudang-card').forEach(function(c) { c.classList.remove('selected'); });
+            el.classList.add('selected');
+            selectedGudang = el.dataset.gudang;
+
+            if (currentCategory === 'Stok Spare') {
+                document.getElementById('spare-action-container').classList.remove('hidden');
+                document.getElementById('btn-ok-spare').classList.remove('hidden');
+            } else {
+                setTimeout(function() {
+                    closeGudangModal();
+                    openForm();
+                }, 300);
+            }
+        };
+
+        function selectSpareAction(action) {
+            spareAction = action;
+            document.querySelectorAll('.spare-action-btn').forEach(function(b) {
+                b.classList.toggle('active', b.dataset.action === action);
+            });
+        }
+
+        function confirmSpareAction() {
+            if (!selectedGudang) {
+                showToast('❌ Pilih gudang terlebih dahulu', 'error');
+                return;
+            }
+            closeGudangModal();
+            openForm();
+        }
+
+        function closeGudangModal() {
+            document.getElementById('gudang-modal').classList.add('hidden');
+            document.getElementById('spare-action-container').classList.add('hidden');
+            document.getElementById('btn-ok-spare').classList.add('hidden');
+        }
+
+        // ============================================================
+        // OPEN FORM (dengan edit mode)
+        // ============================================================
+        function openForm(editData, editKey) {
+            var modal = document.getElementById('form-modal');
+            modal.classList.remove('hidden');
+
+            editingKey = editKey || null;
+            isSubmitting = false;
+
+            var cat = document.getElementById('inp-cat').value;
+            if (editData) {
+                document.getElementById('modal-title').textContent = 'Edit Data - ' + cat;
+                document.getElementById('edit-key').value = editKey || '';
+                populateFormFields(editData);
+            } else {
+                document.getElementById('modal-title').textContent = 'Tambah Data - ' + cat;
+                document.getElementById('edit-key').value = '';
+                document.getElementById('inp-date').valueAsDate = new Date();
+                resetFormFields();
+            }
+
+            var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
+            var isPatch = cat === 'Patch Cord';
+            var isAlkur = cat === 'Alkur/Material';
+            var isHandhole = cat === 'Handhole';
+            var isJoint = cat === 'Joint';
+            var isOpm = cat === 'OPM/OLS';
+            var isOfCut = cat === 'Data OF Cut';
+            var isP3Temuan = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
+            var isSpare = cat === 'Stok Spare';
+
+            // Sembunyikan semua field
+            document.getElementById('field-stock').classList.add('hidden');
+            document.getElementById('field-patchcord').classList.add('hidden');
+            document.getElementById('field-alkur').classList.add('hidden');
+            document.getElementById('field-normal').classList.add('hidden');
+            document.getElementById('field-coords-wrap').classList.add('hidden');
+            document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                'hidden');
+            document.getElementById('field-opm').classList.add('hidden');
+            document.getElementById('field-kondisi').classList.add('hidden');
+            document.getElementById('field-ofcut').classList.add('hidden');
+            document.getElementById('field-p3temuan').classList.add('hidden');
+            document.getElementById('form-tambah-stok').classList.remove('hidden');
+            document.getElementById('form-update-pemakaian').classList.add('hidden');
+            document.getElementById('form-mode').value = 'tambah';
+
+            if (isStock) {
+                document.getElementById('field-stock').classList.remove('hidden');
+                document.getElementById('selected-gudang-display').textContent = selectedGudang || 'Belum dipilih';
+                document.getElementById('inp-gudang-selected').value = selectedGudang || '';
+
+                if (isPatch) {
+                    document.getElementById('field-patchcord').classList.remove('hidden');
+                    document.getElementById('field-stock').classList.add('hidden');
+                    document.getElementById('patchcord-gudang-display').textContent = selectedGudang || 'Belum dipilih';
+                    document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap')
+                        .classList.add('hidden');
+                } else if (isSpare) {
+                    if (spareAction === 'update') {
+                        document.getElementById('form-tambah-stok').classList.add('hidden');
+                        document.getElementById('form-update-pemakaian').classList.remove('hidden');
+                        document.getElementById('form-mode').value = 'update';
+                        document.getElementById('modal-title').textContent = 'Update Pemakaian - Stok Spare';
+                    } else {
+                        document.getElementById('form-tambah-stok').classList.remove('hidden');
+                        document.getElementById('form-update-pemakaian').classList.add('hidden');
+                        document.getElementById('form-mode').value = 'tambah';
+                        document.getElementById('modal-title').textContent = 'Tambah Stok - ' + cat;
+                    }
+                }
+                document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                    'hidden');
+            }
+
+            if (isAlkur) {
+                document.getElementById('field-alkur').classList.remove('hidden');
+                document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                    'hidden');
+            }
+
+            if (isOpm) {
+                document.getElementById('field-opm').classList.remove('hidden');
+                document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                    'hidden');
+                document.getElementById('field-normal').classList.add('hidden');
+                document.getElementById('field-coords-wrap').classList.add('hidden');
+            }
+
+            if (isHandhole || isJoint) {
+                document.getElementById('field-normal').classList.remove('hidden');
+                document.getElementById('field-coords-wrap').classList.remove('hidden');
+                document.getElementById('field-kondisi').classList.remove('hidden');
+                document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                    'hidden');
+            }
+
+            if (isOfCut) {
+                document.getElementById('field-normal').classList.remove('hidden');
+                document.getElementById('field-coords-wrap').classList.remove('hidden');
+                document.getElementById('field-ofcut').classList.remove('hidden');
+                document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                    'hidden');
+            }
+
+            if (isP3Temuan) {
+                document.getElementById('field-normal').classList.remove('hidden');
+                document.getElementById('field-coords-wrap').classList.remove('hidden');
+                document.getElementById('field-p3temuan').classList.remove('hidden');
+                document.getElementById('field-notes-wrap') && document.getElementById('field-notes-wrap').classList.add(
+                    'hidden');
+                var label = document.getElementById('p3temuan-label');
+                if (label) {
+                    label.textContent = cat === 'Pekerjaan Pihak Ke-3' ?
+                        '📋 Data Pekerjaan Pihak Ke-3' :
+                        '📋 Data Temuan Lapangan';
+                }
+            }
+
+            if (editData) {
+                document.getElementById('inp-date').value = editData.date || '';
+            }
+
+            stopScanner('modal');
+        }
+
+        function resetFormFields() {
+            document.getElementById('inp-loc').value = '';
+            document.getElementById('inp-coords').value = '';
+            document.getElementById('inp-notes-stock') && (document.getElementById('inp-notes-stock').value = '');
+            document.getElementById('inp-notes-patch') && (document.getElementById('inp-notes-patch').value = '');
+            document.getElementById('inp-sn').value = '';
+            document.getElementById('inp-spec').value = '';
+            document.getElementById('inp-pc-qty').value = '1';
+            document.getElementById('inp-pc-type').value = '';
+            document.getElementById('inp-pc-length').value = '';
+            document.getElementById('inp-alkur-nama').value = '';
+            document.getElementById('inp-alkur-jenis').value = '';
+            document.getElementById('inp-alkur-merk').value = '';
+            document.getElementById('inp-alkur-jumlah').value = '1';
+            document.getElementById('inp-alkur-keterangan').value = '';
+            document.getElementById('inp-alkur-lokasi').value = '';
+            document.getElementById('inp-opm-ruas').value = '';
+            document.getElementById('inp-opm-slot').value = '';
+            document.getElementById('inp-opm-port').value = '';
+            document.getElementById('inp-opm-dbm').value = '';
+            document.getElementById('inp-opm-dari').value = '';
+            document.getElementById('inp-opm-ke').value = '';
+            document.getElementById('inp-kondisi').value = '';
+            document.getElementById('inp-status').value = 'Ready';
+            document.getElementById('inp-lemari').value = '';
+            document.getElementById('inp-rak').value = '';
+            document.getElementById('inp-riwayat').value = '';
+            document.getElementById('inp-kondisi-spare').value = '';
+            document.getElementById('inp-update-sn').value = '';
+            document.getElementById('inp-update-spec').value = '';
+            document.getElementById('inp-update-tujuan').value = '';
+            document.getElementById('inp-update-lokasi').value = '';
+            document.getElementById('inp-update-notes').value = '';
+            document.getElementById('update-sn-info').textContent = '';
+            document.getElementById('inp-ofcut-panjang').value = '';
+            document.getElementById('inp-ofcut-rute').value = '';
+            document.getElementById('inp-ofcut-penyebab').value = '';
+            document.getElementById('inp-ofcut-penyebab-lain').value = '';
+            document.getElementById('penyebab-lain-wrap').classList.add('hidden');
+            document.getElementById('inp-ofcut-keterangan').value = '';
+            document.getElementById('inp-p3-pelaksana').value = '';
+            document.getElementById('inp-p3-lama').value = '';
+            document.getElementById('inp-p3-keterangan').value = '';
+            document.getElementById('patchcord-lainnya') && document.getElementById('patchcord-lainnya').classList.add(
+                'hidden');
+            document.getElementById('inp-pc-type-lain') && (document.getElementById('inp-pc-type-lain').value = '');
+            document.getElementById('inp-pc-length-lain') && (document.getElementById('inp-pc-length-lain').value = '');
+        }
+
+        function populateFormFields(data) {
+            if (data.date) document.getElementById('inp-date').value = data.date;
+            if (data.location) document.getElementById('inp-loc').value = data.location;
+            if (data.coords) document.getElementById('inp-coords').value = data.coords;
+
+            // Spare
+            if (data.sn) document.getElementById('inp-sn').value = data.sn;
+            if (data.spec) document.getElementById('inp-spec').value = data.spec;
+            if (data.status) document.getElementById('inp-status').value = data.status;
+            if (data.lemari) document.getElementById('inp-lemari').value = data.lemari;
+            if (data.rak) document.getElementById('inp-rak').value = data.rak;
+            if (data.riwayat) document.getElementById('inp-riwayat').value = data.riwayat;
+            if (data.kondisi) document.getElementById('inp-kondisi-spare').value = data.kondisi;
+            if (data.notes) document.getElementById('inp-notes-stock').value = data.notes;
+
+            // Patch
+            if (data.pcType) {
+                var pcType = data.pcType;
+                var select = document.getElementById('inp-pc-type');
+                if (['SC-SC', 'LC-LC', 'FC-FC', 'ST-ST', 'SC-FC', 'FC-ST', 'ST-SC', 'FC-LC', 'LC-ST', 'LC-SC'].indexOf(
+                        pcType) === -1) {
+                    select.value = 'Lainnya';
+                    document.getElementById('inp-pc-type-lain').value = pcType;
+                    document.getElementById('patchcord-lainnya').classList.remove('hidden');
+                } else {
+                    select.value = pcType;
+                }
+            }
+            if (data.pcLength) {
+                var pcLength = data.pcLength;
+                var selectLen = document.getElementById('inp-pc-length');
+                var validLengths = ['0.5m', '1m', '2m', '3m', '5m', '10m', '15m', '20m', '30m'];
+                if (validLengths.indexOf(pcLength) === -1) {
+                    selectLen.value = 'Lainnya';
+                    document.getElementById('inp-pc-length-lain').value = pcLength;
+                    document.getElementById('patchcord-lainnya').classList.remove('hidden');
+                } else {
+                    selectLen.value = pcLength;
+                }
+            }
+            if (data.trType) document.getElementById('inp-pc-trtype').value = data.trType;
+            if (data.qty) document.getElementById('inp-pc-qty').value = data.qty;
+            if (data.notes) document.getElementById('inp-notes-patch').value = data.notes;
+
+            // Alkur
+            if (data.nama) document.getElementById('inp-alkur-nama').value = data.nama;
+            if (data.jenis) document.getElementById('inp-alkur-jenis').value = data.jenis;
+            if (data.merk) document.getElementById('inp-alkur-merk').value = data.merk;
+            if (data.jumlah) document.getElementById('inp-alkur-jumlah').value = data.jumlah;
+            if (data.lokasi) document.getElementById('inp-alkur-lokasi').value = data.lokasi;
+            if (data.keterangan) document.getElementById('inp-alkur-keterangan').value = data.keterangan;
+
+            // Handhole/Joint
+            if (data.kondisi) document.getElementById('inp-kondisi').value = data.kondisi;
+
+            // OPM
+            if (data.ruas) document.getElementById('inp-opm-ruas').value = data.ruas;
+            if (data.slot) document.getElementById('inp-opm-slot').value = data.slot;
+            if (data.port) document.getElementById('inp-opm-port').value = data.port;
+            if (data.dbm) document.getElementById('inp-opm-dbm').value = data.dbm;
+            if (data.dari) document.getElementById('inp-opm-dari').value = data.dari;
+            if (data.ke) document.getElementById('inp-opm-ke').value = data.ke;
+
+            // OF Cut
+            if (data.panjangCut) document.getElementById('inp-ofcut-panjang').value = data.panjangCut;
+            if (data.rute) document.getElementById('inp-ofcut-rute').value = data.rute;
+            if (data.penyebab) {
+                var penyebab = data.penyebab;
+                var select = document.getElementById('inp-ofcut-penyebab');
+                var isLain = ['vandalisme', 'pihak ke 3', 'bencana'].indexOf(penyebab) === -1;
+                if (isLain) {
+                    select.value = 'lainnya';
+                    document.getElementById('penyebab-lain-wrap').classList.remove('hidden');
+                    document.getElementById('inp-ofcut-penyebab-lain').value = penyebab;
+                } else {
+                    select.value = penyebab;
+                }
+            }
+            if (data.keterangan) document.getElementById('inp-ofcut-keterangan').value = data.keterangan;
+
+            // P3/Temuan
+            if (data.pelaksana) document.getElementById('inp-p3-pelaksana').value = data.pelaksana;
+            if (data.lamaPekerjaan) document.getElementById('inp-p3-lama').value = data.lamaPekerjaan;
+            if (data.keterangan) document.getElementById('inp-p3-keterangan').value = data.keterangan;
+        }
+
+        function closeModal() {
+            document.getElementById('form-modal').classList.add('hidden');
+            stopScanner('modal');
+            editingKey = null;
+            document.getElementById('edit-key').value = '';
+        }
+
+        // ============================================================
+        // SUBMIT FORM (dengan perbaikan untuk OPM)
+        // ============================================================
+        function submitForm(e) {
+            if (e && e.preventDefault) {
+                e.preventDefault();
+            }
+
+            if (isSubmitting) {
+                showToast('⏳ Sedang memproses...', 'error');
+                return;
+            }
+
+            if (!currentUser) {
+                showToast('❌ Silakan login terlebih dahulu', 'error');
+                return;
+            }
+
+            var cat = document.getElementById('inp-cat').value;
+            var editKey = document.getElementById('edit-key').value;
+
+            var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
+            var isPatch = cat === 'Patch Cord';
+            var isAlkur = cat === 'Alkur/Material';
+            var isHandhole = cat === 'Handhole';
+            var isJoint = cat === 'Joint';
+            var isOpm = cat === 'OPM/OLS';
+            var isOfCut = cat === 'Data OF Cut';
+            var isP3Temuan = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
+            var isSpare = cat === 'Stok Spare';
+
+            var data = {
+                date: document.getElementById('inp-date').value,
+                postBy: currentUser.name,
+                createdAt: Date.now()
+            };
+
+            // ===== PATCH CORD =====
+            if (isPatch) {
+                var pcType = document.getElementById('inp-pc-type').value;
+                var pcLength = document.getElementById('inp-pc-length').value;
+                if (pcType === 'Lainnya') {
+                    pcType = document.getElementById('inp-pc-type-lain').value.trim() || 'Lainnya';
+                }
+                if (pcLength === 'Lainnya') {
+                    pcLength = document.getElementById('inp-pc-length-lain').value.trim() || 'Lainnya';
+                }
+                var trType = document.getElementById('inp-pc-trtype').value;
+                var qty = parseInt(document.getElementById('inp-pc-qty').value) || 1;
+                var notes = document.getElementById('inp-notes-patch').value.trim();
+
+                if (!pcType || !pcLength) {
+                    showToast('❌ Pilih jenis dan panjang patch cord', 'error');
+                    return;
+                }
+                if (trType === 'Keluar' && !notes) {
+                    showToast('❌ Keterangan wajib diisi untuk barang keluar', 'error');
+                    return;
+                }
+
+                data.pcType = pcType;
+                data.pcLength = pcLength;
+                data.gudang = selectedGudang;
+                data.qty = qty;
+                data.trType = trType;
+                data.notes = notes;
+                var panjangMeter = parseFloat(pcLength.replace('m', '').trim());
+                if (!isNaN(panjangMeter) && pcType !== 'Lainnya' && pcLength !== 'Lainnya') {
+                    data.barcode = generateBarcodePatchCord(pcType, panjangMeter);
+                } else {
+                    data.barcode = 'PC-' + Date.now().toString().slice(-6);
+                }
+
+                var uniqueKey = data.barcode;
+                var existingKey = null;
+                var items = appData[cat] || {};
+                for (var key in items) {
+                    var item = items[key];
+                    if (item.barcode === uniqueKey && key !== editKey) {
+                        existingKey = key;
+                        break;
+                    }
+                }
+
+                if (existingKey) {
+                    showToast('❌ Barcode sudah terdaftar!', 'error');
+                    return;
+                }
+
+                if (editKey) {
+                    data.qty = qty;
+                    db.ref('data/' + cat + '/' + editKey).update(data)
+                        .then(function() {
+                            showToast('✅ Data Patch Cord diperbarui', 'success');
+                            closeModal();
+                            setTimeout(function() {
+                                updateStokSummary();
+                                renderTable();
+                                updateQuickStats();
+                                updateMapMarkers();
+                            }, 300);
+                        })
+                        .catch(function(err) {
+                            showToast('❌ Gagal update: ' + err.message, 'error');
+                        });
+                    return;
+                }
+
+                isSubmitting = true;
+                var submitBtn = document.getElementById('btn-submit-form');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Menyimpan...';
+
+                db.ref('data/' + cat).push(data)
+                    .then(function() {
+                        showToast('✅ Patch Cord berhasil ditambahkan', 'success');
+                        closeModal();
+                        setTimeout(function() {
+                            updateStokSummary();
+                            renderTable();
+                            updateQuickStats();
+                            updateMapMarkers();
+                        }, 300);
+                    })
+                    .catch(function(err) {
+                        console.error('❌ Error saving patch:', err);
+                        showToast('❌ Gagal menyimpan: ' + err.message, 'error');
+                    })
+                    .finally(function() {
+                        isSubmitting = false;
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Simpan Data';
+                    });
+                return;
+            }
+
+            // ===== STOK SPARE =====
+            if (isSpare) {
+                var mode = document.getElementById('form-mode').value;
+
+                if (mode === 'tambah') {
+                    var sn = document.getElementById('inp-sn').value.trim();
+                    var spec = document.getElementById('inp-spec').value.trim();
+                    var status = document.getElementById('inp-status').value;
+                    var lemari = document.getElementById('inp-lemari').value.trim();
+                    var rak = document.getElementById('inp-rak').value;
+                    var riwayat = document.getElementById('inp-riwayat').value;
+                    var kondisiSpare = document.getElementById('inp-kondisi-spare').value;
+                    var notes = document.getElementById('inp-notes-stock').value.trim();
+
+                    if (!sn || !spec || !lemari || !rak || !riwayat || !kondisiSpare) {
+                        showToast('❌ Isi semua field stok (SN, Nama, Lemari, Rak, Riwayat, Kondisi)', 'error');
+                        return;
+                    }
+
+                    data.sn = sn;
+                    data.spec = spec;
+                    data.gudang = selectedGudang;
+                    data.status = status;
+                    data.lemari = lemari;
+                    data.rak = rak;
+                    data.riwayat = riwayat;
+                    data.kondisi = kondisiSpare;
+                    data.notes = notes;
+
+                    // Cek apakah SN sudah ada - jika ya, update
+                    var items = appData[cat] || {};
+                    var existingKey = null;
+                    for (var key in items) {
+                        var item = items[key];
+                        if (item.sn === sn) {
+                            existingKey = key;
+                            break;
+                        }
+                    }
+
+                    if (existingKey) {
+                        // Update existing record
+                        db.ref('data/' + cat + '/' + existingKey).update(data)
+                            .then(function() {
+                                showToast('✅ Stok diperbarui (SN: ' + sn + ')', 'success');
+                                updateBarcodeCache(sn, spec);
+                                logSpareHistory('Update Stok', sn, spec, selectedGudang, '', status, notes);
+                                closeModal();
+                                setTimeout(function() {
+                                    updateStokSummary();
+                                    renderTable();
+                                    updateQuickStats();
+                                    updateMapMarkers();
+                                }, 300);
+                            })
+                            .catch(function(err) {
+                                showToast('❌ Gagal update: ' + err.message, 'error');
+                            });
+                        return;
+                    }
+
+                    // Jika SN baru, tambahkan
+                    isSubmitting = true;
+                    var submitBtn = document.getElementById('btn-submit-form');
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Menyimpan...';
+
+                    db.ref('data/' + cat).push(data)
+                        .then(function() {
+                            showToast('✅ Stok berhasil ditambahkan', 'success');
+                            updateBarcodeCache(sn, spec);
+                            logSpareHistory('Tambah Stok', sn, spec, selectedGudang, '', status, notes);
+                            closeModal();
+                            setTimeout(function() {
+                                updateStokSummary();
+                                renderTable();
+                                updateQuickStats();
+                                updateMapMarkers();
+                            }, 300);
+                        })
+                        .catch(function(err) {
+                            console.error('❌ Error saving spare:', err);
+                            showToast('❌ Gagal menyimpan: ' + err.message, 'error');
+                        })
+                        .finally(function() {
+                            isSubmitting = false;
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Simpan Data';
+                        });
+                    return;
+                }
+
+                if (mode === 'update') {
+                    var updateSn = document.getElementById('inp-update-sn').value.trim();
+                    var tujuan = document.getElementById('inp-update-tujuan').value;
+                    var lokasiPemasangan = document.getElementById('inp-update-lokasi').value;
+                    var updateNotes = document.getElementById('inp-update-notes').value.trim();
+
+                    if (!updateSn || !tujuan || !lokasiPemasangan) {
+                        showToast('❌ Isi SN, Tujuan Pemakaian, dan Lokasi Pemasangan', 'error');
+                        return;
+                    }
+
+                    // Cari data berdasarkan SN
+                    var items = appData[cat] || {};
+                    var targetKey = null;
+                    var targetItem = null;
+                    for (var key in items) {
+                        var item = items[key];
+                        if (item.sn === updateSn) {
+                            targetKey = key;
+                            targetItem = item;
+                            break;
+                        }
+                    }
+
+                    if (!targetKey) {
+                        showToast('❌ SN ' + updateSn + ' tidak ditemukan di database', 'error');
+                        return;
+                    }
+
+                    var updateData = {
+                        status: 'Out',
+                        tujuanPemakaian: tujuan,
+                        lokasiPemasangan: lokasiPemasangan,
+                        notes: updateNotes || 'Update pemakaian',
+                        date: data.date,
+                        postBy: data.postBy
+                    };
+
+                    isSubmitting = true;
+                    var submitBtn = document.getElementById('btn-submit-form');
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Menyimpan...';
+
+                    db.ref('data/' + cat + '/' + targetKey).update(updateData)
+                        .then(function() {
+                            showToast('✅ Pemakaian barang diupdate (Status: Out)', 'success');
+                            var lokasiSimpan = targetItem.gudang + ' - ' + (targetItem.lemari || '') + ' Rak ' + (
+                                targetItem.rak || '');
+                            logSpareHistory('Update Pemakaian', updateSn, targetItem.spec || updateSn, lokasiSimpan,
+                                lokasiPemasangan, 'Out', updateNotes || '');
+                            closeModal();
+                            setTimeout(function() {
+                                updateStokSummary();
+                                renderTable();
+                                updateQuickStats();
+                                updateMapMarkers();
+                            }, 300);
+                        })
+                        .catch(function(err) {
+                            console.error('❌ Error updating spare usage:', err);
+                            showToast('❌ Gagal update: ' + err.message, 'error');
+                        })
+                        .finally(function() {
+                            isSubmitting = false;
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Simpan Data';
+                        });
+                    return;
+                }
+            }
+
+            // ===== ALKUR =====
+            if (isAlkur) {
+                var nama = document.getElementById('inp-alkur-nama').value.trim();
+                var jenis = document.getElementById('inp-alkur-jenis').value.trim();
+                var merk = document.getElementById('inp-alkur-merk').value.trim();
+                var jumlah = parseInt(document.getElementById('inp-alkur-jumlah').value) || 1;
+                var lokasi = document.getElementById('inp-alkur-lokasi').value;
+                var keterangan = document.getElementById('inp-alkur-keterangan').value.trim();
+
+                if (!nama || !jenis || !merk || !lokasi) {
+                    showToast('❌ Isi semua field Alkur', 'error');
+                    return;
+                }
+                data.nama = nama;
+                data.jenis = jenis;
+                data.merk = merk;
+                data.jumlah = jumlah;
+                data.lokasi = lokasi;
+                data.keterangan = keterangan;
+            }
+
+            // ===== HANDHOLE & JOINT =====
+            if (isHandhole || isJoint) {
+                var location = document.getElementById('inp-loc').value.trim();
+                var coords = document.getElementById('inp-coords').value.trim();
+                var kondisi = document.getElementById('inp-kondisi').value;
+
+                if (!location || !coords || !kondisi) {
+                    showToast('❌ Isi Lokasi, Koordinat, dan Kondisi', 'error');
+                    return;
+                }
+                data.location = location;
+                data.coords = coords;
+                data.kondisi = kondisi;
+            }
+
+            // ===== OPM/OLS (PERBAIKAN) =====
+            if (isOpm) {
+                var ruas = document.getElementById('inp-opm-ruas').value;
+                var slot = document.getElementById('inp-opm-slot').value;
+                var port = document.getElementById('inp-opm-port').value;
+                var dbm = parseFloat(document.getElementById('inp-opm-dbm').value);
+                var dari = document.getElementById('inp-opm-dari').value;
+                var ke = document.getElementById('inp-opm-ke').value;
+
+                if (!ruas || !slot || !port || isNaN(dbm) || !dari || !ke) {
+                    showToast('❌ Isi semua field OPM/OLS (Ruas, Slot, Port, DBM, Dari, Ke)', 'error');
+                    return;
+                }
+
+                data.ruas = ruas;
+                data.slot = slot;
+                data.port = port;
+                data.dbm = dbm;
+                data.dari = dari;
+                data.ke = ke;
+                // Tidak ada lokasi/koordinat untuk OPM
+            }
+
+            // ===== OF CUT =====
+            if (isOfCut) {
+                var location = document.getElementById('inp-loc').value.trim();
+                var coords = document.getElementById('inp-coords').value.trim();
+                var panjangCut = parseFloat(document.getElementById('inp-ofcut-panjang').value);
+                var rute = document.getElementById('inp-ofcut-rute').value;
+                var penyebab = document.getElementById('inp-ofcut-penyebab').value;
+                var penyebabLain = document.getElementById('inp-ofcut-penyebab-lain').value.trim();
+                var keteranganOf = document.getElementById('inp-ofcut-keterangan').value.trim();
+
+                if (!location || !coords || isNaN(panjangCut) || panjangCut <= 0 || !rute || !penyebab) {
+                    showToast('❌ Isi semua field OF Cut (Lokasi, Koordinat, Panjang Cut, Rute, Penyebab)', 'error');
+                    return;
+                }
+
+                if (penyebab === 'lainnya' && !penyebabLain) {
+                    showToast('❌ Sebutkan penyebab lainnya', 'error');
+                    return;
+                }
+
+                data.location = location;
+                data.coords = coords;
+                data.panjangCut = panjangCut;
+                data.rute = rute;
+                data.penyebab = penyebab === 'lainnya' ? penyebabLain : penyebab;
+                data.keterangan = keteranganOf;
+            }
+
+            // ===== P3 / TEMUAN =====
+            if (isP3Temuan) {
+                var location = document.getElementById('inp-loc').value.trim();
+                var coords = document.getElementById('inp-coords').value.trim();
+                var pelaksana = document.getElementById('inp-p3-pelaksana').value.trim();
+                var lama = document.getElementById('inp-p3-lama').value.trim();
+                var keteranganP3 = document.getElementById('inp-p3-keterangan').value.trim();
+
+                if (!location || !coords || !pelaksana || !lama) {
+                    showToast('❌ Isi Lokasi, Koordinat, Pelaksana, dan Lama Pekerjaan', 'error');
+                    return;
+                }
+                data.location = location;
+                data.coords = coords;
+                data.pelaksana = pelaksana;
+                data.lamaPekerjaan = lama;
+                data.keterangan = keteranganP3;
+            }
+
+            // ===== SIMPAN =====
+            isSubmitting = true;
+            var submitBtn = document.getElementById('btn-submit-form');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Menyimpan...';
+
+            var ref = db.ref('data/' + cat);
+            var submitPromise = editKey ?
+                ref.child(editKey).update(data) :
+                ref.push(data);
+
+            submitPromise
+                .then(function() {
+                    showToast('✅ Data berhasil disimpan', 'success');
+                    closeModal();
+                    setTimeout(function() {
+                        updateStokSummary();
+                        renderTable();
+                        updateQuickStats();
+                        updateMapMarkers();
+                    }, 300);
+                })
+                .catch(function(err) {
+                    console.error('❌ Error saving data:', err);
+                    showToast('❌ Gagal menyimpan data: ' + err.message, 'error');
+                })
+                .finally(function() {
+                    isSubmitting = false;
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Simpan Data';
+                });
+        }
+
+        // ============================================================
+        // LOG SPARE HISTORY
+        // ============================================================
+        function logSpareHistory(jenis, sn, nama, lokasiSimpan, lokasiPakai, status, keterangan) {
+            var historyEntry = {
+                tanggal: new Date().toLocaleString('id-ID'),
+                user: currentUser ? currentUser.name : 'System',
+                sn: sn,
+                nama: nama,
+                lokasiSimpan: lokasiSimpan,
+                lokasiPakai: lokasiPakai || '-',
+                status: status,
+                keterangan: keterangan || ''
+            };
+            db.ref('history/spare').push(historyEntry);
+        }
+
+        // ============================================================
+        // SHOW SPARE HISTORY
+        // ============================================================
+        function showSpareHistory() {
+            db.ref('history/spare').once('value', function(snap) {
+                var data = snap.val() || {};
+                var items = Object.values(data);
+                items.sort(function(a, b) { return b.tanggal.localeCompare(a.tanggal); });
+
+                var tbody = document.getElementById('history-body');
+                tbody.innerHTML = '';
+                if (items.length === 0) {
+                    tbody.innerHTML =
+                        '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:20px;">Belum ada riwayat</td></tr>';
+                } else {
+                    items.forEach(function(item) {
+                        tbody.innerHTML += '<tr>' +
+                            '<td style="white-space:nowrap;">' + (item.tanggal || '-') + '</td>' +
+                            '<td>' + (item.user || '-') + '</td>' +
+                            '<td><code style="background:var(--bg-light);padding:2px 6px;border-radius:4px;font-size:11px;">' +
+                            (item.sn || '-') + '</code></td>' +
+                            '<td>' + (item.nama || '-') + '</td>' +
+                            '<td>' + (item.lokasiSimpan || '-') + '</td>' +
+                            '<td>' + (item.lokasiPakai || '-') + '</td>' +
+                            '<td><span style="padding:2px 8px;border-radius:8px;font-size:11px;font-weight:600;background:' +
+                            (item.status === 'Ready' ? '#CAF0F8' : '#FDE8E3') + ';color:' + (item.status === 'Ready' ?
+                                '#2A9D8F' : '#E76F51') + ';">' + (item.status || '-') + '</span></td>' +
+                            '<td style="max-width:120px;white-space:normal;font-size:11px;">' + (item.keterangan ||
+                                '') + '</td>' +
+                            '</tr>';
+                    });
+                }
+                document.getElementById('history-modal').classList.remove('hidden');
+            });
+        }
+
+        // ============================================================
+        // DOWNLOAD SPARE HISTORY EXCEL
+        // ============================================================
+        function downloadSpareHistoryExcel() {
+            db.ref('history/spare').once('value', function(snap) {
+                var data = snap.val() || {};
+                var items = Object.values(data);
+                if (items.length === 0) {
+                    showToast('⚠️ Tidak ada riwayat untuk diexport', 'error');
+                    return;
+                }
+                var excelData = items.map(function(item) {
+                    return {
+                        'Tanggal & Jam': item.tanggal || '-',
+                        'User': item.user || '-',
+                        'SN': item.sn || '-',
+                        'Nama': item.nama || '-',
+                        'Lokasi Simpan': item.lokasiSimpan || '-',
+                        'Lokasi Pakai': item.lokasiPakai || '-',
+                        'Status': item.status || '-',
+                        'Keterangan': item.keterangan || ''
+                    };
+                });
+                var ws = XLSX.utils.json_to_sheet(excelData);
+                var wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Riwayat Spare');
+                XLSX.writeFile(wb, 'Riwayat_Spare_' + new Date().toISOString().slice(0, 10) + '.xlsx');
+                showToast('✅ Excel riwayat spare didownload', 'success');
+            });
+        }
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function showToast(msg, type) {
+            type = type || '';
+            var existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+
+            var t = document.createElement('div');
+            t.className = 'toast show';
+            if (type === 'success') t.classList.add('success');
+            if (type === 'error') t.classList.add('error');
+            if (type === 'warning') t.classList.add('warning');
+            if (type === 'info') t.classList.add('info');
+            t.textContent = msg;
+            document.body.appendChild(t);
+
+            setTimeout(function() {
+                t.classList.remove('show');
+                setTimeout(function() { t.remove(); }, 300);
+            }, 3000);
+        }
+
+        // ============================================================
+        // RENDER TABLE (aksi hanya untuk admin)
+        // ============================================================
+        function renderTable() {
+            try {
+                var cat = currentCategory;
+                if (cat === 'P3_Temuan') {
+                    cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
+                }
+
+                var list = appData[cat] || {};
+                var keys = Object.keys(list);
+                var tbody = document.getElementById('table-body');
+                var thead = document.getElementById('table-head');
+
+                tbody.innerHTML = '';
+
+                if (selectedGudangFilter !== 'all') {
+                    keys = keys.filter(function(key) {
+                        var item = list[key];
+                        return item.gudang === selectedGudangFilter;
+                    });
+                }
+
+                var search = document.getElementById('search-input')?.value.toLowerCase() || '';
+                if (search) {
+                    keys = keys.filter(function(key) {
+                        var item = list[key];
+                        return JSON.stringify(item).toLowerCase().includes(search);
+                    });
+                }
+
+                var now = new Date();
+                var startDate = null;
+                if (currentPeriod === 'weekly') {
+                    var start = new Date(now);
+                    start.setDate(now.getDate() - 7);
+                    startDate = start;
+                } else if (currentPeriod === 'monthly') {
+                    var start = new Date(now);
+                    start.setMonth(now.getMonth() - 1);
+                    startDate = start;
+                } else if (currentPeriod === 'yearly') {
+                    var start = new Date(now);
+                    start.setFullYear(now.getFullYear() - 1);
+                    startDate = start;
+                }
+
+                if (startDate) {
+                    keys = keys.filter(function(key) {
+                        var item = list[key];
+                        if (!item.date) return true;
+                        var itemDate = new Date(item.date);
+                        return itemDate >= startDate;
+                    });
+                }
+
+                if (keys.length === 0) {
+                    document.getElementById('empty-state').style.display = 'block';
+                    thead.innerHTML = '';
+                    return;
+                }
+                document.getElementById('empty-state').style.display = 'none';
+
+                var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
+                var isSpare = cat === 'Stok Spare';
+                var isPatch = cat === 'Patch Cord';
+                var isAlkur = cat === 'Alkur/Material';
+                var isHandholeOrJoint = ['Handhole', 'Joint'].indexOf(cat) !== -1;
+                var isOpm = cat === 'OPM/OLS';
+                var isOfCut = cat === 'Data OF Cut';
+                var isP3Temuan = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
+
+                // Header sesuai kategori
+                if (isSpare) {
+                    thead.innerHTML =
+                        '<tr><th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Keterangan</th><th>Aksi</th></tr>';
+                } else if (isPatch) {
+                    thead.innerHTML =
+                        '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
+                } else if (isAlkur) {
+                    thead.innerHTML =
+                        '<tr><th>Tgl</th><th>Nama</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Lokasi</th><th>User</th><th>Aksi</th></tr>';
+                } else if (isHandholeOrJoint) {
+                    thead.innerHTML =
+                        '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th>User</th><th>Aksi</th></tr>';
+                } else if (isOpm) {
+                    thead.innerHTML =
+                        '<tr><th>Tgl</th><th>Ruas</th><th>Slot</th><th>Port</th><th>DBM</th><th>Dari</th><th>Ke</th><th>User</th><th>Aksi</th></tr>';
+                } else if (isOfCut) {
+                    thead.innerHTML =
+                        '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Panjang Cut</th><th>Rute</th><th>Penyebab</th><th>User</th><th>Aksi</th></tr>';
+                } else if (isP3Temuan) {
+                    thead.innerHTML =
+                        '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Pelaksana</th><th>Lama</th><th>Keterangan</th><th>User</th><th>Aksi</th></tr>';
+                } else {
+                    thead.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>User</th><th>Aksi</th></tr>';
+                }
+
+                var prevMonth = '';
+                keys.sort(function(a, b) {
+                    var da = list[a].date || '';
+                    var db = list[b].date || '';
+                    return da.localeCompare(db);
+                });
+
+                var isAdmin = currentUser && currentUser.role === 'admin';
+
+                keys.forEach(function(key, idx) {
+                    var item = list[key];
+                    var currentMonth = item.date ? item.date.substring(0, 7) : '';
+                    if (currentMonth && currentMonth !== prevMonth && idx > 0) {
+                        tbody.innerHTML += '<tr class="month-separator"><td colspan="20" style="padding:4px 14px;font-size:11px;color:var(--text-muted);">— ' + currentMonth + ' —</td></tr>';
+                    }
+                    prevMonth = currentMonth;
+
+                    var actionHtml = '';
+                    if (isAdmin) {
+                        actionHtml =
+                            '<button class="icon-btn edit" onclick="editItem(\'' + key + '\',\'' + cat + '\')" title="Edit"><i data-lucide="pencil" style="width:16px;"></i></button> ' +
+                            '<button class="icon-btn delete" onclick="deleteItem(\'' + key + '\',\'' + cat + '\')" title="Hapus"><i data-lucide="trash-2" style="width:16px;"></i></button>';
+                    }
+
+                    if (isSpare) {
+                        var statusColor = item.status === 'Ready' ? '#2A9D8F' : '#E76F51';
+                        tbody.innerHTML += '<tr>' +
+                            '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
+                            '<td><span style="font-size:11px;font-weight:600;color:var(--text-muted);">' + (item
+                                .gudang || '-') + '</span></td>' +
+                            '<td><code style="background:var(--bg-light);padding:2px 8px;border-radius:4px;font-size:11px;">' +
+                            (item.sn || '-') + '</code></td>' +
+                            '<td>' + (item.spec || '-') + '</td>' +
+                            '<td><span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:' +
+                            (item.status === 'Ready' ? '#CAF0F8' : '#FDE8E3') + ';color:' + statusColor + ';">' + (item
+                                .status || 'Ready') + '</span></td>' +
+                            '<td>' + (item.lemari || '-') + '</td>' +
+                            '<td>' + (item.rak || '-') + '</td>' +
+                            '<td>' + (item.riwayat || '-') + '</td>' +
+                            '<td><span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;' +
+                            (item.kondisi === 'Baik' ? 'background:#CAF0F8;color:#2A9D8F;' : 'background:#FDE8E3;color:#E76F51;') +
+                            '">' + (item.kondisi || '-') + '</span></td>' +
+                            '<td style="max-width:120px;white-space:normal;font-size:11px;">' + (item.notes || '') +
+                            '</td>' +
+                            '<td>' + actionHtml + '</td>' +
+                            '</tr>';
+                    } else if (isPatch) {
+                        var bgType = item.trType === 'Masuk' ? '#CAF0F8' : '#FDE8E3';
+                        var textColor = item.trType === 'Masuk' ? '#0077B6' : '#E76F51';
+                        tbody.innerHTML += '<tr>' +
+                            '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
+                            '<td><span style="font-size:11px;font-weight:600;color:var(--text-muted);">' + (item
+                                .gudang || '-') + '</span></td>' +
+                            '<td><span style="font-weight:600;">' + (item.pcType || '-') + '</span></td>' +
+                            '<td>' + (item.pcLength || '-') + '</td>' +
+                            '<td><span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:' +
+                            bgType + ';color:' + textColor + ';">' + (item.trType || '-') + '</span></td>' +
+                            '<td><span style="font-weight:700;">' + (item.qty || 0) + '</span></td>' +
+                            '<td>' + actionHtml + '</td>' +
+                            '</tr>';
+                    } else if (isAlkur) {
+                        tbody.innerHTML += '<tr>' +
+                            '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
+                            '<td><span style="font-weight:600;">' + (item.nama || '-') + '</span></td>' +
+                            '<td>' + (item.jenis || '-') + '</td>' +
+                            '<td>' + (item.merk || '-') + '</td>' +
+                            '<td><span style="font-weight:700;">' + (item.jumlah || 0) + '</span></td>' +
+                            '<td>' + (item.lokasi || '-') + '</td>' +
+                            '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
+                            '</span></td>' +
+                            '<td>' + actionHtml + '</td>' +
+                            '</tr>';
+                    } else if (isHandholeOrJoint) {
+                        tbody.innerHTML += '<tr>' +
+                            '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
+                            '<td><span style="font-weight:600;">' + (item.location || '-') + '</span></td>' +
+                            '<td style="font-size:11px;color:var(--text-muted);">' + (item.coords || '-') +
+                            '</td>' +
+                            '<td><span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;' +
+                            (item.kondisi === 'Baik' ? 'background:#CAF0F8;color:#0077B6;' :
+                                item.kondisi === 'Kurang Baik' ? 'background:#FDF0D5;color:#E76F51;' :
+                                'background:#FDE8E3;color:#E76F51;') +
+                            '">' + (item.kondisi || '-') + '</span></td>' +
+                            '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
+                            '</span></td>' +
+                            '<td>' + actionHtml + '</td>' +
+                            '</tr>';
+                    } else if (isOpm) {
+                        tbody.innerHTML += '<tr>' +
+                            '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
+                            '<td>' + (item.ruas || '-') + '</td>' +
+                            '<td>' + (item.slot || '-') + '</td>' +
+                            '<td>' + (item.port || '-') + '</td>' +
+                            '<td>' + (item.dbm || '-') + '</td>' +
+                            '<td><span style="font-weight:600;">' + (item.dari || '-') + '</span></td>' +
+                            '<td><span style="font-weight:600;">' + (item.ke || '-') + '</span></td>' +
+                            '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
+                            '</span></td>' +
+                            '<td>' + actionHtml + '</td>' +
+                            '</tr>';
+                    } else if (isOfCut) {
+                        tbody.innerHTML += '<tr>' +
+                            '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
+                            '<td><span style="font-weight:600;">' + (item.location || '-') + '</span></td>' +
+                            '<td style="font-size:11px;color:var(--text-muted);">' + (item.coords || '-') +
+                            '</td>' +
+                            '<td>' + (item.panjangCut || '-') + ' M</td>' +
+                            '<td><span style="padding:3px 8px;border-radius:8px;font-size:11px;font-weight:600;background:#CAF0F8;color:#0077B6;">' +
+                            (item.rute || '-') + '</span></td>' +
+                            '<td style="font-size:12px;">' + (item.penyebab || '-') + '</td>' +
+                            '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
+                            '</span></td>' +
+                            '<td>' + actionHtml + '</td>' +
+                            '</tr>';
+                    } else if (isP3Temuan) {
+                        tbody.innerHTML += '<tr>' +
+                            '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
+                            '<td><span style="font-weight:600;">' + (item.location || '-') + '</span></td>' +
+                            '<td style="font-size:11px;color:var(--text-muted);">' + (item.coords || '-') +
+                            '</td>' +
+                            '<td>' + (item.pelaksana || '-') + '</td>' +
+                            '<td>' + (item.lamaPekerjaan || '-') + '</td>' +
+                            '<td style="max-width:120px;white-space:normal;font-size:11px;">' + (item.keterangan ||
+                                '') + '</td>' +
+                            '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
+                            '</span></td>' +
+                            '<td>' + actionHtml + '</td>' +
+                            '</tr>';
+                    } else {
+                        tbody.innerHTML += '<tr>' +
+                            '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
+                            '<td><span style="font-weight:600;">' + (item.location || '-') + '</span></td>' +
+                            '<td style="font-size:11px;color:var(--text-muted);">' + (item.coords || '-') +
+                            '</td>' +
+                            '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
+                            '</span></td>' +
+                            '<td>' + actionHtml + '</td>' +
+                            '</tr>';
+                    }
+                });
+
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            } catch (e) {
+                console.error('❌ Render table error:', e);
+            }
+        }
+
+        // ============================================================
+        // DELETE ITEM (admin only)
+        // ============================================================
+        window.deleteItem = function(key, cat) {
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast('❌ Hanya admin yang dapat menghapus data', 'error');
+                return;
+            }
+            if (confirm('Hapus data ini?')) {
+                db.ref('data/' + cat + '/' + key).remove();
+                showToast('🗑️ Data dihapus', 'success');
+                setTimeout(function() {
+                    updateStokSummary();
+                    updateQuickStats();
+                    updateMapMarkers();
+                }, 500);
+            }
+        };
+
+        // ============================================================
+        // EDIT ITEM (admin only)
+        // ============================================================
+        window.editItem = function(key, cat) {
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast('❌ Hanya admin yang dapat mengedit data', 'error');
+                return;
+            }
+
+            var list = appData[cat] || {};
+            var data = list[key];
+            if (!data) {
+                showToast('❌ Data tidak ditemukan', 'error');
+                return;
+            }
+
+            if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
+                document.getElementById('inp-cat').value = cat;
+                currentSubTab = cat === 'Pekerjaan Pihak Ke-3' ? 'p3' : 'temuan';
+            } else {
+                document.getElementById('inp-cat').value = cat;
+            }
+
+            if (data.gudang) {
+                selectedGudang = data.gudang;
+                document.getElementById('inp-gudang-selected').value = data.gudang;
+            }
+
+            openForm(data, key);
+        };
+
+        // ============================================================
+        // MAP FUNCTIONS - dengan warna per kategori dan legend
+        // ============================================================
+        function initMap() {
+            if (map) return;
+            try {
+                map = L.map('map-container', { zoomControl: false, maxZoom: 22 }).setView([1.4930, 124.8410], 12);
+                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'ESRI',
+                    maxZoom: 22,
+                    tileSize: 512,
+                    zoomOffset: -1
+                }).addTo(map);
+
+                map.on('click', function(e) {
+                    if (!document.getElementById('form-modal').classList.contains('hidden')) {
+                        var coords = e.latlng.lat.toFixed(5) + ', ' + e.latlng.lng.toFixed(5);
+                        document.getElementById('inp-coords').value = coords;
+                        fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + e.latlng.lat + '&lon=' + e
+                                .latlng.lng + '&zoom=18&addressdetails=1')
+                            .then(function(response) { return response.json(); })
+                            .then(function(data) {
+                                var name = data.display_name || 'Lokasi Terpilih';
+                                document.getElementById('inp-loc').value = name;
+                                showToast('📍 Lokasi: ' + name, 'success');
+                            })
+                            .catch(function() {
+                                document.getElementById('inp-loc').value = 'Lokasi Terpilih';
+                                showToast('📍 Koordinat dipilih: ' + coords, 'success');
+                            });
+                    }
+                });
+
+                loadDefaultKml();
+                loadMarkersFromData();
+
+            } catch (e) {
+                console.error('Map init error:', e);
+            }
+        }
+
+        function loadMarkersFromData() {
+            if (!map) return;
+            markers.forEach(function(m) { map.removeLayer(m); });
+            markers = [];
+
+            var categories = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM/OLS', 'Joint', 'Handhole'];
+            categories.forEach(function(cat) {
+                var items = appData[cat] || {};
+                var color = CATEGORY_COLORS[cat] || '#0077B6';
+                Object.keys(items).forEach(function(key) {
+                    var item = items[key];
+                    if (item.coords) {
+                        var parts = item.coords.split(',');
+                        if (parts.length === 2) {
+                            var lat = parseFloat(parts[0].trim());
+                            var lng = parseFloat(parts[1].trim());
+                            if (!isNaN(lat) && !isNaN(lng)) {
+                                var popupText = '<strong>' + (item.location || 'Lokasi') + '</strong><br>' +
+                                    'Kategori: ' + cat + '<br>' +
+                                    'Tanggal: ' + (item.date || '-') + '<br>' +
+                                    'Koordinat: ' + item.coords + '<br>' +
+                                    'User: ' + (item.postBy || '-');
+                                var marker = L.circleMarker([lat, lng], {
+                                    radius: 7,
+                                    fillColor: color,
+                                    color: '#ffffff',
+                                    weight: 1.5,
+                                    opacity: 0.9,
+                                    fillOpacity: 0.85
+                                });
+                                marker.bindPopup(popupText);
+                                marker.addTo(map);
+                                markers.push(marker);
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        function updateMapMarkers() {
+            loadMarkersFromData();
+        }
+
+        window.zoomIn = function() { if (map) { map.zoomIn(); } };
+        window.zoomOut = function() { if (map) { map.zoomOut(); } };
+
+        window.toggleMapLayer = function(type) {
+            if (!map) return;
+            try {
+                map.eachLayer(function(layer) { if (layer instanceof L.TileLayer) map.removeLayer(layer); });
+                var url = '';
+                if (type === 'satellite') {
+                    url = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+                } else if (type === 'street') {
+                    url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+                } else if (type === 'hybrid') {
+                    url = 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}';
+                }
+                L.tileLayer(url, {
+                    attribution: 'Map Data',
+                    maxZoom: 22,
+                    tileSize: 512,
+                    zoomOffset: -1
+                }).addTo(map);
+                document.querySelectorAll('.custom-map-btn').forEach(function(btn) { btn.classList.remove('active'); });
+                if (event && event.currentTarget) {
+                    event.currentTarget.classList.add('active');
+                }
+            } catch (e) {
+                console.error('Toggle map layer error:', e);
+            }
+        };
+
+        window.handleKMLUpload = function(input) {
+            var file = input.files[0];
+            if (!file) return;
+
+            kmlLayers.forEach(function(layer) { map.removeLayer(layer); });
+            kmlLayers = [];
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    var kmlString = e.target.result;
+                    var parser = new DOMParser();
+                    var xml = parser.parseFromString(kmlString, "text/xml");
+                    var layers = parseKmlToLayers(xml);
+                    if (layers.length > 0) {
+                        var group = L.featureGroup(layers);
+                        group.addTo(map);
+                        kmlLayers.push(group);
+                        map.fitBounds(group.getBounds().pad(0.05));
+                        showToast('✅ KML berhasil dimuat (' + layers.length + ' layer)', 'success');
+                    } else {
+                        showToast('⚠️ Tidak ada data KML ditemukan', 'error');
+                    }
+                } catch (err) {
+                    console.error('❌ Error parsing uploaded KML:', err);
+                    showToast('❌ Gagal memuat KML', 'error');
+                }
+            };
+            reader.readAsText(file);
+            input.value = '';
+        };
+
+        function downloadKML() {
+            var blob = new Blob([defaultKmlString], { type: 'application/vnd.google-earth.kml+xml' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'BUCIN_Map.kml';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('✅ KML berhasil diunduh', 'success');
+        }
+
+        // ============================================================
+        // CHART FUNCTIONS
+        // ============================================================
+        function initCharts() {
+            try {
+                var ctx1 = document.getElementById('chartIncidents').getContext('2d');
+
+                if (typeof Chart !== 'undefined') {
+                    chartIncidents = new Chart(ctx1, {
+                        type: 'bar',
+                        data: {
+                            labels: ['OF Cut', 'Pihak Ke-3'],
+                            datasets: [{
+                                label: 'OF Cut',
+                                data: [0, 0],
+                                backgroundColor: 'rgba(0,119,182,0.8)',
+                                borderColor: '#0077B6',
+                                borderWidth: 2,
+                                borderRadius: 6,
+                                barPercentage: 0.6,
+                                categoryPercentage: 0.8
+                            }, {
+                                label: 'Pihak Ke-3',
+                                data: [0, 0],
+                                backgroundColor: 'rgba(244,162,97,0.8)',
+                                borderColor: '#F4A261',
+                                borderWidth: 2,
+                                borderRadius: 6,
+                                barPercentage: 0.6,
+                                categoryPercentage: 0.8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                    labels: {
+                                        font: { size: 11, weight: '600' },
+                                        boxWidth: 12,
+                                        padding: 12
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(255,255,255,0.9)',
+                                    titleColor: '#023047',
+                                    bodyColor: '#023047',
+                                    borderColor: '#0077B6',
+                                    borderWidth: 1
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: { color: 'rgba(0,0,0,0.05)' },
+                                    ticks: { font: { size: 10 }, stepSize: 1 }
+                                },
+                                x: {
+                                    grid: { display: false },
+                                    ticks: { font: { size: 10 } }
+                                }
+                            }
+                        }
+                    });
+                    updateCharts();
+                }
+            } catch (e) {
+                console.error('Chart init error:', e);
+            }
+        }
+
+        function updateCharts() {
+            try {
+                var ofCutCount = Object.keys(appData['Data OF Cut'] || {}).length;
+                var p3Count = Object.keys(appData['Pekerjaan Pihak Ke-3'] || {}).length;
+
+                var period = document.getElementById('chart-period')?.value || 'all';
+                if (period !== 'all') {
+                    var now = new Date();
+                    var startDate = null;
+                    if (period === 'weekly') {
+                        var start = new Date(now);
+                        start.setDate(now.getDate() - 7);
+                        startDate = start;
+                    } else if (period === 'monthly') {
+                        var start = new Date(now);
+                        start.setMonth(now.getMonth() - 1);
+                        startDate = start;
+                    } else if (period === 'yearly') {
+                        var start = new Date(now);
+                        start.setFullYear(now.getFullYear() - 1);
+                        startDate = start;
+                    }
+
+                    if (startDate) {
+                        var filterCount = function(cat) {
+                            var items = appData[cat] || {};
+                            var count = 0;
+                            Object.keys(items).forEach(function(key) {
+                                var item = items[key];
+                                if (!item.date) { count++; return; }
+                                var itemDate = new Date(item.date);
+                                if (itemDate >= startDate) count++;
+                            });
+                            return count;
+                        };
+                        ofCutCount = filterCount('Data OF Cut');
+                        p3Count = filterCount('Pekerjaan Pihak Ke-3');
+                    }
+                }
+
+                if (chartIncidents) {
+                    chartIncidents.data.datasets[0].data = [ofCutCount, 0];
+                    chartIncidents.data.datasets[1].data = [0, p3Count];
+                    chartIncidents.update();
+                }
+            } catch (e) {
+                console.error('Update charts error:', e);
+            }
+        }
+
+        function updateChartPeriod() {
+            updateCharts();
+        }
+
+        function updateDashboard() {
+            updateCharts();
+            updateMapMarkers();
+            updateQuickStats();
+        }
+
+        // ============================================================
+        // DOWNLOAD PAGE EXCEL
+        // ============================================================
+        function downloadPageExcel() {
+            var cat = currentCategory;
+            if (cat === 'P3_Temuan') {
+                cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
+            }
+            var list = appData[cat] || {};
+            var data = Object.values(list).map(function(item) {
+                var row = {
+                    Tanggal: item.date || '-',
+                    User: item.postBy || '-'
+                };
+                if (item.gudang) row.Gudang = item.gudang;
+                if (item.sn) row.SN = item.sn;
+                if (item.spec) row.Item = item.spec;
+                if (item.pcType) row.Item = item.pcType + ' ' + (item.pcLength || '');
+                if (item.status) row.Status = item.status;
+                if (item.trType) row.Tipe = item.trType;
+                if (item.qty) row.Jumlah = item.qty;
+                if (item.location) row.Lokasi = item.location;
+                if (item.coords) row.Koordinat = item.coords;
+                if (item.lemari) row.Lemari = item.lemari;
+                if (item.rak) row.Rak = item.rak;
+                if (item.riwayat) row.Riwayat = item.riwayat;
+                if (item.kondisi) row.Kondisi = item.kondisi;
+                if (item.notes) row.Keterangan = item.notes;
+                if (item.nama) row.Nama = item.nama;
+                if (item.jenis) row.Jenis = item.jenis;
+                if (item.merk) row.Merk = item.merk;
+                if (item.lokasi) row.Lokasi = item.lokasi;
+                if (item.keterangan) row.Keterangan = item.keterangan;
+                if (item.ruas) row.Ruas = item.ruas;
+                if (item.slot) row.Slot = item.slot;
+                if (item.port) row.Port = item.port;
+                if (item.dbm) row.DBM = item.dbm;
+                if (item.dari) row.Dari = item.dari;
+                if (item.ke) row.Ke = item.ke;
+                if (item.panjangCut) row['Panjang Cut'] = item.panjangCut + ' M';
+                if (item.rute) row.Rute = item.rute;
+                if (item.penyebab) row.Penyebab = item.penyebab;
+                if (item.pelaksana) row.Pelaksana = item.pelaksana;
+                if (item.lamaPekerjaan) row['Lama Pekerjaan'] = item.lamaPekerjaan;
+                return row;
+            });
+            if (data.length === 0) {
+                showToast('⚠️ Tidak ada data untuk diexport', 'error');
+                return;
+            }
+            var ws = XLSX.utils.json_to_sheet(data);
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, cat);
+            XLSX.writeFile(wb, cat + '_' + new Date().toISOString().slice(0, 10) + '.xlsx');
+            showToast('✅ Excel berhasil didownload', 'success');
+        }
+
+        // ============================================================
+        // ADD USER
+        // ============================================================
+        function submitAddUser(e) {
+            e.preventDefault();
+            var username = document.getElementById('new-username').value.trim();
+            var password = document.getElementById('new-password').value.trim();
+            var role = document.getElementById('new-role').value;
+
+            if (!username || !password) {
+                showToast('❌ Username dan password harus diisi', 'error');
+                return false;
+            }
+
+            db.ref('users/' + username).set({ pass: password, role: role })
+                .then(function() {
+                    showToast('✅ User ' + username + ' berhasil ditambahkan', 'success');
+                    document.getElementById('add-user-modal').classList.add('hidden');
+                    document.getElementById('new-username').value = '';
+                    document.getElementById('new-password').value = '';
+                })
+                .catch(function(err) {
+                    console.error('❌ Error adding user:', err);
+                    showToast('❌ Gagal menambahkan user: ' + err.message, 'error');
+                });
+
+            return false;
+        }
+
+        // ============================================================
+        // BACKGROUND IMAGE UPLOAD
+        // ============================================================
+        function handleBgImageUpload(input) {
+            var file = input.files[0];
+            if (!file) return;
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var dataUrl = e.target.result;
+                document.getElementById('bg-image-preview').style.display = 'block';
+                document.getElementById('bg-image-preview-img').src = dataUrl;
+                document.getElementById('set-bg-image').value = dataUrl;
+                showToast('✅ Gambar berhasil diupload', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeBgImage() {
+            document.getElementById('bg-image-preview').style.display = 'none';
+            document.getElementById('bg-image-preview-img').src = '';
+            document.getElementById('set-bg-image').value = '';
+            showToast('🗑️ Gambar dihapus', 'success');
+        }
+
+        console.log('✅ Tema Coastline berhasil diterapkan!');
+        console.log('✅ Menu OPM/OLS telah diperbaiki dan data akan muncul di tabel.');
+    </script>
+</body>
+</html>
