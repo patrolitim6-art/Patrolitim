@@ -162,11 +162,11 @@
         }
 
         .btn-icon {
-            width: 42px;
-            height: 42px;
-            min-height: 42px;
+            width: 36px;
+            height: 36px;
+            min-height: 36px;
             padding: 0;
-            border-radius: 12px;
+            border-radius: 8px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -175,7 +175,7 @@
             color: var(--text-muted);
             cursor: pointer;
             transition: all 0.2s ease;
-            font-size: 18px;
+            font-size: 15px;
             box-shadow: none;
             flex-shrink: 0;
         }
@@ -224,6 +224,22 @@
             background: #2A9D8F;
             color: white;
             border-color: #2A9D8F;
+        }
+        .btn-icon.delete {
+            color: #E76F51;
+            border-color: #E76F51;
+        }
+        .btn-icon.delete:hover {
+            background: #E76F51;
+            color: white;
+            border-color: #E76F51;
+        }
+
+        .action-group {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            flex-wrap: nowrap;
         }
 
         .top-header {
@@ -516,13 +532,13 @@
             border-color: var(--primary-blue);
         }
 
-        /* Map Legend */
+        /* Map Legend - pindah ke kiri atas */
         .map-legend {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
+            top: 12px;
+            left: 12px;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(8px);
             padding: 10px 14px;
             border-radius: 10px;
@@ -866,6 +882,11 @@
         .records-table .month-separator td {
             border-top: 3px solid var(--primary-blue);
             background: rgba(0, 119, 182, 0.06);
+        }
+        /* Kolom Riwayat diperbesar */
+        .records-table .col-riwayat {
+            min-width: 100px;
+            white-space: normal;
         }
 
         .stok-summary {
@@ -1221,7 +1242,7 @@
                         <i data-lucide="user" style="width:14px;display:inline;vertical-align:middle;"></i>
                         Nama Pengguna
                     </label>
-                    <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" required style="padding-left:44px;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236B7280%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2%22/%3E%3Ccircle cx=%2212%22 cy=%227%22 r=%224%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:12px center;background-size:18px;" value="admin">
+                    <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" required style="padding-left:44px;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236B7280%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2%22/%3E%3Ccircle cx=%2212%22 cy=%227%22 r=%224%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:12px center;background-size:18px;">
                 </div>
                 <div style="margin-bottom:24px;">
                     <label style="font-size:12px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:6px;">
@@ -1229,7 +1250,7 @@
                         Kata Sandi
                     </label>
                     <div style="position:relative;">
-                        <input id="login-password" type="password" class="field-control" placeholder="Masukkan password" required style="padding-left:44px;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236B7280%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect x=%223%22 y=%2211%22 width=%2218%22 height=%2211%22 rx=%222%22 ry=%222%22/%3E%3Cpath d=%22M7 11V7a5 5 0 0 1 10 0v4%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:12px center;background-size:18px;" value="admin123">
+                        <input id="login-password" type="password" class="field-control" placeholder="Masukkan password" required style="padding-left:44px;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236B7280%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect x=%223%22 y=%2211%22 width=%2218%22 height=%2211%22 rx=%222%22 ry=%222%22/%3E%3Cpath d=%22M7 11V7a5 5 0 0 1 10 0v4%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:12px center;background-size:18px;">
                         <button type="button" id="toggle-pass" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;">
                             <i data-lucide="eye" style="width:20px;"></i>
                         </button>
@@ -1242,7 +1263,6 @@
             </form>
 
             <div class="login-footer">
-                <p>Default: <span class="highlight"></span> / <span class="highlight"></span></p>
                 <p style="margin-top:4px;font-size:10px;color:#94A3B8;">&copy; 2026 BUCIN - Barisan Utama Cegah Insiden</p>
             </div>
         </div>
@@ -1311,7 +1331,7 @@
                     </div>
                     <div id="map-wrapper" style="position:relative;">
                         <div id="map-container"></div>
-                        <!-- Legend -->
+                        <!-- Legend pindah ke kiri atas -->
                         <div id="map-legend" class="map-legend">
                             <div class="map-legend-title">📍 Kategori</div>
                             <div class="map-legend-item"><span class="map-legend-dot" style="background:#E76F51;"></span> OF Cut</div>
@@ -1349,7 +1369,7 @@
                     </div>
                 </div>
 
-                <!-- SOP Description untuk OF Cut (hanya tampil di atas tabel) -->
+                <!-- SOP Description untuk OF Cut -->
                 <div id="sop-description-container" class="sop-description hidden">
                     <strong>📋 SOP Penanganan Gangguan OF Cut:</strong><br>
                     1. Terima Laporan: Catat waktu, lokasi, dan jenis gangguan.<br>
@@ -1366,7 +1386,7 @@
                     12. APD yang digunakan wajib dibersihkan kembali sebelum disimpan dalam mobil.
                 </div>
 
-                <!-- Sub-tabs untuk P3 dan Temuan (tabel terpisah) -->
+                <!-- Sub-tabs untuk P3 dan Temuan -->
                 <div id="sub-tabs-container" class="sub-tabs hidden">
                     <button class="sub-tab active" data-sub="p3" onclick="switchSubTab('p3')">Pekerjaan Pihak Ke-3</button>
                     <button class="sub-tab" data-sub="temuan" onclick="switchSubTab('temuan')">Temuan Lapangan</button>
@@ -1389,7 +1409,7 @@
                     </div>
                 </div>
 
-                <!-- Stok Summary & Filter Gudang (hanya untuk Spare & Patch) -->
+                <!-- Stok Summary & Filter Gudang -->
                 <div id="stok-summary-container" class="hidden">
                     <div class="stok-summary">
                         <div>
@@ -1406,7 +1426,6 @@
                         </div>
                     </div>
 
-                    <!-- Tabs Gudang -->
                     <div class="gudang-tabs" id="gudang-tabs-container">
                         <button class="gudang-tab active" data-gudang="all" onclick="filterGudang('all')">Semua Gudang</button>
                         <button class="gudang-tab" data-gudang="CLS MAMI" onclick="filterGudang('CLS MAMI')">CLS MAMI</button>
@@ -1474,7 +1493,7 @@
             </div>
             <div style="display:flex;gap:10px;margin-top:8px;">
                 <button onclick="closeGudangModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
-                <button id="btn-ok-spare" onclick="confirmSpareAction()" class="btn-primary hidden" style="flex:2;justify-content:center;">OK</button>
+                <button id="btn-ok-spare" onclick="confirmSpareAction()" class="btn-primary hidden" style="flex:1;justify-content:center;">OK</button>
             </div>
         </div>
     </div>
@@ -1543,7 +1562,7 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Riwayat Pemakaian <span style="color:#E76F51;">*</span></label>
+                                    <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Riwayat <span style="color:#E76F51;">*</span></label>
                                     <select id="inp-riwayat" class="field-control" required>
                                         <option value="">-- Pilih --</option>
                                         <option value="Baru">Baru</option>
@@ -1624,7 +1643,7 @@
                         </div>
                     </div>
 
-                    <!-- PATCH CORD FIELDS (tanpa barcode) -->
+                    <!-- PATCH CORD FIELDS -->
                     <div id="field-patchcord" class="hidden">
                         <div style="background:#CAF0F8;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #90E0EF;">
                             <div style="font-size:12px;font-weight:600;color:#0077B6;margin-bottom:4px;">📦 Spesifikasi Patch Cord</div>
@@ -1665,7 +1684,6 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- Untuk opsi lainnya -->
                         <div id="patchcord-lainnya" class="hidden" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
                             <div>
                                 <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis Lainnya</label>
@@ -1696,7 +1714,7 @@
                         </div>
                     </div>
 
-                    <!-- ALKUR FIELDS (tanpa kondisi) -->
+                    <!-- ALKUR FIELDS -->
                     <div id="field-alkur" class="hidden">
                         <div style="background:var(--accent-gold-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(244,162,97,0.3);">
                             <div style="font-size:12px;font-weight:600;color:#E76F51;margin-bottom:4px;">🔧 Data Material/Alkur</div>
@@ -1848,7 +1866,7 @@
                         </div>
                     </div>
 
-                    <!-- FIELD KHUSUS OF Cut (tanpa SOP) -->
+                    <!-- FIELD KHUSUS OF Cut -->
                     <div id="field-ofcut" class="hidden">
                         <div style="background:#CAF0F8;padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid #90E0EF;">
                             <div style="font-size:12px;font-weight:600;color:#0077B6;margin-bottom:4px;">📏 Detail OF Cut</div>
@@ -1916,7 +1934,7 @@
 
                 <div style="margin-top:24px;display:flex;gap:12px;">
                     <button type="button" onclick="closeModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
-                    <button type="submit" id="btn-submit-form" class="btn-primary" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
+                    <button type="submit" id="btn-submit-form" class="btn-primary" style="flex:1;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
                 </div>
             </form>
         </div>
@@ -2003,7 +2021,7 @@
         </div>
     </div>
 
-    <!-- ===== MODAL SETTINGS (tanpa carousel) ===== -->
+    <!-- ===== MODAL SETTINGS ===== -->
     <div id="settings-modal" class="modal-layer hidden">
         <div class="modal-card">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
@@ -2106,9 +2124,8 @@
         let currentPeriod = 'all';
         let spareAction = 'tambah';
         let sessionTimeout = null;
-        const SESSION_TIMEOUT_MS = 3600000; // 1 jam
+        const SESSION_TIMEOUT_MS = 900000; // 15 menit
 
-        // Warna untuk setiap kategori di maps
         const CATEGORY_COLORS = {
             'Data OF Cut': '#E76F51',
             'Pekerjaan Pihak Ke-3': '#F4A261',
@@ -2129,7 +2146,7 @@
                     currentUser = null;
                     document.getElementById('login-screen').classList.remove('hidden');
                     document.getElementById('app-shell').classList.add('hidden');
-                    showToast('⏳ Sesi habis, silakan login kembali', 'warning');
+                    showToast('⏳ Sesi habis (15 menit), silakan login kembali', 'warning');
                 }
             }, SESSION_TIMEOUT_MS);
         }
@@ -2524,7 +2541,6 @@
                 } catch (e) {}
             }
 
-            // Jika tidak ada session, tampilkan login
             document.getElementById('login-screen').classList.remove('hidden');
             document.getElementById('app-shell').classList.add('hidden');
 
@@ -2535,7 +2551,7 @@
         });
 
         // ============================================================
-        // LOAD BARCODE CACHE (untuk Spare)
+        // LOAD BARCODE CACHE
         // ============================================================
         function loadBarcodeCache() {
             db.ref('data/Stok Spare').once('value', function(snap) {
@@ -2609,7 +2625,7 @@
         }
 
         // ============================================================
-        // UPDATE STOK SUMMARY (untuk Spare & Patch)
+        // UPDATE STOK SUMMARY
         // ============================================================
         function updateStokSummary() {
             var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
@@ -2744,10 +2760,9 @@
         }
 
         // ============================================================
-        // SWITCH VIEW (reset pencarian)
+        // SWITCH VIEW
         // ============================================================
         function switchView(cat) {
-            // Reset search input
             var searchInput = document.getElementById('search-input');
             if (searchInput) searchInput.value = '';
 
@@ -2785,7 +2800,6 @@
 
             document.getElementById('page-title').textContent = isP3Temuan ? 'Pekerjaan & Temuan' : cat;
 
-            // Sub-tabs untuk P3/Temuan (tabel terpisah)
             var subTabs = document.getElementById('sub-tabs-container');
             if (isP3Temuan) {
                 subTabs.classList.remove('hidden');
@@ -2799,7 +2813,6 @@
                 document.getElementById('inp-cat').value = cat;
             }
 
-            // SOP Description untuk OF Cut (hanya di atas tabel)
             var sopDesc = document.getElementById('sop-description-container');
             if (isOfCut) {
                 sopDesc.classList.remove('hidden');
@@ -2816,7 +2829,7 @@
         }
 
         // ============================================================
-        // SUB TAB P3/TEMUAN (tabel terpisah)
+        // SUB TAB P3/TEMUAN
         // ============================================================
         function switchSubTab(tab) {
             currentSubTab = tab;
@@ -2909,7 +2922,6 @@
                 searchInput.addEventListener('input', renderTable);
             }
 
-            // Scan SN untuk Spare
             var snInput = document.getElementById('inp-sn');
             if (snInput) {
                 snInput.addEventListener('input', function() {
@@ -2925,7 +2937,6 @@
                 });
             }
 
-            // Scan SN untuk Update Pemakaian
             var updateSnInput = document.getElementById('inp-update-sn');
             if (updateSnInput) {
                 updateSnInput.addEventListener('input', function() {
@@ -3053,19 +3064,16 @@
                 });
             }
 
-            // Chart period
             var chartPeriod = document.getElementById('chart-period');
             if (chartPeriod) {
                 chartPeriod.addEventListener('change', updateChartPeriod);
             }
 
-            // Penyebab Lain toggle
             var penyebabSelect = document.getElementById('inp-ofcut-penyebab');
             if (penyebabSelect) {
                 penyebabSelect.addEventListener('change', togglePenyebabLain);
             }
 
-            // Patch Cord lainnya toggle
             var pcTypeSelect = document.getElementById('inp-pc-type');
             var pcLengthSelect = document.getElementById('inp-pc-length');
             var lainDiv = document.getElementById('patchcord-lainnya');
@@ -3074,7 +3082,6 @@
                 pcLengthSelect.addEventListener('change', togglePatchLain);
             }
 
-            // Auto logout setelah 1 jam inaktivitas
             document.addEventListener('click', refreshSession);
             document.addEventListener('keydown', refreshSession);
             document.addEventListener('mousemove', refreshSession);
@@ -3574,7 +3581,6 @@
             var isP3Temuan = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
             var isSpare = cat === 'Stok Spare';
 
-            // Sembunyikan semua field
             document.getElementById('field-stock').classList.add('hidden');
             document.getElementById('field-patchcord').classList.add('hidden');
             document.getElementById('field-alkur').classList.add('hidden');
@@ -3723,7 +3729,6 @@
             if (data.location) document.getElementById('inp-loc').value = data.location;
             if (data.coords) document.getElementById('inp-coords').value = data.coords;
 
-            // Spare
             if (data.sn) document.getElementById('inp-sn').value = data.sn;
             if (data.spec) document.getElementById('inp-spec').value = data.spec;
             if (data.status) document.getElementById('inp-status').value = data.status;
@@ -3733,7 +3738,6 @@
             if (data.kondisi) document.getElementById('inp-kondisi-spare').value = data.kondisi;
             if (data.notes) document.getElementById('inp-notes-stock').value = data.notes;
 
-            // Patch
             if (data.pcType) {
                 var pcType = data.pcType;
                 var select = document.getElementById('inp-pc-type');
@@ -3762,7 +3766,6 @@
             if (data.qty) document.getElementById('inp-pc-qty').value = data.qty;
             if (data.notes) document.getElementById('inp-notes-patch').value = data.notes;
 
-            // Alkur
             if (data.nama) document.getElementById('inp-alkur-nama').value = data.nama;
             if (data.jenis) document.getElementById('inp-alkur-jenis').value = data.jenis;
             if (data.merk) document.getElementById('inp-alkur-merk').value = data.merk;
@@ -3770,10 +3773,9 @@
             if (data.lokasi) document.getElementById('inp-alkur-lokasi').value = data.lokasi;
             if (data.keterangan) document.getElementById('inp-alkur-keterangan').value = data.keterangan;
 
-            // Handhole/Joint
             if (data.kondisi) document.getElementById('inp-kondisi').value = data.kondisi;
 
-            // OPM
+            // ===== OPM/OLS FIELDS (perbaikan) =====
             if (data.ruas) document.getElementById('inp-opm-ruas').value = data.ruas;
             if (data.slot) document.getElementById('inp-opm-slot').value = data.slot;
             if (data.port) document.getElementById('inp-opm-port').value = data.port;
@@ -3781,7 +3783,6 @@
             if (data.dari) document.getElementById('inp-opm-dari').value = data.dari;
             if (data.ke) document.getElementById('inp-opm-ke').value = data.ke;
 
-            // OF Cut
             if (data.panjangCut) document.getElementById('inp-ofcut-panjang').value = data.panjangCut;
             if (data.rute) document.getElementById('inp-ofcut-rute').value = data.rute;
             if (data.penyebab) {
@@ -3798,7 +3799,6 @@
             }
             if (data.keterangan) document.getElementById('inp-ofcut-keterangan').value = data.keterangan;
 
-            // P3/Temuan
             if (data.pelaksana) document.getElementById('inp-p3-pelaksana').value = data.pelaksana;
             if (data.lamaPekerjaan) document.getElementById('inp-p3-lama').value = data.lamaPekerjaan;
             if (data.keterangan) document.getElementById('inp-p3-keterangan').value = data.keterangan;
@@ -3812,7 +3812,7 @@
         }
 
         // ============================================================
-        // SUBMIT FORM (dengan perbaikan untuk OPM)
+        // SUBMIT FORM
         // ============================================================
         function submitForm(e) {
             if (e && e.preventDefault) {
@@ -3976,7 +3976,6 @@
                     data.kondisi = kondisiSpare;
                     data.notes = notes;
 
-                    // Cek apakah SN sudah ada - jika ya, update
                     var items = appData[cat] || {};
                     var existingKey = null;
                     for (var key in items) {
@@ -3988,7 +3987,6 @@
                     }
 
                     if (existingKey) {
-                        // Update existing record
                         db.ref('data/' + cat + '/' + existingKey).update(data)
                             .then(function() {
                                 showToast('✅ Stok diperbarui (SN: ' + sn + ')', 'success');
@@ -4008,7 +4006,6 @@
                         return;
                     }
 
-                    // Jika SN baru, tambahkan
                     isSubmitting = true;
                     var submitBtn = document.getElementById('btn-submit-form');
                     submitBtn.disabled = true;
@@ -4050,7 +4047,6 @@
                         return;
                     }
 
-                    // Cari data berdasarkan SN
                     var items = appData[cat] || {};
                     var targetKey = null;
                     var targetItem = null;
@@ -4146,7 +4142,7 @@
                 data.kondisi = kondisi;
             }
 
-            // ===== OPM/OLS (PERBAIKAN) =====
+            // ===== OPM/OLS =====
             if (isOpm) {
                 var ruas = document.getElementById('inp-opm-ruas').value;
                 var slot = document.getElementById('inp-opm-slot').value;
@@ -4166,7 +4162,6 @@
                 data.dbm = dbm;
                 data.dari = dari;
                 data.ke = ke;
-                // Tidak ada lokasi/koordinat untuk OPM
             }
 
             // ===== OF CUT =====
@@ -4357,7 +4352,7 @@
         }
 
         // ============================================================
-        // RENDER TABLE (aksi hanya untuk admin)
+        // RENDER TABLE
         // ============================================================
         function renderTable() {
             try {
@@ -4429,10 +4424,9 @@
                 var isOfCut = cat === 'Data OF Cut';
                 var isP3Temuan = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
 
-                // Header sesuai kategori
                 if (isSpare) {
                     thead.innerHTML =
-                        '<tr><th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Keterangan</th><th>Aksi</th></tr>';
+                        '<tr><th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th class="col-riwayat">Riwayat</th><th>Kondisi</th><th>Keterangan</th><th>Aksi</th></tr>';
                 } else if (isPatch) {
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
@@ -4475,8 +4469,7 @@
                     var actionHtml = '';
                     if (isAdmin) {
                         actionHtml =
-                            '<button class="icon-btn edit" onclick="editItem(\'' + key + '\',\'' + cat + '\')" title="Edit"><i data-lucide="pencil" style="width:16px;"></i></button> ' +
-                            '<button class="icon-btn delete" onclick="deleteItem(\'' + key + '\',\'' + cat + '\')" title="Hapus"><i data-lucide="trash-2" style="width:16px;"></i></button>';
+                            '<div class="action-group"><button class="btn-icon edit" onclick="editItem(\'' + key + '\',\'' + cat + '\')" title="Edit"><i data-lucide="pencil" style="width:14px;"></i></button><button class="btn-icon delete" onclick="deleteItem(\'' + key + '\',\'' + cat + '\')" title="Hapus"><i data-lucide="trash-2" style="width:14px;"></i></button></div>';
                     }
 
                     if (isSpare) {
@@ -4493,7 +4486,8 @@
                                 .status || 'Ready') + '</span></td>' +
                             '<td>' + (item.lemari || '-') + '</td>' +
                             '<td>' + (item.rak || '-') + '</td>' +
-                            '<td>' + (item.riwayat || '-') + '</td>' +
+                            '<td class="col-riwayat"><span style="font-weight:600;">' + (item.riwayat || '-') +
+                            '</span></td>' +
                             '<td><span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;' +
                             (item.kondisi === 'Baik' ? 'background:#CAF0F8;color:#2A9D8F;' : 'background:#FDE8E3;color:#E76F51;') +
                             '">' + (item.kondisi || '-') + '</span></td>' +
@@ -4603,7 +4597,7 @@
         }
 
         // ============================================================
-        // DELETE ITEM (admin only)
+        // DELETE ITEM
         // ============================================================
         window.deleteItem = function(key, cat) {
             if (!currentUser || currentUser.role !== 'admin') {
@@ -4622,7 +4616,7 @@
         };
 
         // ============================================================
-        // EDIT ITEM (admin only)
+        // EDIT ITEM
         // ============================================================
         window.editItem = function(key, cat) {
             if (!currentUser || currentUser.role !== 'admin') {
@@ -4653,7 +4647,7 @@
         };
 
         // ============================================================
-        // MAP FUNCTIONS - dengan warna per kategori dan legend
+        // MAP FUNCTIONS
         // ============================================================
         function initMap() {
             if (map) return;
@@ -5058,6 +5052,12 @@
 
         console.log('✅ Tema Coastline berhasil diterapkan!');
         console.log('✅ Menu OPM/OLS telah diperbaiki dan data akan muncul di tabel.');
+        console.log('✅ Session timeout: 15 menit');
+        console.log('✅ Login form kosong saat pertama dibuka');
+        console.log('✅ Tombol Batal & Simpan sama panjang');
+        console.log('✅ Kolom Riwayat diperbesar');
+        console.log('✅ Legend peta di kiri atas');
+        console.log('✅ Tombol Edit & Hapus bersebelahan');
     </script>
 </body>
 </html>
