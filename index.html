@@ -28,7 +28,7 @@
     </script>
 
     <style>
-        /* ===== THEME (sama seperti sebelumnya) ===== */
+        /* ===== THEME ===== */
         :root {
             --primary-blue: #0077B6;
             --primary-blue-dark: #005F8A;
@@ -1673,7 +1673,7 @@
                             <textarea id="inp-notes-patch" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Keterangan..."></textarea>
                         </div>
                     </div>
-                    <!-- ALKUR / MATERIAL - DENGAN SN TANGGAL -->
+                    <!-- ALKUR / MATERIAL -->
                     <div id="field-alkur" class="hidden">
                         <div style="background:var(--accent-gold-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(244,162,97,0.3);">
                             <div style="font-size:12px;font-weight:600;color:#E76F51;margin-bottom:4px;">🔧 Data Material/Alkur</div>
@@ -1891,7 +1891,7 @@
                 </div>
                 <div style="margin-top:24px;display:flex;gap:12px;">
                     <button type="button" onclick="closeModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
-                    <button type="button" id="btn-submit-form" class="btn-primary" onclick="handleSubmitClick()" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
+                    <button type="submit" id="btn-submit-form" class="btn-primary" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
                 </div>
             </form>
         </div>
@@ -2554,6 +2554,9 @@
                 if (cat === 'OPM/OLS') {
                     console.log('appData["OPM/OLS"]:', appData['OPM/OLS']);
                 }
+                if (cat === 'Alkur/Material') {
+                    console.log('appData["Alkur/Material"]:', appData['Alkur/Material']);
+                }
 
                 var list = appData[cat] || {};
                 var keys = Object.keys(list);
@@ -2561,7 +2564,6 @@
                 var thead = document.getElementById('table-head');
                 tbody.innerHTML = '';
 
-                // Filter gudang hanya untuk Stok Spare dan Patch Cord
                 if (selectedGudangFilter !== 'all' && (cat === 'Stok Spare' || cat === 'Patch Cord')) {
                     keys = keys.filter(function(key) {
                         var item = list[key];
@@ -2792,23 +2794,15 @@
         }
 
         // ============================================================
-        // SUBMIT FORM - DENGAN SN TANGGAL UNTUK ALKUR
+        // SUBMIT FORM
         // ============================================================
-        function handleSubmitClick() {
-            console.log('✅ Tombol simpan diklik');
-            var event = new Event('submit', { cancelable: true, bubbles: true });
-            submitForm(event);
-        }
-
         function generateAlkurSN(nama, jenis, merk, date) {
-            // Format tanggal: DDMMYY
             var dateObj = new Date(date);
             var day = String(dateObj.getDate()).padStart(2, '0');
             var month = String(dateObj.getMonth() + 1).padStart(2, '0');
             var year = String(dateObj.getFullYear()).slice(-2);
-            var datePart = day + month + year; // contoh: 310826
+            var datePart = day + month + year;
 
-            // Kode dari Nama+Jenis+Merk
             var code = '';
             if (nama) code += nama.charAt(0).toUpperCase();
             if (jenis) code += jenis.charAt(0).toUpperCase();
@@ -2821,23 +2815,8 @@
             return datePart + '-' + code;
         }
 
-        function updateAlkurSN() {
-            var nama = document.getElementById('inp-alkur-nama').value.trim();
-            var jenis = document.getElementById('inp-alkur-jenis').value.trim();
-            var merk = document.getElementById('inp-alkur-merk').value.trim();
-            var date = document.getElementById('inp-date').value;
-            var snField = document.getElementById('inp-alkur-sn');
-
-            // Hanya update jika SN field kosong (belum diisi manual)
-            if (!snField.value && nama && jenis && merk && date) {
-                var sn = generateAlkurSN(nama, jenis, merk, date);
-                snField.value = sn;
-            }
-        }
-
         function submitForm(e) {
-            if (!e) e = {};
-            if (e.preventDefault) e.preventDefault();
+            if (e && e.preventDefault) e.preventDefault();
 
             console.log('🔍 submitForm() dipanggil');
 
@@ -2864,9 +2843,7 @@
                 createdAt: Date.now()
             };
 
-            // ============================================================
-            // 1. PATCH CORD
-            // ============================================================
+            // ===== PATCH CORD =====
             if (cat === 'Patch Cord') {
                 var pcType = document.getElementById('inp-pc-type').value;
                 var pcLength = document.getElementById('inp-pc-length').value;
@@ -2950,9 +2927,7 @@
                 return;
             }
 
-            // ============================================================
-            // 2. STOK SPARE
-            // ============================================================
+            // ===== STOK SPARE =====
             if (cat === 'Stok Spare') {
                 var mode = document.getElementById('form-mode').value;
                 if (mode === 'tambah') {
@@ -3088,9 +3063,7 @@
                 }
             }
 
-            // ============================================================
-            // 3. ALKUR / MATERIAL - DENGAN SN TANGGAL
-            // ============================================================
+            // ===== ALKUR / MATERIAL =====
             if (cat === 'Alkur/Material') {
                 var nama = document.getElementById('inp-alkur-nama').value.trim();
                 var jenis = document.getElementById('inp-alkur-jenis').value.trim();
@@ -3105,14 +3078,12 @@
                     return;
                 }
 
-                // Generate SN jika kosong
                 var sn = snInput;
                 if (!sn) {
                     var date = document.getElementById('inp-date').value;
                     sn = generateAlkurSN(nama, jenis, merk, date);
                 }
 
-                // Cegah duplikasi SN
                 var items = appData[cat] || {};
                 var existingKey = null;
                 for (var key in items) {
@@ -3133,11 +3104,10 @@
                 data.jumlah = jumlah;
                 data.lokasi = lokasi;
                 data.keterangan = keterangan;
+                console.log('✅ Alkur data prepared:', data);
             }
 
-            // ============================================================
-            // 4. HANDHOLE & JOINT
-            // ============================================================
+            // ===== HANDHOLE & JOINT =====
             if (cat === 'Handhole' || cat === 'Joint') {
                 var location = document.getElementById('inp-loc').value.trim();
                 var coords = document.getElementById('inp-coords').value.trim();
@@ -3152,9 +3122,7 @@
                 data.kondisi = kondisi;
             }
 
-            // ============================================================
-            // 5. OPM/OLS
-            // ============================================================
+            // ===== OPM/OLS =====
             if (cat === 'OPM/OLS') {
                 var ruas = document.getElementById('inp-opm-ruas').value;
                 var slot = document.getElementById('inp-opm-slot').value;
@@ -3176,9 +3144,7 @@
                 console.log('✅ OPM data prepared:', data);
             }
 
-            // ============================================================
-            // 6. OF CUT
-            // ============================================================
+            // ===== OF CUT =====
             if (cat === 'Data OF Cut') {
                 var location = document.getElementById('inp-loc').value.trim();
                 var coords = document.getElementById('inp-coords').value.trim();
@@ -3204,9 +3170,7 @@
                 data.keterangan = keteranganOf;
             }
 
-            // ============================================================
-            // 7. PEKERJAAN PIHAK KE-3 & TEMUAN LAPANGAN
-            // ============================================================
+            // ===== P3 / TEMUAN =====
             if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
                 var location = document.getElementById('inp-loc').value.trim();
                 var coords = document.getElementById('inp-coords').value.trim();
@@ -3225,9 +3189,7 @@
                 data.keterangan = keteranganP3;
             }
 
-            // ============================================================
-            // SIMPAN KE FIREBASE
-            // ============================================================
+            // ===== SIMPAN =====
             isSubmitting = true;
             var submitBtn = document.getElementById('btn-submit-form');
             submitBtn.disabled = true;
@@ -3259,7 +3221,7 @@
         }
 
         // ============================================================
-        // FUNGSI LAINNYA (sama seperti sebelumnya)
+        // FUNGSI LAINNYA
         // ============================================================
         function updateQuickStats() {
             var totalData = 0,
@@ -3394,7 +3356,6 @@
                 resetFormFields();
             }
 
-            // Tampilkan field sesuai kategori
             var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
             var isPatch = cat === 'Patch Cord';
             var isAlkur = cat === 'Alkur/Material';
@@ -3442,12 +3403,21 @@
             }
             if (isAlkur) {
                 document.getElementById('field-alkur').classList.remove('hidden');
-                // Event listener untuk update SN otomatis
-                ['inp-alkur-nama', 'inp-alkur-jenis', 'inp-alkur-merk', 'inp-date'].forEach(function(id) {
-                    document.getElementById(id).addEventListener('input', updateAlkurSN);
-                    document.getElementById(id).addEventListener('change', updateAlkurSN);
-                });
-                // Update SN awal jika ada data
+                // Auto-generate SN saat input berubah
+                function updateAlkurSN() {
+                    var nama = document.getElementById('inp-alkur-nama').value.trim();
+                    var jenis = document.getElementById('inp-alkur-jenis').value.trim();
+                    var merk = document.getElementById('inp-alkur-merk').value.trim();
+                    var date = document.getElementById('inp-date').value;
+                    var snField = document.getElementById('inp-alkur-sn');
+                    if (!snField.value && nama && jenis && merk && date) {
+                        snField.value = generateAlkurSN(nama, jenis, merk, date);
+                    }
+                }
+                document.getElementById('inp-alkur-nama').addEventListener('input', updateAlkurSN);
+                document.getElementById('inp-alkur-jenis').addEventListener('input', updateAlkurSN);
+                document.getElementById('inp-alkur-merk').addEventListener('input', updateAlkurSN);
+                document.getElementById('inp-date').addEventListener('input', updateAlkurSN);
                 setTimeout(updateAlkurSN, 100);
             }
             if (isOpm) {
@@ -3541,6 +3511,13 @@
             if (data.jumlah) document.getElementById('inp-alkur-jumlah').value = data.jumlah;
             if (data.lokasi) document.getElementById('inp-alkur-lokasi').value = data.lokasi;
             if (data.keterangan) document.getElementById('inp-alkur-keterangan').value = data.keterangan;
+            // OPM fields
+            if (data.ruas) document.getElementById('inp-opm-ruas').value = data.ruas;
+            if (data.slot) document.getElementById('inp-opm-slot').value = data.slot;
+            if (data.port) document.getElementById('inp-opm-port').value = data.port;
+            if (data.dbm) document.getElementById('inp-opm-dbm').value = data.dbm;
+            if (data.dari) document.getElementById('inp-opm-dari').value = data.dari;
+            if (data.ke) document.getElementById('inp-opm-ke').value = data.ke;
         }
 
         function updateBarcodeCache(sn, spec) {
@@ -3642,7 +3619,6 @@
         }
 
         function setupEventListeners() {
-            // Login
             var loginBtn = document.getElementById('login-btn');
             if (loginBtn) loginBtn.addEventListener('click', handleLogin);
             var loginForm = document.getElementById('login-form');
@@ -4248,7 +4224,6 @@
             showToast('🗑️ Gambar dihapus', 'success');
         }
 
-        // Chart
         function initCharts() {
             try {
                 var ctx1 = document.getElementById('chartIncidents').getContext('2d');
@@ -4353,9 +4328,9 @@
             updateQuickStats();
         }
 
-        console.log('✅ Full HTML dengan SN Alkur format tanggal (DDMMYY-KODE) siap digunakan.');
-        console.log('📌 Contoh SN: 310826-FKGT (31 Agustus 2026, Fiber Kabel Geprek Telo)');
+        console.log('✅ Full HTML dengan perbaikan OPM, Alkur, dan KML siap digunakan.');
         console.log('📌 OPM/OLS: data muncul di tabel.');
+        console.log('📌 Alkur: SN format DDMMYY-KODE otomatis.');
         console.log('📌 KML: notifikasi kosong dihilangkan.');
     </script>
 </body>
