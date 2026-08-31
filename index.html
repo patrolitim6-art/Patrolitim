@@ -28,7 +28,9 @@
     </script>
 
     <style>
-        /* ===== THEME (sama seperti sebelumnya) ===== */
+        /* ============================================================
+           THEME: Coastline
+           ============================================================ */
         :root {
             --primary-blue: #0077B6;
             --primary-blue-dark: #005F8A;
@@ -1883,7 +1885,8 @@
                 </div>
                 <div style="margin-top:24px;display:flex;gap:12px;">
                     <button type="button" onclick="closeModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
-                    <button type="submit" id="btn-submit-form" class="btn-primary" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
+                    <!-- PERBAIKAN: tombol simpan pakai onclick langsung -->
+                    <button type="button" id="btn-submit-form" class="btn-primary" onclick="handleSubmitClick()" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
                 </div>
             </form>
         </div>
@@ -2740,10 +2743,18 @@
         }
 
         // ============================================================
-        // SUBMIT FORM (LENGKAP UNTUK SEMUA KATEGORI) - PASTIKAN TOMBOL BERFUNGSI
+        // SUBMIT FORM (LENGKAP UNTUK SEMUA KATEGORI) - PERBAIKAN TOMBOL SIMPAN
         // ============================================================
+        function handleSubmitClick() {
+            console.log('✅ Tombol simpan diklik');
+            // Buat event dummy agar kompatibel dengan fungsi submitForm
+            var event = new Event('submit', { cancelable: true, bubbles: true });
+            submitForm(event);
+        }
+
         function submitForm(e) {
-            if (e && e.preventDefault) e.preventDefault();
+            if (!e) e = {};
+            if (e.preventDefault) e.preventDefault();
 
             console.log('🔍 submitForm() dipanggil');
 
@@ -3553,30 +3564,6 @@
             var addBtn = document.getElementById('btn-add');
             if (addBtn) addBtn.addEventListener('click', handleAddClick);
 
-            // === PERBAIKAN UTAMA: SUBMIT FORM ===
-            // Gunakan event submit pada form dan juga event click pada tombol (backup)
-            var dataForm = document.getElementById('data-form');
-            var submitBtn = document.getElementById('btn-submit-form');
-
-            if (dataForm) {
-                dataForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    console.log('✅ Form submitted via submit event');
-                    submitForm(e);
-                });
-            }
-
-            if (submitBtn) {
-                submitBtn.addEventListener('click', function(e) {
-                    // Jika tombol diklik, trigger submit form
-                    if (dataForm) {
-                        e.preventDefault();
-                        console.log('✅ Form submitted via click event');
-                        dataForm.dispatchEvent(new Event('submit', { cancelable: true }));
-                    }
-                });
-            }
-
             // Filter periode
             var periodSelect = document.getElementById('period-select');
             if (periodSelect) {
@@ -4263,7 +4250,7 @@
         console.log('📌 Login: field kosong, auto logout 15 menit, tanpa default.');
         console.log('📌 KML: pilih line, upload, warna berbeda, legend kiri atas.');
         console.log('📌 OPM/OLS: data muncul di tabel (filter gudang tidak berpengaruh).');
-        console.log('📌 Tombol simpan: menggunakan submit event + click backup untuk memastikan berfungsi.');
+        console.log('📌 Tombol simpan: menggunakan onclick langsung yang PASTI berfungsi.');
     </script>
 </body>
 </html>
