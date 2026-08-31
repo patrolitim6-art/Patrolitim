@@ -2484,7 +2484,7 @@
         };
 
         // ============================================================
-        // SWITCH VIEW & RENDER TABLE
+        // SWITCH VIEW & RENDER TABLE - PAKAI currentCategory LANGSUNG
         // ============================================================
         function switchView(cat) {
             var searchInput = document.getElementById('search-input');
@@ -2545,6 +2545,7 @@
 
         function renderTable() {
             try {
+                // PAKAI currentCategory LANGSUNG, BUKAN inp-cat
                 var cat = currentCategory;
                 if (cat === 'P3_Temuan') {
                     cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
@@ -2794,7 +2795,7 @@
         }
 
         // ============================================================
-        // SUBMIT FORM
+        // SUBMIT FORM - PAKAI currentCategory LANGSUNG
         // ============================================================
         function generateAlkurSN(nama, jenis, merk, date) {
             var dateObj = new Date(date);
@@ -2829,13 +2830,11 @@
                 return;
             }
 
-            var cat = document.getElementById('inp-cat').value;
+            // PAKAI currentCategory, BUKAN inp-cat
+            var cat = currentCategory;
             var editKey = document.getElementById('edit-key').value;
-            if (!cat) {
-                cat = currentCategory;
-                document.getElementById('inp-cat').value = cat;
-            }
-            console.log('📌 Kategori:', cat, '| Edit Key:', editKey);
+
+            console.log('📌 Kategori (currentCategory):', cat, '| Edit Key:', editKey);
 
             var data = {
                 date: document.getElementById('inp-date').value,
@@ -3189,7 +3188,7 @@
                 data.keterangan = keteranganP3;
             }
 
-            // ===== SIMPAN =====
+            // ===== SIMPAN KE FIREBASE =====
             isSubmitting = true;
             var submitBtn = document.getElementById('btn-submit-form');
             submitBtn.disabled = true;
@@ -3200,11 +3199,12 @@
 
             submitPromise
                 .then(function() {
-                    showToast('✅ Data berhasil disimpan', 'success');
+                    showToast('✅ Data berhasil disimpan di ' + cat, 'success');
                     closeModal();
+                    // PASTIKAN renderTable dipanggil
                     setTimeout(function() {
-                        updateStokSummary();
                         renderTable();
+                        updateStokSummary();
                         updateQuickStats();
                         updateMapMarkers();
                     }, 300);
@@ -3340,11 +3340,8 @@
             modal.classList.remove('hidden');
             editingKey = editKey || null;
             isSubmitting = false;
-            var cat = document.getElementById('inp-cat').value;
-            if (!cat) {
-                cat = currentCategory;
-                document.getElementById('inp-cat').value = cat;
-            }
+            // PAKAI currentCategory
+            var cat = currentCategory;
             if (editData) {
                 document.getElementById('modal-title').textContent = 'Edit Data - ' + cat;
                 document.getElementById('edit-key').value = editKey || '';
@@ -3403,7 +3400,6 @@
             }
             if (isAlkur) {
                 document.getElementById('field-alkur').classList.remove('hidden');
-                // Auto-generate SN saat input berubah
                 function updateAlkurSN() {
                     var nama = document.getElementById('inp-alkur-nama').value.trim();
                     var jenis = document.getElementById('inp-alkur-jenis').value.trim();
@@ -3659,6 +3655,16 @@
 
             var addBtn = document.getElementById('btn-add');
             if (addBtn) addBtn.addEventListener('click', handleAddClick);
+
+            // SUBMIT FORM - PASTIKAN bekerja
+            var dataForm = document.getElementById('data-form');
+            if (dataForm) {
+                dataForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    console.log('✅ Form submitted');
+                    submitForm(e);
+                });
+            }
 
             var periodSelect = document.getElementById('period-select');
             if (periodSelect) {
@@ -4328,10 +4334,11 @@
             updateQuickStats();
         }
 
-        console.log('✅ Full HTML dengan perbaikan OPM, Alkur, dan KML siap digunakan.');
+        console.log('✅ Full HTML dengan perbaikan TOTAL - PAKAI currentCategory LANGSUNG');
         console.log('📌 OPM/OLS: data muncul di tabel.');
         console.log('📌 Alkur: SN format DDMMYY-KODE otomatis.');
         console.log('📌 KML: notifikasi kosong dihilangkan.');
+        console.log('📌 Tombol simpan: menggunakan submit event pada form.');
     </script>
 </body>
 </html>
