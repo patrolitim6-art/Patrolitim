@@ -1889,9 +1889,10 @@
                         </div>
                     </div>
                 </div>
+                <!-- ===== TOMBOL SIMPAN PAKAI ONCLICK LANGSUNG ===== -->
                 <div style="margin-top:24px;display:flex;gap:12px;">
                     <button type="button" onclick="closeModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
-                    <button type="submit" id="btn-submit-form" class="btn-primary" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
+                    <button type="button" id="btn-submit-form" class="btn-primary" onclick="simpanData()" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
                 </div>
             </form>
         </div>
@@ -2097,6 +2098,15 @@
             'Joint': '#0077B6',
             'Handhole': '#9B5DE5'
         };
+
+        // ============================================================
+        // FUNGSI GLOBAL UNTUK TOMBOL SIMPAN - PASTI BERFUNGSI
+        // ============================================================
+        function simpanData() {
+            console.log('🔴🔴🔴 TOMBOL SIMPAN DIKLIK - FUNGSI simpanData() DIPANGGIL 🔴🔴🔴');
+            var event = new Event('submit', { cancelable: true, bubbles: true });
+            submitForm(event);
+        }
 
         // ============================================================
         // SESSION MANAGEMENT
@@ -2484,7 +2494,7 @@
         };
 
         // ============================================================
-        // SWITCH VIEW & RENDER TABLE - PAKAI currentCategory LANGSUNG
+        // SWITCH VIEW & RENDER TABLE
         // ============================================================
         function switchView(cat) {
             var searchInput = document.getElementById('search-input');
@@ -2545,7 +2555,6 @@
 
         function renderTable() {
             try {
-                // PAKAI currentCategory LANGSUNG, BUKAN inp-cat
                 var cat = currentCategory;
                 if (cat === 'P3_Temuan') {
                     cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
@@ -2830,7 +2839,6 @@
                 return;
             }
 
-            // PAKAI currentCategory, BUKAN inp-cat
             var cat = currentCategory;
             var editKey = document.getElementById('edit-key').value;
 
@@ -3201,7 +3209,6 @@
                 .then(function() {
                     showToast('✅ Data berhasil disimpan di ' + cat, 'success');
                     closeModal();
-                    // PASTIKAN renderTable dipanggil
                     setTimeout(function() {
                         renderTable();
                         updateStokSummary();
@@ -3340,7 +3347,6 @@
             modal.classList.remove('hidden');
             editingKey = editKey || null;
             isSubmitting = false;
-            // PAKAI currentCategory
             var cat = currentCategory;
             if (editData) {
                 document.getElementById('modal-title').textContent = 'Edit Data - ' + cat;
@@ -3507,7 +3513,6 @@
             if (data.jumlah) document.getElementById('inp-alkur-jumlah').value = data.jumlah;
             if (data.lokasi) document.getElementById('inp-alkur-lokasi').value = data.lokasi;
             if (data.keterangan) document.getElementById('inp-alkur-keterangan').value = data.keterangan;
-            // OPM fields
             if (data.ruas) document.getElementById('inp-opm-ruas').value = data.ruas;
             if (data.slot) document.getElementById('inp-opm-slot').value = data.slot;
             if (data.port) document.getElementById('inp-opm-port').value = data.port;
@@ -3655,16 +3660,6 @@
 
             var addBtn = document.getElementById('btn-add');
             if (addBtn) addBtn.addEventListener('click', handleAddClick);
-
-            // SUBMIT FORM - PASTIKAN bekerja
-            var dataForm = document.getElementById('data-form');
-            if (dataForm) {
-                dataForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    console.log('✅ Form submitted');
-                    submitForm(e);
-                });
-            }
 
             var periodSelect = document.getElementById('period-select');
             if (periodSelect) {
@@ -4334,11 +4329,11 @@
             updateQuickStats();
         }
 
-        console.log('✅ Full HTML dengan perbaikan TOTAL - PAKAI currentCategory LANGSUNG');
+        console.log('✅ FULL HTML - TOMBOL SIMPAN PAKAI ONCLICK LANGSUNG - PASTI BERFUNGSI');
         console.log('📌 OPM/OLS: data muncul di tabel.');
         console.log('📌 Alkur: SN format DDMMYY-KODE otomatis.');
         console.log('📌 KML: notifikasi kosong dihilangkan.');
-        console.log('📌 Tombol simpan: menggunakan submit event pada form.');
+        console.log('📌 Tombol simpan: onclick="simpanData()" LANGSUNG.');
     </script>
 </body>
 </html>
