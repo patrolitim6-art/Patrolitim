@@ -28,7 +28,7 @@
     </script>
 
     <style>
-        /* ===== THEME ===== */
+        /* ===== THEME (sama seperti sebelumnya) ===== */
         :root {
             --primary-blue: #0077B6;
             --primary-blue-dark: #005F8A;
@@ -1673,26 +1673,34 @@
                             <textarea id="inp-notes-patch" class="field-control" rows="2" style="resize:none;border-radius:12px;" placeholder="Keterangan..."></textarea>
                         </div>
                     </div>
-                    <!-- ALKUR -->
+                    <!-- ALKUR / MATERIAL - DENGAN SN TANGGAL -->
                     <div id="field-alkur" class="hidden">
                         <div style="background:var(--accent-gold-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(244,162,97,0.3);">
                             <div style="font-size:12px;font-weight:600;color:#E76F51;margin-bottom:4px;">🔧 Data Material/Alkur</div>
+                            <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">SN akan otomatis: <strong>DDMMYY-KODE</strong> (contoh: 310826-FKGT)</div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">SN <span style="color:#E76F51;">*</span></label>
+                                <input type="text" id="inp-alkur-sn" class="field-control" placeholder="Kosongkan untuk otomatis">
+                                <span style="font-size:10px;color:var(--text-muted);">Kosongkan untuk generate otomatis (Tanggal+Nama+Jenis+Merk)</span>
+                            </div>
                             <div>
                                 <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Material <span style="color:#E76F51;">*</span></label>
                                 <input type="text" id="inp-alkur-nama" class="field-control" placeholder="Nama material" required>
                             </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
                             <div>
                                 <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis <span style="color:#E76F51;">*</span></label>
                                 <input type="text" id="inp-alkur-jenis" class="field-control" placeholder="Jenis material" required>
                             </div>
-                        </div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;">
                             <div>
                                 <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Merk <span style="color:#E76F51;">*</span></label>
                                 <input type="text" id="inp-alkur-merk" class="field-control" placeholder="Merk" required>
                             </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;">
                             <div>
                                 <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jumlah <span style="color:#E76F51;">*</span></label>
                                 <input type="number" id="inp-alkur-jumlah" class="field-control" value="1" min="1" required>
@@ -2149,7 +2157,6 @@
                             initMap();
                             initCharts();
                             updateQuickStats();
-                            // Load KML dari Firebase
                             loadKmlFromFirebase();
                         }, 100);
                         showToast('✅ Selamat datang, ' + username + '!', 'success');
@@ -2201,7 +2208,7 @@
         }
 
         // ============================================================
-        // KML FUNCTIONS - DISIMPAN KE FIREBASE
+        // KML FUNCTIONS
         // ============================================================
         function closeKmlModal() {
             document.getElementById('kml-modal').classList.add('hidden');
@@ -2225,11 +2232,9 @@
                     var kmlString = event.target.result;
                     console.log('📁 KML loaded, line:', line);
 
-                    // Simpan ke Firebase
                     db.ref('kmlData/' + line).set(kmlString)
                         .then(function() {
                             showToast('✅ KML untuk ' + line + ' berhasil disimpan', 'success');
-                            // Tampilkan di peta
                             displayKmlOnMap(line, kmlString);
                             closeKmlModal();
                         })
@@ -2253,7 +2258,6 @@
             }
 
             try {
-                // Hapus layer lama jika ada
                 if (kmlLayers[line] && map) {
                     map.removeLayer(kmlLayers[line]);
                     delete kmlLayers[line];
@@ -2271,13 +2275,11 @@
                     activeKmlLine = line;
                     document.getElementById('map-legend-line').textContent = 'Line aktif: ' + line;
                     showToast('✅ KML untuk ' + line + ' ditampilkan di peta', 'success');
-
-                    // Zoom ke area KML
                     try {
                         map.fitBounds(group.getBounds().pad(0.05));
                     } catch (e) { /* ignore */ }
                 } else {
-                    showToast('⚠️ Tidak ada data KML ditemukan', 'error');
+                    console.warn('⚠️ Tidak ada data KML ditemukan di file untuk line:', line);
                 }
             } catch (err) {
                 console.error('❌ Error displaying KML:', err);
@@ -2482,7 +2484,7 @@
         };
 
         // ============================================================
-        // SWITCH VIEW & RENDER TABLE - PERBAIKAN OPM
+        // SWITCH VIEW & RENDER TABLE
         // ============================================================
         function switchView(cat) {
             var searchInput = document.getElementById('search-input');
@@ -2549,7 +2551,9 @@
                 }
 
                 console.log('🔍 Rendering table for category:', cat);
-                console.log('appData["OPM/OLS"]:', appData['OPM/OLS']);
+                if (cat === 'OPM/OLS') {
+                    console.log('appData["OPM/OLS"]:', appData['OPM/OLS']);
+                }
 
                 var list = appData[cat] || {};
                 var keys = Object.keys(list);
@@ -2622,7 +2626,7 @@
                         '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
                 } else if (isAlkur) {
                     thead.innerHTML =
-                        '<tr><th>Tgl</th><th>Nama</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Lokasi</th><th>User</th><th>Aksi</th></tr>';
+                        '<tr><th>Tgl</th><th>SN</th><th>Nama</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Lokasi</th><th>User</th><th>Aksi</th></tr>';
                 } else if (isHandholeOrJoint) {
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th>User</th><th>Aksi</th></tr>';
@@ -2702,6 +2706,7 @@
                     } else if (isAlkur) {
                         tbody.innerHTML += '<tr>' +
                             '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
+                            '<td><code style="background:var(--bg-light);padding:2px 8px;border-radius:4px;font-size:11px;">' + (item.sn || '-') + '</code></td>' +
                             '<td><span style="font-weight:600;">' + (item.nama || '-') + '</span></td>' +
                             '<td>' + (item.jenis || '-') + '</td>' +
                             '<td>' + (item.merk || '-') + '</td>' +
@@ -2787,13 +2792,47 @@
         }
 
         // ============================================================
-        // SUBMIT FORM - TOMBOL SIMPAN PAKAI ONCLICK
+        // SUBMIT FORM - DENGAN SN TANGGAL UNTUK ALKUR
         // ============================================================
         function handleSubmitClick() {
             console.log('✅ Tombol simpan diklik');
-            // Buat event dummy
             var event = new Event('submit', { cancelable: true, bubbles: true });
             submitForm(event);
+        }
+
+        function generateAlkurSN(nama, jenis, merk, date) {
+            // Format tanggal: DDMMYY
+            var dateObj = new Date(date);
+            var day = String(dateObj.getDate()).padStart(2, '0');
+            var month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            var year = String(dateObj.getFullYear()).slice(-2);
+            var datePart = day + month + year; // contoh: 310826
+
+            // Kode dari Nama+Jenis+Merk
+            var code = '';
+            if (nama) code += nama.charAt(0).toUpperCase();
+            if (jenis) code += jenis.charAt(0).toUpperCase();
+            if (merk) {
+                var merkSingkat = merk.substring(0, 3).toUpperCase();
+                code += merkSingkat;
+            }
+            if (!code) code = 'XXX';
+
+            return datePart + '-' + code;
+        }
+
+        function updateAlkurSN() {
+            var nama = document.getElementById('inp-alkur-nama').value.trim();
+            var jenis = document.getElementById('inp-alkur-jenis').value.trim();
+            var merk = document.getElementById('inp-alkur-merk').value.trim();
+            var date = document.getElementById('inp-date').value;
+            var snField = document.getElementById('inp-alkur-sn');
+
+            // Hanya update jika SN field kosong (belum diisi manual)
+            if (!snField.value && nama && jenis && merk && date) {
+                var sn = generateAlkurSN(nama, jenis, merk, date);
+                snField.value = sn;
+            }
         }
 
         function submitForm(e) {
@@ -3050,7 +3089,7 @@
             }
 
             // ============================================================
-            // 3. ALKUR / MATERIAL
+            // 3. ALKUR / MATERIAL - DENGAN SN TANGGAL
             // ============================================================
             if (cat === 'Alkur/Material') {
                 var nama = document.getElementById('inp-alkur-nama').value.trim();
@@ -3059,11 +3098,35 @@
                 var jumlah = parseInt(document.getElementById('inp-alkur-jumlah').value) || 1;
                 var lokasi = document.getElementById('inp-alkur-lokasi').value;
                 var keterangan = document.getElementById('inp-alkur-keterangan').value.trim();
+                var snInput = document.getElementById('inp-alkur-sn').value.trim();
 
                 if (!nama || !jenis || !merk || !lokasi) {
-                    showToast('❌ Isi semua field Alkur', 'error');
+                    showToast('❌ Isi semua field Alkur (Nama, Jenis, Merk, Lokasi)', 'error');
                     return;
                 }
+
+                // Generate SN jika kosong
+                var sn = snInput;
+                if (!sn) {
+                    var date = document.getElementById('inp-date').value;
+                    sn = generateAlkurSN(nama, jenis, merk, date);
+                }
+
+                // Cegah duplikasi SN
+                var items = appData[cat] || {};
+                var existingKey = null;
+                for (var key in items) {
+                    if (items[key].sn === sn && key !== editKey) {
+                        existingKey = key;
+                        break;
+                    }
+                }
+                if (existingKey) {
+                    showToast('❌ SN ' + sn + ' sudah terdaftar, gunakan SN lain', 'error');
+                    return;
+                }
+
+                data.sn = sn;
                 data.nama = nama;
                 data.jenis = jenis;
                 data.merk = merk;
@@ -3196,7 +3259,7 @@
         }
 
         // ============================================================
-        // FUNGSI LAINNYA
+        // FUNGSI LAINNYA (sama seperti sebelumnya)
         // ============================================================
         function updateQuickStats() {
             var totalData = 0,
@@ -3330,6 +3393,7 @@
                 document.getElementById('inp-date').valueAsDate = new Date();
                 resetFormFields();
             }
+
             // Tampilkan field sesuai kategori
             var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
             var isPatch = cat === 'Patch Cord';
@@ -3376,7 +3440,16 @@
                     }
                 }
             }
-            if (isAlkur) document.getElementById('field-alkur').classList.remove('hidden');
+            if (isAlkur) {
+                document.getElementById('field-alkur').classList.remove('hidden');
+                // Event listener untuk update SN otomatis
+                ['inp-alkur-nama', 'inp-alkur-jenis', 'inp-alkur-merk', 'inp-date'].forEach(function(id) {
+                    document.getElementById(id).addEventListener('input', updateAlkurSN);
+                    document.getElementById(id).addEventListener('change', updateAlkurSN);
+                });
+                // Update SN awal jika ada data
+                setTimeout(updateAlkurSN, 100);
+            }
             if (isOpm) {
                 document.getElementById('field-opm').classList.remove('hidden');
                 document.getElementById('field-normal').classList.add('hidden');
@@ -3417,6 +3490,7 @@
             document.getElementById('inp-pc-qty').value = '1';
             document.getElementById('inp-pc-type').value = '';
             document.getElementById('inp-pc-length').value = '';
+            document.getElementById('inp-alkur-sn').value = '';
             document.getElementById('inp-alkur-nama').value = '';
             document.getElementById('inp-alkur-jenis').value = '';
             document.getElementById('inp-alkur-merk').value = '';
@@ -3460,6 +3534,13 @@
             if (data.date) document.getElementById('inp-date').value = data.date;
             if (data.location) document.getElementById('inp-loc').value = data.location;
             if (data.coords) document.getElementById('inp-coords').value = data.coords;
+            if (data.sn) document.getElementById('inp-alkur-sn').value = data.sn;
+            if (data.nama) document.getElementById('inp-alkur-nama').value = data.nama;
+            if (data.jenis) document.getElementById('inp-alkur-jenis').value = data.jenis;
+            if (data.merk) document.getElementById('inp-alkur-merk').value = data.merk;
+            if (data.jumlah) document.getElementById('inp-alkur-jumlah').value = data.jumlah;
+            if (data.lokasi) document.getElementById('inp-alkur-lokasi').value = data.lokasi;
+            if (data.keterangan) document.getElementById('inp-alkur-keterangan').value = data.keterangan;
         }
 
         function updateBarcodeCache(sn, spec) {
@@ -3484,7 +3565,6 @@
         // LOAD DATA & EVENT LISTENERS
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Kosongkan login
             document.getElementById('login-username').value = '';
             document.getElementById('login-password').value = '';
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -3568,7 +3648,6 @@
             var loginForm = document.getElementById('login-form');
             if (loginForm) loginForm.addEventListener('submit', handleLogin);
 
-            // Toggle password
             var togglePass = document.getElementById('toggle-pass');
             if (togglePass) {
                 togglePass.addEventListener('click', function() {
@@ -3585,7 +3664,6 @@
                 });
             }
 
-            // Logout
             var logoutBtn = document.getElementById('logout-btn');
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function() {
@@ -3595,7 +3673,6 @@
                 });
             }
 
-            // Navigasi
             document.querySelectorAll('.nav-item').forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
@@ -3604,11 +3681,9 @@
                 });
             });
 
-            // Tombol Tambah
             var addBtn = document.getElementById('btn-add');
             if (addBtn) addBtn.addEventListener('click', handleAddClick);
 
-            // Filter periode
             var periodSelect = document.getElementById('period-select');
             if (periodSelect) {
                 periodSelect.addEventListener('change', function() {
@@ -3618,13 +3693,11 @@
                 });
             }
 
-            // Pencarian
             var searchInput = document.getElementById('search-input');
             if (searchInput) {
                 searchInput.addEventListener('input', renderTable);
             }
 
-            // Scanner
             var scanModalBtn = document.getElementById('btn-scan-modal');
             if (scanModalBtn) scanModalBtn.addEventListener('click', function() { toggleScanner('modal'); });
             var scanUpdateBtn = document.getElementById('btn-scan-update');
@@ -3632,24 +3705,19 @@
             var stopModalScan = document.getElementById('btn-stop-modal-scan');
             if (stopModalScan) stopModalScan.addEventListener('click', function() { stopScanner('modal'); });
 
-            // Map
             var btnLocMap = document.getElementById('btn-loc-map');
             if (btnLocMap) btnLocMap.addEventListener('click', openMapModal);
 
-            // History
             var historyBtn = document.getElementById('btn-history');
             if (historyBtn) historyBtn.addEventListener('click', showSpareHistory);
 
-            // Excel
             document.getElementById('btn-download-excel-page').addEventListener('click', downloadPageExcel);
             document.getElementById('btn-download-excel-history').addEventListener('click', downloadSpareHistoryExcel);
 
-            // Add user
             document.getElementById('add-user-btn').addEventListener('click', function() {
                 document.getElementById('add-user-modal').classList.remove('hidden');
             });
 
-            // Settings
             var settingsBtn = document.getElementById('settings-btn');
             if (settingsBtn) {
                 settingsBtn.addEventListener('click', function() {
@@ -3683,11 +3751,9 @@
                 document.getElementById('opacity-value').textContent = this.value + '%';
             });
 
-            // Penyebab Lain toggle
             var penyebabSelect = document.getElementById('inp-ofcut-penyebab');
             if (penyebabSelect) penyebabSelect.addEventListener('change', togglePenyebabLain);
 
-            // Patch Cord lainnya toggle
             var pcTypeSelect = document.getElementById('inp-pc-type');
             var pcLengthSelect = document.getElementById('inp-pc-length');
             if (pcTypeSelect && pcLengthSelect) {
@@ -3695,13 +3761,11 @@
                 pcLengthSelect.addEventListener('change', togglePatchLain);
             }
 
-            // Auto logout
             document.addEventListener('click', refreshSession);
             document.addEventListener('keydown', refreshSession);
             document.addEventListener('mousemove', refreshSession);
             document.addEventListener('scroll', refreshSession);
 
-            // Popstate
             window.addEventListener('popstate', function(e) {
                 if (!document.getElementById('form-modal').classList.contains('hidden')) closeModal();
                 else if (!document.getElementById('gudang-modal').classList.contains('hidden')) closeGudangModal();
@@ -3714,7 +3778,6 @@
                     'add-user-modal').classList.add('hidden');
             });
 
-            // KML Upload
             document.getElementById('btn-upload-kml').addEventListener('click', function() {
                 document.getElementById('kml-modal').classList.remove('hidden');
             });
@@ -4290,10 +4353,10 @@
             updateQuickStats();
         }
 
-        console.log('✅ Full HTML dengan perbaikan KML & OPM siap digunakan.');
-        console.log('📌 KML sekarang disimpan ke Firebase dan dimuat ulang saat refresh.');
+        console.log('✅ Full HTML dengan SN Alkur format tanggal (DDMMYY-KODE) siap digunakan.');
+        console.log('📌 Contoh SN: 310826-FKGT (31 Agustus 2026, Fiber Kabel Geprek Telo)');
         console.log('📌 OPM/OLS: data muncul di tabel.');
-        console.log('📌 Tombol simpan menggunakan onclick langsung.');
+        console.log('📌 KML: notifikasi kosong dihilangkan.');
     </script>
 </body>
 </html>
