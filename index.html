@@ -28,9 +28,7 @@
     </script>
 
     <style>
-        /* ============================================================
-           THEME: Coastline
-           ============================================================ */
+        /* ===== THEME ===== */
         :root {
             --primary-blue: #0077B6;
             --primary-blue-dark: #005F8A;
@@ -1885,7 +1883,6 @@
                 </div>
                 <div style="margin-top:24px;display:flex;gap:12px;">
                     <button type="button" onclick="closeModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
-                    <!-- PERBAIKAN: tombol simpan pakai onclick langsung -->
                     <button type="button" id="btn-submit-form" class="btn-primary" onclick="handleSubmitClick()" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
                 </div>
             </form>
@@ -2152,6 +2149,8 @@
                             initMap();
                             initCharts();
                             updateQuickStats();
+                            // Load KML dari Firebase
+                            loadKmlFromFirebase();
                         }, 100);
                         showToast('✅ Selamat datang, ' + username + '!', 'success');
                     } else {
@@ -2202,7 +2201,7 @@
         }
 
         // ============================================================
-        // KML FUNCTIONS
+        // KML FUNCTIONS - DISIMPAN KE FIREBASE
         // ============================================================
         function closeKmlModal() {
             document.getElementById('kml-modal').classList.add('hidden');
@@ -2225,26 +2224,19 @@
                 try {
                     var kmlString = event.target.result;
                     console.log('📁 KML loaded, line:', line);
-                    if (kmlLayers[line] && map) {
-                        map.removeLayer(kmlLayers[line]);
-                        delete kmlLayers[line];
-                    }
-                    var parser = new DOMParser();
-                    var xml = parser.parseFromString(kmlString, "text/xml");
-                    var color = kmlLineColors[line] || '#FF0000';
-                    var layers = parseKmlToLayers(xml, color);
-                    if (layers.length > 0 && map) {
-                        var group = L.featureGroup(layers);
-                        group.addTo(map);
-                        kmlLayers[line] = group;
-                        activeKmlLine = line;
-                        document.getElementById('map-legend-line').textContent = 'Line aktif: ' + line;
-                        showToast('✅ KML untuk ' + line + ' berhasil dimuat', 'success');
-                        closeKmlModal();
-                    } else {
-                        console.warn('⚠️ Tidak ada data KML ditemukan atau map belum siap');
-                        showToast('⚠️ Tidak ada data KML ditemukan', 'error');
-                    }
+
+                    // Simpan ke Firebase
+                    db.ref('kmlData/' + line).set(kmlString)
+                        .then(function() {
+                            showToast('✅ KML untuk ' + line + ' berhasil disimpan', 'success');
+                            // Tampilkan di peta
+                            displayKmlOnMap(line, kmlString);
+                            closeKmlModal();
+                        })
+                        .catch(function(err) {
+                            console.error('❌ Error saving KML:', err);
+                            showToast('❌ Gagal menyimpan KML: ' + err.message, 'error');
+                        });
                 } catch (err) {
                     console.error('❌ Error parsing KML:', err);
                     showToast('❌ Gagal memuat KML: ' + err.message, 'error');
@@ -2252,6 +2244,62 @@
             };
             reader.readAsText(file);
             return false;
+        }
+
+        function displayKmlOnMap(line, kmlString) {
+            if (!map) {
+                showToast('⚠️ Peta belum siap', 'error');
+                return;
+            }
+
+            try {
+                // Hapus layer lama jika ada
+                if (kmlLayers[line] && map) {
+                    map.removeLayer(kmlLayers[line]);
+                    delete kmlLayers[line];
+                }
+
+                var parser = new DOMParser();
+                var xml = parser.parseFromString(kmlString, "text/xml");
+                var color = kmlLineColors[line] || '#FF0000';
+                var layers = parseKmlToLayers(xml, color);
+
+                if (layers.length > 0) {
+                    var group = L.featureGroup(layers);
+                    group.addTo(map);
+                    kmlLayers[line] = group;
+                    activeKmlLine = line;
+                    document.getElementById('map-legend-line').textContent = 'Line aktif: ' + line;
+                    showToast('✅ KML untuk ' + line + ' ditampilkan di peta', 'success');
+
+                    // Zoom ke area KML
+                    try {
+                        map.fitBounds(group.getBounds().pad(0.05));
+                    } catch (e) { /* ignore */ }
+                } else {
+                    showToast('⚠️ Tidak ada data KML ditemukan', 'error');
+                }
+            } catch (err) {
+                console.error('❌ Error displaying KML:', err);
+                showToast('❌ Gagal menampilkan KML: ' + err.message, 'error');
+            }
+        }
+
+        function loadKmlFromFirebase() {
+            db.ref('kmlData').once('value')
+                .then(function(snap) {
+                    var data = snap.val() || {};
+                    console.log('📁 Loading KML from Firebase:', Object.keys(data));
+                    Object.keys(data).forEach(function(line) {
+                        var kmlString = data[line];
+                        if (kmlString) {
+                            displayKmlOnMap(line, kmlString);
+                        }
+                    });
+                })
+                .catch(function(err) {
+                    console.error('❌ Error loading KML from Firebase:', err);
+                });
         }
 
         function parseKmlToLayers(xml, lineColor) {
@@ -2434,7 +2482,7 @@
         };
 
         // ============================================================
-        // SWITCH VIEW & RENDER TABLE
+        // SWITCH VIEW & RENDER TABLE - PERBAIKAN OPM
         // ============================================================
         function switchView(cat) {
             var searchInput = document.getElementById('search-input');
@@ -2447,9 +2495,7 @@
                 currentCategory = cat;
             }
 
-            if (cat === 'OPM/OLS') {
-                console.log('🔍 Switching to OPM/OLS, currentCategory =', currentCategory);
-            }
+            console.log('🔍 SwitchView - currentCategory:', currentCategory);
 
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('data-view').classList.add('hidden');
@@ -2502,10 +2548,8 @@
                     cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
                 }
 
-                if (cat === 'OPM/OLS') {
-                    console.log('🔍 Rendering OPM/OLS table. cat:', cat);
-                    console.log('appData["OPM/OLS"]:', appData['OPM/OLS']);
-                }
+                console.log('🔍 Rendering table for category:', cat);
+                console.log('appData["OPM/OLS"]:', appData['OPM/OLS']);
 
                 var list = appData[cat] || {};
                 var keys = Object.keys(list);
@@ -2743,11 +2787,11 @@
         }
 
         // ============================================================
-        // SUBMIT FORM (LENGKAP UNTUK SEMUA KATEGORI) - PERBAIKAN TOMBOL SIMPAN
+        // SUBMIT FORM - TOMBOL SIMPAN PAKAI ONCLICK
         // ============================================================
         function handleSubmitClick() {
             console.log('✅ Tombol simpan diklik');
-            // Buat event dummy agar kompatibel dengan fungsi submitForm
+            // Buat event dummy
             var event = new Event('submit', { cancelable: true, bubbles: true });
             submitForm(event);
         }
@@ -3152,7 +3196,7 @@
         }
 
         // ============================================================
-        // FUNGSI LAINNYA (stok summary, quick stats, modal, dll)
+        // FUNGSI LAINNYA
         // ============================================================
         function updateQuickStats() {
             var totalData = 0,
@@ -3416,7 +3460,6 @@
             if (data.date) document.getElementById('inp-date').value = data.date;
             if (data.location) document.getElementById('inp-loc').value = data.location;
             if (data.coords) document.getElementById('inp-coords').value = data.coords;
-            // (isi field lainnya sesuai data, sudah ada di kode asli)
         }
 
         function updateBarcodeCache(sn, spec) {
@@ -3463,6 +3506,7 @@
                             initMap();
                             initCharts();
                             updateQuickStats();
+                            loadKmlFromFirebase();
                         }, 100);
                         setupEventListeners();
                         loadData();
@@ -4246,11 +4290,10 @@
             updateQuickStats();
         }
 
-        console.log('✅ Full HTML dengan semua perbaikan siap digunakan.');
-        console.log('📌 Login: field kosong, auto logout 15 menit, tanpa default.');
-        console.log('📌 KML: pilih line, upload, warna berbeda, legend kiri atas.');
-        console.log('📌 OPM/OLS: data muncul di tabel (filter gudang tidak berpengaruh).');
-        console.log('📌 Tombol simpan: menggunakan onclick langsung yang PASTI berfungsi.');
+        console.log('✅ Full HTML dengan perbaikan KML & OPM siap digunakan.');
+        console.log('📌 KML sekarang disimpan ke Firebase dan dimuat ulang saat refresh.');
+        console.log('📌 OPM/OLS: data muncul di tabel.');
+        console.log('📌 Tombol simpan menggunakan onclick langsung.');
     </script>
 </body>
 </html>
