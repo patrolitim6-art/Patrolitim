@@ -2100,7 +2100,7 @@
         };
 
         // ============================================================
-        // FUNGSI GLOBAL UNTUK TOMBOL SIMPAN - PASTI BERFUNGSI
+        // FUNGSI GLOBAL UNTUK TOMBOL SIMPAN
         // ============================================================
         function simpanData() {
             console.log('🔴🔴🔴 TOMBOL SIMPAN DIKLIK - FUNGSI simpanData() DIPANGGIL 🔴🔴🔴');
@@ -2168,6 +2168,10 @@
                             initCharts();
                             updateQuickStats();
                             loadKmlFromFirebase();
+                            // Pastikan renderTable dipanggil setelah data dimuat
+                            if (currentCategory !== 'dashboard') {
+                                renderTable();
+                            }
                         }, 100);
                         showToast('✅ Selamat datang, ' + username + '!', 'success');
                     } else {
@@ -2561,15 +2565,12 @@
                 }
 
                 console.log('🔍 Rendering table for category:', cat);
-                if (cat === 'OPM/OLS') {
-                    console.log('appData["OPM/OLS"]:', appData['OPM/OLS']);
-                }
-                if (cat === 'Alkur/Material') {
-                    console.log('appData["Alkur/Material"]:', appData['Alkur/Material']);
-                }
+                console.log('📦 Data di appData["' + cat + '"]:', appData[cat]);
 
                 var list = appData[cat] || {};
                 var keys = Object.keys(list);
+                console.log('📊 Jumlah data:', keys.length);
+
                 var tbody = document.getElementById('table-body');
                 var thead = document.getElementById('table-head');
                 tbody.innerHTML = '';
@@ -2804,7 +2805,7 @@
         }
 
         // ============================================================
-        // SUBMIT FORM - PAKAI currentCategory LANGSUNG
+        // SUBMIT FORM
         // ============================================================
         function generateAlkurSN(nama, jenis, merk, date) {
             var dateObj = new Date(date);
@@ -3209,12 +3210,13 @@
                 .then(function() {
                     showToast('✅ Data berhasil disimpan di ' + cat, 'success');
                     closeModal();
+                    // Tunggu sebentar lalu refresh tabel
                     setTimeout(function() {
                         renderTable();
                         updateStokSummary();
                         updateQuickStats();
                         updateMapMarkers();
-                    }, 300);
+                    }, 500);
                 })
                 .catch(function(err) {
                     console.error('❌ Error saving data:', err);
@@ -3565,6 +3567,9 @@
                             initCharts();
                             updateQuickStats();
                             loadKmlFromFirebase();
+                            if (currentCategory !== 'dashboard') {
+                                renderTable();
+                            }
                         }, 100);
                         setupEventListeners();
                         loadData();
@@ -3589,6 +3594,7 @@
                     appData = snap.val() || {};
                     console.log('✅ Data loaded. Categories:', Object.keys(appData));
                     updateDashboard();
+                    // PASTIKAN renderTable dipanggil setelah data dimuat
                     if (currentCategory !== 'dashboard') {
                         renderTable();
                         updateStokSummary();
@@ -4329,11 +4335,8 @@
             updateQuickStats();
         }
 
-        console.log('✅ FULL HTML - TOMBOL SIMPAN PAKAI ONCLICK LANGSUNG - PASTI BERFUNGSI');
-        console.log('📌 OPM/OLS: data muncul di tabel.');
-        console.log('📌 Alkur: SN format DDMMYY-KODE otomatis.');
-        console.log('📌 KML: notifikasi kosong dihilangkan.');
-        console.log('📌 Tombol simpan: onclick="simpanData()" LANGSUNG.');
+        console.log('✅ FULL HTML - Dengan log detail dan renderTable dipastikan');
+        console.log('📌 Cek console untuk melihat isi appData dan jumlah data.');
     </script>
 </body>
 </html>
