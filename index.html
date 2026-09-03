@@ -1889,7 +1889,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- ===== TOMBOL SIMPAN PAKAI ONCLICK LANGSUNG ===== -->
                 <div style="margin-top:24px;display:flex;gap:12px;">
                     <button type="button" onclick="closeModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
                     <button type="button" id="btn-submit-form" class="btn-primary" onclick="simpanData()" style="flex:2;justify-content:center;min-height:52px;font-size:16px;">Simpan Data</button>
@@ -2104,8 +2103,8 @@
         // ============================================================
         function simpanData() {
             console.log('🔴🔴🔴 TOMBOL SIMPAN DIKLIK - FUNGSI simpanData() DIPANGGIL 🔴🔴🔴');
-            var event = new Event('submit', { cancelable: true, bubbles: true });
-            submitForm(event);
+            // Panggil submitForm langsung tanpa event
+            submitForm(null);
         }
 
         // ============================================================
@@ -2168,9 +2167,7 @@
                             initCharts();
                             updateQuickStats();
                             loadKmlFromFirebase();
-                            if (currentCategory !== 'dashboard') {
-                                renderTable();
-                            }
+                            renderTable();
                         }, 100);
                         showToast('✅ Selamat datang, ' + username + '!', 'success');
                     } else {
@@ -2497,7 +2494,7 @@
         };
 
         // ============================================================
-        // SWITCH VIEW - PASTIKAN currentCategory DAN inp-cat SAMA
+        // SWITCH VIEW & RENDER TABLE
         // ============================================================
         function switchView(cat) {
             var searchInput = document.getElementById('search-input');
@@ -2511,9 +2508,6 @@
             }
 
             console.log('🔍 SwitchView - currentCategory:', currentCategory);
-
-            // PASTIKAN inp-cat diisi dengan currentCategory
-            document.getElementById('inp-cat').value = currentCategory;
 
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('data-view').classList.add('hidden');
@@ -2554,8 +2548,6 @@
             else sopDesc.classList.add('hidden');
 
             document.getElementById('filter-bar-container').style.display = 'flex';
-
-            // PASTIKAN renderTable dipanggil
             renderTable();
             updateStokSummary();
             refreshSession();
@@ -2573,7 +2565,6 @@
 
                 console.log('🔍 Rendering table for category:', cat);
                 console.log('📦 Data di appData["' + cat + '"]:', appData[cat]);
-                console.log('📊 Jumlah data:', Object.keys(appData[cat] || {}).length);
 
                 var list = appData[cat] || {};
                 var keys = Object.keys(list);
@@ -2637,7 +2628,6 @@
                 var isOfCut = cat === 'Data OF Cut';
                 var isP3Temuan = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
 
-                // ===== HEADER PER KATEGORI =====
                 if (isSpare) {
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Keterangan</th><th>Aksi</th></tr>';
@@ -2646,7 +2636,7 @@
                         '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
                 } else if (isAlkur) {
                     thead.innerHTML =
-                        '<tr><th>Tgl</th><th>SN</th><th>Nama</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Lokasi</th><th>Keterangan</th><th>User</th><th>Aksi</th></tr>';
+                        '<tr><th>Tgl</th><th>SN</th><th>Nama</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Lokasi</th><th>User</th><th>Aksi</th></tr>';
                 } else if (isHandholeOrJoint) {
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th>User</th><th>Aksi</th></tr>';
@@ -2687,7 +2677,6 @@
                             '<button class="icon-btn delete" onclick="deleteItem(\'' + key + '\',\'' + cat + '\')" title="Hapus"><i data-lucide="trash-2" style="width:16px;"></i></button>';
                     }
 
-                    // ===== BARIS SPARE =====
                     if (isSpare) {
                         var statusColor = item.status === 'Ready' ? '#2A9D8F' : '#E76F51';
                         tbody.innerHTML += '<tr>' +
@@ -2710,9 +2699,7 @@
                             '</td>' +
                             '<td>' + actionHtml + '</td>' +
                             '</tr>';
-                    }
-                    // ===== BARIS PATCH =====
-                    else if (isPatch) {
+                    } else if (isPatch) {
                         var bgType = item.trType === 'Masuk' ? '#CAF0F8' : '#FDE8E3';
                         var textColor = item.trType === 'Masuk' ? '#0077B6' : '#E76F51';
                         tbody.innerHTML += '<tr>' +
@@ -2726,9 +2713,7 @@
                             '<td><span style="font-weight:700;">' + (item.qty || 0) + '</span></td>' +
                             '<td>' + actionHtml + '</td>' +
                             '</tr>';
-                    }
-                    // ===== BARIS ALKUR =====
-                    else if (isAlkur) {
+                    } else if (isAlkur) {
                         tbody.innerHTML += '<tr>' +
                             '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
                             '<td><code style="background:var(--bg-light);padding:2px 8px;border-radius:4px;font-size:11px;word-break:break-all;display:inline-block;max-width:120px;">' +
@@ -2739,17 +2724,12 @@
                             '<td style="text-align:center;"><span style="font-weight:700;background:#CAF0F8;color:#0077B6;padding:2px 10px;border-radius:8px;font-size:13px;">' +
                             (item.jumlah !== undefined && item.jumlah !== null ? item.jumlah : 0) +
                             '</span></td>' +
-                            '<td><span style="font-size:12px;font-weight:600;color:var(--text-muted);">' + (item
-                                .lokasi || '-') + '</span></td>' +
-                            '<td style="max-width:150px;white-space:normal;font-size:11px;">' + (item.keterangan ||
-                                '-') + '</td>' +
+                            '<td>' + (item.lokasi || '-') + '</td>' +
                             '<td><span style="font-size:12px;color:var(--text-muted);">' + (item.postBy || '-') +
                             '</span></td>' +
                             '<td>' + actionHtml + '</td>' +
                             '</tr>';
-                    }
-                    // ===== BARIS HANDHOLE / JOINT =====
-                    else if (isHandholeOrJoint) {
+                    } else if (isHandholeOrJoint) {
                         tbody.innerHTML += '<tr>' +
                             '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
                             '<td><span style="font-weight:600;">' + (item.location || '-') + '</span></td>' +
@@ -2764,9 +2744,7 @@
                             '</span></td>' +
                             '<td>' + actionHtml + '</td>' +
                             '</tr>';
-                    }
-                    // ===== BARIS OPM =====
-                    else if (isOpm) {
+                    } else if (isOpm) {
                         var dbmVal = (item.dbm !== undefined && item.dbm !== null) ? item.dbm : '-';
                         tbody.innerHTML += '<tr>' +
                             '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
@@ -2783,9 +2761,7 @@
                             '</span></td>' +
                             '<td>' + actionHtml + '</td>' +
                             '</tr>';
-                    }
-                    // ===== BARIS OF CUT =====
-                    else if (isOfCut) {
+                    } else if (isOfCut) {
                         tbody.innerHTML += '<tr>' +
                             '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
                             '<td><span style="font-weight:600;">' + (item.location || '-') + '</span></td>' +
@@ -2799,9 +2775,7 @@
                             '</span></td>' +
                             '<td>' + actionHtml + '</td>' +
                             '</tr>';
-                    }
-                    // ===== BARIS P3 / TEMUAN =====
-                    else if (isP3Temuan) {
+                    } else if (isP3Temuan) {
                         tbody.innerHTML += '<tr>' +
                             '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
                             '<td><span style="font-weight:600;">' + (item.location || '-') + '</span></td>' +
@@ -2815,9 +2789,7 @@
                             '</span></td>' +
                             '<td>' + actionHtml + '</td>' +
                             '</tr>';
-                    }
-                    // ===== DEFAULT =====
-                    else {
+                    } else {
                         tbody.innerHTML += '<tr>' +
                             '<td style="white-space:nowrap;">' + (item.date || '-') + '</td>' +
                             '<td><span style="font-weight:600;">' + (item.location || '-') + '</span></td>' +
@@ -2830,14 +2802,17 @@
                     }
                 });
 
-                if (typeof lucide !== 'undefined') lucide.createIcons();
+                // PERBAIKAN IKON: refresh ikon setelah render tabel
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
             } catch (e) {
                 console.error('❌ Render table error:', e);
             }
         }
 
         // ============================================================
-        // SUBMIT FORM
+        // SUBMIT FORM - PAKAI currentCategory LANGSUNG
         // ============================================================
         function generateAlkurSN(nama, jenis, merk, date) {
             var dateObj = new Date(date);
@@ -3248,6 +3223,10 @@
                         updateStokSummary();
                         updateQuickStats();
                         updateMapMarkers();
+                        // Refresh ikon setelah render
+                        if (typeof lucide !== 'undefined') {
+                            lucide.createIcons();
+                        }
                     }, 500);
                 })
                 .catch(function(err) {
@@ -3259,150 +3238,6 @@
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Simpan Data';
                 });
-        }
-
-        // ============================================================
-        // POPULATE FORM FIELDS
-        // ============================================================
-        function populateFormFields(data) {
-            if (data.date) document.getElementById('inp-date').value = data.date;
-            if (data.location) document.getElementById('inp-loc').value = data.location;
-            if (data.coords) document.getElementById('inp-coords').value = data.coords;
-
-            // Alkur
-            if (data.sn) document.getElementById('inp-alkur-sn').value = data.sn;
-            if (data.nama) document.getElementById('inp-alkur-nama').value = data.nama;
-            if (data.jenis) document.getElementById('inp-alkur-jenis').value = data.jenis;
-            if (data.merk) document.getElementById('inp-alkur-merk').value = data.merk;
-            if (data.jumlah !== undefined && data.jumlah !== null) document.getElementById('inp-alkur-jumlah').value = data
-                .jumlah;
-            if (data.lokasi) document.getElementById('inp-alkur-lokasi').value = data.lokasi;
-            if (data.keterangan !== undefined) document.getElementById('inp-alkur-keterangan').value = data.keterangan;
-
-            // OPM
-            if (data.ruas) document.getElementById('inp-opm-ruas').value = data.ruas;
-            if (data.slot) document.getElementById('inp-opm-slot').value = data.slot;
-            if (data.port) document.getElementById('inp-opm-port').value = data.port;
-            if (data.dbm !== undefined && data.dbm !== null) document.getElementById('inp-opm-dbm').value = data.dbm;
-            if (data.dari) document.getElementById('inp-opm-dari').value = data.dari;
-            if (data.ke) document.getElementById('inp-opm-ke').value = data.ke;
-
-            // Stok Spare
-            if (data.sn && document.getElementById('inp-sn')) document.getElementById('inp-sn').value = data.sn;
-            if (data.spec) document.getElementById('inp-spec').value = data.spec;
-            if (data.status) document.getElementById('inp-status').value = data.status;
-            if (data.lemari) document.getElementById('inp-lemari').value = data.lemari;
-            if (data.rak) document.getElementById('inp-rak').value = data.rak;
-            if (data.riwayat) document.getElementById('inp-riwayat').value = data.riwayat;
-            if (data.kondisi) document.getElementById('inp-kondisi-spare').value = data.kondisi;
-            if (data.notes) document.getElementById('inp-notes-stock').value = data.notes;
-
-            // Patch Cord
-            if (data.pcType) {
-                var pcType = data.pcType;
-                var select = document.getElementById('inp-pc-type');
-                if (['SC-SC', 'LC-LC', 'FC-FC', 'ST-ST', 'SC-FC', 'FC-ST', 'ST-SC', 'FC-LC', 'LC-ST', 'LC-SC'].indexOf(
-                        pcType) === -1) {
-                    select.value = 'Lainnya';
-                    document.getElementById('inp-pc-type-lain').value = pcType;
-                    document.getElementById('patchcord-lainnya').classList.remove('hidden');
-                } else {
-                    select.value = pcType;
-                }
-            }
-            if (data.pcLength) {
-                var pcLength = data.pcLength;
-                var selectLen = document.getElementById('inp-pc-length');
-                var validLengths = ['0.5m', '1m', '2m', '3m', '5m', '10m', '15m', '20m', '30m'];
-                if (validLengths.indexOf(pcLength) === -1) {
-                    selectLen.value = 'Lainnya';
-                    document.getElementById('inp-pc-length-lain').value = pcLength;
-                    document.getElementById('patchcord-lainnya').classList.remove('hidden');
-                } else {
-                    selectLen.value = pcLength;
-                }
-            }
-            if (data.trType) document.getElementById('inp-pc-trtype').value = data.trType;
-            if (data.qty) document.getElementById('inp-pc-qty').value = data.qty;
-            if (data.notes) document.getElementById('inp-notes-patch').value = data.notes;
-
-            // Handhole/Joint
-            if (data.kondisi) document.getElementById('inp-kondisi').value = data.kondisi;
-
-            // OF Cut
-            if (data.panjangCut) document.getElementById('inp-ofcut-panjang').value = data.panjangCut;
-            if (data.rute) document.getElementById('inp-ofcut-rute').value = data.rute;
-            if (data.penyebab) {
-                var penyebab = data.penyebab;
-                var select = document.getElementById('inp-ofcut-penyebab');
-                var isLain = ['vandalisme', 'pihak ke 3', 'bencana'].indexOf(penyebab) === -1;
-                if (isLain) {
-                    select.value = 'lainnya';
-                    document.getElementById('penyebab-lain-wrap').classList.remove('hidden');
-                    document.getElementById('inp-ofcut-penyebab-lain').value = penyebab;
-                } else {
-                    select.value = penyebab;
-                }
-            }
-            if (data.keterangan) document.getElementById('inp-ofcut-keterangan').value = data.keterangan;
-
-            // P3/Temuan
-            if (data.pelaksana) document.getElementById('inp-p3-pelaksana').value = data.pelaksana;
-            if (data.lamaPekerjaan) document.getElementById('inp-p3-lama').value = data.lamaPekerjaan;
-            if (data.keterangan) document.getElementById('inp-p3-keterangan').value = data.keterangan;
-        }
-
-        // ============================================================
-        // RESET FORM FIELDS
-        // ============================================================
-        function resetFormFields() {
-            document.getElementById('inp-loc').value = '';
-            document.getElementById('inp-coords').value = '';
-            document.getElementById('inp-notes-stock') && (document.getElementById('inp-notes-stock').value = '');
-            document.getElementById('inp-notes-patch') && (document.getElementById('inp-notes-patch').value = '');
-            document.getElementById('inp-sn').value = '';
-            document.getElementById('inp-spec').value = '';
-            document.getElementById('inp-pc-qty').value = '1';
-            document.getElementById('inp-pc-type').value = '';
-            document.getElementById('inp-pc-length').value = '';
-            document.getElementById('inp-alkur-sn').value = '';
-            document.getElementById('inp-alkur-nama').value = '';
-            document.getElementById('inp-alkur-jenis').value = '';
-            document.getElementById('inp-alkur-merk').value = '';
-            document.getElementById('inp-alkur-jumlah').value = '1';
-            document.getElementById('inp-alkur-keterangan').value = '';
-            document.getElementById('inp-alkur-lokasi').value = '';
-            document.getElementById('inp-opm-ruas').value = '';
-            document.getElementById('inp-opm-slot').value = '';
-            document.getElementById('inp-opm-port').value = '';
-            document.getElementById('inp-opm-dbm').value = '';
-            document.getElementById('inp-opm-dari').value = '';
-            document.getElementById('inp-opm-ke').value = '';
-            document.getElementById('inp-kondisi').value = '';
-            document.getElementById('inp-status').value = 'Ready';
-            document.getElementById('inp-lemari').value = '';
-            document.getElementById('inp-rak').value = '';
-            document.getElementById('inp-riwayat').value = '';
-            document.getElementById('inp-kondisi-spare').value = '';
-            document.getElementById('inp-update-sn').value = '';
-            document.getElementById('inp-update-spec').value = '';
-            document.getElementById('inp-update-tujuan').value = '';
-            document.getElementById('inp-update-lokasi').value = '';
-            document.getElementById('inp-update-notes').value = '';
-            document.getElementById('update-sn-info').textContent = '';
-            document.getElementById('inp-ofcut-panjang').value = '';
-            document.getElementById('inp-ofcut-rute').value = '';
-            document.getElementById('inp-ofcut-penyebab').value = '';
-            document.getElementById('inp-ofcut-penyebab-lain').value = '';
-            document.getElementById('penyebab-lain-wrap').classList.add('hidden');
-            document.getElementById('inp-ofcut-keterangan').value = '';
-            document.getElementById('inp-p3-pelaksana').value = '';
-            document.getElementById('inp-p3-lama').value = '';
-            document.getElementById('inp-p3-keterangan').value = '';
-            document.getElementById('patchcord-lainnya') && document.getElementById('patchcord-lainnya').classList.add(
-                'hidden');
-            document.getElementById('inp-pc-type-lain') && (document.getElementById('inp-pc-type-lain').value = '');
-            document.getElementById('inp-pc-length-lain') && (document.getElementById('inp-pc-length-lain').value = '');
         }
 
         // ============================================================
@@ -3495,6 +3330,7 @@
                     updateStokSummary();
                     updateQuickStats();
                     updateMapMarkers();
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
                 }, 500);
             }
         };
@@ -3630,6 +3466,76 @@
             stopScanner('modal');
         }
 
+        function resetFormFields() {
+            document.getElementById('inp-loc').value = '';
+            document.getElementById('inp-coords').value = '';
+            document.getElementById('inp-notes-stock') && (document.getElementById('inp-notes-stock').value = '');
+            document.getElementById('inp-notes-patch') && (document.getElementById('inp-notes-patch').value = '');
+            document.getElementById('inp-sn').value = '';
+            document.getElementById('inp-spec').value = '';
+            document.getElementById('inp-pc-qty').value = '1';
+            document.getElementById('inp-pc-type').value = '';
+            document.getElementById('inp-pc-length').value = '';
+            document.getElementById('inp-alkur-sn').value = '';
+            document.getElementById('inp-alkur-nama').value = '';
+            document.getElementById('inp-alkur-jenis').value = '';
+            document.getElementById('inp-alkur-merk').value = '';
+            document.getElementById('inp-alkur-jumlah').value = '1';
+            document.getElementById('inp-alkur-keterangan').value = '';
+            document.getElementById('inp-alkur-lokasi').value = '';
+            document.getElementById('inp-opm-ruas').value = '';
+            document.getElementById('inp-opm-slot').value = '';
+            document.getElementById('inp-opm-port').value = '';
+            document.getElementById('inp-opm-dbm').value = '';
+            document.getElementById('inp-opm-dari').value = '';
+            document.getElementById('inp-opm-ke').value = '';
+            document.getElementById('inp-kondisi').value = '';
+            document.getElementById('inp-status').value = 'Ready';
+            document.getElementById('inp-lemari').value = '';
+            document.getElementById('inp-rak').value = '';
+            document.getElementById('inp-riwayat').value = '';
+            document.getElementById('inp-kondisi-spare').value = '';
+            document.getElementById('inp-update-sn').value = '';
+            document.getElementById('inp-update-spec').value = '';
+            document.getElementById('inp-update-tujuan').value = '';
+            document.getElementById('inp-update-lokasi').value = '';
+            document.getElementById('inp-update-notes').value = '';
+            document.getElementById('update-sn-info').textContent = '';
+            document.getElementById('inp-ofcut-panjang').value = '';
+            document.getElementById('inp-ofcut-rute').value = '';
+            document.getElementById('inp-ofcut-penyebab').value = '';
+            document.getElementById('inp-ofcut-penyebab-lain').value = '';
+            document.getElementById('penyebab-lain-wrap').classList.add('hidden');
+            document.getElementById('inp-ofcut-keterangan').value = '';
+            document.getElementById('inp-p3-pelaksana').value = '';
+            document.getElementById('inp-p3-lama').value = '';
+            document.getElementById('inp-p3-keterangan').value = '';
+            document.getElementById('patchcord-lainnya') && document.getElementById('patchcord-lainnya').classList.add(
+                'hidden');
+            document.getElementById('inp-pc-type-lain') && (document.getElementById('inp-pc-type-lain').value = '');
+            document.getElementById('inp-pc-length-lain') && (document.getElementById('inp-pc-length-lain').value = '');
+        }
+
+        function populateFormFields(data) {
+            if (data.date) document.getElementById('inp-date').value = data.date;
+            if (data.location) document.getElementById('inp-loc').value = data.location;
+            if (data.coords) document.getElementById('inp-coords').value = data.coords;
+            if (data.sn) document.getElementById('inp-alkur-sn').value = data.sn;
+            if (data.nama) document.getElementById('inp-alkur-nama').value = data.nama;
+            if (data.jenis) document.getElementById('inp-alkur-jenis').value = data.jenis;
+            if (data.merk) document.getElementById('inp-alkur-merk').value = data.merk;
+            if (data.jumlah !== undefined && data.jumlah !== null) document.getElementById('inp-alkur-jumlah').value = data
+                .jumlah;
+            if (data.lokasi) document.getElementById('inp-alkur-lokasi').value = data.lokasi;
+            if (data.keterangan !== undefined) document.getElementById('inp-alkur-keterangan').value = data.keterangan;
+            if (data.ruas) document.getElementById('inp-opm-ruas').value = data.ruas;
+            if (data.slot) document.getElementById('inp-opm-slot').value = data.slot;
+            if (data.port) document.getElementById('inp-opm-port').value = data.port;
+            if (data.dbm !== undefined && data.dbm !== null) document.getElementById('inp-opm-dbm').value = data.dbm;
+            if (data.dari) document.getElementById('inp-opm-dari').value = data.dari;
+            if (data.ke) document.getElementById('inp-opm-ke').value = data.ke;
+        }
+
         function updateBarcodeCache(sn, spec) {
             if (sn && spec) barcodeCache[sn] = spec;
         }
@@ -3649,8 +3555,50 @@
         }
 
         // ============================================================
-        // LOAD DATA
+        // LOAD DATA & EVENT LISTENERS
         // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            var savedSession = localStorage.getItem('bucin_session');
+            if (savedSession) {
+                try {
+                    var session = JSON.parse(savedSession);
+                    if (session && session.username && session.role) {
+                        currentUser = { name: session.username, role: session.role };
+                        document.getElementById('login-screen').classList.add('hidden');
+                        document.getElementById('app-shell').classList.remove('hidden');
+                        if (currentUser.role === 'admin') {
+                            document.getElementById('add-user-btn').classList.remove('hidden');
+                            document.getElementById('settings-btn').classList.remove('hidden');
+                        }
+                        resetSessionTimer();
+                        setTimeout(function() {
+                            initMap();
+                            initCharts();
+                            updateQuickStats();
+                            loadKmlFromFirebase();
+                            renderTable();
+                            if (typeof lucide !== 'undefined') lucide.createIcons();
+                        }, 100);
+                        setupEventListeners();
+                        loadData();
+                        loadSettings();
+                        loadBarcodeCache();
+                        return;
+                    }
+                } catch (e) {}
+            }
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('app-shell').classList.add('hidden');
+            setupEventListeners();
+            loadData();
+            loadSettings();
+            loadBarcodeCache();
+        });
+
         function loadData() {
             if (!db) return;
             db.ref('data').on('value', function(snap) {
@@ -3660,10 +3608,10 @@
                     console.log('📦 appData["OPM/OLS"]:', appData['OPM/OLS']);
                     console.log('📦 appData["Alkur/Material"]:', appData['Alkur/Material']);
                     updateDashboard();
-                    // PASTIKAN renderTable dipanggil
                     renderTable();
                     updateStokSummary();
                     updateMapMarkers();
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
                 } catch (e) {
                     console.error('❌ Error processing data:', e);
                 }
@@ -3672,9 +3620,6 @@
             });
         }
 
-        // ============================================================
-        // LOAD SETTINGS
-        // ============================================================
         function loadSettings() {
             db.ref('settings').once('value').then(function(snap) {
                 var settings = snap.val() || {};
@@ -3696,9 +3641,6 @@
             }).catch(function(err) { console.error('❌ Error loading barcode cache:', err); });
         }
 
-        // ============================================================
-        // EVENT LISTENERS
-        // ============================================================
         function setupEventListeners() {
             var loginBtn = document.getElementById('login-btn');
             if (loginBtn) loginBtn.addEventListener('click', handleLogin);
@@ -3735,6 +3677,8 @@
                     document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
                     this.classList.add('active');
                     switchView(this.dataset.cat);
+                    // Refresh ikon setelah navigasi
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
                 });
             });
 
@@ -4409,11 +4353,11 @@
             updateQuickStats();
         }
 
-        console.log('✅ FULL HTML - PERBAIKAN RENDER TABEL OPM & ALKUR');
-        console.log('📌 Cek Console untuk melihat isi appData dan jumlah data.');
-        console.log('📌 OPM: DBM 0 tampil, edit 0 berfungsi.');
-        console.log('📌 Alkur: Jumlah 0 tampil, kolom Keterangan ditampilkan.');
+        console.log('✅ Full HTML dengan perbaikan OPM, Alkur, dan IKON MENU');
+        console.log('📌 OPM/OLS: data muncul di tabel.');
+        console.log('📌 Alkur: SN format DDMMYY-KODE otomatis.');
         console.log('📌 KML: notifikasi kosong dihilangkan.');
+        console.log('📌 IKON: refresh otomatis setelah render tabel.');
         console.log('📌 Tombol simpan: onclick langsung.');
     </script>
 </body>
