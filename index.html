@@ -2497,7 +2497,7 @@
         };
 
         // ============================================================
-        // SWITCH VIEW & RENDER TABLE
+        // SWITCH VIEW - PASTIKAN currentCategory DAN inp-cat SAMA
         // ============================================================
         function switchView(cat) {
             var searchInput = document.getElementById('search-input');
@@ -2511,6 +2511,9 @@
             }
 
             console.log('🔍 SwitchView - currentCategory:', currentCategory);
+
+            // PASTIKAN inp-cat diisi dengan currentCategory
+            document.getElementById('inp-cat').value = currentCategory;
 
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('data-view').classList.add('hidden');
@@ -2551,6 +2554,8 @@
             else sopDesc.classList.add('hidden');
 
             document.getElementById('filter-bar-container').style.display = 'flex';
+
+            // PASTIKAN renderTable dipanggil
             renderTable();
             updateStokSummary();
             refreshSession();
@@ -2568,11 +2573,10 @@
 
                 console.log('🔍 Rendering table for category:', cat);
                 console.log('📦 Data di appData["' + cat + '"]:', appData[cat]);
+                console.log('📊 Jumlah data:', Object.keys(appData[cat] || {}).length);
 
                 var list = appData[cat] || {};
                 var keys = Object.keys(list);
-                console.log('📊 Jumlah data:', keys.length);
-
                 var tbody = document.getElementById('table-body');
                 var thead = document.getElementById('table-head');
                 tbody.innerHTML = '';
@@ -2641,14 +2645,12 @@
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
                 } else if (isAlkur) {
-                    // PERBAIKAN: tambah kolom Keterangan
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>SN</th><th>Nama</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Lokasi</th><th>Keterangan</th><th>User</th><th>Aksi</th></tr>';
                 } else if (isHandholeOrJoint) {
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th>User</th><th>Aksi</th></tr>';
                 } else if (isOpm) {
-                    // PERBAIKAN: header OPM tetap
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>Ruas</th><th>Slot</th><th>Port</th><th>DBM</th><th>Dari</th><th>Ke</th><th>User</th><th>Aksi</th></tr>';
                 } else if (isOfCut) {
@@ -2870,6 +2872,7 @@
                 return;
             }
 
+            // PAKAI currentCategory, BUKAN inp-cat
             var cat = currentCategory;
             var editKey = document.getElementById('edit-key').value;
 
@@ -3259,7 +3262,7 @@
         }
 
         // ============================================================
-        // FUNGSI POPULATE FORM FIELDS - PERBAIKAN UNTUK NILAI 0
+        // POPULATE FORM FIELDS
         // ============================================================
         function populateFormFields(data) {
             if (data.date) document.getElementById('inp-date').value = data.date;
@@ -3350,7 +3353,7 @@
         }
 
         // ============================================================
-        // RESET FORM FIELDS - TAMBAHKAN UNTUK OPM & ALKUR
+        // RESET FORM FIELDS
         // ============================================================
         function resetFormFields() {
             document.getElementById('inp-loc').value = '';
@@ -3403,7 +3406,7 @@
         }
 
         // ============================================================
-        // FUNGSI LAINNYA (tetap sama)
+        // FUNGSI LAINNYA
         // ============================================================
         function updateQuickStats() {
             var totalData = 0,
@@ -3646,67 +3649,32 @@
         }
 
         // ============================================================
-        // LOAD DATA & EVENT LISTENERS
+        // LOAD DATA
         // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('login-username').value = '';
-            document.getElementById('login-password').value = '';
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-
-            var savedSession = localStorage.getItem('bucin_session');
-            if (savedSession) {
-                try {
-                    var session = JSON.parse(savedSession);
-                    if (session && session.username && session.role) {
-                        currentUser = { name: session.username, role: session.role };
-                        document.getElementById('login-screen').classList.add('hidden');
-                        document.getElementById('app-shell').classList.remove('hidden');
-                        if (currentUser.role === 'admin') {
-                            document.getElementById('add-user-btn').classList.remove('hidden');
-                            document.getElementById('settings-btn').classList.remove('hidden');
-                        }
-                        resetSessionTimer();
-                        setTimeout(function() {
-                            initMap();
-                            initCharts();
-                            updateQuickStats();
-                            loadKmlFromFirebase();
-                            if (currentCategory !== 'dashboard') {
-                                renderTable();
-                            }
-                        }, 100);
-                        setupEventListeners();
-                        loadData();
-                        loadSettings();
-                        loadBarcodeCache();
-                        return;
-                    }
-                } catch (e) {}
-            }
-            document.getElementById('login-screen').classList.remove('hidden');
-            document.getElementById('app-shell').classList.add('hidden');
-            setupEventListeners();
-            loadData();
-            loadSettings();
-            loadBarcodeCache();
-        });
-
         function loadData() {
             if (!db) return;
             db.ref('data').on('value', function(snap) {
                 try {
                     appData = snap.val() || {};
                     console.log('✅ Data loaded. Categories:', Object.keys(appData));
+                    console.log('📦 appData["OPM/OLS"]:', appData['OPM/OLS']);
+                    console.log('📦 appData["Alkur/Material"]:', appData['Alkur/Material']);
                     updateDashboard();
-                    if (currentCategory !== 'dashboard') {
-                        renderTable();
-                        updateStokSummary();
-                    }
+                    // PASTIKAN renderTable dipanggil
+                    renderTable();
+                    updateStokSummary();
                     updateMapMarkers();
-                } catch (e) { console.error('❌ Error processing data:', e); }
-            }, function(error) { console.error('❌ Error loading data:', error); });
+                } catch (e) {
+                    console.error('❌ Error processing data:', e);
+                }
+            }, function(error) {
+                console.error('❌ Error loading data:', error);
+            });
         }
 
+        // ============================================================
+        // LOAD SETTINGS
+        // ============================================================
         function loadSettings() {
             db.ref('settings').once('value').then(function(snap) {
                 var settings = snap.val() || {};
@@ -3728,6 +3696,9 @@
             }).catch(function(err) { console.error('❌ Error loading barcode cache:', err); });
         }
 
+        // ============================================================
+        // EVENT LISTENERS
+        // ============================================================
         function setupEventListeners() {
             var loginBtn = document.getElementById('login-btn');
             if (loginBtn) loginBtn.addEventListener('click', handleLogin);
@@ -4439,6 +4410,7 @@
         }
 
         console.log('✅ FULL HTML - PERBAIKAN RENDER TABEL OPM & ALKUR');
+        console.log('📌 Cek Console untuk melihat isi appData dan jumlah data.');
         console.log('📌 OPM: DBM 0 tampil, edit 0 berfungsi.');
         console.log('📌 Alkur: Jumlah 0 tampil, kolom Keterangan ditampilkan.');
         console.log('📌 KML: notifikasi kosong dihilangkan.');
