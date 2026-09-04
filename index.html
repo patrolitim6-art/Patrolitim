@@ -2167,7 +2167,8 @@
                             updateQuickStats();
                             loadKmlFromFirebase();
                             renderTable();
-                        }, 100);
+                            if (typeof lucide !== 'undefined') lucide.createIcons();
+                        }, 200);
                         showToast('✅ Selamat datang, ' + username + '!', 'success');
                     } else {
                         errorText.textContent = 'Username atau password salah!';
@@ -2493,7 +2494,7 @@
         };
 
         // ============================================================
-        // SWITCH VIEW
+        // SWITCH VIEW - PASTIKAN currentCategory DAN inp-cat SAMA
         // ============================================================
         function switchView(cat) {
             var searchInput = document.getElementById('search-input');
@@ -2548,13 +2549,15 @@
             else sopDesc.classList.add('hidden');
 
             document.getElementById('filter-bar-container').style.display = 'flex';
+
+            // PASTIKAN RENDER TABLE DIPANGGIL
             renderTable();
             updateStokSummary();
             refreshSession();
         }
 
         // ============================================================
-        // RENDER TABLE - PASTI BERFUNGSI
+        // RENDER TABLE - PERBAIKAN OPM & ALKUR
         // ============================================================
         function renderTable() {
             try {
@@ -2575,7 +2578,7 @@
                 var thead = document.getElementById('table-head');
                 tbody.innerHTML = '';
 
-                // Filter hanya untuk Stok Spare/Patch Cord
+                // Filter gudang hanya untuk Stok Spare dan Patch Cord
                 if (selectedGudangFilter !== 'all' && (cat === 'Stok Spare' || cat === 'Patch Cord')) {
                     keys = keys.filter(function(key) {
                         var item = list[key];
@@ -2624,6 +2627,7 @@
                 }
                 document.getElementById('empty-state').style.display = 'none';
 
+                var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
                 var isSpare = cat === 'Stok Spare';
                 var isPatch = cat === 'Patch Cord';
                 var isAlkur = cat === 'Alkur/Material';
@@ -2682,6 +2686,7 @@
                             '<button class="icon-btn delete" onclick="deleteItem(\'' + key + '\',\'' + cat + '\')" title="Hapus"><i data-lucide="trash-2" style="width:16px;"></i></button>';
                     }
 
+                    // RENDER BARIS
                     if (isSpare) {
                         var statusColor = item.status === 'Ready' ? '#2A9D8F' : '#E76F51';
                         tbody.innerHTML += '<tr>' +
@@ -2807,6 +2812,7 @@
                     }
                 });
 
+                // Refresh icon
                 if (typeof lucide !== 'undefined') {
                     lucide.createIcons();
                 }
@@ -2817,7 +2823,7 @@
         }
 
         // ============================================================
-        // SUBMIT FORM
+        // SUBMIT FORM - PAKAI currentCategory LANGSUNG
         // ============================================================
         function generateAlkurSN(nama, jenis, merk, date) {
             var dateObj = new Date(date);
@@ -2852,6 +2858,7 @@
                 return;
             }
 
+            // PAKAI currentCategory, BUKAN inp-cat
             var cat = currentCategory;
             var editKey = document.getElementById('edit-key').value;
 
@@ -3556,8 +3563,50 @@
         }
 
         // ============================================================
-        // LOAD DATA
+        // LOAD DATA & EVENT LISTENERS
         // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            var savedSession = localStorage.getItem('bucin_session');
+            if (savedSession) {
+                try {
+                    var session = JSON.parse(savedSession);
+                    if (session && session.username && session.role) {
+                        currentUser = { name: session.username, role: session.role };
+                        document.getElementById('login-screen').classList.add('hidden');
+                        document.getElementById('app-shell').classList.remove('hidden');
+                        if (currentUser.role === 'admin') {
+                            document.getElementById('add-user-btn').classList.remove('hidden');
+                            document.getElementById('settings-btn').classList.remove('hidden');
+                        }
+                        resetSessionTimer();
+                        setTimeout(function() {
+                            initMap();
+                            initCharts();
+                            updateQuickStats();
+                            loadKmlFromFirebase();
+                            renderTable();
+                            if (typeof lucide !== 'undefined') lucide.createIcons();
+                        }, 200);
+                        setupEventListeners();
+                        loadData();
+                        loadSettings();
+                        loadBarcodeCache();
+                        return;
+                    }
+                } catch (e) {}
+            }
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('app-shell').classList.add('hidden');
+            setupEventListeners();
+            loadData();
+            loadSettings();
+            loadBarcodeCache();
+        });
+
         function loadData() {
             if (!db) return;
             db.ref('data').on('value', function(snap) {
@@ -3599,51 +3648,6 @@
                 console.log('✅ Barcode cache loaded:', Object.keys(barcodeCache).length + ' items');
             }).catch(function(err) { console.error('❌ Error loading barcode cache:', err); });
         }
-
-        // ============================================================
-        // EVENT LISTENERS
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('login-username').value = '';
-            document.getElementById('login-password').value = '';
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-
-            var savedSession = localStorage.getItem('bucin_session');
-            if (savedSession) {
-                try {
-                    var session = JSON.parse(savedSession);
-                    if (session && session.username && session.role) {
-                        currentUser = { name: session.username, role: session.role };
-                        document.getElementById('login-screen').classList.add('hidden');
-                        document.getElementById('app-shell').classList.remove('hidden');
-                        if (currentUser.role === 'admin') {
-                            document.getElementById('add-user-btn').classList.remove('hidden');
-                            document.getElementById('settings-btn').classList.remove('hidden');
-                        }
-                        resetSessionTimer();
-                        setTimeout(function() {
-                            initMap();
-                            initCharts();
-                            updateQuickStats();
-                            loadKmlFromFirebase();
-                            renderTable();
-                            if (typeof lucide !== 'undefined') lucide.createIcons();
-                        }, 100);
-                        setupEventListeners();
-                        loadData();
-                        loadSettings();
-                        loadBarcodeCache();
-                        return;
-                    }
-                } catch (e) {}
-            }
-            document.getElementById('login-screen').classList.remove('hidden');
-            document.getElementById('app-shell').classList.add('hidden');
-            setupEventListeners();
-            loadData();
-            loadSettings();
-            loadBarcodeCache();
-        });
 
         function setupEventListeners() {
             var loginBtn = document.getElementById('login-btn');
@@ -4356,12 +4360,12 @@
             updateQuickStats();
         }
 
-        console.log('✅ FULL HTML - PERBAIKAN OPM, ALKUR, DAN IKON MENU');
+        console.log('✅ Full HTML dengan perbaikan render tabel OPM & Alkur');
         console.log('📌 OPM/OLS: data muncul di tabel.');
-        console.log('📌 Alkur: data muncul di tabel.');
+        console.log('📌 Alkur: SN format DDMMYY-KODE otomatis.');
         console.log('📌 KML: notifikasi kosong dihilangkan.');
-        console.log('📌 IKON: refresh otomatis.');
         console.log('📌 Tombol simpan: onclick langsung.');
+        console.log('📌 Cek console untuk melihat isi appData dan jumlah data.');
     </script>
 </body>
 </html>
