@@ -1210,9 +1210,6 @@
             </form>
             <div class="login-footer">
                 <p style="margin-top:4px;font-size:10px;color:#94A3B8;">&copy; 2026 BUCIN - Barisan Utama Cegah Insiden</p>
-                <p style="font-size:9px;color:var(--text-muted);margin-top:8px;border-top:1px solid var(--line);padding-top:8px;">
-                    🔑 Default: admin / admin123 (fallback jika Firebase error)
-                </p>
             </div>
         </div>
     </div>
@@ -2130,7 +2127,7 @@
         }
 
         // ============================================================
-        // LOGIN HANDLER (DENGAN FALLBACK)
+        // LOGIN HANDLER
         // ============================================================
         function handleLogin(e) {
             e.preventDefault();
@@ -2147,78 +2144,45 @@
                 return false;
             }
 
-            // Cek apakah Firebase tersedia
-            if (typeof db === 'undefined' || !db) {
-                // Fallback ke akun default
-                if (username === 'admin' && password === 'admin123') {
-                    loginSuccess('admin', 'admin');
-                    return false;
-                } else {
-                    errorText.textContent = 'Firebase tidak tersedia, gunakan admin/admin123';
-                    errorEl.classList.add('show');
-                    return false;
-                }
-            }
-
             db.ref('users/' + username).once('value')
                 .then(function(snap) {
                     var userData = snap.val();
                     if (userData && userData.pass === password) {
-                        loginSuccess(username, userData.role || 'user');
-                    } else {
-                        // Coba fallback jika data tidak ditemukan
-                        if (username === 'admin' && password === 'admin123') {
-                            loginSuccess('admin', 'admin');
+                        currentUser = { name: username, role: userData.role || 'user' };
+                        localStorage.setItem('bucin_session', JSON.stringify({ username: username, role: currentUser
+                                .role }));
+                        document.getElementById('login-screen').classList.add('hidden');
+                        document.getElementById('app-shell').classList.remove('hidden');
+                        if (currentUser.role === 'admin') {
+                            document.getElementById('add-user-btn').classList.remove('hidden');
+                            document.getElementById('settings-btn').classList.remove('hidden');
                         } else {
-                            errorText.textContent = 'Username atau password salah!';
-                            errorEl.classList.add('show');
-                            showToast('❌ Username atau password salah', 'error');
+                            document.getElementById('add-user-btn').classList.add('hidden');
+                            document.getElementById('settings-btn').classList.add('hidden');
                         }
+                        resetSessionTimer();
+                        setTimeout(function() {
+                            initMap();
+                            initCharts();
+                            updateQuickStats();
+                            loadKmlFromFirebase();
+                            renderTable();
+                            if (typeof lucide !== 'undefined') lucide.createIcons();
+                        }, 200);
+                        showToast('✅ Selamat datang, ' + username + '!', 'success');
+                    } else {
+                        errorText.textContent = 'Username atau password salah!';
+                        errorEl.classList.add('show');
+                        showToast('❌ Username atau password salah', 'error');
                     }
                 })
                 .catch(function(err) {
                     console.error('❌ Login error:', err);
-                    // Jika error karena permission, coba fallback
-                    if (err.code === 'PERMISSION_DENIED' || err.message.includes('permission_denied')) {
-                        if (username === 'admin' && password === 'admin123') {
-                            loginSuccess('admin', 'admin');
-                            showToast('⚠️ Menggunakan akun default (Firebase tidak dapat diakses)', 'warning');
-                        } else {
-                            errorText.textContent = 'Firebase menolak akses. Gunakan admin/admin123';
-                            errorEl.classList.add('show');
-                            showToast('❌ Akses Firebase ditolak, gunakan admin/admin123', 'error');
-                        }
-                    } else {
-                        errorText.textContent = 'Terjadi kesalahan: ' + err.message;
-                        errorEl.classList.add('show');
-                        showToast('❌ Terjadi kesalahan, coba lagi', 'error');
-                    }
+                    errorText.textContent = 'Terjadi kesalahan: ' + err.message;
+                    errorEl.classList.add('show');
+                    showToast('❌ Terjadi kesalahan, coba lagi', 'error');
                 });
             return false;
-        }
-
-        function loginSuccess(username, role) {
-            currentUser = { name: username, role: role || 'user' };
-            localStorage.setItem('bucin_session', JSON.stringify({ username: username, role: currentUser.role }));
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('app-shell').classList.remove('hidden');
-            if (currentUser.role === 'admin') {
-                document.getElementById('add-user-btn').classList.remove('hidden');
-                document.getElementById('settings-btn').classList.remove('hidden');
-            } else {
-                document.getElementById('add-user-btn').classList.add('hidden');
-                document.getElementById('settings-btn').classList.add('hidden');
-            }
-            resetSessionTimer();
-            setTimeout(function() {
-                initMap();
-                initCharts();
-                updateQuickStats();
-                loadKmlFromFirebase();
-                renderTable();
-                if (typeof lucide !== 'undefined') lucide.createIcons();
-            }, 200);
-            showToast('✅ Selamat datang, ' + username + '!', 'success');
         }
 
         // ============================================================
@@ -2334,7 +2298,6 @@
         }
 
         function loadKmlFromFirebase() {
-            if (typeof db === 'undefined' || !db) return;
             db.ref('kmlData').once('value')
                 .then(function(snap) {
                     var data = snap.val() || {};
@@ -2531,7 +2494,7 @@
         };
 
         // ============================================================
-        // SWITCH VIEW
+        // SWITCH VIEW - PASTIKAN currentCategory DAN inp-cat SAMA
         // ============================================================
         function switchView(cat) {
             var searchInput = document.getElementById('search-input');
@@ -2587,13 +2550,14 @@
 
             document.getElementById('filter-bar-container').style.display = 'flex';
 
+            // PASTIKAN RENDER TABLE DIPANGGIL
             renderTable();
             updateStokSummary();
             refreshSession();
         }
 
         // ============================================================
-        // RENDER TABLE
+        // RENDER TABLE - PERBAIKAN OPM & ALKUR
         // ============================================================
         function renderTable() {
             try {
@@ -2603,13 +2567,18 @@
                 }
 
                 console.log('🔍 RENDER TABLE - category:', cat);
+                console.log('📦 appData keys:', Object.keys(appData));
+                console.log('📦 Data for "' + cat + '":', appData[cat]);
+
                 var list = appData[cat] || {};
                 var keys = Object.keys(list);
+                console.log('📊 Jumlah data di "' + cat + '":', keys.length);
 
                 var tbody = document.getElementById('table-body');
                 var thead = document.getElementById('table-head');
                 tbody.innerHTML = '';
 
+                // Filter gudang hanya untuk Stok Spare dan Patch Cord
                 if (selectedGudangFilter !== 'all' && (cat === 'Stok Spare' || cat === 'Patch Cord')) {
                     keys = keys.filter(function(key) {
                         var item = list[key];
@@ -2653,6 +2622,7 @@
                 if (keys.length === 0) {
                     document.getElementById('empty-state').style.display = 'block';
                     thead.innerHTML = '';
+                    console.warn('⚠️ Tidak ada data untuk kategori:', cat);
                     return;
                 }
                 document.getElementById('empty-state').style.display = 'none';
@@ -2666,6 +2636,7 @@
                 var isOfCut = cat === 'Data OF Cut';
                 var isP3Temuan = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
 
+                // HEADER
                 if (isSpare) {
                     thead.innerHTML =
                         '<tr><th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Keterangan</th><th>Aksi</th></tr>';
@@ -2715,6 +2686,7 @@
                             '<button class="icon-btn delete" onclick="deleteItem(\'' + key + '\',\'' + cat + '\')" title="Hapus"><i data-lucide="trash-2" style="width:16px;"></i></button>';
                     }
 
+                    // RENDER BARIS
                     if (isSpare) {
                         var statusColor = item.status === 'Ready' ? '#2A9D8F' : '#E76F51';
                         tbody.innerHTML += '<tr>' +
@@ -2840,6 +2812,7 @@
                     }
                 });
 
+                // Refresh icon
                 if (typeof lucide !== 'undefined') {
                     lucide.createIcons();
                 }
@@ -2850,7 +2823,7 @@
         }
 
         // ============================================================
-        // SUBMIT FORM
+        // SUBMIT FORM - PAKAI currentCategory LANGSUNG
         // ============================================================
         function generateAlkurSN(nama, jenis, merk, date) {
             var dateObj = new Date(date);
@@ -2885,6 +2858,7 @@
                 return;
             }
 
+            // PAKAI currentCategory, BUKAN inp-cat
             var cat = currentCategory;
             var editKey = document.getElementById('edit-key').value;
 
@@ -3634,14 +3608,13 @@
         });
 
         function loadData() {
-            if (typeof db === 'undefined' || !db) {
-                console.warn('⚠️ Firebase tidak tersedia, data tidak akan sinkron.');
-                return;
-            }
+            if (!db) return;
             db.ref('data').on('value', function(snap) {
                 try {
                     appData = snap.val() || {};
                     console.log('✅ Data loaded. Categories:', Object.keys(appData));
+                    console.log('📦 appData["OPM/OLS"]:', appData['OPM/OLS']);
+                    console.log('📦 appData["Alkur/Material"]:', appData['Alkur/Material']);
                     updateDashboard();
                     renderTable();
                     updateStokSummary();
@@ -3656,7 +3629,6 @@
         }
 
         function loadSettings() {
-            if (typeof db === 'undefined' || !db) return;
             db.ref('settings').once('value').then(function(snap) {
                 var settings = snap.val() || {};
                 if (settings.heroAbout) document.getElementById('hero-about-text').textContent = settings.heroAbout;
@@ -3667,7 +3639,6 @@
         }
 
         function loadBarcodeCache() {
-            if (typeof db === 'undefined' || !db) return;
             db.ref('data/Stok Spare').once('value', function(snap) {
                 var data = snap.val() || {};
                 var items = Object.values(data);
@@ -4389,12 +4360,12 @@
             updateQuickStats();
         }
 
-        console.log('✅ Full HTML dengan perbaikan render tabel OPM & Alkur + Fallback Login');
-        console.log('📌 Login default: admin / admin123 (jika Firebase error)');
+        console.log('✅ Full HTML dengan perbaikan render tabel OPM & Alkur');
         console.log('📌 OPM/OLS: data muncul di tabel.');
         console.log('📌 Alkur: SN format DDMMYY-KODE otomatis.');
         console.log('📌 KML: notifikasi kosong dihilangkan.');
         console.log('📌 Tombol simpan: onclick langsung.');
+        console.log('📌 Cek console untuk melihat isi appData dan jumlah data.');
     </script>
 </body>
 </html>
