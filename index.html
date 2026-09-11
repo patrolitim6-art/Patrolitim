@@ -346,15 +346,10 @@
                                 <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-red);"></span>
                                 Grafik Insiden OF Cut &amp; Pihak Ke-3
                                 <div style="display:flex;gap:6px;margin-left:auto;">
-                                    <select id="chart-period" class="field-control" style="min-height:32px;padding:2px 12px;font-size:12px;width:auto;border-radius:8px;" onchange="updateChartPeriod()">
-                                        <option value="all">Semua</option>
-                                        <option value="weekly">Mingguan</option>
-                                        <option value="monthly">Bulanan</option>
-                                        <option value="yearly">Tahunan</option>
-                                    </select>
+                                    <select id="chart-period" class="field-control" style="min-height:32px;padding:2px 12px;font-size:12px;width:auto;border-radius:8px;" onchange="updateChartPeriod()"></select>
                                 </div>
                             </h3>
-                            <div style="height:250px;"><canvas id="chartIncidents"></canvas></div>
+                            <div style="height:280px;"><canvas id="chartIncidents"></canvas></div>
                         </div>
                     </div>
                     <div class="card" style="padding:0;overflow:hidden;margin-top:20px;">
@@ -2222,20 +2217,50 @@
         return false;
     }
 
+    // ============================================================
+    // CHART - Per bulan (Jan-Des) dengan filter Tahun
+    // ============================================================
     function initCharts() {
         try {
+            // Isi dropdown tahun dari 2026 ke atas
+            var sel = document.getElementById('chart-period');
+            if (sel) {
+                sel.innerHTML = '';
+                var currentYear = new Date().getFullYear();
+                var startYear = 2026;
+                var endYear = Math.max(currentYear + 5, 2030);
+                for (var y = startYear; y <= endYear; y++) {
+                    var opt = document.createElement('option');
+                    opt.value = y;
+                    opt.textContent = y;
+                    sel.appendChild(opt);
+                }
+                sel.value = currentYear >= 2026 ? currentYear : 2026;
+            }
+
             var c = document.getElementById('chartIncidents').getContext('2d');
             if (typeof Chart !== 'undefined' && !chartIncidents) {
+                var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
                 chartIncidents = new Chart(c, {
                     type: 'bar',
                     data: {
-                        labels: ['OF Cut', 'Pihak Ke-3'],
+                        labels: monthNames,
                         datasets: [
-                            { label: 'OF Cut', data: [0, 0], backgroundColor: 'rgba(168,50,50,0.8)', borderRadius: 6 },
-                            { label: 'Pihak Ke-3', data: [0, 0], backgroundColor: 'rgba(198,139,89,0.8)', borderRadius: 6 }
+                            { label: 'OF Cut', data: new Array(12).fill(0), backgroundColor: 'rgba(168,50,50,0.8)', borderRadius: 6, barPercentage: 0.7, categoryPercentage: 0.8 },
+                            { label: 'Pihak Ke-3', data: new Array(12).fill(0), backgroundColor: 'rgba(198,139,89,0.8)', borderRadius: 6, barPercentage: 0.7, categoryPercentage: 0.8 }
                         ]
                     },
-                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true, position: 'top', labels: { font: { size: 11, weight: '600' }, boxWidth: 12, padding: 12 } }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                            x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                        }
+                    }
                 });
                 updateCharts();
             }
@@ -2244,11 +2269,42 @@
 
     function updateCharts() {
         if (!chartIncidents) return;
-        var o = Object.keys(appData['Data OF Cut'] || {}).length;
-        var p = Object.keys(appData['Pekerjaan Pihak Ke-3'] || {}).length;
-        chartIncidents.data.datasets[0].data = [o, 0];
-        chartIncidents.data.datasets[1].data = [0, p];
-        chartIncidents.update();
+        try {
+            var sel = document.getElementById('chart-period');
+            var selectedYear = sel ? parseInt(sel.value) : new Date().getFullYear();
+            if (isNaN(selectedYear)) selectedYear = 2026;
+
+            var ofCutData = new Array(12).fill(0);
+            var p3Data = new Array(12).fill(0);
+
+            var ofCutItems = appData['Data OF Cut'] || {};
+            Object.keys(ofCutItems).forEach(function(k) {
+                var item = ofCutItems[k];
+                if (item.date) {
+                    var d = new Date(item.date);
+                    if (d.getFullYear() === selectedYear) {
+                        var m = d.getMonth();
+                        if (m >= 0 && m < 12) ofCutData[m]++;
+                    }
+                }
+            });
+
+            var p3Items = appData['Pekerjaan Pihak Ke-3'] || {};
+            Object.keys(p3Items).forEach(function(k) {
+                var item = p3Items[k];
+                if (item.date) {
+                    var d = new Date(item.date);
+                    if (d.getFullYear() === selectedYear) {
+                        var m = d.getMonth();
+                        if (m >= 0 && m < 12) p3Data[m]++;
+                    }
+                }
+            });
+
+            chartIncidents.data.datasets[0].data = ofCutData;
+            chartIncidents.data.datasets[1].data = p3Data;
+            chartIncidents.update();
+        } catch (e) { console.error('updateCharts error:', e); }
     }
 
     function updateChartPeriod() { updateCharts(); }
