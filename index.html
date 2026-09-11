@@ -19,7 +19,6 @@
 
     <style>
         :root {
-            /* MERAH MATTE - lebih soft, tidak menyilaukan */
             --primary-red: #A83232;
             --primary-red-dark: #7F2626;
             --primary-red-light: #D68E8E;
@@ -289,7 +288,7 @@
                 <div class="nav-item" data-cat="P3_Temuan">
                     <i data-lucide="users"></i><span>P3 / Temuan</span>
                 </div>
-                <div class="nav-item" data-cat="OPM/OLS">
+                <div class="nav-item" data-cat="OPM-OLS">
                     <i data-lucide="activity"></i><span>OPM / OLS</span>
                 </div>
                 <div class="nav-item" data-cat="Joint">
@@ -756,7 +755,7 @@
                         </div>
                     </div>
 
-                    <!-- OPM/OLS NEW -->
+                    <!-- OPM/OLS -->
                     <div id="field-opm" class="hidden">
                         <div style="background:#F5E6D3;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
                             <div style="font-size:12px;font-weight:600;color:#A83232;">Data OPM / OLS</div>
@@ -839,7 +838,7 @@
                         </div>
                     </div>
 
-                    <!-- ALKER NEW -->
+                    <!-- ALKER -->
                     <div id="field-alker" class="hidden">
                         <div style="background:#F5E6D3;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
                             <div style="font-size:12px;font-weight:600;color:#A83232;">Data Alker</div>
@@ -1114,7 +1113,7 @@
         'Data OF Cut': 'OF Cut',
         'Pekerjaan Pihak Ke-3': 'Pihak Ke-3',
         'Temuan Lapangan': 'Temuan Lapangan',
-        'OPM/OLS': 'OPM/OLS',
+        'OPM-OLS': 'OPM/OLS',
         'Joint': 'Joint',
         'Handhole': 'Handhole',
         'Alker': 'Alker',
@@ -1157,9 +1156,6 @@
         if (initEl) initEl.textContent = currentUser.name.charAt(0).toUpperCase();
     }
 
-    // ============================================================
-    // RIWAYAT
-    // ============================================================
     function catatRiwayat(menu, aksi, detail, keterangan) {
         var entry = {
             tanggal: new Date().toLocaleString('id-ID'),
@@ -1252,9 +1248,6 @@
         showToast('Excel diunduh', 'success');
     }
 
-    // ============================================================
-    // LOAD DATA
-    // ============================================================
     function loadData() {
         if (!db) { console.error('DB tidak siap'); return; }
         if (dataListenerAttached) return;
@@ -1286,9 +1279,6 @@
         }).catch(function(err) { console.error('Re-fetch error:', err); });
     }
 
-    // ============================================================
-    // LOGIN
-    // ============================================================
     function handleLogin(e) {
         if (e && e.preventDefault) e.preventDefault();
         if (!firebaseReady || !db) { showToast('Firebase belum siap', 'error'); return false; }
@@ -1400,10 +1390,6 @@
         return 'PC' + t + l;
     }
 
-    // ============================================================
-    // GENERATE SN ALKER OTOMATIS
-    // Format: DDMMYY + 1 huruf nama + 2 huruf jenis + 2 huruf merk + 3 digit urutan
-    // ============================================================
     function generateAlkerSN(nama, jenis, merk, date, urutan) {
         var d = new Date(date);
         var dd = String(d.getDate()).padStart(2, '0');
@@ -1419,7 +1405,6 @@
         return datePart + hurufNama + hurufJenis + hurufMerk + urutPart;
     }
 
-    // Hitung urutan berikutnya di database Alker
     function getNextAlkerUrutan() {
         var list = appData['Alker'] || {};
         return Object.keys(list).length + 1;
@@ -1610,7 +1595,7 @@
         var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
         var isP3T = cat === 'P3_Temuan';
         var isOfCut = cat === 'Data OF Cut';
-        var title = isP3T ? 'Pekerjaan & Temuan' : cat;
+        var title = isP3T ? 'Pekerjaan & Temuan' : (cat === 'OPM-OLS' ? 'OPM / OLS' : cat);
         document.getElementById('page-title').textContent = title;
         if (headerTitle) headerTitle.textContent = title;
 
@@ -1669,7 +1654,7 @@
             var isSpare = cat === 'Stok Spare';
             var isPatch = cat === 'Patch Cord';
             var isAlker = cat === 'Alker';
-            var isOpm = cat === 'OPM/OLS';
+            var isOpm = cat === 'OPM-OLS';
             var isHJ = ['Handhole', 'Joint'].indexOf(cat) !== -1;
             var isOfCut = cat === 'Data OF Cut';
             var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
@@ -1811,7 +1796,7 @@
             detailText = loc + ' | Panjang: ' + pjg + 'M | Rute: ' + rute + ' | Penyebab: ' + data.penyebab;
             ketText = data.keterangan;
         }
-        else if (cat === 'OPM/OLS') {
+        else if (cat === 'OPM-OLS') {
             var port = document.getElementById('inp-opm-port').value;
             var panel = document.getElementById('inp-opm-panel').value;
             var dbm = parseFloat(document.getElementById('inp-opm-dbm').value);
@@ -1846,7 +1831,6 @@
                 showToast('Keterangan wajib diisi!', 'error'); return;
             }
 
-            // Generate SN otomatis jika kosong
             var sn;
             if (!snInput) {
                 var urutan = isEdit ? (data.urutan || 1) : getNextAlkerUrutan();
@@ -1962,7 +1946,7 @@
         var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
         var isPatch = cat === 'Patch Cord';
         var isAlker = cat === 'Alker';
-        var isOpm = cat === 'OPM/OLS';
+        var isOpm = cat === 'OPM-OLS';
         var isHH = cat === 'Handhole';
         var isJoint = cat === 'Joint';
         var isOfCut = cat === 'Data OF Cut';
