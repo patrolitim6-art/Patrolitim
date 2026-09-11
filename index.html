@@ -19,21 +19,22 @@
 
     <style>
         :root {
-            --primary-red: #DC2626;
-            --primary-red-dark: #B91C1C;
-            --primary-red-light: #FCA5A5;
-            --primary-red-very-light: #FEE2E2;
-            --red-gradient: linear-gradient(135deg, #DC2626, #EF4444);
-            --accent-gold: linear-gradient(135deg, #F4A261, #E76F51);
-            --accent-gold-light: #FDF0D5;
-            --bg-light: #FEF2F2;
+            /* MERAH MATTE - lebih soft, tidak menyilaukan */
+            --primary-red: #A83232;
+            --primary-red-dark: #7F2626;
+            --primary-red-light: #D68E8E;
+            --primary-red-very-light: #F2DCDC;
+            --red-gradient: linear-gradient(135deg, #A83232, #C14545);
+            --accent-gold: linear-gradient(135deg, #C68B59, #B5724B);
+            --accent-gold-light: #F5E6D3;
+            --bg-light: #FAF0F0;
             --card-bg: #FFFFFF;
-            --text-dark: #450A0A;
-            --text-muted: #991B1B;
-            --line: #FECACA;
+            --text-dark: #3A1010;
+            --text-muted: #8A4A4A;
+            --line: #E8C8C8;
             --radius: 16px;
-            --shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
-            --shadow-hover: 0 8px 24px rgba(220, 38, 38, 0.25);
+            --shadow: 0 4px 12px rgba(168, 50, 50, 0.12);
+            --shadow-hover: 0 8px 24px rgba(168, 50, 50, 0.22);
             --sidebar-width: 260px;
             --app-font: 'DM Sans', sans-serif;
             --app-font-size: 14px;
@@ -47,13 +48,13 @@
             color: var(--text-dark);
             overflow-x: hidden;
             transition: background 0.3s ease;
-            background-image: radial-gradient(circle at 10% 30%, rgba(252, 165, 165, 0.3) 0%, transparent 60%),
-                radial-gradient(circle at 90% 70%, rgba(239, 68, 68, 0.2) 0%, transparent 50%);
+            background-image: radial-gradient(circle at 10% 30%, rgba(214, 142, 142, 0.25) 0%, transparent 60%),
+                radial-gradient(circle at 90% 70%, rgba(193, 69, 69, 0.15) 0%, transparent 50%);
         }
-        .card { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; transition: transform 0.2s ease, box-shadow 0.2s ease; border: 1px solid rgba(220, 38, 38, 0.08); }
+        .card { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; transition: transform 0.2s ease, box-shadow 0.2s ease; border: 1px solid rgba(168, 50, 50, 0.08); }
         .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
-        .btn-primary { background: var(--red-gradient); color: white; border: none; border-radius: 24px; font-weight: 700; padding: 12px 28px; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35); min-height: 52px; font-size: 16px; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(220, 38, 38, 0.45); }
+        .btn-primary { background: var(--red-gradient); color: white; border: none; border-radius: 24px; font-weight: 700; padding: 12px 28px; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(168, 50, 50, 0.3); min-height: 52px; font-size: 16px; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168, 50, 50, 0.4); }
         .btn-primary:active { transform: scale(0.97); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
         .btn-secondary { background: var(--bg-light); color: var(--text-dark); border: 1px solid var(--line); border-radius: 24px; font-weight: 600; padding: 12px 24px; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; font-size: 15px; }
@@ -61,9 +62,9 @@
         .btn-icon { width: 42px; height: 42px; min-height: 42px; padding: 0; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--line); background: var(--card-bg); color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; font-size: 18px; box-shadow: none; flex-shrink: 0; }
         .btn-icon:hover { background: var(--primary-red-light); border-color: var(--primary-red); color: var(--primary-red); transform: translateY(-2px); box-shadow: var(--shadow); }
 
-        .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-width); background: linear-gradient(180deg, #FFFFFF 0%, #FEF7F7 100%); border-right: 1px solid var(--line); z-index: 60; display: flex; flex-direction: column; box-shadow: 4px 0 20px rgba(220, 38, 38, 0.08); transition: transform 0.3s ease; }
+        .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-width); background: linear-gradient(180deg, #FFFFFF 0%, #FCF6F6 100%); border-right: 1px solid var(--line); z-index: 60; display: flex; flex-direction: column; box-shadow: 4px 0 20px rgba(168, 50, 50, 0.08); transition: transform 0.3s ease; }
         .sidebar-header { height: 72px; display: flex; align-items: center; gap: 12px; padding: 0 20px; border-bottom: 1px solid var(--line); flex-shrink: 0; }
-        .brand-mark { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; color: white; background: var(--red-gradient); box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35); font-size: 20px; font-weight: 800; flex-shrink: 0; }
+        .brand-mark { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; color: white; background: var(--red-gradient); box-shadow: 0 4px 12px rgba(168, 50, 50, 0.3); font-size: 20px; font-weight: 800; flex-shrink: 0; }
         .brand-text-wrapper { display: flex; flex-direction: column; overflow: hidden; }
         .brand-text { font-weight: 800; font-size: 20px; line-height: 1; background: var(--red-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .brand-sub { font-size: 9px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
@@ -73,8 +74,8 @@
         .nav-section-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.2px; padding: 14px 14px 6px; opacity: 0.7; }
         .nav-section-label:first-child { padding-top: 4px; }
         .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 12px; color: var(--text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s ease; position: relative; user-select: none; border: 1px solid transparent; font-size: calc(var(--app-font-size) - 1px); }
-        .nav-item:hover { background: var(--primary-red-very-light); color: var(--primary-red); border-color: rgba(220, 38, 38, 0.1); transform: translateX(2px); }
-        .nav-item.active { background: var(--red-gradient); color: white; box-shadow: 0 6px 16px rgba(220, 38, 38, 0.3); border-color: transparent; }
+        .nav-item:hover { background: var(--primary-red-very-light); color: var(--primary-red); border-color: rgba(168, 50, 50, 0.1); transform: translateX(2px); }
+        .nav-item.active { background: var(--red-gradient); color: white; box-shadow: 0 6px 16px rgba(168, 50, 50, 0.25); border-color: transparent; }
         .nav-item.active::before { content: ''; position: absolute; left: -12px; top: 50%; transform: translateY(-50%); width: 4px; height: 60%; background: var(--primary-red); border-radius: 0 4px 4px 0; }
         .nav-item i { width: 20px; height: 20px; flex-shrink: 0; color: var(--text-muted); transition: color 0.2s; }
         .nav-item:hover i { color: var(--primary-red); }
@@ -82,17 +83,17 @@
         .nav-item span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .sidebar-footer { border-top: 1px solid var(--line); padding: 12px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; background: rgba(255, 255, 255, 0.6); }
         .user-chip { flex: 1; display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-light); border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
-        .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--red-gradient); display: grid; place-items: center; color: white; font-weight: 800; font-size: 14px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(220, 38, 38, 0.3); }
+        .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--red-gradient); display: grid; place-items: center; color: white; font-weight: 800; font-size: 14px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(168, 50, 50, 0.25); }
         .user-info { display: flex; flex-direction: column; overflow: hidden; }
         .user-name { font-size: 12px; font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .user-role { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
 
         .main-wrapper { margin-left: var(--sidebar-width); min-height: 100vh; display: flex; flex-direction: column; }
-        .top-header { position: sticky; top: 0; z-index: 40; height: 72px; border-bottom: 1px solid var(--line); backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.9); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; box-shadow: 0 2px 8px rgba(220, 38, 38, 0.08); }
+        .top-header { position: sticky; top: 0; z-index: 40; height: 72px; border-bottom: 1px solid var(--line); backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.9); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; box-shadow: 0 2px 8px rgba(168, 50, 50, 0.08); }
         .main-content { flex: 1; padding: 20px 24px 40px; max-width: 1400px; width: 100%; margin: 0 auto; }
 
         .menu-toggle { display: none; width: 42px; height: 42px; border-radius: 10px; border: 1px solid var(--line); background: white; color: var(--text-dark); cursor: pointer; align-items: center; justify-content: center; flex-shrink: 0; }
-        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(69, 10, 10, 0.5); backdrop-filter: blur(4px); z-index: 55; }
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(58, 16, 16, 0.5); backdrop-filter: blur(4px); z-index: 55; }
         .sidebar-overlay.active { display: block; }
 
         @media (max-width: 900px) {
@@ -104,26 +105,26 @@
             .main-content { padding: 16px 16px 40px; }
         }
 
-        .hero-panel { border-radius: 20px; padding: 28px 24px; background: var(--red-gradient); color: white; box-shadow: 0 12px 32px rgba(220, 38, 38, 0.35); margin-bottom: 20px; position: relative; overflow: hidden; }
+        .hero-panel { border-radius: 20px; padding: 28px 24px; background: var(--red-gradient); color: white; box-shadow: 0 12px 32px rgba(168, 50, 50, 0.3); margin-bottom: 20px; position: relative; overflow: hidden; }
         .hero-panel::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; background: rgba(255, 255, 255, 0.08); border-radius: 50%; }
-        .hero-panel::after { content: ''; position: absolute; bottom: -40%; left: -10%; width: 200px; height: 200px; background: rgba(244, 162, 97, 0.15); border-radius: 50%; }
+        .hero-panel::after { content: ''; position: absolute; bottom: -40%; left: -10%; width: 200px; height: 200px; background: rgba(198, 139, 89, 0.15); border-radius: 50%; }
         .hero-panel h1, .hero-panel p { position: relative; z-index: 1; }
         .hero-panel .hero-about { position: relative; z-index: 1; margin-top: 10px; opacity: 0.9; font-size: 13px; font-weight: 400; line-height: 1.5; }
 
         .field-control { width: 100%; min-height: 48px; border: 2px solid var(--line); border-radius: 12px; background: white; padding: 0 16px; font-size: 14px; outline: none; transition: all 0.2s; font-family: inherit; }
-        .field-control:focus { border-color: var(--primary-red); box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.15); }
+        .field-control:focus { border-color: var(--primary-red); box-shadow: 0 0 0 4px rgba(168, 50, 50, 0.15); }
         textarea.field-control { padding: 12px 16px; resize: vertical; }
-        select.field-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23991B1B' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
+        select.field-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A4A4A' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
         .icon-btn { width: 42px; height: 42px; border-radius: 10px; display: grid; place-items: center; cursor: pointer; background: transparent; border: none; color: var(--text-muted); transition: all 0.2s; }
         .icon-btn:hover { background: var(--bg-light); color: var(--primary-red); }
-        .icon-btn.delete { color: #DC2626; }
-        .icon-btn.delete:hover { background: #FEE2E2; }
-        .icon-btn.edit { color: #16A34A; }
-        .icon-btn.edit:hover { background: #DCFCE7; color: #16A34A; }
+        .icon-btn.delete { color: #A83232; }
+        .icon-btn.delete:hover { background: #F2DCDC; }
+        .icon-btn.edit { color: #4A7A4A; }
+        .icon-btn.edit:hover { background: #DCE8DC; color: #4A7A4A; }
 
-        .modal-layer { position: fixed; z-index: 100; inset: 0; background: rgba(69, 10, 10, 0.5); backdrop-filter: blur(8px); display: grid; place-items: end; }
+        .modal-layer { position: fixed; z-index: 100; inset: 0; background: rgba(58, 16, 16, 0.5); backdrop-filter: blur(8px); display: grid; place-items: end; }
         @media(min-width:640px) { .modal-layer { place-items: center; } }
-        .modal-card { background: white; width: 100%; max-width: 560px; border-radius: 24px 24px 0 0; max-height: 92vh; overflow-y: auto; padding: 24px; animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 24px 64px rgba(220, 38, 38, 0.2); }
+        .modal-card { background: white; width: 100%; max-width: 560px; border-radius: 24px 24px 0 0; max-height: 92vh; overflow-y: auto; padding: 24px; animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 24px 64px rgba(168, 50, 50, 0.2); }
         @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .hidden { display: none !important; }
 
@@ -131,32 +132,32 @@
         @media(min-width:1024px) { #map-container { height: 500px; } }
         .leaflet-control-zoom { display: none !important; }
         .custom-map-controls { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
-        .custom-map-btn { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(220, 38, 38, 0.1); border-radius: 10px; width: 38px; height: 38px; display: grid; place-items: center; cursor: pointer; box-shadow: 0 2px 8px rgba(220, 38, 38, 0.08); color: var(--text-dark); transition: all 0.2s; }
-        .custom-map-btn:hover { background: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15); }
+        .custom-map-btn { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(168, 50, 50, 0.1); border-radius: 10px; width: 38px; height: 38px; display: grid; place-items: center; cursor: pointer; box-shadow: 0 2px 8px rgba(168, 50, 50, 0.08); color: var(--text-dark); transition: all 0.2s; }
+        .custom-map-btn:hover { background: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(168, 50, 50, 0.15); }
         .custom-map-btn.active { background: var(--red-gradient); color: white; border-color: var(--primary-red); }
-        .map-legend { position: absolute; top: 12px; left: 12px; z-index: 1000; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(8px); padding: 10px 14px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15); font-size: 11px; border: 1px solid rgba(220, 38, 38, 0.1); max-width: 220px; }
+        .map-legend { position: absolute; top: 12px; left: 12px; z-index: 1000; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(8px); padding: 10px 14px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15); font-size: 11px; border: 1px solid rgba(168, 50, 50, 0.1); max-width: 220px; }
         .map-legend-title { font-weight: 700; font-size: 11px; color: var(--text-dark); margin-bottom: 6px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
         .map-legend-item { display: flex; align-items: center; gap: 8px; padding: 2px 0; font-size: 10px; color: var(--text-muted); }
         .map-legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(0, 0, 0, 0.1); }
         #map-legend-line { margin-top: 6px; border-top: 1px solid var(--line); padding-top: 4px; font-size: 10px; color: var(--text-muted); }
 
-        .scanner-wrapper { position: relative; width: 100%; max-width: 400px; height: 260px; margin: 12px auto; border-radius: 16px; overflow: hidden; background: #450A0A; display: none; box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3); }
+        .scanner-wrapper { position: relative; width: 100%; max-width: 400px; height: 260px; margin: 12px auto; border-radius: 16px; overflow: hidden; background: #3A1010; display: none; box-shadow: 0 4px 20px rgba(168, 50, 50, 0.3); }
         .scanner-wrapper.active { display: block; }
         .scanner-wrapper video { width: 100%; height: 100%; object-fit: cover; }
         .scanner-guide { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 220px; height: 100px; border: 2px solid var(--primary-red); border-radius: 12px; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5); pointer-events: none; z-index: 5; }
-        .scanner-laser { position: absolute; top: 50%; left: 10%; right: 10%; height: 2px; background: #EF4444; box-shadow: 0 0 12px #EF4444; animation: scanLine 1.5s infinite ease-in-out; pointer-events: none; z-index: 5; }
+        .scanner-laser { position: absolute; top: 50%; left: 10%; right: 10%; height: 2px; background: #C14545; box-shadow: 0 0 12px #C14545; animation: scanLine 1.5s infinite ease-in-out; pointer-events: none; z-index: 5; }
         @keyframes scanLine { 0%, 100% { opacity: 0.2; top: 20%; } 50% { opacity: 1; top: 80%; } }
         .scanner-status { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.7); color: white; padding: 4px 16px; border-radius: 99px; font-size: 11px; font-weight: 600; z-index: 10; backdrop-filter: blur(4px); }
 
-        .toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-20px); background: var(--text-dark); color: white; padding: 14px 32px; border-radius: 99px; font-size: 14px; font-weight: 600; z-index: 999; opacity: 0; transition: all 0.3s ease; pointer-events: none; box-shadow: 0 8px 32px rgba(220, 38, 38, 0.2); max-width: 90%; text-align: center; }
+        .toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-20px); background: var(--text-dark); color: white; padding: 14px 32px; border-radius: 99px; font-size: 14px; font-weight: 600; z-index: 999; opacity: 0; transition: all 0.3s ease; pointer-events: none; box-shadow: 0 8px 32px rgba(168, 50, 50, 0.2); max-width: 90%; text-align: center; }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .toast.success { background: var(--primary-red); }
-        .toast.error { background: #7F1D1D; }
-        .toast.warning { background: #F59E0B; }
-        .toast.info { background: #0EA5E9; }
+        .toast.error { background: #5C1A1A; }
+        .toast.warning { background: #C68B59; }
+        .toast.info { background: #5A7A8A; }
 
         .login-screen { position: fixed; inset: 0; background: var(--red-gradient); z-index: 200; display: grid; place-items: center; padding: 20px; overflow: hidden; }
-        .login-card { background: white; padding: 40px 36px; border-radius: 28px; width: 100%; max-width: 420px; box-shadow: 0 24px 64px rgba(220, 38, 38, 0.25); position: relative; z-index: 1; animation: slideUpLogin 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .login-card { background: white; padding: 40px 36px; border-radius: 28px; width: 100%; max-width: 420px; box-shadow: 0 24px 64px rgba(168, 50, 50, 0.25); position: relative; z-index: 1; animation: slideUpLogin 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes slideUpLogin { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .login-card .brand-mark { margin: 0 auto; width: 72px; height: 72px; font-size: 32px; border-radius: 20px; }
         .login-title { font-size: 28px; font-weight: 800; margin: 16px 0 4px; background: var(--red-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -166,29 +167,29 @@
         .login-divider span { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
         .login-footer { text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
         .login-footer p { font-size: 11px; color: var(--text-muted); }
-        .login-error { color: #DC2626; font-size: 13px; font-weight: 600; text-align: center; padding: 8px 12px; background: #FEE2E2; border-radius: 8px; margin-bottom: 12px; display: none; }
+        .login-error { color: #A83232; font-size: 13px; font-weight: 600; text-align: center; padding: 8px 12px; background: #F2DCDC; border-radius: 8px; margin-bottom: 12px; display: none; }
         .login-error.show { display: block; }
 
         .gudang-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 16px 0; }
         .gudang-card { padding: 16px; border: 2px solid var(--line); border-radius: 14px; cursor: pointer; text-align: center; transition: all 0.2s; background: white; }
         .gudang-card:hover { border-color: var(--primary-red); transform: translateY(-2px); }
-        .gudang-card.selected { border-color: var(--primary-red); background: var(--primary-red-light); box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.15); }
+        .gudang-card.selected { border-color: var(--primary-red); background: var(--primary-red-light); box-shadow: 0 0 0 4px rgba(168, 50, 50, 0.15); }
         .gudang-tabs { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
         .gudang-tab { padding: 8px 20px; border-radius: 24px; border: 1px solid var(--line); background: var(--card-bg); cursor: pointer; font-weight: 600; font-size: 13px; color: var(--text-muted); transition: all 0.2s; }
         .gudang-tab:hover { border-color: var(--primary-red); color: var(--primary-red); }
-        .gudang-tab.active { background: var(--red-gradient); color: white; border-color: var(--primary-red); box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3); }
+        .gudang-tab.active { background: var(--red-gradient); color: white; border-color: var(--primary-red); box-shadow: 0 2px 8px rgba(168, 50, 50, 0.25); }
 
         .records-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        .records-table th { background: #FEE2E2; padding: 12px 14px; text-align: left; border-bottom: 2px solid var(--line); font-weight: 700; color: var(--text-muted); white-space: nowrap; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .records-table td { padding: 12px 14px; border-bottom: 1px solid #FEF2F2; vertical-align: middle; }
-        .records-table tr:hover td { background: #FEF2F2; }
+        .records-table th { background: #F2DCDC; padding: 12px 14px; text-align: left; border-bottom: 2px solid var(--line); font-weight: 700; color: var(--text-muted); white-space: nowrap; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .records-table td { padding: 12px 14px; border-bottom: 1px solid #FAF0F0; vertical-align: middle; }
+        .records-table tr:hover td { background: #FAF0F0; }
 
         .stok-summary { background: var(--primary-red-very-light); border: 1px solid var(--primary-red-light); border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
         .stok-summary .label { font-size: 12px; font-weight: 600; color: var(--text-muted); }
         .stok-summary .value { font-size: 16px; font-weight: 800; color: var(--primary-red); }
         .stok-summary .value.masuk { color: var(--primary-red); }
-        .stok-summary .value.keluar { color: #B91C1C; }
-        .stok-summary .value.total { color: #16A34A; }
+        .stok-summary .value.keluar { color: #7F2626; }
+        .stok-summary .value.total { color: #4A7A4A; }
 
         .sop-description { background: var(--primary-red-very-light); border-left: 4px solid var(--primary-red); padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 13px; line-height: 1.6; max-height: 200px; overflow-y: auto; }
         .sop-description strong { color: var(--primary-red); }
@@ -205,12 +206,12 @@
         .spare-action-group { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
         .spare-action-btn { flex: 1; min-width: 120px; padding: 12px; border-radius: 12px; border: 2px solid var(--line); background: white; cursor: pointer; text-align: center; transition: all 0.2s; font-weight: 600; font-size: 14px; }
         .spare-action-btn:hover { border-color: var(--primary-red); background: var(--primary-red-light); transform: translateY(-2px); }
-        .spare-action-btn.active { border-color: var(--primary-red); background: var(--primary-red-light); box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.15); }
+        .spare-action-btn.active { border-color: var(--primary-red); background: var(--primary-red-light); box-shadow: 0 0 0 4px rgba(168, 50, 50, 0.15); }
 
         .sub-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
         .sub-tab { padding: 8px 20px; border-radius: 24px; border: 1px solid var(--line); background: var(--card-bg); cursor: pointer; font-weight: 600; font-size: 13px; color: var(--text-muted); transition: all 0.2s; }
         .sub-tab:hover { border-color: var(--primary-red); color: var(--primary-red); }
-        .sub-tab.active { background: var(--red-gradient); color: white; border-color: var(--primary-red); box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3); }
+        .sub-tab.active { background: var(--red-gradient); color: white; border-color: var(--primary-red); box-shadow: 0 2px 8px rgba(168, 50, 50, 0.25); }
 
         .history-badge { display: inline-block; padding: 2px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; }
 
@@ -288,6 +289,9 @@
                 <div class="nav-item" data-cat="P3_Temuan">
                     <i data-lucide="users"></i><span>P3 / Temuan</span>
                 </div>
+                <div class="nav-item" data-cat="OPM/OLS">
+                    <i data-lucide="activity"></i><span>OPM / OLS</span>
+                </div>
                 <div class="nav-item" data-cat="Joint">
                     <i data-lucide="link"></i><span>Joint</span>
                 </div>
@@ -295,6 +299,9 @@
                     <i data-lucide="archive"></i><span>Handhole</span>
                 </div>
                 <div class="nav-section-label">Inventaris</div>
+                <div class="nav-item" data-cat="Alker">
+                    <i data-lucide="wrench"></i><span>Alker</span>
+                </div>
                 <div class="nav-item" data-cat="Stok Spare">
                     <i data-lucide="package"></i><span>Stok Spare</span>
                 </div>
@@ -370,11 +377,11 @@
                             <div id="map-container"></div>
                             <div class="map-legend">
                                 <div class="map-legend-title">Kategori & Line</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#DC2626;"></span> OF Cut</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#F4A261;"></span> Pihak Ke-3</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#E9C46A;"></span> Temuan</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#0077B6;"></span> Joint</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#9B5DE5;"></span> Handhole</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#A83232;"></span> OF Cut</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#C68B59;"></span> Pihak Ke-3</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#D4B25C;"></span> Temuan</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#5A7A8A;"></span> Joint</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#8A6AA8;"></span> Handhole</div>
                                 <div id="map-legend-line">Line aktif: -</div>
                             </div>
                             <div class="custom-map-controls">
@@ -637,8 +644,8 @@
                             </div>
                         </div>
                         <div id="form-update-pemakaian" class="hidden">
-                            <div style="background:#FDF0D5;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
-                                <div style="font-size:12px;font-weight:600;color:#DC2626;">Update Pemakaian</div>
+                            <div style="background:#F5E6D3;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
+                                <div style="font-size:12px;font-weight:600;color:#A83232;">Update Pemakaian</div>
                             </div>
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                                 <div>
@@ -681,13 +688,13 @@
                             <div class="scanner-guide"></div>
                             <div class="scanner-laser"></div>
                             <div class="scanner-status">Mencari Barcode...</div>
-                            <button type="button" id="btn-stop-modal-scan" class="btn-primary" style="position:absolute;bottom:12px;right:12px;padding:6px 14px;font-size:11px;background:#B91C1C;border-radius:12px;z-index:10;">Stop</button>
+                            <button type="button" id="btn-stop-modal-scan" class="btn-primary" style="position:absolute;bottom:12px;right:12px;padding:6px 14px;font-size:11px;background:#7F2626;border-radius:12px;z-index:10;">Stop</button>
                         </div>
                     </div>
 
                     <div id="field-patchcord" class="hidden">
-                        <div style="background:#FEE2E2;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
-                            <div style="font-size:12px;font-weight:600;color:#DC2626;">Patch Cord</div>
+                        <div style="background:#F2DCDC;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
+                            <div style="font-size:12px;font-weight:600;color:#A83232;">Patch Cord</div>
                             <div id="patchcord-gudang-display" style="font-size:14px;font-weight:700;color:var(--primary-red);"></div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -749,6 +756,123 @@
                         </div>
                     </div>
 
+                    <!-- OPM/OLS NEW -->
+                    <div id="field-opm" class="hidden">
+                        <div style="background:#F5E6D3;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
+                            <div style="font-size:12px;font-weight:600;color:#A83232;">Data OPM / OLS</div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Port (1-24) *</label>
+                                <select id="inp-opm-port" class="field-control">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                                    <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                                    <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                                    <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                                    <option value="13">13</option><option value="14">14</option><option value="15">15</option>
+                                    <option value="16">16</option><option value="17">17</option><option value="18">18</option>
+                                    <option value="19">19</option><option value="20">20</option><option value="21">21</option>
+                                    <option value="22">22</option><option value="23">23</option><option value="24">24</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Panel (1-4) *</label>
+                                <select id="inp-opm-panel" class="field-control">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="1">1</option><option value="2">2</option>
+                                    <option value="3">3</option><option value="4">4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">DBM *</label>
+                                <input type="number" step="0.01" id="inp-opm-dbm" class="field-control" placeholder="Contoh: -15.5">
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Ruas *</label>
+                                <select id="inp-opm-ruas" class="field-control">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="OSP LINE 1">OSP LINE 1</option>
+                                    <option value="OSP LINE 2">OSP LINE 2</option>
+                                    <option value="OSP LINE 3">OSP LINE 3</option>
+                                    <option value="IGG LINE 1">IGG LINE 1</option>
+                                    <option value="IGG LINE 2">IGG LINE 2</option>
+                                    <option value="DWDM">DWDM</option>
+                                    <option value="SEA US LINE 1">SEA US LINE 1</option>
+                                    <option value="SEA US LINE 2">SEA US LINE 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Dari *</label>
+                                <select id="inp-opm-dari" class="field-control">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="CLS MAMI">CLS MAMI</option>
+                                    <option value="CLS MALALAYANG">CLS MALALAYANG</option>
+                                    <option value="STO BAHU">STO BAHU</option>
+                                    <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
+                                    <option value="NEW CENTRIX PANIKI">NEW CENTRIX PANIKI</option>
+                                    <option value="STO AERMADIDI">STO AERMADIDI</option>
+                                    <option value="CLS KAUDITAN">CLS KAUDITAN</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Ke *</label>
+                                <select id="inp-opm-ke" class="field-control">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="CLS MAMI">CLS MAMI</option>
+                                    <option value="CLS MALALAYANG">CLS MALALAYANG</option>
+                                    <option value="STO BAHU">STO BAHU</option>
+                                    <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
+                                    <option value="NEW CENTRIX PANIKI">NEW CENTRIX PANIKI</option>
+                                    <option value="STO AERMADIDI">STO AERMADIDI</option>
+                                    <option value="CLS KAUDITAN">CLS KAUDITAN</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;">
+                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan (Opsional)</label>
+                            <textarea id="inp-opm-keterangan" class="field-control" rows="2" style="resize:none;"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- ALKER NEW -->
+                    <div id="field-alker" class="hidden">
+                        <div style="background:#F5E6D3;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
+                            <div style="font-size:12px;font-weight:600;color:#A83232;">Data Alker</div>
+                            <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">SN otomatis: DDMMYY + Huruf Nama + 2 Huruf Jenis + 2 Huruf Merk + 3 Digit Urutan</div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr;gap:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Alker *</label>
+                                <input type="text" id="inp-alker-nama" class="field-control" placeholder="Nama alker">
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">SN (Opsional)</label>
+                                <input type="text" id="inp-alker-sn" class="field-control" placeholder="Kosongkan untuk SN otomatis">
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Jenis *</label>
+                                <input type="text" id="inp-alker-jenis" class="field-control" placeholder="Jenis alker">
+                            </div>
+                            <div>
+                                <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Merk *</label>
+                                <input type="text" id="inp-alker-merk" class="field-control" placeholder="Merk alker">
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;">
+                            <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Keterangan * (Wajib)</label>
+                            <textarea id="inp-alker-keterangan" class="field-control" rows="2" style="resize:none;" placeholder="Keterangan wajib diisi"></textarea>
+                        </div>
+                    </div>
+
                     <div id="field-normal" class="hidden">
                         <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Lokasi *</label>
                         <div style="display:flex;gap:8px;">
@@ -773,8 +897,8 @@
                     </div>
 
                     <div id="field-ofcut" class="hidden">
-                        <div style="background:#FEE2E2;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
-                            <div style="font-size:12px;font-weight:600;color:#DC2626;">Detail OF Cut</div>
+                        <div style="background:#F2DCDC;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
+                            <div style="font-size:12px;font-weight:600;color:#A83232;">Detail OF Cut</div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                             <div>
@@ -815,8 +939,8 @@
                     </div>
 
                     <div id="field-p3temuan" class="hidden">
-                        <div style="background:#FDF0D5;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
-                            <div style="font-size:12px;font-weight:600;color:#DC2626;" id="p3temuan-label">Data Pekerjaan</div>
+                        <div style="background:#F5E6D3;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
+                            <div style="font-size:12px;font-weight:600;color:#A83232;" id="p3temuan-label">Data Pekerjaan</div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                             <div>
@@ -981,17 +1105,19 @@
     const SESSION_TIMEOUT_MS = 15 * 60 * 1000;
 
     const CATEGORY_COLORS = {
-        'Data OF Cut': '#DC2626', 'Pekerjaan Pihak Ke-3': '#F4A261',
-        'Temuan Lapangan': '#E9C46A',
-        'Joint': '#0077B6', 'Handhole': '#9B5DE5'
+        'Data OF Cut': '#A83232', 'Pekerjaan Pihak Ke-3': '#C68B59',
+        'Temuan Lapangan': '#D4B25C',
+        'Joint': '#5A7A8A', 'Handhole': '#8A6AA8'
     };
 
     const MENU_LABELS = {
         'Data OF Cut': 'OF Cut',
         'Pekerjaan Pihak Ke-3': 'Pihak Ke-3',
         'Temuan Lapangan': 'Temuan Lapangan',
+        'OPM/OLS': 'OPM/OLS',
         'Joint': 'Joint',
         'Handhole': 'Handhole',
+        'Alker': 'Alker',
         'Stok Spare': 'Stok Spare',
         'Patch Cord': 'Patch Cord'
     };
@@ -1090,7 +1216,7 @@
         document.getElementById('riwayat-modal-empty').style.display = 'none';
 
         items.forEach(function(it) {
-            var aksiColor = it.aksi === 'Hapus' ? '#B91C1C' : (it.aksi === 'Edit' || it.aksi === 'Update' || it.aksi === 'Update Pemakaian' ? '#F59E0B' : '#16A34A');
+            var aksiColor = it.aksi === 'Hapus' ? '#7F2626' : (it.aksi === 'Edit' || it.aksi === 'Update' || it.aksi === 'Update Pemakaian' ? '#C68B59' : '#4A7A4A');
             tb.innerHTML += '<tr>' +
                 '<td style="white-space:nowrap;font-size:12px;">' + (it.tanggal || '-') + '</td>' +
                 '<td><span class="history-badge" style="background:' + aksiColor + '20;color:' + aksiColor + ';">' + (it.aksi || '-') + '</span></td>' +
@@ -1274,6 +1400,31 @@
         return 'PC' + t + l;
     }
 
+    // ============================================================
+    // GENERATE SN ALKER OTOMATIS
+    // Format: DDMMYY + 1 huruf nama + 2 huruf jenis + 2 huruf merk + 3 digit urutan
+    // ============================================================
+    function generateAlkerSN(nama, jenis, merk, date, urutan) {
+        var d = new Date(date);
+        var dd = String(d.getDate()).padStart(2, '0');
+        var mm = String(d.getMonth() + 1).padStart(2, '0');
+        var yy = String(d.getFullYear()).slice(-2);
+        var datePart = dd + mm + yy;
+
+        var hurufNama = (nama || 'X').charAt(0).toUpperCase();
+        var hurufJenis = (jenis || 'XX').substring(0, 2).toUpperCase().padEnd(2, 'X');
+        var hurufMerk = (merk || 'XX').substring(0, 2).toUpperCase().padEnd(2, 'X');
+        var urutPart = String(urutan || 1).padStart(3, '0');
+
+        return datePart + hurufNama + hurufJenis + hurufMerk + urutPart;
+    }
+
+    // Hitung urutan berikutnya di database Alker
+    function getNextAlkerUrutan() {
+        var list = appData['Alker'] || {};
+        return Object.keys(list).length + 1;
+    }
+
     function showToast(msg, type) {
         type = type || '';
         var ex = document.querySelector('.toast');
@@ -1318,7 +1469,7 @@
         try {
             if (kmlLayers[line]) { map.removeLayer(kmlLayers[line]); delete kmlLayers[line]; }
             var xml = new DOMParser().parseFromString(str, "text/xml");
-            var color = kmlLineColors[line] || '#DC2626';
+            var color = kmlLineColors[line] || '#A83232';
             var layers = parseKmlToLayers(xml, color);
             if (layers.length > 0) {
                 var g = L.featureGroup(layers).addTo(map);
@@ -1407,7 +1558,7 @@
         markers = [];
         ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'Joint', 'Handhole'].forEach(function(cat) {
             var items = appData[cat] || {};
-            var color = CATEGORY_COLORS[cat] || '#DC2626';
+            var color = CATEGORY_COLORS[cat] || '#A83232';
             Object.keys(items).forEach(function(k) {
                 var it = items[k];
                 if (it.coords) {
@@ -1517,12 +1668,16 @@
 
             var isSpare = cat === 'Stok Spare';
             var isPatch = cat === 'Patch Cord';
+            var isAlker = cat === 'Alker';
+            var isOpm = cat === 'OPM/OLS';
             var isHJ = ['Handhole', 'Joint'].indexOf(cat) !== -1;
             var isOfCut = cat === 'Data OF Cut';
             var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
 
             if (isSpare) th.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Ket</th><th>Aksi</th></tr>';
             else if (isPatch) th.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
+            else if (isAlker) th.innerHTML = '<tr><th>Tgl</th><th>Nama Alker</th><th>SN</th><th>Jenis</th><th>Merk</th><th>Keterangan</th><th>Aksi</th></tr>';
+            else if (isOpm) th.innerHTML = '<tr><th>Tgl</th><th>Port</th><th>Panel</th><th>DBM</th><th>Ruas</th><th>Dari</th><th>Ke</th><th>Keterangan</th><th>Aksi</th></tr>';
             else if (isHJ) th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th>User</th><th>Aksi</th></tr>';
             else if (isOfCut) th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Panjang</th><th>Rute</th><th>Penyebab</th><th>User</th><th>Aksi</th></tr>';
             else if (isP3T) th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Pelaksana</th><th>Lama</th><th>Ket</th><th>User</th><th>Aksi</th></tr>';
@@ -1539,6 +1694,10 @@
                     tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td>' + (it.status || 'Ready') + '</td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + (it.notes || '') + '</td><td>' + aksi + '</td></tr>';
                 } else if (isPatch) {
                     tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + (it.pcType || '-') + '</td><td>' + (it.pcLength || '-') + '</td><td>' + (it.trType || '-') + '</td><td>' + (it.qty || 0) + '</td><td>' + aksi + '</td></tr>';
+                } else if (isAlker) {
+                    tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td style="max-width:200px;white-space:normal;font-size:12px;">' + (it.keterangan || '') + '</td><td>' + aksi + '</td></tr>';
+                } else if (isOpm) {
+                    tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.port || '-') + '</td><td>' + (it.panel || '-') + '</td><td>' + (it.dbm !== undefined && it.dbm !== null ? it.dbm : '-') + '</td><td>' + (it.ruas || '-') + '</td><td>' + (it.dari || '-') + '</td><td>' + (it.ke || '-') + '</td><td style="max-width:150px;white-space:normal;font-size:12px;">' + (it.keterangan || '') + '</td><td>' + aksi + '</td></tr>';
                 } else if (isHJ) {
                     tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + (it.postBy || '-') + '</td><td>' + aksi + '</td></tr>';
                 } else if (isOfCut) {
@@ -1652,6 +1811,58 @@
             detailText = loc + ' | Panjang: ' + pjg + 'M | Rute: ' + rute + ' | Penyebab: ' + data.penyebab;
             ketText = data.keterangan;
         }
+        else if (cat === 'OPM/OLS') {
+            var port = document.getElementById('inp-opm-port').value;
+            var panel = document.getElementById('inp-opm-panel').value;
+            var dbm = parseFloat(document.getElementById('inp-opm-dbm').value);
+            var ruas = document.getElementById('inp-opm-ruas').value;
+            var dari = document.getElementById('inp-opm-dari').value;
+            var ke = document.getElementById('inp-opm-ke').value;
+            var ket = document.getElementById('inp-opm-keterangan').value.trim();
+            if (!port || !panel || isNaN(dbm) || !ruas || !dari || !ke) {
+                showToast('Isi semua field OPM/OLS yang wajib', 'error'); return;
+            }
+            data.port = port;
+            data.panel = panel;
+            data.dbm = dbm;
+            data.ruas = ruas;
+            data.dari = dari;
+            data.ke = ke;
+            data.keterangan = ket;
+            detailText = 'Port: ' + port + ' | Panel: ' + panel + ' | DBM: ' + dbm + ' | Ruas: ' + ruas + ' | ' + dari + ' → ' + ke;
+            ketText = ket;
+        }
+        else if (cat === 'Alker') {
+            var nama = document.getElementById('inp-alker-nama').value.trim();
+            var jenis = document.getElementById('inp-alker-jenis').value.trim();
+            var merk = document.getElementById('inp-alker-merk').value.trim();
+            var keterangan = document.getElementById('inp-alker-keterangan').value.trim();
+            var snInput = document.getElementById('inp-alker-sn').value.trim();
+
+            if (!nama || !jenis || !merk) {
+                showToast('Isi Nama, Jenis, dan Merk Alker', 'error'); return;
+            }
+            if (!keterangan) {
+                showToast('Keterangan wajib diisi!', 'error'); return;
+            }
+
+            // Generate SN otomatis jika kosong
+            var sn;
+            if (!snInput) {
+                var urutan = isEdit ? (data.urutan || 1) : getNextAlkerUrutan();
+                sn = generateAlkerSN(nama, jenis, merk, data.date, urutan);
+                data.urutan = urutan;
+            } else {
+                sn = snInput;
+            }
+            data.sn = sn;
+            data.nama = nama;
+            data.jenis = jenis;
+            data.merk = merk;
+            data.keterangan = keterangan;
+            detailText = 'Nama: ' + nama + ' | SN: ' + sn + ' | Jenis: ' + jenis + ' | Merk: ' + merk;
+            ketText = keterangan;
+        }
         else if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
             var loc = document.getElementById('inp-loc').value.trim();
             var crd = document.getElementById('inp-coords').value.trim();
@@ -1713,7 +1924,7 @@
         if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya admin', 'error'); return; }
         if (confirm('Hapus data ini?')) {
             var it = (appData[cat] || {})[k];
-            var detail = it ? (it.location || it.sn || it.spec || it.pcType || '-') : '-';
+            var detail = it ? (it.location || it.sn || it.spec || it.pcType || it.nama || '-') : '-';
             db.ref('data/' + cat + '/' + k).remove();
             catatRiwayat(cat, 'Hapus', detail, it ? (it.keterangan || it.notes || '') : '');
             showToast('Dihapus', 'success');
@@ -1750,6 +1961,8 @@
 
         var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
         var isPatch = cat === 'Patch Cord';
+        var isAlker = cat === 'Alker';
+        var isOpm = cat === 'OPM/OLS';
         var isHH = cat === 'Handhole';
         var isJoint = cat === 'Joint';
         var isOfCut = cat === 'Data OF Cut';
@@ -1757,7 +1970,7 @@
         var isSpare = cat === 'Stok Spare';
 
         ['field-stock', 'field-patchcord', 'field-normal', 'field-coords-wrap',
-         'field-kondisi', 'field-ofcut', 'field-p3temuan'].forEach(function(id) {
+         'field-kondisi', 'field-ofcut', 'field-p3temuan', 'field-opm', 'field-alker'].forEach(function(id) {
             var el = document.getElementById(id);
             if (el) el.classList.add('hidden');
         });
@@ -1780,6 +1993,8 @@
                 document.getElementById('modal-title').textContent = 'Update Pemakaian - Stok Spare';
             }
         }
+        if (isAlker) document.getElementById('field-alker').classList.remove('hidden');
+        if (isOpm) document.getElementById('field-opm').classList.remove('hidden');
         if (isHH || isJoint) {
             document.getElementById('field-normal').classList.remove('hidden');
             document.getElementById('field-coords-wrap').classList.remove('hidden');
@@ -1807,7 +2022,9 @@
             'inp-update-sn', 'inp-update-spec', 'inp-update-tujuan', 'inp-update-lokasi', 'inp-update-notes',
             'inp-ofcut-panjang', 'inp-ofcut-rute', 'inp-ofcut-penyebab', 'inp-ofcut-penyebab-lain',
             'inp-ofcut-keterangan', 'inp-p3-pelaksana', 'inp-p3-lama', 'inp-p3-keterangan',
-            'inp-pc-type-lain', 'inp-pc-length-lain'];
+            'inp-pc-type-lain', 'inp-pc-length-lain',
+            'inp-opm-port', 'inp-opm-panel', 'inp-opm-dbm', 'inp-opm-ruas', 'inp-opm-dari', 'inp-opm-ke', 'inp-opm-keterangan',
+            'inp-alker-nama', 'inp-alker-sn', 'inp-alker-jenis', 'inp-alker-merk', 'inp-alker-keterangan'];
         ids.forEach(function(id) { var el = document.getElementById(id); if (el) el.value = ''; });
         document.getElementById('inp-pc-qty').value = '1';
         document.getElementById('inp-pc-type').value = '';
@@ -1819,7 +2036,14 @@
 
     function populateFormFields(data) {
         var map = {
-            'inp-loc': data.location, 'inp-coords': data.coords
+            'inp-loc': data.location, 'inp-coords': data.coords,
+            'inp-opm-port': data.port, 'inp-opm-panel': data.panel,
+            'inp-opm-dbm': data.dbm, 'inp-opm-ruas': data.ruas,
+            'inp-opm-dari': data.dari, 'inp-opm-ke': data.ke,
+            'inp-opm-keterangan': data.keterangan,
+            'inp-alker-nama': data.nama, 'inp-alker-sn': data.sn,
+            'inp-alker-jenis': data.jenis, 'inp-alker-merk': data.merk,
+            'inp-alker-keterangan': data.keterangan
         };
         Object.keys(map).forEach(function(id) {
             var el = document.getElementById(id);
@@ -2006,7 +2230,6 @@
         db.ref('users/' + u).set({ pass: p, role: r })
             .then(function() {
                 showToast('User ditambahkan', 'success');
-                catatRiwayat('User', 'Tambah User', 'Username: ' + u + ' | Role: ' + r, '');
                 document.getElementById('add-user-modal').classList.add('hidden');
                 document.getElementById('new-username').value = '';
                 document.getElementById('new-password').value = '';
@@ -2024,8 +2247,8 @@
                     data: {
                         labels: ['OF Cut', 'Pihak Ke-3'],
                         datasets: [
-                            { label: 'OF Cut', data: [0, 0], backgroundColor: 'rgba(220,38,38,0.8)', borderRadius: 6 },
-                            { label: 'Pihak Ke-3', data: [0, 0], backgroundColor: 'rgba(244,162,97,0.8)', borderRadius: 6 }
+                            { label: 'OF Cut', data: [0, 0], backgroundColor: 'rgba(168,50,50,0.8)', borderRadius: 6 },
+                            { label: 'Pihak Ke-3', data: [0, 0], backgroundColor: 'rgba(198,139,89,0.8)', borderRadius: 6 }
                         ]
                     },
                     options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
