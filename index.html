@@ -34,6 +34,7 @@
             --radius: 16px;
             --shadow: 0 4px 12px rgba(0, 119, 182, 0.15);
             --shadow-hover: 0 8px 24px rgba(0, 119, 182, 0.25);
+            --sidebar-width: 260px;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body {
@@ -42,7 +43,6 @@
             background: var(--bg-light);
             color: var(--text-dark);
             overflow-x: hidden;
-            padding-bottom: 80px;
             transition: background 0.3s ease;
             background-image: radial-gradient(circle at 10% 30%, rgba(144, 224, 239, 0.3) 0%, transparent 60%),
                 radial-gradient(circle at 90% 70%, rgba(0, 180, 216, 0.2) 0%, transparent 50%);
@@ -53,26 +53,258 @@
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 119, 182, 0.45); }
         .btn-primary:active { transform: scale(0.97); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
-        .btn-danger { background: #E76F51; color: white; border: none; border-radius: 24px; font-weight: 700; padding: 12px 28px; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(231, 111, 81, 0.3); min-height: 52px; font-size: 16px; }
         .btn-secondary { background: var(--bg-light); color: var(--text-dark); border: 1px solid var(--line); border-radius: 24px; font-weight: 600; padding: 12px 24px; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; font-size: 15px; }
         .btn-secondary:hover { background: var(--primary-blue-very-light); border-color: var(--primary-blue); }
         .btn-icon { width: 42px; height: 42px; min-height: 42px; padding: 0; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--line); background: var(--card-bg); color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; font-size: 18px; box-shadow: none; flex-shrink: 0; }
         .btn-icon:hover { background: var(--primary-blue-light); border-color: var(--primary-blue); color: var(--primary-blue); transform: translateY(-2px); box-shadow: var(--shadow); }
-        .top-header { position: sticky; top: 0; z-index: 40; height: 64px; border-bottom: 1px solid var(--line); backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.88); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; box-shadow: 0 2px 8px rgba(0, 119, 182, 0.08); }
-        .brand-mark { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; color: white; background: var(--blue-gradient); box-shadow: 0 4px 12px rgba(0, 119, 182, 0.35); font-size: 20px; font-weight: 800; }
-        .brand-text { font-weight: 800; font-size: 22px; background: var(--blue-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 72px; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(20px); border-top: 1px solid var(--line); display: flex; overflow-x: auto; z-index: 50; padding-bottom: env(safe-area-inset-bottom); scrollbar-width: none; box-shadow: 0 -4px 12px rgba(0, 119, 182, 0.06); }
-        .bottom-nav::-webkit-scrollbar { display: none; }
-        .nav-item { flex: 0 0 auto; min-width: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--text-muted); font-size: 10px; cursor: pointer; transition: all 0.2s ease; padding: 0 6px; position: relative; }
-        .nav-item.active { color: var(--primary-blue); font-weight: 700; transform: translateY(-2px); }
-        .nav-item.active::after { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 20px; height: 3px; background: var(--blue-gradient); border-radius: 0 0 4px 4px; }
-        .nav-item i { width: 24px; height: 24px; transition: transform 0.2s; }
-        .nav-item.active i { transform: scale(1.1); }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #FFFFFF 0%, #F5FBFD 100%);
+            border-right: 1px solid var(--line);
+            z-index: 60;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 20px rgba(0, 119, 182, 0.08);
+            transition: transform 0.3s ease;
+        }
+        .sidebar-header {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 20px;
+            border-bottom: 1px solid var(--line);
+            flex-shrink: 0;
+        }
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            color: white;
+            background: var(--blue-gradient);
+            box-shadow: 0 4px 12px rgba(0, 119, 182, 0.35);
+            font-size: 20px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .brand-text-wrapper { display: flex; flex-direction: column; overflow: hidden; }
+        .brand-text {
+            font-weight: 800;
+            font-size: 20px;
+            line-height: 1;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .brand-sub {
+            font-size: 9px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 3px;
+        }
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .sidebar-nav::-webkit-scrollbar { width: 5px; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+        .nav-section-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 14px 14px 6px;
+            opacity: 0.7;
+        }
+        .nav-section-label:first-child { padding-top: 4px; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            user-select: none;
+            border: 1px solid transparent;
+        }
+        .nav-item:hover {
+            background: var(--primary-blue-very-light);
+            color: var(--primary-blue);
+            border-color: rgba(0, 119, 182, 0.1);
+            transform: translateX(2px);
+        }
+        .nav-item.active {
+            background: var(--blue-gradient);
+            color: white;
+            box-shadow: 0 6px 16px rgba(0, 119, 182, 0.3);
+            border-color: transparent;
+        }
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background: var(--primary-blue);
+            border-radius: 0 4px 4px 0;
+        }
+        .nav-item i {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+        .nav-item:hover i { color: var(--primary-blue); }
+        .nav-item.active i { color: white; }
+        .nav-item span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar-footer {
+            border-top: 1px solid var(--line);
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.6);
+        }
+        .user-chip {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+        }
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--blue-gradient);
+            display: grid;
+            place-items: center;
+            color: white;
+            font-weight: 800;
+            font-size: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0, 119, 182, 0.3);
+        }
+        .user-info { display: flex; flex-direction: column; overflow: hidden; }
+        .user-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .user-role {
+            font-size: 9px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        /* ===== MAIN WRAPPER ===== */
+        .main-wrapper {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .top-header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            height: 72px;
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-shadow: 0 2px 8px rgba(0, 119, 182, 0.08);
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px 24px 40px;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ===== MOBILE ===== */
+        .menu-toggle {
+            display: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: white;
+            color: var(--text-dark);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 48, 71, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 55;
+        }
+        .sidebar-overlay.active { display: block; }
+
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; }
+            .menu-toggle { display: flex; }
+            .top-header { padding: 0 16px; }
+            .main-content { padding: 16px 16px 40px; }
+        }
+
+        /* ===== HERO ===== */
         .hero-panel { border-radius: 20px; padding: 28px 24px; background: var(--blue-gradient); color: white; box-shadow: 0 12px 32px rgba(0, 119, 182, 0.35); margin-bottom: 20px; position: relative; overflow: hidden; }
         .hero-panel::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; background: rgba(255, 255, 255, 0.08); border-radius: 50%; }
         .hero-panel::after { content: ''; position: absolute; bottom: -40%; left: -10%; width: 200px; height: 200px; background: rgba(244, 162, 97, 0.15); border-radius: 50%; }
         .hero-panel h1, .hero-panel p { position: relative; z-index: 1; }
         .hero-panel .hero-about { position: relative; z-index: 1; margin-top: 10px; opacity: 0.9; font-size: 13px; font-weight: 400; line-height: 1.5; }
+
+        /* ===== FORM ===== */
         .field-control { width: 100%; min-height: 48px; border: 2px solid var(--line); border-radius: 12px; background: white; padding: 0 16px; font-size: 14px; outline: none; transition: all 0.2s; font-family: inherit; }
         .field-control:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.15); }
         textarea.field-control { padding: 12px 16px; resize: vertical; }
@@ -83,11 +315,15 @@
         .icon-btn.delete:hover { background: #FDE8E3; }
         .icon-btn.edit { color: #2A9D8F; }
         .icon-btn.edit:hover { background: #CAF0F8; color: #2A9D8F; }
+
+        /* ===== MODAL ===== */
         .modal-layer { position: fixed; z-index: 100; inset: 0; background: rgba(2, 48, 71, 0.5); backdrop-filter: blur(8px); display: grid; place-items: end; }
         @media(min-width:640px) { .modal-layer { place-items: center; } }
         .modal-card { background: white; width: 100%; max-width: 560px; border-radius: 24px 24px 0 0; max-height: 92vh; overflow-y: auto; padding: 24px; animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 24px 64px rgba(0, 119, 182, 0.2); }
         @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .hidden { display: none !important; }
+
+        /* ===== MAP ===== */
         #map-container { height: 400px; border-radius: var(--radius); border: 1px solid var(--line); z-index: 1; overflow: hidden; position: relative; }
         @media(min-width:1024px) { #map-container { height: 500px; } }
         .leaflet-control-zoom { display: none !important; }
@@ -100,6 +336,8 @@
         .map-legend-item { display: flex; align-items: center; gap: 8px; padding: 2px 0; font-size: 10px; color: var(--text-muted); }
         .map-legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(0, 0, 0, 0.1); }
         #map-legend-line { margin-top: 6px; border-top: 1px solid var(--line); padding-top: 4px; font-size: 10px; color: var(--text-muted); }
+
+        /* ===== SCANNER ===== */
         .scanner-wrapper { position: relative; width: 100%; max-width: 400px; height: 260px; margin: 12px auto; border-radius: 16px; overflow: hidden; background: #0F2A3B; display: none; box-shadow: 0 4px 20px rgba(0, 119, 182, 0.3); }
         .scanner-wrapper.active { display: block; }
         .scanner-wrapper video { width: 100%; height: 100%; object-fit: cover; }
@@ -107,12 +345,16 @@
         .scanner-laser { position: absolute; top: 50%; left: 10%; right: 10%; height: 2px; background: #E76F51; box-shadow: 0 0 12px #E76F51; animation: scanLine 1.5s infinite ease-in-out; pointer-events: none; z-index: 5; }
         @keyframes scanLine { 0%, 100% { opacity: 0.2; top: 20%; } 50% { opacity: 1; top: 80%; } }
         .scanner-status { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.7); color: white; padding: 4px 16px; border-radius: 99px; font-size: 11px; font-weight: 600; z-index: 10; backdrop-filter: blur(4px); }
+
+        /* ===== TOAST ===== */
         .toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-20px); background: var(--text-dark); color: white; padding: 14px 32px; border-radius: 99px; font-size: 14px; font-weight: 600; z-index: 999; opacity: 0; transition: all 0.3s ease; pointer-events: none; box-shadow: 0 8px 32px rgba(0, 119, 182, 0.2); max-width: 90%; text-align: center; }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .toast.success { background: var(--primary-blue); }
         .toast.error { background: #E76F51; }
         .toast.warning { background: #F4A261; }
         .toast.info { background: #2A9D8F; }
+
+        /* ===== LOGIN ===== */
         .login-screen { position: fixed; inset: 0; background: var(--blue-gradient); z-index: 200; display: grid; place-items: center; padding: 20px; overflow: hidden; }
         .login-card { background: white; padding: 40px 36px; border-radius: 28px; width: 100%; max-width: 420px; box-shadow: 0 24px 64px rgba(0, 119, 182, 0.25); position: relative; z-index: 1; animation: slideUpLogin 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes slideUpLogin { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -126,6 +368,8 @@
         .login-footer p { font-size: 11px; color: var(--text-muted); }
         .login-error { color: #E76F51; font-size: 13px; font-weight: 600; text-align: center; padding: 8px 12px; background: #FDE8E3; border-radius: 8px; margin-bottom: 12px; display: none; }
         .login-error.show { display: block; }
+
+        /* ===== GUDANG ===== */
         .gudang-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 16px 0; }
         .gudang-card { padding: 16px; border: 2px solid var(--line); border-radius: 14px; cursor: pointer; text-align: center; transition: all 0.2s; background: white; }
         .gudang-card:hover { border-color: var(--primary-blue); transform: translateY(-2px); }
@@ -134,43 +378,55 @@
         .gudang-tab { padding: 8px 20px; border-radius: 24px; border: 1px solid var(--line); background: var(--card-bg); cursor: pointer; font-weight: 600; font-size: 13px; color: var(--text-muted); transition: all 0.2s; }
         .gudang-tab:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
         .gudang-tab.active { background: var(--blue-gradient); color: white; border-color: var(--primary-blue); box-shadow: 0 2px 8px rgba(0, 119, 182, 0.3); }
+
+        /* ===== TABLE ===== */
         .records-table { width: 100%; border-collapse: collapse; font-size: 13px; }
         .records-table th { background: #E6F7FA; padding: 12px 14px; text-align: left; border-bottom: 2px solid var(--line); font-weight: 700; color: var(--text-muted); white-space: nowrap; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
         .records-table td { padding: 12px 14px; border-bottom: 1px solid #F3F8FA; vertical-align: middle; }
         .records-table tr:hover td { background: #F0F9FC; }
+
+        /* ===== SUMMARY ===== */
         .stok-summary { background: var(--primary-blue-very-light); border: 1px solid var(--primary-blue-light); border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
         .stok-summary .label { font-size: 12px; font-weight: 600; color: var(--text-muted); }
         .stok-summary .value { font-size: 16px; font-weight: 800; color: var(--primary-blue); }
         .stok-summary .value.masuk { color: var(--primary-blue); }
         .stok-summary .value.keluar { color: #E76F51; }
         .stok-summary .value.total { color: #2A9D8F; }
+
+        /* ===== SOP ===== */
         .sop-description { background: var(--primary-blue-very-light); border-left: 4px solid var(--primary-blue); padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 13px; line-height: 1.6; max-height: 200px; overflow-y: auto; }
         .sop-description strong { color: var(--primary-blue); }
+
+        /* ===== DASHBOARD GRID ===== */
         .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         .chart-card { grid-column: 1 / -1; }
+
+        /* ===== FILTER ===== */
         .filter-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
         .filter-bar .filter-group { display: flex; gap: 6px; align-items: center; background: var(--card-bg); border: 1px solid var(--line); border-radius: 10px; padding: 4px 8px; }
         .filter-bar .filter-group select, .filter-bar .filter-group input { border: none; background: transparent; padding: 6px 4px; font-size: 13px; font-family: inherit; color: var(--text-dark); outline: none; min-height: 34px; }
         .filter-bar .filter-group select { min-width: 100px; }
         .filter-bar .filter-group input[type="text"] { min-width: 160px; }
+
+        /* ===== SPARE ACTION ===== */
         .spare-action-group { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
         .spare-action-btn { flex: 1; min-width: 120px; padding: 12px; border-radius: 12px; border: 2px solid var(--line); background: white; cursor: pointer; text-align: center; transition: all 0.2s; font-weight: 600; font-size: 14px; }
         .spare-action-btn:hover { border-color: var(--primary-blue); background: var(--primary-blue-light); transform: translateY(-2px); }
         .spare-action-btn.active { border-color: var(--primary-blue); background: var(--primary-blue-light); box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.15); }
+
+        /* ===== SUB TABS ===== */
         .sub-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
         .sub-tab { padding: 8px 20px; border-radius: 24px; border: 1px solid var(--line); background: var(--card-bg); cursor: pointer; font-weight: 600; font-size: 13px; color: var(--text-muted); transition: all 0.2s; }
         .sub-tab:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
         .sub-tab.active { background: var(--blue-gradient); color: white; border-color: var(--primary-blue); box-shadow: 0 2px 8px rgba(0, 119, 182, 0.3); }
-        @media(min-width:768px) { .main-content { padding: 20px; } .modal-card { border-radius: 24px; } }
-        @media(max-width:480px) {
+
+        @media(max-width:640px) {
             .hero-panel { padding: 20px 16px; }
             .hero-panel h1 { font-size: 20px; }
             .card { padding: 12px; }
-            .bottom-nav .nav-item { min-width: 56px; font-size: 9px; }
-            .bottom-nav .nav-item i { width: 20px; height: 20px; }
             .login-card { padding: 28px 20px; }
             .login-title { font-size: 24px; }
-            .btn-primary, .btn-secondary, .btn-danger { padding: 10px 18px; font-size: 13px; min-height: 42px; }
+            .btn-primary, .btn-secondary { padding: 10px 18px; font-size: 13px; min-height: 42px; }
             .filter-bar { flex-direction: column; align-items: stretch; }
         }
     </style>
@@ -210,10 +466,6 @@
                     Masuk Sistem
                 </button>
             </form>
-            <div style="background:#F0F9FC;border:1px solid #B2DFEE;border-radius:10px;padding:10px 14px;margin-top:16px;font-size:11px;color:#457B9D;text-align:center;">
-                <strong>Login Default:</strong><br>
-                admin / admin123 &nbsp;|&nbsp; user / user123
-            </div>
             <div class="login-footer">
                 <p style="margin-top:4px;font-size:10px;color:#94A3B8;">&copy; 2026 BUCIN - Barisan Utama Cegah Insiden</p>
             </div>
@@ -222,167 +474,230 @@
 
     <!-- APP SHELL -->
     <div id="app-shell" class="hidden">
-        <header class="top-header">
-            <div style="display:flex;align-items:center;gap:12px;">
-                <div class="brand-mark"><i data-lucide="cloud" style="width:20px;height:20px;"></i></div>
-                <span class="brand-text">BUCIN</span>
-            </div>
-            <div style="display:flex;gap:6px;align-items:center;">
-                <button id="add-user-btn" class="icon-btn hidden" title="Tambah User"><i data-lucide="user-plus" style="width:20px;"></i></button>
-                <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:20px;"></i></button>
-                <button id="logout-btn" class="icon-btn" title="Keluar"><i data-lucide="log-out" style="width:20px;"></i></button>
-            </div>
-        </header>
-        <main class="main-content">
-            <section id="dashboard-view">
-                <div class="hero-panel">
-                    <h1 style="margin:0;font-size:26px;font-weight:800;line-height:1.2;">Barisan Utama<br>Cegah Insiden</h1>
-                    <p style="margin:8px 0 0;opacity:0.9;font-size:15px;font-weight:500;">Pusat Operasi Jaringan Sulawesi Utara</p>
-                    <p class="hero-about" id="hero-about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
+
+        <!-- SIDEBAR KIRI -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-mark"><i data-lucide="cloud" style="width:22px;height:22px;"></i></div>
+                <div class="brand-text-wrapper">
+                    <span class="brand-text">BUCIN</span>
+                    <span class="brand-sub">Cegah Insiden</span>
                 </div>
-                <div class="dashboard-grid">
-                    <div class="card chart-card">
-                        <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-                            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-blue);"></span>
-                            Grafik Insiden OF Cut &amp; Pihak Ke-3
-                            <div style="display:flex;gap:6px;margin-left:auto;">
-                                <select id="chart-period" class="field-control" style="min-height:32px;padding:2px 12px;font-size:12px;width:auto;border-radius:8px;" onchange="updateChartPeriod()">
-                                    <option value="all">Semua</option>
-                                    <option value="weekly">Mingguan</option>
-                                    <option value="monthly">Bulanan</option>
-                                    <option value="yearly">Tahunan</option>
-                                </select>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Menu Utama</div>
+                <div class="nav-item active" data-cat="dashboard">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </div>
+
+                <div class="nav-section-label">Data Operasional</div>
+                <div class="nav-item" data-cat="Data OF Cut">
+                    <i data-lucide="scissors"></i>
+                    <span>OF Cut</span>
+                </div>
+                <div class="nav-item" data-cat="P3_Temuan">
+                    <i data-lucide="users"></i>
+                    <span>P3 / Temuan</span>
+                </div>
+                <div class="nav-item" data-cat="OPM/OLS">
+                    <i data-lucide="activity"></i>
+                    <span>OPM / OLS</span>
+                </div>
+                <div class="nav-item" data-cat="Joint">
+                    <i data-lucide="link"></i>
+                    <span>Joint</span>
+                </div>
+                <div class="nav-item" data-cat="Handhole">
+                    <i data-lucide="archive"></i>
+                    <span>Handhole</span>
+                </div>
+
+                <div class="nav-section-label">Inventaris</div>
+                <div class="nav-item" data-cat="Alkur/Material">
+                    <i data-lucide="wrench"></i>
+                    <span>Alkur / Material</span>
+                </div>
+                <div class="nav-item" data-cat="Stok Spare">
+                    <i data-lucide="package"></i>
+                    <span>Stok Spare</span>
+                </div>
+                <div class="nav-item" data-cat="Patch Cord">
+                    <i data-lucide="cable"></i>
+                    <span>Patch Cord</span>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-chip">
+                    <div class="user-avatar" id="sidebar-user-initial">A</div>
+                    <div class="user-info">
+                        <div class="user-name" id="sidebar-user-name">Admin</div>
+                        <div class="user-role" id="sidebar-user-role">Administrator</div>
+                    </div>
+                </div>
+                <button id="logout-btn" class="icon-btn" title="Keluar">
+                    <i data-lucide="log-out" style="width:20px;"></i>
+                </button>
+            </div>
+        </aside>
+        <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+        <!-- MAIN -->
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <button id="menu-toggle" class="menu-toggle" title="Menu">
+                        <i data-lucide="menu" style="width:22px;"></i>
+                    </button>
+                    <h2 id="header-title" style="margin:0;font-size:18px;font-weight:800;">Dashboard</h2>
+                </div>
+                <div style="display:flex;gap:6px;align-items:center;">
+                    <button id="add-user-btn" class="icon-btn hidden" title="Tambah User"><i data-lucide="user-plus" style="width:20px;"></i></button>
+                    <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:20px;"></i></button>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <section id="dashboard-view">
+                    <div class="hero-panel">
+                        <h1 style="margin:0;font-size:26px;font-weight:800;line-height:1.2;">Barisan Utama<br>Cegah Insiden</h1>
+                        <p style="margin:8px 0 0;opacity:0.9;font-size:15px;font-weight:500;">Pusat Operasi Jaringan Sulawesi Utara</p>
+                        <p class="hero-about" id="hero-about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
+                    </div>
+                    <div class="dashboard-grid">
+                        <div class="card chart-card">
+                            <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-blue);"></span>
+                                Grafik Insiden OF Cut &amp; Pihak Ke-3
+                                <div style="display:flex;gap:6px;margin-left:auto;">
+                                    <select id="chart-period" class="field-control" style="min-height:32px;padding:2px 12px;font-size:12px;width:auto;border-radius:8px;" onchange="updateChartPeriod()">
+                                        <option value="all">Semua</option>
+                                        <option value="weekly">Mingguan</option>
+                                        <option value="monthly">Bulanan</option>
+                                        <option value="yearly">Tahunan</option>
+                                    </select>
+                                </div>
+                            </h3>
+                            <div style="height:250px;"><canvas id="chartIncidents"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="card" style="padding:0;overflow:hidden;margin-top:20px;">
+                        <div style="padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                            <h3 style="margin:0;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
+                                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-blue);"></span>
+                                Peta Lokasi Aset
+                            </h3>
+                            <div style="display:flex;gap:8px;">
+                                <button id="btn-upload-kml" class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;">
+                                    <i data-lucide="upload" style="width:14px;"></i> KML
+                                </button>
+                                <button class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;" onclick="downloadKML()">
+                                    <i data-lucide="download" style="width:14px;"></i> KML
+                                </button>
                             </div>
-                        </h3>
-                        <div style="height:250px;"><canvas id="chartIncidents"></canvas></div>
-                    </div>
-                </div>
-                <div class="card" style="padding:0;overflow:hidden;margin-top:20px;">
-                    <div style="padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-                        <h3 style="margin:0;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;">
-                            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-blue);"></span>
-                            Peta Lokasi Aset
-                        </h3>
-                        <div style="display:flex;gap:8px;">
-                            <button id="btn-upload-kml" class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;">
-                                <i data-lucide="upload" style="width:14px;"></i> KML
-                            </button>
-                            <button class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;" onclick="downloadKML()">
-                                <i data-lucide="download" style="width:14px;"></i> KML
-                            </button>
+                        </div>
+                        <div style="position:relative;">
+                            <div id="map-container"></div>
+                            <div class="map-legend">
+                                <div class="map-legend-title">Kategori & Line</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#E76F51;"></span> OF Cut</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#F4A261;"></span> Pihak Ke-3</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#E9C46A;"></span> Temuan</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#2A9D8F;"></span> OPM/OLS</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#0077B6;"></span> Joint</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#9B5DE5;"></span> Handhole</div>
+                                <div id="map-legend-line">Line aktif: -</div>
+                            </div>
+                            <div class="custom-map-controls">
+                                <button class="custom-map-btn active" onclick="toggleMapLayer('satellite')" title="Satelit"><i data-lucide="satellite" style="width:18px;"></i></button>
+                                <button class="custom-map-btn" onclick="toggleMapLayer('street')" title="Jalan"><i data-lucide="map" style="width:18px;"></i></button>
+                                <button class="custom-map-btn" onclick="toggleMapLayer('hybrid')" title="Hybrid"><i data-lucide="layers" style="width:18px;"></i></button>
+                                <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
+                                <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
+                            </div>
                         </div>
                     </div>
-                    <div style="position:relative;">
-                        <div id="map-container"></div>
-                        <div class="map-legend">
-                            <div class="map-legend-title">📍 Kategori & Line</div>
-                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#E76F51;"></span> OF Cut</div>
-                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#F4A261;"></span> Pihak Ke-3</div>
-                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#E9C46A;"></span> Temuan</div>
-                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#2A9D8F;"></span> OPM/OLS</div>
-                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#0077B6;"></span> Joint</div>
-                            <div class="map-legend-item"><span class="map-legend-dot" style="background:#9B5DE5;"></span> Handhole</div>
-                            <div id="map-legend-line">Line aktif: -</div>
-                        </div>
-                        <div class="custom-map-controls">
-                            <button class="custom-map-btn active" onclick="toggleMapLayer('satellite')" title="Satelit"><i data-lucide="satellite" style="width:18px;"></i></button>
-                            <button class="custom-map-btn" onclick="toggleMapLayer('street')" title="Jalan"><i data-lucide="map" style="width:18px;"></i></button>
-                            <button class="custom-map-btn" onclick="toggleMapLayer('hybrid')" title="Hybrid"><i data-lucide="layers" style="width:18px;"></i></button>
-                            <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
-                            <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <section id="data-view" class="hidden">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
-                    <h2 id="page-title" style="margin:0;font-size:22px;font-weight:800;">Data Operasional</h2>
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                        <button id="btn-history" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;">
-                            <i data-lucide="history" style="width:16px;"></i> Riwayat
-                        </button>
-                        <button id="btn-download-excel-page" class="btn-secondary" style="padding:8px 16px;font-size:13px;border-radius:20px;">
-                            <i data-lucide="file-spreadsheet" style="width:16px;"></i> Excel
-                        </button>
-                        <button id="btn-add" class="btn-primary" style="padding:8px 20px;font-size:13px;border-radius:20px;">
-                            <i data-lucide="plus" style="width:16px;"></i> Tambah
-                        </button>
+                <section id="data-view" class="hidden">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+                        <h2 id="page-title" style="margin:0;font-size:22px;font-weight:800;">Data Operasional</h2>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                            <button id="btn-history" class="btn-secondary hidden" style="padding:8px 16px;font-size:13px;border-radius:20px;">
+                                <i data-lucide="history" style="width:16px;"></i> Riwayat
+                            </button>
+                            <button id="btn-download-excel-page" class="btn-secondary" style="padding:8px 16px;font-size:13px;border-radius:20px;">
+                                <i data-lucide="file-spreadsheet" style="width:16px;"></i> Excel
+                            </button>
+                            <button id="btn-add" class="btn-primary" style="padding:8px 20px;font-size:13px;border-radius:20px;">
+                                <i data-lucide="plus" style="width:16px;"></i> Tambah
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div id="sop-description-container" class="sop-description hidden">
-                    <strong>📋 SOP Penanganan Gangguan OF Cut:</strong><br>
-                    1. Terima Laporan: Catat waktu, lokasi, dan jenis gangguan.<br>
-                    2. Mobilisasi: Segera berangkat lengkap alat, material &amp; APD.<br>
-                    3. Amankan Lokasi: Pakai APD lengkap, pasang rambu.<br>
-                    4. Identifikasi: Cek penyebab, foto kondisi awal &amp; catat koordinat.<br>
-                    5. Ukur Titik Rusak: Pakai OTDR/OPM, simpan hasil ukur.<br>
-                    6. Siapkan Perbaikan: Siapkan kabel, joint closure &amp; alat sambung.<br>
-                    7. Sambung Fiber: Lakukan fusion splicing.<br>
-                    8. Pasang Closure: Pastikan rapat, kedap air.<br>
-                    9. Uji Ulang: Ukur ulang dengan OTDR.<br>
-                    10. Bersihkan Lokasi: Rapikan area.<br>
-                    11. Lapor: Kirim data lengkap.<br>
-                    12. APD dibersihkan sebelum disimpan.
-                </div>
-                <div id="sub-tabs-container" class="sub-tabs hidden">
-                    <button class="sub-tab active" data-sub="p3" onclick="switchSubTab('p3')">Pekerjaan Pihak Ke-3</button>
-                    <button class="sub-tab" data-sub="temuan" onclick="switchSubTab('temuan')">Temuan Lapangan</button>
-                </div>
-                <div id="filter-bar-container" class="filter-bar">
-                    <div class="filter-group">
-                        <i data-lucide="search" style="width:16px;color:var(--text-muted);"></i>
-                        <input type="text" id="search-input" placeholder="Cari data..." style="min-width:160px;">
+                    <div id="sop-description-container" class="sop-description hidden">
+                        <strong>SOP Penanganan Gangguan OF Cut:</strong><br>
+                        1. Terima Laporan: Catat waktu, lokasi, dan jenis gangguan.<br>
+                        2. Mobilisasi: Segera berangkat lengkap alat, material &amp; APD.<br>
+                        3. Amankan Lokasi: Pakai APD lengkap, pasang rambu.<br>
+                        4. Identifikasi: Cek penyebab, foto kondisi awal &amp; catat koordinat.<br>
+                        5. Ukur Titik Rusak: Pakai OTDR/OPM, simpan hasil ukur.<br>
+                        6. Siapkan Perbaikan: Siapkan kabel, joint closure &amp; alat sambung.<br>
+                        7. Sambung Fiber: Lakukan fusion splicing.<br>
+                        8. Pasang Closure: Pastikan rapat, kedap air.<br>
+                        9. Uji Ulang: Ukur ulang dengan OTDR.<br>
+                        10. Bersihkan Lokasi: Rapikan area.<br>
+                        11. Lapor: Kirim data lengkap.<br>
+                        12. APD dibersihkan sebelum disimpan.
                     </div>
-                    <div class="filter-group">
-                        <i data-lucide="calendar" style="width:16px;color:var(--text-muted);"></i>
-                        <select id="period-select">
-                            <option value="all">Semua Periode</option>
-                            <option value="weekly">Mingguan</option>
-                            <option value="monthly">Bulanan</option>
-                            <option value="yearly">Tahunan</option>
-                        </select>
+                    <div id="sub-tabs-container" class="sub-tabs hidden">
+                        <button class="sub-tab active" data-sub="p3" onclick="switchSubTab('p3')">Pekerjaan Pihak Ke-3</button>
+                        <button class="sub-tab" data-sub="temuan" onclick="switchSubTab('temuan')">Temuan Lapangan</button>
                     </div>
-                </div>
-                <div id="stok-summary-container" class="hidden">
-                    <div class="stok-summary">
-                        <div><span class="label">📦 Total Stok</span><div class="value total" id="total-stok-value">0</div></div>
-                        <div><span class="label">📥 Ready</span><div class="value masuk" id="total-masuk-value">0</div></div>
-                        <div><span class="label">📤 Out</span><div class="value keluar" id="total-keluar-value">0</div></div>
+                    <div id="filter-bar-container" class="filter-bar">
+                        <div class="filter-group">
+                            <i data-lucide="search" style="width:16px;color:var(--text-muted);"></i>
+                            <input type="text" id="search-input" placeholder="Cari data..." style="min-width:160px;">
+                        </div>
+                        <div class="filter-group">
+                            <i data-lucide="calendar" style="width:16px;color:var(--text-muted);"></i>
+                            <select id="period-select">
+                                <option value="all">Semua Periode</option>
+                                <option value="weekly">Mingguan</option>
+                                <option value="monthly">Bulanan</option>
+                                <option value="yearly">Tahunan</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="gudang-tabs">
-                        <button class="gudang-tab active" data-gudang="all" onclick="filterGudang('all')">Semua Gudang</button>
-                        <button class="gudang-tab" data-gudang="CLS MAMI" onclick="filterGudang('CLS MAMI')">CLS MAMI</button>
-                        <button class="gudang-tab" data-gudang="DC MANADO CENTRUM" onclick="filterGudang('DC MANADO CENTRUM')">DC MANADO</button>
-                        <button class="gudang-tab" data-gudang="CLS KAUDITAN" onclick="filterGudang('CLS KAUDITAN')">CLS KAUDITAN</button>
+                    <div id="stok-summary-container" class="hidden">
+                        <div class="stok-summary">
+                            <div><span class="label">Total Stok</span><div class="value total" id="total-stok-value">0</div></div>
+                            <div><span class="label">Ready</span><div class="value masuk" id="total-masuk-value">0</div></div>
+                            <div><span class="label">Out</span><div class="value keluar" id="total-keluar-value">0</div></div>
+                        </div>
+                        <div class="gudang-tabs">
+                            <button class="gudang-tab active" data-gudang="all" onclick="filterGudang('all')">Semua Gudang</button>
+                            <button class="gudang-tab" data-gudang="CLS MAMI" onclick="filterGudang('CLS MAMI')">CLS MAMI</button>
+                            <button class="gudang-tab" data-gudang="DC MANADO CENTRUM" onclick="filterGudang('DC MANADO CENTRUM')">DC MANADO</button>
+                            <button class="gudang-tab" data-gudang="CLS KAUDITAN" onclick="filterGudang('CLS KAUDITAN')">CLS KAUDITAN</button>
+                        </div>
                     </div>
-                </div>
-                <div class="card" style="padding:0;overflow:hidden;">
-                    <div style="overflow-x:auto;">
-                        <table class="records-table">
-                            <thead id="table-head"></thead>
-                            <tbody id="table-body"></tbody>
-                        </table>
+                    <div class="card" style="padding:0;overflow:hidden;">
+                        <div style="overflow-x:auto;">
+                            <table class="records-table">
+                                <thead id="table-head"></thead>
+                                <tbody id="table-body"></tbody>
+                            </table>
+                        </div>
+                        <div id="empty-state" style="padding:48px;text-align:center;color:var(--text-muted);display:none;">
+                            <i data-lucide="inbox" style="width:48px;height:48px;margin-bottom:12px;opacity:0.3;"></i>
+                            <p>Belum ada data</p>
+                        </div>
                     </div>
-                    <div id="empty-state" style="padding:48px;text-align:center;color:var(--text-muted);display:none;">
-                        <i data-lucide="inbox" style="width:48px;height:48px;margin-bottom:12px;opacity:0.3;"></i>
-                        <p>Belum ada data</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <nav class="bottom-nav">
-            <div class="nav-item active" data-cat="dashboard"><i data-lucide="layout-dashboard"></i><span>Home</span></div>
-            <div class="nav-item" data-cat="Data OF Cut"><i data-lucide="scissors"></i><span>OF Cut</span></div>
-            <div class="nav-item" data-cat="P3_Temuan"><i data-lucide="users"></i><span>P3/Temuan</span></div>
-            <div class="nav-item" data-cat="OPM/OLS"><i data-lucide="activity"></i><span>OPM</span></div>
-            <div class="nav-item" data-cat="Joint"><i data-lucide="link"></i><span>Joint</span></div>
-            <div class="nav-item" data-cat="Handhole"><i data-lucide="archive"></i><span>HH</span></div>
-            <div class="nav-item" data-cat="Alkur/Material"><i data-lucide="wrench"></i><span>Alkur</span></div>
-            <div class="nav-item" data-cat="Stok Spare"><i data-lucide="package"></i><span>Spare</span></div>
-            <div class="nav-item" data-cat="Patch Cord"><i data-lucide="cable"></i><span>Patch</span></div>
-        </nav>
+                </section>
+            </main>
+        </div>
     </div>
 
     <!-- MODAL KML -->
@@ -465,7 +780,6 @@
                         <input type="date" id="inp-date" class="field-control" required>
                     </div>
 
-                    <!-- STOCK FIELDS -->
                     <div id="field-stock" class="hidden">
                         <div style="background:var(--bg-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid var(--line);">
                             <div style="font-size:12px;font-weight:600;color:var(--text-muted);">Gudang Terpilih</div>
@@ -531,7 +845,7 @@
                         </div>
                         <div id="form-update-pemakaian" class="hidden">
                             <div style="background:#FDF0D5;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
-                                <div style="font-size:12px;font-weight:600;color:#E76F51;">📝 Update Pemakaian</div>
+                                <div style="font-size:12px;font-weight:600;color:#E76F51;">Update Pemakaian</div>
                             </div>
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                                 <div>
@@ -578,10 +892,9 @@
                         </div>
                     </div>
 
-                    <!-- PATCH CORD -->
                     <div id="field-patchcord" class="hidden">
                         <div style="background:#CAF0F8;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
-                            <div style="font-size:12px;font-weight:600;color:#0077B6;">📦 Patch Cord</div>
+                            <div style="font-size:12px;font-weight:600;color:#0077B6;">Patch Cord</div>
                             <div id="patchcord-gudang-display" style="font-size:14px;font-weight:700;color:var(--primary-blue);"></div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -643,10 +956,9 @@
                         </div>
                     </div>
 
-                    <!-- ALKUR -->
                     <div id="field-alkur" class="hidden">
                         <div style="background:var(--accent-gold-light);padding:12px 14px;border-radius:12px;margin-bottom:12px;">
-                            <div style="font-size:12px;font-weight:600;color:#E76F51;">🔧 Data Material/Alkur</div>
+                            <div style="font-size:12px;font-weight:600;color:#E76F51;">Data Material/Alkur</div>
                             <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">SN otomatis: DDMMYY-KODE</div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -690,7 +1002,6 @@
                         </div>
                     </div>
 
-                    <!-- NORMAL -->
                     <div id="field-normal" class="hidden">
                         <label style="font-size:12px;font-weight:700;color:var(--text-dark);">Nama Lokasi *</label>
                         <div style="display:flex;gap:8px;">
@@ -714,10 +1025,9 @@
                         </select>
                     </div>
 
-                    <!-- OPM/OLS -->
                     <div id="field-opm" class="hidden">
                         <div style="background:#FDF0D5;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
-                            <div style="font-size:12px;font-weight:600;color:#E76F51;">📡 Data OPM/OLS</div>
+                            <div style="font-size:12px;font-weight:600;color:#E76F51;">Data OPM/OLS</div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                             <div>
@@ -787,10 +1097,9 @@
                         </div>
                     </div>
 
-                    <!-- OF CUT -->
                     <div id="field-ofcut" class="hidden">
                         <div style="background:#CAF0F8;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
-                            <div style="font-size:12px;font-weight:600;color:#0077B6;">📏 Detail OF Cut</div>
+                            <div style="font-size:12px;font-weight:600;color:#0077B6;">Detail OF Cut</div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                             <div>
@@ -830,10 +1139,9 @@
                         </div>
                     </div>
 
-                    <!-- P3/TEMUAN -->
                     <div id="field-p3temuan" class="hidden">
                         <div style="background:#FDF0D5;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
-                            <div style="font-size:12px;font-weight:600;color:#E76F51;" id="p3temuan-label">📋 Data Pekerjaan</div>
+                            <div style="font-size:12px;font-weight:600;color:#E76F51;" id="p3temuan-label">Data Pekerjaan</div>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                             <div>
@@ -934,12 +1242,12 @@
                 <button onclick="document.getElementById('settings-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
             </div>
             <div style="margin-bottom:20px;">
-                <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;">📝 Edit Keterangan Hero</h4>
+                <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;">Edit Keterangan Hero</h4>
                 <textarea id="hero-about-input" class="field-control" rows="3"></textarea>
                 <button id="btn-save-hero-about" class="btn-primary" style="width:100%;margin-top:8px;justify-content:center;">Simpan</button>
             </div>
             <div>
-                <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;">🎨 Tampilan Background</h4>
+                <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;">Tampilan Background</h4>
                 <div style="display:grid;gap:12px;">
                     <div>
                         <label style="font-size:12px;font-weight:600;color:var(--text-muted);">Warna 1</label>
@@ -963,9 +1271,6 @@
     </div>
 
     <script>
-    // ============================================================
-    // FIREBASE
-    // ============================================================
     const firebaseConfig = {
         apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
         authDomain: "bucin-18282.firebaseapp.com",
@@ -981,12 +1286,8 @@
         firebaseApp = firebase.initializeApp(firebaseConfig);
         db = firebase.database();
         firebaseReady = true;
-        console.log('✅ Firebase initialized');
-    } catch (e) { console.error('❌ Firebase init error:', e); }
+    } catch (e) {}
 
-    // ============================================================
-    // GLOBAL
-    // ============================================================
     let currentUser = null;
     let currentCategory = 'dashboard';
     let currentSubTab = 'p3';
@@ -1002,7 +1303,6 @@
         'IGG LINE 1': '#FFA500', 'IGG LINE 2': '#800080', 'DWDM': '#FF00FF',
         'SEA US LINE 1': '#00FFFF', 'SEA US LINE 2': '#FFD700'
     };
-    let activeKmlLine = null;
     let quaggaRunning = false;
     let selectedGudang = '';
     let chartIncidents = null;
@@ -1022,9 +1322,6 @@
         'Joint': '#0077B6', 'Handhole': '#9B5DE5'
     };
 
-    // ============================================================
-    // FIREBASE CHECK
-    // ============================================================
     function checkFirebaseConnection() {
         return new Promise(function(resolve) {
             if (!firebaseReady || !db) { resolve(false); return; }
@@ -1044,26 +1341,25 @@
                     db.ref('users').set({
                         'admin': { pass: 'admin123', role: 'admin' },
                         'user': { pass: 'user123', role: 'user' }
-                    }).then(function() { console.log('✅ User default dibuat'); });
-                } else {
-                    console.log('✅ User sudah ada:', Object.keys(users));
+                    });
                 }
             })
-            .catch(function(err) {
-                console.error('❌ Cek user gagal:', err);
-                if (err.message && err.message.includes('permission')) {
-                    console.error('🔴 Set Firebase Rules: { "rules": { ".read": true, ".write": true } }');
-                }
-            });
+            .catch(function() {});
     }
 
-    // ============================================================
-    // LOGIN
-    // ============================================================
+    function updateSidebarUser() {
+        if (!currentUser) return;
+        var nameEl = document.getElementById('sidebar-user-name');
+        var roleEl = document.getElementById('sidebar-user-role');
+        var initEl = document.getElementById('sidebar-user-initial');
+        if (nameEl) nameEl.textContent = currentUser.name;
+        if (roleEl) roleEl.textContent = currentUser.role === 'admin' ? 'Administrator' : 'Operator';
+        if (initEl) initEl.textContent = currentUser.name.charAt(0).toUpperCase();
+    }
+
     function handleLogin(e) {
         if (e && e.preventDefault) e.preventDefault();
-        if (!firebaseReady || !db) { showToast('❌ Firebase belum siap', 'error'); return false; }
-
+        if (!firebaseReady || !db) { showToast('Firebase belum siap', 'error'); return false; }
         var username = document.getElementById('login-username').value.trim();
         var password = document.getElementById('login-password').value.trim();
         var errorEl = document.getElementById('login-error');
@@ -1074,20 +1370,16 @@
             errorEl.classList.add('show');
             return false;
         }
-
         var loginBtn = document.getElementById('login-btn');
         var orig = loginBtn.innerHTML;
         loginBtn.disabled = true;
         loginBtn.innerHTML = 'Memproses...';
-        if (typeof lucide !== 'undefined') lucide.createIcons();
-
         var tm = setTimeout(function() {
             loginBtn.disabled = false;
             loginBtn.innerHTML = orig;
             errorText.textContent = 'Timeout. Cek internet & Firebase Rules.';
             errorEl.classList.add('show');
         }, 15000);
-
         db.ref('users/' + username).once('value')
             .then(function(snap) {
                 clearTimeout(tm);
@@ -1107,13 +1399,10 @@
             .then(function(ud) {
                 if (!ud) throw new Error('Username tidak ditemukan');
                 if (ud.pass !== password) throw new Error('Password salah');
-
                 currentUser = { name: username, role: ud.role || 'user' };
                 localStorage.setItem('bucin_session', JSON.stringify({ username: username, role: currentUser.role }));
-
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('app-shell').classList.remove('hidden');
-
                 if (currentUser.role === 'admin') {
                     document.getElementById('add-user-btn').classList.remove('hidden');
                     document.getElementById('settings-btn').classList.remove('hidden');
@@ -1121,27 +1410,24 @@
                     document.getElementById('add-user-btn').classList.add('hidden');
                     document.getElementById('settings-btn').classList.add('hidden');
                 }
-
+                updateSidebarUser();
                 resetSessionTimer();
                 setTimeout(function() {
                     try { initMap(); } catch (e) {}
                     try { initCharts(); } catch (e) {}
-                    try { updateQuickStats(); } catch (e) {}
                     try { loadKmlFromFirebase(); } catch (e) {}
                     try { renderTable(); } catch (e) {}
                     if (typeof lucide !== 'undefined') lucide.createIcons();
                 }, 300);
-
-                showToast(ud._isNew ? '✅ Akun baru dibuat & login!' : '✅ Selamat datang, ' + username + '!', 'success');
+                showToast(ud._isNew ? 'Akun dibuat & login berhasil!' : 'Selamat datang, ' + username + '!', 'success');
             })
             .catch(function(err) {
                 clearTimeout(tm);
-                console.error('❌ Login error:', err);
                 var msg = err.message || 'Error';
-                if (msg.includes('permission')) msg = 'Akses ditolak. Set Firebase Rules: { "rules": { ".read": true, ".write": true } }';
+                if (msg.includes('permission')) msg = 'Akses ditolak. Set Firebase Rules.';
                 errorText.textContent = msg;
                 errorEl.classList.add('show');
-                showToast('❌ ' + msg, 'error');
+                showToast(msg, 'error');
             })
             .finally(function() {
                 loginBtn.disabled = false;
@@ -1151,9 +1437,6 @@
         return false;
     }
 
-    // ============================================================
-    // SESSION
-    // ============================================================
     function resetSessionTimer() {
         if (sessionTimeout) clearTimeout(sessionTimeout);
         sessionTimeout = setTimeout(function() {
@@ -1162,16 +1445,13 @@
                 currentUser = null;
                 document.getElementById('login-screen').classList.remove('hidden');
                 document.getElementById('app-shell').classList.add('hidden');
-                showToast('⏳ Sesi habis', 'warning');
+                showToast('Sesi habis', 'warning');
             }
         }, SESSION_TIMEOUT_MS);
     }
     function refreshSession() { if (currentUser) resetSessionTimer(); }
 
-    // ============================================================
-    // UTIL
-    // ============================================================
-    function simpanData() { console.log('🔴 TOMBOL SIMPAN DIKLIK'); submitForm(null); }
+    function simpanData() { submitForm(null); }
 
     function generateBarcodePatchCord(j, p) {
         const m = { 'SC-SC': 'SCSC', 'LC-LC': 'LCLC', 'FC-FC': 'FCFC', 'ST-ST': 'STST',
@@ -1207,9 +1487,6 @@
         }, 3000);
     }
 
-    // ============================================================
-    // KML
-    // ============================================================
     function closeKmlModal() {
         document.getElementById('kml-modal').classList.add('hidden');
         document.getElementById('kml-file').value = '';
@@ -1220,16 +1497,16 @@
         e.preventDefault();
         var line = document.getElementById('kml-line').value;
         var file = document.getElementById('kml-file').files[0];
-        if (!line || !file) { showToast('❌ Pilih line & file', 'error'); return false; }
+        if (!line || !file) { showToast('Pilih line & file', 'error'); return false; }
         var r = new FileReader();
         r.onload = function(ev) {
             db.ref('kmlData/' + line).set(ev.target.result)
                 .then(function() {
-                    showToast('✅ KML tersimpan', 'success');
+                    showToast('KML tersimpan', 'success');
                     displayKmlOnMap(line, ev.target.result);
                     closeKmlModal();
                 })
-                .catch(function(err) { showToast('❌ ' + err.message, 'error'); });
+                .catch(function(err) { showToast(err.message, 'error'); });
         };
         r.readAsText(file);
         return false;
@@ -1245,11 +1522,10 @@
             if (layers.length > 0) {
                 var g = L.featureGroup(layers).addTo(map);
                 kmlLayers[line] = g;
-                activeKmlLine = line;
                 document.getElementById('map-legend-line').textContent = 'Line aktif: ' + line;
                 try { map.fitBounds(g.getBounds().pad(0.05)); } catch (e) {}
             }
-        } catch (err) { console.error('KML:', err); }
+        } catch (err) {}
     }
 
     function loadKmlFromFirebase() {
@@ -1258,7 +1534,7 @@
                 var d = s.val() || {};
                 Object.keys(d).forEach(function(l) { if (d[l]) displayKmlOnMap(l, d[l]); });
             })
-            .catch(function(err) { console.error('KML load:', err); });
+            .catch(function() {});
     }
 
     function parseKmlToLayers(xml, color) {
@@ -1301,12 +1577,9 @@
         a.href = URL.createObjectURL(b);
         a.download = 'BUCIN.kml';
         document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        showToast('✅ KML diunduh', 'success');
+        showToast('KML diunduh', 'success');
     }
 
-    // ============================================================
-    // MAP
-    // ============================================================
     function initMap() {
         if (map) return;
         try {
@@ -1324,7 +1597,7 @@
                 }
             });
             loadMarkersFromData();
-        } catch (e) { console.error('Map:', e); }
+        } catch (e) {}
     }
 
     function loadMarkersFromData() {
@@ -1364,9 +1637,6 @@
         L.tileLayer(u, { maxZoom: 22, tileSize: 512, zoomOffset: -1 }).addTo(map);
     };
 
-    // ============================================================
-    // VIEW SWITCH
-    // ============================================================
     function switchView(cat) {
         var s = document.getElementById('search-input'); if (s) s.value = '';
         if (cat === 'P3_Temuan') { currentCategory = 'Pekerjaan Pihak Ke-3'; currentSubTab = 'p3'; }
@@ -1374,14 +1644,16 @@
         document.getElementById('inp-cat').value = currentCategory;
         document.getElementById('dashboard-view').classList.add('hidden');
         document.getElementById('data-view').classList.add('hidden');
+        var headerTitle = document.getElementById('header-title');
 
         if (cat === 'dashboard') {
             document.getElementById('dashboard-view').classList.remove('hidden');
             document.getElementById('page-title').textContent = 'Dashboard';
+            if (headerTitle) headerTitle.textContent = 'Dashboard';
             document.getElementById('stok-summary-container').classList.add('hidden');
             document.getElementById('sub-tabs-container').classList.add('hidden');
             document.getElementById('sop-description-container').classList.add('hidden');
-            updateQuickStats();
+            closeSidebarMobile();
             return;
         }
 
@@ -1390,7 +1662,9 @@
         var isP3T = cat === 'P3_Temuan';
         var isOfCut = cat === 'Data OF Cut';
         document.getElementById('btn-history').classList.toggle('hidden', !isStock);
-        document.getElementById('page-title').textContent = isP3T ? 'Pekerjaan & Temuan' : cat;
+        var title = isP3T ? 'Pekerjaan & Temuan' : cat;
+        document.getElementById('page-title').textContent = title;
+        if (headerTitle) headerTitle.textContent = title;
 
         var st = document.getElementById('sub-tabs-container');
         if (isP3T) {
@@ -1407,11 +1681,18 @@
         renderTable();
         updateStokSummary();
         refreshSession();
+        closeSidebarMobile();
     }
 
-    // ============================================================
-    // RENDER TABLE
-    // ============================================================
+    function closeSidebarMobile() {
+        var sb = document.getElementById('sidebar');
+        var ov = document.getElementById('sidebar-overlay');
+        if (window.innerWidth <= 900) {
+            sb.classList.remove('open');
+            ov.classList.remove('active');
+        }
+    }
+
     function renderTable() {
         try {
             var cat = currentCategory;
@@ -1479,21 +1760,16 @@
             });
 
             if (typeof lucide !== 'undefined') lucide.createIcons();
-        } catch (e) { console.error('❌ Render:', e); }
+        } catch (e) {}
     }
 
-    // ============================================================
-    // SUBMIT FORM - PERBAIKAN OPM & ALKUR
-    // ============================================================
     function submitForm(e) {
         if (e && e.preventDefault) e.preventDefault();
-        if (isSubmitting) { showToast('⏳ Sedang memproses...', 'error'); return; }
-        if (!currentUser) { showToast('❌ Login dulu', 'error'); return; }
+        if (isSubmitting) { showToast('Sedang memproses...', 'error'); return; }
+        if (!currentUser) { showToast('Login dulu', 'error'); return; }
 
         var cat = currentCategory;
         if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
-
-        console.log('🔍 SUBMIT - Kategori:', cat, '| currentCategory:', currentCategory);
         var editKey = document.getElementById('edit-key').value;
         var data = {
             date: document.getElementById('inp-date').value,
@@ -1501,7 +1777,6 @@
             createdAt: Date.now()
         };
 
-        // PATCH CORD
         if (cat === 'Patch Cord') {
             var pcType = document.getElementById('inp-pc-type').value;
             var pcLength = document.getElementById('inp-pc-length').value;
@@ -1510,15 +1785,13 @@
             var trType = document.getElementById('inp-pc-trtype').value;
             var qty = parseInt(document.getElementById('inp-pc-qty').value) || 1;
             var notes = document.getElementById('inp-notes-patch').value.trim();
-            if (!pcType || !pcLength) { showToast('❌ Pilih jenis & panjang', 'error'); return; }
-            if (trType === 'Keluar' && !notes) { showToast('❌ Keterangan wajib', 'error'); return; }
+            if (!pcType || !pcLength) { showToast('Pilih jenis & panjang', 'error'); return; }
+            if (trType === 'Keluar' && !notes) { showToast('Keterangan wajib', 'error'); return; }
             data.pcType = pcType; data.pcLength = pcLength; data.gudang = selectedGudang;
             data.qty = qty; data.trType = trType; data.notes = notes;
             var pm = parseFloat(pcLength.replace('m', '').trim());
             data.barcode = (!isNaN(pm) && pcType !== 'Lainnya' && pcLength !== 'Lainnya') ? generateBarcodePatchCord(pcType, pm) : 'PC-' + Date.now().toString().slice(-6);
         }
-
-        // STOK SPARE
         else if (cat === 'Stok Spare') {
             var mode = document.getElementById('form-mode').value;
             if (mode === 'tambah') {
@@ -1529,7 +1802,7 @@
                 var rak = document.getElementById('inp-rak').value;
                 var riwayat = document.getElementById('inp-riwayat').value;
                 var ks = document.getElementById('inp-kondisi-spare').value;
-                if (!sn || !spec || !lemari || !rak || !riwayat || !ks) { showToast('❌ Isi semua field', 'error'); return; }
+                if (!sn || !spec || !lemari || !rak || !riwayat || !ks) { showToast('Isi semua field', 'error'); return; }
                 data.sn = sn; data.spec = spec; data.gudang = selectedGudang;
                 data.status = status; data.lemari = lemari; data.rak = rak;
                 data.riwayat = riwayat; data.kondisi = ks;
@@ -1538,23 +1811,21 @@
                 var uSn = document.getElementById('inp-update-sn').value.trim();
                 var tujuan = document.getElementById('inp-update-tujuan').value;
                 var lokasi = document.getElementById('inp-update-lokasi').value;
-                if (!uSn || !tujuan || !lokasi) { showToast('❌ Isi SN, Tujuan, Lokasi', 'error'); return; }
+                if (!uSn || !tujuan || !lokasi) { showToast('Isi SN, Tujuan, Lokasi', 'error'); return; }
                 var items = appData[cat] || {};
                 var tKey = null;
                 for (var kk in items) { if (items[kk].sn === uSn) { tKey = kk; break; } }
-                if (!tKey) { showToast('❌ SN tidak ditemukan', 'error'); return; }
+                if (!tKey) { showToast('SN tidak ditemukan', 'error'); return; }
                 data.status = 'Out';
                 data.tujuanPemakaian = tujuan;
                 data.lokasiPemakaian = lokasi;
                 data.notes = document.getElementById('inp-update-notes').value.trim();
                 db.ref('data/' + cat + '/' + tKey).update(data)
-                    .then(function() { showToast('✅ Update pemakaian', 'success'); closeModal(); setTimeout(renderTable, 500); })
-                    .catch(function(err) { showToast('❌ ' + err.message, 'error'); });
+                    .then(function() { showToast('Update pemakaian', 'success'); closeModal(); setTimeout(renderTable, 500); })
+                    .catch(function(err) { showToast(err.message, 'error'); });
                 return;
             }
         }
-
-        // ALKUR
         else if (cat === 'Alkur/Material') {
             var nama = document.getElementById('inp-alkur-nama').value.trim();
             var jenis = document.getElementById('inp-alkur-jenis').value.trim();
@@ -1563,29 +1834,20 @@
             var lokasi = document.getElementById('inp-alkur-lokasi').value;
             var keterangan = document.getElementById('inp-alkur-keterangan').value.trim();
             var snInput = document.getElementById('inp-alkur-sn').value.trim();
-
-            console.log('🔧 ALKUR values:', { nama, jenis, merk, jumlah, lokasi, snInput });
-
             if (!nama || !jenis || !merk || !lokasi) {
-                showToast('❌ Isi Nama, Jenis, Merk, Lokasi', 'error');
-                return;
+                showToast('Isi Nama, Jenis, Merk, Lokasi', 'error'); return;
             }
             var sn = snInput || generateAlkurSN(nama, jenis, merk, data.date);
             data.sn = sn; data.nama = nama; data.jenis = jenis; data.merk = merk;
             data.jumlah = jumlah; data.lokasi = lokasi; data.keterangan = keterangan;
-            console.log('✅ ALKUR data siap:', data);
         }
-
-        // HANDHOLE & JOINT
         else if (cat === 'Handhole' || cat === 'Joint') {
             var loc = document.getElementById('inp-loc').value.trim();
             var crd = document.getElementById('inp-coords').value.trim();
             var kon = document.getElementById('inp-kondisi').value;
-            if (!loc || !crd || !kon) { showToast('❌ Isi lokasi, koordinat, kondisi', 'error'); return; }
+            if (!loc || !crd || !kon) { showToast('Isi lokasi, koordinat, kondisi', 'error'); return; }
             data.location = loc; data.coords = crd; data.kondisi = kon;
         }
-
-        // OPM/OLS
         else if (cat === 'OPM/OLS') {
             var ruas = document.getElementById('inp-opm-ruas').value;
             var slot = document.getElementById('inp-opm-slot').value;
@@ -1593,19 +1855,12 @@
             var dbm = parseFloat(document.getElementById('inp-opm-dbm').value);
             var dari = document.getElementById('inp-opm-dari').value;
             var ke = document.getElementById('inp-opm-ke').value;
-
-            console.log('📡 OPM values:', { ruas, slot, port, dbm, dari, ke });
-
             if (!ruas || !slot || !port || isNaN(dbm) || !dari || !ke) {
-                showToast('❌ Isi semua field OPM/OLS', 'error');
-                return;
+                showToast('Isi semua field OPM/OLS', 'error'); return;
             }
             data.ruas = ruas; data.slot = slot; data.port = port;
             data.dbm = dbm; data.dari = dari; data.ke = ke;
-            console.log('✅ OPM data siap:', data);
         }
-
-        // OF CUT
         else if (cat === 'Data OF Cut') {
             var loc = document.getElementById('inp-loc').value.trim();
             var crd = document.getElementById('inp-coords').value.trim();
@@ -1613,54 +1868,43 @@
             var rute = document.getElementById('inp-ofcut-rute').value;
             var penyebab = document.getElementById('inp-ofcut-penyebab').value;
             var pl = document.getElementById('inp-ofcut-penyebab-lain').value.trim();
-            if (!loc || !crd || isNaN(pjg) || !rute || !penyebab) { showToast('❌ Isi semua field OF Cut', 'error'); return; }
-            if (penyebab === 'lainnya' && !pl) { showToast('❌ Isi penyebab lainnya', 'error'); return; }
+            if (!loc || !crd || isNaN(pjg) || !rute || !penyebab) { showToast('Isi semua field OF Cut', 'error'); return; }
+            if (penyebab === 'lainnya' && !pl) { showToast('Isi penyebab lainnya', 'error'); return; }
             data.location = loc; data.coords = crd; data.panjangCut = pjg;
             data.rute = rute; data.penyebab = penyebab === 'lainnya' ? pl : penyebab;
             data.keterangan = document.getElementById('inp-ofcut-keterangan').value.trim();
         }
-
-        // P3 / TEMUAN
         else if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
             var loc = document.getElementById('inp-loc').value.trim();
             var crd = document.getElementById('inp-coords').value.trim();
             var pel = document.getElementById('inp-p3-pelaksana').value.trim();
             var lama = document.getElementById('inp-p3-lama').value.trim();
-            if (!loc || !crd || !pel || !lama) { showToast('❌ Isi semua field', 'error'); return; }
+            if (!loc || !crd || !pel || !lama) { showToast('Isi semua field', 'error'); return; }
             data.location = loc; data.coords = crd;
             data.pelaksana = pel; data.lamaPekerjaan = lama;
             data.keterangan = document.getElementById('inp-p3-keterangan').value.trim();
         }
 
-        // SIMPAN
-        if (!cat || cat === 'dashboard') {
-            showToast('❌ Kategori tidak valid: ' + cat, 'error');
-            console.error('❌ Kategori tidak valid:', cat);
-            return;
-        }
+        if (!cat || cat === 'dashboard') { showToast('Kategori tidak valid', 'error'); return; }
 
         isSubmitting = true;
         var btn = document.getElementById('btn-submit-form');
         btn.disabled = true;
         btn.textContent = 'Menyimpan...';
 
-        console.log('💾 Simpan ke: data/' + cat, '| Data:', data);
-
         var ref = db.ref('data/' + cat);
         var promise = editKey ? ref.child(editKey).update(data) : ref.push(data);
 
         promise
             .then(function() {
-                console.log('✅ BERHASIL disimpan ke: data/' + cat);
-                showToast('✅ Data tersimpan di ' + cat, 'success');
+                showToast('Data tersimpan di ' + cat, 'success');
                 closeModal();
-                setTimeout(function() { renderTable(); updateStokSummary(); updateQuickStats(); updateMapMarkers(); }, 500);
+                setTimeout(function() { renderTable(); updateStokSummary(); updateMapMarkers(); }, 500);
             })
             .catch(function(err) {
-                console.error('❌ GAGAL simpan:', err);
                 var msg = err.message || 'Gagal simpan';
-                if (msg.includes('permission')) msg = 'Akses ditolak. Set Firebase Rules!';
-                showToast('❌ ' + msg, 'error');
+                if (msg.includes('permission')) msg = 'Akses ditolak. Set Firebase Rules.';
+                showToast(msg, 'error');
             })
             .finally(function() {
                 isSubmitting = false;
@@ -1669,9 +1913,6 @@
             });
     }
 
-    // ============================================================
-    // MODAL FORM
-    // ============================================================
     function closeModal() {
         document.getElementById('form-modal').classList.add('hidden');
         stopScanner('modal');
@@ -1687,19 +1928,19 @@
     }
 
     window.deleteItem = function(k, cat) {
-        if (!currentUser || currentUser.role !== 'admin') { showToast('❌ Hanya admin', 'error'); return; }
+        if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya admin', 'error'); return; }
         if (confirm('Hapus data ini?')) {
             db.ref('data/' + cat + '/' + k).remove();
-            showToast('🗑️ Dihapus', 'success');
-            setTimeout(function() { renderTable(); updateQuickStats(); updateMapMarkers(); }, 500);
+            showToast('Dihapus', 'success');
+            setTimeout(function() { renderTable(); updateMapMarkers(); }, 500);
         }
     };
 
     window.editItem = function(k, cat) {
-        if (!currentUser || currentUser.role !== 'admin') { showToast('❌ Hanya admin', 'error'); return; }
+        if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya admin', 'error'); return; }
         var list = appData[cat] || {};
         var data = list[k];
-        if (!data) { showToast('❌ Data tidak ada', 'error'); return; }
+        if (!data) { showToast('Data tidak ada', 'error'); return; }
         if (data.gudang) { selectedGudang = data.gudang; document.getElementById('inp-gudang-selected').value = data.gudang; }
         openForm(data, k);
     };
@@ -1757,14 +1998,8 @@
             }
         }
 
-        if (isAlkur) {
-            document.getElementById('field-alkur').classList.remove('hidden');
-            console.log('✅ Field Alkur ditampilkan');
-        }
-        if (isOpm) {
-            document.getElementById('field-opm').classList.remove('hidden');
-            console.log('✅ Field OPM ditampilkan');
-        }
+        if (isAlkur) document.getElementById('field-alkur').classList.remove('hidden');
+        if (isOpm) document.getElementById('field-opm').classList.remove('hidden');
         if (isHH || isJoint) {
             document.getElementById('field-normal').classList.remove('hidden');
             document.getElementById('field-coords-wrap').classList.remove('hidden');
@@ -1780,7 +2015,7 @@
             document.getElementById('field-coords-wrap').classList.remove('hidden');
             document.getElementById('field-p3temuan').classList.remove('hidden');
             document.getElementById('p3temuan-label').textContent =
-                cat === 'Pekerjaan Pihak Ke-3' ? '📋 Data Pekerjaan Pihak Ke-3' : '📋 Data Temuan Lapangan';
+                cat === 'Pekerjaan Pihak Ke-3' ? 'Data Pekerjaan Pihak Ke-3' : 'Data Temuan Lapangan';
         }
         if (editData) document.getElementById('inp-date').value = editData.date || '';
         stopScanner('modal');
@@ -1821,21 +2056,6 @@
             if (el && map[id] !== undefined && map[id] !== null) el.value = map[id];
         });
         if (data.jumlah !== undefined) document.getElementById('inp-alkur-jumlah').value = data.jumlah;
-    }
-
-    // ============================================================
-    // OTHER
-    // ============================================================
-    function updateQuickStats() {
-        var t = 0, c = 0;
-        Object.keys(appData).forEach(function(k) {
-            if (typeof appData[k] === 'object' && appData[k] !== null) {
-                var n = Object.keys(appData[k]).length;
-                if (n > 0) { t += n; c++; }
-            }
-        });
-        var e1 = document.getElementById('quick-total'); if (e1) e1.textContent = t;
-        var e2 = document.getElementById('quick-categories'); if (e2) e2.textContent = c;
     }
 
     function updateStokSummary() {
@@ -1890,10 +2110,7 @@
             document.getElementById('btn-ok-spare').classList.add('hidden');
             document.getElementById('gudang-modal').classList.remove('hidden');
             spareAction = 'tambah';
-        } else {
-            console.log('🔵 handleAddClick - currentCategory:', currentCategory);
-            openForm();
-        }
+        } else openForm();
     }
 
     window.selectGudang = function(el) {
@@ -1912,7 +2129,7 @@
     }
 
     function confirmSpareAction() {
-        if (!selectedGudang) { showToast('❌ Pilih gudang', 'error'); return; }
+        if (!selectedGudang) { showToast('Pilih gudang', 'error'); return; }
         closeGudangModal();
         openForm();
     }
@@ -1967,9 +2184,9 @@
                     document.getElementById('inp-loc').value = d[0].display_name;
                     document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
                     closeMapModal();
-                } else showToast('❌ Tidak ditemukan', 'error');
+                } else showToast('Tidak ditemukan', 'error');
             })
-            .catch(function(err) { showToast('❌ ' + err.message, 'error'); });
+            .catch(function(err) { showToast(err.message, 'error'); });
     }
 
     function getCurrentLocation() {
@@ -1995,7 +2212,7 @@
             document.getElementById('inp-loc').value = selectedMapLocation.name;
             document.getElementById('inp-coords').value = selectedMapLocation.lat.toFixed(5) + ', ' + selectedMapLocation.lng.toFixed(5);
             closeMapModal();
-            showToast('✅ Lokasi dipilih', 'success');
+            showToast('Lokasi dipilih', 'success');
         }
     }
 
@@ -2013,12 +2230,12 @@
     function downloadSpareHistoryExcel() {
         db.ref('history/spare').once('value', function(s) {
             var items = Object.values(s.val() || {});
-            if (items.length === 0) { showToast('⚠️ Tidak ada', 'error'); return; }
+            if (items.length === 0) { showToast('Tidak ada data', 'error'); return; }
             var ws = XLSX.utils.json_to_sheet(items);
             var wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Riwayat');
             XLSX.writeFile(wb, 'Riwayat_Spare.xlsx');
-            showToast('✅ Excel diunduh', 'success');
+            showToast('Excel diunduh', 'success');
         });
     }
 
@@ -2026,12 +2243,12 @@
         var cat = currentCategory;
         if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
         var items = Object.values(appData[cat] || {});
-        if (items.length === 0) { showToast('⚠️ Tidak ada data', 'error'); return; }
+        if (items.length === 0) { showToast('Tidak ada data', 'error'); return; }
         var ws = XLSX.utils.json_to_sheet(items);
         var wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, cat);
         XLSX.writeFile(wb, cat + '.xlsx');
-        showToast('✅ Excel diunduh', 'success');
+        showToast('Excel diunduh', 'success');
     }
 
     function submitAddUser(e) {
@@ -2039,15 +2256,15 @@
         var u = document.getElementById('new-username').value.trim();
         var p = document.getElementById('new-password').value.trim();
         var r = document.getElementById('new-role').value;
-        if (!u || !p) { showToast('❌ Isi semua', 'error'); return false; }
+        if (!u || !p) { showToast('Isi semua', 'error'); return false; }
         db.ref('users/' + u).set({ pass: p, role: r })
             .then(function() {
-                showToast('✅ User ditambahkan', 'success');
+                showToast('User ditambahkan', 'success');
                 document.getElementById('add-user-modal').classList.add('hidden');
                 document.getElementById('new-username').value = '';
                 document.getElementById('new-password').value = '';
             })
-            .catch(function(err) { showToast('❌ ' + err.message, 'error'); });
+            .catch(function(err) { showToast(err.message, 'error'); });
         return false;
     }
 
@@ -2068,7 +2285,7 @@
                 });
                 updateCharts();
             }
-        } catch (e) { console.error('Chart:', e); }
+        } catch (e) {}
     }
 
     function updateCharts() {
@@ -2081,22 +2298,20 @@
     }
 
     function updateChartPeriod() { updateCharts(); }
-    function updateDashboard() { updateCharts(); updateMapMarkers(); updateQuickStats(); }
+    function updateDashboard() { updateCharts(); updateMapMarkers(); }
 
     function loadData() {
         if (!db) return;
         db.ref('data').on('value', function(s) {
             appData = s.val() || {};
-            console.log('✅ Data loaded:', Object.keys(appData));
             updateDashboard();
             renderTable();
             updateStokSummary();
             updateMapMarkers();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }, function(err) {
-            console.error('❌ Load data:', err);
             if (err.message && err.message.includes('permission')) {
-                showToast('❌ Akses ditolak. Set Firebase Rules!', 'error');
+                showToast('Akses ditolak. Set Firebase Rules.', 'error');
             }
         });
     }
@@ -2123,24 +2338,21 @@
         var c = document.getElementById('modal-scanner');
         if (!c) return;
         if (c.classList.contains('active')) { stopScanner(t); return; }
-        if (!navigator.mediaDevices) { showToast('❌ Kamera tidak didukung', 'error'); return; }
+        if (!navigator.mediaDevices) { showToast('Kamera tidak didukung', 'error'); return; }
         c.classList.add('active');
         var v = document.getElementById('modal-camera-preview');
-        var st = c.querySelector('.scanner-status');
-        if (st) st.textContent = 'Mengaktifkan...';
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
             .then(function(stream) {
                 scannerStream = stream;
                 v.srcObject = stream;
                 v.play();
-                if (st) st.textContent = 'Mencari...';
                 if (typeof Quagga !== 'undefined') {
                     Quagga.init({
                         inputStream: { name: 'Live', type: 'LiveStream', target: v },
                         decoder: { readers: ['code_128_reader', 'ean_reader', 'upc_reader', 'code_39_reader'] },
                         locate: true
                     }, function(err) {
-                        if (err) { showToast('❌ ' + err.message, 'error'); return; }
+                        if (err) { showToast(err.message, 'error'); return; }
                         Quagga.start(); quaggaRunning = true;
                         Quagga.onDetected(function(r) {
                             var code = r.codeResult.code;
@@ -2152,19 +2364,16 @@
                                     document.getElementById('inp-sn').value = code;
                                     if (barcodeCache[code]) document.getElementById('inp-spec').value = barcodeCache[code];
                                 }
-                                showToast('✅ SN: ' + code, 'success');
+                                showToast('SN: ' + code, 'success');
                                 setTimeout(function() { stopScanner(t); }, 300);
                             }
                         });
                     });
                 }
             })
-            .catch(function(err) { showToast('❌ Kamera: ' + err.message, 'error'); c.classList.remove('active'); });
+            .catch(function(err) { showToast('Kamera: ' + err.message, 'error'); c.classList.remove('active'); });
     }
 
-    // ============================================================
-    // EVENT LISTENERS
-    // ============================================================
     function setupEventListeners() {
         var lf = document.getElementById('login-form');
         if (lf) lf.addEventListener('submit', handleLogin);
@@ -2191,6 +2400,18 @@
                 this.classList.add('active');
                 switchView(this.dataset.cat);
             });
+        });
+
+        var mt = document.getElementById('menu-toggle');
+        var sb = document.getElementById('sidebar');
+        var ov = document.getElementById('sidebar-overlay');
+        if (mt) mt.addEventListener('click', function() {
+            sb.classList.toggle('open');
+            ov.classList.toggle('active');
+        });
+        if (ov) ov.addEventListener('click', function() {
+            sb.classList.remove('open');
+            ov.classList.remove('active');
         });
 
         var ab = document.getElementById('btn-add');
@@ -2223,8 +2444,8 @@
         var aub = document.getElementById('add-user-btn');
         if (aub) aub.addEventListener('click', function() { document.getElementById('add-user-modal').classList.remove('hidden'); });
 
-        var sb = document.getElementById('settings-btn');
-        if (sb) sb.addEventListener('click', function() {
+        var stb = document.getElementById('settings-btn');
+        if (stb) stb.addEventListener('click', function() {
             document.getElementById('settings-modal').classList.remove('hidden');
             document.getElementById('hero-about-input').value = document.getElementById('hero-about-text').textContent;
         });
@@ -2235,7 +2456,7 @@
             if (t) {
                 document.getElementById('hero-about-text').textContent = t;
                 db.ref('settings/heroAbout').set(t);
-                showToast('✅ Disimpan', 'success');
+                showToast('Disimpan', 'success');
                 document.getElementById('settings-modal').classList.add('hidden');
             }
         });
@@ -2247,7 +2468,7 @@
                 bgColor2: document.getElementById('set-bg-color2').value,
                 bgOpacity: document.getElementById('set-bg-opacity').value
             });
-            showToast('✅ Disimpan', 'success');
+            showToast('Disimpan', 'success');
             document.getElementById('settings-modal').classList.add('hidden');
         });
 
@@ -2265,20 +2486,11 @@
         document.addEventListener('keydown', refreshSession);
     }
 
-    // ============================================================
-    // INIT
-    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         if (typeof lucide !== 'undefined') lucide.createIcons();
 
         checkFirebaseConnection().then(function(ok) {
-            if (ok) {
-                console.log('✅ Firebase terhubung');
-                ensureDefaultUser();
-            } else {
-                console.warn('⚠️ Firebase tidak terhubung');
-                showToast('⚠️ Firebase tidak terhubung', 'warning');
-            }
+            if (ok) ensureDefaultUser();
         });
 
         var saved = localStorage.getItem('bucin_session');
@@ -2293,9 +2505,10 @@
                         document.getElementById('add-user-btn').classList.remove('hidden');
                         document.getElementById('settings-btn').classList.remove('hidden');
                     }
+                    updateSidebarUser();
                     resetSessionTimer();
                     setTimeout(function() {
-                        initMap(); initCharts(); updateQuickStats();
+                        initMap(); initCharts();
                         loadKmlFromFirebase(); renderTable();
                         if (typeof lucide !== 'undefined') lucide.createIcons();
                     }, 300);
@@ -2310,8 +2523,6 @@
         setupEventListeners();
         loadData(); loadSettings(); loadBarcodeCache();
     });
-
-    console.log('✅ BUCIN loaded');
     </script>
 </body>
 </html>
