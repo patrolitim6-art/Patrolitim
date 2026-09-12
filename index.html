@@ -18,16 +18,12 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
     <style>
-        /* ============================================================
-           TEMA DARK (Tech/Robot) — DEFAULT
-           ============================================================ */
         html[data-theme="dark"], :root {
             --primary-cyan: #00D9FF;
             --primary-blue: #0EA5E9;
             --primary-purple: #A855F7;
             --primary-pink: #EC4899;
             --tech-gradient: linear-gradient(135deg, #00D9FF 0%, #0EA5E9 45%, #A855F7 100%);
-
             --surface-1: rgba(15, 23, 42, 0.7);
             --surface-2: rgba(15, 23, 42, 0.9);
             --surface-3: #0F172A;
@@ -44,38 +40,30 @@
             --surface-table-header: rgba(0, 217, 255, 0.08);
             --surface-map-legend: rgba(10, 14, 26, 0.92);
             --surface-map-btn: rgba(10, 14, 26, 0.9);
-
             --text-main: #E2E8F0;
             --text-muted: #94A3B8;
             --text-dim: #64748B;
             --text-on-accent: #050810;
-
             --border-glow: rgba(0, 217, 255, 0.25);
             --border-subtle: rgba(148, 163, 184, 0.15);
-
             --bg-main: #0A0E1A;
             --bg-pattern-1: rgba(0, 217, 255, 0.04);
             --bg-pattern-2: rgba(0, 217, 255, 0.15);
             --bg-pattern-3: rgba(168, 85, 247, 0.15);
             --bg-pattern-4: rgba(14, 165, 233, 0.08);
-
             --shadow-card: 0 4px 24px rgba(0, 217, 255, 0.08);
             --shadow-card-hover: 0 8px 40px rgba(0, 217, 255, 0.18);
             --shadow-modal: 0 24px 64px rgba(0, 217, 255, 0.15);
-
             --scroll-track: rgba(15, 23, 42, 0.5);
+            --pct-color-1: #00D9FF;
+            --pct-color-2: #A855F7;
         }
-
-        /* ============================================================
-           TEMA LIGHT (Clean Bright)
-           ============================================================ */
         html[data-theme="light"] {
             --primary-cyan: #0891B2;
             --primary-blue: #0284C7;
             --primary-purple: #7C3AED;
             --primary-pink: #DB2777;
             --tech-gradient: linear-gradient(135deg, #06B6D4 0%, #3B82F6 45%, #8B5CF6 100%);
-
             --surface-1: rgba(255, 255, 255, 0.9);
             --surface-2: #FFFFFF;
             --surface-3: #F8FAFC;
@@ -92,26 +80,23 @@
             --surface-table-header: rgba(8, 145, 178, 0.08);
             --surface-map-legend: rgba(255, 255, 255, 0.95);
             --surface-map-btn: rgba(255, 255, 255, 0.95);
-
             --text-main: #0F172A;
             --text-muted: #475569;
             --text-dim: #94A3B8;
             --text-on-accent: #FFFFFF;
-
             --border-glow: rgba(6, 182, 212, 0.35);
             --border-subtle: rgba(15, 23, 42, 0.1);
-
             --bg-main: #F0F9FF;
             --bg-pattern-1: rgba(6, 182, 212, 0.07);
             --bg-pattern-2: rgba(6, 182, 212, 0.2);
             --bg-pattern-3: rgba(139, 92, 246, 0.15);
             --bg-pattern-4: rgba(59, 130, 246, 0.1);
-
             --shadow-card: 0 4px 24px rgba(6, 182, 212, 0.1);
             --shadow-card-hover: 0 8px 40px rgba(6, 182, 212, 0.2);
             --shadow-modal: 0 24px 64px rgba(6, 182, 212, 0.15);
-
             --scroll-track: rgba(226, 232, 240, 0.6);
+            --pct-color-1: #0891B2;
+            --pct-color-2: #7C3AED;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -225,7 +210,6 @@
         }
         .btn-icon.theme-active { color: #F59E0B; border-color: rgba(245, 158, 11, 0.4); }
 
-        /* SIDEBAR */
         .sidebar {
             position: fixed; top: 0; left: 0; bottom: 0;
             width: var(--sidebar-width);
@@ -855,6 +839,30 @@
 
         .history-badge { display: inline-block; padding: 2px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; }
 
+        /* Warning banner untuk OPM Dari/Ke sama */
+        .opm-warning {
+            display: none;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            color: #F59E0B;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+            align-items: center;
+            gap: 8px;
+        }
+        .opm-warning.show {
+            display: flex;
+            animation: shake 0.4s ease;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
         @media(max-width:640px) {
             .hero-panel { padding: 20px 16px; }
             .hero-panel h1 { font-size: 20px; }
@@ -999,7 +1007,7 @@
                                     <select id="chart-period" class="field-control" style="min-height:32px;padding:2px 12px;font-size:12px;width:auto;border-radius:8px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
                                 </div>
                             </h3>
-                            <div style="height:280px;"><canvas id="chartIncidents"></canvas></div>
+                            <div style="height:320px;"><canvas id="chartIncidents"></canvas></div>
                         </div>
                     </div>
                     <div class="card" style="padding:0;overflow:hidden;margin-top:20px;">
@@ -1118,7 +1126,7 @@
         </div>
     </div>
 
-    <!-- MODAL RIWAYAT PER MENU -->
+    <!-- MODAL RIWAYAT -->
     <div id="riwayat-modal" class="modal-layer hidden">
         <div class="modal-card" style="max-width:800px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
@@ -1452,7 +1460,7 @@
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
                             <div>
                                 <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);">Dari *</label>
-                                <select id="inp-opm-dari" class="field-control">
+                                <select id="inp-opm-dari" class="field-control" onchange="checkOpmDariKe()">
                                     <option value="">-- Pilih --</option>
                                     <option value="CLS MAMI">CLS MAMI</option>
                                     <option value="CLS MALALAYANG">CLS MALALAYANG</option>
@@ -1465,7 +1473,7 @@
                             </div>
                             <div>
                                 <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);">Ke *</label>
-                                <select id="inp-opm-ke" class="field-control">
+                                <select id="inp-opm-ke" class="field-control" onchange="checkOpmDariKe()">
                                     <option value="">-- Pilih --</option>
                                     <option value="CLS MAMI">CLS MAMI</option>
                                     <option value="CLS MALALAYANG">CLS MALALAYANG</option>
@@ -1476,6 +1484,10 @@
                                     <option value="CLS KAUDITAN">CLS KAUDITAN</option>
                                 </select>
                             </div>
+                        </div>
+                        <div id="opm-warning" class="opm-warning">
+                            <i data-lucide="alert-triangle" style="width:16px;height:16px;flex-shrink:0;"></i>
+                            <span>"Dari" dan "Ke" tidak boleh sama! Silakan pilih lokasi yang berbeda.</span>
                         </div>
                         <div style="margin-top:12px;">
                             <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);">Keterangan (Opsional)</label>
@@ -1790,16 +1802,23 @@
         if (theme !== 'dark' && theme !== 'light') theme = 'dark';
         document.documentElement.setAttribute('data-theme', theme);
         try { localStorage.setItem('bucin_theme', theme); } catch (e) {}
-
-        // Update ikon toggle di header
         var icon = document.getElementById('theme-icon');
-        if (icon) {
-            // Dark aktif → tampilkan sun (klik untuk ke light)
-            // Light aktif → tampilkan moon (klik untuk ke dark)
-            icon.setAttribute('data-lucide', theme === 'dark' ? 'sun' : 'moon');
-        }
+        if (icon) icon.setAttribute('data-lucide', theme === 'dark' ? 'sun' : 'moon');
         if (typeof lucide !== 'undefined') lucide.createIcons();
         updateThemeButtons();
+        // Update warna chart jika sudah ada
+        if (chartIncidents) {
+            try {
+                var legendColor = theme === 'dark' ? '#E2E8F0' : '#0F172A';
+                var tickColor = theme === 'dark' ? '#94A3B8' : '#475569';
+                var gridColor = theme === 'dark' ? 'rgba(148, 163, 184, 0.1)' : 'rgba(15, 23, 42, 0.08)';
+                chartIncidents.options.plugins.legend.labels.color = legendColor;
+                chartIncidents.options.scales.y.ticks.color = tickColor;
+                chartIncidents.options.scales.y.grid.color = gridColor;
+                chartIncidents.options.scales.x.ticks.color = tickColor;
+                chartIncidents.update('none');
+            } catch (e) {}
+        }
     }
 
     function toggleTheme() {
@@ -1818,6 +1837,21 @@
         var saved = 'dark';
         try { saved = localStorage.getItem('bucin_theme') || 'dark'; } catch (e) {}
         setTheme(saved);
+    }
+
+    // ============================================================
+    // VALIDASI OPM: Dari & Ke tidak boleh sama
+    // ============================================================
+    function checkOpmDariKe() {
+        var dari = document.getElementById('inp-opm-dari').value;
+        var ke = document.getElementById('inp-opm-ke').value;
+        var warn = document.getElementById('opm-warning');
+        if (!warn) return;
+        if (dari && ke && dari === ke) {
+            warn.classList.add('show');
+        } else {
+            warn.classList.remove('show');
+        }
     }
 
     function checkFirebaseConnection() {
@@ -1883,7 +1917,6 @@
         var cat = currentCategory;
         if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
         if (cat === 'dashboard') return;
-
         currentRiwayatMenu = cat;
         document.getElementById('riwayat-modal-title').textContent = 'Riwayat - ' + (MENU_LABELS[cat] || cat);
         document.getElementById('riwayat-modal-search').value = '';
@@ -1895,21 +1928,15 @@
         var cat = currentRiwayatMenu;
         var items = Object.values(riwayatData).filter(function(i) { return i.menu === cat; });
         items.sort(function(a, b) { return (b.timestamp || 0) - (a.timestamp || 0); });
-
         var search = document.getElementById('riwayat-modal-search')?.value.toLowerCase() || '';
-        if (search) {
-            items = items.filter(function(i) { return JSON.stringify(i).toLowerCase().includes(search); });
-        }
-
+        if (search) items = items.filter(function(i) { return JSON.stringify(i).toLowerCase().includes(search); });
         var tb = document.getElementById('riwayat-modal-body');
         tb.innerHTML = '';
-
         if (items.length === 0) {
             document.getElementById('riwayat-modal-empty').style.display = 'block';
             return;
         }
         document.getElementById('riwayat-modal-empty').style.display = 'none';
-
         items.forEach(function(it) {
             var aksiColor = it.aksi === 'Hapus' ? '#EC4899' : (it.aksi === 'Edit' || it.aksi === 'Update' || it.aksi === 'Update Pemakaian' ? '#F59E0B' : '#10B981');
             tb.innerHTML += '<tr>' +
@@ -1931,14 +1958,7 @@
         var items = Object.values(riwayatData).filter(function(i) { return i.menu === cat; });
         if (items.length === 0) { showToast('Tidak ada riwayat', 'error'); return; }
         var excelData = items.map(function(i) {
-            return {
-                'Tanggal': i.tanggal || '-',
-                'Menu': MENU_LABELS[i.menu] || i.menu || '-',
-                'Aksi': i.aksi || '-',
-                'User': i.user || '-',
-                'Detail': i.detail || '-',
-                'Keterangan': i.keterangan || ''
-            };
+            return { 'Tanggal': i.tanggal || '-', 'Menu': MENU_LABELS[i.menu] || i.menu || '-', 'Aksi': i.aksi || '-', 'User': i.user || '-', 'Detail': i.detail || '-', 'Keterangan': i.keterangan || '' };
         });
         var ws = XLSX.utils.json_to_sheet(excelData);
         var wb = XLSX.utils.book_new();
@@ -1959,9 +1979,7 @@
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }, function(err) {
             console.error('Firebase listener error:', err);
-            if (err.message && err.message.includes('permission')) {
-                showToast('Akses ditolak. Set Firebase Rules.', 'error');
-            }
+            if (err.message && err.message.includes('permission')) showToast('Akses ditolak. Set Firebase Rules.', 'error');
         });
         dataListenerAttached = true;
     }
@@ -1986,11 +2004,7 @@
         var errorEl = document.getElementById('login-error');
         var errorText = document.getElementById('login-error-text');
         errorEl.classList.remove('show');
-        if (!username || !password) {
-            errorText.textContent = 'Isi username & password!';
-            errorEl.classList.add('show');
-            return false;
-        }
+        if (!username || !password) { errorText.textContent = 'Isi username & password!'; errorEl.classList.add('show'); return false; }
         var loginBtn = document.getElementById('login-btn');
         var orig = loginBtn.innerHTML;
         loginBtn.disabled = true;
@@ -2095,12 +2109,10 @@
         var mm = String(d.getMonth() + 1).padStart(2, '0');
         var yy = String(d.getFullYear()).slice(-2);
         var datePart = dd + mm + yy;
-
         var hurufNama = (nama || 'X').charAt(0).toUpperCase();
         var hurufJenis = (jenis || 'XX').substring(0, 2).toUpperCase().padEnd(2, 'X');
         var hurufMerk = (merk || 'XX').substring(0, 2).toUpperCase().padEnd(2, 'X');
         var urutPart = String(urutan || 1).padStart(3, '0');
-
         return datePart + hurufNama + hurufJenis + hurufMerk + urutPart;
     }
 
@@ -2277,19 +2289,16 @@
         var s = document.getElementById('search-input'); if (s) s.value = '';
         if (cat === 'P3_Temuan') { currentCategory = 'Pekerjaan Pihak Ke-3'; currentSubTab = 'p3'; }
         else currentCategory = cat;
-
         document.getElementById('inp-cat').value = currentCategory;
         document.getElementById('dashboard-view').classList.add('hidden');
         document.getElementById('data-view').classList.add('hidden');
         var headerTitle = document.getElementById('header-title');
-
         if (cat === 'dashboard') {
             document.getElementById('dashboard-view').classList.remove('hidden');
             if (headerTitle) headerTitle.textContent = 'Dashboard';
             closeSidebarMobile();
             return;
         }
-
         document.getElementById('data-view').classList.remove('hidden');
         var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
         var isP3T = cat === 'P3_Temuan';
@@ -2297,7 +2306,6 @@
         var title = isP3T ? 'Pekerjaan & Temuan' : (cat === 'OPM-OLS' ? 'OPM / OLS' : cat);
         document.getElementById('page-title').textContent = title;
         if (headerTitle) headerTitle.textContent = title;
-
         var st = document.getElementById('sub-tabs-container');
         if (isP3T) {
             st.classList.remove('hidden');
@@ -2336,20 +2344,17 @@
             var th = document.getElementById('table-head');
             if (!tb || !th) return;
             tb.innerHTML = '';
-
             if (selectedGudangFilter !== 'all' && (cat === 'Stok Spare' || cat === 'Patch Cord')) {
                 keys = keys.filter(function(k) { return list[k].gudang === selectedGudangFilter; });
             }
             var s = document.getElementById('search-input')?.value.toLowerCase() || '';
             if (s) keys = keys.filter(function(k) { return JSON.stringify(list[k]).toLowerCase().includes(s); });
-
             if (keys.length === 0) {
                 document.getElementById('empty-state').style.display = 'block';
                 th.innerHTML = '';
                 return;
             }
             document.getElementById('empty-state').style.display = 'none';
-
             var isSpare = cat === 'Stok Spare';
             var isPatch = cat === 'Patch Cord';
             var isAlker = cat === 'Alker';
@@ -2357,7 +2362,6 @@
             var isHJ = ['Handhole', 'Joint'].indexOf(cat) !== -1;
             var isOfCut = cat === 'Data OF Cut';
             var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
-
             if (isSpare) th.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Ket</th><th>Aksi</th></tr>';
             else if (isPatch) th.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
             else if (isAlker) th.innerHTML = '<tr><th>Tgl</th><th>Nama Alker</th><th>SN</th><th>Jenis</th><th>Merk</th><th>Keterangan</th><th>Aksi</th></tr>';
@@ -2366,14 +2370,11 @@
             else if (isOfCut) th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Panjang</th><th>Rute</th><th>Penyebab</th><th>User</th><th>Aksi</th></tr>';
             else if (isP3T) th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Pelaksana</th><th>Lama</th><th>Ket</th><th>User</th><th>Aksi</th></tr>';
             else th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>User</th><th>Aksi</th></tr>';
-
             keys.sort(function(a, b) { return (list[a].date || '').localeCompare(list[b].date || ''); });
             var isAdmin = currentUser && currentUser.role === 'admin';
-
             keys.forEach(function(k) {
                 var it = list[k];
                 var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')"><i data-lucide="pencil" style="width:16px;"></i></button><button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '';
-
                 if (isSpare) {
                     tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td>' + (it.status || 'Ready') + '</td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + (it.notes || '') + '</td><td>' + aksi + '</td></tr>';
                 } else if (isPatch) {
@@ -2392,7 +2393,6 @@
                     tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.postBy || '-') + '</td><td>' + aksi + '</td></tr>';
                 }
             });
-
             if (typeof lucide !== 'undefined') lucide.createIcons();
         } catch (e) { console.error('renderTable error:', e); }
     }
@@ -2401,7 +2401,6 @@
         if (e && e.preventDefault) e.preventDefault();
         if (isSubmitting) { showToast('Sedang memproses...', 'error'); return; }
         if (!currentUser) { showToast('Login dulu', 'error'); return; }
-
         var cat = currentCategory;
         if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
         var editKey = document.getElementById('edit-key').value;
@@ -2506,6 +2505,13 @@
             if (!port || !panel || isNaN(dbm) || !ruas || !dari || !ke) {
                 showToast('Isi semua field OPM/OLS yang wajib', 'error'); return;
             }
+            // === VALIDASI: Dari & Ke tidak boleh sama ===
+            if (dari === ke) {
+                showToast('❌ "Dari" dan "Ke" tidak boleh sama!', 'error');
+                var warn = document.getElementById('opm-warning');
+                if (warn) warn.classList.add('show');
+                return;
+            }
             data.port = port;
             data.panel = panel;
             data.dbm = dbm;
@@ -2522,22 +2528,14 @@
             var merk = document.getElementById('inp-alker-merk').value.trim();
             var keterangan = document.getElementById('inp-alker-keterangan').value.trim();
             var snInput = document.getElementById('inp-alker-sn').value.trim();
-
-            if (!nama || !jenis || !merk) {
-                showToast('Isi Nama, Jenis, dan Merk Alker', 'error'); return;
-            }
-            if (!keterangan) {
-                showToast('Keterangan wajib diisi!', 'error'); return;
-            }
-
+            if (!nama || !jenis || !merk) { showToast('Isi Nama, Jenis, dan Merk Alker', 'error'); return; }
+            if (!keterangan) { showToast('Keterangan wajib diisi!', 'error'); return; }
             var sn;
             if (!snInput) {
                 var urutan = isEdit ? (data.urutan || 1) : getNextAlkerUrutan();
                 sn = generateAlkerSN(nama, jenis, merk, data.date, urutan);
                 data.urutan = urutan;
-            } else {
-                sn = snInput;
-            }
+            } else { sn = snInput; }
             data.sn = sn;
             data.nama = nama;
             data.jenis = jenis;
@@ -2594,6 +2592,8 @@
         stopScanner('modal');
         editingKey = null;
         document.getElementById('edit-key').value = '';
+        var warn = document.getElementById('opm-warning');
+        if (warn) warn.classList.remove('show');
     }
 
     function stopScanner(t) {
@@ -2630,7 +2630,6 @@
         isSubmitting = false;
         var cat = currentCategory;
         if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
-
         if (editData) {
             document.getElementById('modal-title').textContent = 'Edit - ' + cat;
             document.getElementById('edit-key').value = editKey || '';
@@ -2641,7 +2640,6 @@
             document.getElementById('inp-date').valueAsDate = new Date();
             resetFormFields();
         }
-
         var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
         var isPatch = cat === 'Patch Cord';
         var isAlker = cat === 'Alker';
@@ -2651,16 +2649,16 @@
         var isOfCut = cat === 'Data OF Cut';
         var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
         var isSpare = cat === 'Stok Spare';
-
         ['field-stock', 'field-patchcord', 'field-normal', 'field-coords-wrap',
          'field-kondisi', 'field-ofcut', 'field-p3temuan', 'field-opm', 'field-alker'].forEach(function(id) {
             var el = document.getElementById(id);
             if (el) el.classList.add('hidden');
         });
+        var warn = document.getElementById('opm-warning');
+        if (warn) warn.classList.remove('show');
         document.getElementById('form-tambah-stok').classList.remove('hidden');
         document.getElementById('form-update-pemakaian').classList.add('hidden');
         document.getElementById('form-mode').value = 'tambah';
-
         if (isStock) {
             document.getElementById('field-stock').classList.remove('hidden');
             document.getElementById('selected-gudang-display').textContent = selectedGudang || 'Belum dipilih';
@@ -2677,7 +2675,10 @@
             }
         }
         if (isAlker) document.getElementById('field-alker').classList.remove('hidden');
-        if (isOpm) document.getElementById('field-opm').classList.remove('hidden');
+        if (isOpm) {
+            document.getElementById('field-opm').classList.remove('hidden');
+            setTimeout(checkOpmDariKe, 100);
+        }
         if (isHH || isJoint) {
             document.getElementById('field-normal').classList.remove('hidden');
             document.getElementById('field-coords-wrap').classList.remove('hidden');
@@ -2715,6 +2716,7 @@
         document.getElementById('inp-status').value = 'Ready';
         document.getElementById('penyebab-lain-wrap').classList.add('hidden');
         var pl = document.getElementById('patchcord-lainnya'); if (pl) pl.classList.add('hidden');
+        var warn = document.getElementById('opm-warning'); if (warn) warn.classList.remove('show');
     }
 
     function populateFormFields(data) {
@@ -2732,6 +2734,7 @@
             var el = document.getElementById(id);
             if (el && map[id] !== undefined && map[id] !== null) el.value = map[id];
         });
+        setTimeout(checkOpmDariKe, 100);
     }
 
     function updateStokSummary() {
@@ -2922,8 +2925,54 @@
     }
 
     // ============================================================
-    // CHART - Per bulan (Jan-Des) dengan filter Tahun 2026+
+    // CHART — Per bulan + Persentase
     // ============================================================
+
+    // Plugin Chart.js untuk menampilkan persentase di atas bar
+    const percentagePlugin = {
+        id: 'percentageLabels',
+        afterDatasetsDraw: function(chart) {
+            var ctx = chart.ctx;
+            var datasets = chart.data.datasets;
+
+            datasets.forEach(function(dataset, datasetIndex) {
+                var meta = chart.getDatasetMeta(datasetIndex);
+                if (meta.hidden) return;
+
+                // Hitung total untuk dataset ini
+                var total = 0;
+                dataset.data.forEach(function(v) { total += (Number(v) || 0); });
+                if (total === 0) return;
+
+                // Warna teks: pakai warna CSS variable via getComputedStyle, fallback ke default
+                var theme = document.documentElement.getAttribute('data-theme') || 'dark';
+                var textColor;
+                if (theme === 'dark') {
+                    textColor = datasetIndex === 0 ? '#00D9FF' : '#A855F7';
+                } else {
+                    textColor = datasetIndex === 0 ? '#0891B2' : '#7C3AED';
+                }
+
+                meta.data.forEach(function(element, index) {
+                    var value = Number(dataset.data[index]) || 0;
+                    if (value === 0) return;
+                    var percentage = Math.round((value / total) * 100);
+                    if (percentage < 1) return; // skip yang sangat kecil
+
+                    ctx.save();
+                    ctx.fillStyle = textColor;
+                    ctx.font = 'bold 10px "DM Sans", "Orbitron", sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.shadowColor = theme === 'dark' ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.8)';
+                    ctx.shadowBlur = 4;
+                    ctx.fillText(percentage + '%', element.x, element.y - 4);
+                    ctx.restore();
+                });
+            });
+        }
+    };
+
     function initCharts() {
         try {
             var sel = document.getElementById('chart-period');
@@ -2943,6 +2992,11 @@
 
             var c = document.getElementById('chartIncidents').getContext('2d');
             if (typeof Chart !== 'undefined' && !chartIncidents) {
+                // Register plugin persentase
+                if (typeof Chart.register === 'function') {
+                    Chart.register(percentagePlugin);
+                }
+
                 var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
                 chartIncidents = new Chart(c, {
                     type: 'bar',
@@ -2974,6 +3028,9 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        layout: {
+                            padding: { top: 22, bottom: 4 } // ruang di atas untuk persentase
+                        },
                         plugins: {
                             legend: {
                                 display: true,
@@ -2990,7 +3047,17 @@
                                 titleColor: '#00D9FF',
                                 bodyColor: '#E2E8F0',
                                 borderColor: 'rgba(0, 217, 255, 0.3)',
-                                borderWidth: 1
+                                borderWidth: 1,
+                                callbacks: {
+                                    label: function(context) {
+                                        var value = context.parsed.y || 0;
+                                        var dataset = context.dataset.data;
+                                        var total = 0;
+                                        dataset.forEach(function(v) { total += (Number(v) || 0); });
+                                        var pct = total > 0 ? Math.round((value / total) * 100) : 0;
+                                        return context.dataset.label + ': ' + value + ' (' + pct + '%)';
+                                    }
+                                }
                             }
                         },
                         scales: {
@@ -3004,7 +3071,8 @@
                                 ticks: { font: { size: 10 }, color: '#94A3B8' }
                             }
                         }
-                    }
+                    },
+                    plugins: [percentagePlugin]
                 });
                 updateCharts();
             }
@@ -3048,7 +3116,6 @@
             chartIncidents.data.datasets[0].data = ofCutData;
             chartIncidents.data.datasets[1].data = p3Data;
 
-            // Sesuaikan warna chart dengan tema
             var theme = document.documentElement.getAttribute('data-theme') || 'dark';
             var legendColor = theme === 'dark' ? '#E2E8F0' : '#0F172A';
             var tickColor = theme === 'dark' ? '#94A3B8' : '#475569';
@@ -3150,7 +3217,6 @@
             location.reload();
         });
 
-        // TEMA TOGGLE di header
         var tt = document.getElementById('theme-toggle');
         if (tt) tt.addEventListener('click', toggleTheme);
 
@@ -3252,7 +3318,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        // LOAD TEMA DULU sebelum render
         loadTheme();
         if (typeof lucide !== 'undefined') lucide.createIcons();
 
