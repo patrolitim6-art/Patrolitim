@@ -105,7 +105,7 @@
             font-size: var(--app-font-size);
             background: var(--bg-main);
             color: var(--text-main);
-            transition: background 0.3s ease, color 0.3s ease;
+            transition: background 0.3s ease, color 0.3s ease, padding-left 0.3s ease;
             background-image:
                 linear-gradient(var(--bg-pattern-1) 1px, transparent 1px),
                 linear-gradient(90deg, var(--bg-pattern-1) 1px, transparent 1px),
@@ -114,8 +114,7 @@
                 radial-gradient(circle at 50% 50%, var(--bg-pattern-4) 0%, transparent 60%);
             background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%, 100% 100%;
             background-attachment: fixed;
-            padding-left: 260px; /* SIDEBAR WIDTH */
-            transition: padding-left 0.3s ease;
+            padding-left: 260px;
         }
         body.sidebar-collapsed { padding-left: 0; }
 
@@ -212,7 +211,7 @@
         }
 
         /* ===================================================
-           GLOBE BERPUTAR LAMBAT
+           GLOBE REALISTIS - Berputar Lambat
            =================================================== */
         .globe-logo {
             width: 42px;
@@ -220,42 +219,65 @@
             border-radius: 50%;
             flex-shrink: 0;
             position: relative;
-            background: radial-gradient(circle at 30% 30%, #4A90E2 0%, #1E5FAA 40%, #0F3D6E 80%, #051A33 100%);
-            box-shadow:
-                0 0 16px rgba(0, 217, 255, 0.5),
-                0 0 32px rgba(0, 217, 255, 0.25),
-                inset -6px -6px 12px rgba(0, 0, 0, 0.5),
-                inset 3px 3px 9px rgba(255, 255, 255, 0.15);
             overflow: hidden;
+            background: radial-gradient(circle at 32% 28%,
+                #5FA8E0 0%,
+                #2E7BC4 25%,
+                #1B5AA0 50%,
+                #0D3C74 75%,
+                #051B3A 100%);
+            box-shadow:
+                0 0 16px rgba(0, 217, 255, 0.6),
+                0 0 32px rgba(0, 217, 255, 0.3),
+                inset -8px -8px 16px rgba(0, 0, 0, 0.65),
+                inset 4px 4px 10px rgba(95, 168, 224, 0.4);
         }
-        /* Benua berputar horizontal - lambat 30 detik */
+        /* Tekstur benua - lebih detail & realistis */
         .globe-logo::before {
             content: '';
             position: absolute;
-            inset: 0;
+            inset: -2px;
+            border-radius: 50%;
             background-image:
-                radial-gradient(ellipse 22% 15% at 20% 30%, rgba(74, 222, 128, 0.9) 0%, rgba(74, 222, 128, 0.5) 40%, transparent 75%),
-                radial-gradient(ellipse 18% 13% at 55% 25%, rgba(74, 222, 128, 0.85) 0%, transparent 70%),
-                radial-gradient(ellipse 25% 16% at 15% 65%, rgba(74, 222, 128, 0.85) 0%, transparent 65%),
-                radial-gradient(ellipse 20% 14% at 60% 60%, rgba(74, 222, 128, 0.8) 0%, transparent 65%),
-                radial-gradient(ellipse 16% 11% at 85% 40%, rgba(74, 222, 128, 0.75) 0%, transparent 60%),
-                radial-gradient(ellipse 14% 9% at 40% 80%, rgba(74, 222, 128, 0.75) 0%, transparent 60%),
-                radial-gradient(ellipse 12% 8% at 90% 75%, rgba(74, 222, 128, 0.7) 0%, transparent 55%);
+                /* Benua Amerika */
+                radial-gradient(ellipse 18% 22% at 22% 30%, #4ADE80 0%, #22C55E 40%, #15803D 70%, transparent 85%),
+                radial-gradient(ellipse 12% 18% at 15% 55%, #4ADE80 0%, #22C55E 50%, transparent 80%),
+                radial-gradient(ellipse 8% 12% at 30% 75%, #22C55E 0%, #16A34A 60%, transparent 80%),
+                /* Benua Afrika & Eropa */
+                radial-gradient(ellipse 15% 20% at 52% 45%, #4ADE80 0%, #22C55E 45%, #15803D 75%, transparent 88%),
+                radial-gradient(ellipse 10% 15% at 55% 25%, #4ADE80 0%, #22C55E 55%, transparent 80%),
+                /* Benua Asia */
+                radial-gradient(ellipse 22% 25% at 75% 35%, #4ADE80 0%, #22C55E 45%, #15803D 75%, transparent 88%),
+                radial-gradient(ellipse 14% 18% at 82% 55%, #22C55E 0%, #16A34A 60%, transparent 82%),
+                /* Australia */
+                radial-gradient(ellipse 12% 10% at 82% 78%, #4ADE80 0%, #22C55E 50%, transparent 82%),
+                /* Gurun (highlight kuning) */
+                radial-gradient(ellipse 6% 4% at 55% 50%, rgba(250, 204, 21, 0.5) 0%, transparent 70%),
+                radial-gradient(ellipse 8% 5% at 78% 42%, rgba(250, 204, 21, 0.4) 0%, transparent 70%),
+                /* Kutub es */
+                radial-gradient(ellipse 30% 8% at 50% 8%, rgba(255, 255, 255, 0.85) 0%, transparent 80%),
+                radial-gradient(ellipse 30% 8% at 50% 92%, rgba(255, 255, 255, 0.85) 0%, transparent 80%);
             background-size: 200% 100%;
             background-position: 0% 0%;
             background-repeat: repeat-x;
             animation: globeRotate 30s linear infinite;
+            filter: contrast(1.1) saturate(1.15);
         }
-        /* Efek 3D bola */
+        /* Highlight matahari + bayangan gelap - 3D */
         .globe-logo::after {
             content: '';
             position: absolute;
             inset: 0;
             border-radius: 50%;
             background:
-                radial-gradient(circle at 28% 25%, rgba(255, 255, 255, 0.35) 0%, transparent 45%),
-                radial-gradient(circle at 70% 75%, rgba(0, 0, 0, 0.55) 0%, transparent 55%);
+                /* Highlight matahari (kiri-atas) */
+                radial-gradient(circle at 25% 22%, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 25%, transparent 45%),
+                /* Bayangan gelap (kanan-bawah) */
+                radial-gradient(circle at 75% 78%, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 35%, transparent 65%),
+                /* Efek atmosfer */
+                radial-gradient(circle at 50% 50%, transparent 70%, rgba(95, 168, 224, 0.25) 90%, rgba(95, 168, 224, 0.4) 100%);
             pointer-events: none;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
         }
         @keyframes globeRotate {
             0% { background-position: 0% 0%; }
@@ -265,29 +287,25 @@
             width: 72px;
             height: 72px;
             box-shadow:
-                0 0 24px rgba(0, 217, 255, 0.6),
-                0 0 48px rgba(0, 217, 255, 0.3),
-                inset -10px -10px 20px rgba(0, 0, 0, 0.5),
-                inset 5px 5px 15px rgba(255, 255, 255, 0.15);
+                0 0 24px rgba(0, 217, 255, 0.7),
+                0 0 48px rgba(0, 217, 255, 0.35),
+                inset -12px -12px 24px rgba(0, 0, 0, 0.65),
+                inset 6px 6px 16px rgba(95, 168, 224, 0.4);
         }
         .globe-logo.mini {
             width: 32px;
             height: 32px;
             box-shadow:
-                0 0 10px rgba(0, 217, 255, 0.4),
-                0 0 20px rgba(0, 217, 255, 0.2),
-                inset -5px -5px 10px rgba(0, 0, 0, 0.5),
-                inset 2px 2px 6px rgba(255, 255, 255, 0.15);
+                0 0 10px rgba(0, 217, 255, 0.5),
+                0 0 20px rgba(0, 217, 255, 0.25),
+                inset -6px -6px 12px rgba(0, 0, 0, 0.65),
+                inset 3px 3px 8px rgba(95, 168, 224, 0.4);
         }
 
-        /* ===================================================
-           SIDEBAR FIXED - di samping, bukan menimpa konten
-           =================================================== */
+        /* SIDEBAR */
         .sidebar {
             position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
+            top: 0; left: 0; bottom: 0;
             width: 260px;
             background: var(--surface-sidebar);
             backdrop-filter: blur(20px);
@@ -424,7 +442,6 @@
         .user-name { font-size: 12px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .user-role { font-size: 9px; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
 
-        /* Top header - tetap di dalam main area */
         .top-header {
             position: sticky; top: 0; z-index: 40;
             height: 72px;
@@ -1014,6 +1031,11 @@
         }
         .chart-rekap-scroll::-webkit-scrollbar { height: 6px; }
         .chart-rekap-scroll::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 4px; }
+        .chart-rekap-pct {
+            font-size: 10px;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
 
         @media(max-width:640px) {
             .hero-panel { padding: 20px 16px; }
@@ -1970,21 +1992,6 @@
         'Patch Cord': 'Patch Cord'
     };
 
-    // Kategori penyebab
-    const PENYEBAB_LIST = ['pihak ke 3', 'vandalisme', 'bencana', 'lainnya'];
-    const PENYEBAB_LABELS = {
-        'pihak ke 3': 'Pihak Ke-3',
-        'vandalisme': 'Vandalisme',
-        'bencana': 'Bencana',
-        'lainnya': 'Lainnya'
-    };
-    const PENYEBAB_COLORS = {
-        'pihak ke 3': '#EC4899',
-        'vandalisme': '#F59E0B',
-        'bencana': '#10B981',
-        'lainnya': '#00D9FF'
-    };
-
     // ============================================================
     // TEMA
     // ============================================================
@@ -2025,9 +2032,6 @@
         setTheme(saved);
     }
 
-    // ============================================================
-    // VALIDASI OPM
-    // ============================================================
     function checkOpmDariKe() {
         var dari = document.getElementById('inp-opm-dari').value;
         var ke = document.getElementById('inp-opm-ke').value;
@@ -3104,7 +3108,9 @@
 
     // ============================================================
     // CHART: OF Cut per Penyebab
-    // Skor: 10 = 100% (patokan)
+    // Rumus: x * 25% / 100%
+    // Setiap penyebab maksimal 25% dari kuota 100% (4 × 25%)
+    // Persentase = (jumlah / total_bulan) × 25%
     // ============================================================
     const percentagePlugin = {
         id: 'percentageLabels',
@@ -3127,17 +3133,17 @@
                     if (value === 0) return;
                     var total = totalsPerMonth[index];
                     if (total === 0) return;
-                    // Skor skala 0-10 (10 = 100%)
-                    var skor = (value / total) * 10;
-                    var skorText = (Math.round(skor * 10) / 10).toFixed(1);
+                    // Rumus: x * 25% / 100% = (x / total) * 25
+                    var pct = (value / total) * 25;
+                    var pctText = (Math.round(pct * 100) / 100).toFixed(2) + '%';
                     ctx.save();
                     ctx.fillStyle = textColor;
-                    ctx.font = 'bold 10px "DM Sans", "Orbitron", sans-serif';
+                    ctx.font = 'bold 9px "DM Sans", "Orbitron", sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'bottom';
-                    ctx.shadowColor = theme === 'dark' ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.8)';
+                    ctx.shadowColor = theme === 'dark' ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)';
                     ctx.shadowBlur = 4;
-                    ctx.fillText(skorText, element.x, element.y - 4);
+                    ctx.fillText(pctText, element.x, element.y - 4);
                     ctx.restore();
                 });
             });
@@ -3216,7 +3222,7 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        layout: { padding: { top: 22, bottom: 4 } },
+                        layout: { padding: { top: 24, bottom: 4 } },
                         plugins: {
                             legend: {
                                 display: true,
@@ -3241,10 +3247,9 @@
                                         context.chart.data.datasets.forEach(function(ds) {
                                             total += (Number(ds.data[context.dataIndex]) || 0);
                                         });
-                                        var skor = total > 0 ? (value / total) * 10 : 0;
-                                        return context.dataset.label + ': ' + value + ' insiden (Skor: ' +
-                                               (Math.round(skor * 10) / 10).toFixed(1) + '/10 = ' +
-                                               (Math.round(skor * 10)).toFixed(0) + '%)';
+                                        var pct = total > 0 ? (value / total) * 25 : 0;
+                                        return context.dataset.label + ': ' + value + ' insiden (' +
+                                               (Math.round(pct * 100) / 100).toFixed(2) + '% dari 25%)';
                                     }
                                 }
                             }
@@ -3325,7 +3330,7 @@
         } catch (e) { console.error('updateCharts error:', e); }
     }
 
-    // Tabel rekap di bawah grafik
+    // Tabel rekap dengan kolom persentase (x * 25% / 100%)
     function renderRekapTable(year, dP3, dVandal, dBencana, dLainnya) {
         var labelEl = document.getElementById('rekap-tahun-label');
         if (labelEl) labelEl.textContent = year;
@@ -3343,24 +3348,40 @@
             totalB += dBencana[i];
             totalL += dLainnya[i];
 
+            // Hitung persentase: (nilai / total_bulan) * 25
+            var pctP3 = totalBulan > 0 ? (dP3[i] / totalBulan) * 25 : 0;
+            var pctV = totalBulan > 0 ? (dVandal[i] / totalBulan) * 25 : 0;
+            var pctB = totalBulan > 0 ? (dBencana[i] / totalBulan) * 25 : 0;
+            var pctL = totalBulan > 0 ? (dLainnya[i] / totalBulan) * 25 : 0;
+
+            var fmtPct = function(p) {
+                if (p === 0) return '';
+                return '<div class="chart-rekap-pct">' + (Math.round(p * 100) / 100).toFixed(2) + '%</div>';
+            };
+
             html += '<tr>';
             html += '<td>' + monthNames[i] + '</td>';
-            html += '<td>' + (dP3[i] || '') + '</td>';
-            html += '<td>' + (dVandal[i] || '') + '</td>';
-            html += '<td>' + (dBencana[i] || '') + '</td>';
-            html += '<td>' + (dLainnya[i] || '') + '</td>';
+            html += '<td>' + (dP3[i] || '') + fmtPct(pctP3) + '</td>';
+            html += '<td>' + (dVandal[i] || '') + fmtPct(pctV) + '</td>';
+            html += '<td>' + (dBencana[i] || '') + fmtPct(pctB) + '</td>';
+            html += '<td>' + (dLainnya[i] || '') + fmtPct(pctL) + '</td>';
             html += '<td style="font-weight:900;">' + totalBulan + '</td>';
             html += '</tr>';
         }
 
         // Baris total
         var grandTotal = totalP3 + totalV + totalB + totalL;
+        var totalPctP3 = grandTotal > 0 ? (totalP3 / grandTotal) * 25 : 0;
+        var totalPctV = grandTotal > 0 ? (totalV / grandTotal) * 25 : 0;
+        var totalPctB = grandTotal > 0 ? (totalB / grandTotal) * 25 : 0;
+        var totalPctL = grandTotal > 0 ? (totalL / grandTotal) * 25 : 0;
+
         html += '<tr class="total-row">';
         html += '<td>TOTAL</td>';
-        html += '<td>' + totalP3 + '</td>';
-        html += '<td>' + totalV + '</td>';
-        html += '<td>' + totalB + '</td>';
-        html += '<td>' + totalL + '</td>';
+        html += '<td>' + totalP3 + '<div class="chart-rekap-pct">' + (Math.round(totalPctP3 * 100) / 100).toFixed(2) + '%</div></td>';
+        html += '<td>' + totalV + '<div class="chart-rekap-pct">' + (Math.round(totalPctV * 100) / 100).toFixed(2) + '%</div></td>';
+        html += '<td>' + totalB + '<div class="chart-rekap-pct">' + (Math.round(totalPctB * 100) / 100).toFixed(2) + '%</div></td>';
+        html += '<td>' + totalL + '<div class="chart-rekap-pct">' + (Math.round(totalPctL * 100) / 100).toFixed(2) + '%</div></td>';
         html += '<td>' + grandTotal + '</td>';
         html += '</tr>';
 
