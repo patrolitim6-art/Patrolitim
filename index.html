@@ -23,6 +23,8 @@
             --primary-blue: #0EA5E9;
             --primary-purple: #A855F7;
             --primary-pink: #EC4899;
+            --primary-red: #EF4444;
+            --primary-amber: #F59E0B;
             --tech-gradient: linear-gradient(135deg, #00D9FF 0%, #0EA5E9 45%, #A855F7 100%);
             --surface-1: rgba(15, 23, 42, 0.7);
             --surface-2: rgba(15, 23, 42, 0.9);
@@ -55,8 +57,7 @@
             --shadow-card-hover: 0 8px 40px rgba(0, 217, 255, 0.18);
             --shadow-modal: 0 24px 64px rgba(0, 217, 255, 0.15);
             --scroll-track: rgba(15, 23, 42, 0.5);
-            --pct-color-1: #00D9FF;
-            --pct-color-2: #A855F7;
+            --earth-opacity: 0.85;
         }
         html[data-theme="light"] {
             --primary-cyan: #0891B2;
@@ -95,18 +96,16 @@
             --shadow-card-hover: 0 8px 40px rgba(6, 182, 212, 0.2);
             --shadow-modal: 0 24px 64px rgba(6, 182, 212, 0.15);
             --scroll-track: rgba(226, 232, 240, 0.6);
-            --pct-color-1: #0891B2;
-            --pct-color-2: #7C3AED;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        html, body { overflow-x: hidden; max-width: 100vw; }
         body {
             margin: 0;
             font-family: var(--app-font);
             font-size: var(--app-font-size);
             background: var(--bg-main);
             color: var(--text-main);
-            overflow-x: hidden;
             transition: background 0.3s ease, color 0.3s ease;
             background-image:
                 linear-gradient(var(--bg-pattern-1) 1px, transparent 1px),
@@ -208,18 +207,95 @@
             transform: translateY(-2px);
             box-shadow: 0 0 16px rgba(0, 217, 255, 0.35);
         }
-        .btn-icon.theme-active { color: #F59E0B; border-color: rgba(245, 158, 11, 0.4); }
 
+        /* ===================================================
+           ANIMASI BUMI BERPUTAR
+           =================================================== */
+        .earth-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            position: relative;
+            background: radial-gradient(circle at 30% 30%, #4A90E2 0%, #1E5FAA 40%, #0F3D6E 80%, #051A33 100%);
+            box-shadow:
+                0 0 16px rgba(0, 217, 255, 0.5),
+                0 0 32px rgba(0, 217, 255, 0.25),
+                inset -8px -8px 16px rgba(0, 0, 0, 0.5),
+                inset 4px 4px 12px rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+            animation: earthFloat 6s ease-in-out infinite;
+        }
+        .earth-logo::before {
+            content: '';
+            position: absolute;
+            inset: -50% -50% -50% -50%;
+            background-image:
+                radial-gradient(ellipse 30% 20% at 25% 30%, rgba(74, 222, 128, 0.9) 0%, rgba(74, 222, 128, 0.5) 40%, transparent 70%),
+                radial-gradient(ellipse 25% 18% at 60% 25%, rgba(74, 222, 128, 0.85) 0%, transparent 65%),
+                radial-gradient(ellipse 35% 22% at 20% 65%, rgba(74, 222, 128, 0.8) 0%, transparent 60%),
+                radial-gradient(ellipse 28% 20% at 65% 60%, rgba(74, 222, 128, 0.75) 0%, transparent 60%),
+                radial-gradient(ellipse 22% 15% at 85% 40%, rgba(74, 222, 128, 0.7) 0%, transparent 55%),
+                radial-gradient(ellipse 20% 12% at 45% 80%, rgba(74, 222, 128, 0.7) 0%, transparent 55%),
+                radial-gradient(ellipse 15% 10% at 90% 75%, rgba(74, 222, 128, 0.65) 0%, transparent 50%);
+            animation: earthRotate 12s linear infinite;
+            background-size: 200% 100%;
+            background-position: 0% 0%;
+        }
+        .earth-logo::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25) 0%, transparent 40%),
+                        radial-gradient(circle at 70% 75%, rgba(0, 0, 0, 0.5) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        @keyframes earthRotate {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+        @keyframes earthFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
+        }
+        .earth-logo.large {
+            width: 72px;
+            height: 72px;
+            box-shadow:
+                0 0 24px rgba(0, 217, 255, 0.6),
+                0 0 48px rgba(0, 217, 255, 0.3),
+                inset -12px -12px 24px rgba(0, 0, 0, 0.5),
+                inset 6px 6px 18px rgba(255, 255, 255, 0.15);
+        }
+        .earth-logo.mini {
+            width: 32px;
+            height: 32px;
+            box-shadow:
+                0 0 10px rgba(0, 217, 255, 0.4),
+                0 0 20px rgba(0, 217, 255, 0.2),
+                inset -6px -6px 12px rgba(0, 0, 0, 0.5),
+                inset 3px 3px 9px rgba(255, 255, 255, 0.15);
+        }
+
+        /* ===================================================
+           SIDEBAR - Fixed agar tidak menimpa konten
+           =================================================== */
         .sidebar {
-            position: fixed; top: 0; left: 0; bottom: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
             width: var(--sidebar-width);
             background: var(--surface-sidebar);
             backdrop-filter: blur(20px);
             border-right: 1px solid var(--border-glow);
             z-index: 60;
-            display: flex; flex-direction: column;
+            display: flex;
+            flex-direction: column;
             box-shadow: 4px 0 40px rgba(0, 217, 255, 0.08);
             transition: transform 0.3s ease, background 0.3s ease;
+            overflow: hidden;
         }
         .sidebar::before {
             content: '';
@@ -228,6 +304,7 @@
             width: 1px; height: 100%;
             background: linear-gradient(180deg, transparent, var(--primary-cyan), var(--primary-purple), transparent);
             opacity: 0.5;
+            pointer-events: none;
         }
         .sidebar-header {
             height: 72px;
@@ -235,16 +312,6 @@
             padding: 0 20px;
             border-bottom: 1px solid var(--border-subtle);
             flex-shrink: 0;
-        }
-        .brand-mark {
-            width: 42px; height: 42px; border-radius: 12px;
-            display: grid; place-items: center;
-            color: var(--text-on-accent);
-            background: var(--tech-gradient);
-            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
-            font-size: 20px; font-weight: 900;
-            flex-shrink: 0;
-            font-family: 'Orbitron', sans-serif;
         }
         .brand-text-wrapper { display: flex; flex-direction: column; overflow: hidden; }
         .brand-text {
@@ -263,11 +330,18 @@
             font-family: 'Orbitron', sans-serif;
         }
         .sidebar-nav {
-            flex: 1; overflow-y: auto;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
             padding: 16px 12px;
-            display: flex; flex-direction: column; gap: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-glow) transparent;
         }
-        .sidebar-nav::-webkit-scrollbar { width: 5px; }
+        .sidebar-nav::-webkit-scrollbar { width: 6px; }
+        .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
         .sidebar-nav::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 4px; }
         .nav-section-label {
             font-size: 10px; font-weight: 700;
@@ -344,11 +418,19 @@
             flex-shrink: 0;
             box-shadow: 0 0 12px rgba(0, 217, 255, 0.4);
         }
-        .user-info { display: flex; flex-direction: column; overflow: hidden; }
+        .user-info { display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
         .user-name { font-size: 12px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .user-role { font-size: 9px; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
 
-        .main-wrapper { margin-left: var(--sidebar-width); min-height: 100vh; display: flex; flex-direction: column; }
+        /* MAIN WRAPPER - margin-left menyesuaikan lebar sidebar */
+        .main-wrapper {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - var(--sidebar-width));
+            max-width: calc(100% - var(--sidebar-width));
+        }
         .top-header {
             position: sticky; top: 0; z-index: 40;
             height: 72px;
@@ -360,7 +442,14 @@
             box-shadow: 0 2px 20px rgba(0, 217, 255, 0.08);
             transition: background 0.3s ease;
         }
-        .main-content { flex: 1; padding: 20px 24px 40px; max-width: 1400px; width: 100%; margin: 0 auto; }
+        .main-content {
+            flex: 1;
+            padding: 20px 24px 40px;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            overflow-x: hidden;
+        }
 
         .menu-toggle {
             display: none;
@@ -371,13 +460,24 @@
             cursor: pointer; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
-        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(5, 8, 16, 0.75); backdrop-filter: blur(4px); z-index: 55; }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 8, 16, 0.75);
+            backdrop-filter: blur(4px);
+            z-index: 55;
+        }
         .sidebar-overlay.active { display: block; }
 
         @media (max-width: 900px) {
             .sidebar { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
-            .main-wrapper { margin-left: 0; }
+            .main-wrapper {
+                margin-left: 0;
+                width: 100%;
+                max-width: 100%;
+            }
             .menu-toggle { display: flex; }
             .top-header { padding: 0 16px; }
             .main-content { padding: 16px 16px 40px; }
@@ -655,7 +755,7 @@
             filter: drop-shadow(0 0 6px var(--primary-cyan));
         }
         @keyframes slideUpLogin { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .login-card .brand-mark { margin: 0 auto; width: 72px; height: 72px; font-size: 32px; border-radius: 20px; }
+        .login-card .earth-logo { margin: 0 auto; }
         .login-title {
             font-size: 28px; font-weight: 900;
             margin: 16px 0 4px;
@@ -839,7 +939,6 @@
 
         .history-badge { display: inline-block; padding: 2px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; }
 
-        /* Warning banner untuk OPM Dari/Ke sama */
         .opm-warning {
             display: none;
             background: rgba(245, 158, 11, 0.15);
@@ -861,6 +960,50 @@
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-6px); }
             75% { transform: translateX(6px); }
+        }
+
+        /* Statistik ringkas penyebab */
+        .chart-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .chart-stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 8px;
+            background: rgba(0, 217, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid var(--border-subtle);
+        }
+        .chart-stat-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-bottom: 6px;
+        }
+        .chart-stat-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+        .chart-stat-value {
+            font-size: 16px;
+            font-weight: 900;
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 4px;
+        }
+        .chart-stat-sub {
+            font-size: 9px;
+            color: var(--text-dim);
+            margin-top: 2px;
         }
 
         @media(max-width:640px) {
@@ -888,9 +1031,7 @@
     <div id="login-screen" class="login-screen">
         <div class="login-card">
             <div style="text-align:center;">
-                <div class="brand-mark" style="margin:0 auto;">
-                    <i data-lucide="cloud" style="width:32px;height:32px;"></i>
-                </div>
+                <div class="earth-logo large" style="margin:0 auto;"></div>
                 <h1 class="login-title">BUCIN</h1>
                 <p class="login-subtitle">Sistem Cegah Insiden Network</p>
             </div>
@@ -927,7 +1068,7 @@
     <div id="app-shell" class="hidden">
         <aside id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <div class="brand-mark"><i data-lucide="cloud" style="width:22px;height:22px;"></i></div>
+                <div class="earth-logo"></div>
                 <div class="brand-text-wrapper">
                     <span class="brand-text">BUCIN</span>
                     <span class="brand-sub">Cegah Insiden</span>
@@ -982,6 +1123,7 @@
             <header class="top-header">
                 <div style="display:flex;align-items:center;gap:12px;">
                     <button id="menu-toggle" class="menu-toggle" title="Menu"><i data-lucide="menu" style="width:22px;"></i></button>
+                    <div class="earth-logo mini" style="display:none;" id="header-earth"></div>
                     <h2 id="header-title" style="margin:0;font-size:18px;font-weight:800;color:var(--primary-cyan);letter-spacing:1px;">Dashboard</h2>
                 </div>
                 <div style="display:flex;gap:6px;align-items:center;">
@@ -1002,12 +1144,38 @@
                         <div class="card chart-card">
                             <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--primary-cyan);">
                                 <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 8px var(--primary-cyan);"></span>
-                                Grafik Insiden OF Cut &amp; Pihak Ke-3
+                                Grafik OF Cut Berdasarkan Penyebab
                                 <div style="display:flex;gap:6px;margin-left:auto;">
                                     <select id="chart-period" class="field-control" style="min-height:32px;padding:2px 12px;font-size:12px;width:auto;border-radius:8px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
                                 </div>
                             </h3>
                             <div style="height:320px;"><canvas id="chartIncidents"></canvas></div>
+                            <div class="chart-stats" id="chartStatsContainer">
+                                <div class="chart-stat-item">
+                                    <span class="chart-stat-dot" style="background:#EC4899; box-shadow:0 0 8px #EC4899;"></span>
+                                    <span class="chart-stat-label">Pihak Ke-3</span>
+                                    <span class="chart-stat-value" style="color:#EC4899;" id="stat-p3">0</span>
+                                    <span class="chart-stat-sub" id="stat-p3-pct">0%</span>
+                                </div>
+                                <div class="chart-stat-item">
+                                    <span class="chart-stat-dot" style="background:#F59E0B; box-shadow:0 0 8px #F59E0B;"></span>
+                                    <span class="chart-stat-label">Vandalisme</span>
+                                    <span class="chart-stat-value" style="color:#F59E0B;" id="stat-vandal">0</span>
+                                    <span class="chart-stat-sub" id="stat-vandal-pct">0%</span>
+                                </div>
+                                <div class="chart-stat-item">
+                                    <span class="chart-stat-dot" style="background:#10B981; box-shadow:0 0 8px #10B981;"></span>
+                                    <span class="chart-stat-label">Bencana</span>
+                                    <span class="chart-stat-value" style="color:#10B981;" id="stat-bencana">0</span>
+                                    <span class="chart-stat-sub" id="stat-bencana-pct">0%</span>
+                                </div>
+                                <div class="chart-stat-item">
+                                    <span class="chart-stat-dot" style="background:#00D9FF; box-shadow:0 0 8px #00D9FF;"></span>
+                                    <span class="chart-stat-label">Lainnya</span>
+                                    <span class="chart-stat-value" style="color:#00D9FF;" id="stat-lainnya">0</span>
+                                    <span class="chart-stat-sub" id="stat-lainnya-pct">0%</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card" style="padding:0;overflow:hidden;margin-top:20px;">
@@ -1408,7 +1576,6 @@
                         </div>
                     </div>
 
-                    <!-- OPM/OLS -->
                     <div id="field-opm" class="hidden">
                         <div style="background:rgba(168,85,247,0.1);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(168,85,247,0.3);">
                             <div style="font-size:12px;font-weight:600;color:var(--primary-purple);">Data OPM / OLS</div>
@@ -1495,7 +1662,6 @@
                         </div>
                     </div>
 
-                    <!-- ALKER -->
                     <div id="field-alker" class="hidden">
                         <div style="background:rgba(168,85,247,0.1);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(168,85,247,0.3);">
                             <div style="font-size:12px;font-weight:600;color:var(--primary-purple);">Data Alker</div>
@@ -1577,8 +1743,8 @@
                                 <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);">Penyebab *</label>
                                 <select id="inp-ofcut-penyebab" class="field-control" onchange="togglePenyebabLain()">
                                     <option value="">-- Pilih --</option>
-                                    <option value="vandalisme">Vandalisme</option>
                                     <option value="pihak ke 3">Pihak Ke-3</option>
+                                    <option value="vandalisme">Vandalisme</option>
                                     <option value="bencana">Bencana Alam</option>
                                     <option value="lainnya">Lainnya</option>
                                 </select>
@@ -1795,8 +1961,22 @@
         'Patch Cord': 'Patch Cord'
     };
 
+    // Warna per penyebab OF Cut
+    const PENYEBAB_COLORS = {
+        'pihak ke 3': '#EC4899',
+        'vandalisme': '#F59E0B',
+        'bencana': '#10B981',
+        'lainnya': '#00D9FF'
+    };
+    const PENYEBAB_LABELS = {
+        'pihak ke 3': 'Pihak Ke-3',
+        'vandalisme': 'Vandalisme',
+        'bencana': 'Bencana',
+        'lainnya': 'Lainnya'
+    };
+
     // ============================================================
-    // TEMA DARK / LIGHT
+    // TEMA
     // ============================================================
     function setTheme(theme) {
         if (theme !== 'dark' && theme !== 'light') theme = 'dark';
@@ -1806,7 +1986,6 @@
         if (icon) icon.setAttribute('data-lucide', theme === 'dark' ? 'sun' : 'moon');
         if (typeof lucide !== 'undefined') lucide.createIcons();
         updateThemeButtons();
-        // Update warna chart jika sudah ada
         if (chartIncidents) {
             try {
                 var legendColor = theme === 'dark' ? '#E2E8F0' : '#0F172A';
@@ -1820,19 +1999,16 @@
             } catch (e) {}
         }
     }
-
     function toggleTheme() {
         var current = document.documentElement.getAttribute('data-theme') || 'dark';
         setTheme(current === 'dark' ? 'light' : 'dark');
     }
-
     function updateThemeButtons() {
         var current = document.documentElement.getAttribute('data-theme') || 'dark';
         document.querySelectorAll('[data-theme-opt]').forEach(function(btn) {
             btn.classList.toggle('active', btn.dataset.themeOpt === current);
         });
     }
-
     function loadTheme() {
         var saved = 'dark';
         try { saved = localStorage.getItem('bucin_theme') || 'dark'; } catch (e) {}
@@ -1840,18 +2016,15 @@
     }
 
     // ============================================================
-    // VALIDASI OPM: Dari & Ke tidak boleh sama
+    // VALIDASI OPM
     // ============================================================
     function checkOpmDariKe() {
         var dari = document.getElementById('inp-opm-dari').value;
         var ke = document.getElementById('inp-opm-ke').value;
         var warn = document.getElementById('opm-warning');
         if (!warn) return;
-        if (dari && ke && dari === ke) {
-            warn.classList.add('show');
-        } else {
-            warn.classList.remove('show');
-        }
+        if (dari && ke && dari === ke) warn.classList.add('show');
+        else warn.classList.remove('show');
     }
 
     function checkFirebaseConnection() {
@@ -1899,9 +2072,7 @@
             detail: detail || '-',
             keterangan: keterangan || ''
         };
-        db.ref('riwayat').push(entry).catch(function(err) {
-            console.error('Gagal catat riwayat:', err);
-        });
+        db.ref('riwayat').push(entry).catch(function(err) { console.error('Gagal catat riwayat:', err); });
     }
 
     function loadRiwayat() {
@@ -1949,9 +2120,7 @@
         });
     }
 
-    function closeRiwayatModal() {
-        document.getElementById('riwayat-modal').classList.add('hidden');
-    }
+    function closeRiwayatModal() { document.getElementById('riwayat-modal').classList.add('hidden'); }
 
     function exportRiwayatMenuExcel() {
         var cat = currentRiwayatMenu;
@@ -2505,7 +2674,6 @@
             if (!port || !panel || isNaN(dbm) || !ruas || !dari || !ke) {
                 showToast('Isi semua field OPM/OLS yang wajib', 'error'); return;
             }
-            // === VALIDASI: Dari & Ke tidak boleh sama ===
             if (dari === ke) {
                 showToast('❌ "Dari" dan "Ke" tidak boleh sama!', 'error');
                 var warn = document.getElementById('opm-warning');
@@ -2925,40 +3093,35 @@
     }
 
     // ============================================================
-    // CHART — Per bulan + Persentase
+    // CHART - OF Cut berdasarkan Penyebab
+    // Skor persentase: maksimal per point adalah 10
     // ============================================================
-
-    // Plugin Chart.js untuk menampilkan persentase di atas bar
     const percentagePlugin = {
         id: 'percentageLabels',
         afterDatasetsDraw: function(chart) {
             var ctx = chart.ctx;
             var datasets = chart.data.datasets;
-
+            // Hitung total dari SEMUA dataset (per bulan)
+            var totalsPerMonth = new Array(chart.data.labels.length).fill(0);
+            datasets.forEach(function(dataset) {
+                dataset.data.forEach(function(v, idx) {
+                    totalsPerMonth[idx] += (Number(v) || 0);
+                });
+            });
             datasets.forEach(function(dataset, datasetIndex) {
                 var meta = chart.getDatasetMeta(datasetIndex);
                 if (meta.hidden) return;
-
-                // Hitung total untuk dataset ini
-                var total = 0;
-                dataset.data.forEach(function(v) { total += (Number(v) || 0); });
-                if (total === 0) return;
-
-                // Warna teks: pakai warna CSS variable via getComputedStyle, fallback ke default
                 var theme = document.documentElement.getAttribute('data-theme') || 'dark';
-                var textColor;
-                if (theme === 'dark') {
-                    textColor = datasetIndex === 0 ? '#00D9FF' : '#A855F7';
-                } else {
-                    textColor = datasetIndex === 0 ? '#0891B2' : '#7C3AED';
-                }
-
+                var textColor = theme === 'dark' ? '#E2E8F0' : '#0F172A';
                 meta.data.forEach(function(element, index) {
                     var value = Number(dataset.data[index]) || 0;
                     if (value === 0) return;
-                    var percentage = Math.round((value / total) * 100);
-                    if (percentage < 1) return; // skip yang sangat kecil
-
+                    var total = totalsPerMonth[index];
+                    if (total === 0) return;
+                    // Skor = (value / total) * 10, dibulatkan
+                    var skor = Math.round((value / total) * 10 * 10) / 10;
+                    // tampilkan tanpa .0
+                    var skorText = (skor % 1 === 0) ? skor.toFixed(0) : skor.toFixed(1);
                     ctx.save();
                     ctx.fillStyle = textColor;
                     ctx.font = 'bold 10px "DM Sans", "Orbitron", sans-serif';
@@ -2966,7 +3129,7 @@
                     ctx.textBaseline = 'bottom';
                     ctx.shadowColor = theme === 'dark' ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.8)';
                     ctx.shadowBlur = 4;
-                    ctx.fillText(percentage + '%', element.x, element.y - 4);
+                    ctx.fillText(skorText, element.x, element.y - 4);
                     ctx.restore();
                 });
             });
@@ -2978,7 +3141,7 @@
             var sel = document.getElementById('chart-period');
             if (sel) {
                 sel.innerHTML = '';
-                var startYear = 2026;
+                var startYear = 2020;
                 var endYear = 2100;
                 for (var y = startYear; y <= endYear; y++) {
                     var opt = document.createElement('option');
@@ -2987,15 +3150,12 @@
                     sel.appendChild(opt);
                 }
                 var cy = new Date().getFullYear();
-                sel.value = cy >= 2026 ? cy : 2026;
+                sel.value = cy >= 2020 ? cy : 2020;
             }
 
             var c = document.getElementById('chartIncidents').getContext('2d');
             if (typeof Chart !== 'undefined' && !chartIncidents) {
-                // Register plugin persentase
-                if (typeof Chart.register === 'function') {
-                    Chart.register(percentagePlugin);
-                }
+                if (typeof Chart.register === 'function') Chart.register(percentagePlugin);
 
                 var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
                 chartIncidents = new Chart(c, {
@@ -3004,20 +3164,40 @@
                         labels: monthNames,
                         datasets: [
                             {
-                                label: 'OF Cut',
+                                label: 'Pihak Ke-3',
                                 data: new Array(12).fill(0),
-                                backgroundColor: 'rgba(0, 217, 255, 0.7)',
-                                borderColor: '#00D9FF',
+                                backgroundColor: 'rgba(236, 72, 153, 0.75)',
+                                borderColor: '#EC4899',
                                 borderWidth: 1.5,
                                 borderRadius: 6,
                                 barPercentage: 0.7,
                                 categoryPercentage: 0.8
                             },
                             {
-                                label: 'Pihak Ke-3',
+                                label: 'Vandalisme',
                                 data: new Array(12).fill(0),
-                                backgroundColor: 'rgba(168, 85, 247, 0.7)',
-                                borderColor: '#A855F7',
+                                backgroundColor: 'rgba(245, 158, 11, 0.75)',
+                                borderColor: '#F59E0B',
+                                borderWidth: 1.5,
+                                borderRadius: 6,
+                                barPercentage: 0.7,
+                                categoryPercentage: 0.8
+                            },
+                            {
+                                label: 'Bencana',
+                                data: new Array(12).fill(0),
+                                backgroundColor: 'rgba(16, 185, 129, 0.75)',
+                                borderColor: '#10B981',
+                                borderWidth: 1.5,
+                                borderRadius: 6,
+                                barPercentage: 0.7,
+                                categoryPercentage: 0.8
+                            },
+                            {
+                                label: 'Lainnya',
+                                data: new Array(12).fill(0),
+                                backgroundColor: 'rgba(0, 217, 255, 0.75)',
+                                borderColor: '#00D9FF',
                                 borderWidth: 1.5,
                                 borderRadius: 6,
                                 barPercentage: 0.7,
@@ -3028,9 +3208,7 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        layout: {
-                            padding: { top: 22, bottom: 4 } // ruang di atas untuk persentase
-                        },
+                        layout: { padding: { top: 22, bottom: 4 } },
                         plugins: {
                             legend: {
                                 display: true,
@@ -3051,11 +3229,13 @@
                                 callbacks: {
                                     label: function(context) {
                                         var value = context.parsed.y || 0;
-                                        var dataset = context.dataset.data;
                                         var total = 0;
-                                        dataset.forEach(function(v) { total += (Number(v) || 0); });
-                                        var pct = total > 0 ? Math.round((value / total) * 100) : 0;
-                                        return context.dataset.label + ': ' + value + ' (' + pct + '%)';
+                                        context.chart.data.datasets.forEach(function(ds) {
+                                            total += (Number(ds.data[context.dataIndex]) || 0);
+                                        });
+                                        var skor = total > 0 ? Math.round((value / total) * 10 * 10) / 10 : 0;
+                                        var skorText = (skor % 1 === 0) ? skor.toFixed(0) : skor.toFixed(1);
+                                        return context.dataset.label + ': ' + value + ' insiden (Skor: ' + skorText + '/10)';
                                     }
                                 }
                             }
@@ -3083,38 +3263,41 @@
         if (!chartIncidents) return;
         try {
             var sel = document.getElementById('chart-period');
-            var selectedYear = sel ? parseInt(sel.value) : 2026;
-            if (isNaN(selectedYear)) selectedYear = 2026;
+            var selectedYear = sel ? parseInt(sel.value) : 2020;
+            if (isNaN(selectedYear)) selectedYear = 2020;
 
-            var ofCutData = new Array(12).fill(0);
-            var p3Data = new Array(12).fill(0);
+            // 4 array untuk 4 penyebab
+            var dataP3 = new Array(12).fill(0);
+            var dataVandal = new Array(12).fill(0);
+            var dataBencana = new Array(12).fill(0);
+            var dataLainnya = new Array(12).fill(0);
 
             var ofCutItems = appData['Data OF Cut'] || {};
             Object.keys(ofCutItems).forEach(function(k) {
                 var item = ofCutItems[k];
-                if (item.date) {
-                    var d = new Date(item.date);
-                    if (d.getFullYear() === selectedYear) {
-                        var m = d.getMonth();
-                        if (m >= 0 && m < 12) ofCutData[m]++;
-                    }
+                if (!item.date) return;
+                var d = new Date(item.date);
+                if (d.getFullYear() !== selectedYear) return;
+                var m = d.getMonth();
+                if (m < 0 || m > 11) return;
+
+                // Klasifikasi penyebab
+                var p = (item.penyebab || '').toString().toLowerCase().trim();
+                if (p === 'pihak ke 3' || p === 'pihak ke-3' || p === 'pihak ke3' || p.indexOf('pihak') !== -1) {
+                    dataP3[m]++;
+                } else if (p === 'vandalisme' || p.indexOf('vandal') !== -1) {
+                    dataVandal[m]++;
+                } else if (p === 'bencana' || p.indexOf('bencana') !== -1) {
+                    dataBencana[m]++;
+                } else {
+                    dataLainnya[m]++;
                 }
             });
 
-            var p3Items = appData['Pekerjaan Pihak Ke-3'] || {};
-            Object.keys(p3Items).forEach(function(k) {
-                var item = p3Items[k];
-                if (item.date) {
-                    var d = new Date(item.date);
-                    if (d.getFullYear() === selectedYear) {
-                        var m = d.getMonth();
-                        if (m >= 0 && m < 12) p3Data[m]++;
-                    }
-                }
-            });
-
-            chartIncidents.data.datasets[0].data = ofCutData;
-            chartIncidents.data.datasets[1].data = p3Data;
+            chartIncidents.data.datasets[0].data = dataP3;
+            chartIncidents.data.datasets[1].data = dataVandal;
+            chartIncidents.data.datasets[2].data = dataBencana;
+            chartIncidents.data.datasets[3].data = dataLainnya;
 
             var theme = document.documentElement.getAttribute('data-theme') || 'dark';
             var legendColor = theme === 'dark' ? '#E2E8F0' : '#0F172A';
@@ -3126,7 +3309,34 @@
             chartIncidents.options.scales.x.ticks.color = tickColor;
 
             chartIncidents.update();
+
+            // Update statistik ringkas
+            updateChartStats(dataP3, dataVandal, dataBencana, dataLainnya);
         } catch (e) { console.error('updateCharts error:', e); }
+    }
+
+    function updateChartStats(dP3, dVandal, dBencana, dLainnya) {
+        var tP3 = dP3.reduce(function(a, b) { return a + b; }, 0);
+        var tVandal = dVandal.reduce(function(a, b) { return a + b; }, 0);
+        var tBencana = dBencana.reduce(function(a, b) { return a + b; }, 0);
+        var tLainnya = dLainnya.reduce(function(a, b) { return a + b; }, 0);
+        var total = tP3 + tVandal + tBencana + tLainnya;
+
+        var elP3 = document.getElementById('stat-p3'); if (elP3) elP3.textContent = tP3;
+        var elV = document.getElementById('stat-vandal'); if (elV) elV.textContent = tVandal;
+        var elB = document.getElementById('stat-bencana'); if (elB) elB.textContent = tBencana;
+        var elL = document.getElementById('stat-lainnya'); if (elL) elL.textContent = tLainnya;
+
+        var skorP3 = total > 0 ? (tP3 / total) * 10 : 0;
+        var skorV = total > 0 ? (tVandal / total) * 10 : 0;
+        var skorB = total > 0 ? (tBencana / total) * 10 : 0;
+        var skorL = total > 0 ? (tLainnya / total) * 10 : 0;
+
+        var fmt = function(v) { return (Math.round(v * 10) / 10).toFixed(1) + ' / 10'; };
+        var elP3p = document.getElementById('stat-p3-pct'); if (elP3p) elP3p.textContent = fmt(skorP3);
+        var elVp = document.getElementById('stat-vandal-pct'); if (elVp) elVp.textContent = fmt(skorV);
+        var elBp = document.getElementById('stat-bencana-pct'); if (elBp) elBp.textContent = fmt(skorB);
+        var elLp = document.getElementById('stat-lainnya-pct'); if (elLp) elLp.textContent = fmt(skorL);
     }
 
     function updateChartPeriod() { updateCharts(); }
