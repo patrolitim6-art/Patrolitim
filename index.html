@@ -211,95 +211,49 @@
         }
 
         /* ===================================================
-           GLOBE REALISTIS - Berputar Lambat
+           GLOBE SVG - REALISTIS & BERPUTAR
            =================================================== */
-        .globe-logo {
+        .globe-svg-wrapper {
             width: 42px;
             height: 42px;
             border-radius: 50%;
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
-            background: radial-gradient(circle at 32% 28%,
-                #5FA8E0 0%,
-                #2E7BC4 25%,
-                #1B5AA0 50%,
-                #0D3C74 75%,
-                #051B3A 100%);
             box-shadow:
-                0 0 16px rgba(0, 217, 255, 0.6),
-                0 0 32px rgba(0, 217, 255, 0.3),
-                inset -8px -8px 16px rgba(0, 0, 0, 0.65),
-                inset 4px 4px 10px rgba(95, 168, 224, 0.4);
+                0 0 16px rgba(0, 217, 255, 0.55),
+                0 0 32px rgba(0, 217, 255, 0.28),
+                0 4px 12px rgba(0, 0, 0, 0.5);
+            background: #051A33;
         }
-        /* Tekstur benua - lebih detail & realistis */
-        .globe-logo::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 50%;
-            background-image:
-                /* Benua Amerika */
-                radial-gradient(ellipse 18% 22% at 22% 30%, #4ADE80 0%, #22C55E 40%, #15803D 70%, transparent 85%),
-                radial-gradient(ellipse 12% 18% at 15% 55%, #4ADE80 0%, #22C55E 50%, transparent 80%),
-                radial-gradient(ellipse 8% 12% at 30% 75%, #22C55E 0%, #16A34A 60%, transparent 80%),
-                /* Benua Afrika & Eropa */
-                radial-gradient(ellipse 15% 20% at 52% 45%, #4ADE80 0%, #22C55E 45%, #15803D 75%, transparent 88%),
-                radial-gradient(ellipse 10% 15% at 55% 25%, #4ADE80 0%, #22C55E 55%, transparent 80%),
-                /* Benua Asia */
-                radial-gradient(ellipse 22% 25% at 75% 35%, #4ADE80 0%, #22C55E 45%, #15803D 75%, transparent 88%),
-                radial-gradient(ellipse 14% 18% at 82% 55%, #22C55E 0%, #16A34A 60%, transparent 82%),
-                /* Australia */
-                radial-gradient(ellipse 12% 10% at 82% 78%, #4ADE80 0%, #22C55E 50%, transparent 82%),
-                /* Gurun (highlight kuning) */
-                radial-gradient(ellipse 6% 4% at 55% 50%, rgba(250, 204, 21, 0.5) 0%, transparent 70%),
-                radial-gradient(ellipse 8% 5% at 78% 42%, rgba(250, 204, 21, 0.4) 0%, transparent 70%),
-                /* Kutub es */
-                radial-gradient(ellipse 30% 8% at 50% 8%, rgba(255, 255, 255, 0.85) 0%, transparent 80%),
-                radial-gradient(ellipse 30% 8% at 50% 92%, rgba(255, 255, 255, 0.85) 0%, transparent 80%);
-            background-size: 200% 100%;
-            background-position: 0% 0%;
-            background-repeat: repeat-x;
-            animation: globeRotate 30s linear infinite;
-            filter: contrast(1.1) saturate(1.15);
+        .globe-svg-wrapper svg {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
-        /* Highlight matahari + bayangan gelap - 3D */
-        .globe-logo::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background:
-                /* Highlight matahari (kiri-atas) */
-                radial-gradient(circle at 25% 22%, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 25%, transparent 45%),
-                /* Bayangan gelap (kanan-bawah) */
-                radial-gradient(circle at 75% 78%, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 35%, transparent 65%),
-                /* Efek atmosfer */
-                radial-gradient(circle at 50% 50%, transparent 70%, rgba(95, 168, 224, 0.25) 90%, rgba(95, 168, 224, 0.4) 100%);
-            pointer-events: none;
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+        .globe-svg-wrapper .continents-layer {
+            animation: globeSpin 20s linear infinite;
+            transform-origin: 50% 50%;
         }
-        @keyframes globeRotate {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 200% 0%; }
+        @keyframes globeSpin {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
-        .globe-logo.large {
+        .globe-svg-wrapper.large {
             width: 72px;
             height: 72px;
             box-shadow:
-                0 0 24px rgba(0, 217, 255, 0.7),
+                0 0 24px rgba(0, 217, 255, 0.65),
                 0 0 48px rgba(0, 217, 255, 0.35),
-                inset -12px -12px 24px rgba(0, 0, 0, 0.65),
-                inset 6px 6px 16px rgba(95, 168, 224, 0.4);
+                0 6px 18px rgba(0, 0, 0, 0.5);
         }
-        .globe-logo.mini {
+        .globe-svg-wrapper.mini {
             width: 32px;
             height: 32px;
             box-shadow:
                 0 0 10px rgba(0, 217, 255, 0.5),
                 0 0 20px rgba(0, 217, 255, 0.25),
-                inset -6px -6px 12px rgba(0, 0, 0, 0.65),
-                inset 3px 3px 8px rgba(95, 168, 224, 0.4);
+                0 3px 8px rgba(0, 0, 0, 0.5);
         }
 
         /* SIDEBAR */
@@ -760,7 +714,7 @@
             filter: drop-shadow(0 0 6px var(--primary-cyan));
         }
         @keyframes slideUpLogin { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .login-card .globe-logo { margin: 0 auto; }
+        .login-card .globe-svg-wrapper { margin: 0 auto; }
         .login-title {
             font-size: 28px; font-weight: 900;
             margin: 16px 0 4px;
@@ -967,7 +921,6 @@
             75% { transform: translateX(6px); }
         }
 
-        /* Tabel rekap di bawah grafik */
         .chart-rekap-wrapper {
             margin-top: 16px;
             padding-top: 16px;
@@ -1035,6 +988,7 @@
             font-size: 10px;
             color: var(--text-dim);
             font-weight: 500;
+            margin-top: 2px;
         }
 
         @media(max-width:640px) {
@@ -1064,7 +1018,7 @@
     <div id="login-screen" class="login-screen">
         <div class="login-card">
             <div style="text-align:center;">
-                <div class="globe-logo large" style="margin:0 auto;"></div>
+                <div class="globe-svg-wrapper large" style="margin:0 auto;" id="login-globe"></div>
                 <h1 class="login-title">BUCIN</h1>
                 <p class="login-subtitle">Sistem Cegah Insiden Network</p>
             </div>
@@ -1101,7 +1055,7 @@
     <div id="app-shell" class="hidden">
         <aside id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <div class="globe-logo"></div>
+                <div class="globe-svg-wrapper" id="sidebar-globe"></div>
                 <div class="brand-text-wrapper">
                     <span class="brand-text">BUCIN</span>
                     <span class="brand-sub">Cegah Insiden</span>
@@ -1183,7 +1137,6 @@
                             </h3>
                             <div style="height:340px;"><canvas id="chartIncidents"></canvas></div>
 
-                            <!-- Tabel Rekap Data di Bawah Grafik -->
                             <div class="chart-rekap-wrapper">
                                 <div class="chart-rekap-title">
                                     <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 6px var(--primary-cyan);"></span>
@@ -1925,6 +1878,90 @@
     </div>
 
     <script>
+    // ============================================================
+    // GLOBE SVG - Realistis dengan benua
+    // ============================================================
+    const GLOBE_SVG = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+        '<defs>' +
+            '<radialGradient id="oceanGrad" cx="35%" cy="30%" r="75%">' +
+                '<stop offset="0%" stop-color="#5FA8E0"/>' +
+                '<stop offset="45%" stop-color="#2E7BC4"/>' +
+                '<stop offset="75%" stop-color="#1B5AA0"/>' +
+                '<stop offset="100%" stop-color="#051B3A"/>' +
+            '</radialGradient>' +
+            '<radialGradient id="landGrad" cx="40%" cy="35%" r="70%">' +
+                '<stop offset="0%" stop-color="#6EE7A0"/>' +
+                '<stop offset="50%" stop-color="#22C55E"/>' +
+                '<stop offset="100%" stop-color="#15803D"/>' +
+            '</radialGradient>' +
+            '<radialGradient id="landGrad2" cx="40%" cy="35%" r="70%">' +
+                '<stop offset="0%" stop-color="#86EFAC"/>' +
+                '<stop offset="50%" stop-color="#4ADE80"/>' +
+                '<stop offset="100%" stop-color="#16A34A"/>' +
+            '</radialGradient>' +
+            '<radialGradient id="globeShade" cx="35%" cy="30%" r="85%">' +
+                '<stop offset="0%" stop-color="rgba(255,255,255,0.55)"/>' +
+                '<stop offset="30%" stop-color="rgba(255,255,255,0.1)"/>' +
+                '<stop offset="65%" stop-color="rgba(0,0,0,0)"/>' +
+                '<stop offset="100%" stop-color="rgba(0,0,0,0.65)"/>' +
+            '</radialGradient>' +
+            '<clipPath id="globeClip"><circle cx="50" cy="50" r="50"/></clipPath>' +
+        '</defs>' +
+        '<g clip-path="url(#globeClip)">' +
+            // Ocean
+            '<rect width="100" height="100" fill="url(#oceanGrad)"/>' +
+            // Continents layer - diulang 2x untuk seamless loop
+            '<g class="continents-layer">' +
+                // Set pertama
+                '<g fill="url(#landGrad)" opacity="0.95">' +
+                    // Amerika Utara
+                    '<path d="M 15 25 Q 20 20 28 22 Q 32 25 30 32 Q 28 40 22 42 Q 18 40 16 34 Z"/>' +
+                    // Amerika Selatan
+                    '<path d="M 24 48 Q 30 46 33 52 Q 34 62 30 72 Q 26 76 22 70 Q 20 62 22 54 Z"/>' +
+                    // Eropa
+                    '<path d="M 45 20 Q 52 18 55 22 Q 56 28 52 30 Q 46 28 44 24 Z"/>' +
+                    // Afrika
+                    '<path d="M 46 34 Q 54 32 56 40 Q 57 52 52 62 Q 46 66 42 58 Q 40 46 44 38 Z"/>' +
+                    // Asia
+                    '<path d="M 58 18 Q 72 15 82 20 Q 88 28 82 34 Q 76 40 68 38 Q 62 34 58 28 Z"/>' +
+                    // India
+                    '<path d="M 64 40 Q 68 38 70 44 Q 68 50 64 50 Z"/>' +
+                    // Asia tenggara
+                    '<path d="M 74 42 Q 80 40 82 46 Q 80 52 74 50 Z"/>' +
+                    // Australia
+                    '<path d="M 76 66 Q 86 62 90 70 Q 88 78 80 78 Q 74 76 76 66 Z"/>' +
+                    // Greenland
+                    '<path d="M 30 8 Q 38 5 42 10 Q 40 16 32 16 Z"/>' +
+                '</g>' +
+                // Set kedua (offset 100) untuk loop mulus
+                '<g transform="translate(100,0)" fill="url(#landGrad2)" opacity="0.95">' +
+                    '<path d="M 15 25 Q 20 20 28 22 Q 32 25 30 32 Q 28 40 22 42 Q 18 40 16 34 Z"/>' +
+                    '<path d="M 24 48 Q 30 46 33 52 Q 34 62 30 72 Q 26 76 22 70 Q 20 62 22 54 Z"/>' +
+                    '<path d="M 45 20 Q 52 18 55 22 Q 56 28 52 30 Q 46 28 44 24 Z"/>' +
+                    '<path d="M 46 34 Q 54 32 56 40 Q 57 52 52 62 Q 46 66 42 58 Q 40 46 44 38 Z"/>' +
+                    '<path d="M 58 18 Q 72 15 82 20 Q 88 28 82 34 Q 76 40 68 38 Q 62 34 58 28 Z"/>' +
+                    '<path d="M 64 40 Q 68 38 70 44 Q 68 50 64 50 Z"/>' +
+                    '<path d="M 74 42 Q 80 40 82 46 Q 80 52 74 50 Z"/>' +
+                    '<path d="M 76 66 Q 86 62 90 70 Q 88 78 80 78 Q 74 76 76 66 Z"/>' +
+                    '<path d="M 30 8 Q 38 5 42 10 Q 40 16 32 16 Z"/>' +
+                '</g>' +
+            '</g>' +
+            // Highlight 3D & bayangan
+            '<circle cx="50" cy="50" r="50" fill="url(#globeShade)"/>' +
+            // Highlight matahari kecil
+            '<ellipse cx="32" cy="28" rx="14" ry="10" fill="rgba(255,255,255,0.35)" opacity="0.8"/>' +
+            // Atmosfer
+            '<circle cx="50" cy="50" r="49" fill="none" stroke="rgba(0, 217, 255, 0.6)" stroke-width="1.5"/>' +
+        '</g>' +
+    '</svg>';
+
+    function renderGlobes() {
+        var loginGlobe = document.getElementById('login-globe');
+        var sidebarGlobe = document.getElementById('sidebar-globe');
+        if (loginGlobe) loginGlobe.innerHTML = GLOBE_SVG;
+        if (sidebarGlobe) sidebarGlobe.innerHTML = GLOBE_SVG;
+    }
+
     const firebaseConfig = {
         apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
         authDomain: "bucin-18282.firebaseapp.com",
@@ -1992,9 +2029,6 @@
         'Patch Cord': 'Patch Cord'
     };
 
-    // ============================================================
-    // TEMA
-    // ============================================================
     function setTheme(theme) {
         if (theme !== 'dark' && theme !== 'light') theme = 'dark';
         document.documentElement.setAttribute('data-theme', theme);
@@ -3108,9 +3142,7 @@
 
     // ============================================================
     // CHART: OF Cut per Penyebab
-    // Rumus: x * 25% / 100%
-    // Setiap penyebab maksimal 25% dari kuota 100% (4 × 25%)
-    // Persentase = (jumlah / total_bulan) × 25%
+    // Rumus: (jumlah / total_bulan) × 100%
     // ============================================================
     const percentagePlugin = {
         id: 'percentageLabels',
@@ -3133,12 +3165,12 @@
                     if (value === 0) return;
                     var total = totalsPerMonth[index];
                     if (total === 0) return;
-                    // Rumus: x * 25% / 100% = (x / total) * 25
-                    var pct = (value / total) * 25;
-                    var pctText = (Math.round(pct * 100) / 100).toFixed(2) + '%';
+                    // Rumus: (jumlah / total) × 100%
+                    var pct = (value / total) * 100;
+                    var pctText = (Math.round(pct * 10) / 10).toFixed(1) + '%';
                     ctx.save();
                     ctx.fillStyle = textColor;
-                    ctx.font = 'bold 9px "DM Sans", "Orbitron", sans-serif';
+                    ctx.font = 'bold 10px "DM Sans", "Orbitron", sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'bottom';
                     ctx.shadowColor = theme === 'dark' ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)';
@@ -3247,9 +3279,9 @@
                                         context.chart.data.datasets.forEach(function(ds) {
                                             total += (Number(ds.data[context.dataIndex]) || 0);
                                         });
-                                        var pct = total > 0 ? (value / total) * 25 : 0;
+                                        var pct = total > 0 ? (value / total) * 100 : 0;
                                         return context.dataset.label + ': ' + value + ' insiden (' +
-                                               (Math.round(pct * 100) / 100).toFixed(2) + '% dari 25%)';
+                                               (Math.round(pct * 10) / 10).toFixed(1) + '%)';
                                     }
                                 }
                             }
@@ -3273,7 +3305,6 @@
         } catch (e) { console.error('Chart init:', e); }
     }
 
-    // Klasifikasi penyebab
     function klasifikasiPenyebab(p) {
         p = (p || '').toString().toLowerCase().trim();
         if (p === 'pihak ke 3' || p === 'pihak ke-3' || p === 'pihak ke3' || p.indexOf('pihak') !== -1) return 'pihak ke 3';
@@ -3325,12 +3356,10 @@
 
             chartIncidents.update();
 
-            // Update tabel rekap
             renderRekapTable(selectedYear, dataP3, dataVandal, dataBencana, dataLainnya);
         } catch (e) { console.error('updateCharts error:', e); }
     }
 
-    // Tabel rekap dengan kolom persentase (x * 25% / 100%)
     function renderRekapTable(year, dP3, dVandal, dBencana, dLainnya) {
         var labelEl = document.getElementById('rekap-tahun-label');
         if (labelEl) labelEl.textContent = year;
@@ -3340,6 +3369,12 @@
         var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
         var html = '';
         var totalP3 = 0, totalV = 0, totalB = 0, totalL = 0;
+        var grandTotalAll = 0;
+
+        // Precompute grandTotal dulu
+        for (var i = 0; i < 12; i++) {
+            grandTotalAll += dP3[i] + dVandal[i] + dBencana[i] + dLainnya[i];
+        }
 
         for (var i = 0; i < 12; i++) {
             var totalBulan = dP3[i] + dVandal[i] + dBencana[i] + dLainnya[i];
@@ -3348,40 +3383,40 @@
             totalB += dBencana[i];
             totalL += dLainnya[i];
 
-            // Hitung persentase: (nilai / total_bulan) * 25
-            var pctP3 = totalBulan > 0 ? (dP3[i] / totalBulan) * 25 : 0;
-            var pctV = totalBulan > 0 ? (dVandal[i] / totalBulan) * 25 : 0;
-            var pctB = totalBulan > 0 ? (dBencana[i] / totalBulan) * 25 : 0;
-            var pctL = totalBulan > 0 ? (dLainnya[i] / totalBulan) * 25 : 0;
+            // Rumus: (jumlah / total_bulan) × 100%
+            var pctP3 = totalBulan > 0 ? (dP3[i] / totalBulan) * 100 : 0;
+            var pctV = totalBulan > 0 ? (dVandal[i] / totalBulan) * 100 : 0;
+            var pctB = totalBulan > 0 ? (dBencana[i] / totalBulan) * 100 : 0;
+            var pctL = totalBulan > 0 ? (dLainnya[i] / totalBulan) * 100 : 0;
 
-            var fmtPct = function(p) {
-                if (p === 0) return '';
-                return '<div class="chart-rekap-pct">' + (Math.round(p * 100) / 100).toFixed(2) + '%</div>';
+            var fmtPct = function(p, val) {
+                if (val === 0) return '';
+                return '<div class="chart-rekap-pct">' + (Math.round(p * 10) / 10).toFixed(1) + '%</div>';
             };
 
             html += '<tr>';
             html += '<td>' + monthNames[i] + '</td>';
-            html += '<td>' + (dP3[i] || '') + fmtPct(pctP3) + '</td>';
-            html += '<td>' + (dVandal[i] || '') + fmtPct(pctV) + '</td>';
-            html += '<td>' + (dBencana[i] || '') + fmtPct(pctB) + '</td>';
-            html += '<td>' + (dLainnya[i] || '') + fmtPct(pctL) + '</td>';
+            html += '<td>' + (dP3[i] || '') + fmtPct(pctP3, dP3[i]) + '</td>';
+            html += '<td>' + (dVandal[i] || '') + fmtPct(pctV, dVandal[i]) + '</td>';
+            html += '<td>' + (dBencana[i] || '') + fmtPct(pctB, dBencana[i]) + '</td>';
+            html += '<td>' + (dLainnya[i] || '') + fmtPct(pctL, dLainnya[i]) + '</td>';
             html += '<td style="font-weight:900;">' + totalBulan + '</td>';
             html += '</tr>';
         }
 
-        // Baris total
+        // Baris total (persentase dari grand total seluruh tahun)
         var grandTotal = totalP3 + totalV + totalB + totalL;
-        var totalPctP3 = grandTotal > 0 ? (totalP3 / grandTotal) * 25 : 0;
-        var totalPctV = grandTotal > 0 ? (totalV / grandTotal) * 25 : 0;
-        var totalPctB = grandTotal > 0 ? (totalB / grandTotal) * 25 : 0;
-        var totalPctL = grandTotal > 0 ? (totalL / grandTotal) * 25 : 0;
+        var totalPctP3 = grandTotal > 0 ? (totalP3 / grandTotal) * 100 : 0;
+        var totalPctV = grandTotal > 0 ? (totalV / grandTotal) * 100 : 0;
+        var totalPctB = grandTotal > 0 ? (totalB / grandTotal) * 100 : 0;
+        var totalPctL = grandTotal > 0 ? (totalL / grandTotal) * 100 : 0;
 
         html += '<tr class="total-row">';
         html += '<td>TOTAL</td>';
-        html += '<td>' + totalP3 + '<div class="chart-rekap-pct">' + (Math.round(totalPctP3 * 100) / 100).toFixed(2) + '%</div></td>';
-        html += '<td>' + totalV + '<div class="chart-rekap-pct">' + (Math.round(totalPctV * 100) / 100).toFixed(2) + '%</div></td>';
-        html += '<td>' + totalB + '<div class="chart-rekap-pct">' + (Math.round(totalPctB * 100) / 100).toFixed(2) + '%</div></td>';
-        html += '<td>' + totalL + '<div class="chart-rekap-pct">' + (Math.round(totalPctL * 100) / 100).toFixed(2) + '%</div></td>';
+        html += '<td>' + totalP3 + '<div class="chart-rekap-pct">' + (Math.round(totalPctP3 * 10) / 10).toFixed(1) + '%</div></td>';
+        html += '<td>' + totalV + '<div class="chart-rekap-pct">' + (Math.round(totalPctV * 10) / 10).toFixed(1) + '%</div></td>';
+        html += '<td>' + totalB + '<div class="chart-rekap-pct">' + (Math.round(totalPctB * 10) / 10).toFixed(1) + '%</div></td>';
+        html += '<td>' + totalL + '<div class="chart-rekap-pct">' + (Math.round(totalPctL * 10) / 10).toFixed(1) + '%</div></td>';
         html += '<td>' + grandTotal + '</td>';
         html += '</tr>';
 
@@ -3577,6 +3612,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+        renderGlobes();
         loadTheme();
         if (typeof lucide !== 'undefined') lucide.createIcons();
 
