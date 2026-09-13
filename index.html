@@ -310,160 +310,42 @@
         @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .hidden { display: none !important; }
 
-        #map-container {
-            height: 400px;
-            border-radius: var(--radius);
-            border: 1px solid var(--border-glow);
-            z-index: 1; overflow: hidden; position: relative;
-        }
+        #map-container { height: 400px; border-radius: var(--radius); border: 1px solid var(--border-glow); z-index: 1; overflow: hidden; position: relative; }
         @media(min-width:1024px) { #map-container { height: 500px; } }
         .leaflet-control-zoom { display: none !important; }
-        .custom-map-controls {
-            position: absolute; top: 12px; right: 12px;
-            z-index: 1000; display: flex; flex-direction: column; gap: 6px;
-        }
-        .custom-map-btn {
-            background: var(--surface-map-btn);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-glow);
-            border-radius: 10px;
-            width: 38px; height: 38px;
-            display: grid; place-items: center;
-            cursor: pointer;
-            color: var(--primary-cyan);
-            transition: all 0.2s;
-        }
+        .custom-map-controls { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
+        .custom-map-btn { background: var(--surface-map-btn); backdrop-filter: blur(10px); border: 1px solid var(--border-glow); border-radius: 10px; width: 38px; height: 38px; display: grid; place-items: center; cursor: pointer; color: var(--primary-cyan); transition: all 0.2s; }
         .custom-map-btn:hover { background: rgba(0, 217, 255, 0.15); transform: translateY(-2px); }
         .custom-map-btn.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; }
-        .map-legend {
-            position: absolute; top: 12px; left: 12px;
-            z-index: 1000;
-            background: var(--surface-map-legend);
-            backdrop-filter: blur(8px);
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 11px;
-            border: 1px solid var(--border-glow);
-            max-width: 220px;
-            color: var(--text-main);
-        }
+        .map-legend { position: absolute; top: 12px; left: 12px; z-index: 1000; background: var(--surface-map-legend); backdrop-filter: blur(8px); padding: 10px 14px; border-radius: 10px; font-size: 11px; border: 1px solid var(--border-glow); max-width: 220px; color: var(--text-main); }
         .map-legend-title { font-weight: 700; font-size: 11px; color: var(--primary-cyan); margin-bottom: 6px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 4px; }
         .map-legend-item { display: flex; align-items: center; gap: 8px; padding: 2px 0; font-size: 10px; color: var(--text-muted); }
         .map-legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.2); }
         #map-legend-line { margin-top: 6px; border-top: 1px solid var(--border-subtle); padding-top: 4px; font-size: 10px; color: var(--text-muted); }
 
-        /* ✅ Tombol Zoom mini-map untuk modal peta */
-        .mini-map-controls {
-            position: absolute; top: 12px; right: 12px;
-            z-index: 1000; display: flex; flex-direction: column; gap: 6px;
-        }
-        .mini-map-btn {
-            background: var(--surface-map-btn);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-glow);
-            border-radius: 10px;
-            width: 34px; height: 34px;
-            display: grid; place-items: center;
-            cursor: pointer;
-            color: var(--primary-cyan);
-            transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
+        .mini-map-controls { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
+        .mini-map-btn { background: var(--surface-map-btn); backdrop-filter: blur(10px); border: 1px solid var(--border-glow); border-radius: 10px; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; color: var(--primary-cyan); transition: all 0.2s; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
         .mini-map-btn:hover { background: rgba(0, 217, 255, 0.2); transform: scale(1.05); }
 
-        .scanner-wrapper {
-            position: relative; width: 100%; max-width: 400px; height: 260px;
-            margin: 12px auto; border-radius: 16px; overflow: hidden;
-            background: #050810; display: none;
-            border: 1px solid var(--border-glow);
-        }
+        .scanner-wrapper { position: relative; width: 100%; max-width: 400px; height: 260px; margin: 12px auto; border-radius: 16px; overflow: hidden; background: #050810; display: none; border: 1px solid var(--border-glow); }
         .scanner-wrapper.active { display: block; }
         .scanner-wrapper video { width: 100%; height: 100%; object-fit: cover; }
-        .scanner-guide {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 220px; height: 100px;
-            border: 2px solid var(--primary-cyan);
-            border-radius: 12px;
-            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.65), 0 0 20px var(--primary-cyan);
-            pointer-events: none; z-index: 5;
-        }
-        .scanner-laser {
-            position: absolute; top: 50%; left: 10%; right: 10%;
-            height: 2px; background: var(--primary-cyan);
-            box-shadow: 0 0 12px var(--primary-cyan);
-            animation: scanLine 1.5s infinite ease-in-out;
-            pointer-events: none; z-index: 5;
-        }
+        .scanner-guide { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 220px; height: 100px; border: 2px solid var(--primary-cyan); border-radius: 12px; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.65), 0 0 20px var(--primary-cyan); pointer-events: none; z-index: 5; }
+        .scanner-laser { position: absolute; top: 50%; left: 10%; right: 10%; height: 2px; background: var(--primary-cyan); box-shadow: 0 0 12px var(--primary-cyan); animation: scanLine 1.5s infinite ease-in-out; pointer-events: none; z-index: 5; }
         @keyframes scanLine { 0%, 100% { opacity: 0.3; top: 20%; } 50% { opacity: 1; top: 80%; } }
-        .scanner-status {
-            position: absolute; bottom: 12px; left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary-cyan);
-            color: var(--text-on-accent); padding: 4px 16px;
-            border-radius: 99px; font-size: 11px;
-            font-weight: 700; z-index: 10;
-        }
+        .scanner-status { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: var(--primary-cyan); color: var(--text-on-accent); padding: 4px 16px; border-radius: 99px; font-size: 11px; font-weight: 700; z-index: 10; }
 
-        .toast {
-            position: fixed; top: 80px; left: 50%;
-            transform: translateX(-50%) translateY(-20px);
-            background: var(--surface-toast);
-            color: var(--text-main);
-            padding: 14px 32px;
-            border-radius: 99px;
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 999;
-            opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            box-shadow: 0 8px 32px rgba(0, 217, 255, 0.3);
-            max-width: 90%;
-            text-align: center;
-            border: 1px solid var(--border-glow);
-        }
+        .toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-20px); background: var(--surface-toast); color: var(--text-main); padding: 14px 32px; border-radius: 99px; font-size: 14px; font-weight: 600; z-index: 999; opacity: 0; transition: all 0.3s ease; pointer-events: none; box-shadow: 0 8px 32px rgba(0, 217, 255, 0.3); max-width: 90%; text-align: center; border: 1px solid var(--border-glow); }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .toast.success { border-color: var(--primary-cyan); }
         .toast.error { border-color: #EC4899; }
         .toast.warning { border-color: #F59E0B; }
 
-        .login-screen {
-            position: fixed; inset: 0;
-            background: var(--surface-login);
-            z-index: 200;
-            display: grid; place-items: center;
-            padding: 20px; overflow: hidden;
-        }
-        .login-screen::before {
-            content: '';
-            position: absolute; inset: 0;
-            background-image: linear-gradient(var(--bg-pattern-1) 1px, transparent 1px), linear-gradient(90deg, var(--bg-pattern-1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-        }
-        .login-card {
-            background: var(--surface-login-card);
-            backdrop-filter: blur(20px);
-            padding: 40px 36px;
-            border-radius: 28px;
-            width: 100%; max-width: 420px;
-            box-shadow: var(--shadow-modal), 0 0 0 1px var(--border-glow);
-            position: relative; z-index: 1;
-            border: 1px solid var(--border-glow);
-        }
+        .login-screen { position: fixed; inset: 0; background: var(--surface-login); z-index: 200; display: grid; place-items: center; padding: 20px; overflow: hidden; }
+        .login-screen::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(var(--bg-pattern-1) 1px, transparent 1px), linear-gradient(90deg, var(--bg-pattern-1) 1px, transparent 1px); background-size: 50px 50px; pointer-events: none; }
+        .login-card { background: var(--surface-login-card); backdrop-filter: blur(20px); padding: 40px 36px; border-radius: 28px; width: 100%; max-width: 420px; box-shadow: var(--shadow-modal), 0 0 0 1px var(--border-glow); position: relative; z-index: 1; border: 1px solid var(--border-glow); }
         .login-card .earth-logo { margin: 0 auto; }
-        .login-title {
-            font-size: 28px; font-weight: 900;
-            margin: 16px 0 4px;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 4px;
-            background: var(--tech-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-align: center;
-        }
+        .login-title { font-size: 28px; font-weight: 900; margin: 16px 0 4px; font-family: 'Orbitron', sans-serif; letter-spacing: 4px; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-align: center; }
         .login-subtitle { color: var(--text-muted); font-size: 14px; font-weight: 500; text-align: center; }
         .login-divider { display: flex; align-items: center; gap: 16px; margin: 20px 0; }
         .login-divider::before, .login-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border-glow), transparent); }
@@ -523,7 +405,7 @@
         .opm-warning.show { display: flex; animation: shake 0.4s ease; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
-        /* ✅ TABEL REKAP — lebih padat & rapi */
+        /* TABEL REKAP */
         .chart-rekap-wrapper { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-subtle); }
         .chart-rekap-title { font-size: 12px; font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Orbitron', sans-serif; display: flex; align-items: center; gap: 8px; }
         .chart-rekap-table { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: fixed; }
@@ -597,6 +479,97 @@
             line-height: 1.1;
         }
         .chart-rekap-pct.on-total { color: #10B981; font-weight: 700; }
+
+        /* ✅ SELISIH TAHUNAN */
+        .ytd-compare-wrap {
+            margin-top: 14px;
+            padding: 14px;
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.06) 0%, rgba(168, 85, 247, 0.06) 100%);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+        }
+        .ytd-compare-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .ytd-compare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+        }
+        .ytd-card {
+            background: var(--surface-1);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+        .ytd-card:hover { border-color: var(--border-glow); transform: translateY(-2px); }
+        .ytd-card .ytd-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--primary-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .ytd-card .ytd-values {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .ytd-card .ytd-prev {
+            font-size: 11px;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+        .ytd-card .ytd-current {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-main);
+            font-family: 'Orbitron', sans-serif;
+        }
+        .ytd-card .ytd-diff {
+            font-size: 12px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .ytd-card .ytd-diff.up {
+            background: rgba(239, 68, 68, 0.15);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+        .ytd-card .ytd-diff.down {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10B981;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+        .ytd-card .ytd-diff.same {
+            background: rgba(148, 163, 184, 0.15);
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
+        }
+        .ytd-card .ytd-detail {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
 
         @media(max-width:640px) {
             .hero-panel { padding: 20px 16px; }
@@ -826,6 +799,17 @@
                                             <tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text-muted);">Memuat data...</td></tr>
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+
+                            <!-- ✅ SELISIH TAHUNAN -->
+                            <div class="ytd-compare-wrap" id="ytd-compare-wrap">
+                                <div class="ytd-compare-title">
+                                    <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 6px var(--primary-cyan);"></span>
+                                    Perbandingan Tahunan — <span id="ytd-year-label">-</span> vs <span id="ytd-prev-year-label">-</span>
+                                </div>
+                                <div class="ytd-compare-grid" id="ytd-compare-grid">
+                                    <div style="text-align:center;color:var(--text-muted);padding:20px;grid-column:1/-1;">Memuat data...</div>
                                 </div>
                             </div>
                         </div>
@@ -1458,7 +1442,6 @@
             </div>
             <div style="position:relative;">
                 <div id="map-modal-container" style="height:400px;border-radius:12px;border:1px solid var(--border-glow);overflow:hidden;"></div>
-                <!-- ✅ Tombol zoom mini-map -->
                 <div class="mini-map-controls">
                     <button class="mini-map-btn" onclick="mapModalZoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
                     <button class="mini-map-btn" onclick="mapModalZoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
@@ -1952,8 +1935,6 @@
         r.readAsText(file);
         return false;
     }
-
-    // ✅ KML: HANYA tampilkan LineString (garis), abaikan Point (titik patok)
     function displayKmlOnMap(line, str) {
         if (!map) return;
         try {
@@ -1975,8 +1956,6 @@
             Object.keys(d).forEach(function(l) { if (d[l]) displayKmlOnMap(l, d[l]); });
         }).catch(function() {});
     }
-
-    // ✅ HANYA ambil LineString (bukan Point)
     function parseKmlToLayers(xml, color) {
         var out = [];
         var pms = xml.getElementsByTagName("Placemark");
@@ -1994,7 +1973,6 @@
                     if (ll.length > 1) out.push(L.polyline(ll, { color: color, weight: 4, opacity: 0.85 }).bindPopup(name));
                 }
             }
-            // ← Point diabaikan (tidak ditambahkan ke layers)
         }
         return out;
     }
@@ -2016,12 +1994,9 @@
             L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
                 maxZoom: 22, tileSize: 512, zoomOffset: -1
             }).addTo(map);
-            // ✅ Marker data (titik dari input form) DIPERTAHANKAN
             loadMarkersFromData();
         } catch (e) { console.error('Map init:', e); }
     }
-
-    // ✅ TAMPILKAN KEMBALI marker titik data (Handhole, Joint, OF Cut, Pihak Ke-3, Temuan)
     function loadMarkersFromData() {
         if (!map) return;
         markers.forEach(function(m) { map.removeLayer(m); });
@@ -2055,7 +2030,6 @@
         });
     }
     function updateMapMarkers() { loadMarkersFromData(); }
-
     window.zoomIn = function() { if (map) map.zoomIn(); };
     window.zoomOut = function() { if (map) map.zoomOut(); };
     window.toggleMapLayer = function(t) {
@@ -2066,8 +2040,6 @@
         else if (t === 'hybrid') u = 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}';
         L.tileLayer(u, { maxZoom: 22, tileSize: 512, zoomOffset: -1 }).addTo(map);
     };
-
-    // ✅ Tombol zoom mini map modal
     window.mapModalZoomIn = function() { if (mapModal) mapModal.zoomIn(); };
     window.mapModalZoomOut = function() { if (mapModal) mapModal.zoomOut(); };
     window.mapModalResetCenter = function() { if (mapModal) mapModal.setView([1.4930, 124.8410], 13); };
@@ -2118,13 +2090,11 @@
         refreshSession();
         closeSidebarMobile();
     }
-
     function closeSidebarMobile() {
         var sb = document.getElementById('sidebar');
         var ov = document.getElementById('sidebar-overlay');
         if (window.innerWidth <= 900) { sb.classList.remove('open'); ov.classList.remove('active'); }
     }
-
     function isInPeriod(dateStr, period) {
         if (!dateStr) return period === 'all';
         if (period === 'all') return true;
@@ -2738,7 +2708,7 @@
         lainnya:   { bg: 'rgba(139, 92, 246, 0.75)',  border: '#8B5CF6' }
     };
 
-    // ✅ Angka persentase dibuat MIRING (-45°) agar tidak tumpang tindih
+    // ✅ Persentase di atas bar, miring -45°, tepat di ujung atas bar
     const percentagePlugin = {
         id: 'percentageLabels',
         afterDatasetsDraw: function(chart) {
@@ -2753,11 +2723,11 @@
                     if (value === 0) return;
                     var pctText = (Math.round(value * 10) / 10).toFixed(1) + '%';
                     ctx.save();
-                    ctx.translate(element.x, element.y - 6);
+                    ctx.translate(element.x + 5, element.y - 4);
                     ctx.rotate(-45 * Math.PI / 180);
                     ctx.fillStyle = textColor;
                     ctx.font = 'bold 10px "DM Sans", sans-serif';
-                    ctx.textAlign = 'right';
+                    ctx.textAlign = 'left';
                     ctx.textBaseline = 'bottom';
                     ctx.shadowColor = theme === 'dark' ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)';
                     ctx.shadowBlur = 3;
@@ -2836,7 +2806,28 @@
                                 ticks: { stepSize: 5, font: { size: 10 }, color: '#94A3B8', callback: function(v) { return v + '%'; } },
                                 grid: { color: 'rgba(148, 163, 184, 0.1)' }
                             },
-                            x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#94A3B8' } }
+                            x: {
+                                grid: {
+                                    display: true,
+                                    drawOnChartArea: true,
+                                    drawTicks: false,
+                                    color: function() {
+                                        var theme = document.documentElement.getAttribute('data-theme') || 'dark';
+                                        return theme === 'dark' ? 'rgba(0, 217, 255, 0.18)' : 'rgba(6, 182, 212, 0.25)';
+                                    },
+                                    lineWidth: 1.2,
+                                    tickLength: 0
+                                },
+                                border: {
+                                    display: true,
+                                    color: function() {
+                                        var theme = document.documentElement.getAttribute('data-theme') || 'dark';
+                                        return theme === 'dark' ? 'rgba(0, 217, 255, 0.4)' : 'rgba(6, 182, 212, 0.5)';
+                                    },
+                                    width: 1.5
+                                },
+                                ticks: { font: { size: 10 }, color: '#94A3B8' }
+                            }
                         }
                     },
                     plugins: [percentagePlugin]
@@ -2897,6 +2888,7 @@
             chartIncidents.options.scales.x.ticks.color = tickColor;
             chartIncidents.update();
             renderRekapTable(selectedYear, dataP3, dataVandal, dataBencana, dataLainnya);
+            renderYearComparison(selectedYear);
         } catch (e) { console.error('updateCharts error:', e); }
     }
     function renderRekapTable(year, dP3, dVandal, dBencana, dLainnya) {
@@ -2941,6 +2933,83 @@
         html += '</tr>';
         tbody.innerHTML = html;
     }
+
+    // ✅ SELISIH TAHUNAN — Perbandingan tahun berjalan vs tahun sebelumnya
+    function getYearTotals(year) {
+        var ofCutItems = appData['Data OF Cut'] || {};
+        var totals = { p3: 0, vandal: 0, bencana: 0, lainnya: 0, total: 0 };
+        Object.keys(ofCutItems).forEach(function(k) {
+            var item = ofCutItems[k];
+            if (!item.date) return;
+            var d = new Date(item.date);
+            if (d.getFullYear() !== year) return;
+            var kategori = klasifikasiPenyebab(item.penyebab);
+            if (kategori === 'pihak ke 3') totals.p3++;
+            else if (kategori === 'vandalisme') totals.vandal++;
+            else if (kategori === 'bencana') totals.bencana++;
+            else totals.lainnya++;
+        });
+        totals.total = totals.p3 + totals.vandal + totals.bencana + totals.lainnya;
+        return totals;
+    }
+
+    function renderYearComparison(currentYearNum) {
+        var prevYearNum = currentYearNum - 1;
+        var labelEl = document.getElementById('ytd-year-label');
+        var prevLabelEl = document.getElementById('ytd-prev-year-label');
+        if (labelEl) labelEl.textContent = currentYearNum;
+        if (prevLabelEl) prevLabelEl.textContent = prevYearNum;
+
+        var cur = getYearTotals(currentYearNum);
+        var prev = getYearTotals(prevYearNum);
+
+        var items = [
+            { key: 'p3', label: 'Pihak Ke-3', color: '#EC4899' },
+            { key: 'vandal', label: 'Vandalisme', color: '#F59E0B' },
+            { key: 'bencana', label: 'Bencana', color: '#10B981' },
+            { key: 'lainnya', label: 'Lainnya', color: '#8B5CF6' },
+            { key: 'total', label: 'TOTAL', color: '#00D9FF' }
+        ];
+
+        var grid = document.getElementById('ytd-compare-grid');
+        if (!grid) return;
+
+        var html = '';
+        items.forEach(function(item) {
+            var curVal = cur[item.key] || 0;
+            var prevVal = prev[item.key] || 0;
+            var curPct = curVal * 2.5;
+            var prevPct = prevVal * 2.5;
+            var diffPct = curPct - prevPct;
+            var diffClass = 'same';
+            var diffIcon = '●';
+            var diffText = '0.0%';
+            if (diffPct > 0.01) {
+                diffClass = 'up';
+                diffIcon = '▲';
+                diffText = '+' + (Math.round(diffPct * 10) / 10).toFixed(1) + '%';
+            } else if (diffPct < -0.01) {
+                diffClass = 'down';
+                diffIcon = '▼';
+                diffText = (Math.round(diffPct * 10) / 10).toFixed(1) + '%';
+            } else {
+                diffText = '0.0%';
+            }
+
+            html += '<div class="ytd-card" style="border-left:3px solid ' + item.color + ';">';
+            html += '<div class="ytd-label" style="color:' + item.color + ';">' + item.label + '</div>';
+            html += '<div class="ytd-values">';
+            html += '<span class="ytd-prev">' + prevYearNum + ': <strong>' + (Math.round(prevPct * 10) / 10).toFixed(1) + '%</strong></span>';
+            html += '<span class="ytd-current">' + (Math.round(curPct * 10) / 10).toFixed(1) + '%</span>';
+            html += '<span class="ytd-diff ' + diffClass + '">' + diffIcon + ' ' + diffText + '</span>';
+            html += '</div>';
+            html += '<div class="ytd-detail">' + (cur[item.key] || 0) + ' insiden vs ' + (prev[item.key] || 0) + ' insiden</div>';
+            html += '</div>';
+        });
+
+        grid.innerHTML = html;
+    }
+
     function updateChartPeriod() { updateCharts(); }
     function updateDashboard() { updateCharts(); updateMapMarkers(); }
 
