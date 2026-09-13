@@ -33,7 +33,7 @@
             --surface-input: rgba(10, 14, 26, 0.7);
             --surface-input-focus: rgba(10, 14, 26, 0.9);
             --surface-modal: linear-gradient(180deg, #0F172A 0%, #0A0E1A 100%);
-            --surface-sidebar: linear-gradient(180deg, rgba(10, 14, 26, 0.98) 0%, rgba(15, 23, 42, 0.98) 100%);
+            --surface-sidebar: linear-gradient(180deg, #0A0E1A 0%, #0F172A 100%);
             --surface-sidebar-footer: rgba(10, 14, 26, 0.5);
             --surface-hero: linear-gradient(135deg, rgba(0, 217, 255, 0.15) 0%, rgba(14, 165, 233, 0.2) 40%, rgba(168, 85, 247, 0.2) 100%);
             --surface-toast: linear-gradient(135deg, #0F172A, #1E293B);
@@ -57,7 +57,6 @@
             --shadow-card-hover: 0 8px 40px rgba(0, 217, 255, 0.18);
             --shadow-modal: 0 24px 64px rgba(0, 217, 255, 0.15);
             --scroll-track: rgba(15, 23, 42, 0.5);
-            --earth-opacity: 0.85;
         }
         html[data-theme="light"] {
             --primary-cyan: #0891B2;
@@ -99,7 +98,7 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        html, body { overflow-x: hidden; max-width: 100vw; }
+        html { overflow-x: hidden; }
         body {
             margin: 0;
             font-family: var(--app-font);
@@ -115,7 +114,11 @@
                 radial-gradient(circle at 50% 50%, var(--bg-pattern-4) 0%, transparent 60%);
             background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%, 100% 100%;
             background-attachment: fixed;
+            padding-left: 260px; /* SIDEBAR WIDTH */
+            transition: padding-left 0.3s ease;
         }
+        body.sidebar-collapsed { padding-left: 0; }
+
         .card {
             background: var(--surface-1);
             backdrop-filter: blur(16px);
@@ -209,9 +212,9 @@
         }
 
         /* ===================================================
-           ANIMASI BUMI BERPUTAR
+           GLOBE BERPUTAR LAMBAT
            =================================================== */
-        .earth-logo {
+        .globe-logo {
             width: 42px;
             height: 42px;
             border-radius: 50%;
@@ -221,72 +224,71 @@
             box-shadow:
                 0 0 16px rgba(0, 217, 255, 0.5),
                 0 0 32px rgba(0, 217, 255, 0.25),
-                inset -8px -8px 16px rgba(0, 0, 0, 0.5),
-                inset 4px 4px 12px rgba(255, 255, 255, 0.15);
+                inset -6px -6px 12px rgba(0, 0, 0, 0.5),
+                inset 3px 3px 9px rgba(255, 255, 255, 0.15);
             overflow: hidden;
-            animation: earthFloat 6s ease-in-out infinite;
         }
-        .earth-logo::before {
+        /* Benua berputar horizontal - lambat 30 detik */
+        .globe-logo::before {
             content: '';
             position: absolute;
-            inset: -50% -50% -50% -50%;
+            inset: 0;
             background-image:
-                radial-gradient(ellipse 30% 20% at 25% 30%, rgba(74, 222, 128, 0.9) 0%, rgba(74, 222, 128, 0.5) 40%, transparent 70%),
-                radial-gradient(ellipse 25% 18% at 60% 25%, rgba(74, 222, 128, 0.85) 0%, transparent 65%),
-                radial-gradient(ellipse 35% 22% at 20% 65%, rgba(74, 222, 128, 0.8) 0%, transparent 60%),
-                radial-gradient(ellipse 28% 20% at 65% 60%, rgba(74, 222, 128, 0.75) 0%, transparent 60%),
-                radial-gradient(ellipse 22% 15% at 85% 40%, rgba(74, 222, 128, 0.7) 0%, transparent 55%),
-                radial-gradient(ellipse 20% 12% at 45% 80%, rgba(74, 222, 128, 0.7) 0%, transparent 55%),
-                radial-gradient(ellipse 15% 10% at 90% 75%, rgba(74, 222, 128, 0.65) 0%, transparent 50%);
-            animation: earthRotate 12s linear infinite;
+                radial-gradient(ellipse 22% 15% at 20% 30%, rgba(74, 222, 128, 0.9) 0%, rgba(74, 222, 128, 0.5) 40%, transparent 75%),
+                radial-gradient(ellipse 18% 13% at 55% 25%, rgba(74, 222, 128, 0.85) 0%, transparent 70%),
+                radial-gradient(ellipse 25% 16% at 15% 65%, rgba(74, 222, 128, 0.85) 0%, transparent 65%),
+                radial-gradient(ellipse 20% 14% at 60% 60%, rgba(74, 222, 128, 0.8) 0%, transparent 65%),
+                radial-gradient(ellipse 16% 11% at 85% 40%, rgba(74, 222, 128, 0.75) 0%, transparent 60%),
+                radial-gradient(ellipse 14% 9% at 40% 80%, rgba(74, 222, 128, 0.75) 0%, transparent 60%),
+                radial-gradient(ellipse 12% 8% at 90% 75%, rgba(74, 222, 128, 0.7) 0%, transparent 55%);
             background-size: 200% 100%;
             background-position: 0% 0%;
+            background-repeat: repeat-x;
+            animation: globeRotate 30s linear infinite;
         }
-        .earth-logo::after {
+        /* Efek 3D bola */
+        .globe-logo::after {
             content: '';
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25) 0%, transparent 40%),
-                        radial-gradient(circle at 70% 75%, rgba(0, 0, 0, 0.5) 0%, transparent 50%);
+            background:
+                radial-gradient(circle at 28% 25%, rgba(255, 255, 255, 0.35) 0%, transparent 45%),
+                radial-gradient(circle at 70% 75%, rgba(0, 0, 0, 0.55) 0%, transparent 55%);
             pointer-events: none;
         }
-        @keyframes earthRotate {
+        @keyframes globeRotate {
             0% { background-position: 0% 0%; }
             100% { background-position: 200% 0%; }
         }
-        @keyframes earthFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-2px); }
-        }
-        .earth-logo.large {
+        .globe-logo.large {
             width: 72px;
             height: 72px;
             box-shadow:
                 0 0 24px rgba(0, 217, 255, 0.6),
                 0 0 48px rgba(0, 217, 255, 0.3),
-                inset -12px -12px 24px rgba(0, 0, 0, 0.5),
-                inset 6px 6px 18px rgba(255, 255, 255, 0.15);
+                inset -10px -10px 20px rgba(0, 0, 0, 0.5),
+                inset 5px 5px 15px rgba(255, 255, 255, 0.15);
         }
-        .earth-logo.mini {
+        .globe-logo.mini {
             width: 32px;
             height: 32px;
             box-shadow:
                 0 0 10px rgba(0, 217, 255, 0.4),
                 0 0 20px rgba(0, 217, 255, 0.2),
-                inset -6px -6px 12px rgba(0, 0, 0, 0.5),
-                inset 3px 3px 9px rgba(255, 255, 255, 0.15);
+                inset -5px -5px 10px rgba(0, 0, 0, 0.5),
+                inset 2px 2px 6px rgba(255, 255, 255, 0.15);
         }
 
         /* ===================================================
-           SIDEBAR - Fixed agar tidak menimpa konten
+           SIDEBAR FIXED - di samping, bukan menimpa konten
            =================================================== */
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
             bottom: 0;
-            width: var(--sidebar-width);
+            width: 260px;
             background: var(--surface-sidebar);
             backdrop-filter: blur(20px);
             border-right: 1px solid var(--border-glow);
@@ -422,15 +424,7 @@
         .user-name { font-size: 12px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .user-role { font-size: 9px; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
 
-        /* MAIN WRAPPER - margin-left menyesuaikan lebar sidebar */
-        .main-wrapper {
-            margin-left: var(--sidebar-width);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            width: calc(100% - var(--sidebar-width));
-            max-width: calc(100% - var(--sidebar-width));
-        }
+        /* Top header - tetap di dalam main area */
         .top-header {
             position: sticky; top: 0; z-index: 40;
             height: 72px;
@@ -443,12 +437,10 @@
             transition: background 0.3s ease;
         }
         .main-content {
-            flex: 1;
             padding: 20px 24px 40px;
-            width: 100%;
             max-width: 1400px;
             margin: 0 auto;
-            overflow-x: hidden;
+            width: 100%;
         }
 
         .menu-toggle {
@@ -471,13 +463,9 @@
         .sidebar-overlay.active { display: block; }
 
         @media (max-width: 900px) {
+            body { padding-left: 0; }
             .sidebar { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
-            .main-wrapper {
-                margin-left: 0;
-                width: 100%;
-                max-width: 100%;
-            }
             .menu-toggle { display: flex; }
             .top-header { padding: 0 16px; }
             .main-content { padding: 16px 16px 40px; }
@@ -755,7 +743,7 @@
             filter: drop-shadow(0 0 6px var(--primary-cyan));
         }
         @keyframes slideUpLogin { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .login-card .earth-logo { margin: 0 auto; }
+        .login-card .globe-logo { margin: 0 auto; }
         .login-title {
             font-size: 28px; font-weight: 900;
             margin: 16px 0 4px;
@@ -962,49 +950,70 @@
             75% { transform: translateX(6px); }
         }
 
-        /* Statistik ringkas penyebab */
-        .chart-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
-            margin-top: 14px;
-            padding-top: 14px;
+        /* Tabel rekap di bawah grafik */
+        .chart-rekap-wrapper {
+            margin-top: 16px;
+            padding-top: 16px;
             border-top: 1px solid var(--border-subtle);
         }
-        .chart-stat-item {
+        .chart-rekap-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            padding: 10px 8px;
-            background: rgba(0, 217, 255, 0.05);
+            gap: 8px;
+        }
+        .chart-rekap-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        .chart-rekap-table th {
+            background: var(--surface-table-header);
+            padding: 8px 10px;
+            text-align: center;
+            border: 1px solid var(--border-subtle);
+            font-weight: 700;
+            color: var(--primary-cyan);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .chart-rekap-table th:first-child,
+        .chart-rekap-table td:first-child {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            background: var(--surface-3);
+            z-index: 2;
+            min-width: 130px;
+        }
+        .chart-rekap-table td {
+            padding: 8px 10px;
+            text-align: center;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+        .chart-rekap-table tr.total-row td {
+            background: rgba(0, 217, 255, 0.08);
+            font-weight: 900;
+            color: var(--primary-cyan);
+            border-top: 2px solid var(--border-glow);
+        }
+        .chart-rekap-scroll {
+            overflow-x: auto;
             border-radius: 10px;
             border: 1px solid var(--border-subtle);
         }
-        .chart-stat-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-bottom: 6px;
-        }
-        .chart-stat-label {
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            text-align: center;
-        }
-        .chart-stat-value {
-            font-size: 16px;
-            font-weight: 900;
-            font-family: 'Orbitron', sans-serif;
-            margin-top: 4px;
-        }
-        .chart-stat-sub {
-            font-size: 9px;
-            color: var(--text-dim);
-            margin-top: 2px;
-        }
+        .chart-rekap-scroll::-webkit-scrollbar { height: 6px; }
+        .chart-rekap-scroll::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 4px; }
 
         @media(max-width:640px) {
             .hero-panel { padding: 20px 16px; }
@@ -1014,6 +1023,8 @@
             .login-title { font-size: 24px; }
             .btn-primary, .btn-secondary { padding: 10px 18px; font-size: 13px; min-height: 42px; }
             .filter-bar { flex-direction: column; align-items: stretch; }
+            .chart-rekap-table { font-size: 11px; }
+            .chart-rekap-table th, .chart-rekap-table td { padding: 6px 5px; }
         }
 
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -1031,7 +1042,7 @@
     <div id="login-screen" class="login-screen">
         <div class="login-card">
             <div style="text-align:center;">
-                <div class="earth-logo large" style="margin:0 auto;"></div>
+                <div class="globe-logo large" style="margin:0 auto;"></div>
                 <h1 class="login-title">BUCIN</h1>
                 <p class="login-subtitle">Sistem Cegah Insiden Network</p>
             </div>
@@ -1068,7 +1079,7 @@
     <div id="app-shell" class="hidden">
         <aside id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <div class="earth-logo"></div>
+                <div class="globe-logo"></div>
                 <div class="brand-text-wrapper">
                     <span class="brand-text">BUCIN</span>
                     <span class="brand-sub">Cegah Insiden</span>
@@ -1123,7 +1134,6 @@
             <header class="top-header">
                 <div style="display:flex;align-items:center;gap:12px;">
                     <button id="menu-toggle" class="menu-toggle" title="Menu"><i data-lucide="menu" style="width:22px;"></i></button>
-                    <div class="earth-logo mini" style="display:none;" id="header-earth"></div>
                     <h2 id="header-title" style="margin:0;font-size:18px;font-weight:800;color:var(--primary-cyan);letter-spacing:1px;">Dashboard</h2>
                 </div>
                 <div style="display:flex;gap:6px;align-items:center;">
@@ -1149,31 +1159,30 @@
                                     <select id="chart-period" class="field-control" style="min-height:32px;padding:2px 12px;font-size:12px;width:auto;border-radius:8px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
                                 </div>
                             </h3>
-                            <div style="height:320px;"><canvas id="chartIncidents"></canvas></div>
-                            <div class="chart-stats" id="chartStatsContainer">
-                                <div class="chart-stat-item">
-                                    <span class="chart-stat-dot" style="background:#EC4899; box-shadow:0 0 8px #EC4899;"></span>
-                                    <span class="chart-stat-label">Pihak Ke-3</span>
-                                    <span class="chart-stat-value" style="color:#EC4899;" id="stat-p3">0</span>
-                                    <span class="chart-stat-sub" id="stat-p3-pct">0%</span>
+                            <div style="height:340px;"><canvas id="chartIncidents"></canvas></div>
+
+                            <!-- Tabel Rekap Data di Bawah Grafik -->
+                            <div class="chart-rekap-wrapper">
+                                <div class="chart-rekap-title">
+                                    <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 6px var(--primary-cyan);"></span>
+                                    Rekap Data OF Cut Tahun <span id="rekap-tahun-label">-</span>
                                 </div>
-                                <div class="chart-stat-item">
-                                    <span class="chart-stat-dot" style="background:#F59E0B; box-shadow:0 0 8px #F59E0B;"></span>
-                                    <span class="chart-stat-label">Vandalisme</span>
-                                    <span class="chart-stat-value" style="color:#F59E0B;" id="stat-vandal">0</span>
-                                    <span class="chart-stat-sub" id="stat-vandal-pct">0%</span>
-                                </div>
-                                <div class="chart-stat-item">
-                                    <span class="chart-stat-dot" style="background:#10B981; box-shadow:0 0 8px #10B981;"></span>
-                                    <span class="chart-stat-label">Bencana</span>
-                                    <span class="chart-stat-value" style="color:#10B981;" id="stat-bencana">0</span>
-                                    <span class="chart-stat-sub" id="stat-bencana-pct">0%</span>
-                                </div>
-                                <div class="chart-stat-item">
-                                    <span class="chart-stat-dot" style="background:#00D9FF; box-shadow:0 0 8px #00D9FF;"></span>
-                                    <span class="chart-stat-label">Lainnya</span>
-                                    <span class="chart-stat-value" style="color:#00D9FF;" id="stat-lainnya">0</span>
-                                    <span class="chart-stat-sub" id="stat-lainnya-pct">0%</span>
+                                <div class="chart-rekap-scroll">
+                                    <table class="chart-rekap-table" id="chart-rekap-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Bulan</th>
+                                                <th style="color:#EC4899;">Pihak Ke-3</th>
+                                                <th style="color:#F59E0B;">Vandalisme</th>
+                                                <th style="color:#10B981;">Bencana</th>
+                                                <th style="color:#00D9FF;">Lainnya</th>
+                                                <th style="color:var(--primary-cyan);">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="chart-rekap-body">
+                                            <tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text-muted);">Memuat data...</td></tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -1961,18 +1970,19 @@
         'Patch Cord': 'Patch Cord'
     };
 
-    // Warna per penyebab OF Cut
-    const PENYEBAB_COLORS = {
-        'pihak ke 3': '#EC4899',
-        'vandalisme': '#F59E0B',
-        'bencana': '#10B981',
-        'lainnya': '#00D9FF'
-    };
+    // Kategori penyebab
+    const PENYEBAB_LIST = ['pihak ke 3', 'vandalisme', 'bencana', 'lainnya'];
     const PENYEBAB_LABELS = {
         'pihak ke 3': 'Pihak Ke-3',
         'vandalisme': 'Vandalisme',
         'bencana': 'Bencana',
         'lainnya': 'Lainnya'
+    };
+    const PENYEBAB_COLORS = {
+        'pihak ke 3': '#EC4899',
+        'vandalisme': '#F59E0B',
+        'bencana': '#10B981',
+        'lainnya': '#00D9FF'
     };
 
     // ============================================================
@@ -3093,15 +3103,14 @@
     }
 
     // ============================================================
-    // CHART - OF Cut berdasarkan Penyebab
-    // Skor persentase: maksimal per point adalah 10
+    // CHART: OF Cut per Penyebab
+    // Skor: 10 = 100% (patokan)
     // ============================================================
     const percentagePlugin = {
         id: 'percentageLabels',
         afterDatasetsDraw: function(chart) {
             var ctx = chart.ctx;
             var datasets = chart.data.datasets;
-            // Hitung total dari SEMUA dataset (per bulan)
             var totalsPerMonth = new Array(chart.data.labels.length).fill(0);
             datasets.forEach(function(dataset) {
                 dataset.data.forEach(function(v, idx) {
@@ -3118,10 +3127,9 @@
                     if (value === 0) return;
                     var total = totalsPerMonth[index];
                     if (total === 0) return;
-                    // Skor = (value / total) * 10, dibulatkan
-                    var skor = Math.round((value / total) * 10 * 10) / 10;
-                    // tampilkan tanpa .0
-                    var skorText = (skor % 1 === 0) ? skor.toFixed(0) : skor.toFixed(1);
+                    // Skor skala 0-10 (10 = 100%)
+                    var skor = (value / total) * 10;
+                    var skorText = (Math.round(skor * 10) / 10).toFixed(1);
                     ctx.save();
                     ctx.fillStyle = textColor;
                     ctx.font = 'bold 10px "DM Sans", "Orbitron", sans-serif';
@@ -3233,9 +3241,10 @@
                                         context.chart.data.datasets.forEach(function(ds) {
                                             total += (Number(ds.data[context.dataIndex]) || 0);
                                         });
-                                        var skor = total > 0 ? Math.round((value / total) * 10 * 10) / 10 : 0;
-                                        var skorText = (skor % 1 === 0) ? skor.toFixed(0) : skor.toFixed(1);
-                                        return context.dataset.label + ': ' + value + ' insiden (Skor: ' + skorText + '/10)';
+                                        var skor = total > 0 ? (value / total) * 10 : 0;
+                                        return context.dataset.label + ': ' + value + ' insiden (Skor: ' +
+                                               (Math.round(skor * 10) / 10).toFixed(1) + '/10 = ' +
+                                               (Math.round(skor * 10)).toFixed(0) + '%)';
                                     }
                                 }
                             }
@@ -3259,6 +3268,15 @@
         } catch (e) { console.error('Chart init:', e); }
     }
 
+    // Klasifikasi penyebab
+    function klasifikasiPenyebab(p) {
+        p = (p || '').toString().toLowerCase().trim();
+        if (p === 'pihak ke 3' || p === 'pihak ke-3' || p === 'pihak ke3' || p.indexOf('pihak') !== -1) return 'pihak ke 3';
+        if (p === 'vandalisme' || p.indexOf('vandal') !== -1) return 'vandalisme';
+        if (p === 'bencana' || p.indexOf('bencana') !== -1) return 'bencana';
+        return 'lainnya';
+    }
+
     function updateCharts() {
         if (!chartIncidents) return;
         try {
@@ -3266,7 +3284,6 @@
             var selectedYear = sel ? parseInt(sel.value) : 2020;
             if (isNaN(selectedYear)) selectedYear = 2020;
 
-            // 4 array untuk 4 penyebab
             var dataP3 = new Array(12).fill(0);
             var dataVandal = new Array(12).fill(0);
             var dataBencana = new Array(12).fill(0);
@@ -3280,18 +3297,11 @@
                 if (d.getFullYear() !== selectedYear) return;
                 var m = d.getMonth();
                 if (m < 0 || m > 11) return;
-
-                // Klasifikasi penyebab
-                var p = (item.penyebab || '').toString().toLowerCase().trim();
-                if (p === 'pihak ke 3' || p === 'pihak ke-3' || p === 'pihak ke3' || p.indexOf('pihak') !== -1) {
-                    dataP3[m]++;
-                } else if (p === 'vandalisme' || p.indexOf('vandal') !== -1) {
-                    dataVandal[m]++;
-                } else if (p === 'bencana' || p.indexOf('bencana') !== -1) {
-                    dataBencana[m]++;
-                } else {
-                    dataLainnya[m]++;
-                }
+                var kategori = klasifikasiPenyebab(item.penyebab);
+                if (kategori === 'pihak ke 3') dataP3[m]++;
+                else if (kategori === 'vandalisme') dataVandal[m]++;
+                else if (kategori === 'bencana') dataBencana[m]++;
+                else dataLainnya[m]++;
             });
 
             chartIncidents.data.datasets[0].data = dataP3;
@@ -3310,33 +3320,51 @@
 
             chartIncidents.update();
 
-            // Update statistik ringkas
-            updateChartStats(dataP3, dataVandal, dataBencana, dataLainnya);
+            // Update tabel rekap
+            renderRekapTable(selectedYear, dataP3, dataVandal, dataBencana, dataLainnya);
         } catch (e) { console.error('updateCharts error:', e); }
     }
 
-    function updateChartStats(dP3, dVandal, dBencana, dLainnya) {
-        var tP3 = dP3.reduce(function(a, b) { return a + b; }, 0);
-        var tVandal = dVandal.reduce(function(a, b) { return a + b; }, 0);
-        var tBencana = dBencana.reduce(function(a, b) { return a + b; }, 0);
-        var tLainnya = dLainnya.reduce(function(a, b) { return a + b; }, 0);
-        var total = tP3 + tVandal + tBencana + tLainnya;
+    // Tabel rekap di bawah grafik
+    function renderRekapTable(year, dP3, dVandal, dBencana, dLainnya) {
+        var labelEl = document.getElementById('rekap-tahun-label');
+        if (labelEl) labelEl.textContent = year;
+        var tbody = document.getElementById('chart-rekap-body');
+        if (!tbody) return;
 
-        var elP3 = document.getElementById('stat-p3'); if (elP3) elP3.textContent = tP3;
-        var elV = document.getElementById('stat-vandal'); if (elV) elV.textContent = tVandal;
-        var elB = document.getElementById('stat-bencana'); if (elB) elB.textContent = tBencana;
-        var elL = document.getElementById('stat-lainnya'); if (elL) elL.textContent = tLainnya;
+        var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        var html = '';
+        var totalP3 = 0, totalV = 0, totalB = 0, totalL = 0;
 
-        var skorP3 = total > 0 ? (tP3 / total) * 10 : 0;
-        var skorV = total > 0 ? (tVandal / total) * 10 : 0;
-        var skorB = total > 0 ? (tBencana / total) * 10 : 0;
-        var skorL = total > 0 ? (tLainnya / total) * 10 : 0;
+        for (var i = 0; i < 12; i++) {
+            var totalBulan = dP3[i] + dVandal[i] + dBencana[i] + dLainnya[i];
+            totalP3 += dP3[i];
+            totalV += dVandal[i];
+            totalB += dBencana[i];
+            totalL += dLainnya[i];
 
-        var fmt = function(v) { return (Math.round(v * 10) / 10).toFixed(1) + ' / 10'; };
-        var elP3p = document.getElementById('stat-p3-pct'); if (elP3p) elP3p.textContent = fmt(skorP3);
-        var elVp = document.getElementById('stat-vandal-pct'); if (elVp) elVp.textContent = fmt(skorV);
-        var elBp = document.getElementById('stat-bencana-pct'); if (elBp) elBp.textContent = fmt(skorB);
-        var elLp = document.getElementById('stat-lainnya-pct'); if (elLp) elLp.textContent = fmt(skorL);
+            html += '<tr>';
+            html += '<td>' + monthNames[i] + '</td>';
+            html += '<td>' + (dP3[i] || '') + '</td>';
+            html += '<td>' + (dVandal[i] || '') + '</td>';
+            html += '<td>' + (dBencana[i] || '') + '</td>';
+            html += '<td>' + (dLainnya[i] || '') + '</td>';
+            html += '<td style="font-weight:900;">' + totalBulan + '</td>';
+            html += '</tr>';
+        }
+
+        // Baris total
+        var grandTotal = totalP3 + totalV + totalB + totalL;
+        html += '<tr class="total-row">';
+        html += '<td>TOTAL</td>';
+        html += '<td>' + totalP3 + '</td>';
+        html += '<td>' + totalV + '</td>';
+        html += '<td>' + totalB + '</td>';
+        html += '<td>' + totalL + '</td>';
+        html += '<td>' + grandTotal + '</td>';
+        html += '</tr>';
+
+        tbody.innerHTML = html;
     }
 
     function updateChartPeriod() { updateCharts(); }
