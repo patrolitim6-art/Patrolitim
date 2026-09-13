@@ -9,8 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700;900&family=Nunito:wght@400;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -312,7 +312,6 @@
 
         #map-container { height: 400px; border-radius: var(--radius); border: 1px solid var(--border-glow); z-index: 1; overflow: hidden; position: relative; }
         @media(min-width:1024px) { #map-container { height: 500px; } }
-        .leaflet-control-zoom { display: none !important; }
         .custom-map-controls { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
         .custom-map-btn { background: var(--surface-map-btn); backdrop-filter: blur(10px); border: 1px solid var(--border-glow); border-radius: 10px; width: 38px; height: 38px; display: grid; place-items: center; cursor: pointer; color: var(--primary-cyan); transition: all 0.2s; }
         .custom-map-btn:hover { background: rgba(0, 217, 255, 0.15); transform: translateY(-2px); }
@@ -326,6 +325,56 @@
         .mini-map-controls { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
         .mini-map-btn { background: var(--surface-map-btn); backdrop-filter: blur(10px); border: 1px solid var(--border-glow); border-radius: 10px; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; color: var(--primary-cyan); transition: all 0.2s; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
         .mini-map-btn:hover { background: rgba(0, 217, 255, 0.2); transform: scale(1.05); }
+
+        /* Marker kustom MapLibre */
+        .ml-marker {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 0 8px rgba(0, 217, 255, 0.8);
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+        .ml-marker:hover {
+            transform: scale(1.35);
+        }
+
+        /* Popup MapLibre agar sesuai tema */
+        .maplibregl-popup-content {
+            background: var(--surface-map-legend) !important;
+            color: var(--text-main) !important;
+            border: 1px solid var(--border-glow) !important;
+            border-radius: 10px !important;
+            font-family: var(--app-font) !important;
+            font-size: 12px !important;
+            padding: 10px 14px !important;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 24px rgba(0, 217, 255, 0.25) !important;
+        }
+        .maplibregl-popup-tip {
+            border-top-color: var(--surface-map-legend) !important;
+            border-bottom-color: var(--surface-map-legend) !important;
+        }
+        .maplibregl-popup-close-button {
+            color: var(--primary-cyan) !important;
+            font-size: 18px !important;
+            padding: 0 6px !important;
+        }
+
+        /* Sembunyikan kontrol default MapLibre */
+        .maplibregl-ctrl-top-right,
+        .maplibregl-ctrl-top-left,
+        .maplibregl-ctrl-bottom-right,
+        .maplibregl-ctrl-bottom-left {
+            display: none !important;
+        }
+
+        /* Canvas MapLibre agar tidak ada outline */
+        #map-container canvas,
+        #map-modal-container canvas {
+            outline: none !important;
+        }
 
         .scanner-wrapper { position: relative; width: 100%; max-width: 400px; height: 260px; margin: 12px auto; border-radius: 16px; overflow: hidden; background: #050810; display: none; border: 1px solid var(--border-glow); }
         .scanner-wrapper.active { display: block; }
@@ -405,7 +454,6 @@
         .opm-warning.show { display: flex; animation: shake 0.4s ease; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
-        /* TABEL REKAP */
         .chart-rekap-wrapper { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-subtle); }
         .chart-rekap-title { font-size: 12px; font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Orbitron', sans-serif; display: flex; align-items: center; gap: 8px; }
         .chart-rekap-table { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: fixed; }
@@ -480,7 +528,6 @@
         }
         .chart-rekap-pct.on-total { color: #10B981; font-weight: 700; }
 
-        /* ✅ SELISIH TAHUNAN */
         .ytd-compare-wrap {
             margin-top: 14px;
             padding: 14px;
@@ -767,6 +814,43 @@
                         <p style="margin:8px 0 0;opacity:0.9;font-size:15px;font-weight:500;color:var(--text-muted);">Pusat Operasi Jaringan Sulawesi Utara</p>
                         <p class="hero-about" id="hero-about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
                     </div>
+
+                    <div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+                        <div style="padding:16px 18px;border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                            <h3 style="margin:0;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;color:var(--primary-cyan);">
+                                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 8px var(--primary-cyan);"></span>
+                                Peta Line & Titik Aset
+                            </h3>
+                            <div style="display:flex;gap:8px;">
+                                <button id="btn-upload-kml" class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;">
+                                    <i data-lucide="upload" style="width:14px;"></i> KML
+                                </button>
+                                <button class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;" onclick="downloadKML()">
+                                    <i data-lucide="download" style="width:14px;"></i> KML
+                                </button>
+                            </div>
+                        </div>
+                        <div style="position:relative;">
+                            <div id="map-container"></div>
+                            <div class="map-legend">
+                                <div class="map-legend-title">Kategori & Line</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#00D9FF;"></span> OF Cut</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#A855F7;"></span> Pihak Ke-3</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#EC4899;"></span> Temuan</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#0EA5E9;"></span> Joint</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#10B981;"></span> Handhole</div>
+                                <div id="map-legend-line">Line aktif: -</div>
+                            </div>
+                            <div class="custom-map-controls">
+                                <button class="custom-map-btn active" onclick="toggleMapLayer('satellite', event)" title="Satelit"><i data-lucide="satellite" style="width:18px;"></i></button>
+                                <button class="custom-map-btn" onclick="toggleMapLayer('street', event)" title="Jalan"><i data-lucide="map" style="width:18px;"></i></button>
+                                <button class="custom-map-btn" onclick="toggleMapLayer('hybrid', event)" title="Hybrid"><i data-lucide="layers" style="width:18px;"></i></button>
+                                <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
+                                <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="dashboard-grid">
                         <div class="card chart-card">
                             <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--primary-cyan);">
@@ -802,7 +886,6 @@
                                 </div>
                             </div>
 
-                            <!-- ✅ SELISIH TAHUNAN -->
                             <div class="ytd-compare-wrap" id="ytd-compare-wrap">
                                 <div class="ytd-compare-title">
                                     <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 6px var(--primary-cyan);"></span>
@@ -811,41 +894,6 @@
                                 <div class="ytd-compare-grid" id="ytd-compare-grid">
                                     <div style="text-align:center;color:var(--text-muted);padding:20px;grid-column:1/-1;">Memuat data...</div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card" style="padding:0;overflow:hidden;margin-top:20px;">
-                        <div style="padding:16px 18px;border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-                            <h3 style="margin:0;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;color:var(--primary-cyan);">
-                                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 8px var(--primary-cyan);"></span>
-                                Peta Line & Titik Aset
-                            </h3>
-                            <div style="display:flex;gap:8px;">
-                                <button id="btn-upload-kml" class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;">
-                                    <i data-lucide="upload" style="width:14px;"></i> KML
-                                </button>
-                                <button class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;" onclick="downloadKML()">
-                                    <i data-lucide="download" style="width:14px;"></i> KML
-                                </button>
-                            </div>
-                        </div>
-                        <div style="position:relative;">
-                            <div id="map-container"></div>
-                            <div class="map-legend">
-                                <div class="map-legend-title">Kategori & Line</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#00D9FF;"></span> OF Cut</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#A855F7;"></span> Pihak Ke-3</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#EC4899;"></span> Temuan</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#0EA5E9;"></span> Joint</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#10B981;"></span> Handhole</div>
-                                <div id="map-legend-line">Line aktif: -</div>
-                            </div>
-                            <div class="custom-map-controls">
-                                <button class="custom-map-btn active" onclick="toggleMapLayer('satellite')" title="Satelit"><i data-lucide="satellite" style="width:18px;"></i></button>
-                                <button class="custom-map-btn" onclick="toggleMapLayer('street')" title="Jalan"><i data-lucide="map" style="width:18px;"></i></button>
-                                <button class="custom-map-btn" onclick="toggleMapLayer('hybrid')" title="Hybrid"><i data-lucide="layers" style="width:18px;"></i></button>
-                                <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
-                                <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
                             </div>
                         </div>
                     </div>
@@ -1493,7 +1541,6 @@
                 <h3 style="margin:0;font-size:20px;font-weight:800;color:var(--primary-cyan);">Pengaturan</h3>
                 <button onclick="document.getElementById('settings-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
             </div>
-
             <div style="margin-bottom:20px;">
                 <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;color:var(--primary-cyan);">Tema Tampilan</h4>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
@@ -1507,7 +1554,6 @@
                     </button>
                 </div>
             </div>
-
             <div style="margin-bottom:20px;">
                 <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;color:var(--primary-cyan);">Tampilan Font</h4>
                 <div style="display:grid;gap:12px;">
@@ -1531,12 +1577,10 @@
                     </div>
                 </div>
             </div>
-
             <div style="margin-bottom:20px;">
                 <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;color:var(--primary-cyan);">Edit Keterangan Hero</h4>
                 <textarea id="hero-about-input" class="field-control" rows="3"></textarea>
             </div>
-
             <button id="btn-save-settings" class="btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Simpan Pengaturan</button>
         </div>
     </div>
@@ -1615,12 +1659,12 @@
     let currentSubTab = 'p3';
     let appData = {};
     let riwayatData = {};
-    let map = null;
-    let mapModal = null;
+    let map = null;              // MapLibre instance utama
+    let mapModal = null;         // MapLibre instance modal
     let selectedMapLocation = null;
-    let mapModalMarker = null;
-    let markers = [];
-    let kmlLayers = {};
+    let mapModalMarker = null;   // Marker MapLibre modal
+    let markers = [];            // Array marker MapLibre
+    let kmlLayers = {};          // { lineName: { sourceId, layerId, geojson } }
     const kmlLineColors = {
         'OSP LINE 1': '#FF0000', 'OSP LINE 2': '#00FF00', 'OSP LINE 3': '#0000FF',
         'IGG LINE 1': '#FFA500', 'IGG LINE 2': '#800080', 'DWDM': '#FF00FF',
@@ -1654,6 +1698,21 @@
         'Patch Cord': 'Patch Cord'
     };
     const MENU_NO_PERIOD = ['Alker', 'Stok Spare', 'Patch Cord'];
+
+    const LS_KEY_PAGE = 'bucin_current_page';
+    const LS_KEY_SUBTAB = 'bucin_current_subtab';
+    function saveCurrentPage(cat) {
+        try { localStorage.setItem(LS_KEY_PAGE, cat); } catch (e) {}
+    }
+    function saveCurrentSubTab(sub) {
+        try { localStorage.setItem(LS_KEY_SUBTAB, sub); } catch (e) {}
+    }
+    function getSavedPage() {
+        try { return localStorage.getItem(LS_KEY_PAGE) || 'dashboard'; } catch (e) { return 'dashboard'; }
+    }
+    function getSavedSubTab() {
+        try { return localStorage.getItem(LS_KEY_SUBTAB) || 'p3'; } catch (e) { return 'p3'; }
+    }
 
     function checkOpmDariKe() {
         var dari = document.getElementById('inp-opm-dari').value;
@@ -1935,29 +1994,186 @@
         r.readAsText(file);
         return false;
     }
-    function displayKmlOnMap(line, str) {
-        if (!map) return;
+
+    // ============================================================
+    // MAPLIBRE GL JS
+    // ============================================================
+    function getSatelliteStyle() {
+        return {
+            version: 8,
+            sources: {
+                satellite: {
+                    type: 'raster',
+                    tiles: [
+                        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+                    ],
+                    tileSize: 256,
+                    attribution: '© Esri'
+                }
+            },
+            layers: [
+                { id: 'satellite-layer', type: 'raster', source: 'satellite', minzoom: 0, maxzoom: 22 }
+            ]
+        };
+    }
+    function getStreetStyle() {
+        return {
+            version: 8,
+            sources: {
+                osm: {
+                    type: 'raster',
+                    tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                    tileSize: 256,
+                    attribution: '© OpenStreetMap'
+                }
+            },
+            layers: [
+                { id: 'osm-layer', type: 'raster', source: 'osm', minzoom: 0, maxzoom: 19 }
+            ]
+        };
+    }
+    function getHybridStyle() {
+        return {
+            version: 8,
+            sources: {
+                hybrid: {
+                    type: 'raster',
+                    tiles: ['https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}'],
+                    tileSize: 256,
+                    attribution: '© Google'
+                }
+            },
+            layers: [
+                { id: 'hybrid-layer', type: 'raster', source: 'hybrid', minzoom: 0, maxzoom: 22 }
+            ]
+        };
+    }
+
+    function initMap() {
+        if (map) return;
         try {
-            if (kmlLayers[line]) { map.removeLayer(kmlLayers[line]); delete kmlLayers[line]; }
-            var xml = new DOMParser().parseFromString(str, "text/xml");
-            var color = kmlLineColors[line] || '#00D9FF';
-            var layers = parseKmlToLayers(xml, color);
-            if (layers.length > 0) {
-                var g = L.featureGroup(layers).addTo(map);
-                kmlLayers[line] = g;
-                document.getElementById('map-legend-line').textContent = 'Line aktif: ' + line;
-                try { map.fitBounds(g.getBounds().pad(0.05)); } catch (e) {}
+            map = new maplibregl.Map({
+                container: 'map-container',
+                style: getSatelliteStyle(),
+                center: [124.8410, 1.4930],
+                zoom: 11,
+                maxZoom: 22,
+                attributionControl: false
+            });
+
+            map.on('load', function () {
+                loadMarkersFromData();
+                // Muat ulang KML yang sudah tersimpan
+                Object.keys(kmlLayers).forEach(function (line) {
+                    if (kmlLayers[line] && kmlLayers[line].geojson) {
+                        drawKmlGeoJSON(line, kmlLayers[line].geojson);
+                    }
+                });
+            });
+        } catch (e) { console.error('Map init:', e); }
+    }
+
+    function loadMarkersFromData() {
+        if (!map) return;
+        markers.forEach(function (m) { m.remove(); });
+        markers = [];
+
+        var categoryColors = {
+            'Data OF Cut': '#00D9FF',
+            'Pekerjaan Pihak Ke-3': '#A855F7',
+            'Temuan Lapangan': '#EC4899',
+            'Joint': '#0EA5E9',
+            'Handhole': '#10B981'
+        };
+
+        Object.keys(categoryColors).forEach(function (cat) {
+            var items = appData[cat] || {};
+            var color = categoryColors[cat];
+            Object.keys(items).forEach(function (k) {
+                var it = items[k];
+                if (it.coords) {
+                    var p = String(it.coords).split(',');
+                    if (p.length === 2) {
+                        var lat = parseFloat(p[0]);
+                        var lng = parseFloat(p[1]);
+                        if (!isNaN(lat) && !isNaN(lng)) {
+                            var el = document.createElement('div');
+                            el.className = 'ml-marker';
+                            el.style.background = color;
+                            el.title = (it.location || 'Lokasi') + ' — ' + cat;
+
+                            var popup = new maplibregl.Popup({ offset: 14, closeButton: true })
+                                .setHTML(
+                                    '<strong style="color:var(--primary-cyan);">' +
+                                    (it.location || 'Lokasi') +
+                                    '</strong><br><span style="font-size:11px;color:var(--text-muted);">' +
+                                    cat + '</span>'
+                                );
+
+                            var marker = new maplibregl.Marker({ element: el })
+                                .setLngLat([lng, lat])
+                                .setPopup(popup)
+                                .addTo(map);
+
+                            markers.push(marker);
+                        }
+                    }
+                }
+            });
+        });
+    }
+
+    function updateMapMarkers() {
+        if (!map) return;
+        if (map.isStyleLoaded()) {
+            loadMarkersFromData();
+        } else {
+            map.once('load', loadMarkersFromData);
+        }
+    }
+
+    window.zoomIn = function () { if (map) map.zoomIn(); };
+    window.zoomOut = function () { if (map) map.zoomOut(); };
+
+    window.toggleMapLayer = function (t, evt) {
+        if (!map) return;
+        var style;
+        if (t === 'street') style = getStreetStyle();
+        else if (t === 'hybrid') style = getHybridStyle();
+        else style = getSatelliteStyle();
+
+        var savedKml = {};
+        Object.keys(kmlLayers).forEach(function (line) {
+            if (kmlLayers[line] && kmlLayers[line].geojson) {
+                savedKml[line] = kmlLayers[line].geojson;
             }
-        } catch (err) { console.error(err); }
-    }
-    function loadKmlFromFirebase() {
-        db.ref('kmlData').once('value').then(function(s) {
-            var d = s.val() || {};
-            Object.keys(d).forEach(function(l) { if (d[l]) displayKmlOnMap(l, d[l]); });
-        }).catch(function() {});
-    }
-    function parseKmlToLayers(xml, color) {
-        var out = [];
+        });
+
+        map.setStyle(style);
+
+        map.once('styledata', function () {
+            markers = [];
+            loadMarkersFromData();
+            kmlLayers = {};
+            Object.keys(savedKml).forEach(function (line) {
+                drawKmlGeoJSON(line, savedKml[line]);
+            });
+        });
+
+        document.querySelectorAll('.custom-map-btn').forEach(function (b) {
+            b.classList.remove('active');
+        });
+        if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
+    };
+
+    window.mapModalZoomIn = function () { if (mapModal) mapModal.zoomIn(); };
+    window.mapModalZoomOut = function () { if (mapModal) mapModal.zoomOut(); };
+    window.mapModalResetCenter = function () {
+        if (mapModal) mapModal.flyTo({ center: [124.8410, 1.4930], zoom: 13 });
+    };
+
+    function parseKmlToGeoJSON(xml) {
+        var features = [];
         var pms = xml.getElementsByTagName("Placemark");
         for (var i = 0; i < pms.length; i++) {
             var pm = pms[i];
@@ -1966,15 +2182,106 @@
             if (ls) {
                 var c = ls.getElementsByTagName("coordinates")[0];
                 if (c) {
-                    var ll = c.textContent.trim().split(/\s+/).map(function(x) {
+                    var coords = c.textContent.trim().split(/\s+/).map(function (x) {
                         var a = x.split(",");
-                        return [parseFloat(a[1]), parseFloat(a[0])];
-                    }).filter(function(x) { return !isNaN(x[0]); });
-                    if (ll.length > 1) out.push(L.polyline(ll, { color: color, weight: 4, opacity: 0.85 }).bindPopup(name));
+                        return [parseFloat(a[0]), parseFloat(a[1])];
+                    }).filter(function (x) { return !isNaN(x[0]) && !isNaN(x[1]); });
+
+                    if (coords.length > 1) {
+                        features.push({
+                            type: 'Feature',
+                            properties: { name: name },
+                            geometry: { type: 'LineString', coordinates: coords }
+                        });
+                    }
                 }
             }
         }
-        return out;
+        return { type: 'FeatureCollection', features: features };
+    }
+
+    function drawKmlGeoJSON(line, geojson) {
+        if (!map) return;
+        var color = kmlLineColors[line] || '#00D9FF';
+        var sourceId = 'kml-src-' + line.replace(/\s+/g, '-').toLowerCase();
+        var layerId = 'kml-layer-' + line.replace(/\s+/g, '-').toLowerCase();
+
+        try {
+            if (map.getLayer(layerId)) map.removeLayer(layerId);
+            if (map.getSource(sourceId)) map.removeSource(sourceId);
+        } catch (e) {}
+
+        map.addSource(sourceId, { type: 'geojson', data: geojson });
+        map.addLayer({
+            id: layerId,
+            type: 'line',
+            source: sourceId,
+            layout: { 'line-join': 'round', 'line-cap': 'round' },
+            paint: {
+                'line-color': color,
+                'line-width': 4,
+                'line-opacity': 0.85
+            }
+        });
+
+        map.on('click', layerId, function (e) {
+            var props = e.features[0].properties;
+            new maplibregl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML('<strong>' + (props.name || line) + '</strong>')
+                .addTo(map);
+        });
+        map.on('mouseenter', layerId, function () { map.getCanvas().style.cursor = 'pointer'; });
+        map.on('mouseleave', layerId, function () { map.getCanvas().style.cursor = ''; });
+
+        kmlLayers[line] = { sourceId: sourceId, layerId: layerId, geojson: geojson };
+
+        document.getElementById('map-legend-line').textContent = 'Line aktif: ' + line;
+
+        try {
+            var bounds = new maplibregl.LngLatBounds();
+            geojson.features.forEach(function (f) {
+                f.geometry.coordinates.forEach(function (c) { bounds.extend(c); });
+            });
+            if (!bounds.isEmpty()) map.fitBounds(bounds, { padding: 40, maxZoom: 16 });
+        } catch (e) {}
+    }
+
+    function displayKmlOnMap(line, str) {
+        if (!map) return;
+        try {
+            if (kmlLayers[line]) {
+                var old = kmlLayers[line];
+                try {
+                    if (map.getLayer(old.layerId)) map.removeLayer(old.layerId);
+                    if (map.getSource(old.sourceId)) map.removeSource(old.sourceId);
+                } catch (e) {}
+                delete kmlLayers[line];
+            }
+            var xml = new DOMParser().parseFromString(str, "text/xml");
+            var geojson = parseKmlToGeoJSON(xml);
+            if (geojson.features.length > 0) {
+                drawKmlGeoJSON(line, geojson);
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    function loadKmlFromFirebase() {
+        db.ref('kmlData').once('value').then(function (s) {
+            var d = s.val() || {};
+            Object.keys(d).forEach(function (l) {
+                if (d[l]) {
+                    var xml = new DOMParser().parseFromString(d[l], "text/xml");
+                    var geojson = parseKmlToGeoJSON(xml);
+                    kmlLayers[l] = { geojson: geojson, sourceId: null, layerId: null };
+                    if (map && map.isStyleLoaded()) {
+                        drawKmlGeoJSON(l, geojson);
+                    } else if (map) {
+                        map.once('load', function () { drawKmlGeoJSON(l, geojson); });
+                    }
+                }
+            });
+        }).catch(function () {});
     }
 
     function downloadKML() {
@@ -1987,63 +2294,155 @@
         showToast('KML diunduh', 'success');
     }
 
-    function initMap() {
-        if (map) return;
-        try {
-            map = L.map('map-container', { zoomControl: false, maxZoom: 22 }).setView([1.4930, 124.8410], 12);
-            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                maxZoom: 22, tileSize: 512, zoomOffset: -1
-            }).addTo(map);
-            loadMarkersFromData();
-        } catch (e) { console.error('Map init:', e); }
+    // ============================================================
+    // MODAL PETA (MAPLIBRE)
+    // ============================================================
+    function closeMapModal() {
+        document.getElementById('map-modal').classList.add('hidden');
+        if (mapModalMarker) { mapModalMarker.remove(); mapModalMarker = null; }
+        selectedMapLocation = null;
+        document.getElementById('btn-select-location').disabled = true;
+        document.getElementById('map-modal-info-text').textContent = 'Klik peta untuk memilih titik lokasi';
     }
-    function loadMarkersFromData() {
-        if (!map) return;
-        markers.forEach(function(m) { map.removeLayer(m); });
-        markers = [];
-        var categoryColors = {
-            'Data OF Cut': '#00D9FF',
-            'Pekerjaan Pihak Ke-3': '#A855F7',
-            'Temuan Lapangan': '#EC4899',
-            'Joint': '#0EA5E9',
-            'Handhole': '#10B981'
-        };
-        Object.keys(categoryColors).forEach(function(cat) {
-            var items = appData[cat] || {};
-            var color = categoryColors[cat];
-            Object.keys(items).forEach(function(k) {
-                var it = items[k];
-                if (it.coords) {
-                    var p = String(it.coords).split(',');
-                    if (p.length === 2) {
-                        var lat = parseFloat(p[0]), lng = parseFloat(p[1]);
-                        if (!isNaN(lat) && !isNaN(lng)) {
-                            var m = L.circleMarker([lat, lng], {
-                                radius: 7, fillColor: color, color: '#fff',
-                                weight: 1.5, fillOpacity: 0.9
-                            }).bindPopup('<strong>' + (it.location || 'Lokasi') + '</strong><br><span style="font-size:11px;">' + cat + '</span>');
-                            m.addTo(map); markers.push(m);
-                        }
+
+    function openMapModal() {
+        document.getElementById('map-modal').classList.remove('hidden');
+        document.getElementById('btn-select-location').disabled = true;
+        document.getElementById('map-modal-info-text').textContent = 'Klik peta untuk memilih titik lokasi';
+        selectedMapLocation = null;
+
+        if (!mapModal) {
+            setTimeout(function () {
+                mapModal = new maplibregl.Map({
+                    container: 'map-modal-container',
+                    style: getSatelliteStyle(),
+                    center: [124.8410, 1.4930],
+                    zoom: 13,
+                    maxZoom: 22,
+                    attributionControl: false
+                });
+
+                mapModal.on('click', function (e) {
+                    var lat = e.lngLat.lat;
+                    var lng = e.lngLat.lng;
+                    selectedMapLocation = { lat: lat, lng: lng, name: '' };
+
+                    if (mapModalMarker) mapModalMarker.remove();
+                    mapModalMarker = new maplibregl.Marker({ color: '#00D9FF' })
+                        .setLngLat([lng, lat])
+                        .addTo(mapModal);
+
+                    document.getElementById('btn-select-location').disabled = false;
+                    document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
+                    document.getElementById('map-modal-info-text').textContent = 'Mencari nama lokasi...';
+                    document.getElementById('inp-loc').value = 'Memuat...';
+
+                    fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&zoom=18&addressdetails=1', { headers: { 'Accept-Language': 'id' } })
+                        .then(function (r) { return r.json(); })
+                        .then(function (d) {
+                            var name = '';
+                            if (d && d.address) {
+                                var a = d.address;
+                                var parts = [];
+                                if (a.road || a.pedestrian || a.path) parts.push(a.road || a.pedestrian || a.path);
+                                if (a.neighbourhood) parts.push(a.neighbourhood);
+                                if (a.village || a.suburb) parts.push(a.village || a.suburb);
+                                if (a.city_district || a.district) parts.push(a.city_district || a.district);
+                                if (a.city || a.town) parts.push(a.city || a.town);
+                                if (a.state) parts.push(a.state);
+                                name = parts.length > 0 ? parts.join(', ') : (d.display_name || '');
+                            }
+                            if (!name) name = d.display_name || (lat.toFixed(5) + ', ' + lng.toFixed(5));
+                            selectedMapLocation.name = name;
+                            document.getElementById('inp-loc').value = name;
+                            document.getElementById('map-modal-info-text').textContent = name;
+                        })
+                        .catch(function () {
+                            var fb = lat.toFixed(5) + ', ' + lng.toFixed(5);
+                            selectedMapLocation.name = fb;
+                            document.getElementById('inp-loc').value = fb;
+                            document.getElementById('map-modal-info-text').textContent = fb;
+                        });
+                });
+
+                mapModal.on('load', function () {
+                    setTimeout(function () { mapModal.resize(); }, 200);
+                });
+            }, 100);
+        } else {
+            setTimeout(function () { mapModal.resize(); }, 300);
+        }
+    }
+
+    function searchLocation() {
+        var q = document.getElementById('map-search-input').value.trim();
+        if (!q) return;
+        fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(q) + '&limit=1&countrycodes=id', { headers: { 'Accept-Language': 'id' } })
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+                if (d && d.length > 0) {
+                    var lat = parseFloat(d[0].lat), lng = parseFloat(d[0].lon);
+                    var name = d[0].display_name || q;
+                    selectedMapLocation = { lat: lat, lng: lng, name: name };
+                    if (mapModal) {
+                        mapModal.flyTo({ center: [lng, lat], zoom: 15 });
+                        if (mapModalMarker) mapModalMarker.remove();
+                        mapModalMarker = new maplibregl.Marker({ color: '#00D9FF' })
+                            .setLngLat([lng, lat])
+                            .addTo(mapModal);
+                        document.getElementById('btn-select-location').disabled = false;
                     }
-                }
-            });
+                    document.getElementById('inp-loc').value = name;
+                    document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
+                    document.getElementById('map-modal-info-text').textContent = name;
+                    closeMapModal();
+                } else showToast('Tidak ditemukan', 'error');
+            })
+            .catch(function (err) { showToast(err.message, 'error'); });
+    }
+
+    function getCurrentLocation() {
+        if (!navigator.geolocation) return;
+        navigator.geolocation.getCurrentPosition(function (p) {
+            var lat = p.coords.latitude, lng = p.coords.longitude;
+            if (mapModal) {
+                mapModal.flyTo({ center: [lng, lat], zoom: 15 });
+                if (mapModalMarker) mapModalMarker.remove();
+                mapModalMarker = new maplibregl.Marker({ color: '#00D9FF' })
+                    .setLngLat([lng, lat])
+                    .addTo(mapModal);
+                document.getElementById('btn-select-location').disabled = false;
+            }
+            document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
+            fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&zoom=18&addressdetails=1', { headers: { 'Accept-Language': 'id' } })
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                    var name = d.display_name || 'Lokasi Saya';
+                    selectedMapLocation = { lat: lat, lng: lng, name: name };
+                    document.getElementById('inp-loc').value = name;
+                    closeMapModal();
+                })
+                .catch(function () {
+                    var fb = lat.toFixed(5) + ', ' + lng.toFixed(5);
+                    selectedMapLocation = { lat: lat, lng: lng, name: fb };
+                    document.getElementById('inp-loc').value = fb;
+                    closeMapModal();
+                });
         });
     }
-    function updateMapMarkers() { loadMarkersFromData(); }
-    window.zoomIn = function() { if (map) map.zoomIn(); };
-    window.zoomOut = function() { if (map) map.zoomOut(); };
-    window.toggleMapLayer = function(t) {
-        if (!map) return;
-        map.eachLayer(function(l) { if (l instanceof L.TileLayer) map.removeLayer(l); });
-        var u = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-        if (t === 'street') u = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-        else if (t === 'hybrid') u = 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}';
-        L.tileLayer(u, { maxZoom: 22, tileSize: 512, zoomOffset: -1 }).addTo(map);
-    };
-    window.mapModalZoomIn = function() { if (mapModal) mapModal.zoomIn(); };
-    window.mapModalZoomOut = function() { if (mapModal) mapModal.zoomOut(); };
-    window.mapModalResetCenter = function() { if (mapModal) mapModal.setView([1.4930, 124.8410], 13); };
 
+    function selectMapLocation() {
+        if (selectedMapLocation && selectedMapLocation.name) {
+            document.getElementById('inp-loc').value = selectedMapLocation.name;
+            document.getElementById('inp-coords').value = selectedMapLocation.lat.toFixed(5) + ', ' + selectedMapLocation.lng.toFixed(5);
+            closeMapModal();
+            showToast('Lokasi dipilih', 'success');
+        } else showToast('Pilih titik dulu di peta', 'error');
+    }
+
+    // ============================================================
+    // VIEW / TABLE
+    // ============================================================
     function switchView(cat) {
         var s = document.getElementById('search-input'); if (s) s.value = '';
         if (cat === 'P3_Temuan') { currentCategory = 'Pekerjaan Pihak Ke-3'; currentSubTab = 'p3'; }
@@ -2056,6 +2455,7 @@
             document.getElementById('dashboard-view').classList.remove('hidden');
             if (headerTitle) headerTitle.textContent = 'Dashboard';
             closeSidebarMobile();
+            saveCurrentPage('dashboard');
             return;
         }
         document.getElementById('data-view').classList.remove('hidden');
@@ -2089,6 +2489,7 @@
         updateStokSummary();
         refreshSession();
         closeSidebarMobile();
+        saveCurrentPage(cat);
     }
     function closeSidebarMobile() {
         var sb = document.getElementById('sidebar');
@@ -2180,6 +2581,9 @@
         } catch (e) { console.error('renderTable error:', e); }
     }
 
+    // ============================================================
+    // FORM SUBMIT
+    // ============================================================
     function submitForm(e) {
         if (e && e.preventDefault) e.preventDefault();
         if (isSubmitting) { showToast('Sedang memproses...', 'error'); return; }
@@ -2505,6 +2909,7 @@
     }
     function switchSubTab(t) {
         currentSubTab = t;
+        saveCurrentSubTab(t);
         document.querySelectorAll('.sub-tab').forEach(function(x) { x.classList.toggle('active', x.dataset.sub === t); });
         document.getElementById('inp-cat').value = t === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
         document.getElementById('page-title').textContent = t === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
@@ -2555,121 +2960,6 @@
     }
     function closeGudangModal() { document.getElementById('gudang-modal').classList.add('hidden'); }
 
-    function closeMapModal() {
-        document.getElementById('map-modal').classList.add('hidden');
-        if (mapModalMarker) { mapModal.removeLayer(mapModalMarker); mapModalMarker = null; }
-        selectedMapLocation = null;
-        document.getElementById('btn-select-location').disabled = true;
-        document.getElementById('map-modal-info-text').textContent = 'Klik peta untuk memilih titik lokasi';
-    }
-    function openMapModal() {
-        document.getElementById('map-modal').classList.remove('hidden');
-        document.getElementById('btn-select-location').disabled = true;
-        document.getElementById('map-modal-info-text').textContent = 'Klik peta untuk memilih titik lokasi';
-        selectedMapLocation = null;
-        if (!mapModal) {
-            setTimeout(function() {
-                mapModal = L.map('map-modal-container', { zoomControl: false }).setView([1.4930, 124.8410], 13);
-                L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { maxZoom: 22, tileSize: 512, zoomOffset: -1 }).addTo(mapModal);
-                mapModal.on('click', function(e) {
-                    var lat = e.latlng.lat, lng = e.latlng.lng;
-                    selectedMapLocation = { lat: lat, lng: lng, name: '' };
-                    if (mapModalMarker) mapModal.removeLayer(mapModalMarker);
-                    mapModalMarker = L.marker([lat, lng]).addTo(mapModal);
-                    document.getElementById('btn-select-location').disabled = false;
-                    document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
-                    document.getElementById('map-modal-info-text').textContent = 'Mencari nama lokasi...';
-                    document.getElementById('inp-loc').value = 'Memuat...';
-                    fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&zoom=18&addressdetails=1', { headers: { 'Accept-Language': 'id' } })
-                        .then(function(r) { return r.json(); })
-                        .then(function(d) {
-                            var name = '';
-                            if (d && d.address) {
-                                var a = d.address;
-                                var parts = [];
-                                if (a.road || a.pedestrian || a.path) parts.push(a.road || a.pedestrian || a.path);
-                                if (a.neighbourhood) parts.push(a.neighbourhood);
-                                if (a.village || a.suburb) parts.push(a.village || a.suburb);
-                                if (a.city_district || a.district) parts.push(a.city_district || a.district);
-                                if (a.city || a.town) parts.push(a.city || a.town);
-                                if (a.state) parts.push(a.state);
-                                name = parts.length > 0 ? parts.join(', ') : (d.display_name || '');
-                            }
-                            if (!name) name = d.display_name || (lat.toFixed(5) + ', ' + lng.toFixed(5));
-                            selectedMapLocation.name = name;
-                            document.getElementById('inp-loc').value = name;
-                            document.getElementById('map-modal-info-text').textContent = name;
-                        })
-                        .catch(function() {
-                            var fb = lat.toFixed(5) + ', ' + lng.toFixed(5);
-                            selectedMapLocation.name = fb;
-                            document.getElementById('inp-loc').value = fb;
-                            document.getElementById('map-modal-info-text').textContent = fb;
-                        });
-                });
-                setTimeout(function() { mapModal.invalidateSize(); }, 300);
-            }, 100);
-        } else setTimeout(function() { mapModal.invalidateSize(); }, 300);
-    }
-    function searchLocation() {
-        var q = document.getElementById('map-search-input').value.trim();
-        if (!q) return;
-        fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(q) + '&limit=1&countrycodes=id', { headers: { 'Accept-Language': 'id' } })
-            .then(function(r) { return r.json(); })
-            .then(function(d) {
-                if (d && d.length > 0) {
-                    var lat = parseFloat(d[0].lat), lng = parseFloat(d[0].lon);
-                    var name = d[0].display_name || q;
-                    selectedMapLocation = { lat: lat, lng: lng, name: name };
-                    if (mapModal) {
-                        mapModal.setView([lat, lng], 15);
-                        if (mapModalMarker) mapModal.removeLayer(mapModalMarker);
-                        mapModalMarker = L.marker([lat, lng]).addTo(mapModal);
-                        document.getElementById('btn-select-location').disabled = false;
-                    }
-                    document.getElementById('inp-loc').value = name;
-                    document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
-                    document.getElementById('map-modal-info-text').textContent = name;
-                    closeMapModal();
-                } else showToast('Tidak ditemukan', 'error');
-            })
-            .catch(function(err) { showToast(err.message, 'error'); });
-    }
-    function getCurrentLocation() {
-        if (!navigator.geolocation) return;
-        navigator.geolocation.getCurrentPosition(function(p) {
-            var lat = p.coords.latitude, lng = p.coords.longitude;
-            if (mapModal) {
-                mapModal.setView([lat, lng], 15);
-                if (mapModalMarker) mapModal.removeLayer(mapModalMarker);
-                mapModalMarker = L.marker([lat, lng]).addTo(mapModal);
-                document.getElementById('btn-select-location').disabled = false;
-            }
-            document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
-            fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&zoom=18&addressdetails=1', { headers: { 'Accept-Language': 'id' } })
-                .then(function(r) { return r.json(); })
-                .then(function(d) {
-                    var name = d.display_name || 'Lokasi Saya';
-                    selectedMapLocation = { lat: lat, lng: lng, name: name };
-                    document.getElementById('inp-loc').value = name;
-                    closeMapModal();
-                })
-                .catch(function() {
-                    var fb = lat.toFixed(5) + ', ' + lng.toFixed(5);
-                    selectedMapLocation = { lat: lat, lng: lng, name: fb };
-                    document.getElementById('inp-loc').value = fb;
-                    closeMapModal();
-                });
-        });
-    }
-    function selectMapLocation() {
-        if (selectedMapLocation && selectedMapLocation.name) {
-            document.getElementById('inp-loc').value = selectedMapLocation.name;
-            document.getElementById('inp-coords').value = selectedMapLocation.lat.toFixed(5) + ', ' + selectedMapLocation.lng.toFixed(5);
-            closeMapModal();
-            showToast('Lokasi dipilih', 'success');
-        } else showToast('Pilih titik dulu di peta', 'error');
-    }
     function downloadPageExcel() {
         var cat = currentCategory;
         if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
@@ -2707,8 +2997,6 @@
         bencana:   { bg: 'rgba(16, 185, 129, 0.75)',  border: '#10B981' },
         lainnya:   { bg: 'rgba(139, 92, 246, 0.75)',  border: '#8B5CF6' }
     };
-
-    // ✅ Persentase di atas bar, miring -45°, tepat di ujung atas bar
     const percentagePlugin = {
         id: 'percentageLabels',
         afterDatasetsDraw: function(chart) {
@@ -2737,7 +3025,6 @@
             });
         }
     };
-
     function initCharts() {
         try {
             var sel = document.getElementById('chart-period');
@@ -2934,7 +3221,6 @@
         tbody.innerHTML = html;
     }
 
-    // ✅ SELISIH TAHUNAN — Perbandingan tahun berjalan vs tahun sebelumnya
     function getYearTotals(year) {
         var ofCutItems = appData['Data OF Cut'] || {};
         var totals = { p3: 0, vandal: 0, bencana: 0, lainnya: 0, total: 0 };
@@ -2952,17 +3238,14 @@
         totals.total = totals.p3 + totals.vandal + totals.bencana + totals.lainnya;
         return totals;
     }
-
     function renderYearComparison(currentYearNum) {
         var prevYearNum = currentYearNum - 1;
         var labelEl = document.getElementById('ytd-year-label');
         var prevLabelEl = document.getElementById('ytd-prev-year-label');
         if (labelEl) labelEl.textContent = currentYearNum;
         if (prevLabelEl) prevLabelEl.textContent = prevYearNum;
-
         var cur = getYearTotals(currentYearNum);
         var prev = getYearTotals(prevYearNum);
-
         var items = [
             { key: 'p3', label: 'Pihak Ke-3', color: '#EC4899' },
             { key: 'vandal', label: 'Vandalisme', color: '#F59E0B' },
@@ -2970,10 +3253,8 @@
             { key: 'lainnya', label: 'Lainnya', color: '#8B5CF6' },
             { key: 'total', label: 'TOTAL', color: '#00D9FF' }
         ];
-
         var grid = document.getElementById('ytd-compare-grid');
         if (!grid) return;
-
         var html = '';
         items.forEach(function(item) {
             var curVal = cur[item.key] || 0;
@@ -2995,7 +3276,6 @@
             } else {
                 diffText = '0.0%';
             }
-
             html += '<div class="ytd-card" style="border-left:3px solid ' + item.color + ';">';
             html += '<div class="ytd-label" style="color:' + item.color + ';">' + item.label + '</div>';
             html += '<div class="ytd-values">';
@@ -3006,7 +3286,6 @@
             html += '<div class="ytd-detail">' + (cur[item.key] || 0) + ' insiden vs ' + (prev[item.key] || 0) + ' insiden</div>';
             html += '</div>';
         });
-
         grid.innerHTML = html;
     }
 
@@ -3090,6 +3369,8 @@
         var lb = document.getElementById('logout-btn');
         if (lb) lb.addEventListener('click', function() {
             localStorage.removeItem('bucin_session');
+            localStorage.removeItem(LS_KEY_PAGE);
+            localStorage.removeItem(LS_KEY_SUBTAB);
             currentUser = null;
             location.reload();
         });
@@ -3180,6 +3461,25 @@
         document.addEventListener('keydown', refreshSession);
     }
 
+    function restoreLastPage() {
+        var savedPage = getSavedPage();
+        var savedSub = getSavedSubTab();
+        if (savedPage && savedPage !== 'dashboard') {
+            if (savedPage === 'P3_Temuan') {
+                currentSubTab = savedSub;
+            }
+            document.querySelectorAll('.nav-item').forEach(function(b) {
+                b.classList.toggle('active', b.dataset.cat === savedPage);
+            });
+            switchView(savedPage);
+        } else {
+            document.querySelectorAll('.nav-item').forEach(function(b) {
+                b.classList.toggle('active', b.dataset.cat === 'dashboard');
+            });
+            switchView('dashboard');
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         loadTheme();
         if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -3202,9 +3502,15 @@
                     loadRiwayat();
                     loadSettings();
                     setTimeout(function() {
-                        initMap(); initCharts();
-                        loadKmlFromFirebase();
+                        initMap();
+                        initCharts();
+                        if (map) {
+                            map.on('load', function () { loadKmlFromFirebase(); });
+                        } else {
+                            loadKmlFromFirebase();
+                        }
                         if (typeof lucide !== 'undefined') lucide.createIcons();
+                        restoreLastPage();
                     }, 300);
                     setupEventListeners();
                     loadBarcodeCache();
