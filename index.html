@@ -340,6 +340,30 @@
             transform: scale(1.35);
         }
 
+        /* Drawing mode */
+        .draw-point {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00D9FF;
+            border: 2px solid #fff;
+            box-shadow: 0 0 10px #00D9FF;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        .draw-point.first {
+            background: #10B981;
+            box-shadow: 0 0 12px #10B981;
+        }
+        .draw-point.last {
+            background: #EC4899;
+            box-shadow: 0 0 12px #EC4899;
+        }
+        .draw-cursor-active #map-container,
+        .draw-cursor-active #map-container canvas {
+            cursor: crosshair !important;
+        }
+
         /* Popup MapLibre agar sesuai tema */
         .maplibregl-popup-content {
             background: var(--surface-map-legend) !important;
@@ -389,6 +413,11 @@
         .toast.success { border-color: var(--primary-cyan); }
         .toast.error { border-color: #EC4899; }
         .toast.warning { border-color: #F59E0B; }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
 
         .login-screen { position: fixed; inset: 0; background: var(--surface-login); z-index: 200; display: grid; place-items: center; padding: 20px; overflow: hidden; }
         .login-screen::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(var(--bg-pattern-1) 1px, transparent 1px), linear-gradient(90deg, var(--bg-pattern-1) 1px, transparent 1px); background-size: 50px 50px; pointer-events: none; }
@@ -821,7 +850,10 @@
                                 <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 8px var(--primary-cyan);"></span>
                                 Peta Line & Titik Aset
                             </h3>
-                            <div style="display:flex;gap:8px;">
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                                <button id="btn-draw-line" class="btn-primary" style="padding:6px 14px;font-size:12px;border-radius:20px;">
+                                    <i data-lucide="pen-line" style="width:14px;"></i> Buat Line Baru
+                                </button>
                                 <button id="btn-upload-kml" class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;">
                                     <i data-lucide="upload" style="width:14px;"></i> KML
                                 </button>
@@ -847,6 +879,23 @@
                                 <button class="custom-map-btn" onclick="toggleMapLayer('hybrid', event)" title="Hybrid HD"><i data-lucide="layers" style="width:18px;"></i></button>
                                 <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
                                 <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
+                            </div>
+                            <!-- Drawing Controls Overlay -->
+                            <div id="draw-controls" class="hidden" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:1100;background:var(--surface-map-legend);backdrop-filter:blur(12px);border:1px solid var(--border-glow);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,217,255,0.3);">
+                                <span style="font-size:11px;font-weight:700;color:var(--primary-cyan);white-space:nowrap;">
+                                    <i data-lucide="pen-line" style="width:14px;display:inline-block;vertical-align:middle;"></i>
+                                    <span id="draw-status">Klik peta untuk mulai menggambar</span>
+                                </span>
+                                <span id="draw-point-count" style="font-size:11px;font-weight:700;color:var(--text-muted);background:rgba(0,217,255,0.1);padding:3px 8px;border-radius:6px;">0 titik</span>
+                                <button onclick="finishDrawLine()" class="btn-primary" style="padding:6px 12px;font-size:11px;border-radius:8px;min-height:32px;">
+                                    <i data-lucide="check" style="width:14px;"></i> Selesai
+                                </button>
+                                <button onclick="undoLastPoint()" class="btn-secondary" style="padding:6px 12px;font-size:11px;border-radius:8px;min-height:32px;">
+                                    <i data-lucide="undo-2" style="width:14px;"></i> Undo
+                                </button>
+                                <button onclick="cancelDrawLine()" class="btn-secondary" style="padding:6px 12px;font-size:11px;border-radius:8px;min-height:32px;color:#EC4899;border-color:rgba(236,72,153,0.4);">
+                                    <i data-lucide="x" style="width:14px;"></i> Batal
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -901,7 +950,14 @@
 
                 <section id="data-view" class="hidden">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
-                        <h2 id="page-title" style="margin:0;font-size:22px;font-weight:800;color:var(--primary-cyan);letter-spacing:1px;">Data Operasional</h2>
+                        <div>
+                            <h2 id="page-title" style="margin:0;font-size:22px;font-weight:800;color:var(--primary-cyan);letter-spacing:1px;">Data Operasional</h2>
+                            <div id="total-data-tagline" class="hidden" style="margin-top:6px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--text-muted);">
+                                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 8px var(--primary-cyan);animation:pulseDot 1.8s ease-in-out infinite;"></span>
+                                <span>Total Data: <strong id="total-data-count" style="color:var(--primary-cyan);font-family:'Orbitron',sans-serif;font-size:15px;font-weight:900;">0</strong></span>
+                                <span id="total-data-filter-info" style="color:var(--text-dim);font-weight:500;font-size:12px;"></span>
+                            </div>
+                        </div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;">
                             <button id="btn-history" class="btn-secondary" style="padding:8px 16px;font-size:13px;border-radius:20px;">
                                 <i data-lucide="history" style="width:16px;"></i> Riwayat
@@ -1039,6 +1095,72 @@
                     <button type="submit" class="btn-primary" style="flex:2;justify-content:center;">Simpan</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- MODAL PILIH LINE UNTUK DRAWING -->
+    <div id="draw-line-modal" class="modal-layer hidden">
+        <div class="modal-card" style="max-width:500px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+                <h3 style="margin:0;font-size:20px;font-weight:800;color:var(--primary-cyan);display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="pen-line" style="width:22px;"></i> Buat Line Baru
+                </h3>
+                <button onclick="closeDrawLineModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+            </div>
+
+            <div style="background:rgba(0,217,255,0.08);padding:12px 14px;border-radius:12px;margin-bottom:16px;border:1px solid var(--border-glow);">
+                <div style="font-size:12px;font-weight:600;color:var(--text-muted);">Pilih Line</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Pilih line yang sudah ada, atau buat nama line baru</div>
+            </div>
+
+            <div style="margin-bottom:16px;">
+                <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Line *</label>
+                <select id="draw-line-name" class="field-control">
+                    <option value="">-- Pilih Line --</option>
+                    <option value="OSP LINE 1">OSP LINE 1</option>
+                    <option value="OSP LINE 2">OSP LINE 2</option>
+                    <option value="OSP LINE 3">OSP LINE 3</option>
+                    <option value="IGG LINE 1">IGG LINE 1</option>
+                    <option value="IGG LINE 2">IGG LINE 2</option>
+                    <option value="DWDM">DWDM</option>
+                    <option value="SEA US LINE 1">SEA US LINE 1</option>
+                    <option value="SEA US LINE 2">SEA US LINE 2</option>
+                    <option value="__custom__">+ Tambah Line Baru...</option>
+                </select>
+            </div>
+
+            <div id="draw-custom-line-wrap" class="hidden" style="margin-bottom:16px;">
+                <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Nama Line Baru *</label>
+                <input type="text" id="draw-custom-line-name" class="field-control" placeholder="Contoh: OSP LINE 4">
+            </div>
+
+            <div style="margin-bottom:16px;">
+                <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Keterangan (Opsional)</label>
+                <textarea id="draw-line-notes" class="field-control" rows="2" style="resize:none;" placeholder="Contoh: Line baru dari MAMI ke Kauditan"></textarea>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+                <div>
+                    <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Warna Line</label>
+                    <input type="color" id="draw-line-color" value="#00D9FF" class="field-control" style="height:48px;padding:4px;cursor:pointer;">
+                </div>
+                <div>
+                    <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Ketebalan</label>
+                    <select id="draw-line-width" class="field-control">
+                        <option value="2">Tipis (2px)</option>
+                        <option value="4" selected>Normal (4px)</option>
+                        <option value="6">Tebal (6px)</option>
+                        <option value="8">Sangat Tebal (8px)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:12px;">
+                <button type="button" onclick="closeDrawLineModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
+                <button type="button" onclick="startDrawing()" class="btn-primary" style="flex:2;justify-content:center;">
+                    <i data-lucide="pencil" style="width:16px;"></i> Mulai Menggambar
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1665,6 +1787,12 @@
     let mapModalMarker = null;
     let markers = [];
     let kmlLayers = {};
+    // Drawing state
+    let drawMode = false;
+    let drawPoints = [];
+    let drawMarkers = [];
+    let drawCurrentLine = null;
+    let customLines = {};
     const kmlLineColors = {
         'OSP LINE 1': '#FF0000', 'OSP LINE 2': '#00FF00', 'OSP LINE 3': '#0000FF',
         'IGG LINE 1': '#FFA500', 'IGG LINE 2': '#800080', 'DWDM': '#FF00FF',
@@ -1685,6 +1813,8 @@
     let dataListenerAttached = false;
     let riwayatListenerAttached = false;
     let currentRiwayatMenu = 'all';
+    let customLinesListenerAttached = false;
+    let currentFilteredCount = 0;
     const SESSION_TIMEOUT_MS = 15 * 60 * 1000;
     const MENU_LABELS = {
         'Data OF Cut': 'OF Cut',
@@ -1698,6 +1828,8 @@
         'Patch Cord': 'Patch Cord'
     };
     const MENU_NO_PERIOD = ['Alker', 'Stok Spare', 'Patch Cord'];
+    // Menu yang punya tagline Total Data
+    const MENU_TAGLINE = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM-OLS', 'Joint', 'Handhole', 'Alker'];
 
     const LS_KEY_PAGE = 'bucin_current_page';
     const LS_KEY_SUBTAB = 'bucin_current_subtab';
@@ -1823,6 +1955,7 @@
             try { updateDashboard(); } catch (e) {}
             try { renderTable(); } catch (e) {}
             try { updateStokSummary(); } catch (e) {}
+            try { updateTotalDataTagline(); } catch (e) {}
             try { updateMapMarkers(); } catch (e) {}
             if (typeof lucide !== 'undefined') lucide.createIcons();
         });
@@ -1834,6 +1967,7 @@
             appData = s.val() || {};
             renderTable();
             updateStokSummary();
+            try { updateTotalDataTagline(); } catch (e) {}
             updateMapMarkers();
             updateDashboard();
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -1895,6 +2029,7 @@
                     try { initMap(); } catch (e) {}
                     try { initCharts(); } catch (e) {}
                     try { loadKmlFromFirebase(); } catch (e) {}
+                    try { loadCustomLines(); } catch (e) {}
                     if (typeof lucide !== 'undefined') lucide.createIcons();
                 }, 300);
                 showToast(ud._isNew ? 'Akun dibuat & login berhasil!' : 'Selamat datang, ' + username + '!', 'success');
@@ -2001,27 +2136,16 @@
     function getSatelliteStyle() {
         return {
             version: 8,
-            glyphs: 'https://fonts.openmaptiles.org/{fontstack}/{range}.pbf',
             sources: {
                 satellite: {
                     type: 'raster',
-                    tiles: [
-                        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-                    ],
-                    tileSize: 256,
-                    minzoom: 0,
-                    maxzoom: 19,
-                    attribution: '© Esri'
+                    tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+                    tileSize: 256, minzoom: 0, maxzoom: 19, attribution: '© Esri'
                 },
                 'satellite-hd': {
                     type: 'raster',
-                    tiles: [
-                        'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-                    ],
-                    tileSize: 512,
-                    minzoom: 0,
-                    maxzoom: 20,
-                    attribution: '© Esri HD'
+                    tiles: ['https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+                    tileSize: 512, minzoom: 0, maxzoom: 20, attribution: '© Esri HD'
                 }
             },
             layers: [
@@ -2035,24 +2159,13 @@
             version: 8,
             sources: {
                 osm: {
-                    type: 'raster',
-                    tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
-                    tileSize: 256,
-                    minzoom: 0,
-                    maxzoom: 19,
-                    attribution: '© OpenStreetMap'
+                    type: 'raster', tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                    tileSize: 256, minzoom: 0, maxzoom: 19, attribution: '© OpenStreetMap'
                 },
                 'osm-hd': {
                     type: 'raster',
-                    tiles: [
-                        'https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-                        'https://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-                        'https://c.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
-                    ],
-                    tileSize: 512,
-                    minzoom: 0,
-                    maxzoom: 20,
-                    attribution: '© OpenStreetMap HD'
+                    tiles: ['https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png','https://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png','https://c.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'],
+                    tileSize: 512, minzoom: 0, maxzoom: 20, attribution: '© OpenStreetMap HD'
                 }
             },
             layers: [
@@ -2066,20 +2179,12 @@
             version: 8,
             sources: {
                 hybrid: {
-                    type: 'raster',
-                    tiles: ['https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}'],
-                    tileSize: 256,
-                    minzoom: 0,
-                    maxzoom: 19,
-                    attribution: '© Google'
+                    type: 'raster', tiles: ['https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}'],
+                    tileSize: 256, minzoom: 0, maxzoom: 19, attribution: '© Google'
                 },
                 'hybrid-hd': {
-                    type: 'raster',
-                    tiles: ['https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}'],
-                    tileSize: 512,
-                    minzoom: 14,
-                    maxzoom: 22,
-                    attribution: '© Google HD'
+                    type: 'raster', tiles: ['https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}'],
+                    tileSize: 512, minzoom: 14, maxzoom: 22, attribution: '© Google HD'
                 }
             },
             layers: [
@@ -2096,15 +2201,10 @@
                 container: 'map-container',
                 style: getSatelliteStyle(),
                 center: [124.8410, 1.4930],
-                zoom: 11,
-                maxZoom: 22,
-                minZoom: 2,
-                attributionControl: false,
-                antialias: true,
+                zoom: 11, maxZoom: 22, minZoom: 2,
+                attributionControl: false, antialias: true,
                 pixelRatio: window.devicePixelRatio || 1,
-                fadeDuration: 0,
-                refreshExpiredTiles: false,
-                preserveDrawingBuffer: true
+                fadeDuration: 0, refreshExpiredTiles: false, preserveDrawingBuffer: true
             });
 
             map.on('load', function () {
@@ -2115,6 +2215,10 @@
                     }
                 });
             });
+
+            map.on('click', function (e) {
+                if (drawMode) handleDrawClick(e);
+            });
         } catch (e) { console.error('Map init:', e); }
     }
 
@@ -2122,7 +2226,6 @@
         if (!map) return;
         markers.forEach(function (m) { m.remove(); });
         markers = [];
-
         var categoryColors = {
             'Data OF Cut': '#00D9FF',
             'Pekerjaan Pihak Ke-3': '#A855F7',
@@ -2130,7 +2233,6 @@
             'Joint': '#0EA5E9',
             'Handhole': '#10B981'
         };
-
         Object.keys(categoryColors).forEach(function (cat) {
             var items = appData[cat] || {};
             var color = categoryColors[cat];
@@ -2146,20 +2248,11 @@
                             el.className = 'ml-marker';
                             el.style.background = color;
                             el.title = (it.location || 'Lokasi') + ' — ' + cat;
-
                             var popup = new maplibregl.Popup({ offset: 14, closeButton: true })
-                                .setHTML(
-                                    '<strong style="color:var(--primary-cyan);">' +
-                                    (it.location || 'Lokasi') +
-                                    '</strong><br><span style="font-size:11px;color:var(--text-muted);">' +
-                                    cat + '</span>'
-                                );
-
+                                .setHTML('<strong style="color:var(--primary-cyan);">' + (it.location || 'Lokasi') +
+                                    '</strong><br><span style="font-size:11px;color:var(--text-muted);">' + cat + '</span>');
                             var marker = new maplibregl.Marker({ element: el })
-                                .setLngLat([lng, lat])
-                                .setPopup(popup)
-                                .addTo(map);
-
+                                .setLngLat([lng, lat]).setPopup(popup).addTo(map);
                             markers.push(marker);
                         }
                     }
@@ -2170,11 +2263,8 @@
 
     function updateMapMarkers() {
         if (!map) return;
-        if (map.isStyleLoaded()) {
-            loadMarkersFromData();
-        } else {
-            map.once('load', loadMarkersFromData);
-        }
+        if (map.isStyleLoaded()) loadMarkersFromData();
+        else map.once('load', loadMarkersFromData);
     }
 
     window.zoomIn = function () { if (map) map.zoomIn(); };
@@ -2186,16 +2276,11 @@
         if (t === 'street') style = getStreetStyle();
         else if (t === 'hybrid') style = getHybridStyle();
         else style = getSatelliteStyle();
-
         var savedKml = {};
         Object.keys(kmlLayers).forEach(function (line) {
-            if (kmlLayers[line] && kmlLayers[line].geojson) {
-                savedKml[line] = kmlLayers[line].geojson;
-            }
+            if (kmlLayers[line] && kmlLayers[line].geojson) savedKml[line] = kmlLayers[line].geojson;
         });
-
         map.setStyle(style);
-
         map.once('styledata', function () {
             markers = [];
             loadMarkersFromData();
@@ -2204,10 +2289,7 @@
                 drawKmlGeoJSON(line, savedKml[line]);
             });
         });
-
-        document.querySelectorAll('.custom-map-btn').forEach(function (b) {
-            b.classList.remove('active');
-        });
+        document.querySelectorAll('.custom-map-btn').forEach(function (b) { b.classList.remove('active'); });
         if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
     };
 
@@ -2231,7 +2313,6 @@
                         var a = x.split(",");
                         return [parseFloat(a[0]), parseFloat(a[1])];
                     }).filter(function (x) { return !isNaN(x[0]) && !isNaN(x[1]); });
-
                     if (coords.length > 1) {
                         features.push({
                             type: 'Feature',
@@ -2248,41 +2329,30 @@
     function drawKmlGeoJSON(line, geojson) {
         if (!map) return;
         var color = kmlLineColors[line] || '#00D9FF';
+        if (customLines[line] && customLines[line].color) color = customLines[line].color;
+        var width = 4;
+        if (customLines[line] && customLines[line].width) width = customLines[line].width;
         var sourceId = 'kml-src-' + line.replace(/\s+/g, '-').toLowerCase();
         var layerId = 'kml-layer-' + line.replace(/\s+/g, '-').toLowerCase();
-
         try {
             if (map.getLayer(layerId)) map.removeLayer(layerId);
             if (map.getSource(sourceId)) map.removeSource(sourceId);
         } catch (e) {}
-
         map.addSource(sourceId, { type: 'geojson', data: geojson });
         map.addLayer({
-            id: layerId,
-            type: 'line',
-            source: sourceId,
+            id: layerId, type: 'line', source: sourceId,
             layout: { 'line-join': 'round', 'line-cap': 'round' },
-            paint: {
-                'line-color': color,
-                'line-width': 4,
-                'line-opacity': 0.85
-            }
+            paint: { 'line-color': color, 'line-width': width, 'line-opacity': 0.85 }
         });
-
         map.on('click', layerId, function (e) {
             var props = e.features[0].properties;
-            new maplibregl.Popup()
-                .setLngLat(e.lngLat)
-                .setHTML('<strong>' + (props.name || line) + '</strong>')
-                .addTo(map);
+            new maplibregl.Popup().setLngLat(e.lngLat)
+                .setHTML('<strong>' + (props.name || line) + '</strong>').addTo(map);
         });
         map.on('mouseenter', layerId, function () { map.getCanvas().style.cursor = 'pointer'; });
         map.on('mouseleave', layerId, function () { map.getCanvas().style.cursor = ''; });
-
         kmlLayers[line] = { sourceId: sourceId, layerId: layerId, geojson: geojson };
-
         document.getElementById('map-legend-line').textContent = 'Line aktif: ' + line;
-
         try {
             var bounds = new maplibregl.LngLatBounds();
             geojson.features.forEach(function (f) {
@@ -2305,9 +2375,7 @@
             }
             var xml = new DOMParser().parseFromString(str, "text/xml");
             var geojson = parseKmlToGeoJSON(xml);
-            if (geojson.features.length > 0) {
-                drawKmlGeoJSON(line, geojson);
-            }
+            if (geojson.features.length > 0) drawKmlGeoJSON(line, geojson);
         } catch (err) { console.error(err); }
     }
 
@@ -2319,25 +2387,246 @@
                     var xml = new DOMParser().parseFromString(d[l], "text/xml");
                     var geojson = parseKmlToGeoJSON(xml);
                     kmlLayers[l] = { geojson: geojson, sourceId: null, layerId: null };
-                    if (map && map.isStyleLoaded()) {
-                        drawKmlGeoJSON(l, geojson);
-                    } else if (map) {
-                        map.once('load', function () { drawKmlGeoJSON(l, geojson); });
-                    }
+                    if (map && map.isStyleLoaded()) drawKmlGeoJSON(l, geojson);
+                    else if (map) map.once('load', function () { drawKmlGeoJSON(l, geojson); });
                 }
             });
         }).catch(function () {});
     }
 
-    function downloadKML() {
-        var k = '<?xml version="1.0"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>BUCIN</name></Document></kml>';
-        var b = new Blob([k], { type: 'application/vnd.google-earth.kml+xml' });
-        var a = document.createElement('a');
-        a.href = URL.createObjectURL(b);
-        a.download = 'BUCIN.kml';
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        showToast('KML diunduh', 'success');
+    // ============================================================
+    // DRAW LINE FEATURE
+    // ============================================================
+    function loadCustomLines() {
+        if (!db || customLinesListenerAttached) return;
+        db.ref('customLines').on('value', function(s) {
+            customLines = s.val() || {};
+            updateCustomLineOptions();
+            Object.keys(kmlLayers).forEach(function(line) {
+                if (kmlLayers[line] && kmlLayers[line].geojson) {
+                    drawKmlGeoJSON(line, kmlLayers[line].geojson);
+                }
+            });
+        });
+        customLinesListenerAttached = true;
     }
+
+    function updateCustomLineOptions() {
+        var sel = document.getElementById('draw-line-name');
+        if (!sel) return;
+        var builtin = ['OSP LINE 1','OSP LINE 2','OSP LINE 3','IGG LINE 1','IGG LINE 2','DWDM','SEA US LINE 1','SEA US LINE 2'];
+        Array.from(sel.options).forEach(function(opt) {
+            if (opt.value && opt.value !== '__custom__' && builtin.indexOf(opt.value) === -1) {
+                opt.remove();
+            }
+        });
+        var customOpt = sel.querySelector('option[value="__custom__"]');
+        Object.keys(customLines).forEach(function(key) {
+            var opt = document.createElement('option');
+            opt.value = key;
+            opt.textContent = key + ' (kustom)';
+            sel.insertBefore(opt, customOpt);
+        });
+    }
+
+    function openDrawLineModal() {
+        document.getElementById('draw-line-modal').classList.remove('hidden');
+        document.getElementById('draw-line-name').value = '';
+        document.getElementById('draw-custom-line-name').value = '';
+        document.getElementById('draw-line-notes').value = '';
+        document.getElementById('draw-line-color').value = '#00D9FF';
+        document.getElementById('draw-line-width').value = '4';
+        document.getElementById('draw-custom-line-wrap').classList.add('hidden');
+        updateCustomLineOptions();
+    }
+
+    function closeDrawLineModal() {
+        document.getElementById('draw-line-modal').classList.add('hidden');
+    }
+
+    function toggleCustomLineInput() {
+        var sel = document.getElementById('draw-line-name');
+        var wrap = document.getElementById('draw-custom-line-wrap');
+        if (sel.value === '__custom__') wrap.classList.remove('hidden');
+        else wrap.classList.add('hidden');
+    }
+
+    function startDrawing() {
+        if (!map) { showToast('Peta belum siap', 'error'); return; }
+        var lineName = document.getElementById('draw-line-name').value;
+        if (lineName === '__custom__') {
+            lineName = document.getElementById('draw-custom-line-name').value.trim();
+            if (!lineName) { showToast('Isi nama line baru', 'error'); return; }
+        }
+        if (!lineName) { showToast('Pilih line terlebih dahulu', 'error'); return; }
+        var color = document.getElementById('draw-line-color').value;
+        var width = parseInt(document.getElementById('draw-line-width').value) || 4;
+        var notes = document.getElementById('draw-line-notes').value.trim();
+        drawCurrentLine = {
+            name: lineName, color: color, width: width, notes: notes,
+            isCustom: document.getElementById('draw-line-name').value === '__custom__'
+        };
+        drawMode = true;
+        drawPoints = [];
+        drawMarkers = [];
+        closeDrawLineModal();
+        document.getElementById('draw-controls').classList.remove('hidden');
+        document.getElementById('draw-status').textContent = 'Klik peta untuk menambahkan titik';
+        document.getElementById('draw-point-count').textContent = '0 titik';
+        document.body.classList.add('draw-cursor-active');
+        showToast('Mode menggambar aktif. Klik peta untuk menambah titik.', 'success');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function handleDrawClick(e) {
+        if (!drawMode) return;
+        var lng = e.lngLat.lng;
+        var lat = e.lngLat.lat;
+        drawPoints.push([lng, lat]);
+        var el = document.createElement('div');
+        el.className = 'draw-point';
+        if (drawPoints.length === 1) el.classList.add('first');
+        var marker = new maplibregl.Marker({ element: el }).setLngLat([lng, lat]).addTo(map);
+        drawMarkers.push(marker);
+        updateDrawPreview();
+        document.getElementById('draw-point-count').textContent = drawPoints.length + ' titik';
+    }
+
+    function updateDrawPreview() {
+        if (!map || drawPoints.length < 2) return;
+        var geojson = {
+            type: 'Feature', properties: {},
+            geometry: { type: 'LineString', coordinates: drawPoints }
+        };
+        var srcId = 'draw-preview-src';
+        var layId = 'draw-preview-lay';
+        try {
+            if (map.getLayer(layId)) map.removeLayer(layId);
+            if (map.getSource(srcId)) map.removeSource(srcId);
+        } catch (e) {}
+        map.addSource(srcId, { type: 'geojson', data: geojson });
+        map.addLayer({
+            id: layId, type: 'line', source: srcId,
+            layout: { 'line-join': 'round', 'line-cap': 'round' },
+            paint: {
+                'line-color': drawCurrentLine.color,
+                'line-width': drawCurrentLine.width,
+                'line-opacity': 0.85,
+                'line-dasharray': [2, 1]
+            }
+        });
+    }
+
+    function undoLastPoint() {
+        if (drawPoints.length === 0) { showToast('Tidak ada titik untuk di-undo', 'warning'); return; }
+        drawPoints.pop();
+        var m = drawMarkers.pop();
+        if (m) m.remove();
+        drawMarkers.forEach(function(mk, i) {
+            var el = mk.getElement();
+            el.classList.remove('first', 'last');
+            if (i === 0) el.classList.add('first');
+        });
+        if (drawPoints.length < 2) {
+            try {
+                if (map.getLayer('draw-preview-lay')) map.removeLayer('draw-preview-lay');
+                if (map.getSource('draw-preview-src')) map.removeSource('draw-preview-src');
+            } catch (e) {}
+        } else updateDrawPreview();
+        document.getElementById('draw-point-count').textContent = drawPoints.length + ' titik';
+    }
+
+    function cancelDrawLine() {
+        if (drawPoints.length > 0 && !confirm('Batalkan penggambaran line? Semua titik akan dihapus.')) return;
+        cleanupDrawing();
+        showToast('Penggambaran dibatalkan', 'warning');
+    }
+
+    function cleanupDrawing() {
+        drawMode = false;
+        drawPoints = [];
+        drawMarkers.forEach(function(m) { m.remove(); });
+        drawMarkers = [];
+        try {
+            if (map.getLayer('draw-preview-lay')) map.removeLayer('draw-preview-lay');
+            if (map.getSource('draw-preview-src')) map.removeSource('draw-preview-src');
+        } catch (e) {}
+        document.getElementById('draw-controls').classList.add('hidden');
+        document.body.classList.remove('draw-cursor-active');
+        drawCurrentLine = null;
+    }
+
+    function finishDrawLine() {
+        if (drawPoints.length < 2) { showToast('Minimal 2 titik untuk membuat line', 'error'); return; }
+        var lineName = drawCurrentLine.name;
+        var color = drawCurrentLine.color;
+        var width = drawCurrentLine.width;
+        var notes = drawCurrentLine.notes;
+        var isCustom = drawCurrentLine.isCustom;
+
+        var customSavePromise = Promise.resolve();
+        if (isCustom && !customLines[lineName]) {
+            customSavePromise = db.ref('customLines/' + lineName).set({
+                color: color, width: width,
+                createdAt: Date.now(),
+                createdBy: currentUser ? currentUser.name : 'System',
+                notes: notes
+            });
+        }
+
+        customSavePromise.then(function() {
+            return db.ref('kmlData/' + lineName).once('value');
+        }).then(function(snap) {
+            var existing = snap.val() || '';
+            var newKml = generateKmlFromPoints(drawPoints, lineName, notes);
+            var combined;
+            if (existing && existing.indexOf('</Document>') !== -1) {
+                combined = existing.replace('</Document>', newKml + '</Document>');
+            } else {
+                combined = '<?xml version="1.0"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>' +
+                           '<name>' + escapeXml(lineName) + '</name>' + newKml + '</Document></kml>';
+            }
+            return db.ref('kmlData/' + lineName).set(combined);
+        }).then(function() {
+            catatRiwayat('KML/Lines', 'Tambah Line',
+                'Line: ' + lineName + ' | Titik: ' + drawPoints.length,
+                notes || 'Line baru dibuat manual');
+            return db.ref('kmlData/' + lineName).once('value');
+        }).then(function(s) {
+            if (s.val()) displayKmlOnMap(lineName, s.val());
+            showToast('Line "' + lineName + '" berhasil disimpan!', 'success');
+            cleanupDrawing();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }).catch(function(err) {
+            showToast('Gagal menyimpan: ' + err.message, 'error');
+        });
+    }
+
+    function generateKmlFromPoints(points, name, notes) {
+        var coordsStr = points.map(function(p) { return p[0] + ',' + p[1] + ',0'; }).join(' ');
+        var desc = notes ? '<description><![CDATA[' + notes + ']]></description>' : '';
+        return '<Placemark>' +
+               '<name>' + escapeXml(name) + '</name>' + desc +
+               '<LineString>' +
+               '<tessellate>1</tessellate>' +
+               '<coordinates>' + coordsStr + '</coordinates>' +
+               '</LineString>' +
+               '</Placemark>';
+    }
+
+    function escapeXml(s) {
+        return String(s).replace(/[<>&'"]/g, function(c) {
+            return { '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c];
+        });
+    }
+
+    window.openDrawLineModal = openDrawLineModal;
+    window.closeDrawLineModal = closeDrawLineModal;
+    window.toggleCustomLineInput = toggleCustomLineInput;
+    window.startDrawing = startDrawing;
+    window.undoLastPoint = undoLastPoint;
+    window.cancelDrawLine = cancelDrawLine;
+    window.finishDrawLine = finishDrawLine;
 
     // ============================================================
     // MODAL PETA (MAPLIBRE)
@@ -2355,36 +2644,25 @@
         document.getElementById('btn-select-location').disabled = true;
         document.getElementById('map-modal-info-text').textContent = 'Klik peta untuk memilih titik lokasi';
         selectedMapLocation = null;
-
         if (!mapModal) {
             setTimeout(function () {
                 mapModal = new maplibregl.Map({
                     container: 'map-modal-container',
                     style: getSatelliteStyle(),
-                    center: [124.8410, 1.4930],
-                    zoom: 13,
-                    maxZoom: 22,
-                    minZoom: 2,
-                    attributionControl: false,
-                    antialias: true,
+                    center: [124.8410, 1.4930], zoom: 13, maxZoom: 22, minZoom: 2,
+                    attributionControl: false, antialias: true,
                     pixelRatio: window.devicePixelRatio || 1
                 });
-
                 mapModal.on('click', function (e) {
                     var lat = e.lngLat.lat;
                     var lng = e.lngLat.lng;
                     selectedMapLocation = { lat: lat, lng: lng, name: '' };
-
                     if (mapModalMarker) mapModalMarker.remove();
-                    mapModalMarker = new maplibregl.Marker({ color: '#00D9FF' })
-                        .setLngLat([lng, lat])
-                        .addTo(mapModal);
-
+                    mapModalMarker = new maplibregl.Marker({ color: '#00D9FF' }).setLngLat([lng, lat]).addTo(mapModal);
                     document.getElementById('btn-select-location').disabled = false;
                     document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
                     document.getElementById('map-modal-info-text').textContent = 'Mencari nama lokasi...';
                     document.getElementById('inp-loc').value = 'Memuat...';
-
                     fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&zoom=18&addressdetails=1', { headers: { 'Accept-Language': 'id' } })
                         .then(function (r) { return r.json(); })
                         .then(function (d) {
@@ -2412,14 +2690,9 @@
                             document.getElementById('map-modal-info-text').textContent = fb;
                         });
                 });
-
-                mapModal.on('load', function () {
-                    setTimeout(function () { mapModal.resize(); }, 200);
-                });
+                mapModal.on('load', function () { setTimeout(function () { mapModal.resize(); }, 200); });
             }, 100);
-        } else {
-            setTimeout(function () { mapModal.resize(); }, 300);
-        }
+        } else setTimeout(function () { mapModal.resize(); }, 300);
     }
 
     function searchLocation() {
@@ -2435,9 +2708,7 @@
                     if (mapModal) {
                         mapModal.flyTo({ center: [lng, lat], zoom: 15 });
                         if (mapModalMarker) mapModalMarker.remove();
-                        mapModalMarker = new maplibregl.Marker({ color: '#00D9FF' })
-                            .setLngLat([lng, lat])
-                            .addTo(mapModal);
+                        mapModalMarker = new maplibregl.Marker({ color: '#00D9FF' }).setLngLat([lng, lat]).addTo(mapModal);
                         document.getElementById('btn-select-location').disabled = false;
                     }
                     document.getElementById('inp-loc').value = name;
@@ -2456,9 +2727,7 @@
             if (mapModal) {
                 mapModal.flyTo({ center: [lng, lat], zoom: 15 });
                 if (mapModalMarker) mapModalMarker.remove();
-                mapModalMarker = new maplibregl.Marker({ color: '#00D9FF' })
-                    .setLngLat([lng, lat])
-                    .addTo(mapModal);
+                mapModalMarker = new maplibregl.Marker({ color: '#00D9FF' }).setLngLat([lng, lat]).addTo(mapModal);
                 document.getElementById('btn-select-location').disabled = false;
             }
             document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
@@ -2535,6 +2804,7 @@
         }
         renderTable();
         updateStokSummary();
+        try { updateTotalDataTagline(); } catch (e) {}
         refreshSession();
         closeSidebarMobile();
         saveCurrentPage(cat);
@@ -2562,6 +2832,59 @@
         return true;
     }
 
+    // ============================================================
+    // TAGLINE TOTAL DATA (khusus menu operasional)
+    // ============================================================
+    function updateTotalDataTagline() {
+        var tagEl = document.getElementById('total-data-tagline');
+        var countEl = document.getElementById('total-data-count');
+        var infoEl = document.getElementById('total-data-filter-info');
+        if (!tagEl || !countEl || !infoEl) return;
+
+        var cat = currentCategory;
+        if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
+
+        // Hanya tampilkan tagline pada menu operasional tertentu
+        if (MENU_TAGLINE.indexOf(cat) === -1) {
+            tagEl.classList.add('hidden');
+            tagEl.style.display = 'none';
+            return;
+        }
+        tagEl.classList.remove('hidden');
+        tagEl.style.display = 'flex';
+
+        var list = appData[cat] || {};
+        var totalRaw = Object.keys(list).length;
+
+        // Hitung yang terfilter
+        var keys = Object.keys(list);
+        var hidePeriod = MENU_NO_PERIOD.indexOf(cat) !== -1;
+        if (!hidePeriod && currentPeriod !== 'all') {
+            keys = keys.filter(function(k) { return isInPeriod(list[k].date, currentPeriod); });
+        }
+        var s = document.getElementById('search-input')?.value.toLowerCase() || '';
+        if (s) keys = keys.filter(function(k) { return JSON.stringify(list[k]).toLowerCase().includes(s); });
+
+        currentFilteredCount = keys.length;
+        countEl.textContent = currentFilteredCount;
+
+        // Info filter aktif
+        var infos = [];
+        if (s) infos.push('pencarian "' + s + '"');
+        if (!hidePeriod && currentPeriod !== 'all') {
+            var periodLabels = { weekly: 'minggu ini', monthly: 'bulan ini', yearly: 'tahun ' + currentYear };
+            infos.push(periodLabels[currentPeriod] || currentPeriod);
+        }
+
+        if (infos.length > 0 && currentFilteredCount !== totalRaw) {
+            infoEl.textContent = '(terfilter: ' + infos.join(', ') + ' — dari ' + totalRaw + ' total)';
+        } else if (infos.length > 0) {
+            infoEl.textContent = '(terfilter: ' + infos.join(', ') + ')';
+        } else {
+            infoEl.textContent = '';
+        }
+    }
+
     function renderTable() {
         try {
             var cat = currentCategory;
@@ -2584,6 +2907,7 @@
             if (keys.length === 0) {
                 document.getElementById('empty-state').style.display = 'block';
                 th.innerHTML = '';
+                try { updateTotalDataTagline(); } catch (e) {}
                 return;
             }
             document.getElementById('empty-state').style.display = 'none';
@@ -2626,6 +2950,7 @@
                 }
             });
             if (typeof lucide !== 'undefined') lucide.createIcons();
+            try { updateTotalDataTagline(); } catch (e) {}
         } catch (e) { console.error('renderTable error:', e); }
     }
 
@@ -2962,6 +3287,7 @@
         document.getElementById('inp-cat').value = t === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
         document.getElementById('page-title').textContent = t === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
         renderTable();
+        try { updateTotalDataTagline(); } catch (e) {}
     }
     function togglePenyebabLain() {
         var v = document.getElementById('inp-ofcut-penyebab').value;
@@ -2976,6 +3302,7 @@
         selectedGudangFilter = g;
         document.querySelectorAll('.gudang-tab').forEach(function(t) { t.classList.toggle('active', t.dataset.gudang === g); });
         renderTable();
+        try { updateTotalDataTagline(); } catch (e) {}
     }
     function handleAddClick() {
         var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
@@ -3136,22 +3463,18 @@
                         },
                         scales: {
                             y: {
-                                beginAtZero: true,
-                                max: 30,
+                                beginAtZero: true, max: 30,
                                 ticks: { stepSize: 5, font: { size: 10 }, color: '#94A3B8', callback: function(v) { return v + '%'; } },
                                 grid: { color: 'rgba(148, 163, 184, 0.1)' }
                             },
                             x: {
                                 grid: {
-                                    display: true,
-                                    drawOnChartArea: true,
-                                    drawTicks: false,
+                                    display: true, drawOnChartArea: true, drawTicks: false,
                                     color: function() {
                                         var theme = document.documentElement.getAttribute('data-theme') || 'dark';
                                         return theme === 'dark' ? 'rgba(0, 217, 255, 0.18)' : 'rgba(6, 182, 212, 0.25)';
                                     },
-                                    lineWidth: 1.2,
-                                    tickLength: 0
+                                    lineWidth: 1.2, tickLength: 0
                                 },
                                 border: {
                                     display: true,
@@ -3314,15 +3637,11 @@
             var diffIcon = '●';
             var diffText = '0.0%';
             if (diffPct > 0.01) {
-                diffClass = 'up';
-                diffIcon = '▲';
+                diffClass = 'up'; diffIcon = '▲';
                 diffText = '+' + (Math.round(diffPct * 10) / 10).toFixed(1) + '%';
             } else if (diffPct < -0.01) {
-                diffClass = 'down';
-                diffIcon = '▼';
+                diffClass = 'down'; diffIcon = '▼';
                 diffText = (Math.round(diffPct * 10) / 10).toFixed(1) + '%';
-            } else {
-                diffText = '0.0%';
             }
             html += '<div class="ytd-card" style="border-left:3px solid ' + item.color + ';">';
             html += '<div class="ytd-label" style="color:' + item.color + ';">' + item.label + '</div>';
@@ -3448,14 +3767,19 @@
             if (currentPeriod === 'yearly') yg.classList.remove('hidden');
             else yg.classList.add('hidden');
             renderTable();
+            try { updateTotalDataTagline(); } catch (e) {}
         });
         var ysel = document.getElementById('year-select');
         if (ysel) ysel.addEventListener('change', function() {
             currentYear = parseInt(this.value) || new Date().getFullYear();
             renderTable();
+            try { updateTotalDataTagline(); } catch (e) {}
         });
         var si = document.getElementById('search-input');
-        if (si) si.addEventListener('input', renderTable);
+        if (si) si.addEventListener('input', function() {
+            renderTable();
+            try { updateTotalDataTagline(); } catch (e) {}
+        });
         var sm = document.getElementById('btn-scan-modal');
         if (sm) sm.addEventListener('click', function() { toggleScanner('modal'); });
         var ss = document.getElementById('btn-stop-modal-scan');
@@ -3505,6 +3829,11 @@
         var pl = document.getElementById('inp-pc-length');
         if (pt) pt.addEventListener('change', togglePatchLain);
         if (pl) pl.addEventListener('change', togglePatchLain);
+        // Drawing controls
+        var bdl = document.getElementById('btn-draw-line');
+        if (bdl) bdl.addEventListener('click', openDrawLineModal);
+        var dln = document.getElementById('draw-line-name');
+        if (dln) dln.addEventListener('change', toggleCustomLineInput);
         document.addEventListener('click', refreshSession);
         document.addEventListener('keydown', refreshSession);
     }
@@ -3513,9 +3842,7 @@
         var savedPage = getSavedPage();
         var savedSub = getSavedSubTab();
         if (savedPage && savedPage !== 'dashboard') {
-            if (savedPage === 'P3_Temuan') {
-                currentSubTab = savedSub;
-            }
+            if (savedPage === 'P3_Temuan') currentSubTab = savedSub;
             document.querySelectorAll('.nav-item').forEach(function(b) {
                 b.classList.toggle('active', b.dataset.cat === savedPage);
             });
@@ -3553,9 +3880,10 @@
                         initMap();
                         initCharts();
                         if (map) {
-                            map.on('load', function () { loadKmlFromFirebase(); });
+                            map.on('load', function () { loadKmlFromFirebase(); loadCustomLines(); });
                         } else {
                             loadKmlFromFirebase();
+                            loadCustomLines();
                         }
                         if (typeof lucide !== 'undefined') lucide.createIcons();
                         restoreLastPage();
