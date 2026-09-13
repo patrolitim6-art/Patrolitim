@@ -372,9 +372,14 @@
 
         /* Canvas MapLibre agar tidak ada outline */
         #map-container canvas,
-        #map-modal-container canvas {
+        #map-modal-container canvas,
+        #streetview-picker-map canvas {
             outline: none !important;
         }
+
+        /* Street View */
+        #streetview-iframe { background: #000; }
+        #streetview-placeholder { background: var(--surface-1); }
 
         .scanner-wrapper { position: relative; width: 100%; max-width: 400px; height: 260px; margin: 12px auto; border-radius: 16px; overflow: hidden; background: #050810; display: none; border: 1px solid var(--border-glow); }
         .scanner-wrapper.active { display: block; }
@@ -845,6 +850,7 @@
                                 <button class="custom-map-btn active" onclick="toggleMapLayer('satellite', event)" title="Satelit"><i data-lucide="satellite" style="width:18px;"></i></button>
                                 <button class="custom-map-btn" onclick="toggleMapLayer('street', event)" title="Jalan"><i data-lucide="map" style="width:18px;"></i></button>
                                 <button class="custom-map-btn" onclick="toggleMapLayer('hybrid', event)" title="Hybrid"><i data-lucide="layers" style="width:18px;"></i></button>
+                                <button class="custom-map-btn" onclick="openStreetViewPicker()" title="Street View"><i data-lucide="street-view" style="width:18px;"></i></button>
                                 <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
                                 <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
                             </div>
@@ -1506,6 +1512,59 @@
         </div>
     </div>
 
+    <!-- MODAL STREET VIEW -->
+    <div id="streetview-modal" class="modal-layer hidden">
+        <div class="modal-card" style="max-width:900px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <h3 style="margin:0;font-size:20px;font-weight:800;color:var(--primary-cyan);display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="street-view" style="width:22px;"></i> Street View
+                </h3>
+                <button onclick="closeStreetViewModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+            </div>
+
+            <div id="streetview-info" style="margin-bottom:12px;padding:10px 14px;border-radius:10px;background:rgba(0,217,255,0.08);border:1px solid var(--border-glow);font-size:12px;color:var(--text-muted);">
+                <span style="color:var(--primary-cyan);font-weight:700;">Lokasi:</span>
+                <span id="streetview-info-text">Pilih titik di peta untuk melihat Street View</span>
+            </div>
+
+            <div style="position:relative;margin-bottom:12px;">
+                <div id="streetview-picker-map" style="height:280px;border-radius:12px;border:1px solid var(--border-glow);overflow:hidden;"></div>
+                <div class="mini-map-controls">
+                    <button class="mini-map-btn" onclick="svPickerZoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
+                    <button class="mini-map-btn" onclick="svPickerZoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
+                    <button class="mini-map-btn" onclick="svPickerReset()" title="Reset"><i data-lucide="crosshair" style="width:16px;"></i></button>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+                <input type="text" id="sv-lat" class="field-control" placeholder="Latitude" style="flex:1;min-width:140px;">
+                <input type="text" id="sv-lng" class="field-control" placeholder="Longitude" style="flex:1;min-width:140px;">
+                <button onclick="loadStreetViewFromInput()" class="btn-primary" style="padding:0 20px;border-radius:12px;">
+                    <i data-lucide="search" style="width:16px;"></i> Tampilkan
+                </button>
+            </div>
+
+            <div style="position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--border-glow);background:#050810;">
+                <div id="streetview-iframe-wrap" style="width:100%;height:420px;position:relative;">
+                    <div id="streetview-placeholder" style="position:absolute;inset:0;display:grid;place-items:center;color:var(--text-muted);font-size:13px;text-align:center;padding:20px;">
+                        <div>
+                            <i data-lucide="street-view" style="width:48px;height:48px;opacity:0.3;margin-bottom:8px;"></i>
+                            <p>Klik peta di atas atau masukkan koordinat untuk melihat Street View</p>
+                        </div>
+                    </div>
+                    <iframe id="streetview-iframe" style="width:100%;height:100%;border:0;display:none;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">
+                <button onclick="openInGoogleMaps()" class="btn-secondary">
+                    <i data-lucide="external-link" style="width:16px;"></i> Buka di Google Maps
+                </button>
+                <button onclick="closeStreetViewModal()" class="btn-primary">Tutup</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL ADD USER -->
     <div id="add-user-modal" class="modal-layer hidden">
         <div class="modal-card">
@@ -1659,12 +1718,15 @@
     let currentSubTab = 'p3';
     let appData = {};
     let riwayatData = {};
-    let map = null;              // MapLibre instance utama
-    let mapModal = null;         // MapLibre instance modal
+    let map = null;
+    let mapModal = null;
     let selectedMapLocation = null;
-    let mapModalMarker = null;   // Marker MapLibre modal
-    let markers = [];            // Array marker MapLibre
-    let kmlLayers = {};          // { lineName: { sourceId, layerId, geojson } }
+    let mapModalMarker = null;
+    let markers = [];
+    let kmlLayers = {};
+    let svPickerMap = null;
+    let svPickerMarker = null;
+    let svCurrentCoords = null;
     const kmlLineColors = {
         'OSP LINE 1': '#FF0000', 'OSP LINE 2': '#00FF00', 'OSP LINE 3': '#0000FF',
         'IGG LINE 1': '#FFA500', 'IGG LINE 2': '#800080', 'DWDM': '#FF00FF',
@@ -2063,7 +2125,6 @@
 
             map.on('load', function () {
                 loadMarkersFromData();
-                // Muat ulang KML yang sudah tersimpan
                 Object.keys(kmlLayers).forEach(function (line) {
                     if (kmlLayers[line] && kmlLayers[line].geojson) {
                         drawKmlGeoJSON(line, kmlLayers[line].geojson);
@@ -2102,13 +2163,18 @@
                             el.style.background = color;
                             el.title = (it.location || 'Lokasi') + ' — ' + cat;
 
+                            var safeLabel = (it.location || 'Lokasi').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+                            var popupHtml =
+                                '<strong style="color:var(--primary-cyan);">' +
+                                (it.location || 'Lokasi') +
+                                '</strong><br><span style="font-size:11px;color:var(--text-muted);">' +
+                                cat + '</span>' +
+                                '<br><button onclick="openStreetViewFromCoords(\'' + it.coords + '\', \'' + safeLabel + '\')" ' +
+                                'style="margin-top:8px;padding:6px 12px;border-radius:8px;border:1px solid var(--primary-cyan);background:rgba(0,217,255,0.15);color:var(--primary-cyan);font-size:11px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">' +
+                                '👁️ Street View</button>';
+
                             var popup = new maplibregl.Popup({ offset: 14, closeButton: true })
-                                .setHTML(
-                                    '<strong style="color:var(--primary-cyan);">' +
-                                    (it.location || 'Lokasi') +
-                                    '</strong><br><span style="font-size:11px;color:var(--text-muted);">' +
-                                    cat + '</span>'
-                                );
+                                .setHTML(popupHtml);
 
                             var marker = new maplibregl.Marker({ element: el })
                                 .setLngLat([lng, lat])
@@ -2439,6 +2505,152 @@
             showToast('Lokasi dipilih', 'success');
         } else showToast('Pilih titik dulu di peta', 'error');
     }
+
+    // ============================================================
+    // STREET VIEW
+    // ============================================================
+    function openStreetViewPicker() {
+        document.getElementById('streetview-modal').classList.remove('hidden');
+        document.getElementById('streetview-info-text').textContent = 'Klik peta di bawah untuk memilih titik Street View';
+        document.getElementById('streetview-iframe').style.display = 'none';
+        document.getElementById('streetview-placeholder').style.display = 'grid';
+
+        if (selectedMapLocation) {
+            document.getElementById('sv-lat').value = selectedMapLocation.lat.toFixed(6);
+            document.getElementById('sv-lng').value = selectedMapLocation.lng.toFixed(6);
+        }
+
+        if (!svPickerMap) {
+            setTimeout(function () {
+                svPickerMap = new maplibregl.Map({
+                    container: 'streetview-picker-map',
+                    style: getSatelliteStyle(),
+                    center: [124.8410, 1.4930],
+                    zoom: 13,
+                    maxZoom: 22,
+                    attributionControl: false
+                });
+
+                svPickerMap.on('load', function () {
+                    setTimeout(function () { svPickerMap.resize(); }, 200);
+                    var lat = parseFloat(document.getElementById('sv-lat').value);
+                    var lng = parseFloat(document.getElementById('sv-lng').value);
+                    if (!isNaN(lat) && !isNaN(lng)) {
+                        addSvPickerMarker(lat, lng);
+                        svPickerMap.flyTo({ center: [lng, lat], zoom: 15 });
+                    }
+                });
+
+                svPickerMap.on('click', function (e) {
+                    var lat = e.lngLat.lat;
+                    var lng = e.lngLat.lng;
+                    addSvPickerMarker(lat, lng);
+                    document.getElementById('sv-lat').value = lat.toFixed(6);
+                    document.getElementById('sv-lng').value = lng.toFixed(6);
+                    document.getElementById('streetview-info-text').textContent = lat.toFixed(6) + ', ' + lng.toFixed(6) + ' — klik "Tampilkan" untuk melihat Street View';
+                });
+            }, 100);
+        } else {
+            setTimeout(function () {
+                svPickerMap.resize();
+                var lat = parseFloat(document.getElementById('sv-lat').value);
+                var lng = parseFloat(document.getElementById('sv-lng').value);
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    addSvPickerMarker(lat, lng);
+                    svPickerMap.flyTo({ center: [lng, lat], zoom: 15 });
+                }
+            }, 300);
+        }
+    }
+
+    function addSvPickerMarker(lat, lng) {
+        if (svPickerMarker) svPickerMarker.remove();
+        svPickerMarker = new maplibregl.Marker({ color: '#00D9FF' })
+            .setLngLat([lng, lat])
+            .addTo(svPickerMap);
+    }
+
+    function svPickerZoomIn() { if (svPickerMap) svPickerMap.zoomIn(); }
+    function svPickerZoomOut() { if (svPickerMap) svPickerMap.zoomOut(); }
+    function svPickerReset() { if (svPickerMap) svPickerMap.flyTo({ center: [124.8410, 1.4930], zoom: 13 }); }
+
+    function closeStreetViewModal() {
+        document.getElementById('streetview-modal').classList.add('hidden');
+        var iframe = document.getElementById('streetview-iframe');
+        iframe.src = '';
+        iframe.style.display = 'none';
+        document.getElementById('streetview-placeholder').style.display = 'grid';
+    }
+
+    function loadStreetViewFromInput() {
+        var lat = parseFloat(document.getElementById('sv-lat').value);
+        var lng = parseFloat(document.getElementById('sv-lng').value);
+        if (isNaN(lat) || isNaN(lng)) {
+            showToast('Koordinat tidak valid', 'error');
+            return;
+        }
+        showStreetView(lat, lng);
+    }
+
+    function showStreetView(lat, lng) {
+        if (isNaN(lat) || isNaN(lng)) return;
+        svCurrentCoords = { lat: lat, lng: lng };
+
+        if (svPickerMap) {
+            addSvPickerMarker(lat, lng);
+            svPickerMap.flyTo({ center: [lng, lat], zoom: 16 });
+        }
+
+        document.getElementById('streetview-info-text').textContent = lat.toFixed(6) + ', ' + lng.toFixed(6);
+
+        var embedUrl = 'https://maps.google.com/maps?q=&layer=c&cbll=' + lat + ',' + lng +
+                       '&cbp=11,0,0,0,0&output=svembed&hl=id';
+
+        var iframe = document.getElementById('streetview-iframe');
+        iframe.src = embedUrl;
+        iframe.style.display = 'block';
+        document.getElementById('streetview-placeholder').style.display = 'none';
+    }
+
+    function openInGoogleMaps() {
+        if (!svCurrentCoords) {
+            showToast('Belum ada koordinat', 'error');
+            return;
+        }
+        var url = 'https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=' +
+                  svCurrentCoords.lat + ',' + svCurrentCoords.lng;
+        window.open(url, '_blank');
+    }
+
+    function openStreetViewFromCoords(coordsStr, label) {
+        if (!coordsStr) { showToast('Koordinat tidak tersedia', 'error'); return; }
+        var p = String(coordsStr).split(',');
+        if (p.length !== 2) { showToast('Format koordinat salah', 'error'); return; }
+        var lat = parseFloat(p[0].trim());
+        var lng = parseFloat(p[1].trim());
+        if (isNaN(lat) || isNaN(lng)) { showToast('Koordinat tidak valid', 'error'); return; }
+        document.getElementById('streetview-modal').classList.remove('hidden');
+        document.getElementById('sv-lat').value = lat.toFixed(6);
+        document.getElementById('sv-lng').value = lng.toFixed(6);
+        document.getElementById('streetview-info-text').textContent = (label ? label + ' — ' : '') + lat.toFixed(6) + ', ' + lng.toFixed(6);
+        setTimeout(function () {
+            if (!svPickerMap) {
+                openStreetViewPicker();
+                setTimeout(function () { showStreetView(lat, lng); }, 500);
+            } else {
+                showStreetView(lat, lng);
+            }
+        }, 100);
+    }
+
+    window.openStreetViewPicker = openStreetViewPicker;
+    window.closeStreetViewModal = closeStreetViewModal;
+    window.loadStreetViewFromInput = loadStreetViewFromInput;
+    window.openInGoogleMaps = openInGoogleMaps;
+    window.openStreetViewFromCoords = openStreetViewFromCoords;
+    window.svPickerZoomIn = svPickerZoomIn;
+    window.svPickerZoomOut = svPickerZoomOut;
+    window.svPickerReset = svPickerReset;
 
     // ============================================================
     // VIEW / TABLE
