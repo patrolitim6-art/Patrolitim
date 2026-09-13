@@ -18,7 +18,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
     <style>
-        html[data-theme="dark"], :root {
+        :root {
             --primary-cyan: #00D9FF;
             --primary-blue: #0EA5E9;
             --primary-purple: #A855F7;
@@ -61,7 +61,8 @@
             --app-font-size: 14px;
             --radius: 16px;
         }
-        html[data-theme="light"] {
+
+        :root[data-theme="light"] {
             --primary-cyan: #0891B2;
             --primary-blue: #0284C7;
             --primary-purple: #7C3AED;
@@ -120,66 +121,22 @@
             padding-left: 260px;
         }
 
-        /* ============================================================
-           LOGO — Hub & Spoke Network dengan SVG (jelas & tajam)
-           ============================================================ */
         .earth-logo {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
-            display: grid;
-            place-items: center;
-            padding: 3px;
+            width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+            position: relative; overflow: hidden; display: grid; place-items: center; padding: 3px;
             background: linear-gradient(145deg, #0F2444 0%, #050D1F 100%);
             border: 1.5px solid rgba(0, 217, 255, 0.55);
-            box-shadow:
-                0 0 16px rgba(0, 217, 255, 0.55),
-                0 0 32px rgba(0, 217, 255, 0.22),
-                inset 0 0 18px rgba(0, 217, 255, 0.18);
+            box-shadow: 0 0 16px rgba(0, 217, 255, 0.55), 0 0 32px rgba(0, 217, 255, 0.22), inset 0 0 18px rgba(0, 217, 255, 0.18);
             animation: logoGlow 2.5s ease-in-out infinite;
         }
-        .earth-logo svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
+        .earth-logo svg { width: 100%; height: 100%; display: block; }
         .earth-logo.large {
-            width: 84px;
-            height: 84px;
-            border-radius: 20px;
-            padding: 6px;
-            border-width: 2px;
-            box-shadow:
-                0 0 28px rgba(0, 217, 255, 0.65),
-                0 0 56px rgba(0, 217, 255, 0.3),
-                inset 0 0 24px rgba(0, 217, 255, 0.22);
-        }
-        .earth-logo.mini {
-            width: 32px;
-            height: 32px;
-            border-radius: 9px;
-            padding: 2px;
-            box-shadow:
-                0 0 10px rgba(0, 217, 255, 0.5),
-                0 0 20px rgba(0, 217, 255, 0.2),
-                inset 0 0 10px rgba(0, 217, 255, 0.15);
+            width: 84px; height: 84px; border-radius: 20px; padding: 6px; border-width: 2px;
+            box-shadow: 0 0 28px rgba(0, 217, 255, 0.65), 0 0 56px rgba(0, 217, 255, 0.3), inset 0 0 24px rgba(0, 217, 255, 0.22);
         }
         @keyframes logoGlow {
-            0%, 100% {
-                box-shadow:
-                    0 0 16px rgba(0, 217, 255, 0.55),
-                    0 0 32px rgba(0, 217, 255, 0.22),
-                    inset 0 0 18px rgba(0, 217, 255, 0.18);
-            }
-            50% {
-                box-shadow:
-                    0 0 26px rgba(0, 217, 255, 0.9),
-                    0 0 52px rgba(0, 217, 255, 0.4),
-                    inset 0 0 24px rgba(0, 217, 255, 0.35);
-            }
+            0%, 100% { box-shadow: 0 0 16px rgba(0, 217, 255, 0.55), 0 0 32px rgba(0, 217, 255, 0.22), inset 0 0 18px rgba(0, 217, 255, 0.18); }
+            50% { box-shadow: 0 0 26px rgba(0, 217, 255, 0.9), 0 0 52px rgba(0, 217, 255, 0.4), inset 0 0 24px rgba(0, 217, 255, 0.35); }
         }
 
         .card {
@@ -202,11 +159,7 @@
             background: var(--tech-gradient);
             opacity: 0.6;
         }
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-card-hover);
-            border-color: var(--border-glow);
-        }
+        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); border-color: var(--border-glow); }
         .btn-primary {
             background: var(--tech-gradient);
             color: var(--text-on-accent);
@@ -223,14 +176,10 @@
             box-shadow: 0 4px 20px rgba(0, 217, 255, 0.35);
             min-height: 52px;
             font-size: 16px;
-            letter-spacing: 0.3px;
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 32px rgba(0, 217, 255, 0.55), 0 0 20px rgba(168, 85, 247, 0.35);
-        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 32px rgba(0, 217, 255, 0.55); }
         .btn-primary:active { transform: scale(0.97); }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-secondary {
             background: var(--surface-1);
             color: var(--primary-cyan);
@@ -247,12 +196,7 @@
             font-size: 15px;
             backdrop-filter: blur(8px);
         }
-        .btn-secondary:hover {
-            background: rgba(0, 217, 255, 0.12);
-            border-color: var(--primary-cyan);
-            box-shadow: 0 0 16px rgba(0, 217, 255, 0.35);
-            transform: translateY(-1px);
-        }
+        .btn-secondary:hover { background: rgba(0, 217, 255, 0.12); border-color: var(--primary-cyan); box-shadow: 0 0 16px rgba(0, 217, 255, 0.35); }
         .btn-icon {
             width: 42px; height: 42px; min-height: 42px; padding: 0;
             border-radius: 12px;
@@ -262,17 +206,9 @@
             color: var(--text-muted);
             cursor: pointer;
             transition: all 0.2s ease;
-            font-size: 18px;
-            box-shadow: none;
             flex-shrink: 0;
         }
-        .btn-icon:hover {
-            background: rgba(0, 217, 255, 0.12);
-            border-color: var(--primary-cyan);
-            color: var(--primary-cyan);
-            transform: translateY(-2px);
-            box-shadow: 0 0 16px rgba(0, 217, 255, 0.35);
-        }
+        .btn-icon:hover { background: rgba(0, 217, 255, 0.12); border-color: var(--primary-cyan); color: var(--primary-cyan); }
 
         .sidebar {
             position: fixed;
@@ -287,15 +223,6 @@
             box-shadow: 4px 0 40px rgba(0, 217, 255, 0.08);
             transition: transform 0.3s ease, background 0.3s ease;
             overflow: hidden;
-        }
-        .sidebar::before {
-            content: '';
-            position: absolute;
-            top: 0; right: 0;
-            width: 1px; height: 100%;
-            background: linear-gradient(180deg, transparent, var(--primary-cyan), var(--primary-purple), transparent);
-            opacity: 0.5;
-            pointer-events: none;
         }
         .sidebar-header {
             height: 72px;
@@ -323,16 +250,12 @@
         .sidebar-nav {
             flex: 1;
             overflow-y: auto;
-            overflow-x: hidden;
             padding: 16px 12px;
             display: flex;
             flex-direction: column;
             gap: 4px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--border-glow) transparent;
         }
         .sidebar-nav::-webkit-scrollbar { width: 6px; }
-        .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
         .sidebar-nav::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 4px; }
         .nav-section-label {
             font-size: 10px; font-weight: 700;
@@ -343,7 +266,6 @@
             opacity: 0.7;
             font-family: 'Orbitron', sans-serif;
         }
-        .nav-section-label:first-child { padding-top: 4px; }
         .nav-item {
             display: flex; align-items: center; gap: 14px;
             padding: 12px 14px;
@@ -362,13 +284,11 @@
             color: var(--primary-cyan);
             border-color: var(--border-glow);
             transform: translateX(2px);
-            box-shadow: inset 0 0 12px rgba(0, 217, 255, 0.1);
         }
         .nav-item.active {
             background: var(--tech-gradient);
             color: var(--text-on-accent);
-            box-shadow: 0 6px 20px rgba(0, 217, 255, 0.35), 0 0 20px rgba(168, 85, 247, 0.25);
-            border-color: transparent;
+            box-shadow: 0 6px 20px rgba(0, 217, 255, 0.35);
         }
         .nav-item.active::before {
             content: '';
@@ -380,15 +300,11 @@
             border-radius: 0 4px 4px 0;
             box-shadow: 0 0 12px var(--primary-cyan);
         }
-        .nav-item i { width: 20px; height: 20px; flex-shrink: 0; color: var(--text-muted); transition: color 0.2s; }
-        .nav-item:hover i { color: var(--primary-cyan); }
-        .nav-item.active i { color: var(--text-on-accent); }
-        .nav-item span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .nav-item i { width: 20px; height: 20px; flex-shrink: 0; }
         .sidebar-footer {
             border-top: 1px solid var(--border-subtle);
             padding: 12px;
             display: flex; align-items: center; gap: 10px;
-            flex-shrink: 0;
             background: var(--surface-sidebar-footer);
         }
         .user-chip {
@@ -407,7 +323,6 @@
             color: var(--text-on-accent);
             font-weight: 900; font-size: 14px;
             flex-shrink: 0;
-            box-shadow: 0 0 12px rgba(0, 217, 255, 0.4);
         }
         .user-info { display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
         .user-name { font-size: 12px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -421,15 +336,8 @@
             background: var(--surface-glass);
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 24px;
-            box-shadow: 0 2px 20px rgba(0, 217, 255, 0.08);
-            transition: background 0.3s ease;
         }
-        .main-content {
-            padding: 20px 24px 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
+        .main-content { padding: 20px 24px 40px; max-width: 1400px; margin: 0 auto; width: 100%; }
 
         .menu-toggle {
             display: none;
@@ -438,18 +346,9 @@
             background: var(--surface-1);
             color: var(--primary-cyan);
             cursor: pointer; align-items: center; justify-content: center;
-            flex-shrink: 0;
         }
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 8, 16, 0.75);
-            backdrop-filter: blur(4px);
-            z-index: 55;
-        }
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(5, 8, 16, 0.75); backdrop-filter: blur(4px); z-index: 55; }
         .sidebar-overlay.active { display: block; }
-
         @media (max-width: 900px) {
             body { padding-left: 0; }
             .sidebar { transform: translateX(-100%); }
@@ -465,12 +364,11 @@
             background: var(--surface-hero);
             color: var(--text-main);
             border: 1px solid var(--border-glow);
-            box-shadow: 0 12px 40px rgba(0, 217, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            box-shadow: 0 12px 40px rgba(0, 217, 255, 0.15);
             margin-bottom: 20px;
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(12px);
-            transition: background 0.3s ease;
         }
         .hero-panel::before {
             content: '';
@@ -480,15 +378,6 @@
             background: radial-gradient(circle, var(--bg-pattern-2) 0%, transparent 70%);
             border-radius: 50%;
             animation: float 8s ease-in-out infinite;
-        }
-        .hero-panel::after {
-            content: '';
-            position: absolute;
-            bottom: -40%; left: -10%;
-            width: 200px; height: 200px;
-            background: radial-gradient(circle, var(--bg-pattern-3) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: float 10s ease-in-out infinite reverse;
         }
         @keyframes float {
             0%, 100% { transform: translate(0, 0); }
@@ -521,12 +410,11 @@
             outline: none;
             transition: all 0.2s;
             font-family: inherit;
-            backdrop-filter: blur(8px);
         }
         .field-control::placeholder { color: var(--text-dim); }
         .field-control:focus {
             border-color: var(--primary-cyan);
-            box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.15), 0 0 16px rgba(0, 217, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.15);
             background: var(--surface-input-focus);
         }
         textarea.field-control { padding: 12px 16px; resize: vertical; }
@@ -537,7 +425,7 @@
             background-position: right 14px center;
             padding-right: 40px;
         }
-        html[data-theme="light"] select.field-control {
+        :root[data-theme="light"] select.field-control {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230891B2' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
         }
         select.field-control option { background: var(--surface-2); color: var(--text-main); }
@@ -559,7 +447,7 @@
             backdrop-filter: blur(10px);
             display: grid; place-items: end;
         }
-        html[data-theme="light"] .modal-layer { background: rgba(15, 23, 42, 0.5); }
+        :root[data-theme="light"] .modal-layer { background: rgba(15, 23, 42, 0.5); }
         @media(min-width:640px) { .modal-layer { place-items: center; } }
         .modal-card {
             background: var(--surface-modal);
@@ -572,7 +460,6 @@
             box-shadow: var(--shadow-modal);
             border: 1px solid var(--border-glow);
             color: var(--text-main);
-            transition: background 0.3s ease;
         }
         @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .hidden { display: none !important; }
@@ -582,7 +469,6 @@
             border-radius: var(--radius);
             border: 1px solid var(--border-glow);
             z-index: 1; overflow: hidden; position: relative;
-            box-shadow: 0 0 24px rgba(0, 217, 255, 0.1);
         }
         @media(min-width:1024px) { #map-container { height: 500px; } }
         .leaflet-control-zoom { display: none !important; }
@@ -598,11 +484,10 @@
             width: 38px; height: 38px;
             display: grid; place-items: center;
             cursor: pointer;
-            box-shadow: 0 2px 12px rgba(0, 217, 255, 0.15);
             color: var(--primary-cyan);
             transition: all 0.2s;
         }
-        .custom-map-btn:hover { background: rgba(0, 217, 255, 0.15); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3); }
+        .custom-map-btn:hover { background: rgba(0, 217, 255, 0.15); transform: translateY(-2px); }
         .custom-map-btn.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; }
         .map-legend {
             position: absolute; top: 12px; left: 12px;
@@ -611,7 +496,6 @@
             backdrop-filter: blur(8px);
             padding: 10px 14px;
             border-radius: 10px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3), 0 0 12px rgba(0, 217, 255, 0.15);
             font-size: 11px;
             border: 1px solid var(--border-glow);
             max-width: 220px;
@@ -626,7 +510,6 @@
             position: relative; width: 100%; max-width: 400px; height: 260px;
             margin: 12px auto; border-radius: 16px; overflow: hidden;
             background: #050810; display: none;
-            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
             border: 1px solid var(--border-glow);
         }
         .scanner-wrapper.active { display: block; }
@@ -643,7 +526,7 @@
         .scanner-laser {
             position: absolute; top: 50%; left: 10%; right: 10%;
             height: 2px; background: var(--primary-cyan);
-            box-shadow: 0 0 12px var(--primary-cyan), 0 0 24px var(--primary-cyan);
+            box-shadow: 0 0 12px var(--primary-cyan);
             animation: scanLine 1.5s infinite ease-in-out;
             pointer-events: none; z-index: 5;
         }
@@ -655,8 +538,6 @@
             color: var(--text-on-accent); padding: 4px 16px;
             border-radius: 99px; font-size: 11px;
             font-weight: 700; z-index: 10;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 0 16px rgba(0, 217, 255, 0.5);
         }
 
         .toast {
@@ -678,10 +559,9 @@
             border: 1px solid var(--border-glow);
         }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        .toast.success { border-color: var(--primary-cyan); box-shadow: 0 0 24px rgba(0, 217, 255, 0.5); }
-        .toast.error { border-color: #EC4899; box-shadow: 0 0 24px rgba(236, 72, 153, 0.5); }
-        .toast.warning { border-color: #F59E0B; box-shadow: 0 0 24px rgba(245, 158, 11, 0.5); }
-        .toast.info { border-color: var(--primary-blue); }
+        .toast.success { border-color: var(--primary-cyan); }
+        .toast.error { border-color: #EC4899; }
+        .toast.warning { border-color: #F59E0B; }
 
         .login-screen {
             position: fixed; inset: 0;
@@ -689,7 +569,6 @@
             z-index: 200;
             display: grid; place-items: center;
             padding: 20px; overflow: hidden;
-            transition: background 0.3s ease;
         }
         .login-screen::before {
             content: '';
@@ -700,16 +579,6 @@
             background-size: 50px 50px;
             pointer-events: none;
         }
-        .login-screen::after {
-            content: '';
-            position: absolute;
-            top: -30%; right: -20%;
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, var(--bg-pattern-2) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float 12s ease-in-out infinite;
-        }
         .login-card {
             background: var(--surface-login-card);
             backdrop-filter: blur(20px);
@@ -718,19 +587,8 @@
             width: 100%; max-width: 420px;
             box-shadow: var(--shadow-modal), 0 0 0 1px var(--border-glow);
             position: relative; z-index: 1;
-            animation: slideUpLogin 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             border: 1px solid var(--border-glow);
-            transition: background 0.3s ease;
         }
-        .login-card::before {
-            content: '';
-            position: absolute;
-            top: -1px; left: 20%; right: 20%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary-cyan), transparent);
-            filter: drop-shadow(0 0 6px var(--primary-cyan));
-        }
-        @keyframes slideUpLogin { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .login-card .earth-logo { margin: 0 auto; }
         .login-title {
             font-size: 28px; font-weight: 900;
@@ -763,11 +621,11 @@
             background: var(--surface-1);
             color: var(--text-main);
         }
-        .gudang-card:hover { border-color: var(--primary-cyan); transform: translateY(-2px); box-shadow: 0 0 16px rgba(0, 217, 255, 0.2); }
+        .gudang-card:hover { border-color: var(--primary-cyan); transform: translateY(-2px); }
         .gudang-card.selected {
             border-color: var(--primary-cyan);
             background: rgba(0, 217, 255, 0.15);
-            box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.2), 0 0 20px rgba(0, 217, 255, 0.3);
+            box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.2);
             color: var(--primary-cyan);
             font-weight: 700;
         }
@@ -788,7 +646,6 @@
             background: var(--tech-gradient);
             color: var(--text-on-accent);
             border-color: transparent;
-            box-shadow: 0 2px 12px rgba(0, 217, 255, 0.35);
         }
 
         .records-table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -861,7 +718,6 @@
             border: 1px solid var(--border-subtle);
             border-radius: 10px;
             padding: 4px 8px;
-            backdrop-filter: blur(8px);
         }
         .filter-bar .filter-group select,
         .filter-bar .filter-group input {
@@ -871,8 +727,6 @@
             outline: none; min-height: 34px;
         }
         .filter-bar .filter-group select option { background: var(--surface-2); color: var(--text-main); }
-        .filter-bar .filter-group select { min-width: 100px; }
-        .filter-bar .filter-group input[type="text"] { min-width: 160px; }
 
         .spare-action-group { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
         .spare-action-btn {
@@ -886,7 +740,7 @@
             font-weight: 600; font-size: 14px;
             color: var(--text-main);
         }
-        .spare-action-btn:hover { border-color: var(--primary-cyan); background: rgba(0, 217, 255, 0.1); transform: translateY(-2px); }
+        .spare-action-btn:hover { border-color: var(--primary-cyan); background: rgba(0, 217, 255, 0.1); }
         .spare-action-btn.active {
             border-color: var(--primary-cyan);
             background: rgba(0, 217, 255, 0.15);
@@ -910,7 +764,6 @@
             background: var(--tech-gradient);
             color: var(--text-on-accent);
             border-color: transparent;
-            box-shadow: 0 2px 12px rgba(0, 217, 255, 0.35);
         }
 
         .history-badge { display: inline-block; padding: 2px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; }
@@ -928,21 +781,14 @@
             align-items: center;
             gap: 8px;
         }
-        .opm-warning.show {
-            display: flex;
-            animation: shake 0.4s ease;
-        }
+        .opm-warning.show { display: flex; animation: shake 0.4s ease; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-6px); }
             75% { transform: translateX(6px); }
         }
 
-        .chart-rekap-wrapper {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border-subtle);
-        }
+        .chart-rekap-wrapper { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
         .chart-rekap-title {
             font-size: 12px;
             font-weight: 700;
@@ -955,11 +801,7 @@
             align-items: center;
             gap: 8px;
         }
-        .chart-rekap-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-        }
+        .chart-rekap-table { width: 100%; border-collapse: collapse; font-size: 12px; }
         .chart-rekap-table th {
             background: var(--surface-table-header);
             padding: 8px 10px;
@@ -971,6 +813,27 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             white-space: nowrap;
+        }
+        /* ✅ KOLOM TOTAL dibedakan */
+        .chart-rekap-table th.col-total {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(0, 217, 255, 0.15) 100%);
+            color: #10B981;
+            border-left: 2px solid rgba(16, 185, 129, 0.5);
+            border-right: 2px solid rgba(16, 185, 129, 0.5);
+        }
+        .chart-rekap-table td.col-total {
+            background: rgba(16, 185, 129, 0.08);
+            border-left: 2px solid rgba(16, 185, 129, 0.5);
+            border-right: 2px solid rgba(16, 185, 129, 0.5);
+            font-weight: 800;
+            color: #10B981;
+        }
+        .chart-rekap-table tr.total-row td.col-total {
+            background: rgba(16, 185, 129, 0.2);
+            border-left: 2px solid #10B981;
+            border-right: 2px solid #10B981;
+            font-size: 14px;
+            font-weight: 900;
         }
         .chart-rekap-table th:first-child,
         .chart-rekap-table td:first-child {
@@ -994,6 +857,7 @@
             color: var(--primary-cyan);
             border-top: 2px solid var(--border-glow);
         }
+        .chart-rekap-table tr.total-row td.col-total { color: #10B981; }
         .chart-rekap-scroll {
             overflow-x: auto;
             border-radius: 10px;
@@ -1007,6 +871,7 @@
             font-weight: 500;
             margin-top: 2px;
         }
+        .chart-rekap-pct.on-total { color: #10B981; font-weight: 700; }
 
         @media(max-width:640px) {
             .hero-panel { padding: 20px 16px; }
@@ -1026,7 +891,6 @@
             background: linear-gradient(180deg, var(--primary-cyan), var(--primary-purple));
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary-cyan); }
     </style>
 </head>
 <body>
@@ -1047,19 +911,12 @@
                                 <stop offset="45%" stop-color="#00D9FF"/>
                                 <stop offset="100%" stop-color="#0EA5E9"/>
                             </radialGradient>
-                            <filter id="glow">
-                                <feGaussianBlur stdDeviation="1.2" result="blur"/>
-                                <feMerge>
-                                    <feMergeNode in="blur"/>
-                                    <feMergeNode in="SourceGraphic"/>
-                                </feMerge>
-                            </filter>
                         </defs>
-                        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#lgRing)" stroke-width="2.2" opacity="0.95"/>
+                        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#lgRing)" stroke-width="2.2"/>
                         <circle cx="50" cy="50" r="36" fill="none" stroke="#00D9FF" stroke-width="0.9" stroke-dasharray="3 5" opacity="0.55">
                             <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="20s" repeatCount="indefinite"/>
                         </circle>
-                        <g stroke="#00D9FF" stroke-width="1.4" opacity="0.75" filter="url(#glow)">
+                        <g stroke="#00D9FF" stroke-width="1.4" opacity="0.75">
                             <line x1="50" y1="50" x2="50" y2="16"/>
                             <line x1="50" y1="50" x2="80" y2="33"/>
                             <line x1="50" y1="50" x2="80" y2="67"/>
@@ -1067,31 +924,13 @@
                             <line x1="50" y1="50" x2="20" y2="67"/>
                             <line x1="50" y1="50" x2="20" y2="33"/>
                         </g>
-                        <g filter="url(#glow)">
-                            <circle cx="50" cy="50" r="7" fill="url(#lgCore)">
-                                <animate attributeName="r" values="6.5;8;6.5" dur="2s" repeatCount="indefinite"/>
-                            </circle>
-                        </g>
-                        <g filter="url(#glow)">
-                            <circle cx="50" cy="16" r="3.8" fill="#A855F7">
-                                <animate attributeName="r" values="3.3;4.8;3.3" dur="2s" repeatCount="indefinite"/>
-                            </circle>
-                            <circle cx="80" cy="33" r="3.8" fill="#00D9FF">
-                                <animate attributeName="r" values="3.3;4.8;3.3" dur="2s" begin="0.33s" repeatCount="indefinite"/>
-                            </circle>
-                            <circle cx="80" cy="67" r="3.8" fill="#A855F7">
-                                <animate attributeName="r" values="3.3;4.8;3.3" dur="2s" begin="0.66s" repeatCount="indefinite"/>
-                            </circle>
-                            <circle cx="50" cy="84" r="3.8" fill="#00D9FF">
-                                <animate attributeName="r" values="3.3;4.8;3.3" dur="2s" begin="1s" repeatCount="indefinite"/>
-                            </circle>
-                            <circle cx="20" cy="67" r="3.8" fill="#A855F7">
-                                <animate attributeName="r" values="3.3;4.8;3.3" dur="2s" begin="1.33s" repeatCount="indefinite"/>
-                            </circle>
-                            <circle cx="20" cy="33" r="3.8" fill="#00D9FF">
-                                <animate attributeName="r" values="3.3;4.8;3.3" dur="2s" begin="1.66s" repeatCount="indefinite"/>
-                            </circle>
-                        </g>
+                        <circle cx="50" cy="50" r="7" fill="url(#lgCore)"/>
+                        <circle cx="50" cy="16" r="3.8" fill="#A855F7"/>
+                        <circle cx="80" cy="33" r="3.8" fill="#00D9FF"/>
+                        <circle cx="80" cy="67" r="3.8" fill="#A855F7"/>
+                        <circle cx="50" cy="84" r="3.8" fill="#00D9FF"/>
+                        <circle cx="20" cy="67" r="3.8" fill="#A855F7"/>
+                        <circle cx="20" cy="33" r="3.8" fill="#00D9FF"/>
                     </svg>
                 </div>
                 <h1 class="login-title">BUCIN</h1>
@@ -1143,7 +982,7 @@
                                 <stop offset="100%" stop-color="#0EA5E9"/>
                             </radialGradient>
                         </defs>
-                        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#lgRing2)" stroke-width="2.5" opacity="0.95"/>
+                        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#lgRing2)" stroke-width="2.5"/>
                         <circle cx="50" cy="50" r="36" fill="none" stroke="#00D9FF" stroke-width="1.1" stroke-dasharray="3 5" opacity="0.6">
                             <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="18s" repeatCount="indefinite"/>
                         </circle>
@@ -1155,27 +994,13 @@
                             <line x1="50" y1="50" x2="20" y2="67"/>
                             <line x1="50" y1="50" x2="20" y2="33"/>
                         </g>
-                        <circle cx="50" cy="50" r="7.5" fill="url(#lgCore2)">
-                            <animate attributeName="r" values="6.5;8.5;6.5" dur="2s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="50" cy="16" r="4" fill="#A855F7">
-                            <animate attributeName="r" values="3.5;5;3.5" dur="2s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="80" cy="33" r="4" fill="#00D9FF">
-                            <animate attributeName="r" values="3.5;5;3.5" dur="2s" begin="0.33s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="80" cy="67" r="4" fill="#A855F7">
-                            <animate attributeName="r" values="3.5;5;3.5" dur="2s" begin="0.66s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="50" cy="84" r="4" fill="#00D9FF">
-                            <animate attributeName="r" values="3.5;5;3.5" dur="2s" begin="1s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="20" cy="67" r="4" fill="#A855F7">
-                            <animate attributeName="r" values="3.5;5;3.5" dur="2s" begin="1.33s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="20" cy="33" r="4" fill="#00D9FF">
-                            <animate attributeName="r" values="3.5;5;3.5" dur="2s" begin="1.66s" repeatCount="indefinite"/>
-                        </circle>
+                        <circle cx="50" cy="50" r="7.5" fill="url(#lgCore2)"/>
+                        <circle cx="50" cy="16" r="4" fill="#A855F7"/>
+                        <circle cx="80" cy="33" r="4" fill="#00D9FF"/>
+                        <circle cx="80" cy="67" r="4" fill="#A855F7"/>
+                        <circle cx="50" cy="84" r="4" fill="#00D9FF"/>
+                        <circle cx="20" cy="67" r="4" fill="#A855F7"/>
+                        <circle cx="20" cy="33" r="4" fill="#00D9FF"/>
                     </svg>
                 </div>
                 <div class="brand-text-wrapper">
@@ -1204,7 +1029,7 @@
                 <div class="nav-item" data-cat="Handhole">
                     <i data-lucide="archive"></i><span>Handhole</span>
                 </div>
-                <div class="nav-section-label">Inventory</div>
+                <div class="nav-section-label">Inventoty</div>
                 <div class="nav-item" data-cat="Alker">
                     <i data-lucide="wrench"></i><span>Alker</span>
                 </div>
@@ -1235,7 +1060,7 @@
                     <h2 id="header-title" style="margin:0;font-size:18px;font-weight:800;color:var(--primary-cyan);letter-spacing:1px;">Dashboard</h2>
                 </div>
                 <div style="display:flex;gap:6px;align-items:center;">
-                    <button id="theme-toggle" class="icon-btn" title="Ganti Tema"><i data-lucide="sun" id="theme-icon" style="width:20px;"></i></button>
+                    <button id="theme-toggle" class="icon-btn" title="Ganti Tema" onclick="toggleTheme()"><i data-lucide="sun" id="theme-icon" style="width:20px;"></i></button>
                     <button id="add-user-btn" class="icon-btn hidden" title="Tambah User"><i data-lucide="user-plus" style="width:20px;"></i></button>
                     <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:20px;"></i></button>
                 </div>
@@ -1272,8 +1097,8 @@
                                                 <th style="color:#EC4899;">Pihak Ke-3</th>
                                                 <th style="color:#F59E0B;">Vandalisme</th>
                                                 <th style="color:#10B981;">Bencana</th>
-                                                <th style="color:#00D9FF;">Lainnya</th>
-                                                <th style="color:var(--primary-cyan);">Total</th>
+                                                <th style="color:#8B5CF6;">Lainnya</th>
+                                                <th class="col-total">TOTAL</th>
                                             </tr>
                                         </thead>
                                         <tbody id="chart-rekap-body">
@@ -1288,7 +1113,7 @@
                         <div style="padding:16px 18px;border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
                             <h3 style="margin:0;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;color:var(--primary-cyan);">
                                 <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 8px var(--primary-cyan);"></span>
-                                Peta Lokasi Aset
+                                Peta Line Jaringan
                             </h3>
                             <div style="display:flex;gap:8px;">
                                 <button id="btn-upload-kml" class="btn-secondary" style="padding:6px 14px;font-size:12px;border-radius:20px;">
@@ -1302,12 +1127,15 @@
                         <div style="position:relative;">
                             <div id="map-container"></div>
                             <div class="map-legend">
-                                <div class="map-legend-title">Kategori & Line</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#00D9FF;"></span> OF Cut</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#A855F7;"></span> Pihak Ke-3</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#EC4899;"></span> Temuan</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#0EA5E9;"></span> Joint</div>
-                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#10B981;"></span> Handhole</div>
+                                <div class="map-legend-title">Line Jaringan</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#FF0000;"></span> OSP LINE 1</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#00FF00;"></span> OSP LINE 2</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#0000FF;"></span> OSP LINE 3</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#FFA500;"></span> IGG LINE 1</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#800080;"></span> IGG LINE 2</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#FF00FF;"></span> DWDM</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#00FFFF;"></span> SEA US LINE 1</div>
+                                <div class="map-legend-item"><span class="map-legend-dot" style="background:#FFD700;"></span> SEA US LINE 2</div>
                                 <div id="map-legend-line">Line aktif: -</div>
                             </div>
                             <div class="custom-map-controls">
@@ -1360,14 +1188,20 @@
                             <i data-lucide="search" style="width:16px;color:var(--primary-cyan);"></i>
                             <input type="text" id="search-input" placeholder="Cari data..." style="min-width:160px;">
                         </div>
-                        <div class="filter-group">
+                        <!-- Filter periode — disembunyikan untuk Alker/Spare/PatchCord via JS -->
+                        <div class="filter-group" id="period-filter-group">
                             <i data-lucide="calendar" style="width:16px;color:var(--primary-cyan);"></i>
                             <select id="period-select">
                                 <option value="all">Semua Periode</option>
-                                <option value="weekly">Mingguan</option>
-                                <option value="monthly">Bulanan</option>
-                                <option value="yearly">Tahunan</option>
+                                <option value="weekly">Minggu Ini</option>
+                                <option value="monthly">Bulan Ini</option>
+                                <option value="yearly">Tahun Ini</option>
                             </select>
+                        </div>
+                        <!-- Tahun grid — hanya muncul saat pilih "tahunan" -->
+                        <div class="filter-group hidden" id="year-filter-group">
+                            <i data-lucide="calendar-days" style="width:16px;color:var(--primary-cyan);"></i>
+                            <select id="year-select"></select>
                         </div>
                     </div>
                     <div id="stok-summary-container" class="hidden">
@@ -1956,15 +1790,13 @@
             <div style="margin-bottom:20px;">
                 <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;color:var(--primary-cyan);">Tema Tampilan</h4>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                    <button type="button" class="spare-action-btn" data-theme-opt="dark" onclick="setTheme('dark'); updateThemeButtons();">
+                    <button type="button" class="spare-action-btn" data-theme-opt="dark" onclick="setTheme('dark')">
                         <span style="display:block;font-size:20px;">🌙</span>
                         <span style="display:block;margin-top:4px;">Dark</span>
-                        <span style="display:block;font-size:10px;color:var(--text-muted);margin-top:2px;">Tech / Robot</span>
                     </button>
-                    <button type="button" class="spare-action-btn" data-theme-opt="light" onclick="setTheme('light'); updateThemeButtons();">
+                    <button type="button" class="spare-action-btn" data-theme-opt="light" onclick="setTheme('light')">
                         <span style="display:block;font-size:20px;">☀️</span>
                         <span style="display:block;margin-top:4px;">Light</span>
-                        <span style="display:block;font-size:10px;color:var(--text-muted);margin-top:2px;">Clean Bright</span>
                     </button>
                 </div>
             </div>
@@ -2003,6 +1835,58 @@
     </div>
 
     <script>
+    // ============================================================
+    // THEME
+    // ============================================================
+    function setTheme(theme) {
+        if (theme !== 'dark' && theme !== 'light') theme = 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        try { localStorage.setItem('bucin_theme', theme); } catch (e) {}
+        try {
+            var btn = document.getElementById('theme-toggle');
+            if (btn) {
+                var iconName = (theme === 'dark') ? 'sun' : 'moon';
+                btn.innerHTML = '<i data-lucide="' + iconName + '" style="width:20px;"></i>';
+                if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+            }
+        } catch (e) {}
+        updateThemeButtons();
+        try {
+            if (typeof chartIncidents !== 'undefined' && chartIncidents) {
+                var legendColor = theme === 'dark' ? '#E2E8F0' : '#0F172A';
+                var tickColor = theme === 'dark' ? '#94A3B8' : '#475569';
+                var gridColor = theme === 'dark' ? 'rgba(148, 163, 184, 0.1)' : 'rgba(15, 23, 42, 0.08)';
+                chartIncidents.options.plugins.legend.labels.color = legendColor;
+                chartIncidents.options.scales.y.ticks.color = tickColor;
+                chartIncidents.options.scales.y.grid.color = gridColor;
+                chartIncidents.options.scales.x.ticks.color = tickColor;
+                chartIncidents.update('none');
+            }
+        } catch (e) {}
+    }
+    function toggleTheme() {
+        var cur = document.documentElement.getAttribute('data-theme') || 'dark';
+        setTheme(cur === 'dark' ? 'light' : 'dark');
+    }
+    function updateThemeButtons() {
+        var cur = document.documentElement.getAttribute('data-theme') || 'dark';
+        document.querySelectorAll('[data-theme-opt]').forEach(function(b) {
+            b.classList.toggle('active', b.dataset.themeOpt === cur);
+        });
+    }
+    function loadTheme() {
+        var saved = 'dark';
+        try { saved = localStorage.getItem('bucin_theme') || 'dark'; } catch (e) {}
+        setTheme(saved);
+    }
+    window.setTheme = setTheme;
+    window.toggleTheme = toggleTheme;
+    window.updateThemeButtons = updateThemeButtons;
+    window.loadTheme = loadTheme;
+
+    // ============================================================
+    // FIREBASE
+    // ============================================================
     const firebaseConfig = {
         apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
         authDomain: "bucin-18282.firebaseapp.com",
@@ -2012,7 +1896,6 @@
         messagingSenderId: "545528630169",
         appId: "1:545528630169:web:2ea7db49f27121ad062108"
     };
-
     let firebaseApp, db, firebaseReady = false;
     try {
         firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -2029,7 +1912,6 @@
     let mapModal = null;
     let selectedMapLocation = null;
     let mapModalMarker = null;
-    let markers = [];
     let kmlLayers = {};
     const kmlLineColors = {
         'OSP LINE 1': '#FF0000', 'OSP LINE 2': '#00FF00', 'OSP LINE 3': '#0000FF',
@@ -2045,19 +1927,13 @@
     let barcodeCache = {};
     let selectedGudangFilter = 'all';
     let currentPeriod = 'all';
+    let currentYear = new Date().getFullYear();
     let spareAction = 'tambah';
     let sessionTimeout = null;
     let dataListenerAttached = false;
     let riwayatListenerAttached = false;
     let currentRiwayatMenu = 'all';
     const SESSION_TIMEOUT_MS = 15 * 60 * 1000;
-
-    const CATEGORY_COLORS = {
-        'Data OF Cut': '#00D9FF', 'Pekerjaan Pihak Ke-3': '#A855F7',
-        'Temuan Lapangan': '#EC4899',
-        'Joint': '#0EA5E9', 'Handhole': '#10B981'
-    };
-
     const MENU_LABELS = {
         'Data OF Cut': 'OF Cut',
         'Pekerjaan Pihak Ke-3': 'Pihak Ke-3',
@@ -2069,43 +1945,8 @@
         'Stok Spare': 'Stok Spare',
         'Patch Cord': 'Patch Cord'
     };
-
-    function setTheme(theme) {
-        if (theme !== 'dark' && theme !== 'light') theme = 'dark';
-        document.documentElement.setAttribute('data-theme', theme);
-        try { localStorage.setItem('bucin_theme', theme); } catch (e) {}
-        var icon = document.getElementById('theme-icon');
-        if (icon) icon.setAttribute('data-lucide', theme === 'dark' ? 'sun' : 'moon');
-        if (typeof lucide !== 'undefined') lucide.createIcons();
-        updateThemeButtons();
-        if (chartIncidents) {
-            try {
-                var legendColor = theme === 'dark' ? '#E2E8F0' : '#0F172A';
-                var tickColor = theme === 'dark' ? '#94A3B8' : '#475569';
-                var gridColor = theme === 'dark' ? 'rgba(148, 163, 184, 0.1)' : 'rgba(15, 23, 42, 0.08)';
-                chartIncidents.options.plugins.legend.labels.color = legendColor;
-                chartIncidents.options.scales.y.ticks.color = tickColor;
-                chartIncidents.options.scales.y.grid.color = gridColor;
-                chartIncidents.options.scales.x.ticks.color = tickColor;
-                chartIncidents.update('none');
-            } catch (e) {}
-        }
-    }
-    function toggleTheme() {
-        var current = document.documentElement.getAttribute('data-theme') || 'dark';
-        setTheme(current === 'dark' ? 'light' : 'dark');
-    }
-    function updateThemeButtons() {
-        var current = document.documentElement.getAttribute('data-theme') || 'dark';
-        document.querySelectorAll('[data-theme-opt]').forEach(function(btn) {
-            btn.classList.toggle('active', btn.dataset.themeOpt === current);
-        });
-    }
-    function loadTheme() {
-        var saved = 'dark';
-        try { saved = localStorage.getItem('bucin_theme') || 'dark'; } catch (e) {}
-        setTheme(saved);
-    }
+    // Menu yang TIDAK punya filter periode
+    const MENU_NO_PERIOD = ['Alker', 'Stok Spare', 'Patch Cord'];
 
     function checkOpmDariKe() {
         var dari = document.getElementById('inp-opm-dari').value;
@@ -2128,48 +1969,42 @@
 
     function ensureDefaultUser() {
         if (!firebaseReady || !db) return;
-        db.ref('users').once('value')
-            .then(function(snap) {
-                var users = snap.val();
-                if (!users || Object.keys(users).length === 0) {
-                    db.ref('users').set({
-                        'admin': { pass: 'admin123', role: 'admin' },
-                        'user': { pass: 'user123', role: 'user' }
-                    });
-                }
-            })
-            .catch(function(err) { console.error('Cek user gagal:', err); });
+        db.ref('users').once('value').then(function(snap) {
+            var users = snap.val();
+            if (!users || Object.keys(users).length === 0) {
+                db.ref('users').set({
+                    'admin': { pass: 'admin123', role: 'admin' },
+                    'user': { pass: 'user123', role: 'user' }
+                });
+            }
+        }).catch(function(err) { console.error('Cek user gagal:', err); });
     }
 
     function updateSidebarUser() {
         if (!currentUser) return;
-        var nameEl = document.getElementById('sidebar-user-name');
-        var roleEl = document.getElementById('sidebar-user-role');
-        var initEl = document.getElementById('sidebar-user-initial');
-        if (nameEl) nameEl.textContent = currentUser.name;
-        if (roleEl) roleEl.textContent = currentUser.role === 'admin' ? 'Administrator' : 'Operator';
-        if (initEl) initEl.textContent = currentUser.name.charAt(0).toUpperCase();
+        var n = document.getElementById('sidebar-user-name');
+        var r = document.getElementById('sidebar-user-role');
+        var i = document.getElementById('sidebar-user-initial');
+        if (n) n.textContent = currentUser.name;
+        if (r) r.textContent = currentUser.role === 'admin' ? 'Administrator' : 'Operator';
+        if (i) i.textContent = currentUser.name.charAt(0).toUpperCase();
     }
 
     function catatRiwayat(menu, aksi, detail, keterangan) {
         var entry = {
             tanggal: new Date().toLocaleString('id-ID'),
             timestamp: Date.now(),
-            menu: menu,
-            aksi: aksi,
+            menu: menu, aksi: aksi,
             user: currentUser ? currentUser.name : 'System',
             detail: detail || '-',
             keterangan: keterangan || ''
         };
-        db.ref('riwayat').push(entry).catch(function(err) { console.error('Gagal catat riwayat:', err); });
+        db.ref('riwayat').push(entry).catch(function(err) { console.error(err); });
     }
 
     function loadRiwayat() {
-        if (!db) return;
-        if (riwayatListenerAttached) return;
-        db.ref('riwayat').on('value', function(s) {
-            riwayatData = s.val() || {};
-        }, function(err) { console.error('Riwayat listener error:', err); });
+        if (!db || riwayatListenerAttached) return;
+        db.ref('riwayat').on('value', function(s) { riwayatData = s.val() || {}; });
         riwayatListenerAttached = true;
     }
 
@@ -2226,18 +2061,13 @@
     }
 
     function loadData() {
-        if (!db) { console.error('DB tidak siap'); return; }
-        if (dataListenerAttached) return;
+        if (!db || dataListenerAttached) return;
         db.ref('data').on('value', function(s) {
             appData = s.val() || {};
             try { updateDashboard(); } catch (e) {}
             try { renderTable(); } catch (e) {}
             try { updateStokSummary(); } catch (e) {}
-            try { updateMapMarkers(); } catch (e) {}
             if (typeof lucide !== 'undefined') lucide.createIcons();
-        }, function(err) {
-            console.error('Firebase listener error:', err);
-            if (err.message && err.message.includes('permission')) showToast('Akses ditolak. Set Firebase Rules.', 'error');
         });
         dataListenerAttached = true;
     }
@@ -2248,10 +2078,9 @@
             appData = s.val() || {};
             renderTable();
             updateStokSummary();
-            updateMapMarkers();
             updateDashboard();
             if (typeof lucide !== 'undefined') lucide.createIcons();
-        }).catch(function(err) { console.error('Re-fetch error:', err); });
+        });
     }
 
     function handleLogin(e) {
@@ -2299,9 +2128,6 @@
                 if (currentUser.role === 'admin') {
                     document.getElementById('add-user-btn').classList.remove('hidden');
                     document.getElementById('settings-btn').classList.remove('hidden');
-                } else {
-                    document.getElementById('add-user-btn').classList.add('hidden');
-                    document.getElementById('settings-btn').classList.add('hidden');
                 }
                 updateSidebarUser();
                 resetSessionTimer();
@@ -2345,7 +2171,6 @@
         }, SESSION_TIMEOUT_MS);
     }
     function refreshSession() { if (currentUser) resetSessionTimer(); }
-
     function simpanData() { submitForm(null); }
 
     function generateBarcodePatchCord(j, p) {
@@ -2360,20 +2185,18 @@
         else l = String(Math.round(p)).padStart(3, '0');
         return 'PC' + t + l;
     }
-
     function generateAlkerSN(nama, jenis, merk, date, urutan) {
         var d = new Date(date);
         var dd = String(d.getDate()).padStart(2, '0');
         var mm = String(d.getMonth() + 1).padStart(2, '0');
         var yy = String(d.getFullYear()).slice(-2);
         var datePart = dd + mm + yy;
-        var hurufNama = (nama || 'X').charAt(0).toUpperCase();
-        var hurufJenis = (jenis || 'XX').substring(0, 2).toUpperCase().padEnd(2, 'X');
-        var hurufMerk = (merk || 'XX').substring(0, 2).toUpperCase().padEnd(2, 'X');
-        var urutPart = String(urutan || 1).padStart(3, '0');
-        return datePart + hurufNama + hurufJenis + hurufMerk + urutPart;
+        var hN = (nama || 'X').charAt(0).toUpperCase();
+        var hJ = (jenis || 'XX').substring(0, 2).toUpperCase().padEnd(2, 'X');
+        var hM = (merk || 'XX').substring(0, 2).toUpperCase().padEnd(2, 'X');
+        var u = String(urutan || 1).padStart(3, '0');
+        return datePart + hN + hJ + hM + u;
     }
-
     function getNextAlkerUrutan() {
         var list = appData['Alker'] || {};
         return Object.keys(list).length + 1;
@@ -2418,6 +2241,7 @@
         return false;
     }
 
+    // ✅ HANYA TAMPILKAN LINE (bukan titik marker)
     function displayKmlOnMap(line, str) {
         if (!map) return;
         try {
@@ -2435,32 +2259,19 @@
     }
 
     function loadKmlFromFirebase() {
-        db.ref('kmlData').once('value')
-            .then(function(s) {
-                var d = s.val() || {};
-                Object.keys(d).forEach(function(l) { if (d[l]) displayKmlOnMap(l, d[l]); });
-            })
-            .catch(function() {});
+        db.ref('kmlData').once('value').then(function(s) {
+            var d = s.val() || {};
+            Object.keys(d).forEach(function(l) { if (d[l]) displayKmlOnMap(l, d[l]); });
+        }).catch(function() {});
     }
 
+    // ✅ Hanya LineString (garis), TIDAK ada Point (titik)
     function parseKmlToLayers(xml, color) {
         var out = [];
         var pms = xml.getElementsByTagName("Placemark");
         for (var i = 0; i < pms.length; i++) {
             var pm = pms[i];
             var name = pm.getElementsByTagName("name")[0]?.textContent || "";
-            var pt = pm.getElementsByTagName("Point")[0];
-            if (pt) {
-                var c = pt.getElementsByTagName("coordinates")[0];
-                if (c) {
-                    var p = c.textContent.trim().split(",");
-                    if (p.length >= 2) {
-                        out.push(L.circleMarker([parseFloat(p[1]), parseFloat(p[0])], {
-                            radius: 6, fillColor: color, color: '#fff', weight: 1.5, fillOpacity: 0.85
-                        }).bindPopup('<strong>' + name + '</strong>'));
-                    }
-                }
-            }
             var ls = pm.getElementsByTagName("LineString")[0];
             if (ls) {
                 var c = ls.getElementsByTagName("coordinates")[0];
@@ -2469,7 +2280,7 @@
                         var a = x.split(",");
                         return [parseFloat(a[1]), parseFloat(a[0])];
                     }).filter(function(x) { return !isNaN(x[0]); });
-                    if (ll.length > 1) out.push(L.polyline(ll, { color: color, weight: 3, opacity: 0.7 }).bindPopup(name));
+                    if (ll.length > 1) out.push(L.polyline(ll, { color: color, weight: 4, opacity: 0.85 }).bindPopup(name));
                 }
             }
         }
@@ -2493,47 +2304,10 @@
             L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
                 maxZoom: 22, tileSize: 512, zoomOffset: -1
             }).addTo(map);
-            map.on('click', function(e) {
-                if (!document.getElementById('form-modal').classList.contains('hidden')) {
-                    document.getElementById('inp-coords').value = e.latlng.lat.toFixed(5) + ', ' + e.latlng.lng.toFixed(5);
-                    fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&zoom=18&addressdetails=1', {
-                        headers: { 'Accept-Language': 'id' }
-                    })
-                        .then(function(r) { return r.json(); })
-                        .then(function(d) { document.getElementById('inp-loc').value = d.display_name || 'Lokasi'; })
-                        .catch(function() { document.getElementById('inp-loc').value = 'Lokasi Terpilih'; });
-                }
-            });
-            loadMarkersFromData();
+            // ✅ Marker data dinonaktifkan — hanya line KML
         } catch (e) { console.error('Map init:', e); }
     }
 
-    function loadMarkersFromData() {
-        if (!map) return;
-        markers.forEach(function(m) { map.removeLayer(m); });
-        markers = [];
-        ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'Joint', 'Handhole'].forEach(function(cat) {
-            var items = appData[cat] || {};
-            var color = CATEGORY_COLORS[cat] || '#00D9FF';
-            Object.keys(items).forEach(function(k) {
-                var it = items[k];
-                if (it.coords) {
-                    var p = it.coords.split(',');
-                    if (p.length === 2) {
-                        var lat = parseFloat(p[0]), lng = parseFloat(p[1]);
-                        if (!isNaN(lat) && !isNaN(lng)) {
-                            var m = L.circleMarker([lat, lng], {
-                                radius: 7, fillColor: color, color: '#fff', weight: 1.5, fillOpacity: 0.85
-                            }).bindPopup('<strong>' + (it.location || 'Lokasi') + '</strong><br>' + cat);
-                            m.addTo(map); markers.push(m);
-                        }
-                    }
-                }
-            });
-        });
-    }
-
-    function updateMapMarkers() { loadMarkersFromData(); }
     window.zoomIn = function() { if (map) map.zoomIn(); };
     window.zoomOut = function() { if (map) map.zoomOut(); };
     window.toggleMapLayer = function(t) {
@@ -2579,6 +2353,21 @@
         }
         document.getElementById('sop-description-container').classList.toggle('hidden', !isOfCut);
         document.getElementById('stok-summary-container').classList.toggle('hidden', !isStock);
+
+        // ✅ SEMBUNYIKAN filter periode untuk Alker / Stok Spare / Patch Cord
+        var hidePeriod = MENU_NO_PERIOD.indexOf(cat) !== -1;
+        var periodGroup = document.getElementById('period-filter-group');
+        var yearGroup = document.getElementById('year-filter-group');
+        if (hidePeriod) {
+            periodGroup.classList.add('hidden');
+            yearGroup.classList.add('hidden');
+        } else {
+            periodGroup.classList.remove('hidden');
+            // Tampilkan tahun group hanya jika currentPeriod = yearly
+            if (currentPeriod === 'yearly') yearGroup.classList.remove('hidden');
+            else yearGroup.classList.add('hidden');
+        }
+
         renderTable();
         updateStokSummary();
         refreshSession();
@@ -2594,6 +2383,28 @@
         }
     }
 
+    // ✅ FILTER PERIODE
+    function isInPeriod(dateStr, period) {
+        if (!dateStr) return period === 'all';
+        if (period === 'all') return true;
+        var d = new Date(dateStr);
+        if (isNaN(d.getTime())) return false;
+        var now = new Date();
+        if (period === 'weekly') {
+            var startWeek = new Date(now);
+            startWeek.setDate(now.getDate() - 6);
+            startWeek.setHours(0, 0, 0, 0);
+            var endWeek = new Date(now);
+            endWeek.setHours(23, 59, 59, 999);
+            return d >= startWeek && d <= endWeek;
+        } else if (period === 'monthly') {
+            return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+        } else if (period === 'yearly') {
+            return d.getFullYear() === currentYear;
+        }
+        return true;
+    }
+
     function renderTable() {
         try {
             var cat = currentCategory;
@@ -2606,6 +2417,11 @@
             tb.innerHTML = '';
             if (selectedGudangFilter !== 'all' && (cat === 'Stok Spare' || cat === 'Patch Cord')) {
                 keys = keys.filter(function(k) { return list[k].gudang === selectedGudangFilter; });
+            }
+            // ✅ Filter periode (skip untuk Alker, Stok Spare, Patch Cord)
+            var hidePeriod = MENU_NO_PERIOD.indexOf(cat) !== -1;
+            if (!hidePeriod && currentPeriod !== 'all') {
+                keys = keys.filter(function(k) { return isInPeriod(list[k].date, currentPeriod); });
             }
             var s = document.getElementById('search-input')?.value.toLowerCase() || '';
             if (s) keys = keys.filter(function(k) { return JSON.stringify(list[k]).toLowerCase().includes(s); });
@@ -2642,7 +2458,7 @@
                 } else if (isAlker) {
                     tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td style="max-width:200px;white-space:normal;font-size:12px;">' + (it.keterangan || '') + '</td><td>' + aksi + '</td></tr>';
                 } else if (isOpm) {
-                    tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.port || '-') + '</td><td>' + (it.panel || '-') + '</td><td>' + (it.dbm !== undefined && it.dbm !== null ? it.dbm : '-') + '</td><td>' + (it.ruas || '-') + '</td><td>' + (it.dari || '-') + '</td><td>' + (it.ke || '-') + '</td><td style="max-width:150px;white-space:normal;font-size:12px;">' + (it.keterangan || '') + '</td><td>' + aksi + '</td></tr>';
+                    tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.port || '-') + '</td><td>' + (it.panel || '-') + '</td><td>' + (it.dbm !== undefined ? it.dbm : '-') + '</td><td>' + (it.ruas || '-') + '</td><td>' + (it.dari || '-') + '</td><td>' + (it.ke || '-') + '</td><td style="max-width:150px;white-space:normal;font-size:12px;">' + (it.keterangan || '') + '</td><td>' + aksi + '</td></tr>';
                 } else if (isHJ) {
                     tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + (it.postBy || '-') + '</td><td>' + aksi + '</td></tr>';
                 } else if (isOfCut) {
@@ -2670,8 +2486,7 @@
             postBy: currentUser.name,
             createdAt: Date.now()
         };
-        var detailText = '';
-        var ketText = '';
+        var detailText = '', ketText = '';
 
         if (cat === 'Patch Cord') {
             var pcType = document.getElementById('inp-pc-type').value;
@@ -2686,8 +2501,8 @@
             data.pcType = pcType; data.pcLength = pcLength; data.gudang = selectedGudang;
             data.qty = qty; data.trType = trType; data.notes = notes;
             var pm = parseFloat(pcLength.replace('m', '').trim());
-            data.barcode = (!isNaN(pm) && pcType !== 'Lainnya' && pcLength !== 'Lainnya') ? generateBarcodePatchCord(pcType, pm) : 'PC-' + Date.now().toString().slice(-6);
-            detailText = pcType + ' ' + pcLength + ' | Qty: ' + qty + ' | Tipe: ' + trType + ' | Gudang: ' + (selectedGudang || '-');
+            data.barcode = (!isNaN(pm) && pcType !== 'Lainnya') ? generateBarcodePatchCord(pcType, pm) : 'PC-' + Date.now().toString().slice(-6);
+            detailText = pcType + ' ' + pcLength + ' | Qty: ' + qty + ' | Tipe: ' + trType;
             ketText = notes;
         }
         else if (cat === 'Stok Spare') {
@@ -2705,7 +2520,7 @@
                 data.status = status; data.lemari = lemari; data.rak = rak;
                 data.riwayat = riwayat; data.kondisi = ks;
                 data.notes = document.getElementById('inp-notes-stock').value.trim();
-                detailText = 'SN: ' + sn + ' | ' + spec + ' | Status: ' + status + ' | Gudang: ' + (selectedGudang || '-');
+                detailText = 'SN: ' + sn + ' | ' + spec + ' | Status: ' + status;
                 ketText = data.notes;
             } else {
                 var uSn = document.getElementById('inp-update-sn').value.trim();
@@ -2722,7 +2537,7 @@
                 data.notes = document.getElementById('inp-update-notes').value.trim();
                 db.ref('data/' + cat + '/' + tKey).update(data)
                     .then(function() {
-                        catatRiwayat('Stok Spare', 'Update Pemakaian', 'SN: ' + uSn + ' | Tujuan: ' + tujuan + ' | Lokasi: ' + lokasi, data.notes);
+                        catatRiwayat('Stok Spare', 'Update Pemakaian', 'SN: ' + uSn + ' | Tujuan: ' + tujuan, data.notes);
                         showToast('Update pemakaian', 'success');
                         closeModal();
                         refetchData();
@@ -2762,23 +2577,16 @@
             var dari = document.getElementById('inp-opm-dari').value;
             var ke = document.getElementById('inp-opm-ke').value;
             var ket = document.getElementById('inp-opm-keterangan').value.trim();
-            if (!port || !panel || isNaN(dbm) || !ruas || !dari || !ke) {
-                showToast('Isi semua field OPM/OLS yang wajib', 'error'); return;
-            }
+            if (!port || !panel || isNaN(dbm) || !ruas || !dari || !ke) { showToast('Isi semua field OPM/OLS yang wajib', 'error'); return; }
             if (dari === ke) {
                 showToast('❌ "Dari" dan "Ke" tidak boleh sama!', 'error');
-                var warn = document.getElementById('opm-warning');
-                if (warn) warn.classList.add('show');
+                document.getElementById('opm-warning').classList.add('show');
                 return;
             }
-            data.port = port;
-            data.panel = panel;
-            data.dbm = dbm;
-            data.ruas = ruas;
-            data.dari = dari;
-            data.ke = ke;
+            data.port = port; data.panel = panel; data.dbm = dbm;
+            data.ruas = ruas; data.dari = dari; data.ke = ke;
             data.keterangan = ket;
-            detailText = 'Port: ' + port + ' | Panel: ' + panel + ' | DBM: ' + dbm + ' | Ruas: ' + ruas + ' | ' + dari + ' → ' + ke;
+            detailText = 'Port: ' + port + ' | Panel: ' + panel + ' | DBM: ' + dbm + ' | ' + dari + ' → ' + ke;
             ketText = ket;
         }
         else if (cat === 'Alker') {
@@ -2795,12 +2603,9 @@
                 sn = generateAlkerSN(nama, jenis, merk, data.date, urutan);
                 data.urutan = urutan;
             } else { sn = snInput; }
-            data.sn = sn;
-            data.nama = nama;
-            data.jenis = jenis;
-            data.merk = merk;
+            data.sn = sn; data.nama = nama; data.jenis = jenis; data.merk = merk;
             data.keterangan = keterangan;
-            detailText = 'Nama: ' + nama + ' | SN: ' + sn + ' | Jenis: ' + jenis + ' | Merk: ' + merk;
+            detailText = 'Nama: ' + nama + ' | SN: ' + sn;
             ketText = keterangan;
         }
         else if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
@@ -2812,38 +2617,30 @@
             data.location = loc; data.coords = crd;
             data.pelaksana = pel; data.lamaPekerjaan = lama;
             data.keterangan = document.getElementById('inp-p3-keterangan').value.trim();
-            detailText = loc + ' | Pelaksana: ' + pel + ' | Lama: ' + lama;
+            detailText = loc + ' | Pelaksana: ' + pel;
             ketText = data.keterangan;
         }
-
         if (!cat || cat === 'dashboard') { showToast('Kategori tidak valid', 'error'); return; }
-
         isSubmitting = true;
         var btn = document.getElementById('btn-submit-form');
         btn.disabled = true;
         btn.textContent = 'Menyimpan...';
-
         var ref = db.ref('data/' + cat);
         var promise = isEdit ? ref.child(editKey).update(data) : ref.push(data);
-
-        promise
-            .then(function() {
-                catatRiwayat(cat, isEdit ? 'Edit' : 'Tambah', detailText, ketText);
-                showToast('Data tersimpan di ' + cat, 'success');
-                closeModal();
-                setTimeout(refetchData, 300);
-            })
-            .catch(function(err) {
-                console.error('Gagal simpan:', err);
-                var msg = err.message || 'Gagal simpan';
-                if (msg.includes('permission')) msg = 'Akses ditolak. Set Firebase Rules.';
-                showToast(msg, 'error');
-            })
-            .finally(function() {
-                isSubmitting = false;
-                btn.disabled = false;
-                btn.textContent = 'Simpan Data';
-            });
+        promise.then(function() {
+            catatRiwayat(cat, isEdit ? 'Edit' : 'Tambah', detailText, ketText);
+            showToast('Data tersimpan di ' + cat, 'success');
+            closeModal();
+            setTimeout(refetchData, 300);
+        }).catch(function(err) {
+            var msg = err.message || 'Gagal simpan';
+            if (msg.includes('permission')) msg = 'Akses ditolak. Set Firebase Rules.';
+            showToast(msg, 'error');
+        }).finally(function() {
+            isSubmitting = false;
+            btn.disabled = false;
+            btn.textContent = 'Simpan Data';
+        });
     }
 
     function closeModal() {
@@ -2851,8 +2648,7 @@
         stopScanner('modal');
         editingKey = null;
         document.getElementById('edit-key').value = '';
-        var warn = document.getElementById('opm-warning');
-        if (warn) warn.classList.remove('show');
+        document.getElementById('opm-warning').classList.remove('show');
     }
 
     function stopScanner(t) {
@@ -2876,8 +2672,7 @@
 
     window.editItem = function(k, cat) {
         if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya admin', 'error'); return; }
-        var list = appData[cat] || {};
-        var data = list[k];
+        var data = (appData[cat] || {})[k];
         if (!data) { showToast('Data tidak ada', 'error'); return; }
         if (data.gudang) { selectedGudang = data.gudang; document.getElementById('inp-gudang-selected').value = data.gudang; }
         openForm(data, k);
@@ -2913,8 +2708,7 @@
             var el = document.getElementById(id);
             if (el) el.classList.add('hidden');
         });
-        var warn = document.getElementById('opm-warning');
-        if (warn) warn.classList.remove('show');
+        document.getElementById('opm-warning').classList.remove('show');
         document.getElementById('form-tambah-stok').classList.remove('hidden');
         document.getElementById('form-update-pemakaian').classList.add('hidden');
         document.getElementById('form-mode').value = 'tambah';
@@ -2952,8 +2746,7 @@
             document.getElementById('field-normal').classList.remove('hidden');
             document.getElementById('field-coords-wrap').classList.remove('hidden');
             document.getElementById('field-p3temuan').classList.remove('hidden');
-            document.getElementById('p3temuan-label').textContent =
-                cat === 'Pekerjaan Pihak Ke-3' ? 'Data Pekerjaan Pihak Ke-3' : 'Data Temuan Lapangan';
+            document.getElementById('p3temuan-label').textContent = cat === 'Pekerjaan Pihak Ke-3' ? 'Data Pekerjaan Pihak Ke-3' : 'Data Temuan Lapangan';
         }
         if (editData) document.getElementById('inp-date').value = editData.date || '';
         stopScanner('modal');
@@ -2975,7 +2768,6 @@
         document.getElementById('inp-status').value = 'Ready';
         document.getElementById('penyebab-lain-wrap').classList.add('hidden');
         var pl = document.getElementById('patchcord-lainnya'); if (pl) pl.classList.add('hidden');
-        var warn = document.getElementById('opm-warning'); if (warn) warn.classList.remove('show');
     }
 
     function populateFormFields(data) {
@@ -3026,7 +2818,6 @@
         var v = document.getElementById('inp-ofcut-penyebab').value;
         document.getElementById('penyebab-lain-wrap').classList.toggle('hidden', v !== 'lainnya');
     }
-
     function togglePatchLain() {
         var t = document.getElementById('inp-pc-type').value;
         var l = document.getElementById('inp-pc-length').value;
@@ -3065,13 +2856,11 @@
         spareAction = a;
         document.querySelectorAll('.spare-action-btn').forEach(function(b) { b.classList.toggle('active', b.dataset.action === a); });
     }
-
     function confirmSpareAction() {
         if (!selectedGudang) { showToast('Pilih gudang', 'error'); return; }
         closeGudangModal();
         openForm();
     }
-
     function closeGudangModal() { document.getElementById('gudang-modal').classList.add('hidden'); }
 
     function closeMapModal() {
@@ -3099,9 +2888,7 @@
                     document.getElementById('btn-select-location').disabled = false;
                     document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
                     document.getElementById('map-modal-info-text').textContent = 'Mencari nama lokasi...';
-                    document.getElementById('inp-loc').value = 'Memuat nama lokasi...';
-
-                    // Reverse geocoding — ambil nama lokasi asli
+                    document.getElementById('inp-loc').value = 'Memuat...';
                     fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&zoom=18&addressdetails=1', {
                         headers: { 'Accept-Language': 'id' }
                     })
@@ -3125,10 +2912,10 @@
                             document.getElementById('map-modal-info-text').textContent = name;
                         })
                         .catch(function() {
-                            var fallback = lat.toFixed(5) + ', ' + lng.toFixed(5);
-                            selectedMapLocation.name = fallback;
-                            document.getElementById('inp-loc').value = fallback;
-                            document.getElementById('map-modal-info-text').textContent = fallback;
+                            var fb = lat.toFixed(5) + ', ' + lng.toFixed(5);
+                            selectedMapLocation.name = fb;
+                            document.getElementById('inp-loc').value = fb;
+                            document.getElementById('map-modal-info-text').textContent = fb;
                         });
                 });
                 setTimeout(function() { mapModal.invalidateSize(); }, 300);
@@ -3182,13 +2969,12 @@
                     var name = d.display_name || 'Lokasi Saya';
                     selectedMapLocation = { lat: lat, lng: lng, name: name };
                     document.getElementById('inp-loc').value = name;
-                    document.getElementById('map-modal-info-text').textContent = name;
                     closeMapModal();
                 })
                 .catch(function() {
-                    var fallback = lat.toFixed(5) + ', ' + lng.toFixed(5);
-                    selectedMapLocation = { lat: lat, lng: lng, name: fallback };
-                    document.getElementById('inp-loc').value = fallback;
+                    var fb = lat.toFixed(5) + ', ' + lng.toFixed(5);
+                    selectedMapLocation = { lat: lat, lng: lng, name: fb };
+                    document.getElementById('inp-loc').value = fb;
                     closeMapModal();
                 });
         });
@@ -3200,15 +2986,7 @@
             document.getElementById('inp-coords').value = selectedMapLocation.lat.toFixed(5) + ', ' + selectedMapLocation.lng.toFixed(5);
             closeMapModal();
             showToast('Lokasi dipilih', 'success');
-        } else if (selectedMapLocation) {
-            var fallback = selectedMapLocation.lat.toFixed(5) + ', ' + selectedMapLocation.lng.toFixed(5);
-            document.getElementById('inp-loc').value = fallback;
-            document.getElementById('inp-coords').value = fallback;
-            closeMapModal();
-            showToast('Lokasi dipilih', 'success');
-        } else {
-            showToast('Pilih titik dulu di peta', 'error');
-        }
+        } else showToast('Pilih titik dulu di peta', 'error');
     }
 
     function downloadPageExcel() {
@@ -3241,15 +3019,21 @@
     }
 
     // ============================================================
-    // CHART: OF Cut per Penyebab — Persentase
-    // Rumus: (jumlah / 10) × 100% ÷ 4 = jumlah × 2.5 (%)
+    // CHART
     // ============================================================
+    // ✅ 4 warna yang SANGAT BERBEDA: Pink, Amber, Emerald, Violet
+    const CHART_COLORS = {
+        pihakKe3:  { bg: 'rgba(236, 72, 153, 0.75)',  border: '#EC4899' },  // PINK
+        vandalisme:{ bg: 'rgba(245, 158, 11, 0.75)',  border: '#F59E0B' },  // AMBER/ORANGE
+        bencana:   { bg: 'rgba(16, 185, 129, 0.75)',  border: '#10B981' },  // EMERALD/GREEN
+        lainnya:   { bg: 'rgba(139, 92, 246, 0.75)',  border: '#8B5CF6' }   // VIOLET/PURPLE
+    };
+
     const percentagePlugin = {
         id: 'percentageLabels',
         afterDatasetsDraw: function(chart) {
             var ctx = chart.ctx;
-            var datasets = chart.data.datasets;
-            datasets.forEach(function(dataset, datasetIndex) {
+            chart.data.datasets.forEach(function(dataset, datasetIndex) {
                 var meta = chart.getDatasetMeta(datasetIndex);
                 if (meta.hidden) return;
                 var theme = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -3260,7 +3044,7 @@
                     var pctText = (Math.round(value * 10) / 10).toFixed(1) + '%';
                     ctx.save();
                     ctx.fillStyle = textColor;
-                    ctx.font = 'bold 11px "DM Sans", "Orbitron", sans-serif';
+                    ctx.font = 'bold 11px "DM Sans", sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'bottom';
                     ctx.shadowColor = theme === 'dark' ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)';
@@ -3277,9 +3061,7 @@
             var sel = document.getElementById('chart-period');
             if (sel) {
                 sel.innerHTML = '';
-                var startYear = 2020;
-                var endYear = 2100;
-                for (var y = startYear; y <= endYear; y++) {
+                for (var y = 2020; y <= 2100; y++) {
                     var opt = document.createElement('option');
                     opt.value = y;
                     opt.textContent = y;
@@ -3288,57 +3070,31 @@
                 var cy = new Date().getFullYear();
                 sel.value = cy >= 2020 ? cy : 2020;
             }
-
+            // ✅ Init tahun dropdown filter
+            var ysel = document.getElementById('year-select');
+            if (ysel) {
+                ysel.innerHTML = '';
+                for (var y2 = 2020; y2 <= 2100; y2++) {
+                    var o2 = document.createElement('option');
+                    o2.value = y2;
+                    o2.textContent = y2;
+                    ysel.appendChild(o2);
+                }
+                ysel.value = new Date().getFullYear();
+            }
             var c = document.getElementById('chartIncidents').getContext('2d');
             if (typeof Chart !== 'undefined' && !chartIncidents) {
                 if (typeof Chart.register === 'function') Chart.register(percentagePlugin);
-
                 var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
                 chartIncidents = new Chart(c, {
                     type: 'bar',
                     data: {
                         labels: monthNames,
                         datasets: [
-                            {
-                                label: 'Pihak Ke-3',
-                                data: new Array(12).fill(0),
-                                backgroundColor: 'rgba(236, 72, 153, 0.75)',
-                                borderColor: '#EC4899',
-                                borderWidth: 1.5,
-                                borderRadius: 6,
-                                barPercentage: 0.7,
-                                categoryPercentage: 0.8
-                            },
-                            {
-                                label: 'Vandalisme',
-                                data: new Array(12).fill(0),
-                                backgroundColor: 'rgba(245, 158, 11, 0.75)',
-                                borderColor: '#F59E0B',
-                                borderWidth: 1.5,
-                                borderRadius: 6,
-                                barPercentage: 0.7,
-                                categoryPercentage: 0.8
-                            },
-                            {
-                                label: 'Bencana',
-                                data: new Array(12).fill(0),
-                                backgroundColor: 'rgba(16, 185, 129, 0.75)',
-                                borderColor: '#10B981',
-                                borderWidth: 1.5,
-                                borderRadius: 6,
-                                barPercentage: 0.7,
-                                categoryPercentage: 0.8
-                            },
-                            {
-                                label: 'Lainnya',
-                                data: new Array(12).fill(0),
-                                backgroundColor: 'rgba(0, 217, 255, 0.75)',
-                                borderColor: '#00D9FF',
-                                borderWidth: 1.5,
-                                borderRadius: 6,
-                                barPercentage: 0.7,
-                                categoryPercentage: 0.8
-                            }
+                            { label: 'Pihak Ke-3', data: new Array(12).fill(0), backgroundColor: CHART_COLORS.pihakKe3.bg, borderColor: CHART_COLORS.pihakKe3.border, borderWidth: 1.5, borderRadius: 6, barPercentage: 0.7, categoryPercentage: 0.8 },
+                            { label: 'Vandalisme', data: new Array(12).fill(0), backgroundColor: CHART_COLORS.vandalisme.bg, borderColor: CHART_COLORS.vandalisme.border, borderWidth: 1.5, borderRadius: 6, barPercentage: 0.7, categoryPercentage: 0.8 },
+                            { label: 'Bencana', data: new Array(12).fill(0), backgroundColor: CHART_COLORS.bencana.bg, borderColor: CHART_COLORS.bencana.border, borderWidth: 1.5, borderRadius: 6, barPercentage: 0.7, categoryPercentage: 0.8 },
+                            { label: 'Lainnya', data: new Array(12).fill(0), backgroundColor: CHART_COLORS.lainnya.bg, borderColor: CHART_COLORS.lainnya.border, borderWidth: 1.5, borderRadius: 6, barPercentage: 0.7, categoryPercentage: 0.8 }
                         ]
                     },
                     options: {
@@ -3346,16 +3102,7 @@
                         maintainAspectRatio: false,
                         layout: { padding: { top: 24, bottom: 4 } },
                         plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                                labels: {
-                                    color: '#94A3B8',
-                                    font: { size: 11, weight: '600' },
-                                    boxWidth: 12,
-                                    padding: 12
-                                }
-                            },
+                            legend: { display: true, position: 'top', labels: { color: '#94A3B8', font: { size: 11, weight: '600' }, boxWidth: 12, padding: 12 } },
                             tooltip: {
                                 backgroundColor: 'rgba(10, 14, 26, 0.95)',
                                 titleColor: '#00D9FF',
@@ -3366,8 +3113,7 @@
                                     label: function(context) {
                                         var value = context.parsed.y || 0;
                                         var jumlah = value / 2.5;
-                                        return context.dataset.label + ': ' + jumlah + ' insiden (' +
-                                               (Math.round(value * 10) / 10).toFixed(1) + '%)';
+                                        return context.dataset.label + ': ' + jumlah + ' insiden (' + (Math.round(value * 10) / 10).toFixed(1) + '%)';
                                     }
                                 }
                             }
@@ -3376,18 +3122,10 @@
                             y: {
                                 beginAtZero: true,
                                 max: 30,
-                                ticks: {
-                                    stepSize: 5,
-                                    font: { size: 10 },
-                                    color: '#94A3B8',
-                                    callback: function(value) { return value + '%'; }
-                                },
+                                ticks: { stepSize: 5, font: { size: 10 }, color: '#94A3B8', callback: function(v) { return v + '%'; } },
                                 grid: { color: 'rgba(148, 163, 184, 0.1)' }
                             },
-                            x: {
-                                grid: { display: false },
-                                ticks: { font: { size: 10 }, color: '#94A3B8' }
-                            }
+                            x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#94A3B8' } }
                         }
                     },
                     plugins: [percentagePlugin]
@@ -3399,9 +3137,9 @@
 
     function klasifikasiPenyebab(p) {
         p = (p || '').toString().toLowerCase().trim();
-        if (p === 'pihak ke 3' || p === 'pihak ke-3' || p === 'pihak ke3' || p.indexOf('pihak') !== -1) return 'pihak ke 3';
-        if (p === 'vandalisme' || p.indexOf('vandal') !== -1) return 'vandalisme';
-        if (p === 'bencana' || p.indexOf('bencana') !== -1) return 'bencana';
+        if (p.indexOf('pihak') !== -1) return 'pihak ke 3';
+        if (p.indexOf('vandal') !== -1) return 'vandalisme';
+        if (p.indexOf('bencana') !== -1) return 'bencana';
         return 'lainnya';
     }
 
@@ -3409,14 +3147,10 @@
         if (!chartIncidents) return;
         try {
             var sel = document.getElementById('chart-period');
-            var selectedYear = sel ? parseInt(sel.value) : 2020;
-            if (isNaN(selectedYear)) selectedYear = 2020;
-
-            var dataP3 = new Array(12).fill(0);
-            var dataVandal = new Array(12).fill(0);
-            var dataBencana = new Array(12).fill(0);
-            var dataLainnya = new Array(12).fill(0);
-
+            var selectedYear = sel ? parseInt(sel.value) : new Date().getFullYear();
+            if (isNaN(selectedYear)) selectedYear = new Date().getFullYear();
+            var dataP3 = new Array(12).fill(0), dataVandal = new Array(12).fill(0),
+                dataBencana = new Array(12).fill(0), dataLainnya = new Array(12).fill(0);
             var ofCutItems = appData['Data OF Cut'] || {};
             Object.keys(ofCutItems).forEach(function(k) {
                 var item = ofCutItems[k];
@@ -3431,30 +3165,19 @@
                 else if (kategori === 'bencana') dataBencana[m]++;
                 else dataLainnya[m]++;
             });
-
-            var pctP3 = new Array(12).fill(0);
-            var pctVandal = new Array(12).fill(0);
-            var pctBencana = new Array(12).fill(0);
-            var pctLainnya = new Array(12).fill(0);
-
-            for (var i = 0; i < 12; i++) {
-                pctP3[i]      = dataP3[i] * 2.5;
-                pctVandal[i]  = dataVandal[i] * 2.5;
-                pctBencana[i] = dataBencana[i] * 2.5;
-                pctLainnya[i] = dataLainnya[i] * 2.5;
-            }
-
+            var pctP3 = dataP3.map(function(v){return v*2.5;});
+            var pctVandal = dataVandal.map(function(v){return v*2.5;});
+            var pctBencana = dataBencana.map(function(v){return v*2.5;});
+            var pctLainnya = dataLainnya.map(function(v){return v*2.5;});
             chartIncidents.data.datasets[0].data = pctP3;
             chartIncidents.data.datasets[1].data = pctVandal;
             chartIncidents.data.datasets[2].data = pctBencana;
             chartIncidents.data.datasets[3].data = pctLainnya;
-
             var allVals = pctP3.concat(pctVandal, pctBencana, pctLainnya);
             var maxVal = Math.max.apply(null, allVals);
             var yMax = Math.max(30, Math.ceil(maxVal / 5) * 5);
             chartIncidents.options.scales.y.max = yMax;
             chartIncidents.options.scales.y.ticks.stepSize = yMax <= 30 ? 5 : (yMax <= 60 ? 10 : 20);
-
             var theme = document.documentElement.getAttribute('data-theme') || 'dark';
             var legendColor = theme === 'dark' ? '#E2E8F0' : '#0F172A';
             var tickColor = theme === 'dark' ? '#94A3B8' : '#475569';
@@ -3463,9 +3186,7 @@
             chartIncidents.options.scales.y.ticks.color = tickColor;
             chartIncidents.options.scales.y.grid.color = gridColor;
             chartIncidents.options.scales.x.ticks.color = tickColor;
-
             chartIncidents.update();
-
             renderRekapTable(selectedYear, dataP3, dataVandal, dataBencana, dataLainnya);
         } catch (e) { console.error('updateCharts error:', e); }
     }
@@ -3475,58 +3196,46 @@
         if (labelEl) labelEl.textContent = year;
         var tbody = document.getElementById('chart-rekap-body');
         if (!tbody) return;
-
         var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
         var html = '';
         var totalP3 = 0, totalV = 0, totalB = 0, totalL = 0;
-
         for (var i = 0; i < 12; i++) {
-            totalP3 += dP3[i];
-            totalV += dVandal[i];
-            totalB += dBencana[i];
-            totalL += dLainnya[i];
-
+            totalP3 += dP3[i]; totalV += dVandal[i]; totalB += dBencana[i]; totalL += dLainnya[i];
             var pctP3 = dP3[i] * 2.5;
             var pctV  = dVandal[i] * 2.5;
             var pctB  = dBencana[i] * 2.5;
             var pctL  = dLainnya[i] * 2.5;
             var totalBulan = dP3[i] + dVandal[i] + dBencana[i] + dLainnya[i];
-
+            var totalBulanPct = totalBulan * 2.5;
             var fmtPct = function(p, val) {
                 if (val === 0) return '';
                 return '<div class="chart-rekap-pct">' + (Math.round(p * 10) / 10).toFixed(1) + '%</div>';
             };
-
             html += '<tr>';
             html += '<td>' + monthNames[i] + '</td>';
             html += '<td>' + (dP3[i] || '') + fmtPct(pctP3, dP3[i]) + '</td>';
             html += '<td>' + (dVandal[i] || '') + fmtPct(pctV, dVandal[i]) + '</td>';
             html += '<td>' + (dBencana[i] || '') + fmtPct(pctB, dBencana[i]) + '</td>';
             html += '<td>' + (dLainnya[i] || '') + fmtPct(pctL, dLainnya[i]) + '</td>';
-            html += '<td style="font-weight:900;">' + totalBulan + '</td>';
+            html += '<td class="col-total">' + (totalBulan || '') + (totalBulan > 0 ? '<div class="chart-rekap-pct on-total">' + (Math.round(totalBulanPct * 10) / 10).toFixed(1) + '%</div>' : '') + '</td>';
             html += '</tr>';
         }
-
         var grandTotal = totalP3 + totalV + totalB + totalL;
-        var totPctP3 = totalP3 * 2.5;
-        var totPctV  = totalV * 2.5;
-        var totPctB  = totalB * 2.5;
-        var totPctL  = totalL * 2.5;
-
+        var totPctP3 = totalP3 * 2.5, totPctV = totalV * 2.5, totPctB = totalB * 2.5, totPctL = totalL * 2.5;
+        var totPct = grandTotal * 2.5;
         html += '<tr class="total-row">';
         html += '<td>TOTAL</td>';
         html += '<td>' + totalP3 + '<div class="chart-rekap-pct">' + (Math.round(totPctP3 * 10) / 10).toFixed(1) + '%</div></td>';
         html += '<td>' + totalV + '<div class="chart-rekap-pct">' + (Math.round(totPctV * 10) / 10).toFixed(1) + '%</div></td>';
         html += '<td>' + totalB + '<div class="chart-rekap-pct">' + (Math.round(totPctB * 10) / 10).toFixed(1) + '%</div></td>';
         html += '<td>' + totalL + '<div class="chart-rekap-pct">' + (Math.round(totPctL * 10) / 10).toFixed(1) + '%</div></td>';
-        html += '<td>' + grandTotal + '</td>';
+        html += '<td class="col-total">' + grandTotal + '<div class="chart-rekap-pct on-total">' + (Math.round(totPct * 10) / 10).toFixed(1) + '%</div></td>';
         html += '</tr>';
-
         tbody.innerHTML = html;
     }
 
     function updateChartPeriod() { updateCharts(); }
-    function updateDashboard() { updateCharts(); updateMapMarkers(); }
+    function updateDashboard() { updateCharts(); }
 
     function loadSettings() {
         if (!db) return;
@@ -3596,7 +3305,6 @@
     function setupEventListeners() {
         var lf = document.getElementById('login-form');
         if (lf) lf.addEventListener('submit', handleLogin);
-
         var tp = document.getElementById('toggle-pass');
         if (tp) tp.addEventListener('click', function() {
             var i = document.getElementById('login-password');
@@ -3605,17 +3313,17 @@
             else { i.type = 'password'; if (ic) ic.setAttribute('data-lucide', 'eye'); }
             if (typeof lucide !== 'undefined') lucide.createIcons();
         });
-
         var lb = document.getElementById('logout-btn');
         if (lb) lb.addEventListener('click', function() {
             localStorage.removeItem('bucin_session');
             currentUser = null;
             location.reload();
         });
-
         var tt = document.getElementById('theme-toggle');
-        if (tt) tt.addEventListener('click', toggleTheme);
-
+        if (tt) {
+            tt.onclick = null;
+            tt.addEventListener('click', function(e) { e.preventDefault(); toggleTheme(); });
+        }
         document.querySelectorAll('.nav-item').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
@@ -3623,69 +3331,61 @@
                 switchView(this.dataset.cat);
             });
         });
-
         var mt = document.getElementById('menu-toggle');
         var sb = document.getElementById('sidebar');
         var ov = document.getElementById('sidebar-overlay');
-        if (mt) mt.addEventListener('click', function() {
-            sb.classList.toggle('open');
-            ov.classList.toggle('active');
-        });
-        if (ov) ov.addEventListener('click', function() {
-            sb.classList.remove('open');
-            ov.classList.remove('active');
-        });
+        if (mt) mt.addEventListener('click', function() { sb.classList.toggle('open'); ov.classList.toggle('active'); });
+        if (ov) ov.addEventListener('click', function() { sb.classList.remove('open'); ov.classList.remove('active'); });
 
         var ab = document.getElementById('btn-add');
         if (ab) ab.addEventListener('click', handleAddClick);
 
+        // ✅ Filter periode
         var ps = document.getElementById('period-select');
-        if (ps) ps.addEventListener('change', function() { currentPeriod = this.value; renderTable(); });
+        if (ps) ps.addEventListener('change', function() {
+            currentPeriod = this.value;
+            var yg = document.getElementById('year-filter-group');
+            if (currentPeriod === 'yearly') yg.classList.remove('hidden');
+            else yg.classList.add('hidden');
+            renderTable();
+        });
+        var ysel = document.getElementById('year-select');
+        if (ysel) ysel.addEventListener('change', function() {
+            currentYear = parseInt(this.value) || new Date().getFullYear();
+            renderTable();
+        });
 
         var si = document.getElementById('search-input');
         if (si) si.addEventListener('input', renderTable);
-
         var sm = document.getElementById('btn-scan-modal');
         if (sm) sm.addEventListener('click', function() { toggleScanner('modal'); });
-        var su = document.getElementById('btn-scan-update');
-        if (su) su.addEventListener('click', function() { toggleScanner('update'); });
         var ss = document.getElementById('btn-stop-modal-scan');
         if (ss) ss.addEventListener('click', function() { stopScanner('modal'); });
-
         var blm = document.getElementById('btn-loc-map');
         if (blm) blm.addEventListener('click', openMapModal);
-
         var bh = document.getElementById('btn-history');
         if (bh) bh.addEventListener('click', bukaRiwayatMenu);
-
         var dep = document.getElementById('btn-download-excel-page');
         if (dep) dep.addEventListener('click', downloadPageExcel);
-
         var rms = document.getElementById('riwayat-modal-search');
         if (rms) rms.addEventListener('input', renderRiwayatModal);
         var erm = document.getElementById('btn-export-riwayat-menu');
         if (erm) erm.addEventListener('click', exportRiwayatMenuExcel);
-
         var aub = document.getElementById('add-user-btn');
         if (aub) aub.addEventListener('click', function() { document.getElementById('add-user-modal').classList.remove('hidden'); });
-
         var stb = document.getElementById('settings-btn');
         if (stb) stb.addEventListener('click', function() {
             document.getElementById('settings-modal').classList.remove('hidden');
             document.getElementById('hero-about-input').value = document.getElementById('hero-about-text').textContent;
             updateThemeButtons();
         });
-
         var ffs = document.getElementById('set-font-family');
-        if (ffs) ffs.addEventListener('change', function() {
-            document.documentElement.style.setProperty('--app-font', this.value);
-        });
+        if (ffs) ffs.addEventListener('change', function() { document.documentElement.style.setProperty('--app-font', this.value); });
         var fsz = document.getElementById('set-font-size');
         if (fsz) fsz.addEventListener('input', function() {
             document.getElementById('font-size-value').textContent = this.value + 'px';
             document.documentElement.style.setProperty('--app-font-size', this.value + 'px');
         });
-
         var ss2 = document.getElementById('btn-save-settings');
         if (ss2) ss2.addEventListener('click', function() {
             var fontFam = document.getElementById('set-font-family').value;
@@ -3698,17 +3398,14 @@
             showToast('Pengaturan disimpan', 'success');
             document.getElementById('settings-modal').classList.add('hidden');
         });
-
         var uk = document.getElementById('btn-upload-kml');
         if (uk) uk.addEventListener('click', function() { document.getElementById('kml-modal').classList.remove('hidden'); });
-
         var pp = document.getElementById('inp-ofcut-penyebab');
         if (pp) pp.addEventListener('change', togglePenyebabLain);
         var pt = document.getElementById('inp-pc-type');
         var pl = document.getElementById('inp-pc-length');
         if (pt) pt.addEventListener('change', togglePatchLain);
         if (pl) pl.addEventListener('change', togglePatchLain);
-
         document.addEventListener('click', refreshSession);
         document.addEventListener('keydown', refreshSession);
     }
@@ -3716,11 +3413,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         loadTheme();
         if (typeof lucide !== 'undefined') lucide.createIcons();
-
-        checkFirebaseConnection().then(function(ok) {
-            if (ok) ensureDefaultUser();
-        });
-
+        checkFirebaseConnection().then(function(ok) { if (ok) ensureDefaultUser(); });
         var saved = localStorage.getItem('bucin_session');
         if (saved) {
             try {
