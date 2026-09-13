@@ -809,6 +809,10 @@
                 <div class="nav-item" data-cat="Patch Cord">
                     <i data-lucide="cable"></i><span>Patch Cord</span>
                 </div>
+                <div class="nav-section-label">Informasi</div>
+                <div class="nav-item" id="nav-about" onclick="openAboutModal()">
+                    <i data-lucide="info"></i><span>Tentang Web BUCIN</span>
+                </div>
             </nav>
             <div class="sidebar-footer">
                 <div class="user-chip">
@@ -880,7 +884,6 @@
                                 <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:18px;"></i></button>
                                 <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:18px;"></i></button>
                             </div>
-                            <!-- Drawing Controls Overlay -->
                             <div id="draw-controls" class="hidden" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:1100;background:var(--surface-map-legend);backdrop-filter:blur(12px);border:1px solid var(--border-glow);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,217,255,0.3);">
                                 <span style="font-size:11px;font-weight:700;color:var(--primary-cyan);white-space:nowrap;">
                                     <i data-lucide="pen-line" style="width:14px;display:inline-block;vertical-align:middle;"></i>
@@ -1107,12 +1110,10 @@
                 </h3>
                 <button onclick="closeDrawLineModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
             </div>
-
             <div style="background:rgba(0,217,255,0.08);padding:12px 14px;border-radius:12px;margin-bottom:16px;border:1px solid var(--border-glow);">
                 <div style="font-size:12px;font-weight:600;color:var(--text-muted);">Pilih Line</div>
                 <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Pilih line yang sudah ada, atau buat nama line baru</div>
             </div>
-
             <div style="margin-bottom:16px;">
                 <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Line *</label>
                 <select id="draw-line-name" class="field-control">
@@ -1128,17 +1129,14 @@
                     <option value="__custom__">+ Tambah Line Baru...</option>
                 </select>
             </div>
-
             <div id="draw-custom-line-wrap" class="hidden" style="margin-bottom:16px;">
                 <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Nama Line Baru *</label>
                 <input type="text" id="draw-custom-line-name" class="field-control" placeholder="Contoh: OSP LINE 4">
             </div>
-
             <div style="margin-bottom:16px;">
                 <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Keterangan (Opsional)</label>
                 <textarea id="draw-line-notes" class="field-control" rows="2" style="resize:none;" placeholder="Contoh: Line baru dari MAMI ke Kauditan"></textarea>
             </div>
-
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
                 <div>
                     <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Warna Line</label>
@@ -1154,7 +1152,6 @@
                     </select>
                 </div>
             </div>
-
             <div style="display:flex;gap:12px;">
                 <button type="button" onclick="closeDrawLineModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
                 <button type="button" onclick="startDrawing()" class="btn-primary" style="flex:2;justify-content:center;">
@@ -1707,6 +1704,248 @@
         </div>
     </div>
 
+    <!-- MODAL TENTANG WEB BUCIN -->
+    <div id="about-modal" class="modal-layer hidden">
+        <div class="modal-card" style="max-width:820px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+                <h3 style="margin:0;font-size:20px;font-weight:800;color:var(--primary-cyan);display:flex;align-items:center;gap:10px;">
+                    <i data-lucide="info" style="width:24px;"></i> Tentang Web BUCIN
+                </h3>
+                <button onclick="closeAboutModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+            </div>
+
+            <div style="background:linear-gradient(135deg,rgba(0,217,255,0.12) 0%,rgba(168,85,247,0.12) 100%);border:1px solid var(--border-glow);border-radius:16px;padding:20px;margin-bottom:20px;">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                    <div class="earth-logo" style="width:52px;height:52px;">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="lgAbout1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#00D9FF"/>
+                                    <stop offset="100%" stop-color="#A855F7"/>
+                                </linearGradient>
+                                <radialGradient id="lgAbout2" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#FFFFFF"/>
+                                    <stop offset="45%" stop-color="#00D9FF"/>
+                                    <stop offset="100%" stop-color="#0EA5E9"/>
+                                </radialGradient>
+                            </defs>
+                            <circle cx="50" cy="50" r="44" fill="none" stroke="url(#lgAbout1)" stroke-width="2.5"/>
+                            <circle cx="50" cy="50" r="36" fill="none" stroke="#00D9FF" stroke-width="1.1" stroke-dasharray="3 5" opacity="0.6"/>
+                            <g stroke="#00D9FF" stroke-width="1.6" opacity="0.8">
+                                <line x1="50" y1="50" x2="50" y2="16"/>
+                                <line x1="50" y1="50" x2="80" y2="33"/>
+                                <line x1="50" y1="50" x2="80" y2="67"/>
+                                <line x1="50" y1="50" x2="50" y2="84"/>
+                                <line x1="50" y1="50" x2="20" y2="67"/>
+                                <line x1="50" y1="50" x2="20" y2="33"/>
+                            </g>
+                            <circle cx="50" cy="50" r="7.5" fill="url(#lgAbout2)"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div style="font-size:22px;font-weight:900;font-family:'Orbitron',sans-serif;background:var(--tech-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:2px;">BUCIN</div>
+                        <div style="font-size:12px;color:var(--primary-cyan);font-weight:700;letter-spacing:1px;">Barisan Utama Cegah Insiden Network</div>
+                    </div>
+                </div>
+                <p style="font-size:13px;line-height:1.7;color:var(--text-muted);margin:0;">
+                    <strong style="color:var(--primary-cyan);">BUCIN</strong> adalah sistem informasi operasional yang dirancang khusus untuk mendukung tim patroli jaringan fiber optik di wilayah <strong style="color:var(--text-main);">Sulawesi Utara</strong>. Tujuan utama web ini adalah:
+                </p>
+                <ul style="font-size:13px;line-height:1.8;color:var(--text-muted);margin:12px 0 0 20px;padding:0;">
+                    <li>Mendokumentasikan setiap insiden jaringan secara <strong style="color:var(--text-main);">terpusat dan real-time</strong></li>
+                    <li>Memetakan titik-titik aset &amp; line fiber optik dalam satu peta digital</li>
+                    <li>Menyediakan <strong style="color:var(--text-main);">rekap statistik otomatis</strong> untuk analisis penyebab gangguan</li>
+                    <li>Mempercepat koordinasi tim lapangan melalui data yang akurat</li>
+                    <li>Menjadi <strong style="color:var(--text-main);">arsip digital</strong> untuk audit dan evaluasi kinerja jaringan</li>
+                </ul>
+            </div>
+
+            <h4 style="font-size:14px;font-weight:800;color:var(--primary-cyan);text-transform:uppercase;letter-spacing:1px;margin:0 0 14px;display:flex;align-items:center;gap:8px;">
+                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 8px var(--primary-cyan);"></span>
+                Fungsi &amp; Keterangan Menu
+            </h4>
+
+            <div style="display:grid;gap:10px;">
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #00D9FF;border-radius:10px;padding:12px 14px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                        <i data-lucide="layout-dashboard" style="width:16px;color:#00D9FF;"></i>
+                        <strong style="font-size:13px;color:var(--text-main);">Dashboard</strong>
+                    </div>
+                    <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">
+                        Halaman utama yang menampilkan peta interaktif line &amp; titik aset, serta grafik statistik OF Cut berdasarkan penyebab (Pihak Ke-3, Vandalisme, Bencana, Lainnya) per bulan dalam bentuk persentase. Dilengkapi rekap tahunan dan perbandingan tahun berjalan vs tahun sebelumnya.
+                    </p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #EC4899;border-radius:10px;padding:12px 14px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                        <i data-lucide="scissors" style="width:16px;color:#EC4899;"></i>
+                        <strong style="font-size:13px;color:var(--text-main);">OF Cut</strong>
+                    </div>
+                    <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">
+                        Mencatat insiden kabel fiber optik terputus. Berisi data tanggal, lokasi, koordinat, panjang cut (meter), rute (OSP/SEA US/DWDM/IGG), penyebab (Pihak Ke-3/Vandalisme/Bencana/Lainnya), dan keterangan. Data di sini menjadi sumber utama untuk grafik statistik dashboard.
+                    </p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #A855F7;border-radius:10px;padding:12px 14px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                        <i data-lucide="users" style="width:16px;color:#A855F7;"></i>
+                        <strong style="font-size:13px;color:var(--text-main);">P3 / Temuan</strong>
+                    </div>
+                    <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">
+                        Memiliki 2 sub-tab:
+                    </p>
+                    <ul style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:6px 0 0 18px;padding:0;">
+                        <li><strong style="color:var(--text-main);">Pekerjaan Pihak Ke-3:</strong> Mencatat pekerjaan pihak ketiga di area jaringan (nama pelaksana, lama pekerjaan, lokasi &amp; koordinat).</li>
+                        <li><strong style="color:var(--text-main);">Temuan Lapangan:</strong> Mencatat temuan kondisi tidak aman di lapangan sebelum menjadi insiden.</li>
+                    </ul>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #F59E0B;border-radius:10px;padding:12px 14px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                        <i data-lucide="activity" style="width:16px;color:#F59E0B;"></i>
+                        <strong style="font-size:13px;color:var(--text-main);">OPM / OLS</strong>
+                    </div>
+                    <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">
+                        Mencatat hasil pengukuran Optical Power Meter (OPM) / Optical Light Source (OLS). Berisi port (1-24), panel (1-4), nilai DBM, ruas line, lokasi Dari &amp; Ke, serta keterangan. Berguna untuk memantau kualitas redaman sinyal fiber.
+                    </p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #0EA5E9;border-radius:10px;padding:12px 14px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                        <i data-lucide="link" style="width:16px;color:#0EA5E9;"></i>
+                        <strong style="font-size:13px;color:var(--text-main);">Joint</strong>
+                    </div>
+                    <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">
+                        Mencatat titik sambungan (joint closure) fiber optik di lapangan. Berisi lokasi, koordinat, kondisi (Baik/Kurang Baik/Rusak), dan user yang input.
+                    </p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #10B981;border-radius:10px;padding:12px 14px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                        <i data-lucide="archive" style="width:16px;color:#10B981;"></i>
+                        <strong style="font-size:13px;color:var(--text-main);">Handhole</strong>
+                    </div>
+                    <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">
+                        Mencatat titik handhole (bak kontrol) di jalur fiber optik. Berisi lokasi, koordinat, kondisi, dan user. Digunakan untuk memetakan aset bawah tanah.
+                    </p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #8B5CF6;border-radius:10px;padding:12px 14px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                        <i data-lucide="wrench" style="width:16px;color:#8B5CF6;"></i>
+                        <strong style="font-size:13px;color:var(--text-main);">Alker</strong>
+                    </div>
+                    <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">
+                        Inventarisasi Alat Kerja (Alker) tim. Berisi nama, SN otomatis (format DDMMYY + huruf nama + jenis + merk + urutan), jenis, merk, dan keterangan wajib. Berguna untuk tracking alat operasional.
+                    </p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #F59E0B;border-radius:10px;padding:12px 14px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                        <i data-lucide="package" style="width:16px;color:#F59E0B;"></i>
+                        <strong style="font-size:13px;color:var(--text-main);">Stok Spare</strong>
+                    </div>
+                    <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">
+                        Manajemen stok material di 3 gudang (CLS MAMI, DC MANADO, CLS KAUDITAN). Berisi SN, nama barang, status (Ready/Out), lemari, rak, riwayat (Baru/Dismantle), kondisi, dan keterangan. Dilengkapi fitur scan barcode dan update pemakaian.
+                    </p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #EC4899;border-radius:10px;padding:12px 14px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                        <i data-lucide="cable" style="width:16px;color:#EC4899;"></i>
+                        <strong style="font-size:13px;color:var(--text-main);">Patch Cord</strong>
+                    </div>
+                    <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">
+                        Manajemen stok patch cord dengan jenis konektor (SC-SC, LC-LC, FC-FC, dll), panjang (0.5m-30m), jumlah, dan tipe transaksi (Masuk/Keluar). Barcode otomatis dibuat dengan format PC + jenis + panjang.
+                    </p>
+                </div>
+            </div>
+
+            <h4 style="font-size:14px;font-weight:800;color:var(--primary-cyan);text-transform:uppercase;letter-spacing:1px;margin:22px 0 14px;display:flex;align-items:center;gap:8px;">
+                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 8px var(--primary-cyan);"></span>
+                Fitur Tambahan
+            </h4>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:16px;">
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                        <i data-lucide="map" style="width:14px;color:var(--primary-cyan);"></i>
+                        <strong style="font-size:12px;color:var(--text-main);">Peta HD Interaktif</strong>
+                    </div>
+                    <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">3 mode basemap: Satelit, Jalan, Hybrid. Dilengkapi marker per kategori aset.</p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                        <i data-lucide="pen-line" style="width:14px;color:var(--primary-cyan);"></i>
+                        <strong style="font-size:12px;color:var(--text-main);">Gambar Line Manual</strong>
+                    </div>
+                    <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Buat line baru di peta dengan memilih warna, ketebalan, dan nama line.</p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                        <i data-lucide="upload" style="width:14px;color:var(--primary-cyan);"></i>
+                        <strong style="font-size:12px;color:var(--text-main);">Upload/Download KML</strong>
+                    </div>
+                    <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Import jalur dari Google Earth (.kml) dan export kembali untuk keperluan lain.</p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                        <i data-lucide="file-spreadsheet" style="width:14px;color:var(--primary-cyan);"></i>
+                        <strong style="font-size:12px;color:var(--text-main);">Export Excel</strong>
+                    </div>
+                    <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Setiap menu dapat di-export ke Excel untuk laporan dan analisis lanjutan.</p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                        <i data-lucide="history" style="width:14px;color:var(--primary-cyan);"></i>
+                        <strong style="font-size:12px;color:var(--text-main);">Riwayat Transaksi</strong>
+                    </div>
+                    <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Log semua aktivitas tambah/edit/hapus lengkap dengan user &amp; timestamp.</p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                        <i data-lucide="camera" style="width:14px;color:var(--primary-cyan);"></i>
+                        <strong style="font-size:12px;color:var(--text-main);">Scan Barcode</strong>
+                    </div>
+                    <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Scan SN material langsung dari kamera HP untuk input cepat.</p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                        <i data-lucide="users" style="width:14px;color:var(--primary-cyan);"></i>
+                        <strong style="font-size:12px;color:var(--text-main);">Multi-User &amp; Role</strong>
+                    </div>
+                    <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Admin (akses penuh) dan User (read-only + tambah data).</p>
+                </div>
+
+                <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                        <i data-lucide="palette" style="width:14px;color:var(--primary-cyan);"></i>
+                        <strong style="font-size:12px;color:var(--text-main);">Tema &amp; Font</strong>
+                    </div>
+                    <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Mode gelap/terang, pilihan jenis font, dan ukuran font yang dapat disesuaikan.</p>
+                </div>
+            </div>
+
+            <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);">
+                <p style="font-size:11px;color:var(--text-dim);margin:0;">
+                    &copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Barisan Utama Cegah Insiden Network<br>
+                    Pusat Operasi Jaringan Sulawesi Utara
+                </p>
+            </div>
+
+            <div style="margin-top:16px;display:flex;justify-content:center;">
+                <button onclick="closeAboutModal()" class="btn-primary" style="min-width:200px;justify-content:center;">
+                    <i data-lucide="check" style="width:16px;"></i> Mengerti
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
     // ============================================================
     // THEME
@@ -1787,7 +2026,6 @@
     let mapModalMarker = null;
     let markers = [];
     let kmlLayers = {};
-    // Drawing state
     let drawMode = false;
     let drawPoints = [];
     let drawMarkers = [];
@@ -1828,7 +2066,6 @@
         'Patch Cord': 'Patch Cord'
     };
     const MENU_NO_PERIOD = ['Alker', 'Stok Spare', 'Patch Cord'];
-    // Menu yang punya tagline Total Data
     const MENU_TAGLINE = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM-OLS', 'Joint', 'Handhole', 'Alker'];
 
     const LS_KEY_PAGE = 'bucin_current_page';
@@ -2629,6 +2866,26 @@
     window.finishDrawLine = finishDrawLine;
 
     // ============================================================
+    // ABOUT MODAL
+    // ============================================================
+    function openAboutModal() {
+        document.getElementById('about-modal').classList.remove('hidden');
+        document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
+        var navAbout = document.getElementById('nav-about');
+        if (navAbout) navAbout.classList.add('active');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+    function closeAboutModal() {
+        document.getElementById('about-modal').classList.add('hidden');
+        document.querySelectorAll('.nav-item').forEach(function(b) {
+            if (b.id === 'nav-about') { b.classList.remove('active'); return; }
+            if (b.dataset.cat === currentCategory) b.classList.add('active');
+        });
+    }
+    window.openAboutModal = openAboutModal;
+    window.closeAboutModal = closeAboutModal;
+
+    // ============================================================
     // MODAL PETA (MAPLIBRE)
     // ============================================================
     function closeMapModal() {
@@ -2832,9 +3089,6 @@
         return true;
     }
 
-    // ============================================================
-    // TAGLINE TOTAL DATA (khusus menu operasional)
-    // ============================================================
     function updateTotalDataTagline() {
         var tagEl = document.getElementById('total-data-tagline');
         var countEl = document.getElementById('total-data-count');
@@ -2844,7 +3098,6 @@
         var cat = currentCategory;
         if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
 
-        // Hanya tampilkan tagline pada menu operasional tertentu
         if (MENU_TAGLINE.indexOf(cat) === -1) {
             tagEl.classList.add('hidden');
             tagEl.style.display = 'none';
@@ -2856,7 +3109,6 @@
         var list = appData[cat] || {};
         var totalRaw = Object.keys(list).length;
 
-        // Hitung yang terfilter
         var keys = Object.keys(list);
         var hidePeriod = MENU_NO_PERIOD.indexOf(cat) !== -1;
         if (!hidePeriod && currentPeriod !== 'all') {
@@ -2868,7 +3120,6 @@
         currentFilteredCount = keys.length;
         countEl.textContent = currentFilteredCount;
 
-        // Info filter aktif
         var infos = [];
         if (s) infos.push('pencarian "' + s + '"');
         if (!hidePeriod && currentPeriod !== 'all') {
@@ -3748,6 +3999,7 @@
         }
         document.querySelectorAll('.nav-item').forEach(function(btn) {
             btn.addEventListener('click', function() {
+                if (this.id === 'nav-about') return;
                 document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
                 this.classList.add('active');
                 switchView(this.dataset.cat);
@@ -3829,7 +4081,6 @@
         var pl = document.getElementById('inp-pc-length');
         if (pt) pt.addEventListener('change', togglePatchLain);
         if (pl) pl.addEventListener('change', togglePatchLain);
-        // Drawing controls
         var bdl = document.getElementById('btn-draw-line');
         if (bdl) bdl.addEventListener('click', openDrawLineModal);
         var dln = document.getElementById('draw-line-name');
@@ -3844,11 +4095,13 @@
         if (savedPage && savedPage !== 'dashboard') {
             if (savedPage === 'P3_Temuan') currentSubTab = savedSub;
             document.querySelectorAll('.nav-item').forEach(function(b) {
+                if (b.id === 'nav-about') { b.classList.remove('active'); return; }
                 b.classList.toggle('active', b.dataset.cat === savedPage);
             });
             switchView(savedPage);
         } else {
             document.querySelectorAll('.nav-item').forEach(function(b) {
+                if (b.id === 'nav-about') { b.classList.remove('active'); return; }
                 b.classList.toggle('active', b.dataset.cat === 'dashboard');
             });
             switchView('dashboard');
