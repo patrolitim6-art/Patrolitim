@@ -57,6 +57,9 @@
             --shadow-card-hover: 0 8px 40px rgba(0, 217, 255, 0.18);
             --shadow-modal: 0 24px 64px rgba(0, 217, 255, 0.15);
             --scroll-track: rgba(15, 23, 42, 0.5);
+            --app-font: 'DM Sans', sans-serif;
+            --app-font-size: 14px;
+            --radius: 16px;
         }
         html[data-theme="light"] {
             --primary-cyan: #0891B2;
@@ -118,7 +121,7 @@
         }
 
         /* ============================================================
-           LOGO BUMI — Realistis dengan tekstur benua & lautan
+           LOGO — Animasi Node Jaringan & Koneksi Data
            ============================================================ */
         .earth-logo {
             width: 44px;
@@ -127,76 +130,102 @@
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
-            background: radial-gradient(circle at 35% 30%, #1E90FF 0%, #1565C0 25%, #0D47A1 55%, #051937 100%);
+            background:
+                radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.18) 0%, rgba(10, 22, 40, 0.8) 45%, #050D1F 100%);
+            border: 1.5px solid rgba(0, 217, 255, 0.5);
             box-shadow:
-                0 0 20px rgba(30, 144, 255, 0.5),
-                0 0 40px rgba(30, 144, 255, 0.2),
-                inset -8px -8px 20px rgba(0, 0, 0, 0.7),
-                inset 6px 6px 16px rgba(100, 181, 246, 0.25);
-            animation: earthFloat 6s ease-in-out infinite;
+                0 0 18px rgba(0, 217, 255, 0.6),
+                0 0 36px rgba(0, 217, 255, 0.25),
+                inset 0 0 14px rgba(0, 217, 255, 0.2);
+            animation: logoGlow 2.5s ease-in-out infinite;
         }
         .earth-logo::before {
             content: '';
             position: absolute;
-            inset: 0;
-            background-image:
-                radial-gradient(ellipse 18% 24% at 22% 35%, #4CAF50 0%, #2E7D32 45%, #1B5E20 75%, transparent 100%),
-                radial-gradient(ellipse 12% 16% at 20% 62%, #66BB6A 0%, #388E3C 55%, transparent 90%),
-                radial-gradient(ellipse 8% 10% at 28% 82%, #43A047 0%, transparent 85%),
-                radial-gradient(ellipse 10% 14% at 48% 28%, #81C784 0%, #4CAF50 50%, transparent 95%),
-                radial-gradient(ellipse 14% 22% at 50% 55%, #66BB6A 0%, #388E3C 45%, #1B5E20 80%, transparent 100%),
-                radial-gradient(ellipse 10% 14% at 52% 82%, #4CAF50 0%, transparent 85%),
-                radial-gradient(ellipse 22% 20% at 72% 32%, #A5D6A7 0%, #66BB6A 35%, #388E3C 70%, transparent 100%),
-                radial-gradient(ellipse 16% 18% at 78% 58%, #81C784 0%, #4CAF50 50%, transparent 95%),
-                radial-gradient(ellipse 12% 10% at 82% 78%, #C8E6C9 0%, #81C784 45%, #4CAF50 75%, transparent 100%),
-                radial-gradient(ellipse 10% 6% at 50% 48%, rgba(255, 213, 79, 0.6) 0%, transparent 85%),
-                radial-gradient(ellipse 45% 10% at 50% 3%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.4) 60%, transparent 95%),
-                radial-gradient(ellipse 45% 10% at 50% 97%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.4) 60%, transparent 95%);
-            background-size: 200% 100%;
-            background-position: 0% 0%;
-            background-repeat: repeat-x;
-            animation: earthSpin 30s linear infinite;
-            filter: contrast(1.15) saturate(1.1);
+            inset: 6px;
+            border-radius: 50%;
+            background: repeating-conic-gradient(
+                from 0deg,
+                rgba(0, 217, 255, 0.75) 0deg 1.5deg,
+                transparent 1.5deg 60deg
+            );
+            -webkit-mask: radial-gradient(circle at 50% 50%, black 22%, transparent 78%);
+            mask: radial-gradient(circle at 50% 50%, black 22%, transparent 78%);
+            animation: rotateSpokes 12s linear infinite;
         }
         .earth-logo::after {
             content: '';
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            background:
-                radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.15) 25%, transparent 45%),
-                radial-gradient(circle at 75% 78%, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 35%, transparent 65%),
-                radial-gradient(circle at 50% 50%, transparent 70%, rgba(30, 144, 255, 0.2) 88%, rgba(30, 144, 255, 0.5) 100%);
-            pointer-events: none;
-            box-shadow:
-                inset 0 0 20px rgba(0, 0, 0, 0.6),
-                inset 0 0 8px rgba(100, 181, 246, 0.3);
+            background-image:
+                radial-gradient(circle 2px at 50% 22%, #00D9FF 0%, #00D9FF 55%, transparent 100%),
+                radial-gradient(circle 2px at 74% 36%, #A855F7 0%, #A855F7 55%, transparent 100%),
+                radial-gradient(circle 2px at 74% 64%, #00D9FF 0%, #00D9FF 55%, transparent 100%),
+                radial-gradient(circle 2px at 50% 78%, #A855F7 0%, #A855F7 55%, transparent 100%),
+                radial-gradient(circle 2px at 26% 64%, #00D9FF 0%, #00D9FF 55%, transparent 100%),
+                radial-gradient(circle 2px at 26% 36%, #A855F7 0%, #A855F7 55%, transparent 100%),
+                radial-gradient(circle 3.5px at 50% 50%, #00D9FF 0%, #00D9FF 40%, rgba(0, 217, 255, 0.5) 70%, transparent 100%);
+            filter: drop-shadow(0 0 3px rgba(0, 217, 255, 0.9));
+            animation: nodePulse 2s ease-in-out infinite;
         }
-        @keyframes earthSpin {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 200% 0%; }
+        @keyframes logoGlow {
+            0%, 100% {
+                box-shadow:
+                    0 0 18px rgba(0, 217, 255, 0.6),
+                    0 0 36px rgba(0, 217, 255, 0.25),
+                    inset 0 0 14px rgba(0, 217, 255, 0.2);
+            }
+            50% {
+                box-shadow:
+                    0 0 28px rgba(0, 217, 255, 0.95),
+                    0 0 56px rgba(0, 217, 255, 0.45),
+                    inset 0 0 20px rgba(0, 217, 255, 0.4);
+            }
         }
-        @keyframes earthFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-3px) rotate(2deg); }
+        @keyframes nodePulse {
+            0%, 100% {
+                opacity: 0.85;
+                transform: scale(1);
+                filter: drop-shadow(0 0 3px rgba(0, 217, 255, 0.9));
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 6px rgba(0, 217, 255, 1));
+            }
+        }
+        @keyframes rotateSpokes {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         .earth-logo.large {
             width: 80px;
             height: 80px;
+            border-width: 2px;
             box-shadow:
-                0 0 28px rgba(30, 144, 255, 0.6),
-                0 0 56px rgba(30, 144, 255, 0.3),
-                inset -12px -12px 28px rgba(0, 0, 0, 0.7),
-                inset 8px 8px 20px rgba(100, 181, 246, 0.25);
+                0 0 28px rgba(0, 217, 255, 0.7),
+                0 0 56px rgba(0, 217, 255, 0.3),
+                inset 0 0 20px rgba(0, 217, 255, 0.25);
+        }
+        .earth-logo.large::before { inset: 10px; }
+        .earth-logo.large::after {
+            background-image:
+                radial-gradient(circle 3px at 50% 22%, #00D9FF 0%, #00D9FF 55%, transparent 100%),
+                radial-gradient(circle 3px at 74% 36%, #A855F7 0%, #A855F7 55%, transparent 100%),
+                radial-gradient(circle 3px at 74% 64%, #00D9FF 0%, #00D9FF 55%, transparent 100%),
+                radial-gradient(circle 3px at 50% 78%, #A855F7 0%, #A855F7 55%, transparent 100%),
+                radial-gradient(circle 3px at 26% 64%, #00D9FF 0%, #00D9FF 55%, transparent 100%),
+                radial-gradient(circle 3px at 26% 36%, #A855F7 0%, #A855F7 55%, transparent 100%),
+                radial-gradient(circle 5px at 50% 50%, #00D9FF 0%, #00D9FF 40%, rgba(0, 217, 255, 0.5) 70%, transparent 100%);
         }
         .earth-logo.mini {
             width: 32px;
             height: 32px;
             box-shadow:
-                0 0 12px rgba(30, 144, 255, 0.5),
-                0 0 24px rgba(30, 144, 255, 0.2),
-                inset -5px -5px 12px rgba(0, 0, 0, 0.7),
-                inset 3px 3px 8px rgba(100, 181, 246, 0.25);
+                0 0 12px rgba(0, 217, 255, 0.5),
+                0 0 24px rgba(0, 217, 255, 0.2),
+                inset 0 0 8px rgba(0, 217, 255, 0.2);
         }
 
         .card {
@@ -1164,7 +1193,7 @@
                         <div class="card chart-card">
                             <h3 style="margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--primary-cyan);">
                                 <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 8px var(--primary-cyan);"></span>
-                                Grafik OF Cut Berdasarkan Penyebab (Skala 0–10)
+                                Grafik OF Cut Berdasarkan Penyebab (Persentase %)
                                 <div style="display:flex;gap:6px;margin-left:auto;">
                                     <select id="chart-period" class="field-control" style="min-height:32px;padding:2px 12px;font-size:12px;width:auto;border-radius:8px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
                                 </div>
@@ -1174,7 +1203,7 @@
                             <div class="chart-rekap-wrapper">
                                 <div class="chart-rekap-title">
                                     <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 6px var(--primary-cyan);"></span>
-                                    Rekap Data OF Cut Tahun <span id="rekap-tahun-label">-</span> (Skor Maks 10)
+                                    Rekap Data OF Cut Tahun <span id="rekap-tahun-label">-</span> (Persentase)
                                 </div>
                                 <div class="chart-rekap-scroll">
                                     <table class="chart-rekap-table" id="chart-rekap-table">
@@ -3091,9 +3120,8 @@
     }
 
     // ============================================================
-    // CHART: OF Cut per Penyebab
-    // Skor maks 10 per bulan
-    // Rumus: (jumlah_penyebab / 10) × 100% ÷ 4 = jumlah × 2.5
+    // CHART: OF Cut per Penyebab — Menampilkan PERSENTASE
+    // Rumus: (jumlah_penyebab / 10) × 100% ÷ 4 = jumlah × 2.5 (%)
     // ============================================================
     const percentagePlugin = {
         id: 'percentageLabels',
@@ -3108,7 +3136,7 @@
                 meta.data.forEach(function(element, index) {
                     var value = Number(dataset.data[index]) || 0;
                     if (value === 0) return;
-                    var skorText = (Math.round(value * 10) / 10).toFixed(1);
+                    var pctText = (Math.round(value * 10) / 10).toFixed(1) + '%';
                     ctx.save();
                     ctx.fillStyle = textColor;
                     ctx.font = 'bold 11px "DM Sans", "Orbitron", sans-serif';
@@ -3116,7 +3144,7 @@
                     ctx.textBaseline = 'bottom';
                     ctx.shadowColor = theme === 'dark' ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)';
                     ctx.shadowBlur = 4;
-                    ctx.fillText(skorText, element.x, element.y - 4);
+                    ctx.fillText(pctText, element.x, element.y - 4);
                     ctx.restore();
                 });
             });
@@ -3217,8 +3245,8 @@
                                     label: function(context) {
                                         var value = context.parsed.y || 0;
                                         var jumlah = value / 2.5;
-                                        return context.dataset.label + ': ' + jumlah + ' insiden (Skor: ' +
-                                               (Math.round(value * 10) / 10).toFixed(1) + ' / 2.5)';
+                                        return context.dataset.label + ': ' + jumlah + ' insiden (' +
+                                               (Math.round(value * 10) / 10).toFixed(1) + '%)';
                                     }
                                 }
                             }
@@ -3226,8 +3254,13 @@
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                max: 10,
-                                ticks: { stepSize: 0.5, font: { size: 10 }, color: '#94A3B8' },
+                                max: 30,
+                                ticks: {
+                                    stepSize: 5,
+                                    font: { size: 10 },
+                                    color: '#94A3B8',
+                                    callback: function(value) { return value + '%'; }
+                                },
                                 grid: { color: 'rgba(148, 163, 184, 0.1)' }
                             },
                             x: {
@@ -3278,23 +3311,29 @@
                 else dataLainnya[m]++;
             });
 
-            // Rumus: (jumlah / 10) * 100% / 4 = jumlah * 2.5
-            var skorP3 = new Array(12).fill(0);
-            var skorVandal = new Array(12).fill(0);
-            var skorBencana = new Array(12).fill(0);
-            var skorLainnya = new Array(12).fill(0);
+            // Persentase: (jumlah / 10) * 100% / 4 = jumlah * 2.5 %
+            var pctP3 = new Array(12).fill(0);
+            var pctVandal = new Array(12).fill(0);
+            var pctBencana = new Array(12).fill(0);
+            var pctLainnya = new Array(12).fill(0);
 
             for (var i = 0; i < 12; i++) {
-                skorP3[i]      = dataP3[i] * 2.5;
-                skorVandal[i]  = dataVandal[i] * 2.5;
-                skorBencana[i] = dataBencana[i] * 2.5;
-                skorLainnya[i] = dataLainnya[i] * 2.5;
+                pctP3[i]      = dataP3[i] * 2.5;
+                pctVandal[i]  = dataVandal[i] * 2.5;
+                pctBencana[i] = dataBencana[i] * 2.5;
+                pctLainnya[i] = dataLainnya[i] * 2.5;
             }
 
-            chartIncidents.data.datasets[0].data = skorP3;
-            chartIncidents.data.datasets[1].data = skorVandal;
-            chartIncidents.data.datasets[2].data = skorBencana;
-            chartIncidents.data.datasets[3].data = skorLainnya;
+            chartIncidents.data.datasets[0].data = pctP3;
+            chartIncidents.data.datasets[1].data = pctVandal;
+            chartIncidents.data.datasets[2].data = pctBencana;
+            chartIncidents.data.datasets[3].data = pctLainnya;
+
+            var allVals = pctP3.concat(pctVandal, pctBencana, pctLainnya);
+            var maxVal = Math.max.apply(null, allVals);
+            var yMax = Math.max(30, Math.ceil(maxVal / 5) * 5);
+            chartIncidents.options.scales.y.max = yMax;
+            chartIncidents.options.scales.y.ticks.stepSize = yMax <= 30 ? 5 : (yMax <= 60 ? 10 : 20);
 
             var theme = document.documentElement.getAttribute('data-theme') || 'dark';
             var legendColor = theme === 'dark' ? '#E2E8F0' : '#0F172A';
@@ -3327,40 +3366,39 @@
             totalB += dBencana[i];
             totalL += dLainnya[i];
 
-            // Rumus: (jumlah / 10) * 100% / 4 = jumlah * 2.5
-            var skorP3 = dP3[i] * 2.5;
-            var skorV  = dVandal[i] * 2.5;
-            var skorB  = dBencana[i] * 2.5;
-            var skorL  = dLainnya[i] * 2.5;
+            var pctP3 = dP3[i] * 2.5;
+            var pctV  = dVandal[i] * 2.5;
+            var pctB  = dBencana[i] * 2.5;
+            var pctL  = dLainnya[i] * 2.5;
             var totalBulan = dP3[i] + dVandal[i] + dBencana[i] + dLainnya[i];
 
-            var fmtSkor = function(s, val) {
+            var fmtPct = function(p, val) {
                 if (val === 0) return '';
-                return '<div class="chart-rekap-pct">Skor ' + (Math.round(s * 10) / 10).toFixed(1) + '</div>';
+                return '<div class="chart-rekap-pct">' + (Math.round(p * 10) / 10).toFixed(1) + '%</div>';
             };
 
             html += '<tr>';
             html += '<td>' + monthNames[i] + '</td>';
-            html += '<td>' + (dP3[i] || '') + fmtSkor(skorP3, dP3[i]) + '</td>';
-            html += '<td>' + (dVandal[i] || '') + fmtSkor(skorV, dVandal[i]) + '</td>';
-            html += '<td>' + (dBencana[i] || '') + fmtSkor(skorB, dBencana[i]) + '</td>';
-            html += '<td>' + (dLainnya[i] || '') + fmtSkor(skorL, dLainnya[i]) + '</td>';
+            html += '<td>' + (dP3[i] || '') + fmtPct(pctP3, dP3[i]) + '</td>';
+            html += '<td>' + (dVandal[i] || '') + fmtPct(pctV, dVandal[i]) + '</td>';
+            html += '<td>' + (dBencana[i] || '') + fmtPct(pctB, dBencana[i]) + '</td>';
+            html += '<td>' + (dLainnya[i] || '') + fmtPct(pctL, dLainnya[i]) + '</td>';
             html += '<td style="font-weight:900;">' + totalBulan + '</td>';
             html += '</tr>';
         }
 
         var grandTotal = totalP3 + totalV + totalB + totalL;
-        var totalSkorP3 = totalP3 * 2.5;
-        var totalSkorV  = totalV * 2.5;
-        var totalSkorB  = totalB * 2.5;
-        var totalSkorL  = totalL * 2.5;
+        var totPctP3 = totalP3 * 2.5;
+        var totPctV  = totalV * 2.5;
+        var totPctB  = totalB * 2.5;
+        var totPctL  = totalL * 2.5;
 
         html += '<tr class="total-row">';
         html += '<td>TOTAL</td>';
-        html += '<td>' + totalP3 + '<div class="chart-rekap-pct">Skor ' + (Math.round(totalSkorP3 * 10) / 10).toFixed(1) + '</div></td>';
-        html += '<td>' + totalV + '<div class="chart-rekap-pct">Skor ' + (Math.round(totalSkorV * 10) / 10).toFixed(1) + '</div></td>';
-        html += '<td>' + totalB + '<div class="chart-rekap-pct">Skor ' + (Math.round(totalSkorB * 10) / 10).toFixed(1) + '</div></td>';
-        html += '<td>' + totalL + '<div class="chart-rekap-pct">Skor ' + (Math.round(totalSkorL * 10) / 10).toFixed(1) + '</div></td>';
+        html += '<td>' + totalP3 + '<div class="chart-rekap-pct">' + (Math.round(totPctP3 * 10) / 10).toFixed(1) + '%</div></td>';
+        html += '<td>' + totalV + '<div class="chart-rekap-pct">' + (Math.round(totPctV * 10) / 10).toFixed(1) + '%</div></td>';
+        html += '<td>' + totalB + '<div class="chart-rekap-pct">' + (Math.round(totPctB * 10) / 10).toFixed(1) + '%</div></td>';
+        html += '<td>' + totalL + '<div class="chart-rekap-pct">' + (Math.round(totPctL * 10) / 10).toFixed(1) + '%</div></td>';
         html += '<td>' + grandTotal + '</td>';
         html += '</tr>';
 
