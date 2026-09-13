@@ -23,8 +23,6 @@
             --primary-blue: #0EA5E9;
             --primary-purple: #A855F7;
             --primary-pink: #EC4899;
-            --primary-red: #EF4444;
-            --primary-amber: #F59E0B;
             --tech-gradient: linear-gradient(135deg, #00D9FF 0%, #0EA5E9 45%, #A855F7 100%);
             --surface-1: rgba(15, 23, 42, 0.7);
             --surface-2: rgba(15, 23, 42, 0.9);
@@ -116,7 +114,52 @@
             background-attachment: fixed;
             padding-left: 260px;
         }
-        body.sidebar-collapsed { padding-left: 0; }
+
+        /* ============================================================
+           GLOBE SVG — pakai sprite via <use> agar tidak duplikat ID
+           ============================================================ */
+        .globe-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 0 14px rgba(0, 217, 255, 0.55),
+                0 0 28px rgba(0, 217, 255, 0.28),
+                0 3px 10px rgba(0, 0, 0, 0.5);
+            background: #0B2545;
+        }
+        .globe-logo svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .globe-logo .continents {
+            animation: globeSpin 25s linear infinite;
+            transform-origin: 50% 50%;
+        }
+        @keyframes globeSpin {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .globe-logo.large {
+            width: 72px;
+            height: 72px;
+            box-shadow:
+                0 0 22px rgba(0, 217, 255, 0.65),
+                0 0 44px rgba(0, 217, 255, 0.35),
+                0 5px 16px rgba(0, 0, 0, 0.5);
+        }
+        .globe-logo.mini {
+            width: 32px;
+            height: 32px;
+            box-shadow:
+                0 0 10px rgba(0, 217, 255, 0.5),
+                0 0 20px rgba(0, 217, 255, 0.25),
+                0 2px 6px rgba(0, 0, 0, 0.5);
+        }
 
         .card {
             background: var(--surface-1);
@@ -210,53 +253,6 @@
             box-shadow: 0 0 16px rgba(0, 217, 255, 0.35);
         }
 
-        /* ===================================================
-           GLOBE SVG - REALISTIS & BERPUTAR
-           =================================================== */
-        .globe-svg-wrapper {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
-            box-shadow:
-                0 0 16px rgba(0, 217, 255, 0.55),
-                0 0 32px rgba(0, 217, 255, 0.28),
-                0 4px 12px rgba(0, 0, 0, 0.5);
-            background: #051A33;
-        }
-        .globe-svg-wrapper svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        .globe-svg-wrapper .continents-layer {
-            animation: globeSpin 20s linear infinite;
-            transform-origin: 50% 50%;
-        }
-        @keyframes globeSpin {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .globe-svg-wrapper.large {
-            width: 72px;
-            height: 72px;
-            box-shadow:
-                0 0 24px rgba(0, 217, 255, 0.65),
-                0 0 48px rgba(0, 217, 255, 0.35),
-                0 6px 18px rgba(0, 0, 0, 0.5);
-        }
-        .globe-svg-wrapper.mini {
-            width: 32px;
-            height: 32px;
-            box-shadow:
-                0 0 10px rgba(0, 217, 255, 0.5),
-                0 0 20px rgba(0, 217, 255, 0.25),
-                0 3px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        /* SIDEBAR */
         .sidebar {
             position: fixed;
             top: 0; left: 0; bottom: 0;
@@ -714,7 +710,7 @@
             filter: drop-shadow(0 0 6px var(--primary-cyan));
         }
         @keyframes slideUpLogin { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .login-card .globe-svg-wrapper { margin: 0 auto; }
+        .login-card .globe-logo { margin: 0 auto; }
         .login-title {
             font-size: 28px; font-weight: 900;
             margin: 16px 0 4px;
@@ -1014,11 +1010,81 @@
 </head>
 <body>
 
+    <!-- ============================================================
+         SVG GLOBAL DEFS - SEKALI SAJA, DI LUAR SEMUA GLOBE
+         ============================================================ -->
+    <svg width="0" height="0" style="position:absolute;pointer-events:none;">
+        <defs>
+            <radialGradient id="oceanGrad" cx="35%" cy="30%" r="75%">
+                <stop offset="0%" stop-color="#5FB4E8"/>
+                <stop offset="40%" stop-color="#2E7BC4"/>
+                <stop offset="75%" stop-color="#1B5AA0"/>
+                <stop offset="100%" stop-color="#0A2D5C"/>
+            </radialGradient>
+            <linearGradient id="landGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#86EFAC"/>
+                <stop offset="50%" stop-color="#22C55E"/>
+                <stop offset="100%" stop-color="#15803D"/>
+            </linearGradient>
+            <radialGradient id="globeShade" cx="35%" cy="30%" r="80%">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.5)"/>
+                <stop offset="35%" stop-color="rgba(255,255,255,0.05)"/>
+                <stop offset="70%" stop-color="rgba(0,0,0,0)"/>
+                <stop offset="100%" stop-color="rgba(0,0,0,0.75)"/>
+            </radialGradient>
+        </defs>
+    </svg>
+
     <!-- LOGIN SCREEN -->
     <div id="login-screen" class="login-screen">
         <div class="login-card">
             <div style="text-align:center;">
-                <div class="globe-svg-wrapper large" style="margin:0 auto;" id="login-globe"></div>
+                <div class="globe-logo large" style="margin:0 auto;">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="50" fill="url(#oceanGrad)"/>
+                        <g class="continents">
+                            <!-- Set A -->
+                            <g fill="url(#landGrad)">
+                                <!-- Amerika Utara -->
+                                <path d="M 12 24 Q 18 18 28 20 Q 34 24 32 32 Q 30 42 24 44 Q 18 42 14 34 Z"/>
+                                <!-- Amerika Selatan -->
+                                <path d="M 22 50 Q 28 46 33 52 Q 36 62 32 72 Q 26 78 21 72 Q 18 62 20 54 Z"/>
+                                <!-- Greenland -->
+                                <path d="M 30 6 Q 40 4 44 10 Q 42 16 34 16 Z"/>
+                                <!-- Eropa -->
+                                <path d="M 44 18 Q 52 16 56 20 Q 58 26 54 30 Q 48 30 44 26 Z"/>
+                                <!-- Afrika -->
+                                <path d="M 44 34 Q 54 32 58 40 Q 60 52 54 64 Q 46 68 42 58 Q 40 46 44 38 Z"/>
+                                <!-- Asia -->
+                                <path d="M 58 18 Q 74 14 84 20 Q 90 28 84 36 Q 76 42 66 40 Q 60 34 58 28 Z"/>
+                                <!-- India -->
+                                <path d="M 64 42 Q 68 40 70 46 Q 68 52 64 52 Z"/>
+                                <!-- Asia Tenggara -->
+                                <path d="M 74 44 Q 80 42 82 48 Q 80 54 74 52 Z"/>
+                                <!-- Australia -->
+                                <path d="M 76 68 Q 88 64 92 72 Q 90 80 82 80 Q 74 78 76 68 Z"/>
+                            </g>
+                            <!-- Set B (offset 100) untuk loop seamless -->
+                            <g transform="translate(100,0)" fill="url(#landGrad)">
+                                <path d="M 12 24 Q 18 18 28 20 Q 34 24 32 32 Q 30 42 24 44 Q 18 42 14 34 Z"/>
+                                <path d="M 22 50 Q 28 46 33 52 Q 36 62 32 72 Q 26 78 21 72 Q 18 62 20 54 Z"/>
+                                <path d="M 30 6 Q 40 4 44 10 Q 42 16 34 16 Z"/>
+                                <path d="M 44 18 Q 52 16 56 20 Q 58 26 54 30 Q 48 30 44 26 Z"/>
+                                <path d="M 44 34 Q 54 32 58 40 Q 60 52 54 64 Q 46 68 42 58 Q 40 46 44 38 Z"/>
+                                <path d="M 58 18 Q 74 14 84 20 Q 90 28 84 36 Q 76 42 66 40 Q 60 34 58 28 Z"/>
+                                <path d="M 64 42 Q 68 40 70 46 Q 68 52 64 52 Z"/>
+                                <path d="M 74 44 Q 80 42 82 48 Q 80 54 74 52 Z"/>
+                                <path d="M 76 68 Q 88 64 92 72 Q 90 80 82 80 Q 74 78 76 68 Z"/>
+                            </g>
+                        </g>
+                        <!-- Highlight & shadow 3D -->
+                        <circle cx="50" cy="50" r="50" fill="url(#globeShade)"/>
+                        <!-- Highlight matahari -->
+                        <ellipse cx="32" cy="28" rx="16" ry="11" fill="rgba(255,255,255,0.4)"/>
+                        <!-- Atmosfer glow -->
+                        <circle cx="50" cy="50" r="49" fill="none" stroke="rgba(0,217,255,0.75)" stroke-width="1.2"/>
+                    </svg>
+                </div>
                 <h1 class="login-title">BUCIN</h1>
                 <p class="login-subtitle">Sistem Cegah Insiden Network</p>
             </div>
@@ -1055,7 +1121,38 @@
     <div id="app-shell" class="hidden">
         <aside id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <div class="globe-svg-wrapper" id="sidebar-globe"></div>
+                <div class="globe-logo">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="50" fill="url(#oceanGrad)"/>
+                        <g class="continents">
+                            <g fill="url(#landGrad)">
+                                <path d="M 12 24 Q 18 18 28 20 Q 34 24 32 32 Q 30 42 24 44 Q 18 42 14 34 Z"/>
+                                <path d="M 22 50 Q 28 46 33 52 Q 36 62 32 72 Q 26 78 21 72 Q 18 62 20 54 Z"/>
+                                <path d="M 30 6 Q 40 4 44 10 Q 42 16 34 16 Z"/>
+                                <path d="M 44 18 Q 52 16 56 20 Q 58 26 54 30 Q 48 30 44 26 Z"/>
+                                <path d="M 44 34 Q 54 32 58 40 Q 60 52 54 64 Q 46 68 42 58 Q 40 46 44 38 Z"/>
+                                <path d="M 58 18 Q 74 14 84 20 Q 90 28 84 36 Q 76 42 66 40 Q 60 34 58 28 Z"/>
+                                <path d="M 64 42 Q 68 40 70 46 Q 68 52 64 52 Z"/>
+                                <path d="M 74 44 Q 80 42 82 48 Q 80 54 74 52 Z"/>
+                                <path d="M 76 68 Q 88 64 92 72 Q 90 80 82 80 Q 74 78 76 68 Z"/>
+                            </g>
+                            <g transform="translate(100,0)" fill="url(#landGrad)">
+                                <path d="M 12 24 Q 18 18 28 20 Q 34 24 32 32 Q 30 42 24 44 Q 18 42 14 34 Z"/>
+                                <path d="M 22 50 Q 28 46 33 52 Q 36 62 32 72 Q 26 78 21 72 Q 18 62 20 54 Z"/>
+                                <path d="M 30 6 Q 40 4 44 10 Q 42 16 34 16 Z"/>
+                                <path d="M 44 18 Q 52 16 56 20 Q 58 26 54 30 Q 48 30 44 26 Z"/>
+                                <path d="M 44 34 Q 54 32 58 40 Q 60 52 54 64 Q 46 68 42 58 Q 40 46 44 38 Z"/>
+                                <path d="M 58 18 Q 74 14 84 20 Q 90 28 84 36 Q 76 42 66 40 Q 60 34 58 28 Z"/>
+                                <path d="M 64 42 Q 68 40 70 46 Q 68 52 64 52 Z"/>
+                                <path d="M 74 44 Q 80 42 82 48 Q 80 54 74 52 Z"/>
+                                <path d="M 76 68 Q 88 64 92 72 Q 90 80 82 80 Q 74 78 76 68 Z"/>
+                            </g>
+                        </g>
+                        <circle cx="50" cy="50" r="50" fill="url(#globeShade)"/>
+                        <ellipse cx="32" cy="28" rx="16" ry="11" fill="rgba(255,255,255,0.4)"/>
+                        <circle cx="50" cy="50" r="49" fill="none" stroke="rgba(0,217,255,0.75)" stroke-width="1.2"/>
+                    </svg>
+                </div>
                 <div class="brand-text-wrapper">
                     <span class="brand-text">BUCIN</span>
                     <span class="brand-sub">Cegah Insiden</span>
@@ -1878,90 +1975,6 @@
     </div>
 
     <script>
-    // ============================================================
-    // GLOBE SVG - Realistis dengan benua
-    // ============================================================
-    const GLOBE_SVG = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
-        '<defs>' +
-            '<radialGradient id="oceanGrad" cx="35%" cy="30%" r="75%">' +
-                '<stop offset="0%" stop-color="#5FA8E0"/>' +
-                '<stop offset="45%" stop-color="#2E7BC4"/>' +
-                '<stop offset="75%" stop-color="#1B5AA0"/>' +
-                '<stop offset="100%" stop-color="#051B3A"/>' +
-            '</radialGradient>' +
-            '<radialGradient id="landGrad" cx="40%" cy="35%" r="70%">' +
-                '<stop offset="0%" stop-color="#6EE7A0"/>' +
-                '<stop offset="50%" stop-color="#22C55E"/>' +
-                '<stop offset="100%" stop-color="#15803D"/>' +
-            '</radialGradient>' +
-            '<radialGradient id="landGrad2" cx="40%" cy="35%" r="70%">' +
-                '<stop offset="0%" stop-color="#86EFAC"/>' +
-                '<stop offset="50%" stop-color="#4ADE80"/>' +
-                '<stop offset="100%" stop-color="#16A34A"/>' +
-            '</radialGradient>' +
-            '<radialGradient id="globeShade" cx="35%" cy="30%" r="85%">' +
-                '<stop offset="0%" stop-color="rgba(255,255,255,0.55)"/>' +
-                '<stop offset="30%" stop-color="rgba(255,255,255,0.1)"/>' +
-                '<stop offset="65%" stop-color="rgba(0,0,0,0)"/>' +
-                '<stop offset="100%" stop-color="rgba(0,0,0,0.65)"/>' +
-            '</radialGradient>' +
-            '<clipPath id="globeClip"><circle cx="50" cy="50" r="50"/></clipPath>' +
-        '</defs>' +
-        '<g clip-path="url(#globeClip)">' +
-            // Ocean
-            '<rect width="100" height="100" fill="url(#oceanGrad)"/>' +
-            // Continents layer - diulang 2x untuk seamless loop
-            '<g class="continents-layer">' +
-                // Set pertama
-                '<g fill="url(#landGrad)" opacity="0.95">' +
-                    // Amerika Utara
-                    '<path d="M 15 25 Q 20 20 28 22 Q 32 25 30 32 Q 28 40 22 42 Q 18 40 16 34 Z"/>' +
-                    // Amerika Selatan
-                    '<path d="M 24 48 Q 30 46 33 52 Q 34 62 30 72 Q 26 76 22 70 Q 20 62 22 54 Z"/>' +
-                    // Eropa
-                    '<path d="M 45 20 Q 52 18 55 22 Q 56 28 52 30 Q 46 28 44 24 Z"/>' +
-                    // Afrika
-                    '<path d="M 46 34 Q 54 32 56 40 Q 57 52 52 62 Q 46 66 42 58 Q 40 46 44 38 Z"/>' +
-                    // Asia
-                    '<path d="M 58 18 Q 72 15 82 20 Q 88 28 82 34 Q 76 40 68 38 Q 62 34 58 28 Z"/>' +
-                    // India
-                    '<path d="M 64 40 Q 68 38 70 44 Q 68 50 64 50 Z"/>' +
-                    // Asia tenggara
-                    '<path d="M 74 42 Q 80 40 82 46 Q 80 52 74 50 Z"/>' +
-                    // Australia
-                    '<path d="M 76 66 Q 86 62 90 70 Q 88 78 80 78 Q 74 76 76 66 Z"/>' +
-                    // Greenland
-                    '<path d="M 30 8 Q 38 5 42 10 Q 40 16 32 16 Z"/>' +
-                '</g>' +
-                // Set kedua (offset 100) untuk loop mulus
-                '<g transform="translate(100,0)" fill="url(#landGrad2)" opacity="0.95">' +
-                    '<path d="M 15 25 Q 20 20 28 22 Q 32 25 30 32 Q 28 40 22 42 Q 18 40 16 34 Z"/>' +
-                    '<path d="M 24 48 Q 30 46 33 52 Q 34 62 30 72 Q 26 76 22 70 Q 20 62 22 54 Z"/>' +
-                    '<path d="M 45 20 Q 52 18 55 22 Q 56 28 52 30 Q 46 28 44 24 Z"/>' +
-                    '<path d="M 46 34 Q 54 32 56 40 Q 57 52 52 62 Q 46 66 42 58 Q 40 46 44 38 Z"/>' +
-                    '<path d="M 58 18 Q 72 15 82 20 Q 88 28 82 34 Q 76 40 68 38 Q 62 34 58 28 Z"/>' +
-                    '<path d="M 64 40 Q 68 38 70 44 Q 68 50 64 50 Z"/>' +
-                    '<path d="M 74 42 Q 80 40 82 46 Q 80 52 74 50 Z"/>' +
-                    '<path d="M 76 66 Q 86 62 90 70 Q 88 78 80 78 Q 74 76 76 66 Z"/>' +
-                    '<path d="M 30 8 Q 38 5 42 10 Q 40 16 32 16 Z"/>' +
-                '</g>' +
-            '</g>' +
-            // Highlight 3D & bayangan
-            '<circle cx="50" cy="50" r="50" fill="url(#globeShade)"/>' +
-            // Highlight matahari kecil
-            '<ellipse cx="32" cy="28" rx="14" ry="10" fill="rgba(255,255,255,0.35)" opacity="0.8"/>' +
-            // Atmosfer
-            '<circle cx="50" cy="50" r="49" fill="none" stroke="rgba(0, 217, 255, 0.6)" stroke-width="1.5"/>' +
-        '</g>' +
-    '</svg>';
-
-    function renderGlobes() {
-        var loginGlobe = document.getElementById('login-globe');
-        var sidebarGlobe = document.getElementById('sidebar-globe');
-        if (loginGlobe) loginGlobe.innerHTML = GLOBE_SVG;
-        if (sidebarGlobe) sidebarGlobe.innerHTML = GLOBE_SVG;
-    }
-
     const firebaseConfig = {
         apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
         authDomain: "bucin-18282.firebaseapp.com",
@@ -3142,7 +3155,7 @@
 
     // ============================================================
     // CHART: OF Cut per Penyebab
-    // Rumus: (jumlah / total_bulan) × 100%
+    // Rumus: (jumlah_penyebab_bulan / total_insiden_bulan) × 100%
     // ============================================================
     const percentagePlugin = {
         id: 'percentageLabels',
@@ -3165,7 +3178,6 @@
                     if (value === 0) return;
                     var total = totalsPerMonth[index];
                     if (total === 0) return;
-                    // Rumus: (jumlah / total) × 100%
                     var pct = (value / total) * 100;
                     var pctText = (Math.round(pct * 10) / 10).toFixed(1) + '%';
                     ctx.save();
@@ -3281,7 +3293,7 @@
                                         });
                                         var pct = total > 0 ? (value / total) * 100 : 0;
                                         return context.dataset.label + ': ' + value + ' insiden (' +
-                                               (Math.round(pct * 10) / 10).toFixed(1) + '%)';
+                                               (Math.round(pct * 10) / 10).toFixed(1) + '% dari total bulan)';
                                     }
                                 }
                             }
@@ -3369,12 +3381,6 @@
         var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
         var html = '';
         var totalP3 = 0, totalV = 0, totalB = 0, totalL = 0;
-        var grandTotalAll = 0;
-
-        // Precompute grandTotal dulu
-        for (var i = 0; i < 12; i++) {
-            grandTotalAll += dP3[i] + dVandal[i] + dBencana[i] + dLainnya[i];
-        }
 
         for (var i = 0; i < 12; i++) {
             var totalBulan = dP3[i] + dVandal[i] + dBencana[i] + dLainnya[i];
@@ -3404,7 +3410,6 @@
             html += '</tr>';
         }
 
-        // Baris total (persentase dari grand total seluruh tahun)
         var grandTotal = totalP3 + totalV + totalB + totalL;
         var totalPctP3 = grandTotal > 0 ? (totalP3 / grandTotal) * 100 : 0;
         var totalPctV = grandTotal > 0 ? (totalV / grandTotal) * 100 : 0;
@@ -3612,7 +3617,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        renderGlobes();
         loadTheme();
         if (typeof lucide !== 'undefined') lucide.createIcons();
 
