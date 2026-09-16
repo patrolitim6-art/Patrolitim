@@ -308,8 +308,7 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
 .icon-btn.edit:hover { background: rgba(16, 185, 129, 0.15); color: #10B981; }
 
 /* ============================================================
-   AUTO UPPERCASE - Semua input text jadi kapital (tampilan)
-   KECUALI: password, date, color, email, range, login form
+   AUTO UPPERCASE
    ============================================================ */
 input.field-control[type="text"],
 input.field-control:not([type]),
@@ -321,18 +320,21 @@ input.field-control:not([type])::placeholder,
 textarea.field-control::placeholder {
   text-transform: none;
 }
-/* Kecuali field-field ini TIDAK uppercase */
 input.field-control[type="date"],
 input.field-control[type="password"],
 input.field-control[type="email"],
 input.field-control[type="color"],
 input[type="range"],
 #login-username,
-#login-password {
+#login-password,
+#fcp-new-password,
+#fcp-confirm-password {
   text-transform: none;
 }
 #login-username::placeholder,
-#login-password::placeholder {
+#login-password::placeholder,
+#fcp-new-password::placeholder,
+#fcp-confirm-password::placeholder {
   text-transform: none;
 }
 
@@ -541,6 +543,7 @@ input[type="range"],
 .user-list-role.admin { background: rgba(168, 85, 247, 0.15); color: #A855F7; border: 1px solid rgba(168, 85, 247, 0.4); }
 .user-list-role.user { background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.4); }
 .user-list-role.suspended-tag { background: rgba(239, 68, 68, 0.15); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.4); }
+.user-list-role.new-tag { background: rgba(245, 158, 11, 0.15); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.4); }
 .user-list-actions { display: flex; gap: 6px; flex-shrink: 0; }
 .user-list-btn { padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid; transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px; font-family: inherit; }
 .user-list-btn.suspend { background: rgba(245, 158, 11, 0.1); color: #F59E0B; border-color: rgba(245, 158, 11, 0.4); }
@@ -549,6 +552,8 @@ input[type="range"],
 .user-list-btn.unsuspend:hover { background: rgba(16, 185, 129, 0.25); transform: translateY(-1px); }
 .user-list-btn.delete { background: rgba(239, 68, 68, 0.1); color: #EF4444; border-color: rgba(239, 68, 68, 0.4); }
 .user-list-btn.delete:hover { background: rgba(239, 68, 68, 0.25); transform: translateY(-1px); }
+.user-list-btn.reset { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); border-color: rgba(0, 217, 255, 0.4); }
+.user-list-btn.reset:hover { background: rgba(0, 217, 255, 0.25); transform: translateY(-1px); }
 .user-list-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
 
 /* ============================================================
@@ -636,6 +641,66 @@ input[type="range"],
     <div class="login-footer">
       <p style="margin-top:4px;font-size:10px;color:var(--text-dim);">&copy; 2026 BUCIN - Barisan Utama Cegah Insiden</p>
     </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: WAJIB GANTI PASSWORD (Muncul setelah login pertama)
+     ============================================================ -->
+<div id="force-change-password-modal" class="modal-layer hidden" style="z-index:300;">
+  <div class="modal-card" style="max-width:460px;border-color:#F59E0B;">
+
+    <div style="text-align:center;margin-bottom:18px;">
+      <div style="width:64px;height:64px;background:rgba(245,158,11,0.15);border-radius:18px;display:grid;place-items:center;margin:0 auto 12px;border:1px solid rgba(245,158,11,0.5);">
+        <i data-lucide="shield-alert" style="width:32px;color:#F59E0B;"></i>
+      </div>
+      <h3 style="margin:0;font-size:20px;font-weight:800;color:#F59E0B;">Wajib Ganti Password</h3>
+      <p style="color:var(--text-muted);font-size:13px;margin-top:6px;line-height:1.5;">
+        Ini adalah login pertama Anda menggunakan password default.<br>
+        Silakan buat password baru untuk melanjutkan.
+      </p>
+    </div>
+
+    <div style="background:rgba(245,158,11,0.1);padding:12px 14px;border-radius:12px;margin-bottom:16px;border:1px solid rgba(245,158,11,0.3);">
+      <div style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">User</div>
+      <div id="fcp-username-display" style="font-size:15px;font-weight:800;color:#F59E0B;margin-top:4px;font-family:'Orbitron',sans-serif;">-</div>
+    </div>
+
+    <form id="force-change-password-form" onsubmit="return submitForceChangePassword(event)">
+
+      <div style="margin-bottom:14px;">
+        <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Password Baru *</label>
+        <div style="position:relative;">
+          <input type="password" id="fcp-new-password" class="field-control" placeholder="Masukkan password baru" required style="padding-right:44px;">
+          <button type="button" onclick="togglePasswordVisibility('fcp-new-password', this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;">
+            <i data-lucide="eye" style="width:18px;"></i>
+          </button>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Minimal 5 karakter, tidak boleh sama dengan password default.</div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Konfirmasi Password Baru *</label>
+        <div style="position:relative;">
+          <input type="password" id="fcp-confirm-password" class="field-control" placeholder="Ulangi password baru" required style="padding-right:44px;">
+          <button type="button" onclick="togglePasswordVisibility('fcp-confirm-password', this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;">
+            <i data-lucide="eye" style="width:18px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="fcp-error" style="display:none;color:#EC4899;font-size:12px;font-weight:600;text-align:center;padding:8px 12px;background:rgba(236,72,153,0.12);border-radius:8px;margin-bottom:12px;border:1px solid rgba(236,72,153,0.3);"></div>
+
+      <button type="submit" id="fcp-submit-btn" class="btn-primary" style="width:100%;justify-content:center;background:linear-gradient(135deg,#F59E0B 0%,#D97706 100%);">
+        <i data-lucide="save" style="width:16px;"></i> Simpan Password Baru
+      </button>
+
+      <button type="button" onclick="logoutForceChange()" class="btn-secondary" style="width:100%;justify-content:center;margin-top:8px;color:var(--text-muted);">
+        <i data-lucide="log-out" style="width:16px;"></i> Keluar Saja
+      </button>
+
+    </form>
+
   </div>
 </div>
 
@@ -1505,22 +1570,23 @@ input[type="range"],
         <i data-lucide="plus-circle" style="width:14px;"></i> Tambah User Baru
       </div>
       <form id="add-user-form" onsubmit="return submitAddUser(event)">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:12px;">
           <div>
             <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Username</label>
             <input type="text" id="new-username" class="field-control" required>
-          </div>
-          <div>
-            <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Password</label>
-            <input type="password" id="new-password" class="field-control" required>
           </div>
         </div>
         <div style="margin-bottom:12px;">
           <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;">Role</label>
           <select id="new-role" class="field-control">
-            <option value="admin">Admin</option>
             <option value="user">User</option>
+            <option value="admin">Admin</option>
           </select>
+        </div>
+        <div style="background:rgba(245,158,11,0.1);padding:10px 14px;border-radius:10px;margin-bottom:12px;border:1px solid rgba(245,158,11,0.4);">
+          <div style="font-size:11px;color:#F59E0B;line-height:1.5;">
+            <strong>ℹ️ Info:</strong> User akan dibuat dengan password default <code style="background:rgba(245,158,11,0.2);padding:1px 6px;border-radius:4px;">12345</code> dan <strong>wajib mengganti password</strong> saat login pertama.
+          </div>
         </div>
         <button type="submit" class="btn-primary" style="width:100%;justify-content:center;min-height:44px;font-size:14px;">
           <i data-lucide="user-plus" style="width:16px;"></i> Tambah User
@@ -1736,7 +1802,7 @@ input[type="range"],
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="user-cog" style="width:14px;color:var(--primary-cyan);"></i><strong style="font-size:12px;color:var(--text-main);">Manajemen User</strong></div>
-        <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Kelola user: tambah, suspend, aktifkan, hapus.</p>
+        <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Tambah user, suspend, aktifkan, hapus. User baru wajib ganti password.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="palette" style="width:14px;color:var(--primary-cyan);"></i><strong style="font-size:12px;color:var(--text-main);">Tema &amp; Font</strong></div>
@@ -1811,7 +1877,6 @@ window.loadTheme = loadTheme;
 
 /* ============================================================
    AUTO UPPERCASE
-   Catatan: login-username & login-password TIDAK diikutkan
    ============================================================ */
 function applyAutoUppercase() {
   var textInputIds = [
@@ -1966,8 +2031,7 @@ function ensureDefaultUser() {
     var users = snap.val();
     if (!users || Object.keys(users).length === 0) {
       db.ref('users').set({
-        'admin': { pass: 'admin123', role: 'admin' },
-        'user': { pass: 'user123', role: 'user' }
+        'admin': { pass: 'admin123', role: 'admin' }
       });
     }
   }).catch(function(err) { console.error('Cek user gagal:', err); });
@@ -2041,7 +2105,7 @@ function renderRiwayatModal() {
   }
   document.getElementById('riwayat-modal-empty').style.display = 'none';
   items.forEach(function(it) {
-    var aksiColor = it.aksi === 'Hapus' ? '#EC4899' : (it.aksi === 'Edit' || it.aksi === 'Update' || it.aksi === 'Update Pemakaian' ? '#F59E0B' : '#10B981');
+    var aksiColor = it.aksi === 'Hapus' ? '#EC4899' : (it.aksi === 'Edit' || it.aksi === 'Update' || it.aksi === 'Update Pemakaian' || it.aksi === 'Ubah Password' ? '#F59E0B' : '#10B981');
     tb.innerHTML += '<tr>' +
       '<td style="white-space:nowrap;font-size:12px;">' + (it.tanggal || '-') + '</td>' +
       '<td><span class="history-badge" style="background:' + aksiColor + '20;color:' + aksiColor + ';border:1px solid ' + aksiColor + '40;">' + (it.aksi || '-') + '</span></td>' +
@@ -2097,7 +2161,7 @@ function refetchData() {
 }
 
 /* ============================================================
-   LOGIN - Case-sensitive, no auto-uppercase
+   LOGIN
    ============================================================ */
 function handleLogin(e) {
   if (e && e.preventDefault) e.preventDefault();
@@ -2138,6 +2202,25 @@ function handleLogin(e) {
       if (!ud) throw new Error('Username tidak ditemukan');
       if (ud.pass !== password) throw new Error('Password salah');
       if (ud.suspended === true) throw new Error('Akun Anda telah disuspend. Hubungi administrator.');
+      
+      // Cek wajib ganti password
+      if (ud.mustChangePassword === true) {
+        window._pendingUser = { name: username, role: ud.role || 'user' };
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('fcp-username-display').textContent = username;
+        document.getElementById('fcp-new-password').value = '';
+        document.getElementById('fcp-confirm-password').value = '';
+        document.getElementById('fcp-error').style.display = 'none';
+        document.getElementById('force-change-password-modal').classList.remove('hidden');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        setTimeout(function() {
+          var inp = document.getElementById('fcp-new-password');
+          if (inp) inp.focus();
+        }, 200);
+        return;
+      }
+      
+      // Login normal
       currentUser = { name: username, role: ud.role || 'user' };
       localStorage.setItem('bucin_session', JSON.stringify({ username: username, role: currentUser.role }));
       document.getElementById('login-screen').classList.add('hidden');
@@ -2192,6 +2275,115 @@ function resetSessionTimer() {
 }
 function refreshSession() { if (currentUser) resetSessionTimer(); }
 function simpanData() { submitForm(null); }
+
+/* ============================================================
+   FORCE CHANGE PASSWORD (User ganti password sendiri)
+   ============================================================ */
+function togglePasswordVisibility(inputId, btn) {
+  var inp = document.getElementById(inputId);
+  if (!inp) return;
+  var ic = btn.querySelector('i');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    if (ic) ic.setAttribute('data-lucide', 'eye-off');
+  } else {
+    inp.type = 'password';
+    if (ic) ic.setAttribute('data-lucide', 'eye');
+  }
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function submitForceChangePassword(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  if (!window._pendingUser) { showToast('Sesi tidak valid', 'error'); return false; }
+
+  var p1 = document.getElementById('fcp-new-password').value;
+  var p2 = document.getElementById('fcp-confirm-password').value;
+  var errEl = document.getElementById('fcp-error');
+
+  function showErr(msg) {
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+  }
+  errEl.style.display = 'none';
+
+  if (!p1 || !p2) { showErr('Isi kedua kolom password!'); return false; }
+  if (p1.length < 5) { showErr('Password minimal 5 karakter.'); return false; }
+  if (p1 === '12345') { showErr('Password tidak boleh sama dengan password default!'); return false; }
+  if (p1 !== p2) { showErr('Konfirmasi password tidak cocok.'); return false; }
+
+  var uname = window._pendingUser.name;
+  var role = window._pendingUser.role;
+
+  var btn = document.getElementById('fcp-submit-btn');
+  var orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = 'Menyimpan...';
+
+  db.ref('users/' + uname).update({
+    pass: p1,
+    mustChangePassword: false
+  })
+    .then(function() {
+      catatRiwayat('User Management', 'Ubah Password', 'User: ' + uname, 'User mengganti password default saat login pertama');
+      
+      currentUser = { name: uname, role: role };
+      localStorage.setItem('bucin_session', JSON.stringify({ username: uname, role: role }));
+      
+      document.getElementById('force-change-password-modal').classList.add('hidden');
+      document.getElementById('app-shell').classList.remove('hidden');
+      
+      if (role === 'admin') {
+        document.getElementById('add-user-btn').classList.remove('hidden');
+        document.getElementById('settings-btn').classList.remove('hidden');
+      }
+      updateSidebarUser();
+      resetSessionTimer();
+      loadData();
+      loadRiwayat();
+      loadSettings();
+      loadUsersList();
+      setTimeout(function() {
+        try { initMap(); } catch (e) {}
+        try { initCharts(); } catch (e) {}
+        try { loadKmlFromFirebase(); } catch (e) {}
+        try { loadCustomLines(); } catch (e) {}
+        try { applyAutoUppercase(); } catch (e) {}
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }, 300);
+      
+      window._pendingUser = null;
+      showToast('Password berhasil diubah! Selamat datang, ' + uname, 'success');
+    })
+    .catch(function(err) {
+      var msg = err.message || 'Gagal menyimpan password';
+      if (msg.includes('permission')) msg = 'Akses ditolak. Hubungi administrator.';
+      showErr(msg);
+      showToast(msg, 'error');
+    })
+    .finally(function() {
+      btn.disabled = false;
+      btn.innerHTML = orig;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+
+  return false;
+}
+
+function logoutForceChange() {
+  if (!confirm('Yakin keluar? Anda harus login lagi dan tetap wajib ganti password.')) return;
+  window._pendingUser = null;
+  document.getElementById('force-change-password-modal').classList.add('hidden');
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('fcp-new-password').value = '';
+  document.getElementById('fcp-confirm-password').value = '';
+  document.getElementById('fcp-error').style.display = 'none';
+  showToast('Silakan login kembali', 'warning');
+}
+
+window.submitForceChangePassword = submitForceChangePassword;
+window.logoutForceChange = logoutForceChange;
+window.togglePasswordVisibility = togglePasswordVisibility;
 
 /* ============================================================
    GENERATORS
@@ -2789,6 +2981,7 @@ function renderUserList() {
     var data = entry.data || {};
     var role = data.role || 'user';
     var isSuspended = data.suspended === true;
+    var isMustChange = data.mustChangePassword === true;
     var isCurrentUser = currentUser && currentUser.name === name;
     var isLastAdmin = false;
     if (role === 'admin' && !isSuspended) {
@@ -2805,6 +2998,7 @@ function renderUserList() {
     html += escapeHtml(name);
     html += '<span class="user-list-role ' + role + '">' + role + '</span>';
     if (isSuspended) html += '<span class="user-list-role suspended-tag">SUSPENDED</span>';
+    if (isMustChange) html += '<span class="user-list-role new-tag">BELUM GANTI PWD</span>';
     if (isCurrentUser) html += '<span class="user-list-role admin" style="background:rgba(0,217,255,0.15);color:var(--primary-cyan);border-color:rgba(0,217,255,0.4);">ANDA</span>';
     html += '</div></div><div class="user-list-actions">';
     if (isSuspended) {
@@ -2814,6 +3008,9 @@ function renderUserList() {
               (isCurrentUser ? 'disabled title="Tidak bisa suspend diri sendiri"' : (isLastAdmin ? 'disabled title="Admin terakhir tidak bisa disuspend"' : 'title="Suspend user"')) + '>' +
               '<i data-lucide="pause-circle" style="width:12px;"></i> Suspend</button>';
     }
+    html += '<button class="user-list-btn reset" onclick="resetUserPassword(\'' + escapeAttr(name) + '\')" ' +
+            (isCurrentUser ? 'disabled title="Tidak bisa reset password sendiri"' : 'title="Reset password ke default (12345)"') + '>' +
+            '<i data-lucide="rotate-ccw" style="width:12px;"></i> Reset</button>';
     html += '<button class="user-list-btn delete" onclick="deleteUser(\'' + escapeAttr(name) + '\')" ' +
             (isCurrentUser ? 'disabled title="Tidak bisa hapus diri sendiri"' : (isLastAdmin ? 'disabled title="Admin terakhir tidak bisa dihapus"' : 'title="Hapus user"')) + '>' +
             '<i data-lucide="trash-2" style="width:12px;"></i> Hapus</button>';
@@ -2853,6 +3050,21 @@ window.unsuspendUser = function(name) {
     .catch(function(err) { showToast(err.message, 'error'); });
 };
 
+window.resetUserPassword = function(name) {
+  if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya admin', 'error'); return; }
+  if (currentUser.name === name) { showToast('Tidak bisa reset password sendiri', 'error'); return; }
+  if (!confirm('Reset password user "' + name + '" ke default "12345"?\n\nUser wajib mengganti password saat login berikutnya.')) return;
+  db.ref('users/' + name).update({
+    pass: '12345',
+    mustChangePassword: true
+  })
+    .then(function() {
+      catatRiwayat('User Management', 'Reset Password', 'User: ' + name, 'Password direset ke default 12345, user wajib ganti saat login');
+      showToast('Password user "' + name + '" direset ke 12345', 'warning');
+    })
+    .catch(function(err) { showToast(err.message, 'error'); });
+};
+
 window.deleteUser = function(name) {
   if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya admin', 'error'); return; }
   if (currentUser.name === name) { showToast('Tidak bisa hapus diri sendiri', 'error'); return; }
@@ -2874,17 +3086,22 @@ window.deleteUser = function(name) {
 
 function submitAddUser(e) {
   e.preventDefault();
-  var u = document.getElementById('new-username').value.trim().toUpperCase();
-  var p = document.getElementById('new-password').value.trim();
+  var u = document.getElementById('new-username').value.trim();
   var r = document.getElementById('new-role').value;
-  if (!u || !p) { showToast('Isi semua', 'error'); return false; }
+  if (!u) { showToast('Isi username', 'error'); return false; }
   if (usersListData[u]) { showToast('Username sudah ada', 'error'); return false; }
-  db.ref('users/' + u).set({ pass: p, role: r })
+  
+  db.ref('users/' + u).set({
+    pass: '12345',
+    role: r,
+    mustChangePassword: true
+  })
     .then(function() {
-      catatRiwayat('User Management', 'Tambah User', 'User: ' + u + ' | Role: ' + r, 'User baru ditambahkan');
-      showToast('User "' + u + '" ditambahkan', 'success');
+      catatRiwayat('User Management', 'Tambah User',
+        'User: ' + u + ' | Role: ' + r,
+        'User baru ditambahkan dengan password default "12345"');
+      showToast('User "' + u + '" ditambahkan (password default: 12345)', 'success');
       document.getElementById('new-username').value = '';
-      document.getElementById('new-password').value = '';
       document.getElementById('new-role').value = 'user';
     })
     .catch(function(err) { showToast(err.message, 'error'); });
@@ -4227,7 +4444,6 @@ document.addEventListener('DOMContentLoaded', function() {
   checkFirebaseConnection().then(function(ok) { if (ok) ensureDefaultUser(); });
   applyAutoUppercase();
 
-  // Restore sort preference
   try {
     var savedSort = localStorage.getItem('bucin_sort');
     if (savedSort) {
