@@ -308,6 +308,29 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
 .icon-btn.edit:hover { background: rgba(16, 185, 129, 0.15); color: #10B981; }
 
 /* ============================================================
+   AUTO UPPERCASE - Semua input text jadi kapital (tampilan)
+   ============================================================ */
+input.field-control[type="text"],
+input.field-control:not([type]),
+textarea.field-control {
+  text-transform: uppercase;
+}
+/* Placeholder tetap normal (tidak kapital) */
+input.field-control[type="text"]::placeholder,
+input.field-control:not([type])::placeholder,
+textarea.field-control::placeholder {
+  text-transform: none;
+}
+/* Kecuali field-field ini TIDAK uppercase */
+input.field-control[type="date"],
+input.field-control[type="password"],
+input.field-control[type="email"],
+input.field-control[type="color"],
+input[type="range"] {
+  text-transform: none;
+}
+
+/* ============================================================
    MODAL
    ============================================================ */
 .modal-layer { position: fixed; z-index: 100; inset: 0; background: rgba(5, 8, 16, 0.8); backdrop-filter: blur(10px); display: grid; place-items: end; }
@@ -499,7 +522,7 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
 .ytd-card .ytd-detail { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
 
 /* ============================================================
-   USER LIST (Manajemen User)
+   USER LIST
    ============================================================ */
 .user-list-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; transition: all 0.2s; }
 .user-list-item:hover { border-color: var(--border-glow); transform: translateX(2px); }
@@ -1326,7 +1349,7 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
           </div>
         </div>
 
-        <!-- FIELD: LOKASI (Normal / HH / Joint / OF Cut / P3) -->
+        <!-- FIELD: LOKASI -->
         <div id="field-normal" class="hidden">
           <label style="font-size:12px;font-weight:700;color:var(--primary-cyan);">Nama Lokasi *</label>
           <div style="display:flex;gap:8px;">
@@ -1458,7 +1481,6 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
       <button onclick="document.getElementById('add-user-modal').classList.add('hidden')" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
     </div>
 
-    <!-- Form Tambah User -->
     <div style="background:rgba(0,217,255,0.06);padding:14px;border-radius:12px;margin-bottom:20px;border:1px solid var(--border-glow);">
       <div style="font-size:13px;font-weight:700;color:var(--primary-cyan);margin-bottom:12px;display:flex;align-items:center;gap:6px;">
         <i data-lucide="plus-circle" style="width:14px;"></i> Tambah User Baru
@@ -1487,7 +1509,6 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
       </form>
     </div>
 
-    <!-- Header List + Search -->
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap;">
       <div style="font-size:13px;font-weight:700;color:var(--primary-cyan);display:flex;align-items:center;gap:6px;">
         <i data-lucide="users" style="width:14px;"></i> User Terdaftar
@@ -1496,7 +1517,6 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
       <input type="text" id="user-list-search" class="field-control" placeholder="Cari user..." style="max-width:180px;min-height:36px;font-size:12px;padding:0 10px;" oninput="renderUserList()">
     </div>
 
-    <!-- List User -->
     <div id="user-list-container" style="display:grid;gap:8px;max-height:360px;overflow-y:auto;padding-right:4px;">
       <div style="padding:20px;text-align:center;color:var(--text-muted);font-size:12px;">Memuat daftar user...</div>
     </div>
@@ -1621,27 +1641,27 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
     <div style="display:grid;gap:10px;">
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #00D9FF;border-radius:10px;padding:12px 14px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><i data-lucide="layout-dashboard" style="width:16px;color:#00D9FF;"></i><strong style="font-size:13px;color:var(--text-main);">Dashboard</strong></div>
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">Halaman utama yang menampilkan peta interaktif line &amp; titik aset, serta grafik statistik OF Cut berdasarkan penyebab per bulan dalam bentuk persentase. Dilengkapi rekap tahunan dan perbandingan tahun berjalan vs tahun sebelumnya.</p>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">Halaman utama yang menampilkan peta interaktif line &amp; titik aset, serta grafik statistik OF Cut berdasarkan penyebab per bulan dalam bentuk persentase.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #EC4899;border-radius:10px;padding:12px 14px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><i data-lucide="scissors" style="width:16px;color:#EC4899;"></i><strong style="font-size:13px;color:var(--text-main);">OF Cut</strong></div>
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">Mencatat insiden kabel fiber optik terputus. Berisi data tanggal, lokasi, koordinat, panjang cut, rute, penyebab, dan keterangan. Menjadi sumber data utama untuk grafik statistik dashboard.</p>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">Mencatat insiden kabel fiber optik terputus. Berisi data tanggal, lokasi, koordinat, panjang cut, rute, penyebab, dan keterangan.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #A855F7;border-radius:10px;padding:12px 14px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><i data-lucide="users" style="width:16px;color:#A855F7;"></i><strong style="font-size:13px;color:var(--text-main);">P3 / Temuan</strong></div>
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">2 sub-tab: <strong>Pekerjaan Pihak Ke-3</strong> (mencatat pekerjaan pihak ketiga) dan <strong>Temuan Lapangan</strong> (mencatat temuan kondisi tidak aman sebelum menjadi insiden).</p>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">2 sub-tab: <strong>Pekerjaan Pihak Ke-3</strong> dan <strong>Temuan Lapangan</strong>.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #F59E0B;border-radius:10px;padding:12px 14px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><i data-lucide="activity" style="width:16px;color:#F59E0B;"></i><strong style="font-size:13px;color:var(--text-main);">OPM / OLS</strong></div>
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">Mencatat hasil pengukuran Optical Power Meter / Optical Light Source. Berisi port, panel, nilai DBM, ruas line, lokasi Dari &amp; Ke, dan keterangan.</p>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">Mencatat hasil pengukuran Optical Power Meter / Optical Light Source.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #0EA5E9;border-radius:10px;padding:12px 14px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><i data-lucide="link" style="width:16px;color:#0EA5E9;"></i><strong style="font-size:13px;color:var(--text-main);">Joint</strong></div>
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">Mencatat titik sambungan (joint closure) fiber optik di lapangan. Berisi lokasi, koordinat, kondisi, dan user.</p>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">Mencatat titik sambungan (joint closure) fiber optik di lapangan.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #10B981;border-radius:10px;padding:12px 14px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><i data-lucide="archive" style="width:16px;color:#10B981;"></i><strong style="font-size:13px;color:var(--text-main);">Handhole</strong></div>
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">Mencatat titik handhole (bak kontrol) di jalur fiber optik. Berisi lokasi, koordinat, kondisi, dan user.</p>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">Mencatat titik handhole (bak kontrol) di jalur fiber optik.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #8B5CF6;border-radius:10px;padding:12px 14px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><i data-lucide="wrench" style="width:16px;color:#8B5CF6;"></i><strong style="font-size:13px;color:var(--text-main);">Alker</strong></div>
@@ -1649,7 +1669,7 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #F59E0B;border-radius:10px;padding:12px 14px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><i data-lucide="package" style="width:16px;color:#F59E0B;"></i><strong style="font-size:13px;color:var(--text-main);">Stok Spare</strong></div>
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">Manajemen stok material di 3 gudang. Dilengkapi fitur scan barcode dan update pemakaian.</p>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin:0;">Manajemen stok material di 3 gudang. Dilengkapi fitur scan barcode.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid #EC4899;border-radius:10px;padding:12px 14px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><i data-lucide="cable" style="width:16px;color:#EC4899;"></i><strong style="font-size:13px;color:var(--text-main);">Patch Cord</strong></div>
@@ -1688,8 +1708,8 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
         <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Log semua aktivitas tambah/edit/hapus dengan user &amp; timestamp.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="camera" style="width:14px;color:var(--primary-cyan);"></i><strong style="font-size:12px;color:var(--text-main);">Scan Barcode</strong></div>
-        <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Scan SN material langsung dari kamera HP.</p>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="type" style="width:14px;color:var(--primary-cyan);"></i><strong style="font-size:12px;color:var(--text-main);">Auto Uppercase</strong></div>
+        <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Semua input teks otomatis jadi HURUF KAPITAL.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="user-cog" style="width:14px;color:var(--primary-cyan);"></i><strong style="font-size:12px;color:var(--text-main);">Manajemen User</strong></div>
@@ -1765,6 +1785,51 @@ window.setTheme = setTheme;
 window.toggleTheme = toggleTheme;
 window.updateThemeButtons = updateThemeButtons;
 window.loadTheme = loadTheme;
+
+/* ============================================================
+   AUTO UPPERCASE
+   ============================================================ */
+function applyAutoUppercase() {
+  var textInputIds = [
+    'login-username',
+    'inp-sn', 'inp-spec', 'inp-lemari', 'inp-notes-stock',
+    'inp-update-sn', 'inp-update-spec', 'inp-update-notes',
+    'inp-pc-type-lain', 'inp-pc-length-lain', 'inp-notes-patch',
+    'inp-opm-keterangan',
+    'inp-alker-nama', 'inp-alker-sn', 'inp-alker-jenis', 'inp-alker-merk', 'inp-alker-keterangan',
+    'inp-loc', 'inp-coords',
+    'inp-ofcut-penyebab-lain', 'inp-ofcut-keterangan',
+    'inp-p3-pelaksana', 'inp-p3-lama', 'inp-p3-keterangan',
+    'map-search-input',
+    'new-username', 'user-list-search',
+    'draw-custom-line-name', 'draw-line-notes',
+    'riwayat-modal-search',
+    'hero-about-input'
+  ];
+  textInputIds.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (el.dataset.uppercaseAttached === '1') return;
+    el.dataset.uppercaseAttached = '1';
+    el.addEventListener('input', function() {
+      var start = this.selectionStart;
+      var end = this.selectionEnd;
+      var upper = this.value.toUpperCase();
+      if (this.value !== upper) {
+        this.value = upper;
+        try { this.setSelectionRange(start, end); } catch (e) {}
+      }
+    });
+    el.addEventListener('blur', function() {
+      this.value = this.value.toUpperCase();
+    });
+    el.addEventListener('paste', function() {
+      var self = this;
+      setTimeout(function() { self.value = self.value.toUpperCase(); }, 0);
+    });
+  });
+}
+window.applyAutoUppercase = applyAutoUppercase;
 
 /* ============================================================
    FIREBASE
@@ -1877,8 +1942,8 @@ function ensureDefaultUser() {
     var users = snap.val();
     if (!users || Object.keys(users).length === 0) {
       db.ref('users').set({
-        'admin': { pass: 'admin123', role: 'admin' },
-        'user': { pass: 'user123', role: 'user' }
+        'ADMIN': { pass: 'admin123', role: 'admin' },
+        'USER': { pass: 'user123', role: 'user' }
       });
     }
   }).catch(function(err) { console.error('Cek user gagal:', err); });
@@ -2013,7 +2078,7 @@ function refetchData() {
 function handleLogin(e) {
   if (e && e.preventDefault) e.preventDefault();
   if (!firebaseReady || !db) { showToast('Firebase belum siap', 'error'); return false; }
-  var username = document.getElementById('login-username').value.trim();
+  var username = document.getElementById('login-username').value.trim().toUpperCase();
   var password = document.getElementById('login-password').value.trim();
   var errorEl = document.getElementById('login-error');
   var errorText = document.getElementById('login-error-text');
@@ -2068,6 +2133,7 @@ function handleLogin(e) {
         try { initCharts(); } catch (e) {}
         try { loadKmlFromFirebase(); } catch (e) {}
         try { loadCustomLines(); } catch (e) {}
+        try { applyAutoUppercase(); } catch (e) {}
         if (typeof lucide !== 'undefined') lucide.createIcons();
       }, 300);
       showToast(ud._isNew ? 'Akun dibuat & login berhasil!' : 'Selamat datang, ' + username + '!', 'success');
@@ -2459,6 +2525,7 @@ function openDrawLineModal() {
   document.getElementById('draw-line-width').value = '4';
   document.getElementById('draw-custom-line-wrap').classList.add('hidden');
   updateCustomLineOptions();
+  try { applyAutoUppercase(); } catch (e) {}
 }
 function closeDrawLineModal() { document.getElementById('draw-line-modal').classList.add('hidden'); }
 function toggleCustomLineInput() {
@@ -2471,13 +2538,13 @@ function startDrawing() {
   if (!map) { showToast('Peta belum siap', 'error'); return; }
   var lineName = document.getElementById('draw-line-name').value;
   if (lineName === '__custom__') {
-    lineName = document.getElementById('draw-custom-line-name').value.trim();
+    lineName = document.getElementById('draw-custom-line-name').value.trim().toUpperCase();
     if (!lineName) { showToast('Isi nama line baru', 'error'); return; }
   }
   if (!lineName) { showToast('Pilih line terlebih dahulu', 'error'); return; }
   var color = document.getElementById('draw-line-color').value;
   var width = parseInt(document.getElementById('draw-line-width').value) || 4;
-  var notes = document.getElementById('draw-line-notes').value.trim();
+  var notes = document.getElementById('draw-line-notes').value.trim().toUpperCase();
   drawCurrentLine = {
     name: lineName, color: color, width: width, notes: notes,
     isCustom: document.getElementById('draw-line-name').value === '__custom__'
@@ -2783,7 +2850,7 @@ window.deleteUser = function(name) {
 
 function submitAddUser(e) {
   e.preventDefault();
-  var u = document.getElementById('new-username').value.trim();
+  var u = document.getElementById('new-username').value.trim().toUpperCase();
   var p = document.getElementById('new-password').value.trim();
   var r = document.getElementById('new-role').value;
   if (!u || !p) { showToast('Isi semua', 'error'); return false; }
@@ -2850,6 +2917,7 @@ function openMapModal() {
               name = parts.length > 0 ? parts.join(', ') : (d.display_name || '');
             }
             if (!name) name = d.display_name || (lat.toFixed(5) + ', ' + lng.toFixed(5));
+            name = name.toUpperCase();
             selectedMapLocation.name = name;
             document.getElementById('inp-loc').value = name;
             document.getElementById('map-modal-info-text').textContent = name;
@@ -2873,7 +2941,7 @@ function searchLocation() {
     .then(function (d) {
       if (d && d.length > 0) {
         var lat = parseFloat(d[0].lat), lng = parseFloat(d[0].lon);
-        var name = d[0].display_name || q;
+        var name = (d[0].display_name || q).toUpperCase();
         selectedMapLocation = { lat: lat, lng: lng, name: name };
         if (mapModal) {
           mapModal.flyTo({ center: [lng, lat], zoom: 15 });
@@ -2903,7 +2971,7 @@ function getCurrentLocation() {
     fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&zoom=18&addressdetails=1', { headers: { 'Accept-Language': 'id' } })
       .then(function (r) { return r.json(); })
       .then(function (d) {
-        var name = d.display_name || 'Lokasi Saya';
+        var name = (d.display_name || 'Lokasi Saya').toUpperCase();
         selectedMapLocation = { lat: lat, lng: lng, name: name };
         document.getElementById('inp-loc').value = name;
         closeMapModal();
@@ -2918,7 +2986,7 @@ function getCurrentLocation() {
 }
 function selectMapLocation() {
   if (selectedMapLocation && selectedMapLocation.name) {
-    document.getElementById('inp-loc').value = selectedMapLocation.name;
+    document.getElementById('inp-loc').value = selectedMapLocation.name.toUpperCase();
     document.getElementById('inp-coords').value = selectedMapLocation.lat.toFixed(5) + ', ' + selectedMapLocation.lng.toFixed(5);
     closeMapModal();
     showToast('Lokasi dipilih', 'success');
@@ -3042,11 +3110,8 @@ function updateTotalDataTagline() {
   if (!hidePeriod && currentPeriod !== 'all') {
     if (currentPeriod === 'custom') {
       var monthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-      if (currentMonth === 'all') {
-        infos.push('tahun ' + currentYear);
-      } else {
-        infos.push(monthNames[parseInt(currentMonth)] + ' ' + currentYear);
-      }
+      if (currentMonth === 'all') infos.push('tahun ' + currentYear);
+      else infos.push(monthNames[parseInt(currentMonth)] + ' ' + currentYear);
     } else {
       var periodLabels = { weekly: 'minggu ini', monthly: 'bulan ini', yearly: 'tahun ' + currentYear };
       infos.push(periodLabels[currentPeriod] || currentPeriod);
@@ -3147,26 +3212,26 @@ function submitForm(e) {
   if (cat === 'Patch Cord') {
     var pcType = document.getElementById('inp-pc-type').value;
     var pcLength = document.getElementById('inp-pc-length').value;
-    if (pcType === 'Lainnya') pcType = document.getElementById('inp-pc-type-lain').value.trim() || 'Lainnya';
-    if (pcLength === 'Lainnya') pcLength = document.getElementById('inp-pc-length-lain').value.trim() || 'Lainnya';
+    if (pcType === 'Lainnya') pcType = document.getElementById('inp-pc-type-lain').value.trim().toUpperCase() || 'LAINNYA';
+    if (pcLength === 'Lainnya') pcLength = document.getElementById('inp-pc-length-lain').value.trim().toUpperCase() || 'LAINNYA';
     var trType = document.getElementById('inp-pc-trtype').value;
     var qty = parseInt(document.getElementById('inp-pc-qty').value) || 1;
-    var notes = document.getElementById('inp-notes-patch').value.trim();
+    var notes = document.getElementById('inp-notes-patch').value.trim().toUpperCase();
     if (!pcType || !pcLength) { showToast('Pilih jenis & panjang', 'error'); return; }
     if (trType === 'Keluar' && !notes) { showToast('Keterangan wajib', 'error'); return; }
-    data.pcType = pcType; data.pcLength = pcLength; data.gudang = selectedGudang;
+    data.pcType = pcType.toUpperCase(); data.pcLength = pcLength; data.gudang = selectedGudang;
     data.qty = qty; data.trType = trType; data.notes = notes;
     var pm = parseFloat(pcLength.replace('m', '').trim());
-    data.barcode = (!isNaN(pm) && pcType !== 'Lainnya') ? generateBarcodePatchCord(pcType, pm) : 'PC-' + Date.now().toString().slice(-6);
+    data.barcode = (!isNaN(pm) && pcType !== 'Lainnya' && pcType !== 'LAINNYA') ? generateBarcodePatchCord(pcType, pm) : 'PC-' + Date.now().toString().slice(-6);
     detailText = pcType + ' ' + pcLength + ' | Qty: ' + qty + ' | Tipe: ' + trType;
     ketText = notes;
   } else if (cat === 'Stok Spare') {
     var mode = document.getElementById('form-mode').value;
     if (mode === 'tambah') {
-      var sn = document.getElementById('inp-sn').value.trim();
-      var spec = document.getElementById('inp-spec').value.trim();
+      var sn = document.getElementById('inp-sn').value.trim().toUpperCase();
+      var spec = document.getElementById('inp-spec').value.trim().toUpperCase();
       var status = document.getElementById('inp-status').value;
-      var lemari = document.getElementById('inp-lemari').value.trim();
+      var lemari = document.getElementById('inp-lemari').value.trim().toUpperCase();
       var rak = document.getElementById('inp-rak').value;
       var riwayat = document.getElementById('inp-riwayat').value;
       var ks = document.getElementById('inp-kondisi-spare').value;
@@ -3174,11 +3239,11 @@ function submitForm(e) {
       data.sn = sn; data.spec = spec; data.gudang = selectedGudang;
       data.status = status; data.lemari = lemari; data.rak = rak;
       data.riwayat = riwayat; data.kondisi = ks;
-      data.notes = document.getElementById('inp-notes-stock').value.trim();
+      data.notes = document.getElementById('inp-notes-stock').value.trim().toUpperCase();
       detailText = 'SN: ' + sn + ' | ' + spec + ' | Status: ' + status;
       ketText = data.notes;
     } else {
-      var uSn = document.getElementById('inp-update-sn').value.trim();
+      var uSn = document.getElementById('inp-update-sn').value.trim().toUpperCase();
       var tujuan = document.getElementById('inp-update-tujuan').value;
       var lokasi = document.getElementById('inp-update-lokasi').value;
       if (!uSn || !tujuan || !lokasi) { showToast('Isi SN, Tujuan, Lokasi', 'error'); return; }
@@ -3189,7 +3254,7 @@ function submitForm(e) {
       data.status = 'Out';
       data.tujuanPemakaian = tujuan;
       data.lokasiPemakaian = lokasi;
-      data.notes = document.getElementById('inp-update-notes').value.trim();
+      data.notes = document.getElementById('inp-update-notes').value.trim().toUpperCase();
       db.ref('data/' + cat + '/' + tKey).update(data)
         .then(function() {
           catatRiwayat('Stok Spare', 'Update Pemakaian', 'SN: ' + uSn + ' | Tujuan: ' + tujuan, data.notes);
@@ -3201,24 +3266,24 @@ function submitForm(e) {
       return;
     }
   } else if (cat === 'Handhole' || cat === 'Joint') {
-    var loc = document.getElementById('inp-loc').value.trim();
+    var loc = document.getElementById('inp-loc').value.trim().toUpperCase();
     var crd = document.getElementById('inp-coords').value.trim();
     var kon = document.getElementById('inp-kondisi').value;
     if (!loc || !crd || !kon) { showToast('Isi lokasi, koordinat, kondisi', 'error'); return; }
     data.location = loc; data.coords = crd; data.kondisi = kon;
     detailText = loc + ' | Kondisi: ' + kon;
   } else if (cat === 'Data OF Cut') {
-    var loc = document.getElementById('inp-loc').value.trim();
+    var loc = document.getElementById('inp-loc').value.trim().toUpperCase();
     var crd = document.getElementById('inp-coords').value.trim();
     var pjg = parseFloat(document.getElementById('inp-ofcut-panjang').value);
     var rute = document.getElementById('inp-ofcut-rute').value;
     var penyebab = document.getElementById('inp-ofcut-penyebab').value;
-    var pl = document.getElementById('inp-ofcut-penyebab-lain').value.trim();
+    var pl = document.getElementById('inp-ofcut-penyebab-lain').value.trim().toUpperCase();
     if (!loc || !crd || isNaN(pjg) || !rute || !penyebab) { showToast('Isi semua field OF Cut', 'error'); return; }
     if (penyebab === 'lainnya' && !pl) { showToast('Isi penyebab lainnya', 'error'); return; }
     data.location = loc; data.coords = crd; data.panjangCut = pjg;
-    data.rute = rute; data.penyebab = penyebab === 'lainnya' ? pl : penyebab;
-    data.keterangan = document.getElementById('inp-ofcut-keterangan').value.trim();
+    data.rute = rute; data.penyebab = penyebab === 'lainnya' ? pl : penyebab.toUpperCase();
+    data.keterangan = document.getElementById('inp-ofcut-keterangan').value.trim().toUpperCase();
     detailText = loc + ' | Panjang: ' + pjg + 'M | Rute: ' + rute + ' | Penyebab: ' + data.penyebab;
     ketText = data.keterangan;
   } else if (cat === 'OPM-OLS') {
@@ -3228,7 +3293,7 @@ function submitForm(e) {
     var ruas = document.getElementById('inp-opm-ruas').value;
     var dari = document.getElementById('inp-opm-dari').value;
     var ke = document.getElementById('inp-opm-ke').value;
-    var ket = document.getElementById('inp-opm-keterangan').value.trim();
+    var ket = document.getElementById('inp-opm-keterangan').value.trim().toUpperCase();
     if (!port || !panel || isNaN(dbm) || !ruas || !dari || !ke) { showToast('Isi semua field OPM/OLS yang wajib', 'error'); return; }
     if (dari === ke) {
       showToast('❌ "Dari" dan "Ke" tidak boleh sama!', 'error');
@@ -3241,11 +3306,11 @@ function submitForm(e) {
     detailText = 'Port: ' + port + ' | Panel: ' + panel + ' | DBM: ' + dbm + ' | ' + dari + ' → ' + ke;
     ketText = ket;
   } else if (cat === 'Alker') {
-    var nama = document.getElementById('inp-alker-nama').value.trim();
-    var jenis = document.getElementById('inp-alker-jenis').value.trim();
-    var merk = document.getElementById('inp-alker-merk').value.trim();
-    var keterangan = document.getElementById('inp-alker-keterangan').value.trim();
-    var snInput = document.getElementById('inp-alker-sn').value.trim();
+    var nama = document.getElementById('inp-alker-nama').value.trim().toUpperCase();
+    var jenis = document.getElementById('inp-alker-jenis').value.trim().toUpperCase();
+    var merk = document.getElementById('inp-alker-merk').value.trim().toUpperCase();
+    var keterangan = document.getElementById('inp-alker-keterangan').value.trim().toUpperCase();
+    var snInput = document.getElementById('inp-alker-sn').value.trim().toUpperCase();
     if (!nama || !jenis || !merk) { showToast('Isi Nama, Jenis, dan Merk Alker', 'error'); return; }
     if (!keterangan) { showToast('Keterangan wajib diisi!', 'error'); return; }
     var sn;
@@ -3259,14 +3324,14 @@ function submitForm(e) {
     detailText = 'Nama: ' + nama + ' | SN: ' + sn;
     ketText = keterangan;
   } else if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
-    var loc = document.getElementById('inp-loc').value.trim();
+    var loc = document.getElementById('inp-loc').value.trim().toUpperCase();
     var crd = document.getElementById('inp-coords').value.trim();
-    var pel = document.getElementById('inp-p3-pelaksana').value.trim();
-    var lama = document.getElementById('inp-p3-lama').value.trim();
+    var pel = document.getElementById('inp-p3-pelaksana').value.trim().toUpperCase();
+    var lama = document.getElementById('inp-p3-lama').value.trim().toUpperCase();
     if (!loc || !crd || !pel || !lama) { showToast('Isi semua field', 'error'); return; }
     data.location = loc; data.coords = crd;
     data.pelaksana = pel; data.lamaPekerjaan = lama;
-    data.keterangan = document.getElementById('inp-p3-keterangan').value.trim();
+    data.keterangan = document.getElementById('inp-p3-keterangan').value.trim().toUpperCase();
     detailText = loc + ' | Pelaksana: ' + pel;
     ketText = data.keterangan;
   }
@@ -3401,6 +3466,7 @@ function openForm(editData, editKey) {
   }
   if (editData) document.getElementById('inp-date').value = editData.date || '';
   stopScanner('modal');
+  try { applyAutoUppercase(); } catch (e) {}
 }
 
 function resetFormFields() {
@@ -3874,9 +3940,9 @@ function toggleScanner(t) {
             if (code && code.length > 3) {
               if (navigator.vibrate) navigator.vibrate(100);
               if (document.getElementById('form-mode').value === 'update') {
-                document.getElementById('inp-update-sn').value = code;
+                document.getElementById('inp-update-sn').value = code.toUpperCase();
               } else {
-                document.getElementById('inp-sn').value = code;
+                document.getElementById('inp-sn').value = code.toUpperCase();
                 if (barcodeCache[code]) document.getElementById('inp-spec').value = barcodeCache[code];
               }
               showToast('SN: ' + code, 'success');
@@ -4004,6 +4070,7 @@ function setupEventListeners() {
     if (searchEl) searchEl.value = '';
     loadUsersList();
     renderUserList();
+    try { applyAutoUppercase(); } catch (e) {}
     if (typeof lucide !== 'undefined') lucide.createIcons();
   });
 
@@ -4083,6 +4150,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadTheme();
   if (typeof lucide !== 'undefined') lucide.createIcons();
   checkFirebaseConnection().then(function(ok) { if (ok) ensureDefaultUser(); });
+  applyAutoUppercase();
 
   var saved = localStorage.getItem('bucin_session');
   if (saved) {
@@ -4112,10 +4180,12 @@ document.addEventListener('DOMContentLoaded', function() {
             loadCustomLines();
           }
           if (typeof lucide !== 'undefined') lucide.createIcons();
+          applyAutoUppercase();
           restoreLastPage();
         }, 300);
         setupEventListeners();
         loadBarcodeCache();
+        applyAutoUppercase();
         return;
       }
     } catch (e) {}
@@ -4125,6 +4195,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('app-shell').classList.add('hidden');
   setupEventListeners();
   loadSettings();
+  applyAutoUppercase();
 });
 </script>
 </body>
