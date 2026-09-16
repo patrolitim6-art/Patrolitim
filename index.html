@@ -309,13 +309,13 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
 
 /* ============================================================
    AUTO UPPERCASE - Semua input text jadi kapital (tampilan)
+   KECUALI: password, date, color, email, range, login form
    ============================================================ */
 input.field-control[type="text"],
 input.field-control:not([type]),
 textarea.field-control {
   text-transform: uppercase;
 }
-/* Placeholder tetap normal (tidak kapital) */
 input.field-control[type="text"]::placeholder,
 input.field-control:not([type])::placeholder,
 textarea.field-control::placeholder {
@@ -326,7 +326,13 @@ input.field-control[type="date"],
 input.field-control[type="password"],
 input.field-control[type="email"],
 input.field-control[type="color"],
-input[type="range"] {
+input[type="range"],
+#login-username,
+#login-password {
+  text-transform: none;
+}
+#login-username::placeholder,
+#login-password::placeholder {
   text-transform: none;
 }
 
@@ -897,6 +903,19 @@ input[type="range"] {
               <option value="9">Oktober</option>
               <option value="10">November</option>
               <option value="11">Desember</option>
+            </select>
+          </div>
+          <div class="filter-group" id="sort-filter-group">
+            <i data-lucide="arrow-up-down" style="width:16px;color:var(--primary-cyan);"></i>
+            <select id="sort-select" onchange="applySort()">
+              <option value="date_desc">Tanggal (Terbaru)</option>
+              <option value="date_asc">Tanggal (Terlama)</option>
+              <option value="name_asc">Nama (A-Z)</option>
+              <option value="name_desc">Nama (Z-A)</option>
+              <option value="location_asc">Lokasi (A-Z)</option>
+              <option value="location_desc">Lokasi (Z-A)</option>
+              <option value="user_asc">User (A-Z)</option>
+              <option value="user_desc">User (Z-A)</option>
             </select>
           </div>
         </div>
@@ -1704,12 +1723,16 @@ input[type="range"] {
         <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Filter data berdasarkan bulan tertentu (Jan-Des) + tahun.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="arrow-up-down" style="width:14px;color:var(--primary-cyan);"></i><strong style="font-size:12px;color:var(--text-main);">Urut Berdasarkan</strong></div>
+        <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Sort data by tanggal, nama, lokasi, atau user.</p>
+      </div>
+      <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="history" style="width:14px;color:var(--primary-cyan);"></i><strong style="font-size:12px;color:var(--text-main);">Riwayat Transaksi</strong></div>
         <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Log semua aktivitas tambah/edit/hapus dengan user &amp; timestamp.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="type" style="width:14px;color:var(--primary-cyan);"></i><strong style="font-size:12px;color:var(--text-main);">Auto Uppercase</strong></div>
-        <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Semua input teks otomatis jadi HURUF KAPITAL.</p>
+        <p style="font-size:11px;color:var(--text-muted);line-height:1.5;margin:0;">Semua input teks otomatis jadi HURUF KAPITAL (kecuali login).</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="user-cog" style="width:14px;color:var(--primary-cyan);"></i><strong style="font-size:12px;color:var(--text-main);">Manajemen User</strong></div>
@@ -1788,10 +1811,10 @@ window.loadTheme = loadTheme;
 
 /* ============================================================
    AUTO UPPERCASE
+   Catatan: login-username & login-password TIDAK diikutkan
    ============================================================ */
 function applyAutoUppercase() {
   var textInputIds = [
-    'login-username',
     'inp-sn', 'inp-spec', 'inp-lemari', 'inp-notes-stock',
     'inp-update-sn', 'inp-update-spec', 'inp-update-notes',
     'inp-pc-type-lain', 'inp-pc-length-lain', 'inp-notes-patch',
@@ -1882,6 +1905,7 @@ let selectedGudangFilter = 'all';
 let currentPeriod = 'all';
 let currentYear = new Date().getFullYear();
 let currentMonth = 'all';
+let currentSort = 'date_desc';
 let spareAction = 'tambah';
 let sessionTimeout = null;
 let dataListenerAttached = false;
@@ -1942,8 +1966,8 @@ function ensureDefaultUser() {
     var users = snap.val();
     if (!users || Object.keys(users).length === 0) {
       db.ref('users').set({
-        'ADMIN': { pass: 'admin123', role: 'admin' },
-        'USER': { pass: 'user123', role: 'user' }
+        'admin': { pass: 'admin123', role: 'admin' },
+        'user': { pass: 'user123', role: 'user' }
       });
     }
   }).catch(function(err) { console.error('Cek user gagal:', err); });
@@ -2073,12 +2097,12 @@ function refetchData() {
 }
 
 /* ============================================================
-   LOGIN
+   LOGIN - Case-sensitive, no auto-uppercase
    ============================================================ */
 function handleLogin(e) {
   if (e && e.preventDefault) e.preventDefault();
   if (!firebaseReady || !db) { showToast('Firebase belum siap', 'error'); return false; }
-  var username = document.getElementById('login-username').value.trim().toUpperCase();
+  var username = document.getElementById('login-username').value.trim();
   var password = document.getElementById('login-password').value.trim();
   var errorEl = document.getElementById('login-error');
   var errorText = document.getElementById('login-error-text');
@@ -3126,6 +3150,57 @@ function updateTotalDataTagline() {
   }
 }
 
+/* ============================================================
+   SORT
+   ============================================================ */
+function applySort() {
+  var sel = document.getElementById('sort-select');
+  if (sel) {
+    currentSort = sel.value;
+    try { localStorage.setItem('bucin_sort', currentSort); } catch (e) {}
+  }
+  renderTable();
+  try { updateTotalDataTagline(); } catch (e) {}
+}
+window.applySort = applySort;
+
+function sortData(keys, list, cat) {
+  var s = currentSort || 'date_desc';
+  var isSpare = cat === 'Stok Spare';
+  var isPatch = cat === 'Patch Cord';
+  var isAlker = cat === 'Alker';
+  var isOpm = cat === 'OPM-OLS';
+  function getName(it) {
+    if (isSpare) return (it.spec || '').toString().toUpperCase();
+    if (isAlker) return (it.nama || '').toString().toUpperCase();
+    if (isPatch) return ((it.pcType || '') + ' ' + (it.pcLength || '')).toString().toUpperCase();
+    if (isOpm) return ('PORT ' + (it.port || '')).toString().toUpperCase();
+    return (it.location || it.nama || it.sn || '').toString().toUpperCase();
+  }
+  function getLocation(it) { return (it.location || '').toString().toUpperCase(); }
+  function getUser(it) { return (it.postBy || '').toString().toUpperCase(); }
+  function getDate(it) { return (it.date || '').toString(); }
+  keys.sort(function(a, b) {
+    var itA = list[a] || {};
+    var itB = list[b] || {};
+    var cmp = 0;
+    switch (s) {
+      case 'date_asc': cmp = getDate(itA).localeCompare(getDate(itB)); break;
+      case 'date_desc': cmp = getDate(itB).localeCompare(getDate(itA)); break;
+      case 'name_asc': cmp = getName(itA).localeCompare(getName(itB)); break;
+      case 'name_desc': cmp = getName(itB).localeCompare(getName(itA)); break;
+      case 'location_asc': cmp = getLocation(itA).localeCompare(getLocation(itB)); break;
+      case 'location_desc': cmp = getLocation(itB).localeCompare(getLocation(itA)); break;
+      case 'user_asc': cmp = getUser(itA).localeCompare(getUser(itB)); break;
+      case 'user_desc': cmp = getUser(itB).localeCompare(getUser(itA)); break;
+      default: cmp = getDate(itB).localeCompare(getDate(itA));
+    }
+    if (cmp === 0) cmp = getDate(itB).localeCompare(getDate(itA));
+    return cmp;
+  });
+  return keys;
+}
+
 function renderTable() {
   try {
     var cat = currentCategory;
@@ -3167,7 +3242,7 @@ function renderTable() {
     else if (isOfCut) th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Panjang</th><th>Rute</th><th>Penyebab</th><th>User</th><th>Aksi</th></tr>';
     else if (isP3T) th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Pelaksana</th><th>Lama</th><th>Ket</th><th>User</th><th>Aksi</th></tr>';
     else th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>User</th><th>Aksi</th></tr>';
-    keys.sort(function(a, b) { return (list[a].date || '').localeCompare(list[b].date || ''); });
+    keys = sortData(keys, list, cat);
     var isAdmin = currentUser && currentUser.role === 'admin';
     keys.forEach(function(k) {
       var it = list[k];
@@ -4151,6 +4226,16 @@ document.addEventListener('DOMContentLoaded', function() {
   if (typeof lucide !== 'undefined') lucide.createIcons();
   checkFirebaseConnection().then(function(ok) { if (ok) ensureDefaultUser(); });
   applyAutoUppercase();
+
+  // Restore sort preference
+  try {
+    var savedSort = localStorage.getItem('bucin_sort');
+    if (savedSort) {
+      currentSort = savedSort;
+      var sortSel = document.getElementById('sort-select');
+      if (sortSel) sortSel.value = savedSort;
+    }
+  } catch (e) {}
 
   var saved = localStorage.getItem('bucin_session');
   if (saved) {
