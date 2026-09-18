@@ -54,7 +54,6 @@
   --app-font-size-xl: calc(var(--app-font-size) + 4px);
   --app-font-size-2xl: calc(var(--app-font-size) + 8px);
   --app-font-size-3xl: calc(var(--app-font-size) + 12px);
-  --app-font-size-4xl: calc(var(--app-font-size) + 16px);
   --radius: 16px;
 }
 :root[data-theme="light"] {
@@ -551,7 +550,7 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
     <main class="main-content">
       <section id="dashboard-view">
         <div class="hero-panel">
-          <h1 style="margin:0;font-weight:900;line-height:1.2;">Barisan Utama Cegah Insiden Network<br></h1>
+          <h1 style="margin:0;font-weight:900;line-height:1.2;">Barisan Utama<br>Cegah Insiden</h1>
           <p style="margin:8px 0 0;opacity:0.9;font-weight:500;color:var(--text-muted);">Pusat Operasi Jaringan Sulawesi Utara</p>
           <p class="hero-about" id="hero-about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
         </div>
@@ -799,13 +798,12 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
         <div style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);margin-bottom:4px;">ℹ️ Cara Kerja</div>
         <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">
           • Semua <strong style="color:var(--text-main);">&lt;Placemark&gt;</strong> dalam file akan tersimpan sebagai line terpisah.<br>
-          • Nama line diambil dari <strong style="color:var(--text-main);">&lt;name&gt;</strong> Placemark. Jika kosong, pakai nama line pilihan Anda.<br>
-          • <strong style="color:#10B981;">Nama sama</strong> = timpa line lama. <strong style="color:#F59E0B;">Nama beda</strong> = tambah line baru.<br>
-          • Line kustom otomatis muncul di dropdown berikutnya.
+          • Nama line diambil dari <strong style="color:var(--text-main);">&lt;name&gt;</strong> Placemark.<br>
+          • <strong style="color:#10B981;">Nama sama</strong> = timpa line lama. <strong style="color:#F59E0B;">Nama beda</strong> = tambah line baru.
         </div>
       </div>
       <div style="margin-bottom:16px;">
-        <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;font-size:var(--app-font-size-xs);">Line Default (Fallback jika Placemark tidak bernama)</label>
+        <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;font-size:var(--app-font-size-xs);">Line Default (Fallback)</label>
         <select id="kml-line" class="field-control" required>
           <option value="">-- Pilih Line --</option>
           <option value="OSP LINE 1">OSP LINE 1</option>
@@ -845,7 +843,7 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
       <button onclick="closeDrawLineModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
     </div>
     <div style="background:rgba(0,217,255,0.08);padding:12px 14px;border-radius:12px;margin-bottom:16px;border:1px solid var(--border-glow);">
-      <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);">Jika nama line sudah ada, line lama akan ditimpa. Jika nama line berbeda, akan dibuat line baru.</div>
+      <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);">Jika nama line sudah ada, line lama akan ditimpa. Jika beda, akan dibuat line baru.</div>
     </div>
     <div style="margin-bottom:16px;">
       <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;font-size:var(--app-font-size-xs);">Line *</label>
@@ -900,7 +898,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
         <i data-lucide="warehouse" style="width:28px;color:var(--primary-cyan);"></i>
       </div>
       <h3 style="margin:0;font-weight:800;color:var(--primary-cyan);">Pilih Gudang</h3>
-      <p style="color:var(--text-muted);margin-top:4px;">Pilih lokasi penempatan stok</p>
     </div>
     <div class="gudang-selector">
       <div class="gudang-card" data-gudang="CLS MAMI" onclick="selectGudang(this)">CLS MAMI</div>
@@ -1358,7 +1355,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
     <div style="margin-bottom:20px;">
       <h4 style="font-weight:700;margin-bottom:8px;color:var(--primary-cyan);display:flex;align-items:center;gap:8px;">
         <i data-lucide="type" style="width:16px;"></i> Tampilan Font
-        <span style="font-weight:500;color:var(--text-muted);text-transform:none;letter-spacing:0;margin-left:auto;font-size:var(--app-font-size-xs);">Berlaku di seluruh web</span>
       </h4>
       <div style="display:grid;gap:16px;background:rgba(0,217,255,0.06);padding:14px;border-radius:12px;border:1px solid var(--border-glow);">
         <div>
@@ -1371,7 +1367,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
             <option value="'Nunito', sans-serif">Nunito</option>
             <option value="'Orbitron', sans-serif">Orbitron (Tech)</option>
           </select>
-          <div style="color:var(--text-dim);margin-top:4px;font-size:var(--app-font-size-xs);">Font akan diterapkan ke seluruh teks di web termasuk tabel, tombol, dan chart.</div>
         </div>
         <div>
           <label style="font-weight:600;color:var(--text-muted);display:block;margin-bottom:6px;font-size:var(--app-font-size-xs);">Ukuran Font Dasar</label>
@@ -1379,18 +1374,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
             <input type="range" id="set-font-size" min="11" max="20" value="14" style="flex:1;accent-color:var(--primary-cyan);" oninput="previewFont()">
             <span id="font-size-value" style="font-weight:700;min-width:52px;text-align:center;color:var(--primary-cyan);background:rgba(0,217,255,0.1);padding:4px 8px;border-radius:6px;border:1px solid var(--border-glow);font-size:var(--app-font-size-sm);">14px</span>
           </div>
-          <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
-            <button type="button" onclick="setFontSize(11)" class="btn-secondary" style="padding:4px 10px;font-size:var(--app-font-size-xs);min-height:28px;border-radius:8px;">Kecil (11)</button>
-            <button type="button" onclick="setFontSize(14)" class="btn-secondary" style="padding:4px 10px;font-size:var(--app-font-size-xs);min-height:28px;border-radius:8px;">Normal (14)</button>
-            <button type="button" onclick="setFontSize(17)" class="btn-secondary" style="padding:4px 10px;font-size:var(--app-font-size-xs);min-height:28px;border-radius:8px;">Besar (17)</button>
-            <button type="button" onclick="setFontSize(20)" class="btn-secondary" style="padding:4px 10px;font-size:var(--app-font-size-xs);min-height:28px;border-radius:8px;">Ekstra (20)</button>
-          </div>
-        </div>
-        <div style="background:var(--surface-1);padding:10px 12px;border-radius:8px;border:1px solid var(--border-subtle);">
-          <div style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-size:var(--app-font-size-xs);">Preview</div>
-          <div style="font-size:var(--app-font-size-lg);font-weight:800;color:var(--primary-cyan);margin-bottom:4px;">Judul Besar</div>
-          <div style="font-size:var(--app-font-size);color:var(--text-main);margin-bottom:2px;">Ini adalah teks normal paragraf</div>
-          <div style="font-size:var(--app-font-size-xs);color:var(--text-muted);">Ini adalah teks kecil keterangan</div>
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">
           <button type="button" onclick="resetFontSettings()" class="btn-secondary" style="padding:8px 16px;font-size:var(--app-font-size-xs);min-height:36px;border-radius:10px;">
@@ -1430,11 +1413,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
             </defs>
             <circle cx="50" cy="50" r="44" fill="none" stroke="url(#lgAbout1)" stroke-width="2.5"/>
             <circle cx="50" cy="50" r="36" fill="none" stroke="#00D9FF" stroke-width="1.1" stroke-dasharray="3 5" opacity="0.6"/>
-            <g stroke="#00D9FF" stroke-width="1.6" opacity="0.8">
-              <line x1="50" y1="50" x2="50" y2="16"/><line x1="50" y1="50" x2="80" y2="33"/>
-              <line x1="50" y1="50" x2="80" y2="67"/><line x1="50" y1="50" x2="50" y2="84"/>
-              <line x1="50" y1="50" x2="20" y2="67"/><line x1="50" y1="50" x2="20" y2="33"/>
-            </g>
             <circle cx="50" cy="50" r="7.5" fill="url(#lgAbout2)"/>
           </svg>
         </div>
@@ -1446,24 +1424,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
       <p style="line-height:1.7;color:var(--text-muted);margin:0;">
         <strong style="color:var(--primary-cyan);">BUCIN</strong> adalah sistem informasi operasional untuk tim patroli jaringan fiber optik di wilayah <strong style="color:var(--text-main);">Sulawesi Utara</strong>.
       </p>
-    </div>
-    <h4 style="font-weight:800;color:var(--primary-cyan);text-transform:uppercase;letter-spacing:1px;margin:0 0 14px;display:flex;align-items:center;gap:8px;">
-      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 8px var(--primary-cyan);"></span>
-      Fitur Utama
-    </h4>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:16px;">
-      <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="upload" style="width:14px;color:var(--primary-cyan);"></i><strong style="color:var(--text-main);font-size:var(--app-font-size-xs);">Multi-Line Upload</strong></div>
-        <p style="color:var(--text-muted);line-height:1.5;margin:0;font-size:var(--app-font-size-xs);">Satu file KML/KMZ bisa berisi banyak line. Nama sama = timpa, nama beda = line baru.</p>
-      </div>
-      <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="database" style="width:14px;color:var(--primary-cyan);"></i><strong style="color:var(--text-main);font-size:var(--app-font-size-xs);">Tersimpan di Database</strong></div>
-        <p style="color:var(--text-muted);line-height:1.5;margin:0;font-size:var(--app-font-size-xs);">Setiap line tersimpan di Firebase & langsung muncul di peta real-time.</p>
-      </div>
-      <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="map" style="width:14px;color:var(--primary-cyan);"></i><strong style="color:var(--text-main);font-size:var(--app-font-size-xs);">Peta HD Interaktif</strong></div>
-        <p style="color:var(--text-muted);line-height:1.5;margin:0;font-size:var(--app-font-size-xs);">3 mode basemap: Satelit, Jalan, Hybrid.</p>
-      </div>
     </div>
     <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);">
       <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">
@@ -1528,7 +1488,7 @@ window.setTheme = setTheme; window.toggleTheme = toggleTheme;
 window.updateThemeButtons = updateThemeButtons; window.loadTheme = loadTheme;
 
 /* ============================================================
-   FONT & SIZE
+   FONT
    ============================================================ */
 function applyFontSettings() {
   var fontFamily = "'DM Sans', sans-serif";
@@ -1548,7 +1508,6 @@ function applyFontSettings() {
       chartIncidents.update('none');
     }
   } catch (e) {}
-  try { if (typeof lucide !== 'undefined') lucide.createIcons(); } catch (e) {}
 }
 function previewFont() {
   var fontFam = document.getElementById('set-font-family').value;
@@ -1588,8 +1547,8 @@ function applyAutoUppercase() {
     'inp-sn', 'inp-spec', 'inp-lemari', 'inp-notes-stock',
     'inp-update-sn', 'inp-update-spec', 'inp-update-notes',
     'inp-pc-type-lain', 'inp-pc-length-lain', 'inp-notes-patch',
-    'inp-opm-keterangan',
-    'inp-alker-nama', 'inp-alker-sn', 'inp-alker-jenis', 'inp-alker-merk', 'inp-alker-keterangan',
+    'inp-opm-keterangan', 'inp-alker-nama', 'inp-alker-sn',
+    'inp-alker-jenis', 'inp-alker-merk', 'inp-alker-keterangan',
     'inp-loc', 'inp-coords', 'inp-keterangan-normal',
     'inp-ofcut-penyebab-lain', 'inp-ofcut-keterangan',
     'inp-p3-pelaksana', 'inp-p3-lama', 'inp-p3-keterangan',
@@ -1650,6 +1609,8 @@ let selectedMapLocation = null;
 let mapModalMarker = null;
 let markers = [];
 let kmlLayers = {};
+let kmlDataCache = null;        // ← cache data KML dari Firebase
+let kmlListenerAttached = false; // ← flag listener real-time
 let drawMode = false;
 let drawPoints = [];
 let drawMarkers = [];
@@ -1681,7 +1642,6 @@ let customLinesListenerAttached = false;
 let currentFilteredCount = 0;
 let usersListData = {};
 let usersListListenerAttached = false;
-let kmlListenerAttached = false;
 const SESSION_TIMEOUT_MS = 15 * 60 * 1000;
 
 const MENU_LABELS = {
@@ -1708,6 +1668,11 @@ function escapeHtml(s) {
   if (s === null || s === undefined) return '';
   return String(s).replace(/[&<>"']/g, function(c) {
     return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
+}
+function escapeXml(s) {
+  return String(s).replace(/[<>&'"]/g, function(c) {
+    return { '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c];
   });
 }
 function checkOpmDariKe() {
@@ -1922,10 +1887,7 @@ function handleLogin(e) {
       }
       updateSidebarUser();
       resetSessionTimer();
-      loadData();
-      loadRiwayat();
-      loadSettings();
-      loadUsersList();
+      loadData(); loadRiwayat(); loadSettings(); loadUsersList();
       try { applyFontSettings(); } catch (e) {}
       setTimeout(function() {
         try { initMap(); } catch (e) {}
@@ -2074,14 +2036,9 @@ function generateAlkerSN(nama, jenis, merk, date, urutan) {
   return dd + mm + yy + hN + hJ + hM + String(urutan || 1).padStart(3, '0');
 }
 function getNextAlkerUrutan() { return Object.keys(appData['Alker'] || {}).length + 1; }
-function escapeXml(s) {
-  return String(s).replace(/[<>&'"]/g, function(c) {
-    return { '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c];
-  });
-}
 
 /* ============================================================
-   KML / KMZ — PERBAIKAN UTAMA: MULTI-LINE SUPPORT
+   KML / KMZ — MULTI-LINE + AUTO OVERWRITE/ADD
    ============================================================ */
 function closeKmlModal() {
   document.getElementById('kml-modal').classList.add('hidden');
@@ -2098,7 +2055,6 @@ function toggleKmlCustomLine() {
 }
 window.toggleKmlCustomLine = toggleKmlCustomLine;
 
-/* Parse SEMUA Placemark dari KML, masing-masing jadi line terpisah */
 function parseKmlPlacemarks(xml) {
   var result = [];
   try {
@@ -2121,7 +2077,6 @@ function parseKmlPlacemarks(xml) {
   return result;
 }
 
-/* Buat KML standalone untuk satu line (agar tersimpan rapi di database) */
 function generateKmlFromCoords(coords, name, notes) {
   var coordsStr = coords.map(function(p) { return p[0] + ',' + p[1] + ',0'; }).join(' ');
   var desc = notes ? '<description><![CDATA[' + notes + ']]></description>' : '';
@@ -2138,7 +2093,6 @@ function generateKmlFromCoords(coords, name, notes) {
     '</kml>';
 }
 
-/* PROSES UTAMA: parse KML → kelompokkan per nama line → simpan (overwrite/add) */
 function processKmlAndSave(kmlText, fallbackLine) {
   if (!kmlText || typeof kmlText !== 'string') {
     return Promise.reject(new Error('Isi KML tidak valid'));
@@ -2147,31 +2101,24 @@ function processKmlAndSave(kmlText, fallbackLine) {
   var xml = parser.parseFromString(kmlText, "text/xml");
   var placemarks = parseKmlPlacemarks(xml);
   if (placemarks.length === 0) {
-    return Promise.reject(new Error('Tidak ada LineString yang ditemukan dalam file'));
+    return Promise.reject(new Error('Tidak ada LineString dalam file'));
   }
-
-  // Kelompokkan: { lineName: [coords, coords, ...] }
   var lineMap = {};
   placemarks.forEach(function(pm, idx) {
     var lineName;
     if (placemarks.length === 1) {
-      // Single placemark: pakai nama placemark, fallback ke pilihan user
       lineName = (pm.name || fallbackLine || 'LINE BARU').toUpperCase().trim();
     } else {
-      // Multiple placemark: pakai nama placemark, atau "FALLBACK - N"
       lineName = (pm.name || ((fallbackLine || 'LINE') + ' - ' + (idx + 1))).toUpperCase().trim();
     }
     if (!lineName) lineName = 'LINE ' + (idx + 1);
     if (lineMap[lineName]) lineMap[lineName] = lineMap[lineName].concat(pm.coords);
     else lineMap[lineName] = pm.coords;
   });
-
   var names = Object.keys(lineMap);
   var savePromises = names.map(function(name) {
     var kmlForLine = generateKmlFromCoords(lineMap[name], name, '');
-    // Simpan ke kmlData/{name} → otomatis overwrite jika ada, atau add jika baru
     return db.ref('kmlData/' + name).set(kmlForLine).then(function() {
-      // Auto-register line kustom ke customLines agar muncul di dropdown berikutnya
       if (BUILTIN_LINES.indexOf(name) === -1 && !customLines[name]) {
         return db.ref('customLines/' + name).set({
           color: '#00D9FF', width: 4,
@@ -2182,10 +2129,7 @@ function processKmlAndSave(kmlText, fallbackLine) {
       }
     });
   });
-
-  return Promise.all(savePromises).then(function() {
-    return names;
-  });
+  return Promise.all(savePromises).then(function() { return names; });
 }
 
 function submitKmlUpload(e) {
@@ -2196,10 +2140,8 @@ function submitKmlUpload(e) {
   }
   var file = document.getElementById('kml-file').files[0];
   if (!line || !file) { showToast('Pilih line & file', 'error'); return false; }
-
   var fileName = file.name.toLowerCase();
   var reader = new FileReader();
-
   if (fileName.endsWith('.kmz')) {
     reader.onload = function(ev) {
       if (typeof JSZip === 'undefined') { showToast('JSZip tidak tersedia', 'error'); return; }
@@ -2214,7 +2156,7 @@ function submitKmlUpload(e) {
         return processKmlAndSave(kmlText, line);
       }).then(function(savedNames) {
         catatRiwayat('KML/Lines', 'Upload KMZ', 'Total: ' + savedNames.length + ' line', savedNames.join(', '));
-        showToast('✅ ' + savedNames.length + ' line tersimpan: ' + savedNames.slice(0, 3).join(', ') + (savedNames.length > 3 ? ' ...' : ''), 'success');
+        showToast('✅ ' + savedNames.length + ' line tersimpan', 'success');
         closeKmlModal();
         updateKmlCustomLineOptions();
         updateCustomLineOptions();
@@ -2229,7 +2171,7 @@ function submitKmlUpload(e) {
     reader.onload = function(ev) {
       processKmlAndSave(ev.target.result, line).then(function(savedNames) {
         catatRiwayat('KML/Lines', 'Upload KML', 'Total: ' + savedNames.length + ' line', savedNames.join(', '));
-        showToast('✅ ' + savedNames.length + ' line tersimpan: ' + savedNames.slice(0, 3).join(', ') + (savedNames.length > 3 ? ' ...' : ''), 'success');
+        showToast('✅ ' + savedNames.length + ' line tersimpan', 'success');
         closeKmlModal();
         updateKmlCustomLineOptions();
         updateCustomLineOptions();
@@ -2255,7 +2197,6 @@ function downloadKML() {
     showToast('KML diunduh', 'success');
   }).catch(function(err) { showToast(err.message, 'error'); });
 }
-
 function downloadKMZ() {
   var line = prompt('Masukkan nama line yang ingin di-download:', 'OSP LINE 1');
   if (!line) return;
@@ -2276,7 +2217,6 @@ function downloadKMZ() {
     }).catch(function(err) { showToast('Gagal: ' + err.message, 'error'); });
   }).catch(function(err) { showToast(err.message, 'error'); });
 }
-
 function downloadTextAsFile(text, filename, mimeType) {
   var blob = new Blob([text], { type: mimeType || 'text/plain' });
   var url = URL.createObjectURL(blob);
@@ -2285,7 +2225,6 @@ function downloadTextAsFile(text, filename, mimeType) {
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
-
 window.downloadKML = downloadKML; window.downloadKMZ = downloadKMZ;
 window.submitKmlUpload = submitKmlUpload;
 
@@ -2319,6 +2258,7 @@ function getHybridStyle() {
       { id: 'hybrid-hd-layer', type: 'raster', source: 'hybrid-hd', minzoom: 14, maxzoom: 22 }
     ] };
 }
+
 function initMap() {
   if (map) return;
   try {
@@ -2330,14 +2270,22 @@ function initMap() {
       fadeDuration: 0, refreshExpiredTiles: false, preserveDrawingBuffer: true
     });
     map.on('load', function () {
+      console.log('[MAP] Loaded');
       loadMarkersFromData();
-      Object.keys(kmlLayers).forEach(function (line) {
-        if (kmlLayers[line] && kmlLayers[line].geojson) drawKmlGeoJSON(line, kmlLayers[line].geojson, false);
-      });
+      // Render KML cache atau ambil dari Firebase
+      if (kmlDataCache) {
+        renderAllKmlLines(kmlDataCache);
+      } else if (db) {
+        db.ref('kmlData').once('value').then(function(s) {
+          kmlDataCache = s.val() || {};
+          renderAllKmlLines(kmlDataCache);
+        }).catch(function() {});
+      }
     });
     map.on('click', function (e) { if (drawMode) handleDrawClick(e); });
   } catch (e) { console.error('Map init:', e); }
 }
+
 function loadMarkersFromData() {
   if (!map) return;
   markers.forEach(function (m) { m.remove(); });
@@ -2393,7 +2341,12 @@ window.toggleMapLayer = function (t, evt) {
     markers = [];
     loadMarkersFromData();
     kmlLayers = {};
-    Object.keys(savedKml).forEach(function (line) { drawKmlGeoJSON(line, savedKml[line], false); });
+    // Render dari cache kalau ada
+    if (kmlDataCache && Object.keys(kmlDataCache).length > 0) {
+      renderAllKmlLines(kmlDataCache);
+    } else {
+      Object.keys(savedKml).forEach(function (line) { drawKmlGeoJSON(line, savedKml[line], false); });
+    }
   });
   document.querySelectorAll('.custom-map-btn').forEach(function (b) { b.classList.remove('active'); });
   if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
@@ -2403,7 +2356,7 @@ window.mapModalZoomOut = function () { if (mapModal) mapModal.zoomOut(); };
 window.mapModalResetCenter = function () { if (mapModal) mapModal.flyTo({ center: [124.8410, 1.4930], zoom: 13 }); };
 
 /* ============================================================
-   KML PARSING (untuk render ke peta)
+   KML PARSING untuk render
    ============================================================ */
 function parseKmlToGeoJSON(xml) {
   var features = [];
@@ -2433,12 +2386,17 @@ function parseKmlToGeoJSON(xml) {
 
 function drawKmlGeoJSON(line, geojson, autoZoom) {
   if (!map || !geojson) return;
+  if (!map.isStyleLoaded()) {
+    map.once('styledata', function () { drawKmlGeoJSON(line, geojson, autoZoom); });
+    return;
+  }
   var color = kmlLineColors[line] || '#00D9FF';
   if (customLines[line] && customLines[line].color) color = customLines[line].color;
   var width = 4;
   if (customLines[line] && customLines[line].width) width = customLines[line].width;
-  var sourceId = 'kml-src-' + line.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
-  var layerId = 'kml-layer-' + line.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
+  var safeName = line.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
+  var sourceId = 'kml-src-' + safeName;
+  var layerId = 'kml-layer-' + safeName;
   try {
     if (map.getLayer(layerId)) map.removeLayer(layerId);
     if (map.getSource(sourceId)) map.removeSource(sourceId);
@@ -2458,13 +2416,6 @@ function drawKmlGeoJSON(line, geojson, autoZoom) {
     map.on('mouseleave', layerId, function () { map.getCanvas().style.cursor = ''; });
   } catch (e) { console.warn('addLayer error:', e); }
   kmlLayers[line] = { sourceId: sourceId, layerId: layerId, geojson: geojson };
-  // Update legend
-  var legend = document.getElementById('map-legend-line');
-  if (legend) {
-    var activeLines = Object.keys(kmlLayers);
-    legend.textContent = 'Line aktif: ' + activeLines.length + ' (' + activeLines.slice(0, 3).join(', ') + (activeLines.length > 3 ? '...' : '') + ')';
-  }
-  // Auto-zoom hanya jika diminta & ini line baru
   if (autoZoom !== false && geojson.features && geojson.features.length > 0) {
     try {
       var bounds = new maplibregl.LngLatBounds();
@@ -2474,65 +2425,76 @@ function drawKmlGeoJSON(line, geojson, autoZoom) {
   }
 }
 
-function displayKmlOnMap(line, str) {
-  if (!map || !str) return;
-  try {
-    if (kmlLayers[line]) {
-      var old = kmlLayers[line];
-      try {
-        if (map.getLayer(old.layerId)) map.removeLayer(old.layerId);
-        if (map.getSource(old.sourceId)) map.removeSource(old.sourceId);
-      } catch (e) {}
-      delete kmlLayers[line];
-    }
-    var xml = new DOMParser().parseFromString(str, "text/xml");
-    var geojson = parseKmlToGeoJSON(xml);
-    if (geojson.features.length > 0) drawKmlGeoJSON(line, geojson, false);
-  } catch (err) { console.error('displayKmlOnMap error:', err); }
+function clearAllKmlLayers() {
+  if (!map) return;
+  Object.keys(kmlLayers).forEach(function(line) {
+    var l = kmlLayers[line];
+    try { if (l && l.layerId && map.getLayer(l.layerId)) map.removeLayer(l.layerId); } catch(e) {}
+    try { if (l && l.sourceId && map.getSource(l.sourceId)) map.removeSource(l.sourceId); } catch(e) {}
+  });
+  kmlLayers = {};
 }
 
-/* REAL-TIME: setiap perubahan di kmlData → render ulang peta */
+function renderAllKmlLines(kmlDataObj) {
+  var d = kmlDataObj || {};
+  console.log('[KML] Render', Object.keys(d).length, 'line');
+  clearAllKmlLayers();
+  var names = Object.keys(d);
+  if (names.length === 0) {
+    var legend = document.getElementById('map-legend-line');
+    if (legend) legend.textContent = 'Line aktif: -';
+    return;
+  }
+  names.forEach(function (lineName) {
+    var kmlText = d[lineName];
+    if (!kmlText || typeof kmlText !== 'string') return;
+    try {
+      var xml = new DOMParser().parseFromString(kmlText, "text/xml");
+      var geojson = parseKmlToGeoJSON(xml);
+      if (geojson.features.length > 0) {
+        if (map && map.isStyleLoaded()) {
+          drawKmlGeoJSON(lineName, geojson, false);
+        } else if (map) {
+          map.once('idle', (function(nm, gj) {
+            return function() { drawKmlGeoJSON(nm, gj, false); };
+          })(lineName, geojson));
+        }
+      }
+    } catch (e) { console.warn('[KML] Parse error:', lineName, e); }
+  });
+  var legend = document.getElementById('map-legend-line');
+  if (legend) {
+    legend.textContent = 'Total Line: ' + names.length + ' (' + names.slice(0, 2).join(', ') + (names.length > 2 ? '...' : '') + ')';
+  }
+}
+
+/* REAL-TIME LISTENER: langsung render saat data berubah */
 function loadKmlFromFirebase() {
-  if (!db || kmlListenerAttached) return;
+  if (!db) return;
+  if (kmlListenerAttached) return;
   db.ref('kmlData').on('value', function (s) {
     var d = s.val() || {};
-    console.log('[KML] Data dari Firebase:', Object.keys(d));
-    // Bersihkan layer lama
-    Object.keys(kmlLayers).forEach(function(line) {
-      var l = kmlLayers[line];
-      try { if (l && l.layerId && map && map.getLayer(l.layerId)) map.removeLayer(l.layerId); } catch(e) {}
-      try { if (l && l.sourceId && map && map.getSource(l.sourceId)) map.removeSource(l.sourceId); } catch(e) {}
-    });
-    kmlLayers = {};
-    // Render semua line yang tersimpan di database
-    var linesRendered = 0;
-    Object.keys(d).forEach(function (l) {
-      if (d[l]) {
-        try {
-          var xml = new DOMParser().parseFromString(d[l], "text/xml");
-          var geojson = parseKmlToGeoJSON(xml);
-          if (geojson.features.length > 0) {
-            if (map && map.isStyleLoaded()) drawKmlGeoJSON(l, geojson, false);
-            else if (map) map.once('load', function () { drawKmlGeoJSON(l, geojson, false); });
-            linesRendered++;
-          }
-        } catch (e) { console.warn('Load KML error:', l, e); }
-      }
-    });
-    console.log('[KML] Rendered lines:', linesRendered);
-    // Update legend total
-    var legend = document.getElementById('map-legend-line');
-    if (legend) {
-      var names = Object.keys(d);
-      legend.textContent = names.length > 0
-        ? 'Total Line: ' + names.length + ' (' + names.slice(0, 2).join(', ') + (names.length > 2 ? '...' : '') + ')'
-        : 'Line aktif: -';
+    kmlDataCache = d;
+    console.log('[KML] Realtime update diterima. Total line:', Object.keys(d).length);
+    if (map && map.isStyleLoaded()) {
+      renderAllKmlLines(d);
+    } else if (map) {
+      // Coba render setelah styledata
+      map.once('styledata', function () { renderAllKmlLines(kmlDataCache); });
+      setTimeout(function() {
+        if (map && map.isStyleLoaded()) renderAllKmlLines(kmlDataCache);
+      }, 1000);
+    } else {
+      // Map belum dibuat — tunggu
+      setTimeout(function() {
+        if (map && map.isStyleLoaded()) renderAllKmlLines(kmlDataCache);
+      }, 1500);
     }
   }, function(err) {
     console.error('[KML] Firebase listener error:', err);
-    showToast('Gagal memuat data KML/KMZ dari database', 'error');
   });
   kmlListenerAttached = true;
+  console.log('[KML] Listener realtime terpasang');
 }
 
 /* ============================================================
@@ -2544,9 +2506,10 @@ function loadCustomLines() {
     customLines = s.val() || {};
     updateCustomLineOptions();
     updateKmlCustomLineOptions();
-    Object.keys(kmlLayers).forEach(function(line) {
-      if (kmlLayers[line] && kmlLayers[line].geojson) drawKmlGeoJSON(line, kmlLayers[line].geojson, false);
-    });
+    // Re-render KML dengan warna baru
+    if (kmlDataCache && map && map.isStyleLoaded()) {
+      renderAllKmlLines(kmlDataCache);
+    }
   });
   customLinesListenerAttached = true;
 }
@@ -2575,9 +2538,8 @@ function updateKmlCustomLineOptions() {
   if (db) {
     db.ref('kmlData').once('value').then(function(s) {
       var allLines = s.val() || {};
-      var names = Object.keys(allLines).filter(function(n) { return BUILTIN_LINES.indexOf(n) === -1; });
-      names.forEach(function(key) {
-        if (!sel.querySelector('option[value="' + key + '"]')) {
+      Object.keys(allLines).forEach(function(key) {
+        if (BUILTIN_LINES.indexOf(key) === -1 && !sel.querySelector('option[value="' + key + '"]')) {
           var opt = document.createElement('option');
           opt.value = key;
           opt.textContent = key + ' (tersimpan)';
@@ -2631,7 +2593,7 @@ function startDrawing() {
   document.getElementById('draw-status').textContent = 'Klik peta untuk menambahkan titik';
   document.getElementById('draw-point-count').textContent = '0 titik';
   document.body.classList.add('draw-cursor-active');
-  showToast('Mode menggambar aktif. Klik peta untuk menambah titik.', 'success');
+  showToast('Mode menggambar aktif.', 'success');
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 function handleDrawClick(e) {
@@ -2699,7 +2661,6 @@ function finishDrawLine() {
   var width = drawCurrentLine.width;
   var notes = drawCurrentLine.notes;
   var isCustom = drawCurrentLine.isCustom;
-
   var customSavePromise = Promise.resolve();
   if (isCustom && !customLines[lineName]) {
     customSavePromise = db.ref('customLines/' + lineName).set({
@@ -2707,13 +2668,12 @@ function finishDrawLine() {
       createdBy: currentUser ? currentUser.name : 'System', notes: notes
     });
   }
-  // Simpan KML untuk line ini (overwrite jika sama, add jika baru)
   var kmlText = generateKmlFromCoords(drawPoints, lineName, notes);
   customSavePromise.then(function() {
     return db.ref('kmlData/' + lineName).set(kmlText);
   }).then(function() {
     catatRiwayat('KML/Lines', 'Gambar Line', 'Line: ' + lineName + ' | Titik: ' + drawPoints.length, notes || 'Line dibuat manual');
-    showToast('Line "' + lineName + '" tersimpan di database!', 'success');
+    showToast('Line "' + lineName + '" tersimpan!', 'success');
     cleanupDrawing();
     updateKmlCustomLineOptions();
   }).catch(function(err) { showToast('Gagal: ' + err.message, 'error'); });
@@ -4115,7 +4075,10 @@ document.addEventListener('DOMContentLoaded', function() {
           initMap();
           initCharts();
           if (map) {
-            map.on('load', function () { loadKmlFromFirebase(); loadCustomLines(); });
+            map.on('load', function () {
+              loadKmlFromFirebase();
+              loadCustomLines();
+            });
           } else {
             loadKmlFromFirebase();
             loadCustomLines();
