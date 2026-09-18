@@ -347,6 +347,14 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
 .user-list-btn.reset { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); border-color: rgba(0, 217, 255, 0.4); }
 .user-list-btn.reset:hover { background: rgba(0, 217, 255, 0.25); transform: translateY(-1px); }
 .user-list-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+/* KML Manager list */
+.kml-list-item { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; transition: all 0.2s; }
+.kml-list-item:hover { border-color: var(--border-glow); transform: translateX(2px); }
+.kml-list-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(0,217,255,0.12); border: 1px solid var(--border-glow); display: grid; place-items: center; flex-shrink: 0; }
+.kml-list-info { flex: 1; min-width: 0; }
+.kml-list-name { font-weight: 700; color: var(--text-main); font-size: var(--app-font-size-sm); word-break: break-word; }
+.kml-list-meta { font-size: var(--app-font-size-xs); color: var(--text-muted); margin-top: 2px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.kml-list-actions { display: flex; gap: 6px; flex-shrink: 0; }
 @media (max-width: 640px) {
   .hero-panel { padding: 20px 16px; }
   .card { padding: 12px; }
@@ -355,6 +363,7 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
   .filter-bar { flex-direction: column; align-items: stretch; }
   .chart-rekap-table th, .chart-rekap-table td { padding: 4px 2px; }
   .user-list-actions { flex-direction: column; }
+  .kml-list-actions { flex-direction: column; }
 }
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--scroll-track); }
@@ -564,8 +573,7 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <button id="btn-draw-line" class="btn-primary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;"><i data-lucide="pen-line" style="width:14px;"></i> Buat Line Baru</button>
               <button id="btn-upload-kml" class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;"><i data-lucide="upload" style="width:14px;"></i> Upload KML/KMZ</button>
-              <button class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;" onclick="downloadKML()"><i data-lucide="download" style="width:14px;"></i> Download KML</button>
-              <button class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;" onclick="downloadKMZ()"><i data-lucide="download" style="width:14px;"></i> Download KMZ</button>
+              <button id="btn-manage-kml" class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;color:#EC4899;border-color:rgba(236,72,153,0.4);"><i data-lucide="folder-cog" style="width:14px;"></i> Kelola KML</button>
             </div>
           </div>
           <div style="position:relative;">
@@ -782,6 +790,35 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
     <div id="riwayat-modal-empty" style="padding:40px;text-align:center;color:var(--text-muted);display:none;">
       <i data-lucide="inbox" style="width:48px;height:48px;margin-bottom:12px;opacity:0.3;"></i>
       <p>Belum ada riwayat untuk menu ini</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL KELOLA KML/KMZ -->
+<div id="kml-manager-modal" class="modal-layer hidden">
+  <div class="modal-card" style="max-width:640px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h3 style="margin:0;font-weight:800;color:var(--primary-cyan);display:flex;align-items:center;gap:8px;">
+        <i data-lucide="folder-cog" style="width:22px;"></i> Kelola Line KML/KMZ
+      </h3>
+      <button onclick="closeKmlManager()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
+    </div>
+    <div style="background:rgba(236,72,153,0.08);padding:12px 14px;border-radius:12px;margin-bottom:16px;border:1px solid rgba(236,72,153,0.3);">
+      <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">
+        • Semua line yang tersimpan di database ditampilkan di sini.<br>
+        • Tombol <strong style="color:#10B981;">KML</strong> &amp; <strong style="color:#A855F7;">KMZ</strong> untuk mengunduh.<br>
+        • Tombol <strong style="color:#EC4899;">Hapus</strong> untuk menghapus line dari database &amp; peta.
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap;">
+      <div style="font-weight:700;color:var(--primary-cyan);display:flex;align-items:center;gap:6px;font-size:var(--app-font-size-sm);">
+        <i data-lucide="layers" style="width:14px;"></i> Line Terdaftar
+        <span id="kml-count-badge" style="background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 8px;border-radius:99px;font-weight:800;font-size:var(--app-font-size-xs);">0</span>
+      </div>
+      <input type="text" id="kml-list-search" class="field-control" placeholder="Cari line..." style="max-width:180px;min-height:36px;font-size:var(--app-font-size-xs);padding:0 10px;" oninput="renderKmlManagerList()">
+    </div>
+    <div id="kml-list-container" style="display:grid;gap:8px;max-height:440px;overflow-y:auto;padding-right:4px;">
+      <div style="padding:20px;text-align:center;color:var(--text-muted);font-size:var(--app-font-size-sm);">Memuat daftar line...</div>
     </div>
   </div>
 </div>
@@ -1554,7 +1591,7 @@ function applyAutoUppercase() {
     'inp-p3-pelaksana', 'inp-p3-lama', 'inp-p3-keterangan',
     'map-search-input', 'new-username', 'user-list-search',
     'draw-custom-line-name', 'draw-line-notes', 'riwayat-modal-search',
-    'hero-about-input', 'kml-custom-line-name'
+    'hero-about-input', 'kml-custom-line-name', 'kml-list-search'
   ];
   textInputIds.forEach(function(id) {
     var el = document.getElementById(id);
@@ -1609,8 +1646,9 @@ let selectedMapLocation = null;
 let mapModalMarker = null;
 let markers = [];
 let kmlLayers = {};
-let kmlDataCache = null;        // ← cache data KML dari Firebase
-let kmlListenerAttached = false; // ← flag listener real-time
+let kmlDataCache = null;
+let kmlListenerAttached = false;
+let kmlManagerAttached = false;
 let drawMode = false;
 let drawPoints = [];
 let drawMarkers = [];
@@ -1674,6 +1712,9 @@ function escapeXml(s) {
   return String(s).replace(/[<>&'"]/g, function(c) {
     return { '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c];
   });
+}
+function escapeAttr(s) {
+  return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
 }
 function checkOpmDariKe() {
   var dari = document.getElementById('inp-opm-dari').value;
@@ -1894,6 +1935,7 @@ function handleLogin(e) {
         try { initCharts(); } catch (e) {}
         try { loadKmlFromFirebase(); } catch (e) {}
         try { loadCustomLines(); } catch (e) {}
+        try { attachKmlManagerListener(); } catch (e) {}
         try { applyAutoUppercase(); } catch (e) {}
         if (typeof lucide !== 'undefined') lucide.createIcons();
       }, 300);
@@ -1978,6 +2020,7 @@ function submitForceChangePassword(e) {
         try { initCharts(); } catch (e) {}
         try { loadKmlFromFirebase(); } catch (e) {}
         try { loadCustomLines(); } catch (e) {}
+        try { attachKmlManagerListener(); } catch (e) {}
         try { applyAutoUppercase(); } catch (e) {}
         if (typeof lucide !== 'undefined') lucide.createIcons();
       }, 300);
@@ -2038,7 +2081,7 @@ function generateAlkerSN(nama, jenis, merk, date, urutan) {
 function getNextAlkerUrutan() { return Object.keys(appData['Alker'] || {}).length + 1; }
 
 /* ============================================================
-   KML / KMZ — MULTI-LINE + AUTO OVERWRITE/ADD
+   KML / KMZ — MULTI-LINE + AUTO OVERWRITE/ADD + KELOLA
    ============================================================ */
 function closeKmlModal() {
   document.getElementById('kml-modal').classList.add('hidden');
@@ -2055,6 +2098,145 @@ function toggleKmlCustomLine() {
 }
 window.toggleKmlCustomLine = toggleKmlCustomLine;
 
+/* ==== KELOLA KML: BUKA MODAL & RENDER DAFTAR ==== */
+function bukaKmlManager() {
+  document.getElementById('kml-manager-modal').classList.remove('hidden');
+  document.getElementById('kml-list-search').value = '';
+  renderKmlManagerList();
+  if (!kmlManagerAttached) {
+    attachKmlManagerListener();
+  }
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+function closeKmlManager() {
+  document.getElementById('kml-manager-modal').classList.add('hidden');
+}
+window.bukaKmlManager = bukaKmlManager;
+window.closeKmlManager = closeKmlManager;
+
+/* Real-time listener untuk manager list */
+function attachKmlManagerListener() {
+  if (!db || kmlManagerAttached) return;
+  db.ref('kmlData').on('value', function(s) {
+    kmlDataCache = s.val() || {};
+    // Jika modal manager sedang terbuka, re-render
+    var mgr = document.getElementById('kml-manager-modal');
+    if (mgr && !mgr.classList.contains('hidden')) {
+      renderKmlManagerList();
+    }
+  });
+  kmlManagerAttached = true;
+}
+
+function renderKmlManagerList() {
+  var container = document.getElementById('kml-list-container');
+  var countBadge = document.getElementById('kml-count-badge');
+  if (!container) return;
+  var data = kmlDataCache || {};
+  var search = (document.getElementById('kml-list-search')?.value || '').toLowerCase();
+  var names = Object.keys(data).sort();
+  if (countBadge) countBadge.textContent = names.length;
+  if (search) names = names.filter(function(n) { return n.toLowerCase().includes(search); });
+
+  if (names.length === 0) {
+    container.innerHTML = '<div style="padding:30px;text-align:center;color:var(--text-muted);font-size:var(--app-font-size-sm);">' +
+      '<i data-lucide="inbox" style="width:36px;height:36px;opacity:0.3;margin-bottom:8px;"></i>' +
+      '<div>' + (search ? 'Tidak ada line yang cocok' : 'Belum ada line tersimpan') + '</div></div>';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    return;
+  }
+
+  var html = '';
+  names.forEach(function(name) {
+    var kmlText = data[name] || '';
+    // Hitung jumlah placemark
+    var placemarkCount = 0;
+    try {
+      var xml = new DOMParser().parseFromString(kmlText, "text/xml");
+      placemarkCount = xml.getElementsByTagName("Placemark").length;
+    } catch (e) {}
+    var isBuiltin = BUILTIN_LINES.indexOf(name) !== -1;
+    var color = kmlLineColors[name] || (customLines[name] && customLines[name].color) || '#00D9FF';
+    html += '<div class="kml-list-item">';
+    html += '<div class="kml-list-icon" style="background:' + color + '20;border-color:' + color + '80;">';
+    html += '<i data-lucide="route" style="width:18px;color:' + color + ';"></i>';
+    html += '</div>';
+    html += '<div class="kml-list-info">';
+    html += '<div class="kml-list-name">' + escapeHtml(name);
+    if (!isBuiltin) html += ' <span style="font-size:var(--app-font-size-xs);color:var(--primary-cyan);font-weight:600;">(kustom)</span>';
+    html += '</div>';
+    html += '<div class="kml-list-meta">';
+    html += '<span><i data-lucide="map-pin" style="width:11px;display:inline-block;vertical-align:middle;"></i> ' + placemarkCount + ' placemark</span>';
+    html += '<span>•</span>';
+    html += '<span>' + (kmlText.length / 1024).toFixed(1) + ' KB</span>';
+    html += '</div>';
+    html += '</div>';
+    html += '<div class="kml-list-actions">';
+    html += '<button class="user-list-btn reset" onclick="downloadSingleKml(\'' + escapeAttr(name) + '\')" title="Download KML"><i data-lucide="download" style="width:12px;"></i> KML</button>';
+    html += '<button class="user-list-btn reset" style="background:rgba(168,85,247,0.1);color:#A855F7;border-color:rgba(168,85,247,0.4);" onclick="downloadSingleKmz(\'' + escapeAttr(name) + '\')" title="Download KMZ"><i data-lucide="download" style="width:12px;"></i> KMZ</button>';
+    html += '<button class="user-list-btn delete" onclick="hapusLineKml(\'' + escapeAttr(name) + '\')" title="Hapus Line"><i data-lucide="trash-2" style="width:12px;"></i> Hapus</button>';
+    html += '</div>';
+    html += '</div>';
+  });
+  container.innerHTML = html;
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+window.renderKmlManagerList = renderKmlManagerList;
+
+/* Download satu line KML */
+function downloadSingleKml(lineName) {
+  var kmlText = (kmlDataCache || {})[lineName];
+  if (!kmlText) { showToast('Line tidak ditemukan', 'error'); return; }
+  downloadTextAsFile(kmlText, lineName + '.kml', 'application/vnd.google-earth.kml+xml');
+  showToast('KML "' + lineName + '" diunduh', 'success');
+}
+/* Download satu line KMZ */
+function downloadSingleKmz(lineName) {
+  var kmlText = (kmlDataCache || {})[lineName];
+  if (!kmlText) { showToast('Line tidak ditemukan', 'error'); return; }
+  if (typeof JSZip === 'undefined') { showToast('JSZip tidak tersedia', 'error'); return; }
+  var zip = new JSZip();
+  zip.file('doc.kml', kmlText);
+  zip.generateAsync({ type: 'blob' }).then(function(blob) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = lineName + '.kmz';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('KMZ "' + lineName + '" diunduh', 'success');
+  }).catch(function(err) { showToast('Gagal: ' + err.message, 'error'); });
+}
+window.downloadSingleKml = downloadSingleKml;
+window.downloadSingleKmz = downloadSingleKmz;
+
+/* Hapus line KML dari database */
+function hapusLineKml(lineName) {
+  if (!currentUser) { showToast('Login dulu', 'error'); return; }
+  if (!confirm('HAPUS line "' + lineName + '"?\n\nLine akan dihapus dari database & peta.\nAksi ini tidak bisa dibatalkan!')) return;
+  var isBuiltin = BUILTIN_LINES.indexOf(lineName) !== -1;
+  // 1) Hapus dari kmlData
+  db.ref('kmlData/' + lineName).remove()
+    .then(function() {
+      // 2) Jika custom line, hapus juga dari customLines
+      if (!isBuiltin) {
+        return db.ref('customLines/' + lineName).remove().catch(function() {});
+      }
+    })
+    .then(function() {
+      catatRiwayat('KML/Lines', 'Hapus Line', 'Line: ' + lineName, 'Line dihapus dari database');
+      showToast('Line "' + lineName + '" dihapus', 'success');
+      // Listener realtime akan otomatis re-render peta
+    })
+    .catch(function(err) {
+      console.error('Hapus line error:', err);
+      var msg = err.message || 'Gagal hapus';
+      if (msg.includes('permission')) msg = 'Akses ditolak. Set Firebase Rules.';
+      showToast('Gagal hapus: ' + msg, 'error');
+    });
+}
+window.hapusLineKml = hapusLineKml;
+
+/* Parse SEMUA Placemark */
 function parseKmlPlacemarks(xml) {
   var result = [];
   try {
@@ -2201,21 +2383,7 @@ function downloadKMZ() {
   var line = prompt('Masukkan nama line yang ingin di-download:', 'OSP LINE 1');
   if (!line) return;
   var upperLine = line.trim().toUpperCase();
-  db.ref('kmlData/' + upperLine).once('value').then(function(s) {
-    var kmlText = s.val();
-    if (!kmlText) { showToast('Line "' + upperLine + '" tidak ditemukan', 'error'); return; }
-    if (typeof JSZip === 'undefined') { showToast('JSZip tidak tersedia', 'error'); return; }
-    var zip = new JSZip();
-    zip.file('doc.kml', kmlText);
-    zip.generateAsync({ type: 'blob' }).then(function(blob) {
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url; a.download = upperLine + '.kmz';
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      showToast('KMZ diunduh', 'success');
-    }).catch(function(err) { showToast('Gagal: ' + err.message, 'error'); });
-  }).catch(function(err) { showToast(err.message, 'error'); });
+  downloadSingleKmz(upperLine);
 }
 function downloadTextAsFile(text, filename, mimeType) {
   var blob = new Blob([text], { type: mimeType || 'text/plain' });
@@ -2272,7 +2440,6 @@ function initMap() {
     map.on('load', function () {
       console.log('[MAP] Loaded');
       loadMarkersFromData();
-      // Render KML cache atau ambil dari Firebase
       if (kmlDataCache) {
         renderAllKmlLines(kmlDataCache);
       } else if (db) {
@@ -2341,7 +2508,6 @@ window.toggleMapLayer = function (t, evt) {
     markers = [];
     loadMarkersFromData();
     kmlLayers = {};
-    // Render dari cache kalau ada
     if (kmlDataCache && Object.keys(kmlDataCache).length > 0) {
       renderAllKmlLines(kmlDataCache);
     } else {
@@ -2468,7 +2634,6 @@ function renderAllKmlLines(kmlDataObj) {
   }
 }
 
-/* REAL-TIME LISTENER: langsung render saat data berubah */
 function loadKmlFromFirebase() {
   if (!db) return;
   if (kmlListenerAttached) return;
@@ -2479,13 +2644,11 @@ function loadKmlFromFirebase() {
     if (map && map.isStyleLoaded()) {
       renderAllKmlLines(d);
     } else if (map) {
-      // Coba render setelah styledata
       map.once('styledata', function () { renderAllKmlLines(kmlDataCache); });
       setTimeout(function() {
         if (map && map.isStyleLoaded()) renderAllKmlLines(kmlDataCache);
       }, 1000);
     } else {
-      // Map belum dibuat — tunggu
       setTimeout(function() {
         if (map && map.isStyleLoaded()) renderAllKmlLines(kmlDataCache);
       }, 1500);
@@ -2506,7 +2669,6 @@ function loadCustomLines() {
     customLines = s.val() || {};
     updateCustomLineOptions();
     updateKmlCustomLineOptions();
-    // Re-render KML dengan warna baru
     if (kmlDataCache && map && map.isStyleLoaded()) {
       renderAllKmlLines(kmlDataCache);
     }
@@ -2521,10 +2683,12 @@ function updateCustomLineOptions() {
   });
   var customOpt = sel.querySelector('option[value="__custom__"]');
   Object.keys(customLines).forEach(function(key) {
-    var opt = document.createElement('option');
-    opt.value = key;
-    opt.textContent = key + ' (kustom)';
-    sel.insertBefore(opt, customOpt);
+    if (!sel.querySelector('option[value="' + key + '"]')) {
+      var opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = key + ' (kustom)';
+      sel.insertBefore(opt, customOpt);
+    }
   });
 }
 function updateKmlCustomLineOptions() {
@@ -2534,7 +2698,6 @@ function updateKmlCustomLineOptions() {
     if (opt.value && opt.value !== '__custom__' && BUILTIN_LINES.indexOf(opt.value) === -1) opt.remove();
   });
   var customOpt = sel.querySelector('option[value="__custom__"]');
-  // Sertakan line dari kmlData juga
   if (db) {
     db.ref('kmlData').once('value').then(function(s) {
       var allLines = s.val() || {};
@@ -2713,9 +2876,6 @@ function loadUsersList() {
     renderUserList();
   });
   usersListListenerAttached = true;
-}
-function escapeAttr(s) {
-  return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
 }
 function renderUserList() {
   var container = document.getElementById('user-list-container');
@@ -3899,6 +4059,11 @@ function setupEventListeners() {
   if (ov) ov.addEventListener('click', function() { sb.classList.remove('open'); ov.classList.remove('active'); });
   var ab = document.getElementById('btn-add');
   if (ab) ab.addEventListener('click', handleAddClick);
+
+  /* Tombol Kelola KML */
+  var bmk = document.getElementById('btn-manage-kml');
+  if (bmk) bmk.addEventListener('click', bukaKmlManager);
+
   var ps = document.getElementById('period-select');
   if (ps) ps.addEventListener('change', function() {
     currentPeriod = this.value;
@@ -4078,10 +4243,12 @@ document.addEventListener('DOMContentLoaded', function() {
             map.on('load', function () {
               loadKmlFromFirebase();
               loadCustomLines();
+              attachKmlManagerListener();
             });
           } else {
             loadKmlFromFirebase();
             loadCustomLines();
+            attachKmlManagerListener();
           }
           if (typeof lucide !== 'undefined') lucide.createIcons();
           applyAutoUppercase();
