@@ -9,6 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700;900&family=Nunito:wght@400;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
@@ -819,8 +820,9 @@ input[type="range"],
             </h3>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <button id="btn-draw-line" class="btn-primary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;"><i data-lucide="pen-line" style="width:14px;"></i> Buat Line Baru</button>
-              <button id="btn-upload-kml" class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;"><i data-lucide="upload" style="width:14px;"></i> KML</button>
-              <button class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;" onclick="downloadKML()"><i data-lucide="download" style="width:14px;"></i> KML</button>
+              <button id="btn-upload-kml" class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;"><i data-lucide="upload" style="width:14px;"></i> Upload KML/KMZ</button>
+              <button class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;" onclick="downloadKML()"><i data-lucide="download" style="width:14px;"></i> Download KML</button>
+              <button class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;" onclick="downloadKMZ()"><i data-lucide="download" style="width:14px;"></i> Download KMZ</button>
             </div>
           </div>
           <div style="position:relative;">
@@ -1041,11 +1043,11 @@ input[type="range"],
   </div>
 </div>
 
-<!-- MODAL KML -->
+<!-- MODAL UPLOAD KML/KMZ -->
 <div id="kml-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-      <h3 style="margin:0;font-weight:800;color:var(--primary-cyan);">Upload KML</h3>
+      <h3 style="margin:0;font-weight:800;color:var(--primary-cyan);">Upload KML / KMZ</h3>
       <button onclick="closeKmlModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
     </div>
     <form id="kml-form" onsubmit="return submitKmlUpload(event)">
@@ -1061,11 +1063,19 @@ input[type="range"],
           <option value="DWDM">DWDM</option>
           <option value="SEA US LINE 1">SEA US LINE 1</option>
           <option value="SEA US LINE 2">SEA US LINE 2</option>
+          <option value="__custom__">+ Tambah Line Baru...</option>
         </select>
       </div>
+      <div id="kml-custom-line-wrap" class="hidden" style="margin-bottom:16px;">
+        <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;font-size:var(--app-font-size-xs);">Nama Line Baru</label>
+        <input type="text" id="kml-custom-line-name" class="field-control" placeholder="Contoh: OSP LINE 4">
+      </div>
       <div style="margin-bottom:16px;">
-        <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;font-size:var(--app-font-size-xs);">File KML</label>
-        <input type="file" id="kml-file" accept=".kml" class="field-control" required style="padding:8px;">
+        <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;font-size:var(--app-font-size-xs);">File KML / KMZ</label>
+        <input type="file" id="kml-file" accept=".kml,.kmz" class="field-control" required style="padding:8px;">
+        <div style="color:var(--text-dim);margin-top:4px;font-size:var(--app-font-size-xs);">
+          Jika nama line sudah ada, line lama akan otomatis diganti. Jika nama line berbeda, akan membuat line baru.
+        </div>
       </div>
       <div style="display:flex;gap:12px;">
         <button type="button" onclick="closeKmlModal()" class="btn-secondary" style="flex:1;justify-content:center;">Batal</button>
@@ -1777,8 +1787,8 @@ input[type="range"],
         <p style="color:var(--text-muted);line-height:1.5;margin:0;font-size:var(--app-font-size-xs);">Buat line baru di peta dengan warna &amp; ketebalan custom.</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="upload" style="width:14px;color:var(--primary-cyan);"></i><strong style="color:var(--text-main);font-size:var(--app-font-size-xs);">Upload/Download KML</strong></div>
-        <p style="color:var(--text-muted);line-height:1.5;margin:0;font-size:var(--app-font-size-xs);">Import/export jalur dari Google Earth.</p>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="upload" style="width:14px;color:var(--primary-cyan);"></i><strong style="color:var(--text-main);font-size:var(--app-font-size-xs);">Upload/Download KML &amp; KMZ</strong></div>
+        <p style="color:var(--text-muted);line-height:1.5;margin:0;font-size:var(--app-font-size-xs);">Import/export jalur dari Google Earth (KML &amp; KMZ).</p>
       </div>
       <div style="background:var(--surface-1);border:1px solid var(--border-subtle);border-radius:10px;padding:10px 12px;">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><i data-lucide="file-spreadsheet" style="width:14px;color:var(--primary-cyan);"></i><strong style="color:var(--text-main);font-size:var(--app-font-size-xs);">Export Excel</strong></div>
@@ -1963,7 +1973,8 @@ function applyAutoUppercase() {
     'new-username', 'user-list-search',
     'draw-custom-line-name', 'draw-line-notes',
     'riwayat-modal-search',
-    'hero-about-input'
+    'hero-about-input',
+    'kml-custom-line-name'
   ];
   textInputIds.forEach(function(id) {
     var el = document.getElementById(id);
@@ -2456,31 +2467,175 @@ function getNextAlkerUrutan() {
 }
 
 /* ============================================================
-   KML
+   KML / KMZ
    ============================================================ */
 function closeKmlModal() {
   document.getElementById('kml-modal').classList.add('hidden');
   document.getElementById('kml-file').value = '';
   document.getElementById('kml-line').value = '';
+  document.getElementById('kml-custom-line-name').value = '';
+  document.getElementById('kml-custom-line-wrap').classList.add('hidden');
 }
+function toggleKmlCustomLine() {
+  var sel = document.getElementById('kml-line');
+  var wrap = document.getElementById('kml-custom-line-wrap');
+  if (sel.value === '__custom__') wrap.classList.remove('hidden');
+  else wrap.classList.add('hidden');
+}
+window.toggleKmlCustomLine = toggleKmlCustomLine;
+
 function submitKmlUpload(e) {
   e.preventDefault();
   var line = document.getElementById('kml-line').value;
+  if (line === '__custom__') {
+    line = document.getElementById('kml-custom-line-name').value.trim().toUpperCase();
+  }
   var file = document.getElementById('kml-file').files[0];
   if (!line || !file) { showToast('Pilih line & file', 'error'); return false; }
-  var r = new FileReader();
-  r.onload = function(ev) {
-    db.ref('kmlData/' + line).set(ev.target.result)
-      .then(function() {
-        showToast('KML tersimpan', 'success');
-        displayKmlOnMap(line, ev.target.result);
-        closeKmlModal();
-      })
-      .catch(function(err) { showToast(err.message, 'error'); });
+
+  var fileName = file.name.toLowerCase();
+  var reader = new FileReader();
+
+  reader.onload = function(ev) {
+    var content = ev.target.result;
+
+    // Jika file KMZ, unzip terlebih dahulu
+    if (fileName.endsWith('.kmz')) {
+      if (typeof JSZip === 'undefined') {
+        showToast('Library JSZip tidak tersedia', 'error');
+        return false;
+      }
+      JSZip.loadAsync(content)
+        .then(function(zip) {
+          // Cari file .kml di dalam KMZ
+          var kmlFile = null;
+          zip.forEach(function(relativePath, zipEntry) {
+            if (relativePath.toLowerCase().endsWith('.kml')) {
+              kmlFile = zipEntry;
+            }
+          });
+          if (!kmlFile) throw new Error('File KML tidak ditemukan dalam KMZ');
+          return kmlFile.async('string');
+        })
+        .then(function(kmlText) {
+          // Deteksi nama line dari file KML jika ada
+          var detectedLine = detectLineNameFromKml(kmlText);
+          if (detectedLine) {
+            line = detectedLine;
+          }
+          return simpanKmlKeFirebase(line, kmlText);
+        })
+        .catch(function(err) {
+          showToast('Gagal membaca KMZ: ' + err.message, 'error');
+        });
+    } else {
+      // File KML langsung
+      var detectedLine = detectLineNameFromKml(content);
+      if (detectedLine) {
+        line = detectedLine;
+      }
+      simpanKmlKeFirebase(line, content);
+    }
   };
-  r.readAsText(file);
+
+  reader.readAsArrayBuffer(file);
   return false;
 }
+
+function detectLineNameFromKml(kmlText) {
+  try {
+    var parser = new DOMParser();
+    var xml = parser.parseFromString(kmlText, "text/xml");
+    // Cari nama document atau placemark pertama
+    var docName = xml.getElementsByTagName("Document")[0];
+    if (docName) {
+      var nameEl = docName.getElementsByTagName("name")[0];
+      if (nameEl && nameEl.textContent.trim()) {
+        var nm = nameEl.textContent.trim().toUpperCase();
+        // Hanya gunakan jika bukan nama default
+        if (nm && nm.length > 0 && nm !== 'KML') return nm;
+      }
+    }
+    var placemarks = xml.getElementsByTagName("Placemark");
+    if (placemarks.length > 0) {
+      var pmName = placemarks[0].getElementsByTagName("name")[0];
+      if (pmName && pmName.textContent.trim()) {
+        var nm2 = pmName.textContent.trim().toUpperCase();
+        if (nm2 && nm2.length > 0) return nm2;
+      }
+    }
+  } catch (e) {
+    console.warn('Gagal deteksi nama line:', e);
+  }
+  return null;
+}
+
+function simpanKmlKeFirebase(line, kmlText) {
+  return db.ref('kmlData/' + line).set(kmlText)
+    .then(function() {
+      // Catat riwayat
+      var action = 'Upload KML/KMZ';
+      catatRiwayat('KML/Lines', action, 'Line: ' + line, 'File berhasil diunggah dan line lama diganti (jika ada)');
+      showToast('Line "' + line + '" berhasil disimpan!', 'success');
+      displayKmlOnMap(line, kmlText);
+      closeKmlModal();
+    })
+    .catch(function(err) {
+      showToast('Gagal menyimpan: ' + err.message, 'error');
+    });
+}
+
+function downloadKML() {
+  var line = prompt('Masukkan nama line yang ingin di-download:', 'OSP LINE 1');
+  if (!line) return;
+  var upperLine = line.trim().toUpperCase();
+  db.ref('kmlData/' + upperLine).once('value').then(function(s) {
+    var kmlText = s.val();
+    if (!kmlText) { showToast('Line "' + upperLine + '" tidak ditemukan', 'error'); return; }
+    downloadTextAsFile(kmlText, upperLine + '.kml', 'application/vnd.google-earth.kml+xml');
+    showToast('KML diunduh', 'success');
+  }).catch(function(err) { showToast(err.message, 'error'); });
+}
+
+function downloadKMZ() {
+  var line = prompt('Masukkan nama line yang ingin di-download:', 'OSP LINE 1');
+  if (!line) return;
+  var upperLine = line.trim().toUpperCase();
+  db.ref('kmlData/' + upperLine).once('value').then(function(s) {
+    var kmlText = s.val();
+    if (!kmlText) { showToast('Line "' + upperLine + '" tidak ditemukan', 'error'); return; }
+    if (typeof JSZip === 'undefined') { showToast('Library JSZip tidak tersedia', 'error'); return; }
+    var zip = new JSZip();
+    zip.file('doc.kml', kmlText);
+    zip.generateAsync({ type: 'blob' }).then(function(blob) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = upperLine + '.kmz';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('KMZ diunduh', 'success');
+    }).catch(function(err) { showToast('Gagal membuat KMZ: ' + err.message, 'error'); });
+  }).catch(function(err) { showToast(err.message, 'error'); });
+}
+
+function downloadTextAsFile(text, filename, mimeType) {
+  var blob = new Blob([text], { type: mimeType || 'text/plain' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+window.downloadKML = downloadKML;
+window.downloadKMZ = downloadKMZ;
+window.submitKmlUpload = submitKmlUpload;
 
 /* ============================================================
    MAP STYLES
@@ -2712,6 +2867,7 @@ function loadCustomLines() {
   db.ref('customLines').on('value', function(s) {
     customLines = s.val() || {};
     updateCustomLineOptions();
+    updateKmlCustomLineOptions();
     Object.keys(kmlLayers).forEach(function(line) {
       if (kmlLayers[line] && kmlLayers[line].geojson) drawKmlGeoJSON(line, kmlLayers[line].geojson);
     });
@@ -2720,6 +2876,21 @@ function loadCustomLines() {
 }
 function updateCustomLineOptions() {
   var sel = document.getElementById('draw-line-name');
+  if (!sel) return;
+  var builtin = ['OSP LINE 1','OSP LINE 2','OSP LINE 3','IGG LINE 1','IGG LINE 2','DWDM','SEA US LINE 1','SEA US LINE 2'];
+  Array.from(sel.options).forEach(function(opt) {
+    if (opt.value && opt.value !== '__custom__' && builtin.indexOf(opt.value) === -1) opt.remove();
+  });
+  var customOpt = sel.querySelector('option[value="__custom__"]');
+  Object.keys(customLines).forEach(function(key) {
+    var opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = key + ' (kustom)';
+    sel.insertBefore(opt, customOpt);
+  });
+}
+function updateKmlCustomLineOptions() {
+  var sel = document.getElementById('kml-line');
   if (!sel) return;
   var builtin = ['OSP LINE 1','OSP LINE 2','OSP LINE 3','IGG LINE 1','IGG LINE 2','DWDM','SEA US LINE 1','SEA US LINE 2'];
   Array.from(sel.options).forEach(function(opt) {
@@ -4249,7 +4420,10 @@ function setupEventListeners() {
   });
 
   var uk = document.getElementById('btn-upload-kml');
-  if (uk) uk.addEventListener('click', function() { document.getElementById('kml-modal').classList.remove('hidden'); });
+  if (uk) uk.addEventListener('click', function() { document.getElementById('kml-modal').classList.remove('hidden'); updateKmlCustomLineOptions(); });
+
+  var kl = document.getElementById('kml-line');
+  if (kl) kl.addEventListener('change', toggleKmlCustomLine);
 
   var pp = document.getElementById('inp-ofcut-penyebab');
   if (pp) pp.addEventListener('change', togglePenyebabLain);
