@@ -196,7 +196,7 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
 .icon-btn.edit:hover { background: rgba(16, 185, 129, 0.15); color: #10B981; }
 input.field-control[type="text"], input.field-control:not([type]), textarea.field-control { text-transform: uppercase; }
 input.field-control[type="text"]::placeholder, input.field-control:not([type])::placeholder, textarea.field-control::placeholder { text-transform: none; }
-input.field-control[type="date"], input.field-control[type="password"], input.field-control[type="email"], input.field-control[type="color"], input[type="range"],
+input.field-control[type="date"], input.field-control[type="datetime-local"], input.field-control[type="password"], input.field-control[type="email"], input.field-control[type="color"], input[type="range"],
 #login-username, #login-password, #fcp-new-password, #fcp-confirm-password { text-transform: none; }
 .modal-layer { position: fixed; z-index: 100; inset: 0; background: rgba(5, 8, 16, 0.8); backdrop-filter: blur(10px); display: grid; place-items: end; }
 :root[data-theme="light"] .modal-layer { background: rgba(15, 23, 42, 0.5); }
@@ -263,12 +263,46 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
 .gudang-tab { padding: 8px 20px; border-radius: 24px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 600; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-sm); }
 .gudang-tab:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); }
 .gudang-tab.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; }
-.records-table { width: 100%; border-collapse: collapse; }
+.records-table { width: 100%; border-collapse: collapse; table-layout: auto; }
 .records-table th { background: var(--surface-table-header); padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border-glow); font-weight: 700; color: var(--primary-cyan); white-space: nowrap; text-transform: uppercase; letter-spacing: 1px; font-family: 'Orbitron', sans-serif; }
-.records-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; color: var(--text-main); }
+.records-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; color: var(--text-main); word-break: break-word; overflow-wrap: anywhere; }
 .records-table tr:hover td { background: rgba(0, 217, 255, 0.05); }
 .records-table code { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); padding: 2px 8px; border-radius: 6px; font-family: 'Orbitron', monospace; border: 1px solid rgba(0, 217, 255, 0.2); }
 .records-table td.ket-cell { max-width: 240px; white-space: normal; word-break: break-word; font-size: var(--app-font-size-xs); color: var(--text-muted); line-height: 1.4; }
+
+/* ============ TABEL: BATAS KOLOM & NO URUT ============ */
+.records-table th.col-no, .records-table td.col-no {
+  width: 48px; min-width: 48px; max-width: 48px; text-align: center;
+  font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif;
+  position: sticky; left: 0; z-index: 3;
+  border-right: 1px solid var(--border-glow); font-size: var(--app-font-size-xs); padding: 8px 4px;
+}
+.records-table th.col-no { background: var(--surface-table-header); }
+.records-table td.col-no { background: var(--surface-3); }
+.records-table th.col-date, .records-table td.col-date { min-width: 100px; max-width: 120px; white-space: nowrap; }
+.records-table th.col-gudang, .records-table td.col-gudang { min-width: 110px; max-width: 140px; font-size: var(--app-font-size-xs); }
+.records-table th.col-sn, .records-table td.col-sn { min-width: 110px; max-width: 150px; }
+.records-table th.col-sn code, .records-table td.col-sn code { display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.records-table th.col-nama, .records-table td.col-nama { min-width: 130px; max-width: 200px; }
+.records-table th.col-loc, .records-table td.col-loc { min-width: 140px; max-width: 220px; }
+.records-table th.col-coord, .records-table td.col-coord { min-width: 110px; max-width: 150px; white-space: nowrap; font-family: 'Orbitron', monospace; font-size: calc(var(--app-font-size) - 3px); }
+.records-table th.col-waktu, .records-table td.col-waktu { min-width: 130px; max-width: 150px; white-space: nowrap; font-size: var(--app-font-size-xs); }
+.records-table th.col-ket, .records-table td.col-ket { min-width: 180px; max-width: 280px; white-space: normal; word-break: break-word; line-height: 1.4; }
+.records-table th.col-user, .records-table td.col-user { min-width: 90px; max-width: 120px; font-size: var(--app-font-size-xs); }
+.records-table th.col-aksi, .records-table td.col-aksi {
+  width: 96px; min-width: 96px; max-width: 96px; text-align: center; white-space: nowrap;
+  position: sticky; right: 0; border-left: 1px solid var(--border-subtle); z-index: 2;
+}
+.records-table th.col-aksi { background: var(--surface-table-header); z-index: 3; }
+.records-table td.col-aksi { background: var(--surface-3); }
+.durasi-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(16,185,129,0.15); color: #10B981; font-weight: 700; font-size: var(--app-font-size-xs); white-space: nowrap; }
+.status-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: var(--app-font-size-xs); white-space: nowrap; }
+.status-ready { background: rgba(16,185,129,0.15); color: #10B981; }
+.status-out { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.durasi-info { display: none; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4); color: #10B981; padding: 10px 14px; border-radius: 10px; font-weight: 600; margin-top: 10px; align-items: center; gap: 8px; font-size: var(--app-font-size-sm); }
+.durasi-info.show { display: flex; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
 .stok-summary { background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(168, 85, 247, 0.1)); border: 1px solid var(--border-glow); border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
 .stok-summary .label { font-weight: 600; color: var(--text-muted); font-size: var(--app-font-size-xs); }
 .stok-summary .value { font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-lg); }
@@ -354,7 +388,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
 .kml-list-name { font-weight: 700; color: var(--text-main); font-size: var(--app-font-size-sm); word-break: break-word; }
 .kml-list-meta { font-size: var(--app-font-size-xs); color: var(--text-muted); margin-top: 2px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .kml-list-actions { display: flex; gap: 6px; flex-shrink: 0; }
-/* ABOUT MODAL ENHANCEMENTS */
 .about-info-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px; transition: all 0.2s; }
 .about-info-card:hover { border-color: var(--border-glow); transform: translateY(-2px); }
 .about-info-title { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-weight: 800; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: var(--app-font-size-xs); }
@@ -368,6 +401,7 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
   .chart-rekap-table th, .chart-rekap-table td { padding: 4px 2px; }
   .user-list-actions { flex-direction: column; }
   .kml-list-actions { flex-direction: column; }
+  .records-table td.col-ket, .records-table th.col-ket { display: none; }
 }
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--scroll-track); }
@@ -1237,7 +1271,25 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
           <div style="background:rgba(236,72,153,0.1);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(236,72,153,0.3);">
             <div style="font-weight:600;color:var(--primary-pink);font-size:var(--app-font-size-xs);">Detail OF Cut</div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+
+          <!-- Waktu CO & UP -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div>
+              <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Waktu CO (Cut Off) *</label>
+              <input type="datetime-local" id="inp-ofcut-waktu-co" class="field-control" required onchange="hitungDurasiOF()">
+            </div>
+            <div>
+              <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Waktu UP (Recovery) *</label>
+              <input type="datetime-local" id="inp-ofcut-waktu-up" class="field-control" required onchange="hitungDurasiOF()">
+            </div>
+          </div>
+
+          <div id="durasi-info" class="durasi-info">
+            <i data-lucide="clock" style="width:16px;height:16px;flex-shrink:0;"></i>
+            <span id="durasi-info-text">Durasi: -</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
             <div><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Panjang Cut (M) *</label><input type="number" step="0.1" id="inp-ofcut-panjang" class="field-control"></div>
             <div>
               <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Rute *</label>
@@ -1268,7 +1320,7 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
           </div>
           <div style="margin-top:12px;">
             <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Keterangan</label>
-            <textarea id="inp-ofcut-keterangan" class="field-control" rows="2" style="resize:none;"></textarea>
+            <textarea id="inp-ofcut-keterangan" class="field-control" rows="2" style="resize:none;" placeholder="Durasi CO→UP otomatis ditambahkan di sini"></textarea>
           </div>
         </div>
         <div id="field-p3temuan" class="hidden">
@@ -1441,7 +1493,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
       <button onclick="closeAboutModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
     </div>
 
-    <!-- HERO -->
     <div style="background:linear-gradient(135deg,rgba(0,217,255,0.12) 0%,rgba(168,85,247,0.12) 100%);border:1px solid var(--border-glow);border-radius:16px;padding:20px;margin-bottom:20px;">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
         <div class="earth-logo" style="width:52px;height:52px;">
@@ -1469,10 +1520,7 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
       </p>
     </div>
 
-    <!-- INFO GRID -->
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:20px;">
-
-      <!-- Fitur Utama -->
       <div class="about-info-card">
         <div class="about-info-title">
           <i data-lucide="layers" style="width:16px;"></i> Fitur Utama
@@ -1488,7 +1536,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
         </ul>
       </div>
 
-      <!-- Cakupan Wilayah -->
       <div class="about-info-card">
         <div class="about-info-title">
           <i data-lucide="map-pin" style="width:16px;"></i> Cakupan Wilayah
@@ -1504,7 +1551,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
         </ul>
       </div>
 
-      <!-- Teknologi -->
       <div class="about-info-card">
         <div class="about-info-title">
           <i data-lucide="cpu" style="width:16px;"></i> Teknologi
@@ -1520,7 +1566,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
         </ul>
       </div>
 
-      <!-- Statistik Live -->
       <div class="about-info-card" style="border-color:var(--border-glow);">
         <div class="about-info-title">
           <i data-lucide="bar-chart-3" style="width:16px;"></i> Statistik Data
@@ -1539,7 +1584,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
       </div>
     </div>
 
-    <!-- PANDUAN SINGKAT -->
     <div style="background:rgba(0,217,255,0.06);border-left:3px solid var(--primary-cyan);border-radius:10px;padding:14px 16px;margin-bottom:20px;">
       <div style="font-weight:800;color:var(--primary-cyan);margin-bottom:8px;display:flex;align-items:center;gap:6px;font-size:var(--app-font-size-xs);text-transform:uppercase;letter-spacing:1px;">
         <i data-lucide="book-open" style="width:14px;"></i> Panduan Singkat
@@ -1548,19 +1592,18 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
         <li><strong style="color:var(--text-main);">Login</strong> dengan akun yang diberikan admin. Password default wajib diganti saat login pertama.</li>
         <li><strong style="color:var(--text-main);">Pilih menu</strong> di sidebar kiri sesuai kategori data yang ingin dikelola.</li>
         <li><strong style="color:var(--text-main);">Tambah data</strong> dengan tombol <em>Tambah</em>, isi form, dan pilih lokasi lewat peta.</li>
+        <li><strong style="color:var(--text-main);">OF Cut</strong> — isi Waktu CO &amp; Waktu UP, durasi otomatis muncul di keterangan.</li>
         <li><strong style="color:var(--text-main);">Export Excel</strong> kapan saja lewat tombol <em>Excel</em> di tiap menu.</li>
         <li><strong style="color:var(--text-main);">Kelola KML</strong> untuk upload, download, atau hapus line peta.</li>
-        <li><strong style="color:var(--text-main);">Lihat riwayat</strong> untuk audit trail semua transaksi.</li>
       </ol>
     </div>
 
-    <!-- FOOTER -->
     <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);">
       <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">
         &copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Pusat Operasi Jaringan Sulawesi Utara
       </p>
       <p style="color:var(--text-dim);margin:6px 0 0;font-size:calc(var(--app-font-size) - 4px);">
-        Versi 2.0.0 &nbsp;•&nbsp; Firebase Realtime DB &nbsp;•&nbsp; MapLibre GL
+        Versi 2.1.0 &nbsp;•&nbsp; Firebase Realtime DB &nbsp;•&nbsp; MapLibre GL
       </p>
     </div>
 
@@ -1871,6 +1914,82 @@ function showToast(msg, type) {
     setTimeout(function() { t.remove(); }, 300);
   }, 3500);
 }
+
+/* ============================================================
+   HELPER KOLOM TABEL & WAKTU
+   ============================================================ */
+function colNo() { return 'col-no'; }
+function thNo() { return '<th class="col-no">No</th>'; }
+function tdNo(n) { return '<td class="col-no">' + n + '</td>'; }
+
+function hitungDurasiOF() {
+  var coEl = document.getElementById('inp-ofcut-waktu-co');
+  var upEl = document.getElementById('inp-ofcut-waktu-up');
+  var infoEl = document.getElementById('durasi-info');
+  var infoTextEl = document.getElementById('durasi-info-text');
+  if (!coEl || !upEl || !infoEl || !infoTextEl) return;
+
+  var coVal = coEl.value;
+  var upVal = upEl.value;
+
+  if (!coVal || !upVal) {
+    infoEl.classList.remove('show');
+    infoTextEl.textContent = 'Durasi: -';
+    return;
+  }
+
+  var coDate = new Date(coVal);
+  var upDate = new Date(upVal);
+
+  if (isNaN(coDate.getTime()) || isNaN(upDate.getTime())) {
+    infoEl.classList.remove('show');
+    return;
+  }
+
+  var diffMs = upDate.getTime() - coDate.getTime();
+  if (diffMs < 0) {
+    infoEl.style.background = 'rgba(236,72,153,0.12)';
+    infoEl.style.borderColor = 'rgba(236,72,153,0.4)';
+    infoEl.style.color = '#EC4899';
+    infoTextEl.textContent = '⚠️ Waktu UP harus setelah Waktu CO';
+    infoEl.classList.add('show');
+    return;
+  }
+
+  var totalMenit = Math.floor(diffMs / 60000);
+  var hari = Math.floor(totalMenit / (60 * 24));
+  var jam = Math.floor((totalMenit % (60 * 24)) / 60);
+  var menit = totalMenit % 60;
+
+  var durasiStr = '';
+  if (hari > 0) durasiStr += hari + ' hari ';
+  if (jam > 0) durasiStr += jam + ' jam ';
+  if (menit > 0 || durasiStr === '') durasiStr += menit + ' menit';
+  durasiStr = durasiStr.trim();
+
+  infoEl.style.background = 'rgba(16, 185, 129, 0.12)';
+  infoEl.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+  infoEl.style.color = '#10B981';
+  infoTextEl.textContent = 'Durasi: ' + durasiStr + ' (' + totalMenit + ' menit total)';
+  infoEl.classList.add('show');
+}
+
+function formatWaktuDisplay(dtLocal) {
+  if (!dtLocal) return '-';
+  try {
+    var d = new Date(dtLocal);
+    if (isNaN(d.getTime())) return dtLocal;
+    var dd = String(d.getDate()).padStart(2, '0');
+    var mm = String(d.getMonth() + 1).padStart(2, '0');
+    var yyyy = d.getFullYear();
+    var hh = String(d.getHours()).padStart(2, '0');
+    var mi = String(d.getMinutes()).padStart(2, '0');
+    return dd + '/' + mm + '/' + yyyy + ' ' + hh + ':' + mi;
+  } catch (e) { return dtLocal; }
+}
+
+window.hitungDurasiOF = hitungDurasiOF;
+window.formatWaktuDisplay = formatWaktuDisplay;
 
 /* ============================================================
    RIWAYAT
@@ -3374,44 +3493,174 @@ function renderTable() {
     var th = document.getElementById('table-head');
     if (!tb || !th) return;
     tb.innerHTML = '';
-    if (selectedGudangFilter !== 'all' && (cat === 'Stok Spare' || cat === 'Patch Cord')) keys = keys.filter(function(k) { return list[k].gudang === selectedGudangFilter; });
+
+    if (selectedGudangFilter !== 'all' && (cat === 'Stok Spare' || cat === 'Patch Cord')) {
+      keys = keys.filter(function(k) { return list[k].gudang === selectedGudangFilter; });
+    }
     var hidePeriod = MENU_NO_PERIOD.indexOf(cat) !== -1;
-    if (!hidePeriod && currentPeriod !== 'all') keys = keys.filter(function(k) { return isInPeriod(list[k].date, currentPeriod); });
+    if (!hidePeriod && currentPeriod !== 'all') {
+      keys = keys.filter(function(k) { return isInPeriod(list[k].date, currentPeriod); });
+    }
     var s = document.getElementById('search-input')?.value.toLowerCase() || '';
     if (s) keys = keys.filter(function(k) { return JSON.stringify(list[k]).toLowerCase().includes(s); });
-    if (keys.length === 0) { document.getElementById('empty-state').style.display = 'block'; th.innerHTML = ''; try { updateTotalDataTagline(); } catch (e) {} return; }
+
+    if (keys.length === 0) {
+      document.getElementById('empty-state').style.display = 'block';
+      th.innerHTML = '';
+      try { updateTotalDataTagline(); } catch (e) {}
+      return;
+    }
     document.getElementById('empty-state').style.display = 'none';
-    var isSpare = cat === 'Stok Spare'; var isPatch = cat === 'Patch Cord';
-    var isAlker = cat === 'Alker'; var isOpm = cat === 'OPM-OLS';
+
+    var isSpare = cat === 'Stok Spare';
+    var isPatch = cat === 'Patch Cord';
+    var isAlker = cat === 'Alker';
+    var isOpm = cat === 'OPM-OLS';
     var isHJ = ['Handhole', 'Joint'].indexOf(cat) !== -1;
     var isOfCut = cat === 'Data OF Cut';
     var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
 
-    if (isSpare) th.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Keterangan</th><th>Aksi</th></tr>';
-    else if (isPatch) th.innerHTML = '<tr><th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th><th>Aksi</th></tr>';
-    else if (isAlker) th.innerHTML = '<tr><th>Tgl</th><th>Nama Alker</th><th>SN</th><th>Jenis</th><th>Merk</th><th>Keterangan</th><th>Aksi</th></tr>';
-    else if (isOpm) th.innerHTML = '<tr><th>Tgl</th><th>Port</th><th>Panel</th><th>DBM</th><th>Ruas</th><th>Dari</th><th>Ke</th><th>Keterangan</th><th>Aksi</th></tr>';
-    else if (isHJ) th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th>Keterangan</th><th>User</th><th>Aksi</th></tr>';
-    else if (isOfCut) th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Panjang</th><th>Rute</th><th>Penyebab</th><th>Keterangan</th><th>User</th><th>Aksi</th></tr>';
-    else if (isP3T) th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Pelaksana</th><th>Lama</th><th>Keterangan</th><th>User</th><th>Aksi</th></tr>';
-    else th.innerHTML = '<tr><th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Keterangan</th><th>User</th><th>Aksi</th></tr>';
+    /* ============ HEADER ============ */
+    if (isSpare) {
+      th.innerHTML = '<tr>' + thNo() +
+        '<th class="col-date">Tgl</th><th class="col-gudang">Gudang</th><th class="col-sn">SN</th>' +
+        '<th class="col-nama">Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th>' +
+        '<th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
+    } else if (isPatch) {
+      th.innerHTML = '<tr>' + thNo() +
+        '<th class="col-date">Tgl</th><th class="col-gudang">Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th>' +
+        '<th class="col-aksi">Aksi</th></tr>';
+    } else if (isAlker) {
+      th.innerHTML = '<tr>' + thNo() +
+        '<th class="col-date">Tgl</th><th class="col-nama">Nama Alker</th><th class="col-sn">SN</th>' +
+        '<th>Jenis</th><th>Merk</th><th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
+    } else if (isOpm) {
+      th.innerHTML = '<tr>' + thNo() +
+        '<th class="col-date">Tgl</th><th>Port</th><th>Panel</th><th>DBM</th><th>Ruas</th><th>Dari</th><th>Ke</th>' +
+        '<th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
+    } else if (isHJ) {
+      th.innerHTML = '<tr>' + thNo() +
+        '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' +
+        '<th>Kondisi</th><th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
+    } else if (isOfCut) {
+      th.innerHTML = '<tr>' + thNo() +
+        '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' +
+        '<th class="col-waktu">Waktu CO</th><th class="col-waktu">Waktu UP</th><th>Durasi</th>' +
+        '<th>Panjang</th><th>Rute</th><th>Penyebab</th>' +
+        '<th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
+    } else if (isP3T) {
+      th.innerHTML = '<tr>' + thNo() +
+        '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' +
+        '<th>Pelaksana</th><th>Lama</th><th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
+    } else {
+      th.innerHTML = '<tr>' + thNo() +
+        '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' +
+        '<th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
+    }
 
+    /* ============ BODY ============ */
     keys = sortData(keys, list, cat);
     var isAdmin = currentUser && currentUser.role === 'admin';
-    keys.forEach(function(k) {
+
+    keys.forEach(function(k, idx) {
       var it = list[k];
-      var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')"><i data-lucide="pencil" style="width:16px;"></i></button><button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '';
+      var nomor = idx + 1;
+      var aksi = isAdmin
+        ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')"><i data-lucide="pencil" style="width:16px;"></i></button>' +
+          '<button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>'
+        : '';
       var ket = it.keterangan || it.notes || it.keterangan_normal || '';
       var ketHtml = ket ? escapeHtml(ket) : '<span style="opacity:0.35;">—</span>';
-      if (isSpare) tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td>' + (it.status || 'Ready') + '</td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td class="ket-cell">' + ketHtml + '</td><td>' + aksi + '</td></tr>';
-      else if (isPatch) tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + (it.pcType || '-') + '</td><td>' + (it.pcLength || '-') + '</td><td>' + (it.trType || '-') + '</td><td>' + (it.qty || 0) + '</td><td>' + aksi + '</td></tr>';
-      else if (isAlker) tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td class="ket-cell">' + ketHtml + '</td><td>' + aksi + '</td></tr>';
-      else if (isOpm) tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.port || '-') + '</td><td>' + (it.panel || '-') + '</td><td>' + (it.dbm !== undefined ? it.dbm : '-') + '</td><td>' + (it.ruas || '-') + '</td><td>' + (it.dari || '-') + '</td><td>' + (it.ke || '-') + '</td><td class="ket-cell">' + ketHtml + '</td><td>' + aksi + '</td></tr>';
-      else if (isHJ) tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td class="ket-cell">' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td>' + aksi + '</td></tr>';
-      else if (isOfCut) tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.panjangCut || '-') + ' M</td><td>' + (it.rute || '-') + '</td><td>' + (it.penyebab || '-') + '</td><td class="ket-cell">' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td>' + aksi + '</td></tr>';
-      else if (isP3T) tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.pelaksana || '-') + '</td><td>' + (it.lamaPekerjaan || '-') + '</td><td class="ket-cell">' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td>' + aksi + '</td></tr>';
-      else tb.innerHTML += '<tr><td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td class="ket-cell">' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td>' + aksi + '</td></tr>';
+
+      if (isSpare) {
+        tb.innerHTML += '<tr>' + tdNo(nomor) +
+          '<td class="col-date">' + (it.date || '-') + '</td>' +
+          '<td class="col-gudang">' + (it.gudang || '-') + '</td>' +
+          '<td class="col-sn"><code title="' + escapeHtml(it.sn || '') + '">' + (it.sn || '-') + '</code></td>' +
+          '<td class="col-nama">' + (it.spec || '-') + '</td>' +
+          '<td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td>' +
+          '<td>' + (it.lemari || '-') + '</td>' +
+          '<td>' + (it.rak || '-') + '</td>' +
+          '<td>' + (it.riwayat || '-') + '</td>' +
+          '<td>' + (it.kondisi || '-') + '</td>' +
+          '<td class="col-ket">' + ketHtml + '</td>' +
+          '<td class="col-aksi">' + aksi + '</td></tr>';
+      } else if (isPatch) {
+        tb.innerHTML += '<tr>' + tdNo(nomor) +
+          '<td class="col-date">' + (it.date || '-') + '</td>' +
+          '<td class="col-gudang">' + (it.gudang || '-') + '</td>' +
+          '<td>' + (it.pcType || '-') + '</td>' +
+          '<td>' + (it.pcLength || '-') + '</td>' +
+          '<td>' + (it.trType || '-') + '</td>' +
+          '<td>' + (it.qty || 0) + '</td>' +
+          '<td class="col-aksi">' + aksi + '</td></tr>';
+      } else if (isAlker) {
+        tb.innerHTML += '<tr>' + tdNo(nomor) +
+          '<td class="col-date">' + (it.date || '-') + '</td>' +
+          '<td class="col-nama">' + (it.nama || '-') + '</td>' +
+          '<td class="col-sn"><code title="' + escapeHtml(it.sn || '') + '">' + (it.sn || '-') + '</code></td>' +
+          '<td>' + (it.jenis || '-') + '</td>' +
+          '<td>' + (it.merk || '-') + '</td>' +
+          '<td class="col-ket">' + ketHtml + '</td>' +
+          '<td class="col-aksi">' + aksi + '</td></tr>';
+      } else if (isOpm) {
+        tb.innerHTML += '<tr>' + tdNo(nomor) +
+          '<td class="col-date">' + (it.date || '-') + '</td>' +
+          '<td>' + (it.port || '-') + '</td>' +
+          '<td>' + (it.panel || '-') + '</td>' +
+          '<td>' + (it.dbm !== undefined ? it.dbm : '-') + '</td>' +
+          '<td>' + (it.ruas || '-') + '</td>' +
+          '<td>' + (it.dari || '-') + '</td>' +
+          '<td>' + (it.ke || '-') + '</td>' +
+          '<td class="col-ket">' + ketHtml + '</td>' +
+          '<td class="col-aksi">' + aksi + '</td></tr>';
+      } else if (isHJ) {
+        tb.innerHTML += '<tr>' + tdNo(nomor) +
+          '<td class="col-date">' + (it.date || '-') + '</td>' +
+          '<td class="col-loc">' + (it.location || '-') + '</td>' +
+          '<td class="col-coord">' + (it.coords || '-') + '</td>' +
+          '<td>' + (it.kondisi || '-') + '</td>' +
+          '<td class="col-ket">' + ketHtml + '</td>' +
+          '<td class="col-user">' + (it.postBy || '-') + '</td>' +
+          '<td class="col-aksi">' + aksi + '</td></tr>';
+      } else if (isOfCut) {
+        var coDisplay = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : '-';
+        var upDisplay = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : '-';
+        var durasiDisplay = it.durasiText ? it.durasiText : (it.durasiMenit ? it.durasiMenit + ' menit' : '-');
+        tb.innerHTML += '<tr>' + tdNo(nomor) +
+          '<td class="col-date">' + (it.date || '-') + '</td>' +
+          '<td class="col-loc">' + (it.location || '-') + '</td>' +
+          '<td class="col-coord">' + (it.coords || '-') + '</td>' +
+          '<td class="col-waktu">' + coDisplay + '</td>' +
+          '<td class="col-waktu">' + upDisplay + '</td>' +
+          '<td><span class="durasi-badge">' + durasiDisplay + '</span></td>' +
+          '<td>' + (it.panjangCut || '-') + ' M</td>' +
+          '<td>' + (it.rute || '-') + '</td>' +
+          '<td>' + (it.penyebab || '-') + '</td>' +
+          '<td class="col-ket">' + ketHtml + '</td>' +
+          '<td class="col-user">' + (it.postBy || '-') + '</td>' +
+          '<td class="col-aksi">' + aksi + '</td></tr>';
+      } else if (isP3T) {
+        tb.innerHTML += '<tr>' + tdNo(nomor) +
+          '<td class="col-date">' + (it.date || '-') + '</td>' +
+          '<td class="col-loc">' + (it.location || '-') + '</td>' +
+          '<td class="col-coord">' + (it.coords || '-') + '</td>' +
+          '<td>' + (it.pelaksana || '-') + '</td>' +
+          '<td>' + (it.lamaPekerjaan || '-') + '</td>' +
+          '<td class="col-ket">' + ketHtml + '</td>' +
+          '<td class="col-user">' + (it.postBy || '-') + '</td>' +
+          '<td class="col-aksi">' + aksi + '</td></tr>';
+      } else {
+        tb.innerHTML += '<tr>' + tdNo(nomor) +
+          '<td class="col-date">' + (it.date || '-') + '</td>' +
+          '<td class="col-loc">' + (it.location || '-') + '</td>' +
+          '<td class="col-coord">' + (it.coords || '-') + '</td>' +
+          '<td class="col-ket">' + ketHtml + '</td>' +
+          '<td class="col-user">' + (it.postBy || '-') + '</td>' +
+          '<td class="col-aksi">' + aksi + '</td></tr>';
+      }
     });
+
     if (typeof lucide !== 'undefined') lucide.createIcons();
     try { updateTotalDataTagline(); } catch (e) {}
   } catch (e) { console.error('renderTable error:', e); }
@@ -3502,13 +3751,50 @@ function submitForm(e) {
     var rute = document.getElementById('inp-ofcut-rute').value;
     var penyebab = document.getElementById('inp-ofcut-penyebab').value;
     var pl = document.getElementById('inp-ofcut-penyebab-lain').value.trim().toUpperCase();
+    var waktuCO = document.getElementById('inp-ofcut-waktu-co').value;
+    var waktuUP = document.getElementById('inp-ofcut-waktu-up').value;
+
     if (!loc || !crd || isNaN(pjg) || !rute || !penyebab) { showToast('Isi semua field OF Cut', 'error'); return; }
+    if (!waktuCO || !waktuUP) { showToast('Waktu CO & Waktu UP wajib diisi!', 'error'); return; }
     if (penyebab === 'lainnya' && !pl) { showToast('Isi penyebab lainnya', 'error'); return; }
+
+    var coDate = new Date(waktuCO);
+    var upDate = new Date(waktuUP);
+    if (isNaN(coDate.getTime()) || isNaN(upDate.getTime())) {
+      showToast('Format waktu tidak valid', 'error'); return;
+    }
+    if (upDate.getTime() < coDate.getTime()) {
+      showToast('Waktu UP harus setelah Waktu CO!', 'error'); return;
+    }
+
+    var diffMs = upDate.getTime() - coDate.getTime();
+    var totalMenit = Math.floor(diffMs / 60000);
+    var hari = Math.floor(totalMenit / (60 * 24));
+    var jam = Math.floor((totalMenit % (60 * 24)) / 60);
+    var menit = totalMenit % 60;
+    var durasiStr = '';
+    if (hari > 0) durasiStr += hari + ' hari ';
+    if (jam > 0) durasiStr += jam + ' jam ';
+    if (menit > 0 || durasiStr === '') durasiStr += menit + ' menit';
+    durasiStr = durasiStr.trim();
+
+    var keteranganUser = document.getElementById('inp-ofcut-keterangan').value.trim().toUpperCase();
+
+    var autoKet = 'DURASI CO→UP: ' + durasiStr.toUpperCase() +
+                  ' (CO: ' + formatWaktuDisplay(waktuCO) + ' → UP: ' + formatWaktuDisplay(waktuUP) + ')';
+    var finalKeterangan = autoKet;
+    if (keteranganUser) finalKeterangan = autoKet + ' | ' + keteranganUser;
+
     data.location = loc; data.coords = crd; data.panjangCut = pjg;
     data.rute = rute; data.penyebab = penyebab === 'lainnya' ? pl : penyebab.toUpperCase();
-    data.keterangan = document.getElementById('inp-ofcut-keterangan').value.trim().toUpperCase();
-    detailText = loc + ' | Panjang: ' + pjg + 'M | Rute: ' + rute + ' | Penyebab: ' + data.penyebab;
-    ketText = data.keterangan;
+    data.waktuCO = waktuCO;
+    data.waktuUP = waktuUP;
+    data.durasiMenit = totalMenit;
+    data.durasiText = durasiStr;
+    data.keterangan = finalKeterangan;
+
+    detailText = loc + ' | Panjang: ' + pjg + 'M | Rute: ' + rute + ' | Penyebab: ' + data.penyebab + ' | Durasi: ' + durasiStr;
+    ketText = finalKeterangan;
   } else if (cat === 'OPM-OLS') {
     var port = document.getElementById('inp-opm-port').value;
     var panel = document.getElementById('inp-opm-panel').value;
@@ -3582,6 +3868,8 @@ function closeModal() {
   editingKey = null;
   document.getElementById('edit-key').value = '';
   document.getElementById('opm-warning').classList.remove('show');
+  var durInfo = document.getElementById('durasi-info');
+  if (durInfo) durInfo.classList.remove('show');
 }
 function stopScanner(t) {
   var c = document.getElementById('modal-scanner');
@@ -3634,6 +3922,8 @@ function openForm(editData, editKey) {
     if (el) el.classList.add('hidden');
   });
   document.getElementById('opm-warning').classList.remove('show');
+  var durInfoReset = document.getElementById('durasi-info');
+  if (durInfoReset) durInfoReset.classList.remove('show');
   document.getElementById('form-tambah-stok').classList.remove('hidden');
   document.getElementById('form-update-pemakaian').classList.add('hidden');
   document.getElementById('form-mode').value = 'tambah';
@@ -3664,6 +3954,7 @@ function openForm(editData, editKey) {
     document.getElementById('field-normal').classList.remove('hidden');
     document.getElementById('field-coords-wrap').classList.remove('hidden');
     document.getElementById('field-ofcut').classList.remove('hidden');
+    setTimeout(hitungDurasiOF, 200);
   }
   if (isP3T) {
     document.getElementById('field-normal').classList.remove('hidden');
@@ -3680,7 +3971,8 @@ function resetFormFields() {
     'inp-kondisi', 'inp-lemari', 'inp-rak', 'inp-riwayat', 'inp-kondisi-spare', 'inp-keterangan-normal',
     'inp-update-sn', 'inp-update-spec', 'inp-update-tujuan', 'inp-update-lokasi', 'inp-update-notes',
     'inp-ofcut-panjang', 'inp-ofcut-rute', 'inp-ofcut-penyebab', 'inp-ofcut-penyebab-lain',
-    'inp-ofcut-keterangan', 'inp-p3-pelaksana', 'inp-p3-lama', 'inp-p3-keterangan',
+    'inp-ofcut-keterangan', 'inp-ofcut-waktu-co', 'inp-ofcut-waktu-up',
+    'inp-p3-pelaksana', 'inp-p3-lama', 'inp-p3-keterangan',
     'inp-pc-type-lain', 'inp-pc-length-lain',
     'inp-opm-port', 'inp-opm-panel', 'inp-opm-dbm', 'inp-opm-ruas', 'inp-opm-dari', 'inp-opm-ke', 'inp-opm-keterangan',
     'inp-alker-nama', 'inp-alker-sn', 'inp-alker-jenis', 'inp-alker-merk', 'inp-alker-keterangan'];
@@ -3691,11 +3983,15 @@ function resetFormFields() {
   document.getElementById('inp-status').value = 'Ready';
   document.getElementById('penyebab-lain-wrap').classList.add('hidden');
   var pl = document.getElementById('patchcord-lainnya'); if (pl) pl.classList.add('hidden');
+  var durInfo = document.getElementById('durasi-info');
+  if (durInfo) durInfo.classList.remove('show');
 }
 function populateFormFields(data) {
   var map = {
     'inp-loc': data.location, 'inp-coords': data.coords,
     'inp-keterangan-normal': data.keterangan,
+    'inp-ofcut-waktu-co': data.waktuCO,
+    'inp-ofcut-waktu-up': data.waktuUP,
     'inp-opm-port': data.port, 'inp-opm-panel': data.panel,
     'inp-opm-dbm': data.dbm, 'inp-opm-ruas': data.ruas,
     'inp-opm-dari': data.dari, 'inp-opm-ke': data.ke,
@@ -3709,6 +4005,7 @@ function populateFormFields(data) {
     if (el && map[id] !== undefined && map[id] !== null) el.value = map[id];
   });
   setTimeout(checkOpmDariKe, 100);
+  setTimeout(hitungDurasiOF, 150);
 }
 function updateStokSummary() {
   var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
