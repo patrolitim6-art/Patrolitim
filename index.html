@@ -347,7 +347,6 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
 .user-list-btn.reset { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); border-color: rgba(0, 217, 255, 0.4); }
 .user-list-btn.reset:hover { background: rgba(0, 217, 255, 0.25); transform: translateY(-1px); }
 .user-list-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
-/* KML Manager list */
 .kml-list-item { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; transition: all 0.2s; }
 .kml-list-item:hover { border-color: var(--border-glow); transform: translateX(2px); }
 .kml-list-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(0,217,255,0.12); border: 1px solid var(--border-glow); display: grid; place-items: center; flex-shrink: 0; }
@@ -355,6 +354,11 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
 .kml-list-name { font-weight: 700; color: var(--text-main); font-size: var(--app-font-size-sm); word-break: break-word; }
 .kml-list-meta { font-size: var(--app-font-size-xs); color: var(--text-muted); margin-top: 2px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .kml-list-actions { display: flex; gap: 6px; flex-shrink: 0; }
+/* ABOUT MODAL ENHANCEMENTS */
+.about-info-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px; transition: all 0.2s; }
+.about-info-card:hover { border-color: var(--border-glow); transform: translateY(-2px); }
+.about-info-title { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-weight: 800; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: var(--app-font-size-xs); }
+.about-info-list { margin: 0; padding-left: 16px; color: var(--text-muted); line-height: 1.8; font-size: var(--app-font-size-xs); }
 @media (max-width: 640px) {
   .hero-panel { padding: 20px 16px; }
   .card { padding: 12px; }
@@ -1427,15 +1431,17 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
   </div>
 </div>
 
-<!-- MODAL TENTANG WEB BUCIN -->
+<!-- MODAL TENTANG WEB BUCIN - ENHANCED -->
 <div id="about-modal" class="modal-layer hidden">
-  <div class="modal-card" style="max-width:820px;">
+  <div class="modal-card" style="max-width:880px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h3 style="margin:0;font-weight:800;color:var(--primary-cyan);display:flex;align-items:center;gap:10px;">
         <i data-lucide="info" style="width:24px;"></i> Tentang Web BUCIN
       </h3>
       <button onclick="closeAboutModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
     </div>
+
+    <!-- HERO -->
     <div style="background:linear-gradient(135deg,rgba(0,217,255,0.12) 0%,rgba(168,85,247,0.12) 100%);border:1px solid var(--border-glow);border-radius:16px;padding:20px;margin-bottom:20px;">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
         <div class="earth-logo" style="width:52px;height:52px;">
@@ -1458,15 +1464,106 @@ input.field-control[type="date"], input.field-control[type="password"], input.fi
           <div style="color:var(--primary-cyan);font-weight:700;letter-spacing:1px;font-size:var(--app-font-size-xs);">Barisan Utama Cegah Insiden Network</div>
         </div>
       </div>
-      <p style="line-height:1.7;color:var(--text-muted);margin:0;">
-        <strong style="color:var(--primary-cyan);">BUCIN</strong> adalah sistem informasi operasional untuk tim patroli jaringan fiber optik di wilayah <strong style="color:var(--text-main);">Sulawesi Utara</strong>.
+      <p style="line-height:1.7;color:var(--text-muted);margin:0;font-size:var(--app-font-size-sm);">
+        <strong style="color:var(--primary-cyan);">BUCIN</strong> adalah sistem informasi operasional terintegrasi untuk tim patroli jaringan fiber optik di wilayah <strong style="color:var(--text-main);">Sulawesi Utara</strong>. Sistem ini dirancang untuk mendokumentasikan, memantau, dan menganalisis seluruh aktivitas pencegahan insiden jaringan — mulai dari OF Cut, pekerjaan pihak ketiga, temuan lapangan, hingga manajemen inventaris alker dan stok spare.
       </p>
     </div>
+
+    <!-- INFO GRID -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:20px;">
+
+      <!-- Fitur Utama -->
+      <div class="about-info-card">
+        <div class="about-info-title">
+          <i data-lucide="layers" style="width:16px;"></i> Fitur Utama
+        </div>
+        <ul class="about-info-list">
+          <li>Dashboard statistik OF Cut</li>
+          <li>Peta interaktif &amp; manajemen KML/KMZ</li>
+          <li>Data OF Cut, P3, Temuan, OPM/OLS</li>
+          <li>Joint &amp; Handhole</li>
+          <li>Inventaris Alker, Stok Spare, Patch Cord</li>
+          <li>Riwayat transaksi &amp; audit log</li>
+          <li>Manajemen user &amp; hak akses</li>
+        </ul>
+      </div>
+
+      <!-- Cakupan Wilayah -->
+      <div class="about-info-card">
+        <div class="about-info-title">
+          <i data-lucide="map-pin" style="width:16px;"></i> Cakupan Wilayah
+        </div>
+        <ul class="about-info-list">
+          <li>CLS MAMI</li>
+          <li>CLS Malalayang</li>
+          <li>DC Manado Centrum</li>
+          <li>CLS Kauditan</li>
+          <li>STO Bahu, Aermadidi</li>
+          <li>New Centrix Paniki</li>
+          <li>Rute OSP, IGG, DWDM, SEA-US</li>
+        </ul>
+      </div>
+
+      <!-- Teknologi -->
+      <div class="about-info-card">
+        <div class="about-info-title">
+          <i data-lucide="cpu" style="width:16px;"></i> Teknologi
+        </div>
+        <ul class="about-info-list">
+          <li>Firebase Realtime Database</li>
+          <li>MapLibre GL JS (Peta HD)</li>
+          <li>Chart.js (Visualisasi data)</li>
+          <li>QuaggaJS (Scan barcode)</li>
+          <li>SheetJS (Export Excel)</li>
+          <li>JSZip (KML/KMZ)</li>
+          <li>Tailwind CSS + Lucide Icons</li>
+        </ul>
+      </div>
+
+      <!-- Statistik Live -->
+      <div class="about-info-card" style="border-color:var(--border-glow);">
+        <div class="about-info-title">
+          <i data-lucide="bar-chart-3" style="width:16px;"></i> Statistik Data
+        </div>
+        <div id="about-stats-container" style="display:grid;gap:6px;font-size:var(--app-font-size-xs);">
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">OF Cut</span><strong id="about-stat-ofcut" style="color:#00D9FF;font-family:'Orbitron',sans-serif;">-</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Pihak Ke-3</span><strong id="about-stat-p3" style="color:#A855F7;font-family:'Orbitron',sans-serif;">-</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Temuan</span><strong id="about-stat-temuan" style="color:#EC4899;font-family:'Orbitron',sans-serif;">-</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">OPM/OLS</span><strong id="about-stat-opm" style="color:#0EA5E9;font-family:'Orbitron',sans-serif;">-</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Joint</span><strong id="about-stat-joint" style="color:#10B981;font-family:'Orbitron',sans-serif;">-</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Handhole</span><strong id="about-stat-hh" style="color:#F59E0B;font-family:'Orbitron',sans-serif;">-</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Alker</span><strong id="about-stat-alker" style="color:#8B5CF6;font-family:'Orbitron',sans-serif;">-</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Stok Spare</span><strong id="about-stat-spare" style="color:#10B981;font-family:'Orbitron',sans-serif;">-</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Patch Cord</span><strong id="about-stat-pc" style="color:#00D9FF;font-family:'Orbitron',sans-serif;">-</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANDUAN SINGKAT -->
+    <div style="background:rgba(0,217,255,0.06);border-left:3px solid var(--primary-cyan);border-radius:10px;padding:14px 16px;margin-bottom:20px;">
+      <div style="font-weight:800;color:var(--primary-cyan);margin-bottom:8px;display:flex;align-items:center;gap:6px;font-size:var(--app-font-size-xs);text-transform:uppercase;letter-spacing:1px;">
+        <i data-lucide="book-open" style="width:14px;"></i> Panduan Singkat
+      </div>
+      <ol style="margin:0;padding-left:18px;color:var(--text-muted);line-height:1.8;font-size:var(--app-font-size-xs);">
+        <li><strong style="color:var(--text-main);">Login</strong> dengan akun yang diberikan admin. Password default wajib diganti saat login pertama.</li>
+        <li><strong style="color:var(--text-main);">Pilih menu</strong> di sidebar kiri sesuai kategori data yang ingin dikelola.</li>
+        <li><strong style="color:var(--text-main);">Tambah data</strong> dengan tombol <em>Tambah</em>, isi form, dan pilih lokasi lewat peta.</li>
+        <li><strong style="color:var(--text-main);">Export Excel</strong> kapan saja lewat tombol <em>Excel</em> di tiap menu.</li>
+        <li><strong style="color:var(--text-main);">Kelola KML</strong> untuk upload, download, atau hapus line peta.</li>
+        <li><strong style="color:var(--text-main);">Lihat riwayat</strong> untuk audit trail semua transaksi.</li>
+      </ol>
+    </div>
+
+    <!-- FOOTER -->
     <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);">
       <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">
         &copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Pusat Operasi Jaringan Sulawesi Utara
       </p>
+      <p style="color:var(--text-dim);margin:6px 0 0;font-size:calc(var(--app-font-size) - 4px);">
+        Versi 2.0.0 &nbsp;•&nbsp; Firebase Realtime DB &nbsp;•&nbsp; MapLibre GL
+      </p>
     </div>
+
     <div style="margin-top:16px;display:flex;justify-content:center;">
       <button onclick="closeAboutModal()" class="btn-primary" style="min-width:200px;justify-content:center;">
         <i data-lucide="check" style="width:16px;"></i> Mengerti
@@ -2081,7 +2178,7 @@ function generateAlkerSN(nama, jenis, merk, date, urutan) {
 function getNextAlkerUrutan() { return Object.keys(appData['Alker'] || {}).length + 1; }
 
 /* ============================================================
-   KML / KMZ — MULTI-LINE + AUTO OVERWRITE/ADD + KELOLA
+   KML / KMZ
    ============================================================ */
 function closeKmlModal() {
   document.getElementById('kml-modal').classList.add('hidden');
@@ -2098,7 +2195,6 @@ function toggleKmlCustomLine() {
 }
 window.toggleKmlCustomLine = toggleKmlCustomLine;
 
-/* ==== KELOLA KML: BUKA MODAL & RENDER DAFTAR ==== */
 function bukaKmlManager() {
   document.getElementById('kml-manager-modal').classList.remove('hidden');
   document.getElementById('kml-list-search').value = '';
@@ -2114,12 +2210,10 @@ function closeKmlManager() {
 window.bukaKmlManager = bukaKmlManager;
 window.closeKmlManager = closeKmlManager;
 
-/* Real-time listener untuk manager list */
 function attachKmlManagerListener() {
   if (!db || kmlManagerAttached) return;
   db.ref('kmlData').on('value', function(s) {
     kmlDataCache = s.val() || {};
-    // Jika modal manager sedang terbuka, re-render
     var mgr = document.getElementById('kml-manager-modal');
     if (mgr && !mgr.classList.contains('hidden')) {
       renderKmlManagerList();
@@ -2149,7 +2243,6 @@ function renderKmlManagerList() {
   var html = '';
   names.forEach(function(name) {
     var kmlText = data[name] || '';
-    // Hitung jumlah placemark
     var placemarkCount = 0;
     try {
       var xml = new DOMParser().parseFromString(kmlText, "text/xml");
@@ -2183,14 +2276,12 @@ function renderKmlManagerList() {
 }
 window.renderKmlManagerList = renderKmlManagerList;
 
-/* Download satu line KML */
 function downloadSingleKml(lineName) {
   var kmlText = (kmlDataCache || {})[lineName];
   if (!kmlText) { showToast('Line tidak ditemukan', 'error'); return; }
   downloadTextAsFile(kmlText, lineName + '.kml', 'application/vnd.google-earth.kml+xml');
   showToast('KML "' + lineName + '" diunduh', 'success');
 }
-/* Download satu line KMZ */
 function downloadSingleKmz(lineName) {
   var kmlText = (kmlDataCache || {})[lineName];
   if (!kmlText) { showToast('Line tidak ditemukan', 'error'); return; }
@@ -2209,15 +2300,12 @@ function downloadSingleKmz(lineName) {
 window.downloadSingleKml = downloadSingleKml;
 window.downloadSingleKmz = downloadSingleKmz;
 
-/* Hapus line KML dari database */
 function hapusLineKml(lineName) {
   if (!currentUser) { showToast('Login dulu', 'error'); return; }
   if (!confirm('HAPUS line "' + lineName + '"?\n\nLine akan dihapus dari database & peta.\nAksi ini tidak bisa dibatalkan!')) return;
   var isBuiltin = BUILTIN_LINES.indexOf(lineName) !== -1;
-  // 1) Hapus dari kmlData
   db.ref('kmlData/' + lineName).remove()
     .then(function() {
-      // 2) Jika custom line, hapus juga dari customLines
       if (!isBuiltin) {
         return db.ref('customLines/' + lineName).remove().catch(function() {});
       }
@@ -2225,7 +2313,6 @@ function hapusLineKml(lineName) {
     .then(function() {
       catatRiwayat('KML/Lines', 'Hapus Line', 'Line: ' + lineName, 'Line dihapus dari database');
       showToast('Line "' + lineName + '" dihapus', 'success');
-      // Listener realtime akan otomatis re-render peta
     })
     .catch(function(err) {
       console.error('Hapus line error:', err);
@@ -2236,7 +2323,6 @@ function hapusLineKml(lineName) {
 }
 window.hapusLineKml = hapusLineKml;
 
-/* Parse SEMUA Placemark */
 function parseKmlPlacemarks(xml) {
   var result = [];
   try {
@@ -2521,9 +2607,6 @@ window.mapModalZoomIn = function () { if (mapModal) mapModal.zoomIn(); };
 window.mapModalZoomOut = function () { if (mapModal) mapModal.zoomOut(); };
 window.mapModalResetCenter = function () { if (mapModal) mapModal.flyTo({ center: [124.8410, 1.4930], zoom: 13 }); };
 
-/* ============================================================
-   KML PARSING untuk render
-   ============================================================ */
 function parseKmlToGeoJSON(xml) {
   var features = [];
   try {
@@ -2852,11 +2935,32 @@ window.finishDrawLine = finishDrawLine;
 /* ============================================================
    ABOUT, USER MANAGEMENT, MAP MODAL
    ============================================================ */
+function updateAboutStats() {
+  function count(cat) { return Object.keys(appData[cat] || {}).length; }
+  var map = {
+    'about-stat-ofcut': 'Data OF Cut',
+    'about-stat-p3': 'Pekerjaan Pihak Ke-3',
+    'about-stat-temuan': 'Temuan Lapangan',
+    'about-stat-opm': 'OPM-OLS',
+    'about-stat-joint': 'Joint',
+    'about-stat-hh': 'Handhole',
+    'about-stat-alker': 'Alker',
+    'about-stat-spare': 'Stok Spare',
+    'about-stat-pc': 'Patch Cord'
+  };
+  Object.keys(map).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = count(map[id]);
+  });
+}
+window.updateAboutStats = updateAboutStats;
+
 function openAboutModal() {
   document.getElementById('about-modal').classList.remove('hidden');
   document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
   var navAbout = document.getElementById('nav-about');
   if (navAbout) navAbout.classList.add('active');
+  updateAboutStats();
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 function closeAboutModal() {
@@ -4060,7 +4164,6 @@ function setupEventListeners() {
   var ab = document.getElementById('btn-add');
   if (ab) ab.addEventListener('click', handleAddClick);
 
-  /* Tombol Kelola KML */
   var bmk = document.getElementById('btn-manage-kml');
   if (bmk) bmk.addEventListener('click', bukaKmlManager);
 
