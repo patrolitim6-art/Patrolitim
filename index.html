@@ -225,6 +225,32 @@
   border-color: rgba(224,82,82,0.25) !important;
   color: #000000 !important;
 }
+
+/* ============ LIGHT MODE: HILANGKAN GARIS INPUT ============ */
+:root[data-theme="light"] .field-control,
+:root[data-theme="light"] input.field-control,
+:root[data-theme="light"] select.field-control,
+:root[data-theme="light"] textarea.field-control,
+:root[data-theme="light"] .filter-bar .filter-group select,
+:root[data-theme="light"] .filter-bar .filter-group input,
+:root[data-theme="light"] .dataTables_filter input {
+  border: 1px solid transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: #F3F4F6 !important;
+}
+:root[data-theme="light"] .field-control:focus,
+:root[data-theme="light"] input.field-control:focus,
+:root[data-theme="light"] select.field-control:focus,
+:root[data-theme="light"] textarea.field-control:focus,
+:root[data-theme="light"] .filter-bar .filter-group select:focus,
+:root[data-theme="light"] .filter-bar .filter-group input:focus {
+  border: 1px solid transparent !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(224, 82, 82, 0.25) !important;
+  background: #FFFFFF !important;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html { overflow-x: hidden; }
 body {
@@ -629,13 +655,16 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .about-info-title { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-weight: 800; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: var(--app-font-size-xs); }
 .about-info-list { margin: 0; padding-left: 16px; color: var(--text-muted); line-height: 1.8; font-size: var(--app-font-size-xs); }
 
-/* ============ TOMBOL SCROLL TABEL ============ */
+/* ============ TOMBOL SCROLL TABEL (DI ATAS TABEL) ============ */
 .table-scroll-buttons {
   display: flex;
   gap: 8px;
   padding: 8px 14px;
   border-bottom: 1px solid var(--border-subtle);
   background: var(--surface-1);
+  position: sticky;
+  top: 0;
+  z-index: 5;
 }
 .table-scroll-buttons button {
   width: 36px; height: 36px;
@@ -654,6 +683,43 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 :root[data-theme="light"] .table-scroll-buttons button:hover {
   background: rgba(224,82,82,0.1);
 }
+
+/* ============ TABEL: ANTI-TINDIH ============ */
+table.records-table {
+  width: 100% !important;
+  table-layout: auto !important;
+  font-size: var(--app-font-size-sm);
+}
+table.records-table th,
+table.records-table td {
+  padding: 8px 10px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  line-height: 1.35;
+}
+table.records-table th {
+  white-space: nowrap;
+  font-size: calc(var(--app-font-size) - 2px);
+}
+table.records-table td {
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+table.records-table td.col-coord,
+table.records-table td.col-waktu,
+table.records-table td.col-date,
+table.records-table td.col-sn code {
+  white-space: nowrap;
+  font-size: calc(var(--app-font-size) - 3px);
+}
+table.records-table th.col-sn,
+table.records-table td.col-sn { min-width: 100px; max-width: 140px; }
+table.records-table th.col-nama,
+table.records-table td.col-nama { min-width: 120px; max-width: 180px; }
+table.records-table th.col-loc,
+table.records-table td.col-loc { min-width: 120px; max-width: 200px; }
 
 /* ============ PRINT HEADER ============ */
 .print-header-telin {
@@ -1005,10 +1071,10 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                   <thead>
                     <tr>
                       <th>Bulan</th>
-                      <th style="color:#EC4899;">Pihak Ke-3</th>
-                      <th style="color:#F59E0B;">Vandalisme</th>
-                      <th style="color:#10B981;">Bencana</th>
-                      <th style="color:#8B5CF6;">Lainnya</th>
+                      <th style="color:#FF0000;">Pihak Ke-3</th>
+                      <th style="color:#00FF00;">Vandalisme</th>
+                      <th style="color:#0000FF;">Bencana</th>
+                      <th style="color:#FF00FF;">Lainnya</th>
                       <th class="col-total">TOTAL</th>
                     </tr>
                   </thead>
@@ -2788,7 +2854,6 @@ function renderOpmTempList() {
   });
   tbody.innerHTML = html;
 }
-/* UPDATE: Auto-isi keterangan saat kosong */
 function submitOpmDataToDb() {
   if (!currentUser) { showToast('Login dulu', 'error'); return; }
   var dari = document.getElementById('inp-opm-dari').value;
@@ -2809,7 +2874,6 @@ function submitOpmDataToDb() {
   btn.disabled = true; btn.innerHTML = 'Menyimpan ' + opmTempPorts.length + ' port...';
 
   var promises = opmTempPorts.map(function(p) {
-    // AUTO-ISI: Jika keterangan kosong, otomatis catat Status, Warna Tube, Warna Kabel, DBM
     var keteranganFinal = p.keterangan || '';
     if (!keteranganFinal || keteranganFinal.trim() === '') {
       keteranganFinal = 'STATUS: ' + (p.isUsed ? 'TERPAKAI' : 'TERSEDIA') +
@@ -3110,7 +3174,6 @@ function initMap() {
     map.on('click', function (e) { if (drawMode) handleDrawClick(e); });
   } catch (e) { console.error('Map init:', e); }
 }
-/* UPDATE: WARNA TITIK SANGAT BERBEDA */
 function loadMarkersFromData() {
   if (!map) return;
   markers.forEach(function (m) { m.remove(); }); markers = [];
@@ -3784,7 +3847,7 @@ function renderTable() {
   } catch (e) { console.error('renderTable error:', e); }
 }
 
-/* ============ OPM GROUPED TABLES (dengan TOMBOL HAPUS TABEL) ============ */
+/* ============ OPM GROUPED TABLES (dengan TABEL TERPISAH WARNA TUBE & KABEL) ============ */
 function renderOpmGroupedTables(list) {
   var wrap = document.getElementById('table-opm-wrapper');
   if (!wrap) return;
@@ -3845,7 +3908,8 @@ function renderOpmGroupedTables(list) {
     html += '</div>';
     html += '</div>';
 
-    html += '<div style="overflow-x:auto;">';
+    // ===== TABEL 1: DATA PORT =====
+    html += '<div style="overflow-x:auto;margin-bottom:10px;">';
     html += '<table class="records-table">';
     html += '<thead><tr>';
     html += '<th class="col-no">No</th>';
@@ -3865,8 +3929,6 @@ function renderOpmGroupedTables(list) {
       var ket = '';
       if (isUsed && it.label) ket += '<span class="opm-label-badge"><i data-lucide="tag" style="width:10px;display:inline-block;vertical-align:middle;"></i> ' + escapeHtml(it.label) + '</span> ';
       if (it.keterangan) ket += escapeHtml(it.keterangan);
-      if (it.warnaTube) ket += (ket ? ' • ' : '') + '<span style="background:rgba(0,217,255,0.1);color:var(--primary-cyan);padding:1px 6px;border-radius:4px;font-size:10px;">Tube: ' + escapeHtml(it.warnaTube) + '</span>';
-      if (it.warnaKabel) ket += (ket ? ' • ' : '') + '<span style="background:rgba(168,85,247,0.1);color:#A855F7;padding:1px 6px;border-radius:4px;font-size:10px;">Kabel: ' + escapeHtml(it.warnaKabel) + '</span>';
       if (!ket) ket = '<span style="opacity:0.35;">—</span>';
 
       html += '<tr>';
@@ -3877,6 +3939,36 @@ function renderOpmGroupedTables(list) {
       html += '<td class="col-ket">' + ket + '</td>';
       html += '<td class="col-user">' + (it.postBy || '-') + '</td>';
       html += '<td class="col-aksi">' + aksi + '</td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    html += '</div>';
+
+    // ===== TABEL 2: WARNA TUBE & WARNA KABEL =====
+    html += '<div style="overflow-x:auto;margin-bottom:4px;">';
+    html += '<div style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);text-transform:uppercase;letter-spacing:1px;padding:8px 12px;background:var(--surface-table-header);border:1px solid var(--border-glow);border-bottom:none;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:6px;">';
+    html += '<i data-lucide="palette" style="width:14px;"></i> Warna Tube & Warna Kabel';
+    html += '</div>';
+    html += '<table class="records-table" style="border-radius:0 0 8px 8px;overflow:hidden;">';
+    html += '<thead><tr>';
+    html += '<th class="col-no">No</th>';
+    html += '<th style="text-align:center;">Port</th>';
+    html += '<th style="text-align:center;">Warna Tube</th>';
+    html += '<th style="text-align:center;">Warna Kabel</th>';
+    html += '<th class="col-ket">Keterangan</th>';
+    html += '</tr></thead>';
+    html += '<tbody>';
+    g.items.forEach(function(x, i) {
+      var it = x.data;
+      var tube = it.warnaTube || '<span style="opacity:0.35;">—</span>';
+      var kabel = it.warnaKabel || '<span style="opacity:0.35;">—</span>';
+      var ketWarna = (it.keterangan || '') || '<span style="opacity:0.35;">—</span>';
+      html += '<tr>';
+      html += '<td class="col-no">' + (i + 1) + '</td>';
+      html += '<td style="text-align:center;font-weight:700;">' + (it.port || '-') + '</td>';
+      html += '<td style="text-align:center;"><span style="background:rgba(0,217,255,0.1);color:var(--primary-cyan);padding:2px 10px;border-radius:6px;font-weight:700;">' + tube + '</span></td>';
+      html += '<td style="text-align:center;"><span style="background:rgba(168,85,247,0.1);color:#A855F7;padding:2px 10px;border-radius:6px;font-weight:700;">' + kabel + '</span></td>';
+      html += '<td class="col-ket">' + ketWarna + '</td>';
       html += '</tr>';
     });
     html += '</tbody></table>';
@@ -4405,10 +4497,10 @@ function downloadPageExcel() {
 
 /* ============================================================ CHART ============================================================ */
 const CHART_COLORS = {
-  pihakKe3: { bg: 'rgba(236, 72, 153, 0.75)', border: '#EC4899' },
-  vandalisme: { bg: 'rgba(245, 158, 11, 0.75)', border: '#F59E0B' },
-  bencana: { bg: 'rgba(16, 185, 129, 0.75)', border: '#10B981' },
-  lainnya: { bg: 'rgba(139, 92, 246, 0.75)', border: '#8B5CF6' }
+  pihakKe3:  { bg: 'rgba(255, 0, 0, 0.75)',    border: '#FF0000' },
+  vandalisme:{ bg: 'rgba(0, 255, 0, 0.75)',    border: '#00FF00' },
+  bencana:   { bg: 'rgba(0, 0, 255, 0.75)',    border: '#0000FF' },
+  lainnya:   { bg: 'rgba(255, 0, 255, 0.75)',  border: '#FF00FF' }
 };
 const percentagePlugin = {
   id: 'percentageLabels',
@@ -4559,8 +4651,8 @@ function renderYearComparison(currentYearNum) {
   if (labelEl) labelEl.textContent = currentYearNum; if (prevLabelEl) prevLabelEl.textContent = prevYearNum;
   var cur = getYearTotals(currentYearNum); var prev = getYearTotals(prevYearNum);
   var items = [
-    { key: 'p3', label: 'Pihak Ke-3', color: '#EC4899' }, { key: 'vandal', label: 'Vandalisme', color: '#F59E0B' },
-    { key: 'bencana', label: 'Bencana', color: '#10B981' }, { key: 'lainnya', label: 'Lainnya', color: '#8B5CF6' },
+    { key: 'p3', label: 'Pihak Ke-3', color: '#FF0000' }, { key: 'vandal', label: 'Vandalisme', color: '#00FF00' },
+    { key: 'bencana', label: 'Bencana', color: '#0000FF' }, { key: 'lainnya', label: 'Lainnya', color: '#FF00FF' },
     { key: 'total', label: 'TOTAL', color: '#00D9FF' }
   ];
   var grid = document.getElementById('ytd-compare-grid'); if (!grid) return; var html = '';
