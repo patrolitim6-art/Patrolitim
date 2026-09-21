@@ -58,14 +58,12 @@
 }
 /* ============ TEMA LIGHT: MERAH PUDAR + ABU-ABU ============ */
 :root[data-theme="light"] {
-  /* MERAH PUDAR (dusty red) - bukan warna darah */
   --primary-cyan: #E05252;
   --primary-blue: #C93F3F;
   --primary-purple: #A03030;
   --primary-pink: #F08080;
   --tech-gradient: linear-gradient(135deg, #F08080 0%, #E05252 45%, #6B7280 100%);
 
-  /* ABU-ABU sebagai surface */
   --surface-1: rgba(249, 250, 251, 0.9);
   --surface-2: #FFFFFF;
   --surface-3: #F3F4F6;
@@ -83,10 +81,10 @@
   --surface-map-legend: rgba(255, 255, 255, 0.95);
   --surface-map-btn: rgba(255, 255, 255, 0.95);
 
-  /* TEXT abu-abu gelap */
-  --text-main: #1F2937;
-  --text-muted: #6B7280;
-  --text-dim: #9CA3AF;
+  /* TEXT HITAM sesuai permintaan */
+  --text-main: #000000;
+  --text-muted: #333333;
+  --text-dim: #555555;
   --text-on-accent: #FFFFFF;
 
   --border-glow: rgba(224, 82, 82, 0.22);
@@ -165,18 +163,22 @@ h4 { font-size: var(--app-font-size-lg); }
 }
 @keyframes logoGlowRed { 0%, 100% { box-shadow: 0 0 16px rgba(224, 82, 82, 0.45), 0 0 32px rgba(224, 82, 82, 0.18), inset 0 0 18px rgba(224, 82, 82, 0.15); } 50% { box-shadow: 0 0 26px rgba(224, 82, 82, 0.75), 0 0 52px rgba(224, 82, 82, 0.3), inset 0 0 24px rgba(224, 82, 82, 0.28); } }
 
-.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-subtle); transition: all 0.25s ease; flex-shrink: 0; }
+.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; padding: 8px 16px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-subtle); transition: all 0.25s ease; flex-shrink: 0; }
 :root[data-theme="light"] .telin-logo-wrapper { background: rgba(255, 255, 255, 0.9); border-color: rgba(107, 114, 128, 0.2); }
 .telin-logo-wrapper:hover { border-color: rgba(236, 28, 36, 0.55); box-shadow: 0 0 14px rgba(236, 28, 36, 0.28); transform: translateY(-1px); }
-.telin-logo { height: 30px; width: auto; object-fit: contain; transition: all 0.3s ease; display: block; }
+/* LOGO TELIN DIPERBESAR */
+.telin-logo { height: 44px; width: auto; object-fit: contain; transition: all 0.3s ease; display: block; }
 .telin-logo:hover { transform: scale(1.05); }
 .telin-divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 16px 0 20px; padding: 12px 16px; background: rgba(236, 28, 36, 0.06); border: 1px solid rgba(236, 28, 36, 0.28); border-radius: 14px; transition: all 0.25s; }
 .telin-divider:hover { background: rgba(236, 28, 36, 0.1); border-color: rgba(236, 28, 36, 0.5); box-shadow: 0 0 20px rgba(236, 28, 36, 0.2); }
-.telin-logo-login { height: 44px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(236, 28, 36, 0.35)); transition: all 0.3s ease; display: block; }
+.telin-logo-login { height: 56px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(236, 28, 36, 0.35)); transition: all 0.3s ease; display: block; }
 .telin-logo-login:hover { transform: scale(1.05); }
 .telin-footer-brand { display: flex; align-items: center; justify-content: center; gap: 8px; padding-top: 10px; margin-top: 12px; border-top: 1px solid var(--border-subtle); }
-.telin-footer-brand img { height: 22px; width: auto; opacity: 0.85; transition: opacity 0.2s; }
+.telin-footer-brand img { height: 30px; width: auto; opacity: 0.85; transition: opacity 0.2s; }
 .telin-footer-brand img:hover { opacity: 1; }
+/* HILANGKAN TULISAN "Powered by" */
+.telin-divider > span:first-child,
+.telin-footer-brand > span:first-child { display: none !important; }
 
 .card { background: var(--surface-1); backdrop-filter: blur(16px); border-radius: var(--radius); box-shadow: var(--shadow-card); padding: 16px; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.3s ease; border: 1px solid var(--border-subtle); position: relative; overflow: hidden; }
 .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.6; }
@@ -421,9 +423,9 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .opm-step-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
 .opm-step-title { font-weight: 800; color: var(--primary-cyan); font-size: var(--app-font-size-xs); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; font-family: 'Orbitron', sans-serif; }
 
-/* OPM Port Grid Selector */
-.opm-port-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(46px, 1fr)); gap: 6px; margin-top: 8px; }
-.opm-port-grid-btn { padding: 8px 4px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: var(--app-font-size-sm); color: var(--text-muted); transition: all 0.2s; }
+/* OPM Port Grid Selector - DIPERBAIKI MENJADI GRID RAPI */
+.opm-port-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: 6px; margin-top: 8px; }
+.opm-port-grid-btn { aspect-ratio: 1/1; padding: 0; display: grid; place-items: center; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: var(--app-font-size-sm); color: var(--text-muted); transition: all 0.2s; }
 .opm-port-grid-btn:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); transform: translateY(-1px); }
 .opm-port-grid-btn.selected { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; box-shadow: 0 2px 8px rgba(0,217,255,0.3); }
 .opm-port-grid-btn.in-list { background: rgba(16,185,129,0.15); color: #10B981; border-color: rgba(16,185,129,0.5); }
@@ -509,6 +511,42 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .about-info-card:hover { border-color: var(--border-glow); transform: translateY(-2px); }
 .about-info-title { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-weight: 800; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: var(--app-font-size-xs); }
 .about-info-list { margin: 0; padding-left: 16px; color: var(--text-muted); line-height: 1.8; font-size: var(--app-font-size-xs); }
+
+/* ============ PRINT HEADER (Logo Telin) ============ */
+.print-header-telin {
+  display: none;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  margin-bottom: 14px;
+  border-bottom: 2px solid #000;
+}
+.print-header-telin img { height: 60px; width: auto; }
+.print-header-telin .print-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #000;
+}
+
+@media print {
+  body { background: #fff !important; color: #000 !important; padding: 0 !important; }
+  .sidebar, .top-header, .menu-toggle, .sidebar-overlay,
+  .filter-bar, .custom-map-controls, .map-legend,
+  .card::before, .hero-panel, #dashboard-view,
+  .map-points-filter, .opm-group-stats, .opm-info-banner,
+  .opm-step-card, .icon-btn, .sub-tabs,
+  .btn-primary, .btn-secondary, .btn-icon, .toast { display: none !important; }
+  .print-header-telin { display: flex !important; }
+  .print-header-row { display: table-row !important; }
+  .records-table, .opm-group-wrapper { page-break-inside: avoid; }
+  .records-table th, .records-table td { color: #000 !important; border-color: #000 !important; }
+  .records-table th { background: #eee !important; }
+  .records-table td.col-no { background: #f5f5f5 !important; }
+  .records-table td.col-aksi, .records-table th.col-aksi { display: none !important; }
+  .opm-group-header { background: #f5f5f5 !important; color: #000 !important; border-color: #000 !important; }
+  .opm-group-title, .opm-group-stat-value { color: #000 !important; }
+}
+
 @media (max-width: 640px) {
   .hero-panel { padding: 20px 16px; }
   .card { padding: 12px; }
@@ -747,7 +785,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </div>
           </div>
 
-          <!-- FILTER TITIK PETA -->
+          <!-- FILTER TITIK PETA (OPM/OLS SUDAH DIHILANGKAN) -->
           <div class="map-points-filter">
             <span class="map-points-filter-label">
               <i data-lucide="filter" style="width:14px;"></i> Tampilkan Titik:
@@ -1313,13 +1351,13 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
               <i data-lucide="activity" style="width:14px;"></i> Data OPM / OLS
             </div>
             <div class="opm-info-banner-content">
-              Isi <strong>Dari</strong>, <strong>Ke</strong>, <strong>Ukuran OLS</strong>, <strong>Ruas</strong> &amp; <strong>Panel</strong> sekali.
+              Isi <strong>Dari</strong>, <strong>Ke</strong>, <strong>Nilai Kalibrasi</strong>, <strong>Ruas</strong>, <strong>Warna Tube</strong> &amp; <strong>Warna Kabel</strong> sekali.
               Kemudian pilih <strong>Port</strong> (1-48) satu per satu lalu klik <strong>Submit Port</strong> untuk menambahkan ke List.
               Setelah selesai, klik <strong>Submit Data</strong> di bawah List untuk menyimpan semua port ke database.
             </div>
           </div>
 
-          <!-- Step 1: Info Utama -->
+          <!-- Step 1: Info Utama (Panel DIHILANGKAN, Warna Tube/Kabel DITAMBAH, OLS → Nilai Kalibrasi) -->
           <div class="opm-step-card">
             <div class="opm-step-title">
               <i data-lucide="settings-2" style="width:13px;"></i> Step 1 — Info Utama (1x Input)
@@ -1354,8 +1392,8 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
               <div>
-                <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Ukuran OLS *</label>
-                <input type="text" id="inp-opm-ukuran" class="field-control" placeholder="Contoh: 40 KM / 80 KM">
+                <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Nilai Kalibrasi *</label>
+                <input type="text" id="inp-opm-ukuran" class="field-control" placeholder="Contoh: 0.5 dB / 12.3 dBm">
               </div>
               <div>
                 <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Ruas *</label>
@@ -1368,12 +1406,32 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                 </select>
               </div>
             </div>
-            <div style="margin-top:12px;">
-              <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Panel (1-4) *</label>
-              <select id="inp-opm-panel" class="field-control">
-                <option value="">-- Pilih --</option>
-                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
-              </select>
+            <!-- OPSI WARNA TUBE & KABEL (BARU) -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+              <div>
+                <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Warna Tube</label>
+                <select id="inp-opm-warna-tube" class="field-control">
+                  <option value="">-- Pilih --</option>
+                  <option value="BIRU">Biru</option><option value="ORANGE">Orange</option>
+                  <option value="HIJAU">Hijau</option><option value="COKELAT">Cokelat</option>
+                  <option value="ABU-ABU">Abu-abu</option><option value="PUTIH">Putih</option>
+                  <option value="MERAH">Merah</option><option value="HITAM">Hitam</option>
+                  <option value="KUNING">Kuning</option><option value="UNGU">Ungu</option>
+                  <option value="PINK">Pink</option><option value="TOSKA">Toska</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Warna Kabel</label>
+                <select id="inp-opm-warna-kabel" class="field-control">
+                  <option value="">-- Pilih --</option>
+                  <option value="BIRU">Biru</option><option value="ORANGE">Orange</option>
+                  <option value="HIJAU">Hijau</option><option value="COKELAT">Cokelat</option>
+                  <option value="ABU-ABU">Abu-abu</option><option value="PUTIH">Putih</option>
+                  <option value="MERAH">Merah</option><option value="HITAM">Hitam</option>
+                  <option value="KUNING">Kuning</option><option value="UNGU">Ungu</option>
+                  <option value="PINK">Pink</option><option value="TOSKA">Toska</option>
+                </select>
+              </div>
             </div>
             <div id="opm-warning" class="opm-warning">
               <i data-lucide="alert-triangle" style="width:16px;height:16px;flex-shrink:0;"></i>
@@ -1822,14 +1880,13 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
         <li><strong style="color:var(--text-main);">Login</strong> dengan akun yang diberikan admin. Password default wajib diganti saat login pertama.</li>
         <li><strong style="color:var(--text-main);">Filter titik peta</strong> di dashboard untuk menampilkan kategori tertentu.</li>
         <li><strong style="color:var(--text-main);">Tambah data</strong> dengan tombol <em>Tambah</em>, isi form, dan pilih lokasi lewat peta.</li>
-        <li><strong style="color:var(--text-main);">OPM/OLS</strong> — isi Dari/Ke/OLS, pilih port 1-48 lalu klik <em>Submit Port</em>, ulangi hingga selesai dan klik <em>Submit Data</em>.</li>
-        <li><strong style="color:var(--text-main);">Export Excel</strong> kapan saja lewat tombol <em>Excel</em> di tiap menu.</li>
+        <li><strong style="color:var(--text-main);">OPM/OLS</strong> — isi Dari/Ke/Nilai Kalibrasi, pilih port 1-48 lalu klik <em>Submit Port</em>, ulangi hingga selesai dan klik <em>Submit Data</em>.</li>
+        <li><strong style="color:var(--text-main);">Export Excel</strong> kapan saja lewat tombol <em>Excel</em> di tiap menu atau per tabel.</li>
       </ol>
     </div>
 
     <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:14px;margin-bottom:16px;background:rgba(236,28,36,0.06);border:1px solid rgba(236,28,36,0.25);border-radius:12px;">
-      <span style="color:var(--text-dim);font-size:var(--app-font-size-xs);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Powered by</span>
-      <img src="Telin_company_logo.png" alt="Telin" style="height:36px;width:auto;object-fit:contain;">
+      <img src="Telin_company_logo.png" alt="Telin" style="height:44px;width:auto;object-fit:contain;">
     </div>
 
     <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);">
@@ -1837,7 +1894,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
         &copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Pusat Operasi Jaringan Sulawesi Utara
       </p>
       <p style="color:var(--text-dim);margin:6px 0 0;font-size:calc(var(--app-font-size) - 4px);">
-        Versi 2.5.0 &nbsp;•&nbsp; Firebase Realtime DB &nbsp;•&nbsp; MapLibre GL
+        Versi 2.6.0 &nbsp;•&nbsp; Firebase Realtime DB &nbsp;•&nbsp; MapLibre GL
       </p>
     </div>
 
@@ -1868,8 +1925,8 @@ function setTheme(theme) {
   updateThemeButtons();
   try {
     if (typeof chartIncidents !== 'undefined' && chartIncidents) {
-      var legendColor = theme === 'dark' ? '#E2E8F0' : '#1F2937';
-      var tickColor = theme === 'dark' ? '#94A3B8' : '#6B7280';
+      var legendColor = theme === 'dark' ? '#E2E8F0' : '#000000';
+      var tickColor = theme === 'dark' ? '#94A3B8' : '#333333';
       var gridColor = theme === 'dark' ? 'rgba(148,163,184,0.1)' : 'rgba(107,114,128,0.1)';
       chartIncidents.options.plugins.legend.labels.color = legendColor;
       chartIncidents.options.scales.y.ticks.color = tickColor;
@@ -2057,7 +2114,7 @@ let usersListData = {};
 let usersListListenerAttached = false;
 let selectedPointFilter = 'all';
 let selectedOpmPort = '';
-let opmTempPorts = []; // List port sementara sebelum submit ke DB
+let opmTempPorts = [];
 const SESSION_TIMEOUT_MS = 15 * 60 * 1000;
 
 const MENU_LABELS = {
@@ -2498,9 +2555,10 @@ function toggleOpmUsedLabel() {
 function addOpmPortToList() {
   var dari = document.getElementById('inp-opm-dari').value;
   var ke = document.getElementById('inp-opm-ke').value;
-  var ukuranOLS = document.getElementById('inp-opm-ukuran').value.trim().toUpperCase();
+  var nilaiKalibrasi = document.getElementById('inp-opm-ukuran').value.trim().toUpperCase();
   var ruas = document.getElementById('inp-opm-ruas').value;
-  var panel = document.getElementById('inp-opm-panel').value;
+  var warnaTube = document.getElementById('inp-opm-warna-tube').value;
+  var warnaKabel = document.getElementById('inp-opm-warna-kabel').value;
   var port = document.getElementById('inp-opm-port').value;
   var dbm = parseFloat(document.getElementById('inp-opm-dbm').value);
   var isUsed = document.getElementById('inp-opm-used').checked;
@@ -2509,9 +2567,8 @@ function addOpmPortToList() {
 
   if (!dari || !ke) { showToast('Isi "Dari" dan "Ke" di Step 1', 'error'); return; }
   if (dari === ke) { showToast('❌ "Dari" dan "Ke" tidak boleh sama!', 'error'); return; }
-  if (!ukuranOLS) { showToast('Isi Ukuran OLS di Step 1', 'error'); return; }
+  if (!nilaiKalibrasi) { showToast('Isi Nilai Kalibrasi di Step 1', 'error'); return; }
   if (!ruas) { showToast('Pilih Ruas di Step 1', 'error'); return; }
-  if (!panel) { showToast('Pilih Panel di Step 1', 'error'); return; }
   if (!port) { showToast('Pilih Port (1-48) dari grid', 'error'); return; }
   if (isNaN(dbm)) { showToast('Isi nilai DBM untuk port ini', 'error'); return; }
   if (isUsed && !label) { showToast('Label wajib diisi jika Port Terpakai', 'error'); return; }
@@ -2519,10 +2576,9 @@ function addOpmPortToList() {
     showToast('Port ' + port + ' sudah ada di list. Hapus dulu jika ingin ubah.', 'warning'); return;
   }
 
-  opmTempPorts.push({ port: port, dbm: dbm, isUsed: isUsed, label: isUsed ? label : '', keterangan: ket });
+  opmTempPorts.push({ port: port, dbm: dbm, isUsed: isUsed, label: isUsed ? label : '', keterangan: ket, warnaTube: warnaTube, warnaKabel: warnaKabel });
   opmTempPorts.sort(function(a, b) { return parseInt(a.port) - parseInt(b.port); });
 
-  // Reset input port (jangan reset step 1)
   selectedOpmPort = '';
   document.getElementById('inp-opm-port').value = '';
   document.getElementById('inp-opm-dbm').value = '';
@@ -2558,6 +2614,8 @@ function renderOpmTempList() {
       : '<span class="opm-label-badge" style="background:rgba(16,185,129,0.15);color:#10B981;border-color:rgba(16,185,129,0.4);">TERSEDIA</span>';
     var ket = p.isUsed && p.label ? '<strong style="color:#EC4899;">' + escapeHtml(p.label) + '</strong>' : '';
     if (p.keterangan) ket += (ket ? ' • ' : '') + escapeHtml(p.keterangan);
+    if (p.warnaTube) ket += (ket ? ' • ' : '') + 'Tube: ' + escapeHtml(p.warnaTube);
+    if (p.warnaKabel) ket += (ket ? ' • ' : '') + 'Kabel: ' + escapeHtml(p.warnaKabel);
     if (!ket) ket = '<span style="opacity:0.35;">—</span>';
     html += '<tr>';
     html += '<td style="text-align:center;">' + (idx + 1) + '</td>';
@@ -2574,14 +2632,15 @@ function submitOpmDataToDb() {
   if (!currentUser) { showToast('Login dulu', 'error'); return; }
   var dari = document.getElementById('inp-opm-dari').value;
   var ke = document.getElementById('inp-opm-ke').value;
-  var ukuranOLS = document.getElementById('inp-opm-ukuran').value.trim().toUpperCase();
+  var nilaiKalibrasi = document.getElementById('inp-opm-ukuran').value.trim().toUpperCase();
   var ruas = document.getElementById('inp-opm-ruas').value;
-  var panel = document.getElementById('inp-opm-panel').value;
+  var warnaTube = document.getElementById('inp-opm-warna-tube').value;
+  var warnaKabel = document.getElementById('inp-opm-warna-kabel').value;
   var dateVal = document.getElementById('inp-date').value;
 
   if (!dateVal) { showToast('Isi Tanggal', 'error'); return; }
   if (!dari || !ke) { showToast('Isi "Dari" dan "Ke"', 'error'); return; }
-  if (!ukuranOLS || !ruas || !panel) { showToast('Lengkapi Step 1', 'error'); return; }
+  if (!nilaiKalibrasi || !ruas) { showToast('Lengkapi Step 1', 'error'); return; }
   if (opmTempPorts.length === 0) { showToast('List Port masih kosong. Tambahkan minimal 1 port.', 'error'); return; }
 
   var btn = document.getElementById('btn-opm-submit-data');
@@ -2595,9 +2654,10 @@ function submitOpmDataToDb() {
       createdAt: Date.now(),
       dari: dari,
       ke: ke,
-      ukuranOLS: ukuranOLS,
+      ukuranOLS: nilaiKalibrasi,
       ruas: ruas,
-      panel: panel,
+      warnaTube: p.warnaTube || warnaTube || '',
+      warnaKabel: p.warnaKabel || warnaKabel || '',
       port: p.port,
       dbm: p.dbm,
       isUsed: p.isUsed,
@@ -2608,7 +2668,7 @@ function submitOpmDataToDb() {
   });
 
   Promise.all(promises).then(function() {
-    catatRiwayat('OPM-OLS', 'Tambah Batch', 'Dari: ' + dari + ' → Ke: ' + ke + ' | OLS: ' + ukuranOLS + ' | Panel: ' + panel + ' | ' + opmTempPorts.length + ' port', 'Batch submit OPM/OLS');
+    catatRiwayat('OPM-OLS', 'Tambah Batch', 'Dari: ' + dari + ' → Ke: ' + ke + ' | Kalibrasi: ' + nilaiKalibrasi + ' | ' + opmTempPorts.length + ' port', 'Batch submit OPM/OLS');
     showToast('✅ ' + opmTempPorts.length + ' port berhasil disimpan ke database!', 'success');
     opmTempPorts = [];
     closeModal();
@@ -2884,12 +2944,14 @@ function initMap() {
     map.on('click', function (e) { if (drawMode) handleDrawClick(e); });
   } catch (e) { console.error('Map init:', e); }
 }
+/* OPM-OLS DIHILANGKAN DARI MAPS */
 function loadMarkersFromData() {
   if (!map) return;
   markers.forEach(function (m) { m.remove(); }); markers = [];
   var categoryColors = {
     'Data OF Cut': '#00D9FF', 'Pekerjaan Pihak Ke-3': '#A855F7',
     'Temuan Lapangan': '#EC4899', 'Joint': '#0EA5E9', 'Handhole': '#10B981'
+    /* OPM-OLS TIDAK DISERTAKAN */
   };
   var allCats = Object.keys(categoryColors);
   var catsToShow = (selectedPointFilter === 'all') ? allCats : [selectedPointFilter];
@@ -2903,7 +2965,7 @@ function loadMarkersFromData() {
       }
       if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
         var el = document.createElement('div'); el.className = 'ml-marker'; el.style.background = color;
-        var title = it.location || it.nama || ('PORT ' + (it.port || '') + ' - ' + (it.dari || '') + '→' + (it.ke || '')) || 'Lokasi';
+        var title = it.location || it.nama || 'Lokasi';
         el.title = title + ' — ' + cat;
         var popupHtml = '<strong style="color:var(--primary-cyan);">' + escapeHtml(title) + '</strong><br><span style="font-size:var(--app-font-size-xs);color:var(--text-muted);">' + cat + '</span>';
         var popup = new maplibregl.Popup({ offset: 14, closeButton: true }).setHTML(popupHtml);
@@ -3517,13 +3579,20 @@ function renderTable() {
     var isHJ = ['Handhole', 'Joint'].indexOf(cat) !== -1; var isOfCut = cat === 'Data OF Cut';
     var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
 
-    if (isSpare) th.innerHTML = '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-gudang">Gudang</th><th class="col-sn">SN</th>' + '<th class="col-nama">Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th>' + '<th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isPatch) th.innerHTML = '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-gudang">Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th>' + '<th class="col-aksi">Aksi</th></tr>';
-    else if (isAlker) th.innerHTML = '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-nama">Nama Alker</th><th class="col-sn">SN</th>' + '<th>Jenis</th><th>Merk</th><th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isHJ) th.innerHTML = '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th>Kondisi</th><th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isOfCut) th.innerHTML = '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th class="col-waktu">Waktu CO</th><th class="col-waktu">Waktu UP</th><th>Durasi</th>' + '<th>Panjang</th><th>Rute</th><th>Penyebab</th>' + '<th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isP3T) th.innerHTML = '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th>Pelaksana</th><th>Lama</th><th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
-    else th.innerHTML = '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
+    // PRINT HEADER: Logo Telin + Nama Data
+    var printHeaderHtml = '<tr class="print-header-row" style="display:none;"><td colspan="99" style="padding:10px 0;border-bottom:2px solid #000;">' +
+      '<div class="print-header-telin" style="display:flex !important;align-items:center;gap:14px;">' +
+      '<img src="Telin_company_logo.png" alt="Telin" style="height:60px;">' +
+      '<div class="print-title" style="font-size:18px;font-weight:800;">' + escapeHtml(cat) + '</div>' +
+      '</div></td></tr>';
+
+    if (isSpare) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-gudang">Gudang</th><th class="col-sn">SN</th>' + '<th class="col-nama">Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th>' + '<th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isPatch) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-gudang">Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th>' + '<th class="col-aksi">Aksi</th></tr>';
+    else if (isAlker) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-nama">Nama Alker</th><th class="col-sn">SN</th>' + '<th>Jenis</th><th>Merk</th><th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isHJ) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th>Kondisi</th><th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isOfCut) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th class="col-waktu">Waktu CO</th><th class="col-waktu">Waktu UP</th><th>Durasi</th>' + '<th>Panjang</th><th>Rute</th><th>Penyebab</th>' + '<th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isP3T) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th>Pelaksana</th><th>Lama</th><th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
+    else th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
 
     keys = sortData(keys, list, cat);
     var isAdmin = currentUser && currentUser.role === 'admin';
@@ -3552,7 +3621,7 @@ function renderTable() {
   } catch (e) { console.error('renderTable error:', e); }
 }
 
-/* ============ RENDER OPM GROUPED TABLES (Group by Tanggal + Tujuan) ============ */
+/* ============ RENDER OPM GROUPED TABLES (Panel DIHILANGKAN, Warna DITAMBAH, Excel per tabel) ============ */
 function renderOpmGroupedTables(list) {
   var wrap = document.getElementById('table-opm-wrapper');
   if (!wrap) return;
@@ -3565,18 +3634,17 @@ function renderOpmGroupedTables(list) {
   if (keys.length === 0) { wrap.innerHTML = ''; document.getElementById('empty-state').style.display = 'block'; return; }
   document.getElementById('empty-state').style.display = 'none';
 
-  // Group by: Tanggal + Dari + Ke + Ukuran OLS + Panel
+  // Group by: Tanggal + Dari + Ke + Nilai Kalibrasi (Panel DIHILANGKAN)
   var groups = {};
   keys.forEach(function(k) {
     var it = list[k];
-    var gKey = [it.date || '-', it.dari || '-', it.ke || '-', it.ukuranOLS || '-', it.panel || '-'].join('|||');
+    var gKey = [it.date || '-', it.dari || '-', it.ke || '-', it.ukuranOLS || '-'].join('|||');
     if (!groups[gKey]) {
-      groups[gKey] = { date: it.date || '-', dari: it.dari || '-', ke: it.ke || '-', ukuranOLS: it.ukuranOLS || '-', panel: it.panel || '-', items: [] };
+      groups[gKey] = { date: it.date || '-', dari: it.dari || '-', ke: it.ke || '-', ukuranOLS: it.ukuranOLS || '-', items: [] };
     }
     groups[gKey].items.push({ key: k, data: it });
   });
 
-  // Sort groups by date descending
   var sortedKeys = Object.keys(groups).sort(function(a, b) {
     var gA = groups[a]; var gB = groups[b];
     return (gB.date || '').localeCompare(gA.date || '');
@@ -3591,14 +3659,23 @@ function renderOpmGroupedTables(list) {
     var usedCount = g.items.filter(function(x) { return x.data.isUsed; }).length;
     var availCount = g.items.length - usedCount;
 
+    // Group ID unik untuk tombol Excel per tabel
+    var groupId = 'opm-grp-' + btoa(encodeURIComponent(gKey)).replace(/[^a-zA-Z0-9]/g, '').substring(0, 24);
+
     html += '<div class="opm-group-wrapper">';
+
+    // PRINT HEADER: Logo Telin + Nama Data
+    html += '<div class="print-header-telin">';
+    html += '<img src="Telin_company_logo.png" alt="Telin">';
+    html += '<div class="print-title">Data OPM/OLS — ' + escapeHtml(g.date) + ' — ' + escapeHtml(g.dari) + ' → ' + escapeHtml(g.ke) + '</div>';
+    html += '</div>';
+
     html += '<div class="opm-group-header">';
     html += '<div>';
     html += '<div class="opm-group-title">';
     html += '<i data-lucide="calendar" style="width:16px;"></i> ' + escapeHtml(g.date);
     html += ' <span class="opm-group-badge">' + escapeHtml(g.dari) + ' → ' + escapeHtml(g.ke) + '</span>';
-    html += ' <span class="opm-group-badge">OLS: ' + escapeHtml(g.ukuranOLS) + '</span>';
-    html += ' <span class="opm-group-badge">PANEL: ' + escapeHtml(g.panel) + '</span>';
+    html += ' <span class="opm-group-badge">Kalibrasi: ' + escapeHtml(g.ukuranOLS) + '</span>';
     html += '</div>';
     html += '</div>';
     html += '<div class="opm-group-stats">';
@@ -3628,6 +3705,8 @@ function renderOpmGroupedTables(list) {
       var ket = '';
       if (isUsed && it.label) ket += '<span class="opm-label-badge"><i data-lucide="tag" style="width:10px;display:inline-block;vertical-align:middle;"></i> ' + escapeHtml(it.label) + '</span> ';
       if (it.keterangan) ket += escapeHtml(it.keterangan);
+      if (it.warnaTube) ket += (ket ? ' • ' : '') + '<span style="background:rgba(0,217,255,0.1);color:var(--primary-cyan);padding:1px 6px;border-radius:4px;font-size:10px;">Tube: ' + escapeHtml(it.warnaTube) + '</span>';
+      if (it.warnaKabel) ket += (ket ? ' • ' : '') + '<span style="background:rgba(168,85,247,0.1);color:#A855F7;padding:1px 6px;border-radius:4px;font-size:10px;">Kabel: ' + escapeHtml(it.warnaKabel) + '</span>';
       if (!ket) ket = '<span style="opacity:0.35;">—</span>';
 
       html += '<tr>';
@@ -3641,11 +3720,76 @@ function renderOpmGroupedTables(list) {
       html += '</tr>';
     });
     html += '</tbody></table>';
-    html += '</div></div>';
+    html += '</div>';
+
+    // TOMBOL EXCEL PER TABEL
+    html += '<div style="padding:10px 14px;border-top:1px solid var(--border-subtle);text-align:right;background:rgba(0,217,255,0.02);">';
+    html += '<button class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:8px;min-height:auto;background:rgba(29,111,66,0.12);color:#1d6f42;border-color:rgba(29,111,66,0.4);" onclick="exportOpmGroup(\'' + groupId + '\')"><i data-lucide="file-spreadsheet" style="width:14px;"></i> Excel Tabel Ini</button>';
+    html += '</div>';
+
+    // Data tersembunyi untuk export (meta group)
+    html += '<div id="' + groupId + '" class="hidden" data-date="' + escapeHtml(g.date) + '" data-dari="' + escapeHtml(g.dari) + '" data-ke="' + escapeHtml(g.ke) + '" data-kal="' + escapeHtml(g.ukuranOLS) + '"></div>';
+    html += '</div>';
   });
 
   wrap.innerHTML = html;
 }
+
+/* FUNGSI EXPORT EXCEL PER TABEL OPM */
+function exportOpmGroup(groupId) {
+  var el = document.getElementById(groupId);
+  if (!el) { showToast('Data tidak ditemukan', 'error'); return; }
+  var date = el.dataset.date || '';
+  var dari = el.dataset.dari || '';
+  var ke = el.dataset.ke || '';
+  var kal = el.dataset.kal || '';
+
+  var list = appData['OPM-OLS'] || {};
+  var keys = Object.keys(list).filter(function(k) {
+    var it = list[k];
+    return (it.date || '-') === date && (it.dari || '-') === dari && (it.ke || '-') === ke && (it.ukuranOLS || '-') === kal;
+  });
+  if (keys.length === 0) { showToast('Tidak ada data', 'error'); return; }
+
+  keys.sort(function(a, b) { return (parseInt(list[a].port) || 0) - (parseInt(list[b].port) || 0); });
+
+  var rows = keys.map(function(k, idx) {
+    var it = list[k] || {};
+    return {
+      'No': idx + 1,
+      'Tanggal': it.date || '',
+      'Dari': it.dari || '',
+      'Ke': it.ke || '',
+      'Nilai Kalibrasi': it.ukuranOLS || '',
+      'Ruas': it.ruas || '',
+      'Port': it.port || '',
+      'DBM': (it.dbm !== undefined && it.dbm !== null) ? it.dbm : '',
+      'Status': it.isUsed ? 'Terpakai' : 'Tersedia',
+      'Label': it.label || '',
+      'Warna Tube': it.warnaTube || '',
+      'Warna Kabel': it.warnaKabel || '',
+      'Keterangan': it.keterangan || '',
+      'User': it.postBy || ''
+    };
+  });
+
+  var headers = Object.keys(rows[0]);
+  var aoa = [headers];
+  rows.forEach(function(r) { aoa.push(headers.map(function(h) { return r[h]; })); });
+  var ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols'] = headers.map(function(h) {
+    var maxLen = h.length;
+    rows.forEach(function(r) { var v = r[h]; if (v === undefined || v === null) return; var len = String(v).length; if (len > maxLen) maxLen = len; });
+    return { wch: Math.min(Math.max(maxLen + 2, 10), 55) };
+  });
+  ws['!freeze'] = { xSplit: 1, ySplit: 1 };
+  var wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'OPM-OLS');
+  var safeName = (dari + '_' + ke + '_' + date).replace(/[^a-zA-Z0-9_-]/g, '_');
+  XLSX.writeFile(wb, 'BUCIN_OPM_' + safeName + '.xlsx');
+  showToast('✅ Excel diunduh: ' + rows.length + ' baris', 'success');
+}
+window.exportOpmGroup = exportOpmGroup;
 
 /* ============================================================
    FORM SUBMIT
@@ -3758,7 +3902,6 @@ function submitForm(e) {
     detailText = loc + ' | Panjang: ' + pjg + 'M | Rute: ' + rute + ' | Penyebab: ' + data.penyebab + ' | Durasi: ' + durasiStr;
     ketText = finalKeterangan;
   } else if (cat === 'OPM-OLS') {
-    // OPM di-submit via tombol "Submit Data" khusus (submitOpmDataToDb), bukan dari sini.
     showToast('Gunakan tombol "Submit Data" di bawah List Port untuk menyimpan.', 'warning');
     return;
   } else if (cat === 'Alker') {
@@ -3811,7 +3954,6 @@ function closeModal() {
   selectedOpmPort = ''; opmTempPorts = [];
   var cbb = document.getElementById('inp-opm-used'); if (cbb) cbb.checked = false;
   var lw = document.getElementById('opm-used-label-wrap'); if (lw) lw.classList.add('hidden');
-  // Reset temp list UI
   try { renderOpmTempList(); renderOpmPortGrid(); } catch (e) {}
 }
 function stopScanner(t) {
@@ -3865,7 +4007,6 @@ function openForm(editData, editKey) {
   document.getElementById('form-tambah-stok').classList.remove('hidden');
   document.getElementById('form-update-pemakaian').classList.add('hidden');
   document.getElementById('form-mode').value = 'tambah';
-  // Hide the Simpan Data button when OPM is open (because OPM has its own Submit Data button)
   var btnSubmitForm = document.getElementById('btn-submit-form');
   if (isOpm) { btnSubmitForm.style.display = 'none'; } else { btnSubmitForm.style.display = 'flex'; }
   if (isStock) {
@@ -3919,8 +4060,9 @@ function resetFormFields() {
     'inp-ofcut-keterangan', 'inp-ofcut-waktu-co', 'inp-ofcut-waktu-up',
     'inp-p3-pelaksana', 'inp-p3-lama', 'inp-p3-keterangan',
     'inp-pc-type-lain', 'inp-pc-length-lain',
-    'inp-opm-port', 'inp-opm-panel', 'inp-opm-dbm', 'inp-opm-ruas', 'inp-opm-dari', 'inp-opm-ke',
+    'inp-opm-port', 'inp-opm-dbm', 'inp-opm-ruas', 'inp-opm-dari', 'inp-opm-ke',
     'inp-opm-keterangan', 'inp-opm-ukuran', 'inp-opm-label',
+    'inp-opm-warna-tube', 'inp-opm-warna-kabel',
     'inp-alker-nama', 'inp-alker-sn', 'inp-alker-jenis', 'inp-alker-merk', 'inp-alker-keterangan'];
   ids.forEach(function(id) { var el = document.getElementById(id); if (el) el.value = ''; });
   document.getElementById('inp-pc-qty').value = '1';
@@ -3939,9 +4081,10 @@ function populateFormFields(data) {
   var map = {
     'inp-loc': data.location, 'inp-coords': data.coords, 'inp-keterangan-normal': data.keterangan,
     'inp-ofcut-waktu-co': data.waktuCO, 'inp-ofcut-waktu-up': data.waktuUP,
-    'inp-opm-port': data.port, 'inp-opm-panel': data.panel, 'inp-opm-dbm': data.dbm, 'inp-opm-ruas': data.ruas,
+    'inp-opm-port': data.port, 'inp-opm-dbm': data.dbm, 'inp-opm-ruas': data.ruas,
     'inp-opm-dari': data.dari, 'inp-opm-ke': data.ke, 'inp-opm-keterangan': data.keterangan,
     'inp-opm-ukuran': data.ukuranOLS, 'inp-opm-label': data.label,
+    'inp-opm-warna-tube': data.warnaTube, 'inp-opm-warna-kabel': data.warnaKabel,
     'inp-alker-nama': data.nama, 'inp-alker-sn': data.sn, 'inp-alker-jenis': data.jenis, 'inp-alker-merk': data.merk, 'inp-alker-keterangan': data.keterangan
   };
   Object.keys(map).forEach(function(id) { var el = document.getElementById(id); if (el && map[id] !== undefined && map[id] !== null) el.value = map[id]; });
@@ -4014,12 +4157,13 @@ function confirmSpareAction() {
 function closeGudangModal() { document.getElementById('gudang-modal').classList.add('hidden'); }
 
 /* ============================================================
-   EXPORT EXCEL
+   EXPORT EXCEL (halaman utama)
    ============================================================ */
 function downloadPageExcel() {
   var cat = currentCategory;
   if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
   if (cat === 'dashboard') { showToast('Buka menu data dulu untuk download Excel', 'error'); return; }
+  if (cat === 'OPM-OLS') { showToast('Gunakan tombol "Excel Tabel Ini" di masing-masing tabel OPM/OLS.', 'warning'); return; }
   var list = appData[cat] || {}; var keys = Object.keys(list);
   if (selectedGudangFilter !== 'all' && (cat === 'Stok Spare' || cat === 'Patch Cord')) keys = keys.filter(function(k) { return list[k].gudang === selectedGudangFilter; });
   var hidePeriod = MENU_NO_PERIOD.indexOf(cat) !== -1;
@@ -4029,7 +4173,7 @@ function downloadPageExcel() {
   keys = sortData(keys, list, cat);
   if (keys.length === 0) { showToast('Tidak ada data untuk di-export', 'error'); return; }
   var rows = [];
-  var isSpare = cat === 'Stok Spare'; var isPatch = cat === 'Patch Cord'; var isAlker = cat === 'Alker'; var isOpm = cat === 'OPM-OLS';
+  var isSpare = cat === 'Stok Spare'; var isPatch = cat === 'Patch Cord'; var isAlker = cat === 'Alker';
   var isHJ = ['Handhole', 'Joint'].indexOf(cat) !== -1; var isOfCut = cat === 'Data OF Cut';
   var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
   keys.forEach(function(k, idx) {
@@ -4037,7 +4181,6 @@ function downloadPageExcel() {
     if (isSpare) { row['Tanggal'] = it.date || ''; row['Gudang'] = it.gudang || ''; row['SN'] = it.sn || ''; row['Nama Barang'] = it.spec || ''; row['Status'] = it.status || 'Ready'; row['Lemari'] = it.lemari || ''; row['Rak'] = it.rak || ''; row['Riwayat'] = it.riwayat || ''; row['Kondisi'] = it.kondisi || ''; row['Tujuan Pemakaian'] = it.tujuanPemakaian || ''; row['Lokasi Pemakaian'] = it.lokasiPemakaian || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
     else if (isPatch) { row['Tanggal'] = it.date || ''; row['Gudang'] = it.gudang || ''; row['Jenis'] = it.pcType || ''; row['Panjang'] = it.pcLength || ''; row['Tipe Transaksi'] = it.trType || ''; row['Jumlah (Qty)'] = it.qty || 0; row['Barcode'] = it.barcode || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
     else if (isAlker) { row['Tanggal'] = it.date || ''; row['Nama Alker'] = it.nama || ''; row['SN'] = it.sn || ''; row['Jenis'] = it.jenis || ''; row['Merk'] = it.merk || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
-    else if (isOpm) { row['Tanggal'] = it.date || ''; row['Dari'] = it.dari || ''; row['Ke'] = it.ke || ''; row['Ukuran OLS'] = it.ukuranOLS || ''; row['Ruas'] = it.ruas || ''; row['Panel'] = it.panel || ''; row['Port'] = it.port || ''; row['DBM'] = (it.dbm !== undefined && it.dbm !== null) ? it.dbm : ''; row['Status'] = it.isUsed ? 'Terpakai' : 'Tersedia'; row['Label'] = it.label || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
     else if (isHJ) { row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Kondisi'] = it.kondisi || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
     else if (isOfCut) { var coDisplay = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : ''; var upDisplay = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : ''; var durasiDisplay = it.durasiText ? it.durasiText : (it.durasiMenit ? it.durasiMenit + ' menit' : ''); row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Waktu CO'] = coDisplay; row['Waktu UP'] = upDisplay; row['Durasi'] = durasiDisplay; row['Durasi (Menit)'] = (it.durasiMenit !== undefined && it.durasiMenit !== null) ? it.durasiMenit : ''; row['Panjang Cut (M)'] = it.panjangCut || ''; row['Rute'] = it.rute || ''; row['Penyebab'] = it.penyebab || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
     else if (isP3T) { row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Pelaksana'] = it.pelaksana || ''; row['Lama Pekerjaan'] = it.lamaPekerjaan || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
@@ -4074,7 +4217,7 @@ const percentagePlugin = {
     chart.data.datasets.forEach(function(dataset, datasetIndex) {
       var meta = chart.getDatasetMeta(datasetIndex); if (meta.hidden) return;
       var theme = document.documentElement.getAttribute('data-theme') || 'dark';
-      var textColor = theme === 'dark' ? '#E2E8F0' : '#1F2937';
+      var textColor = theme === 'dark' ? '#E2E8F0' : '#000000';
       meta.data.forEach(function(element, index) {
         var value = Number(dataset.data[index]) || 0; if (value === 0) return;
         var pctText = (Math.round(value * 10) / 10).toFixed(1) + '%';
@@ -4159,7 +4302,7 @@ function updateCharts() {
     chartIncidents.options.scales.y.max = yMax;
     chartIncidents.options.scales.y.ticks.stepSize = yMax <= 30 ? 5 : (yMax <= 60 ? 10 : 20);
     var theme = document.documentElement.getAttribute('data-theme') || 'dark';
-    var legendColor = theme === 'dark' ? '#E2E8F0' : '#1F2937'; var tickColor = theme === 'dark' ? '#94A3B8' : '#6B7280';
+    var legendColor = theme === 'dark' ? '#E2E8F0' : '#000000'; var tickColor = theme === 'dark' ? '#94A3B8' : '#333333';
     var gridColor = theme === 'dark' ? 'rgba(148,163,184,0.1)' : 'rgba(107,114,128,0.1)';
     chartIncidents.options.plugins.legend.labels.color = legendColor;
     chartIncidents.options.scales.y.ticks.color = tickColor;
