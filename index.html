@@ -56,35 +56,52 @@
   --app-font-size-3xl: calc(var(--app-font-size) + 12px);
   --radius: 16px;
 }
+/* ============ TEMA LIGHT: MERAH + ABU-ABU ============ */
 :root[data-theme="light"] {
-  /* ===== MERAH NEON MENGGANTIKAN BIRU NEON ===== */
+  /* MERAH NEON sebagai aksen utama */
   --primary-cyan: #E60000;
-  --primary-blue: #CC0000;
-  --primary-purple: #B30000;
+  --primary-blue: #B30000;
+  --primary-purple: #7A0000;
   --primary-pink: #FF1A1A;
-  --tech-gradient: linear-gradient(135deg, #FF1A1A 0%, #E60000 45%, #B30000 100%);
-  --surface-1: rgba(255, 255, 255, 0.9); --surface-2: #FFFFFF; --surface-3: #FFF5F5;
-  --surface-glass: rgba(255, 255, 255, 0.85); --surface-input: #FFFFFF; --surface-input-focus: #FFFFFF;
-  --surface-modal: linear-gradient(180deg, #FFFFFF 0%, #FFF0F0 100%);
-  --surface-sidebar: linear-gradient(180deg, #FFFFFF 0%, #FFF0F0 100%);
-  --surface-sidebar-footer: rgba(255, 255, 255, 0.7);
-  --surface-hero: linear-gradient(135deg, rgba(255, 26, 26, 0.18) 0%, rgba(230, 0, 0, 0.18) 40%, rgba(179, 0, 0, 0.18) 100%);
-  --surface-toast: linear-gradient(135deg, #FFFFFF, #FFF0F0);
-  --surface-login: radial-gradient(circle at 50% 50%, #FFF5F5 0%, #FFE0E0 100%);
-  --surface-login-card: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 240, 240, 0.98) 100%);
+  --tech-gradient: linear-gradient(135deg, #E60000 0%, #A30000 45%, #6B7280 100%);
+
+  /* ABU-ABU sebagai surface */
+  --surface-1: rgba(249, 250, 251, 0.9);
+  --surface-2: #FFFFFF;
+  --surface-3: #F3F4F6;
+  --surface-glass: rgba(249, 250, 251, 0.85);
+  --surface-input: #FFFFFF;
+  --surface-input-focus: #FFFFFF;
+  --surface-modal: linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 100%);
+  --surface-sidebar: linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 100%);
+  --surface-sidebar-footer: rgba(243, 244, 246, 0.7);
+  --surface-hero: linear-gradient(135deg, rgba(230, 0, 0, 0.12) 0%, rgba(107, 114, 128, 0.15) 100%);
+  --surface-toast: linear-gradient(135deg, #FFFFFF, #F3F4F6);
+  --surface-login: radial-gradient(circle at 50% 50%, #F9FAFB 0%, #E5E7EB 100%);
+  --surface-login-card: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(243, 244, 246, 0.98) 100%);
   --surface-table-header: rgba(230, 0, 0, 0.08);
   --surface-map-legend: rgba(255, 255, 255, 0.95);
   --surface-map-btn: rgba(255, 255, 255, 0.95);
-  --text-main: #1A0000; --text-muted: #7A4A4A; --text-dim: #B38A8A;
+
+  /* TEXT abu-abu gelap */
+  --text-main: #1F2937;
+  --text-muted: #6B7280;
+  --text-dim: #9CA3AF;
   --text-on-accent: #FFFFFF;
-  --border-glow: rgba(230, 0, 0, 0.35); --border-subtle: rgba(26, 0, 0, 0.1);
-  --bg-main: #FFF5F5; --bg-pattern-1: rgba(230, 0, 0, 0.07);
-  --bg-pattern-2: rgba(255, 26, 26, 0.2); --bg-pattern-3: rgba(179, 0, 0, 0.15);
-  --bg-pattern-4: rgba(204, 0, 0, 0.1);
-  --shadow-card: 0 4px 24px rgba(230, 0, 0, 0.1);
-  --shadow-card-hover: 0 8px 40px rgba(230, 0, 0, 0.2);
-  --shadow-modal: 0 24px 64px rgba(230, 0, 0, 0.15);
-  --scroll-track: rgba(255, 226, 226, 0.6);
+
+  --border-glow: rgba(230, 0, 0, 0.3);
+  --border-subtle: rgba(107, 114, 128, 0.2);
+
+  --bg-main: #F9FAFB;
+  --bg-pattern-1: rgba(107, 114, 128, 0.05);
+  --bg-pattern-2: rgba(230, 0, 0, 0.08);
+  --bg-pattern-3: rgba(107, 114, 128, 0.1);
+  --bg-pattern-4: rgba(230, 0, 0, 0.05);
+
+  --shadow-card: 0 4px 24px rgba(107, 114, 128, 0.1);
+  --shadow-card-hover: 0 8px 40px rgba(230, 0, 0, 0.15);
+  --shadow-modal: 0 24px 64px rgba(107, 114, 128, 0.15);
+  --scroll-track: rgba(229, 231, 235, 0.6);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html { overflow-x: hidden; }
@@ -141,8 +158,6 @@ h4 { font-size: var(--app-font-size-lg); }
 .earth-logo svg { width: 100%; height: 100%; display: block; }
 .earth-logo.large { width: 84px; height: 84px; border-radius: 20px; padding: 6px; border-width: 2px; }
 @keyframes logoGlow { 0%, 100% { box-shadow: 0 0 16px rgba(0, 217, 255, 0.55), 0 0 32px rgba(0, 217, 255, 0.22), inset 0 0 18px rgba(0, 217, 255, 0.18); } 50% { box-shadow: 0 0 26px rgba(0, 217, 255, 0.9), 0 0 52px rgba(0, 217, 255, 0.4), inset 0 0 24px rgba(0, 217, 255, 0.35); } }
-
-/* ===== EARTH LOGO MERAH UNTUK LIGHT THEME ===== */
 :root[data-theme="light"] .earth-logo {
   background: linear-gradient(145deg, #440F0F 0%, #1F0505 100%);
   border-color: rgba(230, 0, 0, 0.55);
@@ -150,70 +165,18 @@ h4 { font-size: var(--app-font-size-lg); }
 }
 @keyframes logoGlowRed { 0%, 100% { box-shadow: 0 0 16px rgba(230, 0, 0, 0.55), 0 0 32px rgba(230, 0, 0, 0.22), inset 0 0 18px rgba(230, 0, 0, 0.18); } 50% { box-shadow: 0 0 26px rgba(230, 0, 0, 0.9), 0 0 52px rgba(230, 0, 0, 0.4), inset 0 0 24px rgba(230, 0, 0, 0.35); } }
 
-/* ============ TELIN LOGO ============ */
-.telin-logo-wrapper {
-  display: flex; align-items: center; justify-content: center;
-  padding: 6px 12px; border-radius: 10px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border-subtle);
-  transition: all 0.25s ease;
-  flex-shrink: 0;
-}
-:root[data-theme="light"] .telin-logo-wrapper {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(26, 0, 0, 0.1);
-}
-.telin-logo-wrapper:hover {
-  border-color: rgba(236, 28, 36, 0.55);
-  box-shadow: 0 0 14px rgba(236, 28, 36, 0.28);
-  transform: translateY(-1px);
-}
-.telin-logo {
-  height: 30px; width: auto; object-fit: contain;
-  transition: all 0.3s ease;
-  display: block;
-}
+.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-subtle); transition: all 0.25s ease; flex-shrink: 0; }
+:root[data-theme="light"] .telin-logo-wrapper { background: rgba(255, 255, 255, 0.9); border-color: rgba(107, 114, 128, 0.2); }
+.telin-logo-wrapper:hover { border-color: rgba(236, 28, 36, 0.55); box-shadow: 0 0 14px rgba(236, 28, 36, 0.28); transform: translateY(-1px); }
+.telin-logo { height: 30px; width: auto; object-fit: contain; transition: all 0.3s ease; display: block; }
 .telin-logo:hover { transform: scale(1.05); }
-
-.telin-divider {
-  display: flex; align-items: center; justify-content: center;
-  gap: 12px; margin: 16px 0 20px; padding: 12px 16px;
-  background: rgba(236, 28, 36, 0.06);
-  border: 1px solid rgba(236, 28, 36, 0.28);
-  border-radius: 14px;
-  transition: all 0.25s;
-}
-:root[data-theme="light"] .telin-divider {
-  background: rgba(236, 28, 36, 0.05);
-  border-color: rgba(236, 28, 36, 0.25);
-}
-.telin-divider:hover {
-  background: rgba(236, 28, 36, 0.1);
-  border-color: rgba(236, 28, 36, 0.5);
-  box-shadow: 0 0 20px rgba(236, 28, 36, 0.2);
-}
-.telin-logo-login {
-  height: 44px; width: auto; object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(236, 28, 36, 0.35));
-  transition: all 0.3s ease; display: block;
-}
+.telin-divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 16px 0 20px; padding: 12px 16px; background: rgba(236, 28, 36, 0.06); border: 1px solid rgba(236, 28, 36, 0.28); border-radius: 14px; transition: all 0.25s; }
+.telin-divider:hover { background: rgba(236, 28, 36, 0.1); border-color: rgba(236, 28, 36, 0.5); box-shadow: 0 0 20px rgba(236, 28, 36, 0.2); }
+.telin-logo-login { height: 44px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(236, 28, 36, 0.35)); transition: all 0.3s ease; display: block; }
 .telin-logo-login:hover { transform: scale(1.05); }
-
-.telin-footer-brand {
-  display: flex; align-items: center; justify-content: center;
-  gap: 8px; padding-top: 10px; margin-top: 12px;
-  border-top: 1px solid var(--border-subtle);
-}
-.telin-footer-brand img {
-  height: 22px; width: auto; opacity: 0.85; transition: opacity 0.2s;
-}
+.telin-footer-brand { display: flex; align-items: center; justify-content: center; gap: 8px; padding-top: 10px; margin-top: 12px; border-top: 1px solid var(--border-subtle); }
+.telin-footer-brand img { height: 22px; width: auto; opacity: 0.85; transition: opacity 0.2s; }
 .telin-footer-brand img:hover { opacity: 1; }
-
-@media (max-width: 640px) {
-  .telin-logo { height: 24px; }
-  .telin-logo-login { height: 36px; }
-  .telin-logo-wrapper { padding: 4px 8px; }
-}
 
 .card { background: var(--surface-1); backdrop-filter: blur(16px); border-radius: var(--radius); box-shadow: var(--shadow-card); padding: 16px; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.3s ease; border: 1px solid var(--border-subtle); position: relative; overflow: hidden; }
 .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.6; }
@@ -221,17 +184,17 @@ h4 { font-size: var(--app-font-size-lg); }
 .btn-primary { background: var(--tech-gradient); color: var(--text-on-accent); border: none; border-radius: 24px; font-weight: 800; padding: 12px 28px; cursor: pointer; transition: all 0.25s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 20px rgba(0, 217, 255, 0.35); min-height: 52px; font-size: var(--app-font-size-md); font-family: inherit; }
 :root[data-theme="light"] .btn-primary { box-shadow: 0 4px 20px rgba(230, 0, 0, 0.35); }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 32px rgba(0, 217, 255, 0.55); }
-:root[data-theme="light"] .btn-primary:hover { box-shadow: 0 6px 32px rgba(230, 0, 0, 0.55); }
+:root[data-theme="light"] .btn-primary:hover { box-shadow: 0 6px 32px rgba(230, 0, 0, 0.5); }
 .btn-primary:active { transform: scale(0.97); }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-secondary { background: var(--surface-1); color: var(--primary-cyan); border: 1px solid var(--border-glow); border-radius: 24px; font-weight: 600; padding: 12px 24px; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; font-size: var(--app-font-size-sm); backdrop-filter: blur(8px); font-family: inherit; }
 .btn-secondary:hover { background: rgba(0, 217, 255, 0.12); border-color: var(--primary-cyan); box-shadow: 0 0 16px rgba(0, 217, 255, 0.35); }
-:root[data-theme="light"] .btn-secondary:hover { background: rgba(230, 0, 0, 0.12); box-shadow: 0 0 16px rgba(230, 0, 0, 0.35); }
+:root[data-theme="light"] .btn-secondary:hover { background: rgba(230, 0, 0, 0.1); box-shadow: 0 0 16px rgba(230, 0, 0, 0.3); }
 .btn-icon { width: 42px; height: 42px; min-height: 42px; padding: 0; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--border-subtle); background: var(--surface-1); color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; }
 .btn-icon:hover { background: rgba(0, 217, 255, 0.12); border-color: var(--primary-cyan); color: var(--primary-cyan); }
-:root[data-theme="light"] .btn-icon:hover { background: rgba(230, 0, 0, 0.12); }
+:root[data-theme="light"] .btn-icon:hover { background: rgba(230, 0, 0, 0.1); }
 .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background: var(--surface-sidebar); backdrop-filter: blur(20px); border-right: 1px solid var(--border-glow); z-index: 60; display: flex; flex-direction: column; box-shadow: 4px 0 40px rgba(0, 217, 255, 0.08); transition: transform 0.3s ease, background 0.3s ease; overflow: hidden; }
-:root[data-theme="light"] .sidebar { box-shadow: 4px 0 40px rgba(230, 0, 0, 0.08); }
+:root[data-theme="light"] .sidebar { box-shadow: 4px 0 40px rgba(107, 114, 128, 0.15); }
 .sidebar-header { height: 72px; display: flex; align-items: center; gap: 12px; padding: 0 20px; border-bottom: 1px solid var(--border-subtle); flex-shrink: 0; }
 .brand-text-wrapper { display: flex; flex-direction: column; overflow: hidden; }
 .brand-text { font-weight: 900; line-height: 1; font-family: 'Orbitron', sans-serif; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 2px; }
@@ -242,14 +205,14 @@ h4 { font-size: var(--app-font-size-lg); }
 .nav-section-label { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px; padding: 14px 14px 6px; opacity: 0.7; font-family: 'Orbitron', sans-serif; }
 .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 12px; color: var(--text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s ease; position: relative; user-select: none; border: 1px solid transparent; }
 .nav-item:hover { background: rgba(0, 217, 255, 0.08); color: var(--primary-cyan); border-color: var(--border-glow); transform: translateX(2px); }
-:root[data-theme="light"] .nav-item:hover { background: rgba(230, 0, 0, 0.08); }
+:root[data-theme="light"] .nav-item:hover { background: rgba(230, 0, 0, 0.06); }
 .nav-item.active { background: var(--tech-gradient); color: var(--text-on-accent); box-shadow: 0 6px 20px rgba(0, 217, 255, 0.35); }
-:root[data-theme="light"] .nav-item.active { box-shadow: 0 6px 20px rgba(230, 0, 0, 0.35); }
+:root[data-theme="light"] .nav-item.active { box-shadow: 0 6px 20px rgba(230, 0, 0, 0.3); }
 .nav-item.active::before { content: ''; position: absolute; left: -12px; top: 50%; transform: translateY(-50%); width: 4px; height: 60%; background: var(--primary-cyan); border-radius: 0 4px 4px 0; box-shadow: 0 0 12px var(--primary-cyan); }
 .nav-item i { width: 20px; height: 20px; flex-shrink: 0; }
 .sidebar-footer { border-top: 1px solid var(--border-subtle); padding: 12px; display: flex; align-items: center; gap: 10px; background: var(--surface-sidebar-footer); }
 .user-chip { flex: 1; display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: rgba(0, 217, 255, 0.06); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-subtle); }
-:root[data-theme="light"] .user-chip { background: rgba(230, 0, 0, 0.06); }
+:root[data-theme="light"] .user-chip { background: rgba(230, 0, 0, 0.05); }
 .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--tech-gradient); display: grid; place-items: center; color: var(--text-on-accent); font-weight: 900; font-size: 14px; flex-shrink: 0; }
 .user-info { display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
 .user-name { font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -261,7 +224,7 @@ h4 { font-size: var(--app-font-size-lg); }
 .sidebar-overlay.active { display: block; }
 @media (max-width: 900px) { body { padding-left: 0; } .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .menu-toggle { display: flex; } .top-header { padding: 0 16px; } .main-content { padding: 16px 16px 40px; } }
 .hero-panel { border-radius: 20px; padding: 28px 24px; background: var(--surface-hero); color: var(--text-main); border: 1px solid var(--border-glow); box-shadow: 0 12px 40px rgba(0, 217, 255, 0.15); margin-bottom: 20px; position: relative; overflow: hidden; backdrop-filter: blur(12px); }
-:root[data-theme="light"] .hero-panel { box-shadow: 0 12px 40px rgba(230, 0, 0, 0.15); }
+:root[data-theme="light"] .hero-panel { box-shadow: 0 12px 40px rgba(230, 0, 0, 0.1); }
 .hero-panel::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; background: radial-gradient(circle, var(--bg-pattern-2) 0%, transparent 70%); border-radius: 50%; animation: float 8s ease-in-out infinite; }
 @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -20px); } }
 .hero-panel h1, .hero-panel p { position: relative; z-index: 1; }
@@ -270,14 +233,14 @@ h4 { font-size: var(--app-font-size-lg); }
 .field-control { width: 100%; min-height: 48px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--surface-input); padding: 0 16px; color: var(--text-main); outline: none; transition: all 0.2s; font-family: inherit; }
 .field-control::placeholder { color: var(--text-dim); }
 .field-control:focus { border-color: var(--primary-cyan); box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.15); background: var(--surface-input-focus); }
-:root[data-theme="light"] .field-control:focus { box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.15); }
+:root[data-theme="light"] .field-control:focus { box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.12); }
 textarea.field-control { padding: 12px 16px; resize: vertical; }
 select.field-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300D9FF' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
 :root[data-theme="light"] select.field-control { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23E60000' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
 select.field-control option { background: var(--surface-2); color: var(--text-main); }
 .icon-btn { width: 42px; height: 42px; border-radius: 10px; display: grid; place-items: center; cursor: pointer; background: transparent; border: none; color: var(--text-muted); transition: all 0.2s; }
 .icon-btn:hover { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); }
-:root[data-theme="light"] .icon-btn:hover { background: rgba(230, 0, 0, 0.1); }
+:root[data-theme="light"] .icon-btn:hover { background: rgba(230, 0, 0, 0.08); }
 .icon-btn.delete { color: #EC4899; }
 .icon-btn.delete:hover { background: rgba(236, 72, 153, 0.15); color: #EC4899; }
 .icon-btn.edit { color: #10B981; }
@@ -287,7 +250,7 @@ input.field-control[type="text"]::placeholder, input.field-control:not([type])::
 input.field-control[type="date"], input.field-control[type="datetime-local"], input.field-control[type="password"], input.field-control[type="email"], input.field-control[type="color"], input[type="range"],
 #login-username, #login-password, #fcp-new-password, #fcp-confirm-password { text-transform: none; }
 .modal-layer { position: fixed; z-index: 100; inset: 0; background: rgba(5, 8, 16, 0.8); backdrop-filter: blur(10px); display: grid; place-items: end; }
-:root[data-theme="light"] .modal-layer { background: rgba(26, 0, 0, 0.5); }
+:root[data-theme="light"] .modal-layer { background: rgba(31, 41, 55, 0.5); }
 @media (min-width: 640px) { .modal-layer { place-items: center; } }
 .modal-card { background: var(--surface-modal); width: 100%; max-width: 560px; border-radius: 24px 24px 0 0; max-height: 92vh; overflow-y: auto; padding: 24px; animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: var(--shadow-modal); border: 1px solid var(--border-glow); color: var(--text-main); }
 @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -297,17 +260,27 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .custom-map-controls { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
 .custom-map-btn { background: var(--surface-map-btn); backdrop-filter: blur(10px); border: 1px solid var(--border-glow); border-radius: 10px; width: 38px; height: 38px; display: grid; place-items: center; cursor: pointer; color: var(--primary-cyan); transition: all 0.2s; }
 .custom-map-btn:hover { background: rgba(0, 217, 255, 0.15); transform: translateY(-2px); }
-:root[data-theme="light"] .custom-map-btn:hover { background: rgba(230, 0, 0, 0.15); }
+:root[data-theme="light"] .custom-map-btn:hover { background: rgba(230, 0, 0, 0.12); }
 .custom-map-btn.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; }
 .map-legend { position: absolute; top: 12px; left: 12px; z-index: 1000; background: var(--surface-map-legend); backdrop-filter: blur(8px); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-glow); max-width: 220px; color: var(--text-main); font-size: var(--app-font-size-xs); }
 .map-legend-title { font-weight: 700; color: var(--primary-cyan); margin-bottom: 6px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 4px; }
 .map-legend-item { display: flex; align-items: center; gap: 8px; padding: 2px 0; color: var(--text-muted); }
 .map-legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.2); }
 #map-legend-line { margin-top: 6px; border-top: 1px solid var(--border-subtle); padding-top: 4px; color: var(--text-muted); max-height: 80px; overflow-y: auto; }
+
+/* ============ FILTER TITIK PETA DASHBOARD ============ */
+.map-points-filter { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 14px; background: var(--surface-1); border-bottom: 1px solid var(--border-subtle); align-items: center; }
+.map-points-filter-label { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: var(--app-font-size-xs); margin-right: 4px; display: flex; align-items: center; gap: 6px; }
+.map-points-filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; gap: 6px; }
+.map-points-filter-btn:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); transform: translateY(-1px); }
+.map-points-filter-btn.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3); }
+:root[data-theme="light"] .map-points-filter-btn.active { box-shadow: 0 4px 12px rgba(230, 0, 0, 0.25); }
+.map-points-filter-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+
 .mini-map-controls { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
 .mini-map-btn { background: var(--surface-map-btn); backdrop-filter: blur(10px); border: 1px solid var(--border-glow); border-radius: 10px; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; color: var(--primary-cyan); transition: all 0.2s; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
 .mini-map-btn:hover { background: rgba(0, 217, 255, 0.2); transform: scale(1.05); }
-:root[data-theme="light"] .mini-map-btn:hover { background: rgba(230, 0, 0, 0.2); }
+:root[data-theme="light"] .mini-map-btn:hover { background: rgba(230, 0, 0, 0.15); }
 .ml-marker { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 8px rgba(0, 217, 255, 0.8); cursor: pointer; transition: transform 0.15s ease; }
 .ml-marker:hover { transform: scale(1.35); }
 .draw-point { width: 12px; height: 12px; border-radius: 50%; background: #00D9FF; border: 2px solid #fff; box-shadow: 0 0 10px #00D9FF; cursor: pointer; pointer-events: auto; }
@@ -327,7 +300,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 @keyframes scanLine { 0%, 100% { opacity: 0.3; top: 20%; } 50% { opacity: 1; top: 80%; } }
 .scanner-status { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: var(--primary-cyan); color: var(--text-on-accent); padding: 4px 16px; border-radius: 99px; font-size: var(--app-font-size-xs); font-weight: 700; z-index: 10; }
 .toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-20px); background: var(--surface-toast); color: var(--text-main); padding: 14px 32px; border-radius: 99px; font-weight: 600; z-index: 999; opacity: 0; transition: all 0.3s ease; pointer-events: none; box-shadow: 0 8px 32px rgba(0, 217, 255, 0.3); max-width: 90%; text-align: center; border: 1px solid var(--border-glow); }
-:root[data-theme="light"] .toast { box-shadow: 0 8px 32px rgba(230, 0, 0, 0.3); }
+:root[data-theme="light"] .toast { box-shadow: 0 8px 32px rgba(107, 114, 128, 0.3); }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .toast.success { border-color: var(--primary-cyan); }
 .toast.error { border-color: #EC4899; }
@@ -350,7 +323,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .gudang-card { padding: 16px; border: 1px solid var(--border-subtle); border-radius: 14px; cursor: pointer; text-align: center; transition: all 0.2s; background: var(--surface-1); color: var(--text-main); font-size: var(--app-font-size-sm); }
 .gudang-card:hover { border-color: var(--primary-cyan); transform: translateY(-2px); }
 .gudang-card.selected { border-color: var(--primary-cyan); background: rgba(0, 217, 255, 0.15); box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.2); color: var(--primary-cyan); font-weight: 700; }
-:root[data-theme="light"] .gudang-card.selected { background: rgba(230, 0, 0, 0.15); box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.2); }
+:root[data-theme="light"] .gudang-card.selected { background: rgba(230, 0, 0, 0.1); box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.15); }
 .gudang-tabs { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
 .gudang-tab { padding: 8px 20px; border-radius: 24px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 600; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-sm); }
 .gudang-tab:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); }
@@ -359,9 +332,9 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .records-table th { background: var(--surface-table-header); padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border-glow); font-weight: 700; color: var(--primary-cyan); white-space: nowrap; text-transform: uppercase; letter-spacing: 1px; font-family: 'Orbitron', sans-serif; }
 .records-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; color: var(--text-main); word-break: break-word; overflow-wrap: anywhere; }
 .records-table tr:hover td { background: rgba(0, 217, 255, 0.05); }
-:root[data-theme="light"] .records-table tr:hover td { background: rgba(230, 0, 0, 0.05); }
+:root[data-theme="light"] .records-table tr:hover td { background: rgba(230, 0, 0, 0.04); }
 .records-table code { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); padding: 2px 8px; border-radius: 6px; font-family: 'Orbitron', monospace; border: 1px solid rgba(0, 217, 255, 0.2); }
-:root[data-theme="light"] .records-table code { background: rgba(230, 0, 0, 0.1); border-color: rgba(230, 0, 0, 0.2); }
+:root[data-theme="light"] .records-table code { background: rgba(230, 0, 0, 0.08); border-color: rgba(230, 0, 0, 0.15); }
 .records-table td.ket-cell { max-width: 240px; white-space: normal; word-break: break-word; font-size: var(--app-font-size-xs); color: var(--text-muted); line-height: 1.4; }
 .records-table th.col-no, .records-table td.col-no {
   width: 48px; min-width: 48px; max-width: 48px; text-align: center;
@@ -395,14 +368,14 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .durasi-info.show { display: flex; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 .stok-summary { background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(168, 85, 247, 0.1)); border: 1px solid var(--border-glow); border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-:root[data-theme="light"] .stok-summary { background: linear-gradient(135deg, rgba(230, 0, 0, 0.1), rgba(179, 0, 0, 0.1)); }
+:root[data-theme="light"] .stok-summary { background: linear-gradient(135deg, rgba(230, 0, 0, 0.08), rgba(107, 114, 128, 0.1)); }
 .stok-summary .label { font-weight: 600; color: var(--text-muted); font-size: var(--app-font-size-xs); }
 .stok-summary .value { font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-lg); }
 .stok-summary .value.masuk { color: var(--primary-blue); }
 .stok-summary .value.keluar { color: var(--primary-purple); }
 .stok-summary .value.total { color: #10B981; }
 .sop-description { background: rgba(0, 217, 255, 0.06); border-left: 3px solid var(--primary-cyan); padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; line-height: 1.6; max-height: 200px; overflow-y: auto; color: var(--text-muted); font-size: var(--app-font-size-sm); }
-:root[data-theme="light"] .sop-description { background: rgba(230, 0, 0, 0.06); }
+:root[data-theme="light"] .sop-description { background: rgba(230, 0, 0, 0.05); }
 .sop-description strong { color: var(--primary-cyan); }
 .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
 .chart-card { grid-column: 1 / -1; }
@@ -413,9 +386,9 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .spare-action-group { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
 .spare-action-btn { flex: 1; min-width: 120px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; text-align: center; transition: all 0.2s; font-weight: 600; color: var(--text-main); font-family: inherit; font-size: var(--app-font-size-sm); }
 .spare-action-btn:hover { border-color: var(--primary-cyan); background: rgba(0, 217, 255, 0.1); }
-:root[data-theme="light"] .spare-action-btn:hover { background: rgba(230, 0, 0, 0.1); }
+:root[data-theme="light"] .spare-action-btn:hover { background: rgba(230, 0, 0, 0.08); }
 .spare-action-btn.active { border-color: var(--primary-cyan); background: rgba(0, 217, 255, 0.15); box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.2); color: var(--primary-cyan); }
-:root[data-theme="light"] .spare-action-btn.active { background: rgba(230, 0, 0, 0.15); box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.2); }
+:root[data-theme="light"] .spare-action-btn.active { background: rgba(230, 0, 0, 0.1); box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.15); }
 .sub-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
 .sub-tab { padding: 8px 20px; border-radius: 24px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 600; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-sm); }
 .sub-tab:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); }
@@ -424,18 +397,51 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .opm-warning { display: none; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.5); color: #F59E0B; padding: 10px 14px; border-radius: 10px; font-weight: 600; margin-top: 10px; align-items: center; gap: 8px; font-size: var(--app-font-size-sm); }
 .opm-warning.show { display: flex; animation: shake 0.4s ease; }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+/* ============ OPM / OLS GROUP TABLES ============ */
+.opm-group-wrapper { margin-bottom: 20px; border: 1px solid var(--border-glow); border-radius: 14px; overflow: hidden; background: var(--surface-1); }
+.opm-group-header { padding: 12px 16px; background: linear-gradient(135deg, rgba(0,217,255,0.12), rgba(168,85,247,0.12)); border-bottom: 1px solid var(--border-glow); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+:root[data-theme="light"] .opm-group-header { background: linear-gradient(135deg, rgba(230,0,0,0.1), rgba(107,114,128,0.12)); }
+.opm-group-title { font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; font-size: var(--app-font-size-sm); }
+.opm-group-badge { background: rgba(0,217,255,0.15); color: var(--primary-cyan); padding: 3px 10px; border-radius: 99px; font-weight: 800; font-size: var(--app-font-size-xs); border: 1px solid var(--border-glow); }
+:root[data-theme="light"] .opm-group-badge { background: rgba(230,0,0,0.1); }
+.opm-group-subtitle { color: var(--text-muted); font-size: var(--app-font-size-xs); font-weight: 600; margin-top: 2px; }
+.opm-group-stats { display: flex; gap: 14px; flex-wrap: wrap; }
+.opm-group-stat { display: flex; flex-direction: column; align-items: center; }
+.opm-group-stat-label { font-size: calc(var(--app-font-size) - 5px); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+.opm-group-stat-value { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: var(--app-font-size-md); }
+.opm-group-stat-value.used { color: #EC4899; }
+.opm-group-stat-value.available { color: #10B981; }
+
+.opm-port-chip { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 32px; padding: 4px 8px; border-radius: 8px; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: var(--app-font-size-sm); border: 2px solid; }
+.opm-port-chip.used { background: rgba(236,72,153,0.15); color: #EC4899; border-color: rgba(236,72,153,0.5); }
+.opm-port-chip.available { background: rgba(16,185,129,0.15); color: #10B981; border-color: rgba(16,185,129,0.5); }
+.opm-label-badge { display: inline-block; background: rgba(168,85,247,0.15); color: #A855F7; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: var(--app-font-size-xs); border: 1px solid rgba(168,85,247,0.4); }
+
+/* OPM Port Grid Selector */
+.opm-port-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(48px, 1fr)); gap: 6px; margin-top: 8px; }
+.opm-port-grid-btn { padding: 8px 4px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: var(--app-font-size-sm); color: var(--text-muted); transition: all 0.2s; }
+.opm-port-grid-btn:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); transform: translateY(-1px); }
+.opm-port-grid-btn.selected { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; }
+.opm-port-grid-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+.opm-port-grid-btn.disabled:hover { transform: none; border-color: var(--border-subtle); color: var(--text-muted); }
+
+.opm-info-banner { background: linear-gradient(135deg, rgba(0,217,255,0.08), rgba(168,85,247,0.08)); border: 1px solid var(--border-glow); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; }
+:root[data-theme="light"] .opm-info-banner { background: linear-gradient(135deg, rgba(230,0,0,0.06), rgba(107,114,128,0.08)); }
+.opm-info-banner-title { font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: var(--app-font-size-xs); text-transform: uppercase; }
+.opm-info-banner-content { color: var(--text-muted); font-size: var(--app-font-size-xs); line-height: 1.6; }
+
 .chart-rekap-wrapper { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-subtle); }
 .chart-rekap-title { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Orbitron', sans-serif; display: flex; align-items: center; gap: 8px; font-size: var(--app-font-size-xs); }
 .chart-rekap-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .chart-rekap-table th { background: var(--surface-table-header); padding: 6px 4px; text-align: center; border: 1px solid var(--border-subtle); font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; line-height: 1.2; }
 .chart-rekap-table th.col-total { background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(0, 217, 255, 0.15) 100%); color: #10B981; border-left: 2px solid rgba(16, 185, 129, 0.6); border-right: 2px solid rgba(16, 185, 129, 0.6); }
-:root[data-theme="light"] .chart-rekap-table th.col-total { background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(230, 0, 0, 0.15) 100%); }
 .chart-rekap-table td.col-total { background: rgba(16, 185, 129, 0.08); border-left: 2px solid rgba(16, 185, 129, 0.5); border-right: 2px solid rgba(16, 185, 129, 0.5); font-weight: 800; color: #10B981; }
 .chart-rekap-table tr.total-row td.col-total { background: rgba(16, 185, 129, 0.2); border-left: 2px solid #10B981; border-right: 2px solid #10B981; font-weight: 900; }
 .chart-rekap-table th:first-child, .chart-rekap-table td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-3); z-index: 2; width: 80px; padding-left: 8px; }
 .chart-rekap-table td { padding: 5px 4px; text-align: center; border: 1px solid var(--border-subtle); color: var(--text-main); font-weight: 600; line-height: 1.2; }
 .chart-rekap-table tr.total-row td { background: rgba(0, 217, 255, 0.08); font-weight: 900; color: var(--primary-cyan); border-top: 2px solid var(--border-glow); }
-:root[data-theme="light"] .chart-rekap-table tr.total-row td { background: rgba(230, 0, 0, 0.08); }
+:root[data-theme="light"] .chart-rekap-table tr.total-row td { background: rgba(230, 0, 0, 0.06); }
 .chart-rekap-table tr.total-row td.col-total { color: #10B981; }
 .chart-rekap-scroll { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
 .chart-rekap-scroll::-webkit-scrollbar { height: 6px; }
@@ -443,7 +449,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .chart-rekap-pct { color: var(--text-dim); font-weight: 500; margin-top: 1px; line-height: 1.1; }
 .chart-rekap-pct.on-total { color: #10B981; font-weight: 700; }
 .ytd-compare-wrap { margin-top: 14px; padding: 14px; background: linear-gradient(135deg, rgba(0, 217, 255, 0.06) 0%, rgba(168, 85, 247, 0.06) 100%); border: 1px solid var(--border-glow); border-radius: 12px; }
-:root[data-theme="light"] .ytd-compare-wrap { background: linear-gradient(135deg, rgba(230, 0, 0, 0.06) 0%, rgba(179, 0, 0, 0.06) 100%); }
+:root[data-theme="light"] .ytd-compare-wrap { background: linear-gradient(135deg, rgba(230, 0, 0, 0.05) 0%, rgba(107, 114, 128, 0.06) 100%); }
 .ytd-compare-title { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-family: 'Orbitron', sans-serif; display: flex; align-items: center; gap: 8px; font-size: var(--app-font-size-xs); }
 .ytd-compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
 .ytd-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; transition: all 0.2s; }
@@ -465,7 +471,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .user-list-name { font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .user-list-role { font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 6px; }
 .user-list-role.admin { background: rgba(168, 85, 247, 0.15); color: #A855F7; border: 1px solid rgba(168, 85, 247, 0.4); }
-:root[data-theme="light"] .user-list-role.admin { background: rgba(179, 0, 0, 0.15); color: #B30000; border-color: rgba(179, 0, 0, 0.4); }
 .user-list-role.user { background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.4); }
 .user-list-role.suspended-tag { background: rgba(239, 68, 68, 0.15); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.4); }
 .user-list-role.new-tag { background: rgba(245, 158, 11, 0.15); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.4); }
@@ -478,14 +483,14 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .user-list-btn.delete { background: rgba(239, 68, 68, 0.1); color: #EF4444; border-color: rgba(239, 68, 68, 0.4); }
 .user-list-btn.delete:hover { background: rgba(239, 68, 68, 0.25); transform: translateY(-1px); }
 .user-list-btn.reset { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); border-color: rgba(0, 217, 255, 0.4); }
-:root[data-theme="light"] .user-list-btn.reset { background: rgba(230, 0, 0, 0.1); border-color: rgba(230, 0, 0, 0.4); }
+:root[data-theme="light"] .user-list-btn.reset { background: rgba(230, 0, 0, 0.08); border-color: rgba(230, 0, 0, 0.3); }
 .user-list-btn.reset:hover { background: rgba(0, 217, 255, 0.25); transform: translateY(-1px); }
-:root[data-theme="light"] .user-list-btn.reset:hover { background: rgba(230, 0, 0, 0.25); }
+:root[data-theme="light"] .user-list-btn.reset:hover { background: rgba(230, 0, 0, 0.2); }
 .user-list-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
 .kml-list-item { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; transition: all 0.2s; }
 .kml-list-item:hover { border-color: var(--border-glow); transform: translateX(2px); }
 .kml-list-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(0,217,255,0.12); border: 1px solid var(--border-glow); display: grid; place-items: center; flex-shrink: 0; }
-:root[data-theme="light"] .kml-list-icon { background: rgba(230, 0, 0, 0.12); }
+:root[data-theme="light"] .kml-list-icon { background: rgba(230, 0, 0, 0.08); }
 .kml-list-info { flex: 1; min-width: 0; }
 .kml-list-name { font-weight: 700; color: var(--text-main); font-size: var(--app-font-size-sm); word-break: break-word; }
 .kml-list-meta { font-size: var(--app-font-size-xs); color: var(--text-muted); margin-top: 2px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -545,7 +550,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
       <p class="login-subtitle">Sistem Cegah Insiden Network</p>
     </div>
 
-    <!-- TELIN LOGO DI LOGIN -->
     <div class="telin-divider">
       <span style="color:var(--text-dim);font-size:var(--app-font-size-xs);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Powered by</span>
       <img src="Telin_company_logo.png" alt="Telin" class="telin-logo-login">
@@ -732,6 +736,35 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
               <button id="btn-manage-kml" class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;color:#EC4899;border-color:rgba(236,72,153,0.4);"><i data-lucide="folder-cog" style="width:14px;"></i> Kelola KML</button>
             </div>
           </div>
+
+          <!-- FILTER TITIK PETA -->
+          <div class="map-points-filter">
+            <span class="map-points-filter-label">
+              <i data-lucide="filter" style="width:14px;"></i> Tampilkan Titik:
+            </span>
+            <button class="map-points-filter-btn active" data-point-filter="all" onclick="setPointFilter('all')">
+              <i data-lucide="layout-grid" style="width:12px;"></i> Semua
+            </button>
+            <button class="map-points-filter-btn" data-point-filter="Data OF Cut" onclick="setPointFilter('Data OF Cut')">
+              <span class="map-points-filter-dot" style="background:#00D9FF;"></span> OF Cut
+            </button>
+            <button class="map-points-filter-btn" data-point-filter="Pekerjaan Pihak Ke-3" onclick="setPointFilter('Pekerjaan Pihak Ke-3')">
+              <span class="map-points-filter-dot" style="background:#A855F7;"></span> P3
+            </button>
+            <button class="map-points-filter-btn" data-point-filter="Temuan Lapangan" onclick="setPointFilter('Temuan Lapangan')">
+              <span class="map-points-filter-dot" style="background:#EC4899;"></span> Temuan
+            </button>
+            <button class="map-points-filter-btn" data-point-filter="Joint" onclick="setPointFilter('Joint')">
+              <span class="map-points-filter-dot" style="background:#0EA5E9;"></span> Joint
+            </button>
+            <button class="map-points-filter-btn" data-point-filter="Handhole" onclick="setPointFilter('Handhole')">
+              <span class="map-points-filter-dot" style="background:#10B981;"></span> Handhole
+            </button>
+            <button class="map-points-filter-btn" data-point-filter="OPM-OLS" onclick="setPointFilter('OPM-OLS')">
+              <span class="map-points-filter-dot" style="background:#F59E0B;"></span> OPM
+            </button>
+          </div>
+
           <div style="position:relative;">
             <div id="map-container"></div>
             <div class="map-legend">
@@ -910,12 +943,15 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
         </div>
 
         <div class="card" style="padding:0;overflow:hidden;">
-          <div style="overflow-x:auto;">
+          <!-- Tabel Reguler (untuk semua kecuali OPM-OLS) -->
+          <div id="table-regular-wrapper" style="overflow-x:auto;">
             <table class="records-table">
               <thead id="table-head"></thead>
               <tbody id="table-body"></tbody>
             </table>
           </div>
+          <!-- Tabel OPM-OLS Berkelompok -->
+          <div id="table-opm-wrapper" class="hidden" style="padding:16px;"></div>
           <div id="empty-state" style="padding:48px;text-align:center;color:var(--text-muted);display:none;">
             <i data-lucide="inbox" style="width:48px;height:48px;margin-bottom:12px;opacity:0.3;"></i>
             <p>Belum ada data</p>
@@ -1264,36 +1300,55 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             <textarea id="inp-notes-patch" class="field-control" rows="2" style="resize:none;"></textarea>
           </div>
         </div>
+
+        <!-- FORM OPM-OLS BARU -->
         <div id="field-opm" class="hidden">
-          <div style="background:rgba(168,85,247,0.1);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(168,85,247,0.3);">
-            <div style="font-weight:600;color:var(--primary-purple);font-size:var(--app-font-size-xs);">Data OPM / OLS</div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-            <div>
-              <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Port (1-24) *</label>
-              <select id="inp-opm-port" class="field-control">
-                <option value="">-- Pilih --</option>
-                <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-                <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-                <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-                <option value="10">10</option><option value="11">11</option><option value="12">12</option>
-                <option value="13">13</option><option value="14">14</option><option value="15">15</option>
-                <option value="16">16</option><option value="17">17</option><option value="18">18</option>
-                <option value="19">19</option><option value="20">20</option><option value="21">21</option>
-                <option value="22">22</option><option value="23">23</option><option value="24">24</option>
-              </select>
+          <div class="opm-info-banner">
+            <div class="opm-info-banner-title">
+              <i data-lucide="activity" style="width:14px;"></i> Data OPM / OLS
             </div>
-            <div>
-              <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Panel (1-4) *</label>
-              <select id="inp-opm-panel" class="field-control">
-                <option value="">-- Pilih --</option>
-                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
-              </select>
+            <div class="opm-info-banner-content">
+              Isi <strong>Dari</strong>, <strong>Ke</strong>, dan <strong>Ukuran OLS</strong> terlebih dahulu, lalu pilih <strong>Port</strong> (1-48) yang akan disubmit.
             </div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
-            <div><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">DBM *</label><input type="number" step="0.01" id="inp-opm-dbm" class="field-control" placeholder="Contoh: -15.5"></div>
-            <div>
+
+          <div style="background:rgba(0,217,255,0.06);padding:12px 14px;border-radius:12px;margin-bottom:14px;border:1px solid var(--border-glow);">
+            <div style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:6px;">
+              <i data-lucide="settings-2" style="width:13px;"></i> Step 1 — Info Utama (1x Input)
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div>
+                <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Dari *</label>
+                <select id="inp-opm-dari" class="field-control" onchange="checkOpmDariKe()">
+                  <option value="">-- Pilih --</option>
+                  <option value="CLS MAMI">CLS MAMI</option>
+                  <option value="CLS MALALAYANG">CLS MALALAYANG</option>
+                  <option value="STO BAHU">STO BAHU</option>
+                  <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
+                  <option value="NEW CENTRIX PANIKI">NEW CENTRIX PANIKI</option>
+                  <option value="STO AERMADIDI">STO AERMADIDI</option>
+                  <option value="CLS KAUDITAN">CLS KAUDITAN</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Ke *</label>
+                <select id="inp-opm-ke" class="field-control" onchange="checkOpmDariKe()">
+                  <option value="">-- Pilih --</option>
+                  <option value="CLS MAMI">CLS MAMI</option>
+                  <option value="CLS MALALAYANG">CLS MALALAYANG</option>
+                  <option value="STO BAHU">STO BAHU</option>
+                  <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
+                  <option value="NEW CENTRIX PANIKI">NEW CENTRIX PANIKI</option>
+                  <option value="STO AERMADIDI">STO AERMADIDI</option>
+                  <option value="CLS KAUDITAN">CLS KAUDITAN</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-top:12px;">
+              <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Ukuran OLS *</label>
+              <input type="text" id="inp-opm-ukuran" class="field-control" placeholder="Contoh: 40 km / 80 km / 120 km">
+            </div>
+            <div style="margin-top:12px;">
               <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Ruas *</label>
               <select id="inp-opm-ruas" class="field-control">
                 <option value="">-- Pilih --</option>
@@ -1303,44 +1358,55 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                 <option value="SEA US LINE 1">SEA US LINE 1</option><option value="SEA US LINE 2">SEA US LINE 2</option>
               </select>
             </div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
-            <div>
-              <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Dari *</label>
-              <select id="inp-opm-dari" class="field-control" onchange="checkOpmDariKe()">
-                <option value="">-- Pilih --</option>
-                <option value="CLS MAMI">CLS MAMI</option>
-                <option value="CLS MALALAYANG">CLS MALALAYANG</option>
-                <option value="STO BAHU">STO BAHU</option>
-                <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
-                <option value="NEW CENTRIX PANIKI">NEW CENTRIX PANIKI</option>
-                <option value="STO AERMADIDI">STO AERMADIDI</option>
-                <option value="CLS KAUDITAN">CLS KAUDITAN</option>
-              </select>
-            </div>
-            <div>
-              <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Ke *</label>
-              <select id="inp-opm-ke" class="field-control" onchange="checkOpmDariKe()">
-                <option value="">-- Pilih --</option>
-                <option value="CLS MAMI">CLS MAMI</option>
-                <option value="CLS MALALAYANG">CLS MALALAYANG</option>
-                <option value="STO BAHU">STO BAHU</option>
-                <option value="DC MANADO CENTRUM">DC MANADO CENTRUM</option>
-                <option value="NEW CENTRIX PANIKI">NEW CENTRIX PANIKI</option>
-                <option value="STO AERMADIDI">STO AERMADIDI</option>
-                <option value="CLS KAUDITAN">CLS KAUDITAN</option>
-              </select>
+            <div id="opm-warning" class="opm-warning">
+              <i data-lucide="alert-triangle" style="width:16px;height:16px;flex-shrink:0;"></i>
+              <span>"Dari" dan "Ke" tidak boleh sama! Silakan pilih lokasi yang berbeda.</span>
             </div>
           </div>
-          <div id="opm-warning" class="opm-warning">
-            <i data-lucide="alert-triangle" style="width:16px;height:16px;flex-shrink:0;"></i>
-            <span>"Dari" dan "Ke" tidak boleh sama! Silakan pilih lokasi yang berbeda.</span>
-          </div>
-          <div style="margin-top:12px;">
-            <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Keterangan (Opsional)</label>
-            <textarea id="inp-opm-keterangan" class="field-control" rows="2" style="resize:none;"></textarea>
+
+          <div style="background:rgba(168,85,247,0.06);padding:12px 14px;border-radius:12px;border:1px solid rgba(168,85,247,0.3);">
+            <div style="font-weight:700;color:var(--primary-purple);font-size:var(--app-font-size-xs);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:6px;">
+              <i data-lucide="hash" style="width:13px;"></i> Step 2 — Pilih Port (1-48)
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+              <div>
+                <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Panel (1-4) *</label>
+                <select id="inp-opm-panel" class="field-control">
+                  <option value="">-- Pilih --</option>
+                  <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">DBM *</label>
+                <input type="number" step="0.01" id="inp-opm-dbm" class="field-control" placeholder="Contoh: -15.5">
+              </div>
+            </div>
+
+            <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);display:block;margin-bottom:6px;">
+              Pilih Port (1-48) *
+            </label>
+            <div class="opm-port-grid" id="opm-port-grid"></div>
+            <input type="hidden" id="inp-opm-port" value="">
+
+            <div style="margin-top:14px;padding:12px 14px;background:rgba(236,72,153,0.08);border:1px solid rgba(236,72,153,0.4);border-radius:10px;">
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:700;color:#EC4899;font-size:var(--app-font-size-sm);">
+                <input type="checkbox" id="inp-opm-used" onchange="toggleOpmUsedLabel()" style="width:18px;height:18px;accent-color:#EC4899;cursor:pointer;">
+                <i data-lucide="tag" style="width:16px;"></i>
+                Port Telah Terpakai (isi label)
+              </label>
+              <div id="opm-used-label-wrap" class="hidden" style="margin-top:10px;">
+                <label style="font-weight:700;color:#EC4899;font-size:var(--app-font-size-xs);display:block;margin-bottom:4px;">Label *</label>
+                <input type="text" id="inp-opm-label" class="field-control" placeholder="Contoh: ODP-MAMI-01, PELANGGAN BUDI, dll">
+              </div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Keterangan (Opsional)</label>
+              <textarea id="inp-opm-keterangan" class="field-control" rows="2" style="resize:none;"></textarea>
+            </div>
           </div>
         </div>
+
         <div id="field-alker" class="hidden">
           <div style="background:rgba(168,85,247,0.1);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(168,85,247,0.3);">
             <div style="font-weight:600;color:var(--primary-purple);font-size:var(--app-font-size-xs);">Data Alker</div>
@@ -1558,7 +1624,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
         </button>
         <button type="button" class="spare-action-btn" data-theme-opt="light" onclick="setTheme('light')">
           <span style="display:block;font-size:20px;">☀️</span>
-          <span style="display:block;margin-top:4px;">Light</span>
+          <span style="display:block;margin-top:4px;">Light (Merah + Abu)</span>
         </button>
       </div>
     </div>
@@ -1645,8 +1711,8 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
         <ul class="about-info-list">
           <li>Dashboard statistik OF Cut</li>
           <li>Peta interaktif &amp; manajemen KML/KMZ</li>
-          <li>Data OF Cut, P3, Temuan, OPM/OLS</li>
-          <li>Joint &amp; Handhole</li>
+          <li>Filter titik peta per kategori</li>
+          <li>OPM/OLS dengan port 1-48</li>
           <li>Inventaris Alker, Stok Spare, Patch Cord</li>
           <li>Riwayat transaksi &amp; audit log</li>
           <li>Manajemen user &amp; hak akses</li>
@@ -1707,15 +1773,13 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
       </div>
       <ol style="margin:0;padding-left:18px;color:var(--text-muted);line-height:1.8;font-size:var(--app-font-size-xs);">
         <li><strong style="color:var(--text-main);">Login</strong> dengan akun yang diberikan admin. Password default wajib diganti saat login pertama.</li>
-        <li><strong style="color:var(--text-main);">Pilih menu</strong> di sidebar kiri sesuai kategori data yang ingin dikelola.</li>
+        <li><strong style="color:var(--text-main);">Filter titik peta</strong> di dashboard untuk menampilkan kategori tertentu.</li>
         <li><strong style="color:var(--text-main);">Tambah data</strong> dengan tombol <em>Tambah</em>, isi form, dan pilih lokasi lewat peta.</li>
-        <li><strong style="color:var(--text-main);">OF Cut</strong> — isi Waktu CO &amp; Waktu UP, durasi otomatis muncul di keterangan.</li>
+        <li><strong style="color:var(--text-main);">OPM/OLS</strong> — isi Dari/Ke/OLS sekali, lalu pilih port 1-48.</li>
         <li><strong style="color:var(--text-main);">Export Excel</strong> kapan saja lewat tombol <em>Excel</em> di tiap menu.</li>
-        <li><strong style="color:var(--text-main);">Kelola KML</strong> untuk upload, download, atau hapus line peta.</li>
       </ol>
     </div>
 
-    <!-- TELIN BRANDING DI FOOTER ABOUT -->
     <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:14px;margin-bottom:16px;background:rgba(236,28,36,0.06);border:1px solid rgba(236,28,36,0.25);border-radius:12px;">
       <span style="color:var(--text-dim);font-size:var(--app-font-size-xs);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Powered by</span>
       <img src="Telin_company_logo.png" alt="Telin" style="height:36px;width:auto;object-fit:contain;">
@@ -1726,7 +1790,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
         &copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Pusat Operasi Jaringan Sulawesi Utara
       </p>
       <p style="color:var(--text-dim);margin:6px 0 0;font-size:calc(var(--app-font-size) - 4px);">
-        Versi 2.3.0 &nbsp;•&nbsp; Firebase Realtime DB &nbsp;•&nbsp; MapLibre GL
+        Versi 2.4.0 &nbsp;•&nbsp; Firebase Realtime DB &nbsp;•&nbsp; MapLibre GL
       </p>
     </div>
 
@@ -1757,9 +1821,9 @@ function setTheme(theme) {
   updateThemeButtons();
   try {
     if (typeof chartIncidents !== 'undefined' && chartIncidents) {
-      var legendColor = theme === 'dark' ? '#E2E8F0' : '#1A0000';
-      var tickColor = theme === 'dark' ? '#94A3B8' : '#7A4A4A';
-      var gridColor = theme === 'dark' ? 'rgba(148,163,184,0.1)' : 'rgba(26,0,0,0.08)';
+      var legendColor = theme === 'dark' ? '#E2E8F0' : '#1F2937';
+      var tickColor = theme === 'dark' ? '#94A3B8' : '#6B7280';
+      var gridColor = theme === 'dark' ? 'rgba(148,163,184,0.1)' : 'rgba(107,114,128,0.1)';
       chartIncidents.options.plugins.legend.labels.color = legendColor;
       chartIncidents.options.scales.y.ticks.color = tickColor;
       chartIncidents.options.scales.y.grid.color = gridColor;
@@ -1847,7 +1911,8 @@ function applyAutoUppercase() {
     'inp-sn', 'inp-spec', 'inp-lemari', 'inp-notes-stock',
     'inp-update-sn', 'inp-update-spec', 'inp-update-notes',
     'inp-pc-type-lain', 'inp-pc-length-lain', 'inp-notes-patch',
-    'inp-opm-keterangan', 'inp-alker-nama', 'inp-alker-sn',
+    'inp-opm-keterangan', 'inp-opm-ukuran', 'inp-opm-label',
+    'inp-alker-nama', 'inp-alker-sn',
     'inp-alker-jenis', 'inp-alker-merk', 'inp-alker-keterangan',
     'inp-loc', 'inp-coords', 'inp-keterangan-normal',
     'inp-ofcut-penyebab-lain', 'inp-ofcut-keterangan',
@@ -1943,6 +2008,8 @@ let customLinesListenerAttached = false;
 let currentFilteredCount = 0;
 let usersListData = {};
 let usersListListenerAttached = false;
+let selectedPointFilter = 'all';
+let selectedOpmPort = '';
 const SESSION_TIMEOUT_MS = 15 * 60 * 1000;
 
 const MENU_LABELS = {
@@ -2451,6 +2518,51 @@ function generateAlkerSN(nama, jenis, merk, date, urutan) {
 function getNextAlkerUrutan() { return Object.keys(appData['Alker'] || {}).length + 1; }
 
 /* ============================================================
+   POINT FILTER (DASHBOARD)
+   ============================================================ */
+function setPointFilter(filter) {
+  selectedPointFilter = filter;
+  document.querySelectorAll('.map-points-filter-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.pointFilter === filter);
+  });
+  loadMarkersFromData();
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+  var label = filter === 'all' ? 'Semua titik' : filter;
+  showToast('Tampilkan: ' + label, 'success');
+}
+window.setPointFilter = setPointFilter;
+
+/* ============================================================
+   OPM PORT GRID
+   ============================================================ */
+function renderOpmPortGrid() {
+  var grid = document.getElementById('opm-port-grid');
+  if (!grid) return;
+  var html = '';
+  for (var i = 1; i <= 48; i++) {
+    var sel = (String(selectedOpmPort) === String(i)) ? 'selected' : '';
+    html += '<button type="button" class="opm-port-grid-btn ' + sel + '" data-port="' + i + '" onclick="selectOpmPort(' + i + ')">' + i + '</button>';
+  }
+  grid.innerHTML = html;
+}
+function selectOpmPort(p) {
+  selectedOpmPort = p;
+  document.getElementById('inp-opm-port').value = p;
+  document.querySelectorAll('.opm-port-grid-btn').forEach(function(b) {
+    b.classList.toggle('selected', String(b.dataset.port) === String(p));
+  });
+}
+function toggleOpmUsedLabel() {
+  var cb = document.getElementById('inp-opm-used');
+  var wrap = document.getElementById('opm-used-label-wrap');
+  if (cb.checked) wrap.classList.remove('hidden');
+  else { wrap.classList.add('hidden'); document.getElementById('inp-opm-label').value = ''; }
+}
+window.renderOpmPortGrid = renderOpmPortGrid;
+window.selectOpmPort = selectOpmPort;
+window.toggleOpmUsedLabel = toggleOpmUsedLabel;
+
+/* ============================================================
    KML / KMZ
    ============================================================ */
 function closeKmlModal() {
@@ -2818,29 +2930,40 @@ function loadMarkersFromData() {
   markers = [];
   var categoryColors = {
     'Data OF Cut': '#00D9FF', 'Pekerjaan Pihak Ke-3': '#A855F7',
-    'Temuan Lapangan': '#EC4899', 'Joint': '#0EA5E9', 'Handhole': '#10B981'
+    'Temuan Lapangan': '#EC4899', 'Joint': '#0EA5E9', 'Handhole': '#10B981',
+    'OPM-OLS': '#F59E0B'
   };
-  Object.keys(categoryColors).forEach(function (cat) {
+  var allCats = Object.keys(categoryColors);
+  var catsToShow = (selectedPointFilter === 'all') ? allCats : [selectedPointFilter];
+
+  catsToShow.forEach(function (cat) {
     var items = appData[cat] || {};
-    var color = categoryColors[cat];
+    var color = categoryColors[cat] || '#00D9FF';
     Object.keys(items).forEach(function (k) {
       var it = items[k];
+      var lat = null, lng = null;
+
+      // OPM-OLS kadang tidak punya coords, jadi skip jika tidak ada
       if (it.coords) {
         var p = String(it.coords).split(',');
         if (p.length === 2) {
-          var lat = parseFloat(p[0]); var lng = parseFloat(p[1]);
-          if (!isNaN(lat) && !isNaN(lng)) {
-            var el = document.createElement('div');
-            el.className = 'ml-marker';
-            el.style.background = color;
-            el.title = (it.location || 'Lokasi') + ' — ' + cat;
-            var popup = new maplibregl.Popup({ offset: 14, closeButton: true })
-              .setHTML('<strong style="color:var(--primary-cyan);">' + (it.location || 'Lokasi') + '</strong><br><span style="font-size:var(--app-font-size-xs);color:var(--text-muted);">' + cat + '</span>');
-            var marker = new maplibregl.Marker({ element: el })
-              .setLngLat([lng, lat]).setPopup(popup).addTo(map);
-            markers.push(marker);
-          }
+          lat = parseFloat(p[0]); lng = parseFloat(p[1]);
         }
+      }
+      if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
+        var el = document.createElement('div');
+        el.className = 'ml-marker';
+        el.style.background = color;
+        var title = it.location || it.nama || ('PORT ' + (it.port || '') + ' - ' + (it.dari || '') + '→' + (it.ke || '')) || 'Lokasi';
+        el.title = title + ' — ' + cat;
+        var popupHtml = '<strong style="color:var(--primary-cyan);">' + escapeHtml(title) + '</strong><br><span style="font-size:var(--app-font-size-xs);color:var(--text-muted);">' + cat + '</span>';
+        if (cat === 'OPM-OLS') {
+          popupHtml += '<br><span style="font-size:var(--app-font-size-xs);color:var(--text-muted);">Port: ' + (it.port || '-') + ' | DBM: ' + (it.dbm || '-') + ' | OLS: ' + (it.ukuranOLS || '-') + '</span>';
+        }
+        var popup = new maplibregl.Popup({ offset: 14, closeButton: true }).setHTML(popupHtml);
+        var marker = new maplibregl.Marker({ element: el })
+          .setLngLat([lng, lat]).setPopup(popup).addTo(map);
+        markers.push(marker);
       }
     });
   });
@@ -3643,6 +3766,22 @@ function renderTable() {
     if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
     var list = appData[cat] || {};
     var keys = Object.keys(list);
+
+    // Tampilkan wrapper yang sesuai
+    var regularWrap = document.getElementById('table-regular-wrapper');
+    var opmWrap = document.getElementById('table-opm-wrapper');
+    if (cat === 'OPM-OLS') {
+      if (regularWrap) regularWrap.classList.add('hidden');
+      if (opmWrap) opmWrap.classList.remove('hidden');
+      renderOpmGroupedTables(list);
+      try { updateTotalDataTagline(); } catch (e) {}
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      return;
+    } else {
+      if (regularWrap) regularWrap.classList.remove('hidden');
+      if (opmWrap) opmWrap.classList.add('hidden');
+    }
+
     var tb = document.getElementById('table-body');
     var th = document.getElementById('table-head');
     if (!tb || !th) return;
@@ -3687,10 +3826,6 @@ function renderTable() {
       th.innerHTML = '<tr>' + thNo() +
         '<th class="col-date">Tgl</th><th class="col-nama">Nama Alker</th><th class="col-sn">SN</th>' +
         '<th>Jenis</th><th>Merk</th><th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
-    } else if (isOpm) {
-      th.innerHTML = '<tr>' + thNo() +
-        '<th class="col-date">Tgl</th><th>Port</th><th>Panel</th><th>DBM</th><th>Ruas</th><th>Dari</th><th>Ke</th>' +
-        '<th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
     } else if (isHJ) {
       th.innerHTML = '<tr>' + thNo() +
         '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' +
@@ -3755,17 +3890,6 @@ function renderTable() {
           '<td>' + (it.merk || '-') + '</td>' +
           '<td class="col-ket">' + ketHtml + '</td>' +
           '<td class="col-aksi">' + aksi + '</td></tr>';
-      } else if (isOpm) {
-        tb.innerHTML += '<tr>' + tdNo(nomor) +
-          '<td class="col-date">' + (it.date || '-') + '</td>' +
-          '<td>' + (it.port || '-') + '</td>' +
-          '<td>' + (it.panel || '-') + '</td>' +
-          '<td>' + (it.dbm !== undefined ? it.dbm : '-') + '</td>' +
-          '<td>' + (it.ruas || '-') + '</td>' +
-          '<td>' + (it.dari || '-') + '</td>' +
-          '<td>' + (it.ke || '-') + '</td>' +
-          '<td class="col-ket">' + ketHtml + '</td>' +
-          '<td class="col-aksi">' + aksi + '</td></tr>';
       } else if (isHJ) {
         tb.innerHTML += '<tr>' + tdNo(nomor) +
           '<td class="col-date">' + (it.date || '-') + '</td>' +
@@ -3816,6 +3940,115 @@ function renderTable() {
     if (typeof lucide !== 'undefined') lucide.createIcons();
     try { updateTotalDataTagline(); } catch (e) {}
   } catch (e) { console.error('renderTable error:', e); }
+}
+
+/* ============ RENDER OPM GROUPED TABLES ============ */
+function renderOpmGroupedTables(list) {
+  var wrap = document.getElementById('table-opm-wrapper');
+  if (!wrap) return;
+  var keys = Object.keys(list);
+  var search = document.getElementById('search-input')?.value.toLowerCase() || '';
+  if (search) keys = keys.filter(function(k) { return JSON.stringify(list[k]).toLowerCase().includes(search); });
+  var hidePeriod = MENU_NO_PERIOD.indexOf('OPM-OLS') !== -1;
+  if (!hidePeriod && currentPeriod !== 'all') {
+    keys = keys.filter(function(k) { return isInPeriod(list[k].date, currentPeriod); });
+  }
+
+  if (keys.length === 0) {
+    wrap.innerHTML = '';
+    document.getElementById('empty-state').style.display = 'block';
+    return;
+  }
+  document.getElementById('empty-state').style.display = 'none';
+
+  // Group by: dari | ke | ukuranOLS | panel
+  var groups = {};
+  keys.forEach(function(k) {
+    var it = list[k];
+    var gKey = [it.dari || '-', it.ke || '-', it.ukuranOLS || '-', it.panel || '-'].join('|||');
+    if (!groups[gKey]) {
+      groups[gKey] = {
+        dari: it.dari || '-',
+        ke: it.ke || '-',
+        ukuranOLS: it.ukuranOLS || '-',
+        panel: it.panel || '-',
+        items: []
+      };
+    }
+    groups[gKey].items.push({ key: k, data: it });
+  });
+
+  var isAdmin = currentUser && currentUser.role === 'admin';
+  var html = '';
+
+  Object.keys(groups).sort().forEach(function(gKey) {
+    var g = groups[gKey];
+    g.items.sort(function(a, b) { return (parseInt(a.data.port) || 0) - (parseInt(b.data.port) || 0); });
+    var usedCount = g.items.filter(function(x) { return x.data.isUsed; }).length;
+    var availCount = g.items.length - usedCount;
+
+    html += '<div class="opm-group-wrapper">';
+    html += '<div class="opm-group-header">';
+    html += '<div>';
+    html += '<div class="opm-group-title">';
+    html += '<i data-lucide="route" style="width:16px;"></i> ';
+    html += escapeHtml(g.dari) + ' → ' + escapeHtml(g.ke);
+    html += ' <span class="opm-group-badge">OLS: ' + escapeHtml(g.ukuranOLS) + '</span>';
+    html += ' <span class="opm-group-badge">PANEL: ' + escapeHtml(g.panel) + '</span>';
+    html += '</div>';
+    html += '</div>';
+    html += '<div class="opm-group-stats">';
+    html += '<div class="opm-group-stat"><span class="opm-group-stat-label">Total Port</span><span class="opm-group-stat-value">' + g.items.length + '</span></div>';
+    html += '<div class="opm-group-stat"><span class="opm-group-stat-label">Terpakai</span><span class="opm-group-stat-value used">' + usedCount + '</span></div>';
+    html += '<div class="opm-group-stat"><span class="opm-group-stat-label">Tersedia</span><span class="opm-group-stat-value available">' + availCount + '</span></div>';
+    html += '</div>';
+    html += '</div>';
+
+    html += '<div style="overflow-x:auto;">';
+    html += '<table class="records-table">';
+    html += '<thead><tr>';
+    html += '<th class="col-no">No</th>';
+    html += '<th class="col-date">Tgl</th>';
+    html += '<th style="text-align:center;">Port</th>';
+    html += '<th style="text-align:center;">DBM</th>';
+    html += '<th style="text-align:center;">Status</th>';
+    html += '<th class="col-ket">Label / Keterangan</th>';
+    html += '<th class="col-user">User</th>';
+    html += '<th class="col-aksi">Aksi</th></tr></thead>';
+    html += '<tbody>';
+    g.items.forEach(function(x, i) {
+      var it = x.data;
+      var aksi = isAdmin
+        ? '<button class="icon-btn edit" onclick="editItem(\'' + x.key + '\',\'OPM-OLS\')"><i data-lucide="pencil" style="width:16px;"></i></button>' +
+          '<button class="icon-btn delete" onclick="deleteItem(\'' + x.key + '\',\'OPM-OLS\')"><i data-lucide="trash-2" style="width:16px;"></i></button>'
+        : '';
+      var isUsed = it.isUsed === true;
+      var portChip = '<span class="opm-port-chip ' + (isUsed ? 'used' : 'available') + '">' + (it.port || '-') + '</span>';
+      var statusBadge = isUsed
+        ? '<span class="status-badge" style="background:rgba(236,72,153,0.15);color:#EC4899;">TERPAKAI</span>'
+        : '<span class="status-badge status-ready">TERSEDIA</span>';
+      var ket = '';
+      if (isUsed && it.label) ket += '<span class="opm-label-badge"><i data-lucide="tag" style="width:10px;display:inline-block;vertical-align:middle;"></i> ' + escapeHtml(it.label) + '</span> ';
+      if (it.keterangan) ket += escapeHtml(it.keterangan);
+      if (!ket) ket = '<span style="opacity:0.35;">—</span>';
+
+      html += '<tr>';
+      html += '<td class="col-no">' + (i + 1) + '</td>';
+      html += '<td class="col-date">' + (it.date || '-') + '</td>';
+      html += '<td style="text-align:center;">' + portChip + '</td>';
+      html += '<td style="text-align:center;font-weight:700;">' + (it.dbm !== undefined ? it.dbm : '-') + '</td>';
+      html += '<td style="text-align:center;">' + statusBadge + '</td>';
+      html += '<td class="col-ket">' + ket + '</td>';
+      html += '<td class="col-user">' + (it.postBy || '-') + '</td>';
+      html += '<td class="col-aksi">' + aksi + '</td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    html += '</div>';
+    html += '</div>';
+  });
+
+  wrap.innerHTML = html;
 }
 
 /* ============================================================
@@ -3948,19 +4181,40 @@ function submitForm(e) {
     detailText = loc + ' | Panjang: ' + pjg + 'M | Rute: ' + rute + ' | Penyebab: ' + data.penyebab + ' | Durasi: ' + durasiStr;
     ketText = finalKeterangan;
   } else if (cat === 'OPM-OLS') {
-    var port = document.getElementById('inp-opm-port').value;
-    var panel = document.getElementById('inp-opm-panel').value;
-    var dbm = parseFloat(document.getElementById('inp-opm-dbm').value);
-    var ruas = document.getElementById('inp-opm-ruas').value;
     var dari = document.getElementById('inp-opm-dari').value;
     var ke = document.getElementById('inp-opm-ke').value;
+    var ukuranOLS = document.getElementById('inp-opm-ukuran').value.trim().toUpperCase();
+    var ruas = document.getElementById('inp-opm-ruas').value;
+    var panel = document.getElementById('inp-opm-panel').value;
+    var dbm = parseFloat(document.getElementById('inp-opm-dbm').value);
+    var port = document.getElementById('inp-opm-port').value;
+    var isUsed = document.getElementById('inp-opm-used').checked;
+    var label = document.getElementById('inp-opm-label').value.trim().toUpperCase();
     var ket = document.getElementById('inp-opm-keterangan').value.trim().toUpperCase();
-    if (!port || !panel || isNaN(dbm) || !ruas || !dari || !ke) { showToast('Isi semua field OPM/OLS', 'error'); return; }
+
+    if (!dari || !ke) { showToast('Isi "Dari" dan "Ke"', 'error'); return; }
     if (dari === ke) { showToast('❌ "Dari" dan "Ke" tidak boleh sama!', 'error'); document.getElementById('opm-warning').classList.add('show'); return; }
-    data.port = port; data.panel = panel; data.dbm = dbm;
-    data.ruas = ruas; data.dari = dari; data.ke = ke; data.keterangan = ket;
-    detailText = 'Port: ' + port + ' | Panel: ' + panel + ' | DBM: ' + dbm + ' | ' + dari + ' → ' + ke;
-    ketText = ket;
+    if (!ukuranOLS) { showToast('Isi Ukuran OLS', 'error'); return; }
+    if (!ruas) { showToast('Pilih Ruas', 'error'); return; }
+    if (!panel) { showToast('Pilih Panel', 'error'); return; }
+    if (isNaN(dbm)) { showToast('Isi DBM', 'error'); return; }
+    if (!port) { showToast('Pilih Port (1-48)', 'error'); return; }
+    if (isUsed && !label) { showToast('Label wajib diisi jika Port Terpakai', 'error'); return; }
+
+    data.dari = dari;
+    data.ke = ke;
+    data.ukuranOLS = ukuranOLS;
+    data.ruas = ruas;
+    data.panel = panel;
+    data.dbm = dbm;
+    data.port = port;
+    data.isUsed = isUsed;
+    data.label = isUsed ? label : '';
+    data.keterangan = ket;
+    data.coords = ''; // OPM tidak pakai koordinat
+
+    detailText = 'Port: ' + port + ' | ' + dari + ' → ' + ke + ' | OLS: ' + ukuranOLS + ' | DBM: ' + dbm + (isUsed ? ' | LABEL: ' + label : '');
+    ketText = ket || (isUsed ? 'Label: ' + label : '');
   } else if (cat === 'Alker') {
     var nama = document.getElementById('inp-alker-nama').value.trim().toUpperCase();
     var jenis = document.getElementById('inp-alker-jenis').value.trim().toUpperCase();
@@ -4022,6 +4276,9 @@ function closeModal() {
   document.getElementById('opm-warning').classList.remove('show');
   var durInfo = document.getElementById('durasi-info');
   if (durInfo) durInfo.classList.remove('show');
+  selectedOpmPort = '';
+  var cbb = document.getElementById('inp-opm-used'); if (cbb) cbb.checked = false;
+  var lw = document.getElementById('opm-used-label-wrap'); if (lw) lw.classList.add('hidden');
 }
 function stopScanner(t) {
   var c = document.getElementById('modal-scanner');
@@ -4033,7 +4290,7 @@ window.deleteItem = function(k, cat) {
   if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya admin', 'error'); return; }
   if (confirm('Hapus data ini?')) {
     var it = (appData[cat] || {})[k];
-    var detail = it ? (it.location || it.sn || it.spec || it.pcType || it.nama || '-') : '-';
+    var detail = it ? (it.location || it.sn || it.spec || it.pcType || it.nama || ('Port ' + (it.port || '') + ' ' + (it.dari || '') + '→' + (it.ke || '')) || '-') : '-';
     db.ref('data/' + cat + '/' + k).remove();
     catatRiwayat(cat, 'Hapus', detail, it ? (it.keterangan || it.notes || '') : '');
     showToast('Dihapus', 'success');
@@ -4095,7 +4352,10 @@ function openForm(editData, editKey) {
     }
   }
   if (isAlker) document.getElementById('field-alker').classList.remove('hidden');
-  if (isOpm) { document.getElementById('field-opm').classList.remove('hidden'); setTimeout(checkOpmDariKe, 100); }
+  if (isOpm) {
+    document.getElementById('field-opm').classList.remove('hidden');
+    setTimeout(function() { renderOpmPortGrid(); checkOpmDariKe(); }, 100);
+  }
   if (isHH || isJoint) {
     document.getElementById('field-normal').classList.remove('hidden');
     document.getElementById('field-coords-wrap').classList.remove('hidden');
@@ -4126,7 +4386,8 @@ function resetFormFields() {
     'inp-ofcut-keterangan', 'inp-ofcut-waktu-co', 'inp-ofcut-waktu-up',
     'inp-p3-pelaksana', 'inp-p3-lama', 'inp-p3-keterangan',
     'inp-pc-type-lain', 'inp-pc-length-lain',
-    'inp-opm-port', 'inp-opm-panel', 'inp-opm-dbm', 'inp-opm-ruas', 'inp-opm-dari', 'inp-opm-ke', 'inp-opm-keterangan',
+    'inp-opm-port', 'inp-opm-panel', 'inp-opm-dbm', 'inp-opm-ruas', 'inp-opm-dari', 'inp-opm-ke',
+    'inp-opm-keterangan', 'inp-opm-ukuran', 'inp-opm-label',
     'inp-alker-nama', 'inp-alker-sn', 'inp-alker-jenis', 'inp-alker-merk', 'inp-alker-keterangan'];
   ids.forEach(function(id) { var el = document.getElementById(id); if (el) el.value = ''; });
   document.getElementById('inp-pc-qty').value = '1';
@@ -4137,6 +4398,9 @@ function resetFormFields() {
   var pl = document.getElementById('patchcord-lainnya'); if (pl) pl.classList.add('hidden');
   var durInfo = document.getElementById('durasi-info');
   if (durInfo) durInfo.classList.remove('show');
+  selectedOpmPort = '';
+  var cb = document.getElementById('inp-opm-used'); if (cb) cb.checked = false;
+  var lw = document.getElementById('opm-used-label-wrap'); if (lw) lw.classList.add('hidden');
 }
 function populateFormFields(data) {
   var map = {
@@ -4148,6 +4412,8 @@ function populateFormFields(data) {
     'inp-opm-dbm': data.dbm, 'inp-opm-ruas': data.ruas,
     'inp-opm-dari': data.dari, 'inp-opm-ke': data.ke,
     'inp-opm-keterangan': data.keterangan,
+    'inp-opm-ukuran': data.ukuranOLS,
+    'inp-opm-label': data.label,
     'inp-alker-nama': data.nama, 'inp-alker-sn': data.sn,
     'inp-alker-jenis': data.jenis, 'inp-alker-merk': data.merk,
     'inp-alker-keterangan': data.keterangan
@@ -4156,6 +4422,11 @@ function populateFormFields(data) {
     var el = document.getElementById(id);
     if (el && map[id] !== undefined && map[id] !== null) el.value = map[id];
   });
+  if (data.port) { selectedOpmPort = data.port; setTimeout(renderOpmPortGrid, 50); }
+  if (data.isUsed) {
+    var cb = document.getElementById('inp-opm-used');
+    if (cb) { cb.checked = true; toggleOpmUsedLabel(); }
+  }
   setTimeout(checkOpmDariKe, 100);
   setTimeout(hitungDurasiOF, 150);
 }
@@ -4310,12 +4581,15 @@ function downloadPageExcel() {
     }
     else if (isOpm) {
       row['Tanggal'] = it.date || '';
-      row['Port'] = it.port || '';
-      row['Panel'] = it.panel || '';
-      row['DBM'] = (it.dbm !== undefined && it.dbm !== null) ? it.dbm : '';
-      row['Ruas'] = it.ruas || '';
       row['Dari'] = it.dari || '';
       row['Ke'] = it.ke || '';
+      row['Ukuran OLS'] = it.ukuranOLS || '';
+      row['Ruas'] = it.ruas || '';
+      row['Panel'] = it.panel || '';
+      row['Port'] = it.port || '';
+      row['DBM'] = (it.dbm !== undefined && it.dbm !== null) ? it.dbm : '';
+      row['Status'] = it.isUsed ? 'Terpakai' : 'Tersedia';
+      row['Label'] = it.label || '';
       row['Keterangan'] = ket;
       row['Diposting Oleh'] = it.postBy || '';
       row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : '';
@@ -4419,7 +4693,7 @@ const percentagePlugin = {
       var meta = chart.getDatasetMeta(datasetIndex);
       if (meta.hidden) return;
       var theme = document.documentElement.getAttribute('data-theme') || 'dark';
-      var textColor = theme === 'dark' ? '#E2E8F0' : '#1A0000';
+      var textColor = theme === 'dark' ? '#E2E8F0' : '#1F2937';
       meta.data.forEach(function(element, index) {
         var value = Number(dataset.data[index]) || 0;
         if (value === 0) return;
@@ -4496,10 +4770,10 @@ function initCharts() {
             y: { beginAtZero: true, max: 30, ticks: { stepSize: 5, font: { size: 10 }, color: '#94A3B8', callback: function(v) { return v + '%'; } }, grid: { color: 'rgba(148,163,184,0.1)' } },
             x: {
               grid: { display: true, drawOnChartArea: true, drawTicks: false,
-                color: function() { var theme = document.documentElement.getAttribute('data-theme') || 'dark'; return theme === 'dark' ? 'rgba(0,217,255,0.18)' : 'rgba(230,0,0,0.25)'; },
+                color: function() { var theme = document.documentElement.getAttribute('data-theme') || 'dark'; return theme === 'dark' ? 'rgba(0,217,255,0.18)' : 'rgba(230,0,0,0.2)'; },
                 lineWidth: 1.2, tickLength: 0 },
               border: { display: true,
-                color: function() { var theme = document.documentElement.getAttribute('data-theme') || 'dark'; return theme === 'dark' ? 'rgba(0,217,255,0.4)' : 'rgba(230,0,0,0.5)'; },
+                color: function() { var theme = document.documentElement.getAttribute('data-theme') || 'dark'; return theme === 'dark' ? 'rgba(0,217,255,0.4)' : 'rgba(230,0,0,0.4)'; },
                 width: 1.5 },
               ticks: { font: { size: 10 }, color: '#94A3B8' }
             }
@@ -4554,9 +4828,9 @@ function updateCharts() {
     chartIncidents.options.scales.y.max = yMax;
     chartIncidents.options.scales.y.ticks.stepSize = yMax <= 30 ? 5 : (yMax <= 60 ? 10 : 20);
     var theme = document.documentElement.getAttribute('data-theme') || 'dark';
-    var legendColor = theme === 'dark' ? '#E2E8F0' : '#1A0000';
-    var tickColor = theme === 'dark' ? '#94A3B8' : '#7A4A4A';
-    var gridColor = theme === 'dark' ? 'rgba(148,163,184,0.1)' : 'rgba(26,0,0,0.08)';
+    var legendColor = theme === 'dark' ? '#E2E8F0' : '#1F2937';
+    var tickColor = theme === 'dark' ? '#94A3B8' : '#6B7280';
+    var gridColor = theme === 'dark' ? 'rgba(148,163,184,0.1)' : 'rgba(107,114,128,0.1)';
     chartIncidents.options.plugins.legend.labels.color = legendColor;
     chartIncidents.options.scales.y.ticks.color = tickColor;
     chartIncidents.options.scales.y.grid.color = gridColor;
@@ -4912,6 +5186,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (typeof lucide !== 'undefined') lucide.createIcons();
   checkFirebaseConnection().then(function(ok) { if (ok) ensureDefaultUser(); });
   applyAutoUppercase();
+  renderOpmPortGrid();
   try {
     var savedSort = localStorage.getItem('bucin_sort');
     if (savedSort) {
