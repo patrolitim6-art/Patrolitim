@@ -81,7 +81,6 @@
   --surface-map-legend: rgba(255, 255, 255, 0.95);
   --surface-map-btn: rgba(255, 255, 255, 0.95);
 
-  /* TEXT HITAM sesuai permintaan */
   --text-main: #000000;
   --text-muted: #333333;
   --text-dim: #555555;
@@ -100,6 +99,131 @@
   --shadow-card-hover: 0 8px 40px rgba(224, 82, 82, 0.12);
   --shadow-modal: 0 24px 64px rgba(107, 114, 128, 0.12);
   --scroll-track: rgba(229, 231, 235, 0.6);
+}
+/* ============ LIGHT MODE: PAKSA SEMUA TEKS HITAM ============ */
+:root[data-theme="light"] body,
+:root[data-theme="light"] div,
+:root[data-theme="light"] span,
+:root[data-theme="light"] p,
+:root[data-theme="light"] a,
+:root[data-theme="light"] li,
+:root[data-theme="light"] h1,
+:root[data-theme="light"] h2,
+:root[data-theme="light"] h3,
+:root[data-theme="light"] h4,
+:root[data-theme="light"] h5,
+:root[data-theme="light"] h6,
+:root[data-theme="light"] label,
+:root[data-theme="light"] small,
+:root[data-theme="light"] strong,
+:root[data-theme="light"] b,
+:root[data-theme="light"] i,
+:root[data-theme="light"] em,
+:root[data-theme="light"] code,
+:root[data-theme="light"] th,
+:root[data-theme="light"] td,
+:root[data-theme="light"] .nav-item,
+:root[data-theme="light"] .brand-sub,
+:root[data-theme="light"] .nav-section-label,
+:root[data-theme="light"] .user-role,
+:root[data-theme="light"] #header-title,
+:root[data-theme="light"] #page-title,
+:root[data-theme="light"] .hero-panel h1,
+:root[data-theme="light"] .hero-panel p,
+:root[data-theme="light"] .login-title,
+:root[data-theme="light"] .login-subtitle,
+:root[data-theme="light"] .login-divider span,
+:root[data-theme="light"] .status-badge,
+:root[data-theme="light"] .status-ready,
+:root[data-theme="light"] .status-out,
+:root[data-theme="light"] .durasi-badge,
+:root[data-theme="light"] .history-badge,
+:root[data-theme="light"] .opm-port-chip,
+:root[data-theme="light"] .opm-port-chip.used,
+:root[data-theme="light"] .opm-port-chip.available,
+:root[data-theme="light"] .opm-label-badge,
+:root[data-theme="light"] .ytd-card .ytd-label,
+:root[data-theme="light"] .ytd-card .ytd-current,
+:root[data-theme="light"] .ytd-card .ytd-diff,
+:root[data-theme="light"] .ytd-card .ytd-diff.up,
+:root[data-theme="light"] .ytd-card .ytd-diff.down,
+:root[data-theme="light"] .ytd-card .ytd-diff.same,
+:root[data-theme="light"] .ytd-card .ytd-prev,
+:root[data-theme="light"] .ytd-card .ytd-detail,
+:root[data-theme="light"] .map-legend-title,
+:root[data-theme="light"] .chart-rekap-table th,
+:root[data-theme="light"] .chart-rekap-table th.col-total,
+:root[data-theme="light"] .chart-rekap-table td.col-total,
+:root[data-theme="light"] .chart-rekap-pct,
+:root[data-theme="light"] .chart-rekap-pct.on-total,
+:root[data-theme="light"] .btn-primary,
+:root[data-theme="light"] .btn-secondary,
+:root[data-theme="light"] .stok-summary .label,
+:root[data-theme="light"] .stok-summary .value,
+:root[data-theme="light"] .stok-summary .value.masuk,
+:root[data-theme="light"] .stok-summary .value.keluar,
+:root[data-theme="light"] .stok-summary .value.total,
+:root[data-theme="light"] .about-info-list,
+:root[data-theme="light"] .login-error,
+:root[data-theme="light"] .durasi-info,
+:root[data-theme="light"] .opm-warning,
+:root[data-theme="light"] .user-list-btn,
+:root[data-theme="light"] .user-list-btn.suspend,
+:root[data-theme="light"] .user-list-btn.unsuspend,
+:root[data-theme="light"] .user-list-btn.delete,
+:root[data-theme="light"] .user-list-btn.reset,
+:root[data-theme="light"] .opm-group-stat-value,
+:root[data-theme="light"] .opm-group-stat-value.used,
+:root[data-theme="light"] .opm-group-stat-value.available,
+:root[data-theme="light"] .opm-group-stat-label,
+:root[data-theme="light"] .gudang-tab,
+:root[data-theme="light"] .gudang-tab.active,
+:root[data-theme="light"] .sub-tab,
+:root[data-theme="light"] .sub-tab.active,
+:root[data-theme="light"] .gudang-card,
+:root[data-theme="light"] .gudang-card.selected,
+:root[data-theme="light"] .map-points-filter-btn,
+:root[data-theme="light"] .map-points-filter-btn.active,
+:root[data-theme="light"] .map-points-filter-label,
+:root[data-theme="light"] .custom-map-btn,
+:root[data-theme="light"] .mini-map-btn,
+:root[data-theme="light"] .spare-action-btn,
+:root[data-theme="light"] .spare-action-btn.active,
+:root[data-theme="light"] .kml-list-name,
+:root[data-theme="light"] .kml-list-meta,
+:root[data-theme="light"] .user-list-name,
+:root[data-theme="light"] .user-list-role,
+:root[data-theme="light"] .user-list-role.admin,
+:root[data-theme="light"] .user-list-role.user,
+:root[data-theme="light"] .user-list-role.suspended-tag,
+:root[data-theme="light"] .user-list-role.new-tag {
+  color: #000000 !important;
+}
+:root[data-theme="light"] .brand-text,
+:root[data-theme="light"] .hero-panel h1,
+:root[data-theme="light"] .login-title {
+  -webkit-text-fill-color: #000000 !important;
+}
+:root[data-theme="light"] .btn-primary,
+:root[data-theme="light"] .nav-item.active,
+:root[data-theme="light"] .gudang-tab.active,
+:root[data-theme="light"] .sub-tab.active,
+:root[data-theme="light"] .map-points-filter-btn.active,
+:root[data-theme="light"] .custom-map-btn.active,
+:root[data-theme="light"] .spare-action-btn.active,
+:root[data-theme="light"] .gudang-card.selected {
+  color: #FFFFFF !important;
+}
+:root[data-theme="light"] .nav-item.active span,
+:root[data-theme="light"] .nav-item.active i,
+:root[data-theme="light"] .btn-primary span,
+:root[data-theme="light"] .btn-primary i {
+  color: #FFFFFF !important;
+}
+:root[data-theme="light"] .records-table code {
+  background: rgba(224,82,82,0.08) !important;
+  border-color: rgba(224,82,82,0.25) !important;
+  color: #000000 !important;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html { overflow-x: hidden; }
@@ -163,20 +287,18 @@ h4 { font-size: var(--app-font-size-lg); }
 }
 @keyframes logoGlowRed { 0%, 100% { box-shadow: 0 0 16px rgba(224, 82, 82, 0.45), 0 0 32px rgba(224, 82, 82, 0.18), inset 0 0 18px rgba(224, 82, 82, 0.15); } 50% { box-shadow: 0 0 26px rgba(224, 82, 82, 0.75), 0 0 52px rgba(224, 82, 82, 0.3), inset 0 0 24px rgba(224, 82, 82, 0.28); } }
 
-.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; padding: 8px 16px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-subtle); transition: all 0.25s ease; flex-shrink: 0; }
-:root[data-theme="light"] .telin-logo-wrapper { background: rgba(255, 255, 255, 0.9); border-color: rgba(107, 114, 128, 0.2); }
-.telin-logo-wrapper:hover { border-color: rgba(236, 28, 36, 0.55); box-shadow: 0 0 14px rgba(236, 28, 36, 0.28); transform: translateY(-1px); }
-/* LOGO TELIN DIPERBESAR */
+/* ============ LOGO TELIN TANPA BINGKAI ============ */
+.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; padding: 0; border-radius: 0; background: transparent; border: none; box-shadow: none; transition: all 0.25s ease; flex-shrink: 0; }
+:root[data-theme="light"] .telin-logo-wrapper { background: transparent; border-color: transparent; }
+.telin-logo-wrapper:hover { border-color: transparent; box-shadow: none; transform: translateY(-1px); }
 .telin-logo { height: 44px; width: auto; object-fit: contain; transition: all 0.3s ease; display: block; }
 .telin-logo:hover { transform: scale(1.05); }
-.telin-divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 16px 0 20px; padding: 12px 16px; background: rgba(236, 28, 36, 0.06); border: 1px solid rgba(236, 28, 36, 0.28); border-radius: 14px; transition: all 0.25s; }
-.telin-divider:hover { background: rgba(236, 28, 36, 0.1); border-color: rgba(236, 28, 36, 0.5); box-shadow: 0 0 20px rgba(236, 28, 36, 0.2); }
+.telin-divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 16px 0 20px; padding: 12px 16px; background: transparent; border: none; border-radius: 14px; transition: all 0.25s; }
 .telin-logo-login { height: 56px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(236, 28, 36, 0.35)); transition: all 0.3s ease; display: block; }
 .telin-logo-login:hover { transform: scale(1.05); }
 .telin-footer-brand { display: flex; align-items: center; justify-content: center; gap: 8px; padding-top: 10px; margin-top: 12px; border-top: 1px solid var(--border-subtle); }
 .telin-footer-brand img { height: 30px; width: auto; opacity: 0.85; transition: opacity 0.2s; }
 .telin-footer-brand img:hover { opacity: 1; }
-/* HILANGKAN TULISAN "Powered by" */
 .telin-divider > span:first-child,
 .telin-footer-brand > span:first-child { display: none !important; }
 
@@ -270,7 +392,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .map-legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.2); }
 #map-legend-line { margin-top: 6px; border-top: 1px solid var(--border-subtle); padding-top: 4px; color: var(--text-muted); max-height: 80px; overflow-y: auto; }
 
-/* ============ FILTER TITIK PETA DASHBOARD ============ */
 .map-points-filter { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 14px; background: var(--surface-1); border-bottom: 1px solid var(--border-subtle); align-items: center; }
 .map-points-filter-label { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: var(--app-font-size-xs); margin-right: 4px; display: flex; align-items: center; gap: 6px; }
 .map-points-filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; gap: 6px; }
@@ -400,7 +521,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .opm-warning.show { display: flex; animation: shake 0.4s ease; }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
-/* ============ OPM / OLS GROUP TABLES ============ */
 .opm-group-wrapper { margin-bottom: 20px; border: 1px solid var(--border-glow); border-radius: 14px; overflow: hidden; background: var(--surface-1); }
 .opm-group-header { padding: 14px 16px; background: linear-gradient(135deg, rgba(0,217,255,0.12), rgba(168,85,247,0.12)); border-bottom: 1px solid var(--border-glow); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
 :root[data-theme="light"] .opm-group-header { background: linear-gradient(135deg, rgba(224,82,82,0.08), rgba(107,114,128,0.1)); }
@@ -419,11 +539,9 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .opm-port-chip.available { background: rgba(16,185,129,0.15); color: #10B981; border-color: rgba(16,185,129,0.5); }
 .opm-label-badge { display: inline-block; background: rgba(168,85,247,0.15); color: #A855F7; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: var(--app-font-size-xs); border: 1px solid rgba(168,85,247,0.4); }
 
-/* OPM Step Cards */
 .opm-step-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
 .opm-step-title { font-weight: 800; color: var(--primary-cyan); font-size: var(--app-font-size-xs); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; font-family: 'Orbitron', sans-serif; }
 
-/* OPM Port Grid Selector - DIPERBAIKI MENJADI GRID RAPI */
 .opm-port-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: 6px; margin-top: 8px; }
 .opm-port-grid-btn { aspect-ratio: 1/1; padding: 0; display: grid; place-items: center; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: var(--app-font-size-sm); color: var(--text-muted); transition: all 0.2s; }
 .opm-port-grid-btn:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); transform: translateY(-1px); }
@@ -436,7 +554,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .opm-info-banner-title { font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: var(--app-font-size-xs); text-transform: uppercase; }
 .opm-info-banner-content { color: var(--text-muted); font-size: var(--app-font-size-xs); line-height: 1.6; }
 
-/* OPM Temporary List Table */
 .opm-temp-list-wrap { max-height: 240px; overflow-y: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
 .opm-temp-list-table { width: 100%; border-collapse: collapse; }
 .opm-temp-list-table th { background: var(--surface-table-header); padding: 8px 10px; font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; font-size: var(--app-font-size-xs); text-align: left; border-bottom: 1px solid var(--border-glow); white-space: nowrap; }
@@ -512,7 +629,33 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .about-info-title { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-weight: 800; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: var(--app-font-size-xs); }
 .about-info-list { margin: 0; padding-left: 16px; color: var(--text-muted); line-height: 1.8; font-size: var(--app-font-size-xs); }
 
-/* ============ PRINT HEADER (Logo Telin) ============ */
+/* ============ TOMBOL SCROLL TABEL ============ */
+.table-scroll-buttons {
+  display: flex;
+  gap: 8px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--surface-1);
+}
+.table-scroll-buttons button {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border-glow);
+  background: var(--surface-1);
+  color: var(--primary-cyan);
+  cursor: pointer;
+  display: grid; place-items: center;
+  transition: all 0.2s;
+}
+.table-scroll-buttons button:hover {
+  background: rgba(0,217,255,0.12);
+  transform: translateY(-1px);
+}
+:root[data-theme="light"] .table-scroll-buttons button:hover {
+  background: rgba(224,82,82,0.1);
+}
+
+/* ============ PRINT HEADER ============ */
 .print-header-telin {
   display: none;
   align-items: center;
@@ -535,7 +678,8 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   .card::before, .hero-panel, #dashboard-view,
   .map-points-filter, .opm-group-stats, .opm-info-banner,
   .opm-step-card, .icon-btn, .sub-tabs,
-  .btn-primary, .btn-secondary, .btn-icon, .toast { display: none !important; }
+  .btn-primary, .btn-secondary, .btn-icon, .toast,
+  .table-scroll-buttons { display: none !important; }
   .print-header-telin { display: flex !important; }
   .print-header-row { display: table-row !important; }
   .records-table, .opm-group-wrapper { page-break-inside: avoid; }
@@ -785,7 +929,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </div>
           </div>
 
-          <!-- FILTER TITIK PETA (OPM/OLS SUDAH DIHILANGKAN) -->
           <div class="map-points-filter">
             <span class="map-points-filter-label">
               <i data-lucide="filter" style="width:14px;"></i> Tampilkan Titik:
@@ -794,19 +937,19 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
               <i data-lucide="layout-grid" style="width:12px;"></i> Semua
             </button>
             <button class="map-points-filter-btn" data-point-filter="Data OF Cut" onclick="setPointFilter('Data OF Cut')">
-              <span class="map-points-filter-dot" style="background:#00D9FF;"></span> OF Cut
+              <span class="map-points-filter-dot" style="background:#FF0000;"></span> OF Cut
             </button>
             <button class="map-points-filter-btn" data-point-filter="Pekerjaan Pihak Ke-3" onclick="setPointFilter('Pekerjaan Pihak Ke-3')">
-              <span class="map-points-filter-dot" style="background:#A855F7;"></span> P3
+              <span class="map-points-filter-dot" style="background:#00FF00;"></span> P3
             </button>
             <button class="map-points-filter-btn" data-point-filter="Temuan Lapangan" onclick="setPointFilter('Temuan Lapangan')">
-              <span class="map-points-filter-dot" style="background:#EC4899;"></span> Temuan
+              <span class="map-points-filter-dot" style="background:#0000FF;"></span> Temuan
             </button>
             <button class="map-points-filter-btn" data-point-filter="Joint" onclick="setPointFilter('Joint')">
-              <span class="map-points-filter-dot" style="background:#0EA5E9;"></span> Joint
+              <span class="map-points-filter-dot" style="background:#FFFF00;"></span> Joint
             </button>
             <button class="map-points-filter-btn" data-point-filter="Handhole" onclick="setPointFilter('Handhole')">
-              <span class="map-points-filter-dot" style="background:#10B981;"></span> Handhole
+              <span class="map-points-filter-dot" style="background:#FF00FF;"></span> Handhole
             </button>
           </div>
 
@@ -814,11 +957,11 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             <div id="map-container"></div>
             <div class="map-legend">
               <div class="map-legend-title">Kategori & Line</div>
-              <div class="map-legend-item"><span class="map-legend-dot" style="background:#00D9FF;"></span> OF Cut</div>
-              <div class="map-legend-item"><span class="map-legend-dot" style="background:#A855F7;"></span> Pihak Ke-3</div>
-              <div class="map-legend-item"><span class="map-legend-dot" style="background:#EC4899;"></span> Temuan</div>
-              <div class="map-legend-item"><span class="map-legend-dot" style="background:#0EA5E9;"></span> Joint</div>
-              <div class="map-legend-item"><span class="map-legend-dot" style="background:#10B981;"></span> Handhole</div>
+              <div class="map-legend-item"><span class="map-legend-dot" style="background:#FF0000;"></span> OF Cut</div>
+              <div class="map-legend-item"><span class="map-legend-dot" style="background:#00FF00;"></span> Pihak Ke-3</div>
+              <div class="map-legend-item"><span class="map-legend-dot" style="background:#0000FF;"></span> Temuan</div>
+              <div class="map-legend-item"><span class="map-legend-dot" style="background:#FFFF00;"></span> Joint</div>
+              <div class="map-legend-item"><span class="map-legend-dot" style="background:#FF00FF;"></span> Handhole</div>
               <div id="map-legend-line">Line aktif: -</div>
             </div>
             <div class="custom-map-controls">
@@ -988,6 +1131,10 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
         </div>
 
         <div class="card" style="padding:0;overflow:hidden;">
+          <div class="table-scroll-buttons">
+            <button type="button" onclick="scrollTableLeft()" title="Geser Kiri"><i data-lucide="chevron-left" style="width:18px;"></i></button>
+            <button type="button" onclick="scrollTableRight()" title="Geser Kanan"><i data-lucide="chevron-right" style="width:18px;"></i></button>
+          </div>
           <div id="table-regular-wrapper" style="overflow-x:auto;">
             <table class="records-table">
               <thead id="table-head"></thead>
@@ -1344,7 +1491,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
           </div>
         </div>
 
-        <!-- ============ FORM OPM-OLS (REDESIGN) ============ -->
         <div id="field-opm" class="hidden">
           <div class="opm-info-banner">
             <div class="opm-info-banner-title">
@@ -1357,7 +1503,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </div>
           </div>
 
-          <!-- Step 1: Info Utama (Panel DIHILANGKAN, Warna Tube/Kabel DITAMBAH, OLS → Nilai Kalibrasi) -->
           <div class="opm-step-card">
             <div class="opm-step-title">
               <i data-lucide="settings-2" style="width:13px;"></i> Step 1 — Info Utama (1x Input)
@@ -1406,7 +1551,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                 </select>
               </div>
             </div>
-            <!-- OPSI WARNA TUBE & KABEL (BARU) -->
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
               <div>
                 <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Warna Tube</label>
@@ -1439,7 +1583,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </div>
           </div>
 
-          <!-- Step 2: Pilih Port -->
           <div class="opm-step-card">
             <div class="opm-step-title">
               <i data-lucide="hash" style="width:13px;"></i> Step 2 — Pilih Port (1-48)
@@ -1480,7 +1623,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </button>
           </div>
 
-          <!-- Step 3: List Port -->
           <div class="opm-step-card">
             <div class="opm-step-title">
               <i data-lucide="list" style="width:13px;"></i> Step 3 — List Port
@@ -1510,7 +1652,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </button>
           </div>
         </div>
-        <!-- ============ END FORM OPM-OLS ============ -->
 
         <div id="field-alker" class="hidden">
           <div style="background:rgba(168,85,247,0.1);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(168,85,247,0.3);">
@@ -1773,7 +1914,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 
 <!-- MODAL TENTANG WEB BUCIN -->
 <div id="about-modal" class="modal-layer hidden">
-  <div class="modal-card" style="max-width:880px;">
+  <div class="modal-card" style="max-width:920px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h3 style="margin:0;font-weight:800;color:var(--primary-cyan);display:flex;align-items:center;gap:10px;">
         <i data-lucide="info" style="width:24px;"></i> Tentang Web BUCIN
@@ -1808,19 +1949,56 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
       </p>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:20px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:20px;">
+
       <div class="about-info-card">
         <div class="about-info-title">
-          <i data-lucide="layers" style="width:16px;"></i> Fitur Utama
+          <i data-lucide="layout-dashboard" style="width:16px;"></i> Dashboard
         </div>
         <ul class="about-info-list">
-          <li>Dashboard statistik OF Cut</li>
-          <li>Peta interaktif &amp; manajemen KML/KMZ</li>
-          <li>Filter titik peta per kategori</li>
-          <li>OPM/OLS dengan port 1-48</li>
-          <li>Inventaris Alker, Stok Spare, Patch Cord</li>
-          <li>Riwayat transaksi &amp; audit log</li>
-          <li>Manajemen user &amp; hak akses</li>
+          <li>Ringkasan statistik OF Cut tahunan</li>
+          <li>Grafik persentase per penyebab (Pihak Ke-3, Vandalisme, Bencana, Lainnya)</li>
+          <li>Tabel Rekap per bulan + perbandingan tahunan (YTD)</li>
+          <li>Peta interaktif Line &amp; Titik Aset</li>
+          <li>Filter titik peta: OF Cut, P3, Temuan, Joint, Handhole</li>
+          <li>Buat line baru &amp; upload KML/KMZ</li>
+        </ul>
+      </div>
+
+      <div class="about-info-card">
+        <div class="about-info-title">
+          <i data-lucide="scissors" style="width:16px;"></i> Data Operasional
+        </div>
+        <ul class="about-info-list">
+          <li><b>OF Cut</b> — input gangguan: waktu CO/UP, durasi otomatis, panjang, rute, penyebab, koordinat.</li>
+          <li><b>P3 / Temuan</b> — pekerjaan pihak ke-3 &amp; temuan lapangan.</li>
+          <li><b>OPM / OLS</b> — input massal port 1-48, nilai kalibrasi, DBM, warna tube &amp; kabel, label terpakai.</li>
+          <li><b>Joint</b> — data titik joint + kondisi &amp; koordinat.</li>
+          <li><b>Handhole</b> — data handhole + kondisi &amp; koordinat.</li>
+        </ul>
+      </div>
+
+      <div class="about-info-card">
+        <div class="about-info-title">
+          <i data-lucide="package" style="width:16px;"></i> Inventaris
+        </div>
+        <ul class="about-info-list">
+          <li><b>Alker</b> — alat kerja, SN otomatis.</li>
+          <li><b>Stok Spare</b> — inventory per gudang, status Ready/Out, lemari, rak, riwayat, kondisi.</li>
+          <li><b>Patch Cord</b> — stok per jenis &amp; panjang, tipe Masuk/Keluar, barcode otomatis.</li>
+        </ul>
+      </div>
+
+      <div class="about-info-card">
+        <div class="about-info-title">
+          <i data-lucide="settings" style="width:16px;"></i> Fitur Pendukung
+        </div>
+        <ul class="about-info-list">
+          <li><b>Riwayat</b> — log semua transaksi per menu.</li>
+          <li><b>Export Excel</b> — per halaman atau per tabel OPM/OLS.</li>
+          <li><b>Manajemen User</b> (admin) — tambah, suspend, reset password, hapus.</li>
+          <li><b>Pengaturan</b> — tema, font, teks hero.</li>
+          <li><b>Scan Barcode</b> via kamera untuk SN cepat.</li>
         </ul>
       </div>
 
@@ -1829,13 +2007,10 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
           <i data-lucide="map-pin" style="width:16px;"></i> Cakupan Wilayah
         </div>
         <ul class="about-info-list">
-          <li>CLS MAMI</li>
-          <li>CLS Malalayang</li>
-          <li>DC Manado Centrum</li>
-          <li>CLS Kauditan</li>
-          <li>STO Bahu, Aermadidi</li>
-          <li>New Centrix Paniki</li>
-          <li>Rute OSP, IGG, DWDM, SEA-US</li>
+          <li>CLS MAMI, CLS Malalayang, CLS Kauditan</li>
+          <li>DC Manado Centrum, New Centrix Paniki</li>
+          <li>STO Bahu, STO Aermadidi</li>
+          <li>Rute: OSP LINE 1-3, IGG LINE 1-2, DWDM, SEA US LINE 1-2</li>
         </ul>
       </div>
 
@@ -1846,10 +2021,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
         <ul class="about-info-list">
           <li>Firebase Realtime Database</li>
           <li>MapLibre GL JS (Peta HD)</li>
-          <li>Chart.js (Visualisasi data)</li>
-          <li>QuaggaJS (Scan barcode)</li>
-          <li>SheetJS (Export Excel)</li>
-          <li>JSZip (KML/KMZ)</li>
+          <li>Chart.js, QuaggaJS, SheetJS, JSZip</li>
           <li>Tailwind CSS + Lucide Icons</li>
         </ul>
       </div>
@@ -1877,15 +2049,15 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
         <i data-lucide="book-open" style="width:14px;"></i> Panduan Singkat
       </div>
       <ol style="margin:0;padding-left:18px;color:var(--text-muted);line-height:1.8;font-size:var(--app-font-size-xs);">
-        <li><strong style="color:var(--text-main);">Login</strong> dengan akun yang diberikan admin. Password default wajib diganti saat login pertama.</li>
+        <li><strong style="color:var(--text-main);">Login</strong> dengan akun yang diberikan admin.</li>
         <li><strong style="color:var(--text-main);">Filter titik peta</strong> di dashboard untuk menampilkan kategori tertentu.</li>
-        <li><strong style="color:var(--text-main);">Tambah data</strong> dengan tombol <em>Tambah</em>, isi form, dan pilih lokasi lewat peta.</li>
-        <li><strong style="color:var(--text-main);">OPM/OLS</strong> — isi Dari/Ke/Nilai Kalibrasi, pilih port 1-48 lalu klik <em>Submit Port</em>, ulangi hingga selesai dan klik <em>Submit Data</em>.</li>
-        <li><strong style="color:var(--text-main);">Export Excel</strong> kapan saja lewat tombol <em>Excel</em> di tiap menu atau per tabel.</li>
+        <li><strong style="color:var(--text-main);">Tambah data</strong> dengan tombol <em>Tambah</em>, isi form, pilih lokasi lewat peta.</li>
+        <li><strong style="color:var(--text-main);">OPM/OLS</strong> — isi Step 1, pilih port 1-48, <em>Submit Port</em>, ulangi, lalu <em>Submit Data</em>.</li>
+        <li><strong style="color:var(--text-main);">Export Excel</strong> per menu atau per tabel OPM/OLS.</li>
       </ol>
     </div>
 
-    <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:14px;margin-bottom:16px;background:rgba(236,28,36,0.06);border:1px solid rgba(236,28,36,0.25);border-radius:12px;">
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:14px;margin-bottom:16px;background:transparent;border:none;border-radius:12px;">
       <img src="Telin_company_logo.png" alt="Telin" style="height:44px;width:auto;object-fit:contain;">
     </div>
 
@@ -1907,9 +2079,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 </div>
 
 <script>
-/* ============================================================
-   THEME
-   ============================================================ */
+/* ============================================================ TEMA ============================================================ */
 function setTheme(theme) {
   if (theme !== 'dark' && theme !== 'light') theme = 'dark';
   document.documentElement.setAttribute('data-theme', theme);
@@ -1955,9 +2125,7 @@ function loadTheme() {
 window.setTheme = setTheme; window.toggleTheme = toggleTheme;
 window.updateThemeButtons = updateThemeButtons; window.loadTheme = loadTheme;
 
-/* ============================================================
-   FONT
-   ============================================================ */
+/* ============================================================ FONT ============================================================ */
 function applyFontSettings() {
   var fontFamily = "'DM Sans', sans-serif";
   var fontSize = '14';
@@ -2007,9 +2175,19 @@ window.applyFontSettings = applyFontSettings;
 window.previewFont = previewFont; window.setFontSize = setFontSize;
 window.resetFontSettings = resetFontSettings;
 
-/* ============================================================
-   AUTO UPPERCASE
-   ============================================================ */
+/* ============================================================ SCROLL TABEL ============================================================ */
+function scrollTableLeft() {
+  var el = document.getElementById('table-regular-wrapper');
+  if (el) el.scrollBy({ left: -300, behavior: 'smooth' });
+}
+function scrollTableRight() {
+  var el = document.getElementById('table-regular-wrapper');
+  if (el) el.scrollBy({ left: 300, behavior: 'smooth' });
+}
+window.scrollTableLeft = scrollTableLeft;
+window.scrollTableRight = scrollTableRight;
+
+/* ============================================================ AUTO UPPERCASE ============================================================ */
 function applyAutoUppercase() {
   var textInputIds = [
     'inp-sn', 'inp-spec', 'inp-lemari', 'inp-notes-stock',
@@ -2048,9 +2226,7 @@ function applyAutoUppercase() {
 }
 window.applyAutoUppercase = applyAutoUppercase;
 
-/* ============================================================
-   FIREBASE
-   ============================================================ */
+/* ============================================================ FIREBASE ============================================================ */
 const firebaseConfig = {
   apiKey: "AIzaSyAXmwFnIs5123F9S-5v_YdvWxDXiUwO5vE",
   authDomain: "bucin-18282.firebaseapp.com",
@@ -2134,9 +2310,7 @@ function saveCurrentSubTab(sub) { try { localStorage.setItem(LS_KEY_SUBTAB, sub)
 function getSavedPage() { try { return localStorage.getItem(LS_KEY_PAGE) || 'dashboard'; } catch (e) { return 'dashboard'; } }
 function getSavedSubTab() { try { return localStorage.getItem(LS_KEY_SUBTAB) || 'p3'; } catch (e) { return 'p3'; } }
 
-/* ============================================================
-   HELPER
-   ============================================================ */
+/* ============================================================ HELPER ============================================================ */
 function escapeHtml(s) {
   if (s === null || s === undefined) return '';
   return String(s).replace(/[&<>"']/g, function(c) {
@@ -2249,9 +2423,7 @@ function formatWaktuDisplay(dtLocal) {
 }
 window.hitungDurasiOF = hitungDurasiOF; window.formatWaktuDisplay = formatWaktuDisplay;
 
-/* ============================================================
-   RIWAYAT
-   ============================================================ */
+/* ============================================================ RIWAYAT ============================================================ */
 function loadRiwayat() {
   if (!db || riwayatListenerAttached) return;
   db.ref('riwayat').on('value', function(s) { riwayatData = s.val() || {}; });
@@ -2312,9 +2484,7 @@ function exportRiwayatMenuExcel() {
   showToast('✅ Riwayat diunduh', 'success');
 }
 
-/* ============================================================
-   DATA
-   ============================================================ */
+/* ============================================================ DATA ============================================================ */
 function loadData() {
   if (!db || dataListenerAttached) return;
   db.ref('data').on('value', function(s) {
@@ -2339,9 +2509,7 @@ function refetchData() {
   });
 }
 
-/* ============================================================
-   LOGIN
-   ============================================================ */
+/* ============================================================ LOGIN ============================================================ */
 function handleLogin(e) {
   if (e && e.preventDefault) e.preventDefault();
   if (!firebaseReady || !db) { showToast('Firebase belum siap', 'error'); return false; }
@@ -2424,9 +2592,7 @@ function resetSessionTimer() {
 function refreshSession() { if (currentUser) resetSessionTimer(); }
 function simpanData() { submitForm(null); }
 
-/* ============================================================
-   FORCE CHANGE PASSWORD
-   ============================================================ */
+/* ============================================================ FORCE CHANGE PASSWORD ============================================================ */
 function togglePasswordVisibility(inputId, btn) {
   var inp = document.getElementById(inputId); if (!inp) return;
   var ic = btn.querySelector('i');
@@ -2492,9 +2658,7 @@ window.submitForceChangePassword = submitForceChangePassword;
 window.logoutForceChange = logoutForceChange;
 window.togglePasswordVisibility = togglePasswordVisibility;
 
-/* ============================================================
-   GENERATORS
-   ============================================================ */
+/* ============================================================ GENERATORS ============================================================ */
 function generateBarcodePatchCord(j, p) {
   const m = { 'SC-SC': 'SCSC', 'LC-LC': 'LCLC', 'FC-FC': 'FCFC', 'ST-ST': 'STST', 'SC-FC': 'SCFC', 'FC-ST': 'FCST', 'ST-SC': 'STSC', 'FC-LC': 'FCLC', 'LC-ST': 'LCST', 'LC-SC': 'LCSC' };
   let t = (m[j] || 'XXXX').padEnd(4, ' ');
@@ -2510,9 +2674,7 @@ function generateAlkerSN(nama, jenis, merk, date, urutan) {
 }
 function getNextAlkerUrutan() { return Object.keys(appData['Alker'] || {}).length + 1; }
 
-/* ============================================================
-   POINT FILTER
-   ============================================================ */
+/* ============================================================ POINT FILTER ============================================================ */
 function setPointFilter(filter) {
   selectedPointFilter = filter;
   document.querySelectorAll('.map-points-filter-btn').forEach(function(b) {
@@ -2524,9 +2686,7 @@ function setPointFilter(filter) {
 }
 window.setPointFilter = setPointFilter;
 
-/* ============================================================
-   OPM PORT GRID & TEMP LIST
-   ============================================================ */
+/* ============================================================ OPM PORT GRID & TEMP LIST ============================================================ */
 function renderOpmPortGrid() {
   var grid = document.getElementById('opm-port-grid');
   if (!grid) return;
@@ -2628,6 +2788,7 @@ function renderOpmTempList() {
   });
   tbody.innerHTML = html;
 }
+/* UPDATE: Auto-isi keterangan saat kosong */
 function submitOpmDataToDb() {
   if (!currentUser) { showToast('Login dulu', 'error'); return; }
   var dari = document.getElementById('inp-opm-dari').value;
@@ -2648,6 +2809,15 @@ function submitOpmDataToDb() {
   btn.disabled = true; btn.innerHTML = 'Menyimpan ' + opmTempPorts.length + ' port...';
 
   var promises = opmTempPorts.map(function(p) {
+    // AUTO-ISI: Jika keterangan kosong, otomatis catat Status, Warna Tube, Warna Kabel, DBM
+    var keteranganFinal = p.keterangan || '';
+    if (!keteranganFinal || keteranganFinal.trim() === '') {
+      keteranganFinal = 'STATUS: ' + (p.isUsed ? 'TERPAKAI' : 'TERSEDIA') +
+        ' | WARNA TUBE: ' + (p.warnaTube || warnaTube || '-') +
+        ' | WARNA KABEL: ' + (p.warnaKabel || warnaKabel || '-') +
+        ' | DBM: ' + p.dbm;
+    }
+
     var row = {
       date: dateVal,
       postBy: currentUser.name,
@@ -2662,7 +2832,7 @@ function submitOpmDataToDb() {
       dbm: p.dbm,
       isUsed: p.isUsed,
       label: p.label || '',
-      keterangan: p.keterangan || ''
+      keterangan: keteranganFinal
     };
     return db.ref('data/OPM-OLS').push(row);
   });
@@ -2689,9 +2859,7 @@ window.addOpmPortToList = addOpmPortToList;
 window.removeOpmPortFromList = removeOpmPortFromList;
 window.submitOpmDataToDb = submitOpmDataToDb;
 
-/* ============================================================
-   KML / KMZ
-   ============================================================ */
+/* ============================================================ KML / KMZ ============================================================ */
 function closeKmlModal() {
   document.getElementById('kml-modal').classList.add('hidden');
   document.getElementById('kml-file').value = '';
@@ -2896,9 +3064,7 @@ function downloadTextAsFile(text, filename, mimeType) {
 }
 window.downloadKML = downloadKML; window.downloadKMZ = downloadKMZ; window.submitKmlUpload = submitKmlUpload;
 
-/* ============================================================
-   MAP STYLES
-   ============================================================ */
+/* ============================================================ MAP STYLES ============================================================ */
 function getSatelliteStyle() {
   return { version: 8, sources: {
       satellite: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, minzoom: 0, maxzoom: 19, attribution: '© Esri' },
@@ -2944,14 +3110,16 @@ function initMap() {
     map.on('click', function (e) { if (drawMode) handleDrawClick(e); });
   } catch (e) { console.error('Map init:', e); }
 }
-/* OPM-OLS DIHILANGKAN DARI MAPS */
+/* UPDATE: WARNA TITIK SANGAT BERBEDA */
 function loadMarkersFromData() {
   if (!map) return;
   markers.forEach(function (m) { m.remove(); }); markers = [];
   var categoryColors = {
-    'Data OF Cut': '#00D9FF', 'Pekerjaan Pihak Ke-3': '#A855F7',
-    'Temuan Lapangan': '#EC4899', 'Joint': '#0EA5E9', 'Handhole': '#10B981'
-    /* OPM-OLS TIDAK DISERTAKAN */
+    'Data OF Cut': '#FF0000',
+    'Pekerjaan Pihak Ke-3': '#00FF00',
+    'Temuan Lapangan': '#0000FF',
+    'Joint': '#FFFF00',
+    'Handhole': '#FF00FF'
   };
   var allCats = Object.keys(categoryColors);
   var catsToShow = (selectedPointFilter === 'all') ? allCats : [selectedPointFilter];
@@ -2965,6 +3133,8 @@ function loadMarkersFromData() {
       }
       if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
         var el = document.createElement('div'); el.className = 'ml-marker'; el.style.background = color;
+        el.style.border = '2px solid #000';
+        el.style.boxShadow = '0 0 8px ' + color;
         var title = it.location || it.nama || 'Lokasi';
         el.title = title + ' — ' + cat;
         var popupHtml = '<strong style="color:var(--primary-cyan);">' + escapeHtml(title) + '</strong><br><span style="font-size:var(--app-font-size-xs);color:var(--text-muted);">' + cat + '</span>';
@@ -3087,9 +3257,7 @@ function loadKmlFromFirebase() {
   kmlListenerAttached = true;
 }
 
-/* ============================================================
-   DRAW LINE
-   ============================================================ */
+/* ============================================================ DRAW LINE ============================================================ */
 function loadCustomLines() {
   if (!db || customLinesListenerAttached) return;
   db.ref('customLines').on('value', function(s) {
@@ -3211,9 +3379,7 @@ window.openDrawLineModal = openDrawLineModal; window.closeDrawLineModal = closeD
 window.toggleCustomLineInput = toggleCustomLineInput; window.startDrawing = startDrawing;
 window.undoLastPoint = undoLastPoint; window.cancelDrawLine = cancelDrawLine; window.finishDrawLine = finishDrawLine;
 
-/* ============================================================
-   ABOUT, USER MANAGEMENT, MAP MODAL
-   ============================================================ */
+/* ============================================================ ABOUT / USER / MAP MODAL ============================================================ */
 function updateAboutStats() {
   function count(cat) { return Object.keys(appData[cat] || {}).length; }
   var map = { 'about-stat-ofcut': 'Data OF Cut', 'about-stat-p3': 'Pekerjaan Pihak Ke-3', 'about-stat-temuan': 'Temuan Lapangan', 'about-stat-opm': 'OPM-OLS', 'about-stat-joint': 'Joint', 'about-stat-hh': 'Handhole', 'about-stat-alker': 'Alker', 'about-stat-spare': 'Stok Spare', 'about-stat-pc': 'Patch Cord' };
@@ -3417,9 +3583,7 @@ function selectMapLocation() {
   } else showToast('Pilih titik dulu di peta', 'error');
 }
 
-/* ============================================================
-   VIEW / TABLE / SORT
-   ============================================================ */
+/* ============================================================ VIEW / TABLE / SORT ============================================================ */
 function switchView(cat) {
   var s = document.getElementById('search-input'); if (s) s.value = '';
   if (cat === 'P3_Temuan') { currentCategory = 'Pekerjaan Pihak Ke-3'; currentSubTab = 'p3'; } else currentCategory = cat;
@@ -3579,7 +3743,6 @@ function renderTable() {
     var isHJ = ['Handhole', 'Joint'].indexOf(cat) !== -1; var isOfCut = cat === 'Data OF Cut';
     var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
 
-    // PRINT HEADER: Logo Telin + Nama Data
     var printHeaderHtml = '<tr class="print-header-row" style="display:none;"><td colspan="99" style="padding:10px 0;border-bottom:2px solid #000;">' +
       '<div class="print-header-telin" style="display:flex !important;align-items:center;gap:14px;">' +
       '<img src="Telin_company_logo.png" alt="Telin" style="height:60px;">' +
@@ -3621,7 +3784,7 @@ function renderTable() {
   } catch (e) { console.error('renderTable error:', e); }
 }
 
-/* ============ RENDER OPM GROUPED TABLES (Panel DIHILANGKAN, Warna DITAMBAH, Excel per tabel) ============ */
+/* ============ OPM GROUPED TABLES (dengan TOMBOL HAPUS TABEL) ============ */
 function renderOpmGroupedTables(list) {
   var wrap = document.getElementById('table-opm-wrapper');
   if (!wrap) return;
@@ -3634,7 +3797,6 @@ function renderOpmGroupedTables(list) {
   if (keys.length === 0) { wrap.innerHTML = ''; document.getElementById('empty-state').style.display = 'block'; return; }
   document.getElementById('empty-state').style.display = 'none';
 
-  // Group by: Tanggal + Dari + Ke + Nilai Kalibrasi (Panel DIHILANGKAN)
   var groups = {};
   keys.forEach(function(k) {
     var it = list[k];
@@ -3659,12 +3821,10 @@ function renderOpmGroupedTables(list) {
     var usedCount = g.items.filter(function(x) { return x.data.isUsed; }).length;
     var availCount = g.items.length - usedCount;
 
-    // Group ID unik untuk tombol Excel per tabel
     var groupId = 'opm-grp-' + btoa(encodeURIComponent(gKey)).replace(/[^a-zA-Z0-9]/g, '').substring(0, 24);
 
     html += '<div class="opm-group-wrapper">';
 
-    // PRINT HEADER: Logo Telin + Nama Data
     html += '<div class="print-header-telin">';
     html += '<img src="Telin_company_logo.png" alt="Telin">';
     html += '<div class="print-title">Data OPM/OLS — ' + escapeHtml(g.date) + ' — ' + escapeHtml(g.dari) + ' → ' + escapeHtml(g.ke) + '</div>';
@@ -3722,12 +3882,13 @@ function renderOpmGroupedTables(list) {
     html += '</tbody></table>';
     html += '</div>';
 
-    // TOMBOL EXCEL PER TABEL
-    html += '<div style="padding:10px 14px;border-top:1px solid var(--border-subtle);text-align:right;background:rgba(0,217,255,0.02);">';
+    html += '<div style="padding:10px 14px;border-top:1px solid var(--border-subtle);text-align:right;background:rgba(0,217,255,0.02);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">';
     html += '<button class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:8px;min-height:auto;background:rgba(29,111,66,0.12);color:#1d6f42;border-color:rgba(29,111,66,0.4);" onclick="exportOpmGroup(\'' + groupId + '\')"><i data-lucide="file-spreadsheet" style="width:14px;"></i> Excel Tabel Ini</button>';
+    if (isAdmin) {
+      html += '<button class="btn-secondary" style="padding:6px 14px;font-size:var(--app-font-size-xs);border-radius:8px;min-height:auto;background:rgba(236,72,153,0.12);color:#EC4899;border-color:rgba(236,72,153,0.4);" onclick="hapusOpmGroup(\'' + groupId + '\')"><i data-lucide="trash-2" style="width:14px;"></i> Hapus Tabel</button>';
+    }
     html += '</div>';
 
-    // Data tersembunyi untuk export (meta group)
     html += '<div id="' + groupId + '" class="hidden" data-date="' + escapeHtml(g.date) + '" data-dari="' + escapeHtml(g.dari) + '" data-ke="' + escapeHtml(g.ke) + '" data-kal="' + escapeHtml(g.ukuranOLS) + '"></div>';
     html += '</div>';
   });
@@ -3735,7 +3896,7 @@ function renderOpmGroupedTables(list) {
   wrap.innerHTML = html;
 }
 
-/* FUNGSI EXPORT EXCEL PER TABEL OPM */
+/* EXPORT EXCEL PER TABEL OPM */
 function exportOpmGroup(groupId) {
   var el = document.getElementById(groupId);
   if (!el) { showToast('Data tidak ditemukan', 'error'); return; }
@@ -3791,9 +3952,52 @@ function exportOpmGroup(groupId) {
 }
 window.exportOpmGroup = exportOpmGroup;
 
-/* ============================================================
-   FORM SUBMIT
-   ============================================================ */
+/* HAPUS TABEL OPM (ADMIN ONLY) */
+function hapusOpmGroup(groupId) {
+  if (!currentUser || currentUser.role !== 'admin') {
+    showToast('Hanya admin yang dapat menghapus tabel!', 'error');
+    return;
+  }
+  var el = document.getElementById(groupId);
+  if (!el) { showToast('Data tidak ditemukan', 'error'); return; }
+  var date = el.dataset.date || '';
+  var dari = el.dataset.dari || '';
+  var ke = el.dataset.ke || '';
+  var kal = el.dataset.kal || '';
+
+  if (!confirm('HAPUS seluruh tabel OPM/OLS ini?\n\n' +
+    'Tanggal: ' + date + '\n' +
+    'Dari: ' + dari + ' → Ke: ' + ke + '\n' +
+    'Kalibrasi: ' + kal + '\n\n' +
+    'Aksi ini tidak dapat dibatalkan!')) return;
+
+  var list = appData['OPM-OLS'] || {};
+  var keysToDelete = Object.keys(list).filter(function(k) {
+    var it = list[k];
+    return (it.date || '-') === date && (it.dari || '-') === dari &&
+           (it.ke || '-') === ke && (it.ukuranOLS || '-') === kal;
+  });
+
+  if (keysToDelete.length === 0) { showToast('Tidak ada data', 'error'); return; }
+
+  var updates = {};
+  keysToDelete.forEach(function(k) { updates['data/OPM-OLS/' + k] = null; });
+
+  db.ref().update(updates).then(function() {
+    catatRiwayat('OPM-OLS', 'Hapus Tabel',
+      'Dari: ' + dari + ' → Ke: ' + ke + ' | Kalibrasi: ' + kal + ' | ' + keysToDelete.length + ' port',
+      'Hapus seluruh tabel (Tanggal: ' + date + ')');
+    showToast('✅ ' + keysToDelete.length + ' baris dihapus', 'success');
+    setTimeout(refetchData, 300);
+  }).catch(function(err) {
+    var msg = err.message || 'Gagal hapus';
+    if (msg.includes('permission')) msg = 'Akses ditolak. Set Firebase Rules.';
+    showToast(msg, 'error');
+  });
+}
+window.hapusOpmGroup = hapusOpmGroup;
+
+/* ============================================================ FORM SUBMIT ============================================================ */
 function submitForm(e) {
   if (e && e.preventDefault) e.preventDefault();
   if (isSubmitting) { showToast('Sedang memproses...', 'error'); return; }
@@ -4156,9 +4360,7 @@ function confirmSpareAction() {
 }
 function closeGudangModal() { document.getElementById('gudang-modal').classList.add('hidden'); }
 
-/* ============================================================
-   EXPORT EXCEL (halaman utama)
-   ============================================================ */
+/* ============================================================ EXPORT EXCEL ============================================================ */
 function downloadPageExcel() {
   var cat = currentCategory;
   if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
@@ -4201,9 +4403,7 @@ function downloadPageExcel() {
   showToast('✅ Excel diunduh: ' + rows.length + ' baris', 'success');
 }
 
-/* ============================================================
-   CHART
-   ============================================================ */
+/* ============================================================ CHART ============================================================ */
 const CHART_COLORS = {
   pihakKe3: { bg: 'rgba(236, 72, 153, 0.75)', border: '#EC4899' },
   vandalisme: { bg: 'rgba(245, 158, 11, 0.75)', border: '#F59E0B' },
@@ -4385,9 +4585,7 @@ function renderYearComparison(currentYearNum) {
 function updateChartPeriod() { updateCharts(); }
 function updateDashboard() { updateCharts(); updateMapMarkers(); }
 
-/* ============================================================
-   SETTINGS & BARCODE
-   ============================================================ */
+/* ============================================================ SETTINGS & BARCODE ============================================================ */
 function loadSettings() {
   if (!db) return;
   db.ref('settings').once('value').then(function(s) {
@@ -4431,9 +4629,7 @@ function toggleScanner(t) {
   }).catch(function(err) { showToast('Kamera: ' + err.message, 'error'); c.classList.remove('active'); });
 }
 
-/* ============================================================
-   EVENT LISTENERS
-   ============================================================ */
+/* ============================================================ EVENT LISTENERS ============================================================ */
 function setupEventListeners() {
   var lf = document.getElementById('login-form'); if (lf) lf.addEventListener('submit', handleLogin);
   var tp = document.getElementById('toggle-pass');
@@ -4536,9 +4732,7 @@ function restoreLastPage() {
   }
 }
 
-/* ============================================================
-   INIT
-   ============================================================ */
+/* ============================================================ INIT ============================================================ */
 document.addEventListener('DOMContentLoaded', function() {
   loadTheme(); applyFontSettings();
   if (typeof lucide !== 'undefined') lucide.createIcons();
