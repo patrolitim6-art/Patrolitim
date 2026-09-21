@@ -56,14 +56,12 @@
   --app-font-size-3xl: calc(var(--app-font-size) + 12px);
   --radius: 16px;
 }
-/* ============ TEMA LIGHT: MERAH PUDAR + ABU-ABU ============ */
 :root[data-theme="light"] {
   --primary-cyan: #E05252;
   --primary-blue: #C93F3F;
   --primary-purple: #A03030;
   --primary-pink: #F08080;
   --tech-gradient: linear-gradient(135deg, #F08080 0%, #E05252 45%, #6B7280 100%);
-
   --surface-1: rgba(249, 250, 251, 0.9);
   --surface-2: #FFFFFF;
   --surface-3: #F3F4F6;
@@ -80,27 +78,22 @@
   --surface-table-header: rgba(224, 82, 82, 0.06);
   --surface-map-legend: rgba(255, 255, 255, 0.95);
   --surface-map-btn: rgba(255, 255, 255, 0.95);
-
   --text-main: #000000;
   --text-muted: #333333;
   --text-dim: #555555;
   --text-on-accent: #FFFFFF;
-
   --border-glow: rgba(224, 82, 82, 0.22);
   --border-subtle: rgba(107, 114, 128, 0.18);
-
   --bg-main: #F9FAFB;
   --bg-pattern-1: rgba(107, 114, 128, 0.04);
   --bg-pattern-2: rgba(224, 82, 82, 0.06);
   --bg-pattern-3: rgba(107, 114, 128, 0.08);
   --bg-pattern-4: rgba(224, 82, 82, 0.04);
-
   --shadow-card: 0 4px 24px rgba(107, 114, 128, 0.08);
   --shadow-card-hover: 0 8px 40px rgba(224, 82, 82, 0.12);
   --shadow-modal: 0 24px 64px rgba(107, 114, 128, 0.12);
   --scroll-track: rgba(229, 231, 235, 0.6);
 }
-/* ============ LIGHT MODE: PAKSA SEMUA TEKS HITAM ============ */
 :root[data-theme="light"] body,
 :root[data-theme="light"] div,
 :root[data-theme="light"] span,
@@ -225,8 +218,6 @@
   border-color: rgba(224,82,82,0.25) !important;
   color: #000000 !important;
 }
-
-/* ============ LIGHT MODE: HILANGKAN GARIS INPUT ============ */
 :root[data-theme="light"] .field-control,
 :root[data-theme="light"] input.field-control,
 :root[data-theme="light"] select.field-control,
@@ -312,8 +303,6 @@ h4 { font-size: var(--app-font-size-lg); }
   animation: logoGlowRed 2.5s ease-in-out infinite;
 }
 @keyframes logoGlowRed { 0%, 100% { box-shadow: 0 0 16px rgba(224, 82, 82, 0.45), 0 0 32px rgba(224, 82, 82, 0.18), inset 0 0 18px rgba(224, 82, 82, 0.15); } 50% { box-shadow: 0 0 26px rgba(224, 82, 82, 0.75), 0 0 52px rgba(224, 82, 82, 0.3), inset 0 0 24px rgba(224, 82, 82, 0.28); } }
-
-/* ============ LOGO TELIN TANPA BINGKAI ============ */
 .telin-logo-wrapper { display: flex; align-items: center; justify-content: center; padding: 0; border-radius: 0; background: transparent; border: none; box-shadow: none; transition: all 0.25s ease; flex-shrink: 0; }
 :root[data-theme="light"] .telin-logo-wrapper { background: transparent; border-color: transparent; }
 .telin-logo-wrapper:hover { border-color: transparent; box-shadow: none; transform: translateY(-1px); }
@@ -477,8 +466,8 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .gudang-tab { padding: 8px 20px; border-radius: 24px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 600; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-sm); }
 .gudang-tab:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); }
 .gudang-tab.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; }
-.records-table { width: 100%; border-collapse: collapse; table-layout: auto; }
-.records-table th { background: var(--surface-table-header); padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border-glow); font-weight: 700; color: var(--primary-cyan); white-space: nowrap; text-transform: uppercase; letter-spacing: 1px; font-family: 'Orbitron', sans-serif; }
+.records-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: auto; }
+.records-table th { background: var(--surface-table-header); padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border-glow); font-weight: 700; color: var(--primary-cyan); white-space: nowrap; text-transform: uppercase; letter-spacing: 1px; font-family: 'Orbitron', sans-serif; position: sticky; top: 0; z-index: 10; }
 .records-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; color: var(--text-main); word-break: break-word; overflow-wrap: anywhere; }
 .records-table tr:hover td { background: rgba(0, 217, 255, 0.05); }
 :root[data-theme="light"] .records-table tr:hover td { background: rgba(224, 82, 82, 0.04); }
@@ -491,7 +480,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   position: sticky; left: 0; z-index: 3;
   border-right: 1px solid var(--border-glow); font-size: var(--app-font-size-xs); padding: 8px 4px;
 }
-.records-table th.col-no { background: var(--surface-table-header); }
+.records-table th.col-no { background: var(--surface-table-header); z-index: 12; }
 .records-table td.col-no { background: var(--surface-3); }
 .records-table th.col-date, .records-table td.col-date { min-width: 100px; max-width: 120px; white-space: nowrap; }
 .records-table th.col-gudang, .records-table td.col-gudang { min-width: 110px; max-width: 140px; font-size: var(--app-font-size-xs); }
@@ -507,7 +496,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   width: 96px; min-width: 96px; max-width: 96px; text-align: center; white-space: nowrap;
   position: sticky; right: 0; border-left: 1px solid var(--border-subtle); z-index: 2;
 }
-.records-table th.col-aksi { background: var(--surface-table-header); z-index: 3; }
+.records-table th.col-aksi { background: var(--surface-table-header); z-index: 12; }
 .records-table td.col-aksi { background: var(--surface-3); }
 .durasi-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(16,185,129,0.15); color: #10B981; font-weight: 700; font-size: var(--app-font-size-xs); white-space: nowrap; }
 .status-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: var(--app-font-size-xs); white-space: nowrap; }
@@ -568,32 +557,34 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .opm-step-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
 .opm-step-title { font-weight: 800; color: var(--primary-cyan); font-size: var(--app-font-size-xs); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; font-family: 'Orbitron', sans-serif; }
 
-.opm-port-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: 6px; margin-top: 8px; }
-.opm-port-grid-btn { aspect-ratio: 1/1; padding: 0; display: grid; place-items: center; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: var(--app-font-size-sm); color: var(--text-muted); transition: all 0.2s; }
-.opm-port-grid-btn:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); transform: translateY(-1px); }
-.opm-port-grid-btn.selected { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; box-shadow: 0 2px 8px rgba(0,217,255,0.3); }
-.opm-port-grid-btn.in-list { background: rgba(16,185,129,0.15); color: #10B981; border-color: rgba(16,185,129,0.5); }
-.opm-port-grid-btn.in-list::after { content: '✓'; margin-left: 2px; font-size: 9px; }
-
 .opm-info-banner { background: linear-gradient(135deg, rgba(0,217,255,0.08), rgba(168,85,247,0.08)); border: 1px solid var(--border-glow); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; }
 :root[data-theme="light"] .opm-info-banner { background: linear-gradient(135deg, rgba(224,82,82,0.05), rgba(107,114,128,0.06)); }
 .opm-info-banner-title { font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: var(--app-font-size-xs); text-transform: uppercase; }
 .opm-info-banner-content { color: var(--text-muted); font-size: var(--app-font-size-xs); line-height: 1.6; }
 
 .opm-temp-list-wrap { max-height: 240px; overflow-y: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
-.opm-temp-list-table { width: 100%; border-collapse: collapse; }
-.opm-temp-list-table th { background: var(--surface-table-header); padding: 8px 10px; font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; font-size: var(--app-font-size-xs); text-align: left; border-bottom: 1px solid var(--border-glow); white-space: nowrap; }
+.opm-temp-list-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+.opm-temp-list-table th { background: var(--surface-table-header); padding: 8px 10px; font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; font-size: var(--app-font-size-xs); text-align: left; border-bottom: 1px solid var(--border-glow); white-space: nowrap; position: sticky; top: 0; z-index: 5; }
 .opm-temp-list-table td { padding: 8px 10px; font-size: var(--app-font-size-xs); border-bottom: 1px solid var(--border-subtle); }
 .opm-temp-list-empty { padding: 24px; text-align: center; color: var(--text-dim); font-size: var(--app-font-size-xs); font-style: italic; }
 
+/* ===== PORT DROPDOWN ===== */
+.opm-port-dropdown-wrap { position: relative; margin-top: 8px; }
+.opm-port-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; min-height: 32px; padding: 6px; background: rgba(0,217,255,0.04); border: 1px dashed var(--border-subtle); border-radius: 10px; }
+.opm-port-chips-empty { color: var(--text-dim); font-size: var(--app-font-size-xs); font-style: italic; padding: 4px 8px; }
+.chip-port { display: inline-flex; align-items: center; gap: 4px; background: var(--tech-gradient); color: var(--text-on-accent); padding: 4px 10px; border-radius: 14px; font-size: var(--app-font-size-xs); font-weight: 800; font-family: 'Orbitron', sans-serif; }
+.chip-port.used { background: linear-gradient(135deg, #EC4899, #BE185D); }
+.chip-port span { cursor: pointer; margin-left: 4px; font-weight: bold; font-size: 14px; line-height: 1; }
+.chip-port span:hover { color: #000; }
+
 .chart-rekap-wrapper { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-subtle); }
 .chart-rekap-title { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Orbitron', sans-serif; display: flex; align-items: center; gap: 8px; font-size: var(--app-font-size-xs); }
-.chart-rekap-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.chart-rekap-table th { background: var(--surface-table-header); padding: 6px 4px; text-align: center; border: 1px solid var(--border-subtle); font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; line-height: 1.2; }
+.chart-rekap-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
+.chart-rekap-table th { background: var(--surface-table-header); padding: 6px 4px; text-align: center; border: 1px solid var(--border-subtle); font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; line-height: 1.2; position: sticky; top: 0; z-index: 5; }
 .chart-rekap-table th.col-total { background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(0, 217, 255, 0.15) 100%); color: #10B981; border-left: 2px solid rgba(16, 185, 129, 0.6); border-right: 2px solid rgba(16, 185, 129, 0.6); }
 .chart-rekap-table td.col-total { background: rgba(16, 185, 129, 0.08); border-left: 2px solid rgba(16, 185, 129, 0.5); border-right: 2px solid rgba(16, 185, 129, 0.5); font-weight: 800; color: #10B981; }
 .chart-rekap-table tr.total-row td.col-total { background: rgba(16, 185, 129, 0.2); border-left: 2px solid #10B981; border-right: 2px solid #10B981; font-weight: 900; }
-.chart-rekap-table th:first-child, .chart-rekap-table td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-3); z-index: 2; width: 80px; padding-left: 8px; }
+.chart-rekap-table th:first-child, .chart-rekap-table td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-3); z-index: 6; width: 80px; padding-left: 8px; }
 .chart-rekap-table td { padding: 5px 4px; text-align: center; border: 1px solid var(--border-subtle); color: var(--text-main); font-weight: 600; line-height: 1.2; }
 .chart-rekap-table tr.total-row td { background: rgba(0, 217, 255, 0.08); font-weight: 900; color: var(--primary-cyan); border-top: 2px solid var(--border-glow); }
 :root[data-theme="light"] .chart-rekap-table tr.total-row td { background: rgba(224, 82, 82, 0.05); }
@@ -655,7 +646,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .about-info-title { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-weight: 800; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: var(--app-font-size-xs); }
 .about-info-list { margin: 0; padding-left: 16px; color: var(--text-muted); line-height: 1.8; font-size: var(--app-font-size-xs); }
 
-/* ============ TOMBOL SCROLL TABEL (DI ATAS TABEL) ============ */
 .table-scroll-buttons {
   display: flex;
   gap: 8px;
@@ -684,7 +674,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   background: rgba(224,82,82,0.1);
 }
 
-/* ============ TABEL: ANTI-TINDIH ============ */
 table.records-table {
   width: 100% !important;
   table-layout: auto !important;
@@ -721,7 +710,6 @@ table.records-table td.col-nama { min-width: 120px; max-width: 180px; }
 table.records-table th.col-loc,
 table.records-table td.col-loc { min-width: 120px; max-width: 200px; }
 
-/* ============ PRINT HEADER ============ */
 .print-header-telin {
   display: none;
   align-items: center;
@@ -1201,7 +1189,7 @@ table.records-table td.col-loc { min-width: 120px; max-width: 200px; }
             <button type="button" onclick="scrollTableLeft()" title="Geser Kiri"><i data-lucide="chevron-left" style="width:18px;"></i></button>
             <button type="button" onclick="scrollTableRight()" title="Geser Kanan"><i data-lucide="chevron-right" style="width:18px;"></i></button>
           </div>
-          <div id="table-regular-wrapper" style="overflow-x:auto;">
+          <div id="table-regular-wrapper" style="overflow-x:auto;max-height:70vh;">
             <table class="records-table">
               <thead id="table-head"></thead>
               <tbody id="table-body"></tbody>
@@ -1655,9 +1643,16 @@ table.records-table td.col-loc { min-width: 120px; max-width: 200px; }
             </div>
 
             <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);display:block;margin-bottom:6px;">
-              Klik Port untuk Dipilih:
+              Pilih Port dari Dropdown:
             </label>
-            <div class="opm-port-grid" id="opm-port-grid"></div>
+            <div class="opm-port-dropdown-wrap">
+              <select id="opm-port-select" class="field-control" onchange="pilihPortDropdown(this)">
+                <option value="">-- Pilih Port --</option>
+              </select>
+            </div>
+            <div class="opm-port-chips" id="opm-port-chips">
+              <span class="opm-port-chips-empty">Belum ada port dipilih</span>
+            </div>
             <input type="hidden" id="inp-opm-port" value="">
 
             <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px;">
@@ -2132,7 +2127,7 @@ table.records-table td.col-loc { min-width: 120px; max-width: 200px; }
         &copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Pusat Operasi Jaringan Sulawesi Utara
       </p>
       <p style="color:var(--text-dim);margin:6px 0 0;font-size:calc(var(--app-font-size) - 4px);">
-        Versi 2.6.0 &nbsp;•&nbsp; Firebase Realtime DB &nbsp;•&nbsp; MapLibre GL
+        Versi 2.7.0 &nbsp;•&nbsp; Firebase Realtime DB &nbsp;•&nbsp; MapLibre GL
       </p>
     </div>
 
@@ -2752,25 +2747,76 @@ function setPointFilter(filter) {
 }
 window.setPointFilter = setPointFilter;
 
-/* ============================================================ OPM PORT GRID & TEMP LIST ============================================================ */
-function renderOpmPortGrid() {
-  var grid = document.getElementById('opm-port-grid');
-  if (!grid) return;
-  var html = '';
+/* ============================================================ OPM PORT DROPDOWN & TEMP LIST ============================================================ */
+function renderOpmPortDropdown() {
+  var sel = document.getElementById('opm-port-select');
+  if (!sel) return;
+  var currentVal = sel.value;
+  sel.innerHTML = '<option value="">-- Pilih Port --</option>';
+  var availableCount = 0;
   for (var i = 1; i <= 48; i++) {
     var inList = opmTempPorts.some(function(p) { return String(p.port) === String(i); });
-    var sel = (String(selectedOpmPort) === String(i)) ? 'selected' : '';
-    var lst = inList ? 'in-list' : '';
-    html += '<button type="button" class="opm-port-grid-btn ' + sel + ' ' + lst + '" data-port="' + i + '" onclick="selectOpmPort(' + i + ')">' + i + '</button>';
+    if (!inList) {
+      var opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = 'Port ' + i;
+      sel.appendChild(opt);
+      availableCount++;
+    }
   }
-  grid.innerHTML = html;
+  // Sembunyikan dropdown jika semua port sudah dipilih
+  if (availableCount === 0) {
+    sel.style.display = 'none';
+    if (!document.getElementById('opm-port-all-picked')) {
+      var msg = document.createElement('div');
+      msg.id = 'opm-port-all-picked';
+      msg.style.cssText = 'padding:10px 14px;border-radius:10px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.4);color:#10B981;font-weight:700;font-size:var(--app-font-size-xs);text-align:center;';
+      msg.textContent = '✓ Semua 48 port telah dipilih';
+      sel.parentElement.appendChild(msg);
+    }
+  } else {
+    sel.style.display = '';
+    var msgEl = document.getElementById('opm-port-all-picked');
+    if (msgEl) msgEl.remove();
+  }
+  // Restore value jika masih ada
+  if (currentVal) {
+    var exists = Array.from(sel.options).some(function(o) { return o.value === currentVal; });
+    if (exists) sel.value = currentVal;
+  }
+  renderOpmPortChips();
 }
-function selectOpmPort(p) {
-  selectedOpmPort = p;
-  document.getElementById('inp-opm-port').value = p;
-  document.querySelectorAll('.opm-port-grid-btn').forEach(function(b) {
-    b.classList.toggle('selected', String(b.dataset.port) === String(p));
+function renderOpmPortChips() {
+  var chipsEl = document.getElementById('opm-port-chips');
+  if (!chipsEl) return;
+  if (opmTempPorts.length === 0) {
+    chipsEl.innerHTML = '<span class="opm-port-chips-empty">Belum ada port dipilih</span>';
+    return;
+  }
+  var html = '';
+  opmTempPorts.forEach(function(p) {
+    var cls = p.isUsed ? 'chip-port used' : 'chip-port';
+    html += '<span class="' + cls + '">Port ' + p.port + ' <span onclick="hapusPortChip(' + p.port + ')" title="Hapus">&times;</span></span>';
   });
+  chipsEl.innerHTML = html;
+}
+function pilihPortDropdown(sel) {
+  var val = sel.value;
+  if (!val) return;
+  selectedOpmPort = val;
+  document.getElementById('inp-opm-port').value = val;
+  // Reset dropdown ke default (opsi otomatis hilang dari dropdown karena sudah di list)
+  // Tidak langsung dihapus, karena akan dihapus setelah addOpmPortToList
+  showToast('Port ' + val + ' dipilih. Isi DBM lalu klik Submit Port.', 'success');
+}
+function hapusPortChip(port) {
+  var idx = opmTempPorts.findIndex(function(p) { return String(p.port) === String(port); });
+  if (idx === -1) return;
+  opmTempPorts.splice(idx, 1);
+  renderOpmPortDropdown();
+  renderOpmTempList();
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+  showToast('Port ' + port + ' dihapus dari list', 'warning');
 }
 function toggleOpmUsedLabel() {
   var cb = document.getElementById('inp-opm-used');
@@ -2795,7 +2841,7 @@ function addOpmPortToList() {
   if (dari === ke) { showToast('❌ "Dari" dan "Ke" tidak boleh sama!', 'error'); return; }
   if (!nilaiKalibrasi) { showToast('Isi Nilai Kalibrasi di Step 1', 'error'); return; }
   if (!ruas) { showToast('Pilih Ruas di Step 1', 'error'); return; }
-  if (!port) { showToast('Pilih Port (1-48) dari grid', 'error'); return; }
+  if (!port) { showToast('Pilih Port dari dropdown', 'error'); return; }
   if (isNaN(dbm)) { showToast('Isi nilai DBM untuk port ini', 'error'); return; }
   if (isUsed && !label) { showToast('Label wajib diisi jika Port Terpakai', 'error'); return; }
   if (opmTempPorts.some(function(p) { return String(p.port) === String(port); })) {
@@ -2807,6 +2853,7 @@ function addOpmPortToList() {
 
   selectedOpmPort = '';
   document.getElementById('inp-opm-port').value = '';
+  document.getElementById('opm-port-select').value = '';
   document.getElementById('inp-opm-dbm').value = '';
   document.getElementById('inp-opm-used').checked = false;
   document.getElementById('inp-opm-label').value = '';
@@ -2814,14 +2861,14 @@ function addOpmPortToList() {
   document.getElementById('opm-used-label-wrap').classList.add('hidden');
 
   renderOpmTempList();
-  renderOpmPortGrid();
+  renderOpmPortDropdown();
   if (typeof lucide !== 'undefined') lucide.createIcons();
   showToast('Port ' + port + ' ditambahkan ke list', 'success');
 }
 function removeOpmPortFromList(idx) {
   opmTempPorts.splice(idx, 1);
   renderOpmTempList();
-  renderOpmPortGrid();
+  renderOpmPortDropdown();
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 function renderOpmTempList() {
@@ -2916,8 +2963,9 @@ function submitOpmDataToDb() {
     if (typeof lucide !== 'undefined') lucide.createIcons();
   });
 }
-window.renderOpmPortGrid = renderOpmPortGrid;
-window.selectOpmPort = selectOpmPort;
+window.renderOpmPortDropdown = renderOpmPortDropdown;
+window.pilihPortDropdown = pilihPortDropdown;
+window.hapusPortChip = hapusPortChip;
 window.toggleOpmUsedLabel = toggleOpmUsedLabel;
 window.addOpmPortToList = addOpmPortToList;
 window.removeOpmPortFromList = removeOpmPortFromList;
@@ -3847,7 +3895,7 @@ function renderTable() {
   } catch (e) { console.error('renderTable error:', e); }
 }
 
-/* ============ OPM GROUPED TABLES (dengan TABEL TERPISAH WARNA TUBE & KABEL) ============ */
+/* ============ OPM GROUPED TABLES — SATU TABEL LENGKAP ============ */
 function renderOpmGroupedTables(list) {
   var wrap = document.getElementById('table-opm-wrapper');
   if (!wrap) return;
@@ -3908,14 +3956,16 @@ function renderOpmGroupedTables(list) {
     html += '</div>';
     html += '</div>';
 
-    // ===== TABEL 1: DATA PORT =====
-    html += '<div style="overflow-x:auto;margin-bottom:10px;">';
+    // ===== SATU TABEL LENGKAP: PORT + DBM + STATUS + WARNA TUBE + WARNA KABEL =====
+    html += '<div style="overflow-x:auto;max-height:70vh;">';
     html += '<table class="records-table">';
     html += '<thead><tr>';
     html += '<th class="col-no">No</th>';
     html += '<th style="text-align:center;">Port</th>';
     html += '<th style="text-align:center;">DBM</th>';
     html += '<th style="text-align:center;">Status</th>';
+    html += '<th style="text-align:center;">Warna Tube</th>';
+    html += '<th style="text-align:center;">Warna Kabel</th>';
     html += '<th class="col-ket">Label / Keterangan</th>';
     html += '<th class="col-user">User</th>';
     html += '<th class="col-aksi">Aksi</th></tr></thead>';
@@ -3930,45 +3980,19 @@ function renderOpmGroupedTables(list) {
       if (isUsed && it.label) ket += '<span class="opm-label-badge"><i data-lucide="tag" style="width:10px;display:inline-block;vertical-align:middle;"></i> ' + escapeHtml(it.label) + '</span> ';
       if (it.keterangan) ket += escapeHtml(it.keterangan);
       if (!ket) ket = '<span style="opacity:0.35;">—</span>';
+      var tube = it.warnaTube ? '<span style="background:rgba(0,217,255,0.1);color:var(--primary-cyan);padding:2px 10px;border-radius:6px;font-weight:700;">' + escapeHtml(it.warnaTube) + '</span>' : '<span style="opacity:0.35;">—</span>';
+      var kabel = it.warnaKabel ? '<span style="background:rgba(168,85,247,0.1);color:#A855F7;padding:2px 10px;border-radius:6px;font-weight:700;">' + escapeHtml(it.warnaKabel) + '</span>' : '<span style="opacity:0.35;">—</span>';
 
       html += '<tr>';
       html += '<td class="col-no">' + (i + 1) + '</td>';
       html += '<td style="text-align:center;">' + portChip + '</td>';
       html += '<td style="text-align:center;font-weight:700;">' + (it.dbm !== undefined ? it.dbm : '-') + '</td>';
       html += '<td style="text-align:center;">' + statusBadge + '</td>';
+      html += '<td style="text-align:center;">' + tube + '</td>';
+      html += '<td style="text-align:center;">' + kabel + '</td>';
       html += '<td class="col-ket">' + ket + '</td>';
       html += '<td class="col-user">' + (it.postBy || '-') + '</td>';
       html += '<td class="col-aksi">' + aksi + '</td>';
-      html += '</tr>';
-    });
-    html += '</tbody></table>';
-    html += '</div>';
-
-    // ===== TABEL 2: WARNA TUBE & WARNA KABEL =====
-    html += '<div style="overflow-x:auto;margin-bottom:4px;">';
-    html += '<div style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);text-transform:uppercase;letter-spacing:1px;padding:8px 12px;background:var(--surface-table-header);border:1px solid var(--border-glow);border-bottom:none;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:6px;">';
-    html += '<i data-lucide="palette" style="width:14px;"></i> Warna Tube & Warna Kabel';
-    html += '</div>';
-    html += '<table class="records-table" style="border-radius:0 0 8px 8px;overflow:hidden;">';
-    html += '<thead><tr>';
-    html += '<th class="col-no">No</th>';
-    html += '<th style="text-align:center;">Port</th>';
-    html += '<th style="text-align:center;">Warna Tube</th>';
-    html += '<th style="text-align:center;">Warna Kabel</th>';
-    html += '<th class="col-ket">Keterangan</th>';
-    html += '</tr></thead>';
-    html += '<tbody>';
-    g.items.forEach(function(x, i) {
-      var it = x.data;
-      var tube = it.warnaTube || '<span style="opacity:0.35;">—</span>';
-      var kabel = it.warnaKabel || '<span style="opacity:0.35;">—</span>';
-      var ketWarna = (it.keterangan || '') || '<span style="opacity:0.35;">—</span>';
-      html += '<tr>';
-      html += '<td class="col-no">' + (i + 1) + '</td>';
-      html += '<td style="text-align:center;font-weight:700;">' + (it.port || '-') + '</td>';
-      html += '<td style="text-align:center;"><span style="background:rgba(0,217,255,0.1);color:var(--primary-cyan);padding:2px 10px;border-radius:6px;font-weight:700;">' + tube + '</span></td>';
-      html += '<td style="text-align:center;"><span style="background:rgba(168,85,247,0.1);color:#A855F7;padding:2px 10px;border-radius:6px;font-weight:700;">' + kabel + '</span></td>';
-      html += '<td class="col-ket">' + ketWarna + '</td>';
       html += '</tr>';
     });
     html += '</tbody></table>';
@@ -4250,7 +4274,7 @@ function closeModal() {
   selectedOpmPort = ''; opmTempPorts = [];
   var cbb = document.getElementById('inp-opm-used'); if (cbb) cbb.checked = false;
   var lw = document.getElementById('opm-used-label-wrap'); if (lw) lw.classList.add('hidden');
-  try { renderOpmTempList(); renderOpmPortGrid(); } catch (e) {}
+  try { renderOpmTempList(); renderOpmPortDropdown(); } catch (e) {}
 }
 function stopScanner(t) {
   var c = document.getElementById('modal-scanner'); if (c) c.classList.remove('active');
@@ -4324,7 +4348,7 @@ function openForm(editData, editKey) {
   if (isOpm) {
     document.getElementById('field-opm').classList.remove('hidden');
     opmTempPorts = [];
-    setTimeout(function() { renderOpmPortGrid(); renderOpmTempList(); checkOpmDariKe(); }, 100);
+    setTimeout(function() { renderOpmPortDropdown(); renderOpmTempList(); checkOpmDariKe(); }, 100);
   }
   if (isHH || isJoint) {
     document.getElementById('field-normal').classList.remove('hidden');
@@ -4371,7 +4395,7 @@ function resetFormFields() {
   selectedOpmPort = ''; opmTempPorts = [];
   var cb = document.getElementById('inp-opm-used'); if (cb) cb.checked = false;
   var lw = document.getElementById('opm-used-label-wrap'); if (lw) lw.classList.add('hidden');
-  try { renderOpmTempList(); renderOpmPortGrid(); } catch (e) {}
+  try { renderOpmTempList(); renderOpmPortDropdown(); } catch (e) {}
 }
 function populateFormFields(data) {
   var map = {
@@ -4384,7 +4408,7 @@ function populateFormFields(data) {
     'inp-alker-nama': data.nama, 'inp-alker-sn': data.sn, 'inp-alker-jenis': data.jenis, 'inp-alker-merk': data.merk, 'inp-alker-keterangan': data.keterangan
   };
   Object.keys(map).forEach(function(id) { var el = document.getElementById(id); if (el && map[id] !== undefined && map[id] !== null) el.value = map[id]; });
-  if (data.port) { selectedOpmPort = data.port; setTimeout(function() { renderOpmPortGrid(); }, 50); }
+  if (data.port) { selectedOpmPort = data.port; setTimeout(function() { renderOpmPortDropdown(); }, 50); }
   if (data.isUsed) { var cb = document.getElementById('inp-opm-used'); if (cb) { cb.checked = true; toggleOpmUsedLabel(); } }
   setTimeout(checkOpmDariKe, 100); setTimeout(hitungDurasiOF, 150);
 }
@@ -4829,7 +4853,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadTheme(); applyFontSettings();
   if (typeof lucide !== 'undefined') lucide.createIcons();
   checkFirebaseConnection().then(function(ok) { if (ok) ensureDefaultUser(); });
-  applyAutoUppercase(); renderOpmPortGrid(); renderOpmTempList();
+  applyAutoUppercase(); renderOpmPortDropdown(); renderOpmTempList();
   try {
     var savedSort = localStorage.getItem('bucin_sort');
     if (savedSort) { currentSort = savedSort; var sortSel = document.getElementById('sort-select'); if (sortSel) sortSel.value = savedSort; }
