@@ -138,6 +138,72 @@ h4 { font-size: var(--app-font-size-lg); }
 .earth-logo svg { width: 100%; height: 100%; display: block; }
 .earth-logo.large { width: 84px; height: 84px; border-radius: 20px; padding: 6px; border-width: 2px; }
 @keyframes logoGlow { 0%, 100% { box-shadow: 0 0 16px rgba(0, 217, 255, 0.55), 0 0 32px rgba(0, 217, 255, 0.22), inset 0 0 18px rgba(0, 217, 255, 0.18); } 50% { box-shadow: 0 0 26px rgba(0, 217, 255, 0.9), 0 0 52px rgba(0, 217, 255, 0.4), inset 0 0 24px rgba(0, 217, 255, 0.35); } }
+
+/* ============ TELIN LOGO ============ */
+.telin-logo-wrapper {
+  display: flex; align-items: center; justify-content: center;
+  padding: 6px 12px; border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+:root[data-theme="light"] .telin-logo-wrapper {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(15, 23, 42, 0.1);
+}
+.telin-logo-wrapper:hover {
+  border-color: rgba(236, 28, 36, 0.55);
+  box-shadow: 0 0 14px rgba(236, 28, 36, 0.28);
+  transform: translateY(-1px);
+}
+.telin-logo {
+  height: 30px; width: auto; object-fit: contain;
+  transition: all 0.3s ease;
+  display: block;
+}
+.telin-logo:hover { transform: scale(1.05); }
+
+.telin-divider {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; margin: 16px 0 20px; padding: 12px 16px;
+  background: rgba(236, 28, 36, 0.06);
+  border: 1px solid rgba(236, 28, 36, 0.28);
+  border-radius: 14px;
+  transition: all 0.25s;
+}
+:root[data-theme="light"] .telin-divider {
+  background: rgba(236, 28, 36, 0.05);
+  border-color: rgba(236, 28, 36, 0.25);
+}
+.telin-divider:hover {
+  background: rgba(236, 28, 36, 0.1);
+  border-color: rgba(236, 28, 36, 0.5);
+  box-shadow: 0 0 20px rgba(236, 28, 36, 0.2);
+}
+.telin-logo-login {
+  height: 44px; width: auto; object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(236, 28, 36, 0.35));
+  transition: all 0.3s ease; display: block;
+}
+.telin-logo-login:hover { transform: scale(1.05); }
+
+.telin-footer-brand {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding-top: 10px; margin-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+.telin-footer-brand img {
+  height: 22px; width: auto; opacity: 0.85; transition: opacity 0.2s;
+}
+.telin-footer-brand img:hover { opacity: 1; }
+
+@media (max-width: 640px) {
+  .telin-logo { height: 24px; }
+  .telin-logo-login { height: 36px; }
+  .telin-logo-wrapper { padding: 4px 8px; }
+}
+
 .card { background: var(--surface-1); backdrop-filter: blur(16px); border-radius: var(--radius); box-shadow: var(--shadow-card); padding: 16px; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.3s ease; border: 1px solid var(--border-subtle); position: relative; overflow: hidden; }
 .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.6; }
 .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); border-color: var(--border-glow); }
@@ -269,7 +335,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .records-table tr:hover td { background: rgba(0, 217, 255, 0.05); }
 .records-table code { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); padding: 2px 8px; border-radius: 6px; font-family: 'Orbitron', monospace; border: 1px solid rgba(0, 217, 255, 0.2); }
 .records-table td.ket-cell { max-width: 240px; white-space: normal; word-break: break-word; font-size: var(--app-font-size-xs); color: var(--text-muted); line-height: 1.4; }
-
 .records-table th.col-no, .records-table td.col-no {
   width: 48px; min-width: 48px; max-width: 48px; text-align: center;
   font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif;
@@ -301,7 +366,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .durasi-info { display: none; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4); color: #10B981; padding: 10px 14px; border-radius: 10px; font-weight: 600; margin-top: 10px; align-items: center; gap: 8px; font-size: var(--app-font-size-sm); }
 .durasi-info.show { display: flex; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
-
 .stok-summary { background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(168, 85, 247, 0.1)); border: 1px solid var(--border-glow); border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
 .stok-summary .label { font-weight: 600; color: var(--text-muted); font-size: var(--app-font-size-xs); }
 .stok-summary .value { font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-lg); }
@@ -441,6 +505,13 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
       <h1 class="login-title">BUCIN</h1>
       <p class="login-subtitle">Sistem Cegah Insiden Network</p>
     </div>
+
+    <!-- TELIN LOGO DI LOGIN -->
+    <div class="telin-divider">
+      <span style="color:var(--text-dim);font-size:var(--app-font-size-xs);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Powered by</span>
+      <img src="Telin_company_logo.png" alt="Telin" class="telin-logo-login">
+    </div>
+
     <div class="login-divider"><span>LOGIN</span></div>
     <div id="login-error" class="login-error">
       <span id="login-error-text">Username atau password salah</span>
@@ -567,15 +638,21 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
       <div class="nav-section-label">Informasi</div>
       <div class="nav-item" id="nav-about" onclick="openAboutModal()"><i data-lucide="info"></i><span>Tentang Web BUCIN</span></div>
     </nav>
-    <div class="sidebar-footer">
-      <div class="user-chip">
-        <div class="user-avatar" id="sidebar-user-initial">A</div>
-        <div class="user-info">
-          <div class="user-name" id="sidebar-user-name">Admin</div>
-          <div class="user-role" id="sidebar-user-role">Administrator</div>
+    <div class="sidebar-footer" style="flex-direction:column;">
+      <div style="display:flex;align-items:center;gap:10px;width:100%;">
+        <div class="user-chip">
+          <div class="user-avatar" id="sidebar-user-initial">A</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebar-user-name">Admin</div>
+            <div class="user-role" id="sidebar-user-role">Administrator</div>
+          </div>
         </div>
+        <button id="logout-btn" class="icon-btn" title="Keluar"><i data-lucide="log-out" style="width:20px;"></i></button>
       </div>
-      <button id="logout-btn" class="icon-btn" title="Keluar"><i data-lucide="log-out" style="width:20px;"></i></button>
+      <div class="telin-footer-brand" style="width:100%;">
+        <span style="color:var(--text-dim);font-size:calc(var(--app-font-size) - 5px);font-weight:600;text-transform:uppercase;letter-spacing:1px;">Powered by</span>
+        <img src="Telin_company_logo.png" alt="Telin">
+      </div>
     </div>
   </aside>
   <div id="sidebar-overlay" class="sidebar-overlay"></div>
@@ -586,7 +663,10 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
         <button id="menu-toggle" class="menu-toggle" title="Menu"><i data-lucide="menu" style="width:22px;"></i></button>
         <h2 id="header-title" style="margin:0;font-weight:800;color:var(--primary-cyan);letter-spacing:1px;">Dashboard</h2>
       </div>
-      <div style="display:flex;gap:6px;align-items:center;">
+      <div style="display:flex;gap:8px;align-items:center;">
+        <div class="telin-logo-wrapper" title="Telin - Telkom Indonesia International">
+          <img src="Telin_company_logo.png" alt="Telin" class="telin-logo">
+        </div>
         <button id="theme-toggle" class="icon-btn" title="Ganti Tema" onclick="toggleTheme()"><i data-lucide="sun" id="theme-icon" style="width:20px;"></i></button>
         <button id="add-user-btn" class="icon-btn hidden" title="Manajemen User"><i data-lucide="user-plus" style="width:20px;"></i></button>
         <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:20px;"></i></button>
@@ -1596,12 +1676,18 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
       </ol>
     </div>
 
+    <!-- TELIN BRANDING DI FOOTER ABOUT -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:14px;margin-bottom:16px;background:rgba(236,28,36,0.06);border:1px solid rgba(236,28,36,0.25);border-radius:12px;">
+      <span style="color:var(--text-dim);font-size:var(--app-font-size-xs);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Powered by</span>
+      <img src="Telin_company_logo.png" alt="Telin" style="height:36px;width:auto;object-fit:contain;">
+    </div>
+
     <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);">
       <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">
         &copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Pusat Operasi Jaringan Sulawesi Utara
       </p>
       <p style="color:var(--text-dim);margin:6px 0 0;font-size:calc(var(--app-font-size) - 4px);">
-        Versi 2.2.0 &nbsp;•&nbsp; Firebase Realtime DB &nbsp;•&nbsp; MapLibre GL
+        Versi 2.3.0 &nbsp;•&nbsp; Firebase Realtime DB &nbsp;•&nbsp; MapLibre GL
       </p>
     </div>
 
@@ -4107,7 +4193,7 @@ function confirmSpareAction() {
 function closeGudangModal() { document.getElementById('gudang-modal').classList.add('hidden'); }
 
 /* ============================================================
-   EXPORT EXCEL LENGKAP (SEMUA TABEL TAMPIL DI EXCEL)
+   EXPORT EXCEL LENGKAP
    ============================================================ */
 function downloadPageExcel() {
   var cat = currentCategory;
