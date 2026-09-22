@@ -176,7 +176,8 @@
 :root[data-theme="light"] .user-list-role.admin,
 :root[data-theme="light"] .user-list-role.user,
 :root[data-theme="light"] .user-list-role.suspended-tag,
-:root[data-theme="light"] .user-list-role.new-tag { color: #000000 !important; }
+:root[data-theme="light"] .user-list-role.new-tag,
+:root[data-theme="light"] .map-line-toggle { color: #000000 !important; }
 :root[data-theme="light"] .brand-text,
 :root[data-theme="light"] .hero-panel h1,
 :root[data-theme="light"] .login-title { -webkit-text-fill-color: #000000 !important; }
@@ -355,6 +356,12 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .map-points-filter-btn.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3); }
 :root[data-theme="light"] .map-points-filter-btn.active { box-shadow: 0 4px 12px rgba(224, 82, 82, 0.2); }
 .map-points-filter-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+/* ===== FILTER LINE PETA ===== */
+.map-lines-filter { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 14px; background: var(--surface-1); border-bottom: 1px solid var(--border-subtle); align-items: center; }
+.map-line-toggle { padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; gap: 6px; opacity: 0.5; }
+.map-line-toggle:hover { transform: translateY(-1px); border-color: var(--primary-cyan); }
+.map-line-toggle.active { opacity: 1; color: var(--text-main); border-color: var(--primary-cyan); box-shadow: 0 0 0 2px rgba(0,217,255,0.15); }
+.map-line-toggle .line-color-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); flex-shrink: 0; }
 .mini-map-controls { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
 .mini-map-btn { background: var(--surface-map-btn); backdrop-filter: blur(10px); border: 1px solid var(--border-glow); border-radius: 10px; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; color: var(--primary-cyan); transition: all 0.2s; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
 .mini-map-btn:hover { background: rgba(0, 217, 255, 0.2); transform: scale(1.05); }
@@ -586,7 +593,7 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
 .print-header-telin .print-title { font-size: 18px; font-weight: 800; color: #000; }
 @media print {
   body { background: #fff !important; color: #000 !important; padding: 0 !important; }
-  .sidebar, .top-header, .menu-toggle, .sidebar-overlay, .filter-bar, .custom-map-controls, .map-legend, .card::before, .hero-panel, #dashboard-view, .map-points-filter, .opm-group-stats, .opm-info-banner, .opm-step-card, .icon-btn, .sub-tabs, .btn-primary, .btn-secondary, .btn-icon, .toast, .table-scroll-buttons { display: none !important; }
+  .sidebar, .top-header, .menu-toggle, .sidebar-overlay, .filter-bar, .custom-map-controls, .map-legend, .card::before, .hero-panel, #dashboard-view, .map-points-filter, .map-lines-filter, .opm-group-stats, .opm-info-banner, .opm-step-card, .icon-btn, .sub-tabs, .btn-primary, .btn-secondary, .btn-icon, .toast, .table-scroll-buttons { display: none !important; }
   .print-header-telin { display: flex !important; }
   .print-header-row { display: table-row !important; }
   .records-table, .opm-group-wrapper { page-break-inside: avoid; }
@@ -859,6 +866,24 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
             </button>
           </div>
 
+          <!-- ===== FILTER LINE PETA ===== -->
+          <div class="map-lines-filter" id="map-lines-filter">
+            <span class="map-points-filter-label">
+              <i data-lucide="route" style="width:14px;"></i> Tampilkan Line:
+            </span>
+            <div id="map-lines-filter-buttons" style="display:flex;gap:6px;flex-wrap:wrap;flex:1;">
+              <span style="color:var(--text-dim);font-size:var(--app-font-size-xs);font-style:italic;">Memuat line...</span>
+            </div>
+            <div style="display:flex;gap:6px;margin-left:auto;">
+              <button class="map-points-filter-btn" onclick="showAllLines()" title="Tampilkan semua line">
+                <i data-lucide="eye" style="width:12px;"></i> Semua
+              </button>
+              <button class="map-points-filter-btn" onclick="hideAllLines()" title="Sembunyikan semua line">
+                <i data-lucide="eye-off" style="width:12px;"></i> Kosongkan
+              </button>
+            </div>
+          </div>
+
           <div style="position:relative;">
             <div id="map-container"></div>
             <div class="map-legend">
@@ -1111,7 +1136,7 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
   </div>
 </div>
 
-<!-- MODAL UPLOAD KML/KMZ (tanpa opsi custom line) -->
+<!-- MODAL UPLOAD KML/KMZ -->
 <div id="kml-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
@@ -1239,7 +1264,7 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
   </div>
 </div>
 
-<!-- MODAL FORM (disingkat, tetap sama seperti aslinya) -->
+<!-- MODAL FORM -->
 <div id="form-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
@@ -2151,6 +2176,8 @@ let drawPoints = [];
 let drawMarkers = [];
 let drawCurrentLine = null;
 let customLines = {};
+let selectedLineFilters = null;
+let allAvailableLines = [];
 const kmlLineColors = {
   'OSP LINE 1': '#FF0000', 'OSP LINE 2': '#00FF00', 'OSP LINE 3': '#0000FF',
   'IGG LINE 1': '#FFA500', 'IGG LINE 2': '#800080', 'DWDM': '#FF00FF',
@@ -2575,6 +2602,100 @@ function setPointFilter(filter) {
 }
 window.setPointFilter = setPointFilter;
 
+/* ============================================================ FILTER LINE PETA ============================================================ */
+function renderLineFilters() {
+  var container = document.getElementById('map-lines-filter-buttons');
+  if (!container) return;
+  var lines = {};
+  BUILTIN_LINES.forEach(function(n) { lines[n] = true; });
+  Object.keys(customLines || {}).forEach(function(n) { lines[n] = true; });
+  Object.keys(kmlDataCache || {}).forEach(function(n) { lines[n] = true; });
+  allAvailableLines = Object.keys(lines).sort();
+  if (!selectedLineFilters) {
+    selectedLineFilters = {};
+    allAvailableLines.forEach(function(n) { selectedLineFilters[n] = true; });
+  }
+  allAvailableLines.forEach(function(n) {
+    if (selectedLineFilters[n] === undefined) selectedLineFilters[n] = true;
+  });
+  if (allAvailableLines.length === 0) {
+    container.innerHTML = '<span style="color:var(--text-dim);font-size:var(--app-font-size-xs);font-style:italic;">Belum ada line tersimpan</span>';
+    return;
+  }
+  var html = '';
+  allAvailableLines.forEach(function(name) {
+    var isActive = selectedLineFilters[name] !== false;
+    var color = kmlLineColors[name] || (customLines[name] && customLines[name].color) || '#00D9FF';
+    var displayName = name.length > 18 ? name.substring(0, 16) + '…' : name;
+    html += '<button type="button" class="map-line-toggle' + (isActive ? ' active' : '') + '" ' +
+            'onclick="toggleLineFilter(\'' + escapeAttr(name) + '\')" ' +
+            'title="' + escapeHtml(name) + '">' +
+            '<span class="line-color-dot" style="background:' + color + ';"></span>' +
+            escapeHtml(displayName) +
+            '</button>';
+  });
+  container.innerHTML = html;
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+function toggleLineFilter(lineName) {
+  if (!selectedLineFilters) selectedLineFilters = {};
+  selectedLineFilters[lineName] = !(selectedLineFilters[lineName] !== false);
+  applyLineFilters();
+  renderLineFilters();
+}
+function showAllLines() {
+  if (!selectedLineFilters) selectedLineFilters = {};
+  allAvailableLines.forEach(function(n) { selectedLineFilters[n] = true; });
+  applyLineFilters();
+  renderLineFilters();
+  showToast('Semua line ditampilkan', 'success');
+}
+function hideAllLines() {
+  if (!selectedLineFilters) selectedLineFilters = {};
+  allAvailableLines.forEach(function(n) { selectedLineFilters[n] = false; });
+  applyLineFilters();
+  renderLineFilters();
+  showToast('Semua line disembunyikan', 'warning');
+}
+function applyLineFilters() {
+  if (!map) return;
+  var filtered = {};
+  Object.keys(kmlDataCache || {}).forEach(function(name) {
+    if (selectedLineFilters && selectedLineFilters[name] === false) return;
+    filtered[name] = kmlDataCache[name];
+  });
+  renderAllKmlLinesFiltered(filtered);
+}
+function renderAllKmlLinesFiltered(kmlDataObj) {
+  var d = kmlDataObj || {};
+  Object.keys(kmlLayers).forEach(function(existingLine) {
+    if (!d[existingLine]) {
+      var l = kmlLayers[existingLine];
+      try { if (l && l.layerId && map.getLayer(l.layerId)) map.removeLayer(l.layerId); } catch(e) {}
+      try { if (l && l.sourceId && map.getSource(l.sourceId)) map.removeSource(l.sourceId); } catch(e) {}
+      delete kmlLayers[existingLine];
+    }
+  });
+  Object.keys(d).forEach(function(lineName) {
+    var kmlText = d[lineName]; if (!kmlText || typeof kmlText !== 'string') return;
+    try {
+      var xml = new DOMParser().parseFromString(kmlText, "text/xml");
+      var geojson = parseKmlToGeoJSON(xml);
+      if (geojson.features.length > 0) {
+        if (map && map.isStyleLoaded()) drawKmlGeoJSON(lineName, geojson, false);
+        else if (map) map.once('idle', (function(nm, gj) { return function() { drawKmlGeoJSON(nm, gj, false); }; })(lineName, geojson));
+      }
+    } catch (e) {}
+  });
+  var legend = document.getElementById('map-legend-line');
+  if (legend) legend.textContent = 'Line aktif: ' + Object.keys(d).length + ' / ' + allAvailableLines.length;
+}
+window.renderLineFilters = renderLineFilters;
+window.toggleLineFilter = toggleLineFilter;
+window.showAllLines = showAllLines;
+window.hideAllLines = hideAllLines;
+window.applyLineFilters = applyLineFilters;
+
 /* ============================================================ OPM PORT DROPDOWN & TEMP LIST ============================================================ */
 function renderOpmPortDropdown() {
   var sel = document.getElementById('opm-port-select');
@@ -2878,8 +2999,10 @@ function hapusLineKml(lineName) {
   db.ref('kmlData/' + lineName).remove().then(function() {
     if (!isBuiltin) return db.ref('customLines/' + lineName).remove().catch(function() {});
   }).then(function() {
+    if (selectedLineFilters) delete selectedLineFilters[lineName];
     catatRiwayat('KML/Lines', 'Hapus Line', 'Line: ' + lineName, 'Line dihapus dari database');
     showToast('Line "' + lineName + '" dihapus', 'success');
+    renderLineFilters();
   }).catch(function(err) {
     var msg = err.message || 'Gagal hapus';
     if (msg.includes('permission')) msg = 'Akses ditolak. Set Firebase Rules.';
@@ -2907,26 +3030,17 @@ function generateKmlFromCoords(coords, name, notes) {
   var desc = notes ? '<description><![CDATA[' + notes + ']]></description>' : '';
   return '<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2">\n<Document>\n<name>' + escapeXml(name) + '</name>\n<Placemark>\n<name>' + escapeXml(name) + '</name>\n' + desc + '<LineString><tessellate>1</tessellate><coordinates>' + coordsStr + '</coordinates></LineString>\n</Placemark>\n</Document>\n</kml>';
 }
-
-/* ===== PERUBAHAN #1: processKmlAndSave — gabung semua placemark jadi 1 line ===== */
 function processKmlAndSave(kmlText, fallbackLine) {
   if (!kmlText || typeof kmlText !== 'string') return Promise.reject(new Error('Isi KML tidak valid'));
   var parser = new DOMParser(); var xml = parser.parseFromString(kmlText, "text/xml");
   var placemarks = parseKmlPlacemarks(xml);
   if (placemarks.length === 0) return Promise.reject(new Error('Tidak ada LineString dalam file'));
-  
-  // Gabungkan semua koordinat dari semua placemark menjadi satu line
   var allCoords = [];
   placemarks.forEach(function(pm) { allCoords = allCoords.concat(pm.coords); });
   if (allCoords.length < 2) return Promise.reject(new Error('Koordinat tidak cukup'));
-  
   var lineName = (fallbackLine || 'LINE BARU').toUpperCase().trim();
   var kmlForLine = generateKmlFromCoords(allCoords, lineName, '');
-  
-  // set() = timpa jika lineName sudah ada, tambah jika belum
-  return db.ref('kmlData/' + lineName).set(kmlForLine).then(function() {
-    return [lineName];
-  });
+  return db.ref('kmlData/' + lineName).set(kmlForLine).then(function() { return [lineName]; });
 }
 function submitKmlUpload(e) {
   e.preventDefault();
@@ -3026,8 +3140,9 @@ function initMap() {
     });
     map.on('load', function () {
       loadMarkersFromData();
-      if (kmlDataCache) renderAllKmlLines(kmlDataCache);
-      else if (db) { db.ref('kmlData').once('value').then(function(s) { kmlDataCache = s.val() || {}; renderAllKmlLines(kmlDataCache); }).catch(function() {}); }
+      renderLineFilters();
+      if (kmlDataCache) applyLineFilters();
+      else if (db) { db.ref('kmlData').once('value').then(function(s) { kmlDataCache = s.val() || {}; applyLineFilters(); renderLineFilters(); }).catch(function() {}); }
     });
     map.on('click', function (e) { if (drawMode) handleDrawClick(e); });
   } catch (e) { console.error('Map init:', e); }
@@ -3079,13 +3194,10 @@ window.toggleMapLayer = function (t, evt) {
   if (t === 'street') style = getStreetStyle();
   else if (t === 'hybrid') style = getHybridStyle();
   else style = getSatelliteStyle();
-  var savedKml = {};
-  Object.keys(kmlLayers).forEach(function (line) { if (kmlLayers[line] && kmlLayers[line].geojson) savedKml[line] = kmlLayers[line].geojson; });
   map.setStyle(style);
   map.once('styledata', function () {
     markers = []; loadMarkersFromData(); kmlLayers = {};
-    if (kmlDataCache && Object.keys(kmlDataCache).length > 0) renderAllKmlLines(kmlDataCache);
-    else Object.keys(savedKml).forEach(function (line) { drawKmlGeoJSON(line, savedKml[line], false); });
+    applyLineFilters();
   });
   document.querySelectorAll('.custom-map-btn').forEach(function (b) { b.classList.remove('active'); });
   if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
@@ -3165,15 +3277,21 @@ function renderAllKmlLines(kmlDataObj) {
     } catch (e) {}
   });
   var legend = document.getElementById('map-legend-line');
-  if (legend) legend.textContent = 'Total Line: ' + names.length + ' (' + names.slice(0, 2).join(', ') + (names.length > 2 ? '...' : '') + ')';
+  if (legend) legend.textContent = 'Line aktif: ' + names.length;
 }
 function loadKmlFromFirebase() {
   if (!db || kmlListenerAttached) return;
   db.ref('kmlData').on('value', function (s) {
     var d = s.val() || {}; kmlDataCache = d;
-    if (map && map.isStyleLoaded()) renderAllKmlLines(d);
-    else if (map) { map.once('styledata', function () { renderAllKmlLines(kmlDataCache); }); setTimeout(function() { if (map && map.isStyleLoaded()) renderAllKmlLines(kmlDataCache); }, 1000); }
-    else setTimeout(function() { if (map && map.isStyleLoaded()) renderAllKmlLines(kmlDataCache); }, 1500);
+    if (selectedLineFilters) {
+      Object.keys(d).forEach(function(n) {
+        if (selectedLineFilters[n] === undefined) selectedLineFilters[n] = true;
+      });
+    }
+    if (map && map.isStyleLoaded()) applyLineFilters();
+    else if (map) { map.once('styledata', function () { applyLineFilters(); }); setTimeout(function() { if (map && map.isStyleLoaded()) applyLineFilters(); }, 1000); }
+    else setTimeout(function() { if (map && map.isStyleLoaded()) applyLineFilters(); }, 1500);
+    renderLineFilters();
   }, function(err) {});
   kmlListenerAttached = true;
 }
@@ -3184,7 +3302,8 @@ function loadCustomLines() {
   db.ref('customLines').on('value', function(s) {
     customLines = s.val() || {};
     updateCustomLineOptions(); updateKmlCustomLineOptions();
-    if (kmlDataCache && map && map.isStyleLoaded()) renderAllKmlLines(kmlDataCache);
+    renderLineFilters();
+    if (kmlDataCache && map && map.isStyleLoaded()) applyLineFilters();
   });
   customLinesListenerAttached = true;
 }
@@ -3195,20 +3314,15 @@ function updateCustomLineOptions() {
   Object.keys(customLines).forEach(function(key) {
     if (!sel.querySelector('option[value="' + key + '"]')) { var opt = document.createElement('option'); opt.value = key; opt.textContent = key + ' (kustom)'; sel.insertBefore(opt, customOpt); }
   });
+  try { renderLineFilters(); } catch (e) {}
 }
-
-/* ===== PERUBAHAN #2: updateKmlCustomLineOptions — tampilkan line dari customLines + kmlData ===== */
 function updateKmlCustomLineOptions() {
   var sel = document.getElementById('kml-line'); if (!sel) return;
-  // Hapus semua opsi dinamis (bukan builtin)
   Array.from(sel.options).forEach(function(opt) { 
     if (opt.value && BUILTIN_LINES.indexOf(opt.value) === -1) opt.remove(); 
   });
-  // Hapus opsi __custom__ jika ada
   var customOpt = sel.querySelector('option[value="__custom__"]');
   if (customOpt) customOpt.remove();
-  
-  // Line dari customLines (hasil "Buat Line Baru") — label (kustom)
   Object.keys(customLines).forEach(function(key) {
     if (!sel.querySelector('option[value="' + key + '"]')) { 
       var opt = document.createElement('option'); 
@@ -3217,8 +3331,6 @@ function updateKmlCustomLineOptions() {
       sel.appendChild(opt); 
     }
   });
-  
-  // Line dari kmlData (hasil upload sebelumnya) — label (tersimpan), agar bisa dipilih ulang untuk ditimpa
   if (db) {
     db.ref('kmlData').once('value').then(function(s) {
       var allLines = s.val() || {};
@@ -3234,6 +3346,7 @@ function updateKmlCustomLineOptions() {
       });
     }).catch(function() {});
   }
+  try { renderLineFilters(); } catch (e) {}
 }
 function openDrawLineModal() {
   document.getElementById('draw-line-modal').classList.remove('hidden');
@@ -3864,20 +3977,12 @@ function exportOpmGroup(groupId) {
   var rows = keys.map(function(k, idx) {
     var it = list[k] || {};
     return {
-      'No': idx + 1,
-      'Tanggal': it.date || '',
-      'Dari': it.dari || '',
-      'Ke': it.ke || '',
-      'Nilai Kalibrasi': it.ukuranOLS || '',
-      'Ruas': it.ruas || '',
-      'Port': it.port || '',
+      'No': idx + 1, 'Tanggal': it.date || '', 'Dari': it.dari || '', 'Ke': it.ke || '',
+      'Nilai Kalibrasi': it.ukuranOLS || '', 'Ruas': it.ruas || '', 'Port': it.port || '',
       'DBM': (it.dbm !== undefined && it.dbm !== null) ? it.dbm : '',
-      'Status': it.isUsed ? 'Terpakai' : 'Tersedia',
-      'Label': it.label || '',
-      'Warna Tube': it.warnaTube || '',
-      'Warna Kabel': it.warnaKabel || '',
-      'Keterangan': it.keterangan || '',
-      'User': it.postBy || ''
+      'Status': it.isUsed ? 'Terpakai' : 'Tersedia', 'Label': it.label || '',
+      'Warna Tube': it.warnaTube || '', 'Warna Kabel': it.warnaKabel || '',
+      'Keterangan': it.keterangan || '', 'User': it.postBy || ''
     };
   });
 
@@ -3886,13 +3991,11 @@ function exportOpmGroup(groupId) {
   rows.forEach(function(r) { aoa.push(headers.map(function(h) { return r[h]; })); });
   var ws = XLSX.utils.aoa_to_sheet(aoa);
   ws['!cols'] = headers.map(function(h) {
-    var maxLen = h.length;
-    rows.forEach(function(r) { var v = r[h]; if (v === undefined || v === null) return; var len = String(v).length; if (len > maxLen) maxLen = len; });
+    var maxLen = h.length; rows.forEach(function(r) { var v = r[h]; if (v === undefined || v === null) return; var len = String(v).length; if (len > maxLen) maxLen = len; });
     return { wch: Math.min(Math.max(maxLen + 2, 10), 55) };
   });
   ws['!freeze'] = { xSplit: 1, ySplit: 1 };
-  var wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'OPM-OLS');
+  var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'OPM-OLS');
   var safeName = (dari + '_' + ke + '_' + date).replace(/[^a-zA-Z0-9_-]/g, '_');
   XLSX.writeFile(wb, 'BUCIN_OPM_' + safeName + '.xlsx');
   showToast('✅ Excel diunduh: ' + rows.length + ' baris', 'success');
@@ -3903,22 +4006,15 @@ function hapusOpmGroup(groupId) {
   if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya admin yang dapat menghapus tabel!', 'error'); return; }
   var el = document.getElementById(groupId);
   if (!el) { showToast('Data tidak ditemukan', 'error'); return; }
-  var date = el.dataset.date || '';
-  var dari = el.dataset.dari || '';
-  var ke = el.dataset.ke || '';
-  var kal = el.dataset.kal || '';
+  var date = el.dataset.date || ''; var dari = el.dataset.dari || '';
+  var ke = el.dataset.ke || ''; var kal = el.dataset.kal || '';
 
-  if (!confirm('HAPUS seluruh tabel OPM/OLS ini?\n\n' +
-    'Tanggal: ' + date + '\n' +
-    'Dari: ' + dari + ' → Ke: ' + ke + '\n' +
-    'Kalibrasi: ' + kal + '\n\n' +
-    'Aksi ini tidak dapat dibatalkan!')) return;
+  if (!confirm('HAPUS seluruh tabel OPM/OLS ini?\n\nTanggal: ' + date + '\nDari: ' + dari + ' → Ke: ' + ke + '\nKalibrasi: ' + kal + '\n\nAksi ini tidak dapat dibatalkan!')) return;
 
   var list = appData['OPM-OLS'] || {};
   var keysToDelete = Object.keys(list).filter(function(k) {
     var it = list[k];
-    return (it.date || '-') === date && (it.dari || '-') === dari &&
-           (it.ke || '-') === ke && (it.ukuranOLS || '-') === kal;
+    return (it.date || '-') === date && (it.dari || '-') === dari && (it.ke || '-') === ke && (it.ukuranOLS || '-') === kal;
   });
 
   if (keysToDelete.length === 0) { showToast('Tidak ada data', 'error'); return; }
@@ -3927,9 +4023,7 @@ function hapusOpmGroup(groupId) {
   keysToDelete.forEach(function(k) { updates['data/OPM-OLS/' + k] = null; });
 
   db.ref().update(updates).then(function() {
-    catatRiwayat('OPM-OLS', 'Hapus Tabel',
-      'Dari: ' + dari + ' → Ke: ' + ke + ' | Kalibrasi: ' + kal + ' | ' + keysToDelete.length + ' port',
-      'Hapus seluruh tabel (Tanggal: ' + date + ')');
+    catatRiwayat('OPM-OLS', 'Hapus Tabel', 'Dari: ' + dari + ' → Ke: ' + ke + ' | Kalibrasi: ' + kal + ' | ' + keysToDelete.length + ' port', 'Hapus seluruh tabel (Tanggal: ' + date + ')');
     showToast('✅ ' + keysToDelete.length + ' baris dihapus', 'success');
     setTimeout(refetchData, 300);
   }).catch(function(err) {
