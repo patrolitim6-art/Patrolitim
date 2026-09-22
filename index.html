@@ -33,6 +33,9 @@
   --surface-login: radial-gradient(circle at 50% 50%, #0F172A 0%, #050810 100%);
   --surface-login-card: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%);
   --surface-table-header: rgba(0, 217, 255, 0.08);
+  --surface-table-header-solid: #0F172A;
+  --surface-table-header-solid-alt: #1E293B;
+  --surface-table-border-solid: rgba(0, 217, 255, 0.45);
   --surface-map-legend: rgba(10, 14, 26, 0.92);
   --surface-map-btn: rgba(10, 14, 26, 0.9);
   --text-main: #E2E8F0; --text-muted: #94A3B8; --text-dim: #64748B;
@@ -70,6 +73,9 @@
   --surface-login: radial-gradient(circle at 50% 50%, #FAFAFA 0%, #E5E7EB 100%);
   --surface-login-card: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(249, 250, 251, 0.98) 100%);
   --surface-table-header: rgba(224, 82, 82, 0.06);
+  --surface-table-header-solid: #E5E7EB;
+  --surface-table-header-solid-alt: #D1D5DB;
+  --surface-table-border-solid: rgba(224, 82, 82, 0.4);
   --surface-map-legend: rgba(255, 255, 255, 0.95); --surface-map-btn: rgba(255, 255, 255, 0.95);
   --text-main: #000000; --text-muted: #333333; --text-dim: #555555; --text-on-accent: #FFFFFF;
   --border-glow: rgba(224, 82, 82, 0.22); --border-subtle: rgba(107, 114, 128, 0.18);
@@ -356,7 +362,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .map-points-filter-btn.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3); }
 :root[data-theme="light"] .map-points-filter-btn.active { box-shadow: 0 4px 12px rgba(224, 82, 82, 0.2); }
 .map-points-filter-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
-/* ===== FILTER LINE PETA ===== */
 .map-lines-filter { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 14px; background: var(--surface-1); border-bottom: 1px solid var(--border-subtle); align-items: center; }
 .map-line-toggle { padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; gap: 6px; opacity: 0.5; }
 .map-line-toggle:hover { transform: translateY(-1px); border-color: var(--primary-cyan); }
@@ -414,15 +419,31 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .gudang-tab:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); }
 .gudang-tab.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; }
 .records-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: auto; }
-.records-table th { background: var(--surface-table-header); padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border-glow); font-weight: 700; color: var(--primary-cyan); white-space: nowrap; text-transform: uppercase; letter-spacing: 1px; font-family: 'Orbitron', sans-serif; position: sticky; top: 0; z-index: 10; }
+/* ===== HEADER TABEL SOLID (TIDAK TRANSPARAN) ===== */
+.records-table th {
+  background: var(--surface-table-header-solid) !important;
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--surface-table-border-solid);
+  font-weight: 700;
+  color: var(--primary-cyan);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Orbitron', sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: none;
+}
 .records-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; color: var(--text-main); word-break: break-word; overflow-wrap: anywhere; }
 .records-table tr:hover td { background: rgba(0, 217, 255, 0.05); }
 :root[data-theme="light"] .records-table tr:hover td { background: rgba(224, 82, 82, 0.04); }
 .records-table code { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); padding: 2px 8px; border-radius: 6px; font-family: 'Orbitron', monospace; border: 1px solid rgba(0, 217, 255, 0.2); }
 :root[data-theme="light"] .records-table code { background: rgba(224, 82, 82, 0.08); border-color: rgba(224, 82, 82, 0.15); }
 .records-table td.ket-cell { max-width: 240px; white-space: normal; word-break: break-word; font-size: var(--app-font-size-xs); color: var(--text-muted); line-height: 1.4; }
-.records-table th.col-no, .records-table td.col-no { width: 48px; min-width: 48px; max-width: 48px; text-align: center; font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; position: sticky; left: 0; z-index: 3; border-right: 1px solid var(--border-glow); font-size: var(--app-font-size-xs); padding: 8px 4px; }
-.records-table th.col-no { background: var(--surface-table-header); z-index: 12; }
+.records-table th.col-no, .records-table td.col-no { width: 48px; min-width: 48px; max-width: 48px; text-align: center; font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; position: sticky; left: 0; z-index: 3; border-right: 1px solid var(--surface-table-border-solid); font-size: var(--app-font-size-xs); padding: 8px 4px; }
+.records-table th.col-no { background: var(--surface-table-header-solid-alt) !important; z-index: 12; }
 .records-table td.col-no { background: var(--surface-3); }
 .records-table th.col-date, .records-table td.col-date { min-width: 100px; max-width: 120px; white-space: nowrap; }
 .records-table th.col-gudang, .records-table td.col-gudang { min-width: 110px; max-width: 140px; font-size: var(--app-font-size-xs); }
@@ -434,8 +455,8 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .records-table th.col-waktu, .records-table td.col-waktu { min-width: 130px; max-width: 150px; white-space: nowrap; font-size: var(--app-font-size-xs); }
 .records-table th.col-ket, .records-table td.col-ket { min-width: 180px; max-width: 280px; white-space: normal; word-break: break-word; line-height: 1.4; }
 .records-table th.col-user, .records-table td.col-user { min-width: 90px; max-width: 120px; font-size: var(--app-font-size-xs); }
-.records-table th.col-aksi, .records-table td.col-aksi { width: 96px; min-width: 96px; max-width: 96px; text-align: center; white-space: nowrap; position: sticky; right: 0; border-left: 1px solid var(--border-subtle); z-index: 2; }
-.records-table th.col-aksi { background: var(--surface-table-header); z-index: 12; }
+.records-table th.col-aksi, .records-table td.col-aksi { width: 96px; min-width: 96px; max-width: 96px; text-align: center; white-space: nowrap; position: sticky; right: 0; border-left: 1px solid var(--surface-table-border-solid); z-index: 2; }
+.records-table th.col-aksi { background: var(--surface-table-header-solid-alt) !important; z-index: 12; }
 .records-table td.col-aksi { background: var(--surface-3); }
 .durasi-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(16,185,129,0.15); color: #10B981; font-weight: 700; font-size: var(--app-font-size-xs); white-space: nowrap; }
 .status-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: var(--app-font-size-xs); white-space: nowrap; }
@@ -486,7 +507,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .opm-group-stat-value { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: var(--app-font-size-md); }
 .opm-group-stat-value.used { color: #EC4899; }
 .opm-group-stat-value.available { color: #10B981; }
-.opm-port-chip { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 32px; padding: 4px 8px; border-radius: 8px; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: var(--app-font-size-sm); border: 2px solid; }
+.opm-port-chip { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 32px; padding: 4px 8px; border-radius: 8px; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: var(--app-font-size-sm); border: 2px solid; transition: background 0.25s ease, box-shadow 0.25s ease; }
 .opm-port-chip.used { background: rgba(236,72,153,0.15); color: #EC4899; border-color: rgba(236,72,153,0.5); }
 .opm-port-chip.available { background: rgba(16,185,129,0.15); color: #10B981; border-color: rgba(16,185,129,0.5); }
 .opm-label-badge { display: inline-block; background: rgba(168,85,247,0.15); color: #A855F7; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: var(--app-font-size-xs); border: 1px solid rgba(168,85,247,0.4); }
@@ -498,24 +519,81 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .opm-info-banner-content { color: var(--text-muted); font-size: var(--app-font-size-xs); line-height: 1.6; }
 .opm-temp-list-wrap { max-height: 240px; overflow-y: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
 .opm-temp-list-table { width: 100%; border-collapse: separate; border-spacing: 0; }
-.opm-temp-list-table th { background: var(--surface-table-header); padding: 8px 10px; font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; font-size: var(--app-font-size-xs); text-align: left; border-bottom: 1px solid var(--border-glow); white-space: nowrap; position: sticky; top: 0; z-index: 5; }
+.opm-temp-list-table th {
+  background: var(--surface-table-header-solid) !important;
+  padding: 8px 10px;
+  font-weight: 700;
+  color: var(--primary-cyan);
+  text-transform: uppercase;
+  font-size: var(--app-font-size-xs);
+  text-align: left;
+  border-bottom: 1px solid var(--surface-table-border-solid);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: none;
+}
 .opm-temp-list-table td { padding: 8px 10px; font-size: var(--app-font-size-xs); border-bottom: 1px solid var(--border-subtle); }
 .opm-temp-list-empty { padding: 24px; text-align: center; color: var(--text-dim); font-size: var(--app-font-size-xs); font-style: italic; }
-.opm-port-dropdown-wrap { position: relative; margin-top: 8px; }
+.opm-port-dropdown-wrap { position: relative; margin-top: 0; }
 .opm-port-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; min-height: 32px; padding: 6px; background: rgba(0,217,255,0.04); border: 1px dashed var(--border-subtle); border-radius: 10px; }
 .opm-port-chips-empty { color: var(--text-dim); font-size: var(--app-font-size-xs); font-style: italic; padding: 4px 8px; }
-.chip-port { display: inline-flex; align-items: center; gap: 4px; background: var(--tech-gradient); color: var(--text-on-accent); padding: 4px 10px; border-radius: 14px; font-size: var(--app-font-size-xs); font-weight: 800; font-family: 'Orbitron', sans-serif; }
+.chip-port { display: inline-flex; align-items: center; gap: 4px; background: var(--tech-gradient); color: var(--text-on-accent); padding: 4px 10px; border-radius: 14px; font-size: var(--app-font-size-xs); font-weight: 800; font-family: 'Orbitron', sans-serif; min-width: auto; transition: background 0.25s ease, box-shadow 0.25s ease; }
 .chip-port.used { background: linear-gradient(135deg, #EC4899, #BE185D); }
 .chip-port span { cursor: pointer; margin-left: 4px; font-weight: bold; font-size: 14px; line-height: 1; }
-.chip-port span:hover { color: #000; }
+.chip-port span:hover { opacity: 0.7; }
 .chart-rekap-wrapper { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-subtle); }
 .chart-rekap-title { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Orbitron', sans-serif; display: flex; align-items: center; gap: 8px; font-size: var(--app-font-size-xs); }
 .chart-rekap-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
-.chart-rekap-table th { background: var(--surface-table-header); padding: 6px 4px; text-align: center; border: 1px solid var(--border-subtle); font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; line-height: 1.2; position: sticky; top: 0; z-index: 5; }
-.chart-rekap-table th.col-total { background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(0, 217, 255, 0.15) 100%); color: #10B981; border-left: 2px solid rgba(16, 185, 129, 0.6); border-right: 2px solid rgba(16, 185, 129, 0.6); }
+.chart-rekap-table th {
+  background: var(--surface-table-header-solid) !important;
+  padding: 6px 4px;
+  text-align: center;
+  border: 1px solid var(--surface-table-border-solid);
+  font-weight: 700;
+  color: var(--primary-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  line-height: 1.2;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.chart-rekap-table th.col-total {
+  background: linear-gradient(135deg, #064E3B 0%, #0F172A 100%) !important;
+  color: #34D399 !important;
+  border-left: 2px solid rgba(16, 185, 129, 0.8);
+  border-right: 2px solid rgba(16, 185, 129, 0.8);
+}
+:root[data-theme="light"] .chart-rekap-table th.col-total {
+  background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%) !important;
+  color: #047857 !important;
+  border-left: 2px solid #059669;
+  border-right: 2px solid #059669;
+}
 .chart-rekap-table td.col-total { background: rgba(16, 185, 129, 0.08); border-left: 2px solid rgba(16, 185, 129, 0.5); border-right: 2px solid rgba(16, 185, 129, 0.5); font-weight: 800; color: #10B981; }
 .chart-rekap-table tr.total-row td.col-total { background: rgba(16, 185, 129, 0.2); border-left: 2px solid #10B981; border-right: 2px solid #10B981; font-weight: 900; }
-.chart-rekap-table th:first-child, .chart-rekap-table td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-3); z-index: 6; width: 80px; padding-left: 8px; }
+.chart-rekap-table th:first-child {
+  text-align: left;
+  position: sticky;
+  left: 0;
+  background: var(--surface-table-header-solid-alt) !important;
+  z-index: 7;
+  width: 80px;
+  padding-left: 8px;
+  border-right: 2px solid var(--surface-table-border-solid);
+}
+.chart-rekap-table td:first-child {
+  text-align: left;
+  position: sticky;
+  left: 0;
+  background: var(--surface-3);
+  z-index: 6;
+  width: 80px;
+  padding-left: 8px;
+}
 .chart-rekap-table td { padding: 5px 4px; text-align: center; border: 1px solid var(--border-subtle); color: var(--text-main); font-weight: 600; line-height: 1.2; }
 .chart-rekap-table tr.total-row td { background: rgba(0, 217, 255, 0.08); font-weight: 900; color: var(--primary-cyan); border-top: 2px solid var(--border-glow); }
 :root[data-theme="light"] .chart-rekap-table tr.total-row td { background: rgba(224, 82, 82, 0.05); }
@@ -598,7 +676,8 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
   .print-header-row { display: table-row !important; }
   .records-table, .opm-group-wrapper { page-break-inside: avoid; }
   .records-table th, .records-table td { color: #000 !important; border-color: #000 !important; }
-  .records-table th { background: #eee !important; }
+  .records-table th { background: #E5E7EB !important; }
+  .records-table th.col-no, .records-table th.col-aksi { background: #D1D5DB !important; }
   .records-table td.col-no { background: #f5f5f5 !important; }
   .records-table td.col-aksi, .records-table th.col-aksi { display: none !important; }
   .opm-group-header { background: #f5f5f5 !important; color: #000 !important; border-color: #000 !important; }
@@ -866,7 +945,6 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
             </button>
           </div>
 
-          <!-- ===== FILTER LINE PETA ===== -->
           <div class="map-lines-filter" id="map-lines-filter">
             <span class="map-points-filter-label">
               <i data-lucide="route" style="width:14px;"></i> Tampilkan Line:
@@ -1425,8 +1503,8 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
               <i data-lucide="activity" style="width:14px;"></i> Data OPM / OLS
             </div>
             <div class="opm-info-banner-content">
-              Isi <strong>Dari</strong>, <strong>Ke</strong>, <strong>Nilai Kalibrasi</strong>, <strong>Ruas</strong>, <strong>Warna Tube</strong> &amp; <strong>Warna Kabel</strong> sekali.
-              Kemudian pilih <strong>Port</strong> (1-48) satu per satu lalu klik <strong>Submit Port</strong> untuk menambahkan ke List.
+              Isi <strong>Dari</strong>, <strong>Ke</strong>, <strong>Nilai Kalibrasi</strong>, <strong>Ruas</strong> &amp; <strong>Warna Tube</strong> sekali.
+              Kemudian di Step 2 pilih <strong>Port</strong> (1-48) dan <strong>Warna Kabel</strong>, klik <strong>Submit Port</strong> untuk menambahkan ke List.
               Setelah selesai, klik <strong>Submit Data</strong> di bawah List untuk menyimpan semua port ke database.
             </div>
           </div>
@@ -1479,31 +1557,17 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
                 </select>
               </div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
-              <div>
-                <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Warna Tube</label>
-                <select id="inp-opm-warna-tube" class="field-control">
-                  <option value="">-- Pilih --</option>
-                  <option value="BIRU">Biru</option><option value="ORANGE">Orange</option>
-                  <option value="HIJAU">Hijau</option><option value="COKELAT">Cokelat</option>
-                  <option value="ABU-ABU">Abu-abu</option><option value="PUTIH">Putih</option>
-                  <option value="MERAH">Merah</option><option value="HITAM">Hitam</option>
-                  <option value="KUNING">Kuning</option><option value="UNGU">Ungu</option>
-                  <option value="PINK">Pink</option><option value="TOSKA">Toska</option>
-                </select>
-              </div>
-              <div>
-                <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Warna Kabel</label>
-                <select id="inp-opm-warna-kabel" class="field-control">
-                  <option value="">-- Pilih --</option>
-                  <option value="BIRU">Biru</option><option value="ORANGE">Orange</option>
-                  <option value="HIJAU">Hijau</option><option value="COKELAT">Cokelat</option>
-                  <option value="ABU-ABU">Abu-abu</option><option value="PUTIH">Putih</option>
-                  <option value="MERAH">Merah</option><option value="HITAM">Hitam</option>
-                  <option value="KUNING">Kuning</option><option value="UNGU">Ungu</option>
-                  <option value="PINK">Pink</option><option value="TOSKA">Toska</option>
-                </select>
-              </div>
+            <div style="margin-top:12px;">
+              <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Warna Tube</label>
+              <select id="inp-opm-warna-tube" class="field-control">
+                <option value="">-- Pilih --</option>
+                <option value="BIRU">Biru</option><option value="ORANGE">Orange</option>
+                <option value="HIJAU">Hijau</option><option value="COKELAT">Cokelat</option>
+                <option value="ABU-ABU">Abu-abu</option><option value="PUTIH">Putih</option>
+                <option value="MERAH">Merah</option><option value="HITAM">Hitam</option>
+                <option value="KUNING">Kuning</option><option value="UNGU">Ungu</option>
+                <option value="PINK">Pink</option><option value="TOSKA">Toska</option>
+              </select>
             </div>
             <div id="opm-warning" class="opm-warning">
               <i data-lucide="alert-triangle" style="width:16px;height:16px;flex-shrink:0;"></i>
@@ -1513,17 +1577,36 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
 
           <div class="opm-step-card">
             <div class="opm-step-title">
-              <i data-lucide="hash" style="width:13px;"></i> Step 2 — Pilih Port (1-48)
+              <i data-lucide="hash" style="width:13px;"></i> Step 2 — Pilih Port (1-48) & Warna Kabel
             </div>
 
-            <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);display:block;margin-bottom:6px;">
-              Pilih Port dari Dropdown:
-            </label>
-            <div class="opm-port-dropdown-wrap">
-              <select id="opm-port-select" class="field-control" onchange="pilihPortDropdown(this)">
-                <option value="">-- Pilih Port --</option>
-              </select>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div>
+                <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);display:block;margin-bottom:6px;">
+                  Pilih Port dari Dropdown:
+                </label>
+                <div class="opm-port-dropdown-wrap">
+                  <select id="opm-port-select" class="field-control" onchange="pilihPortDropdown(this)">
+                    <option value="">-- Pilih Port --</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);display:block;margin-bottom:6px;">
+                  Warna Kabel
+                </label>
+                <select id="inp-opm-warna-kabel" class="field-control" onchange="updatePortChipsColor()">
+                  <option value="">-- Pilih --</option>
+                  <option value="BIRU">Biru</option><option value="ORANGE">Orange</option>
+                  <option value="HIJAU">Hijau</option><option value="COKELAT">Cokelat</option>
+                  <option value="ABU-ABU">Abu-abu</option><option value="PUTIH">Putih</option>
+                  <option value="MERAH">Merah</option><option value="HITAM">Hitam</option>
+                  <option value="KUNING">Kuning</option><option value="UNGU">Ungu</option>
+                  <option value="PINK">Pink</option><option value="TOSKA">Toska</option>
+                </select>
+              </div>
             </div>
+
             <div class="opm-port-chips" id="opm-port-chips">
               <span class="opm-port-chips-empty">Belum ada port dipilih</span>
             </div>
@@ -1588,7 +1671,6 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
           </div>
         </div>
 
-        <!-- ===== FIELD ALKER (DENGAN JUMLAH & SATUAN) ===== -->
         <div id="field-alker" class="hidden">
           <div style="background:rgba(168,85,247,0.1);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(168,85,247,0.3);">
             <div style="font-weight:600;color:var(--primary-purple);font-size:var(--app-font-size-xs);">Data Alker</div>
@@ -1604,7 +1686,6 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
             <div><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Jenis *</label><input type="text" id="inp-alker-jenis" class="field-control" placeholder="Jenis alker"></div>
             <div><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Merk *</label><input type="text" id="inp-alker-merk" class="field-control" placeholder="Merk alker"></div>
           </div>
-          <!-- ===== BARU: JUMLAH & SATUAN ===== -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
             <div>
               <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Jumlah *</label>
@@ -1619,13 +1700,11 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
               </select>
             </div>
           </div>
-          <!-- ===== END BARU ===== -->
           <div style="margin-top:12px;">
             <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Keterangan * (Wajib)</label>
             <textarea id="inp-alker-keterangan" class="field-control" rows="2" style="resize:none;" placeholder="Keterangan wajib diisi"></textarea>
           </div>
         </div>
-        <!-- ===== END FIELD ALKER ===== -->
 
         <div id="field-normal" class="hidden">
           <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Nama Lokasi *</label>
@@ -2715,6 +2794,48 @@ window.showAllLines = showAllLines;
 window.hideAllLines = hideAllLines;
 window.applyLineFilters = applyLineFilters;
 
+/* ============================================================ WARNA KABEL MAPPING ============================================================ */
+const WARNA_KABEL_HEX = {
+  'BIRU':     '#1E90FF',
+  'ORANGE':   '#FF8C00',
+  'HIJAU':    '#22C55E',
+  'COKELAT':  '#8B4513',
+  'ABU-ABU':  '#9CA3AF',
+  'PUTIH':    '#FFFFFF',
+  'MERAH':    '#EF4444',
+  'HITAM':    '#111827',
+  'KUNING':   '#FCD34D',
+  'UNGU':     '#A855F7',
+  'PINK':     '#EC4899',
+  'TOSKA':    '#14B8A6'
+};
+
+function getTextColorForBg(hex) {
+  if (!hex) return '#FFFFFF';
+  var c = hex.replace('#', '');
+  if (c.length === 3) c = c.split('').map(function(x){ return x + x; }).join('');
+  var r = parseInt(c.substr(0, 2), 16);
+  var g = parseInt(c.substr(2, 2), 16);
+  var b = parseInt(c.substr(4, 2), 16);
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return '#FFFFFF';
+  var lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return lum > 0.6 ? '#000000' : '#FFFFFF';
+}
+
+function getWarnaKabelHex() {
+  var sel = document.getElementById('inp-opm-warna-kabel');
+  var name = (sel && sel.value ? sel.value : '').toUpperCase();
+  return WARNA_KABEL_HEX[name] || '#00D9FF';
+}
+
+function updatePortChipsColor() {
+  renderOpmPortChips();
+  renderOpmTempList();
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+window.updatePortChipsColor = updatePortChipsColor;
+window.WARNA_KABEL_HEX = WARNA_KABEL_HEX;
+
 /* ============================================================ OPM PORT DROPDOWN & TEMP LIST ============================================================ */
 function renderOpmPortDropdown() {
   var sel = document.getElementById('opm-port-select');
@@ -2759,10 +2880,17 @@ function renderOpmPortChips() {
     chipsEl.innerHTML = '<span class="opm-port-chips-empty">Belum ada port dipilih</span>';
     return;
   }
+  var cableHex = getWarnaKabelHex();
+  var textColor = getTextColorForBg(cableHex);
   var html = '';
   opmTempPorts.forEach(function(p) {
-    var cls = p.isUsed ? 'chip-port used' : 'chip-port';
-    html += '<span class="' + cls + '">Port ' + p.port + ' <span onclick="hapusPortChip(' + p.port + ')" title="Hapus">&times;</span></span>';
+    var ring = p.isUsed ? '0 0 0 2px #EC4899' : 'none';
+    var borderCol = p.isUsed ? '#EC4899' : 'rgba(0,0,0,0.35)';
+    html += '<span class="chip-port" style="background:' + cableHex + ';color:' + textColor +
+            ';border:2px solid ' + borderCol + ';box-shadow:' + ring + ';text-shadow:none;">' +
+            'Port ' + p.port +
+            ' <span onclick="hapusPortChip(' + p.port + ')" title="Hapus" style="color:' + textColor + ';">&times;</span>' +
+            '</span>';
   });
   chipsEl.innerHTML = html;
 }
@@ -2794,7 +2922,7 @@ function addOpmPortToList() {
   var nilaiKalibrasi = document.getElementById('inp-opm-ukuran').value.trim().toUpperCase();
   var ruas = document.getElementById('inp-opm-ruas').value;
   var warnaTube = document.getElementById('inp-opm-warna-tube').value;
-  var warnaKabel = document.getElementById('inp-opm-warna-kabel').value;
+  var warnaKabel = (document.getElementById('inp-opm-warna-kabel').value || '').toUpperCase();
   var port = document.getElementById('inp-opm-port').value;
   var dbm = parseFloat(document.getElementById('inp-opm-dbm').value);
   var isUsed = document.getElementById('inp-opm-used').checked;
@@ -2807,6 +2935,7 @@ function addOpmPortToList() {
   if (!ruas) { showToast('Pilih Ruas di Step 1', 'error'); return; }
   if (!port) { showToast('Pilih Port dari dropdown', 'error'); return; }
   if (isNaN(dbm)) { showToast('Isi nilai DBM untuk port ini', 'error'); return; }
+  if (!warnaKabel) { showToast('Pilih Warna Kabel terlebih dahulu', 'error'); return; }
   if (isUsed && !label) { showToast('Label wajib diisi jika Port Terpakai', 'error'); return; }
   if (opmTempPorts.some(function(p) { return String(p.port) === String(port); })) {
     showToast('Port ' + port + ' sudah ada di list. Hapus dulu jika ingin ubah.', 'warning'); return;
@@ -2826,6 +2955,7 @@ function addOpmPortToList() {
 
   renderOpmTempList();
   renderOpmPortDropdown();
+  renderOpmPortChips();
   if (typeof lucide !== 'undefined') lucide.createIcons();
   showToast('Port ' + port + ' ditambahkan ke list', 'success');
 }
@@ -2854,9 +2984,13 @@ function renderOpmTempList() {
     if (p.warnaTube) ket += (ket ? ' • ' : '') + 'Tube: ' + escapeHtml(p.warnaTube);
     if (p.warnaKabel) ket += (ket ? ' • ' : '') + 'Kabel: ' + escapeHtml(p.warnaKabel);
     if (!ket) ket = '<span style="opacity:0.35;">—</span>';
+    var portCable = (p.warnaKabel || '').toUpperCase();
+    var portHex = WARNA_KABEL_HEX[portCable] || (p.isUsed ? '#EC4899' : '#10B981');
+    var portTxt = getTextColorForBg(portHex);
+    var portRing = p.isUsed ? '0 0 0 2px rgba(236,72,153,0.35)' : 'none';
     html += '<tr>';
     html += '<td style="text-align:center;">' + (idx + 1) + '</td>';
-    html += '<td style="text-align:center;"><span class="opm-port-chip ' + (p.isUsed ? 'used' : 'available') + '" style="min-width:30px;height:26px;font-size:11px;">' + p.port + '</span></td>';
+    html += '<td style="text-align:center;"><span class="opm-port-chip" style="min-width:30px;height:26px;font-size:11px;background:' + portHex + ';color:' + portTxt + ';border-color:' + portHex + ';box-shadow:' + portRing + ';">' + p.port + '</span></td>';
     html += '<td style="text-align:center;font-weight:700;">' + p.dbm + '</td>';
     html += '<td>' + status + '</td>';
     html += '<td>' + ket + '</td>';
@@ -3827,7 +3961,6 @@ function renderTable() {
 
     if (isSpare) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-gudang">Gudang</th><th class="col-sn">SN</th>' + '<th class="col-nama">Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th>' + '<th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
     else if (isPatch) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-gudang">Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th>' + '<th class="col-aksi">Aksi</th></tr>';
-    /* ===== BARU: header Alker dengan Jumlah & Satuan ===== */
     else if (isAlker) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-nama">Nama Alker</th><th class="col-sn">SN</th>' + '<th>Jenis</th><th>Merk</th><th style="text-align:center;">Jumlah</th><th style="text-align:center;">Satuan</th><th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
     else if (isHJ) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th>Kondisi</th><th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
     else if (isOfCut) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th class="col-waktu">Waktu CO</th><th class="col-waktu">Waktu UP</th><th>Durasi</th>' + '<th>Panjang</th><th>Rute</th><th>Penyebab</th>' + '<th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
@@ -3845,7 +3978,6 @@ function renderTable() {
 
       if (isSpare) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td class="col-date">' + (it.date || '-') + '</td>' + '<td class="col-gudang">' + (it.gudang || '-') + '</td>' + '<td class="col-sn"><code title="' + escapeHtml(it.sn || '') + '">' + (it.sn || '-') + '</code></td>' + '<td class="col-nama">' + (it.spec || '-') + '</td>' + '<td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td>' + '<td>' + (it.lemari || '-') + '</td>' + '<td>' + (it.rak || '-') + '</td>' + '<td>' + (it.riwayat || '-') + '</td>' + '<td>' + (it.kondisi || '-') + '</td>' + '<td class="col-ket">' + ketHtml + '</td>' + '<td class="col-aksi">' + aksi + '</td></tr>';
       else if (isPatch) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td class="col-date">' + (it.date || '-') + '</td>' + '<td class="col-gudang">' + (it.gudang || '-') + '</td>' + '<td>' + (it.pcType || '-') + '</td>' + '<td>' + (it.pcLength || '-') + '</td>' + '<td>' + (it.trType || '-') + '</td>' + '<td>' + (it.qty || 0) + '</td>' + '<td class="col-aksi">' + aksi + '</td></tr>';
-      /* ===== BARU: baris Alker dengan Jumlah & Satuan ===== */
       else if (isAlker) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td class="col-date">' + (it.date || '-') + '</td>' + '<td class="col-nama">' + (it.nama || '-') + '</td>' + '<td class="col-sn"><code title="' + escapeHtml(it.sn || '') + '">' + (it.sn || '-') + '</code></td>' + '<td>' + (it.jenis || '-') + '</td>' + '<td>' + (it.merk || '-') + '</td>' + '<td style="text-align:center;font-weight:700;">' + (it.jumlah !== undefined && it.jumlah !== null && it.jumlah !== '' ? it.jumlah : '-') + '</td>' + '<td style="text-align:center;">' + (it.satuan || '-') + '</td>' + '<td class="col-ket">' + ketHtml + '</td>' + '<td class="col-aksi">' + aksi + '</td></tr>';
       else if (isHJ) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td class="col-date">' + (it.date || '-') + '</td>' + '<td class="col-loc">' + (it.location || '-') + '</td>' + '<td class="col-coord">' + (it.coords || '-') + '</td>' + '<td>' + (it.kondisi || '-') + '</td>' + '<td class="col-ket">' + ketHtml + '</td>' + '<td class="col-user">' + (it.postBy || '-') + '</td>' + '<td class="col-aksi">' + aksi + '</td></tr>';
       else if (isOfCut) {
@@ -3940,14 +4072,18 @@ function renderOpmGroupedTables(list) {
       var it = x.data;
       var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + x.key + '\',\'OPM-OLS\')"><i data-lucide="pencil" style="width:16px;"></i></button>' + '<button class="icon-btn delete" onclick="deleteItem(\'' + x.key + '\',\'OPM-OLS\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '';
       var isUsed = it.isUsed === true;
-      var portChip = '<span class="opm-port-chip ' + (isUsed ? 'used' : 'available') + '">' + (it.port || '-') + '</span>';
+      var portCable = (it.warnaKabel || '').toUpperCase();
+      var portHex = WARNA_KABEL_HEX[portCable] || (isUsed ? '#EC4899' : '#10B981');
+      var portTxt = getTextColorForBg(portHex);
+      var portRing = isUsed ? '0 0 0 2px rgba(236,72,153,0.35)' : 'none';
+      var portChip = '<span class="opm-port-chip" style="background:' + portHex + ';color:' + portTxt + ';border-color:' + portHex + ';box-shadow:' + portRing + ';">' + (it.port || '-') + '</span>';
       var statusBadge = isUsed ? '<span class="status-badge" style="background:rgba(236,72,153,0.15);color:#EC4899;">TERPAKAI</span>' : '<span class="status-badge status-ready">TERSEDIA</span>';
       var ket = '';
       if (isUsed && it.label) ket += '<span class="opm-label-badge"><i data-lucide="tag" style="width:10px;display:inline-block;vertical-align:middle;"></i> ' + escapeHtml(it.label) + '</span> ';
       if (it.keterangan) ket += escapeHtml(it.keterangan);
       if (!ket) ket = '<span style="opacity:0.35;">—</span>';
       var tube = it.warnaTube ? '<span style="background:rgba(0,217,255,0.1);color:var(--primary-cyan);padding:2px 10px;border-radius:6px;font-weight:700;">' + escapeHtml(it.warnaTube) + '</span>' : '<span style="opacity:0.35;">—</span>';
-      var kabel = it.warnaKabel ? '<span style="background:rgba(168,85,247,0.1);color:#A855F7;padding:2px 10px;border-radius:6px;font-weight:700;">' + escapeHtml(it.warnaKabel) + '</span>' : '<span style="opacity:0.35;">—</span>';
+      var kabel = it.warnaKabel ? '<span style="background:' + portHex + '22;color:' + portHex + ';padding:2px 10px;border-radius:6px;font-weight:700;border:1px solid ' + portHex + '55;">' + escapeHtml(it.warnaKabel) + '</span>' : '<span style="opacity:0.35;">—</span>';
 
       html += '<tr>';
       html += '<td class="col-no">' + (i + 1) + '</td>';
@@ -4167,7 +4303,6 @@ function submitForm(e) {
     showToast('Gunakan tombol "Submit Data" di bawah List Port untuk menyimpan.', 'warning');
     return;
   } else if (cat === 'Alker') {
-    /* ===== BARU: Ambil Jumlah & Satuan ===== */
     var nama = document.getElementById('inp-alker-nama').value.trim().toUpperCase();
     var jenis = document.getElementById('inp-alker-jenis').value.trim().toUpperCase();
     var merk = document.getElementById('inp-alker-merk').value.trim().toUpperCase();
@@ -4183,7 +4318,6 @@ function submitForm(e) {
     if (!snInput) { var urutan = isEdit ? (data.urutan || 1) : getNextAlkerUrutan(); sn = generateAlkerSN(nama, jenis, merk, data.date, urutan); data.urutan = urutan; }
     else sn = snInput;
     data.sn = sn; data.nama = nama; data.jenis = jenis; data.merk = merk; data.keterangan = keterangan;
-    /* ===== BARU: Simpan Jumlah & Satuan ===== */
     data.jumlah = jumlah;
     data.satuan = satuan;
     detailText = 'Nama: ' + nama + ' | SN: ' + sn + ' | Jumlah: ' + jumlah + ' ' + satuan; ketText = keterangan;
@@ -4334,10 +4468,8 @@ function resetFormFields() {
     'inp-opm-keterangan', 'inp-opm-ukuran', 'inp-opm-label',
     'inp-opm-warna-tube', 'inp-opm-warna-kabel',
     'inp-alker-nama', 'inp-alker-sn', 'inp-alker-jenis', 'inp-alker-merk', 'inp-alker-keterangan',
-    /* ===== BARU: reset jumlah & satuan ===== */
     'inp-alker-jumlah', 'inp-alker-satuan'];
   ids.forEach(function(id) { var el = document.getElementById(id); if (el) el.value = ''; });
-  /* ===== BARU: set default jumlah ke 1 ===== */
   var elJumlah = document.getElementById('inp-alker-jumlah'); if (elJumlah) elJumlah.value = '1';
   document.getElementById('inp-pc-qty').value = '1';
   document.getElementById('inp-pc-type').value = '';
@@ -4349,7 +4481,7 @@ function resetFormFields() {
   selectedOpmPort = ''; opmTempPorts = [];
   var cb = document.getElementById('inp-opm-used'); if (cb) cb.checked = false;
   var lw = document.getElementById('opm-used-label-wrap'); if (lw) lw.classList.add('hidden');
-  try { renderOpmTempList(); renderOpmPortDropdown(); } catch (e) {}
+  try { renderOpmTempList(); renderOpmPortDropdown(); renderOpmPortChips(); } catch (e) {}
 }
 function populateFormFields(data) {
   var map = {
@@ -4360,7 +4492,6 @@ function populateFormFields(data) {
     'inp-opm-ukuran': data.ukuranOLS, 'inp-opm-label': data.label,
     'inp-opm-warna-tube': data.warnaTube, 'inp-opm-warna-kabel': data.warnaKabel,
     'inp-alker-nama': data.nama, 'inp-alker-sn': data.sn, 'inp-alker-jenis': data.jenis, 'inp-alker-merk': data.merk, 'inp-alker-keterangan': data.keterangan,
-    /* ===== BARU: mapping jumlah & satuan ===== */
     'inp-alker-jumlah': data.jumlah, 'inp-alker-satuan': data.satuan
   };
   Object.keys(map).forEach(function(id) { var el = document.getElementById(id); if (el && map[id] !== undefined && map[id] !== null) el.value = map[id]; });
@@ -4454,7 +4585,6 @@ function downloadPageExcel() {
     var it = list[k] || {}; var ket = it.keterangan || it.notes || it.keterangan_normal || ''; var row = {}; row['No'] = idx + 1;
     if (isSpare) { row['Tanggal'] = it.date || ''; row['Gudang'] = it.gudang || ''; row['SN'] = it.sn || ''; row['Nama Barang'] = it.spec || ''; row['Status'] = it.status || 'Ready'; row['Lemari'] = it.lemari || ''; row['Rak'] = it.rak || ''; row['Riwayat'] = it.riwayat || ''; row['Kondisi'] = it.kondisi || ''; row['Tujuan Pemakaian'] = it.tujuanPemakaian || ''; row['Lokasi Pemakaian'] = it.lokasiPemakaian || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
     else if (isPatch) { row['Tanggal'] = it.date || ''; row['Gudang'] = it.gudang || ''; row['Jenis'] = it.pcType || ''; row['Panjang'] = it.pcLength || ''; row['Tipe Transaksi'] = it.trType || ''; row['Jumlah (Qty)'] = it.qty || 0; row['Barcode'] = it.barcode || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
-    /* ===== BARU: export Excel Alker dengan Jumlah & Satuan ===== */
     else if (isAlker) { row['Tanggal'] = it.date || ''; row['Nama Alker'] = it.nama || ''; row['SN'] = it.sn || ''; row['Jenis'] = it.jenis || ''; row['Merk'] = it.merk || ''; row['Jumlah'] = (it.jumlah !== undefined && it.jumlah !== null) ? it.jumlah : ''; row['Satuan'] = it.satuan || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
     else if (isHJ) { row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Kondisi'] = it.kondisi || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
     else if (isOfCut) { var coDisplay = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : ''; var upDisplay = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : ''; var durasiDisplay = it.durasiText ? it.durasiText : (it.durasiMenit ? it.durasiMenit + ' menit' : ''); row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Waktu CO'] = coDisplay; row['Waktu UP'] = upDisplay; row['Durasi'] = durasiDisplay; row['Durasi (Menit)'] = (it.durasiMenit !== undefined && it.durasiMenit !== null) ? it.durasiMenit : ''; row['Panjang Cut (M)'] = it.panjangCut || ''; row['Rute'] = it.rute || ''; row['Penyebab'] = it.penyebab || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
