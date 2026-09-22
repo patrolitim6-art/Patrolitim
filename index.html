@@ -329,7 +329,7 @@ select.field-control option { background: var(--surface-2); color: var(--text-ma
 .icon-btn.edit:hover { background: rgba(16, 185, 129, 0.15); color: #10B981; }
 input.field-control[type="text"], input.field-control:not([type]), textarea.field-control { text-transform: uppercase; }
 input.field-control[type="text"]::placeholder, input.field-control:not([type])::placeholder, textarea.field-control::placeholder { text-transform: none; }
-input.field-control[type="date"], input.field-control[type="datetime-local"], input.field-control[type="password"], input.field-control[type="email"], input.field-control[type="color"], input[type="range"],
+input.field-control[type="date"], input.field-control[type="datetime-local"], input.field-control[type="password"], input.field-control[type="email"], input.field-control[type="color"], input.field-control[type="number"], input[type="range"],
 #login-username, #login-password, #fcp-new-password, #fcp-confirm-password { text-transform: none; }
 .modal-layer { position: fixed; z-index: 100; inset: 0; background: rgba(5, 8, 16, 0.8); backdrop-filter: blur(10px); display: grid; place-items: end; }
 :root[data-theme="light"] .modal-layer { background: rgba(31, 41, 55, 0.4); }
@@ -1588,6 +1588,7 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
           </div>
         </div>
 
+        <!-- ===== FIELD ALKER (DENGAN JUMLAH & SATUAN) ===== -->
         <div id="field-alker" class="hidden">
           <div style="background:rgba(168,85,247,0.1);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(168,85,247,0.3);">
             <div style="font-weight:600;color:var(--primary-purple);font-size:var(--app-font-size-xs);">Data Alker</div>
@@ -1603,11 +1604,29 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
             <div><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Jenis *</label><input type="text" id="inp-alker-jenis" class="field-control" placeholder="Jenis alker"></div>
             <div><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Merk *</label><input type="text" id="inp-alker-merk" class="field-control" placeholder="Merk alker"></div>
           </div>
+          <!-- ===== BARU: JUMLAH & SATUAN ===== -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+            <div>
+              <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Jumlah *</label>
+              <input type="number" id="inp-alker-jumlah" class="field-control" placeholder="Contoh: 10" min="1" value="1">
+            </div>
+            <div>
+              <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Satuan *</label>
+              <select id="inp-alker-satuan" class="field-control">
+                <option value="">-- Pilih --</option>
+                <option value="PCS">PCS</option>
+                <option value="MTR">MTR</option>
+              </select>
+            </div>
+          </div>
+          <!-- ===== END BARU ===== -->
           <div style="margin-top:12px;">
             <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Keterangan * (Wajib)</label>
             <textarea id="inp-alker-keterangan" class="field-control" rows="2" style="resize:none;" placeholder="Keterangan wajib diisi"></textarea>
           </div>
         </div>
+        <!-- ===== END FIELD ALKER ===== -->
+
         <div id="field-normal" class="hidden">
           <label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Nama Lokasi *</label>
           <div style="display:flex;gap:8px;">
@@ -1909,7 +1928,7 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
       <div class="about-info-card">
         <div class="about-info-title"><i data-lucide="package" style="width:16px;"></i> Inventaris</div>
         <ul class="about-info-list">
-          <li><b>Alker</b> — alat kerja, SN otomatis.</li>
+          <li><b>Alker</b> — alat kerja, SN otomatis, jumlah &amp; satuan (PCS/MTR).</li>
           <li><b>Stok Spare</b> — inventory per gudang.</li>
           <li><b>Patch Cord</b> — stok per jenis &amp; panjang.</li>
         </ul>
@@ -3808,7 +3827,8 @@ function renderTable() {
 
     if (isSpare) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-gudang">Gudang</th><th class="col-sn">SN</th>' + '<th class="col-nama">Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th>' + '<th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
     else if (isPatch) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-gudang">Gudang</th><th>Jenis</th><th>Panjang</th><th>Tipe</th><th>Qty</th>' + '<th class="col-aksi">Aksi</th></tr>';
-    else if (isAlker) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-nama">Nama Alker</th><th class="col-sn">SN</th>' + '<th>Jenis</th><th>Merk</th><th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
+    /* ===== BARU: header Alker dengan Jumlah & Satuan ===== */
+    else if (isAlker) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-nama">Nama Alker</th><th class="col-sn">SN</th>' + '<th>Jenis</th><th>Merk</th><th style="text-align:center;">Jumlah</th><th style="text-align:center;">Satuan</th><th class="col-ket">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
     else if (isHJ) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th>Kondisi</th><th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
     else if (isOfCut) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th class="col-waktu">Waktu CO</th><th class="col-waktu">Waktu UP</th><th>Durasi</th>' + '<th>Panjang</th><th>Rute</th><th>Penyebab</th>' + '<th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
     else if (isP3T) th.innerHTML = printHeaderHtml + '<tr>' + thNo() + '<th class="col-date">Tgl</th><th class="col-loc">Lokasi</th><th class="col-coord">Koordinat</th>' + '<th>Pelaksana</th><th>Lama</th><th class="col-ket">Keterangan</th><th class="col-user">User</th><th class="col-aksi">Aksi</th></tr>';
@@ -3825,7 +3845,8 @@ function renderTable() {
 
       if (isSpare) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td class="col-date">' + (it.date || '-') + '</td>' + '<td class="col-gudang">' + (it.gudang || '-') + '</td>' + '<td class="col-sn"><code title="' + escapeHtml(it.sn || '') + '">' + (it.sn || '-') + '</code></td>' + '<td class="col-nama">' + (it.spec || '-') + '</td>' + '<td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td>' + '<td>' + (it.lemari || '-') + '</td>' + '<td>' + (it.rak || '-') + '</td>' + '<td>' + (it.riwayat || '-') + '</td>' + '<td>' + (it.kondisi || '-') + '</td>' + '<td class="col-ket">' + ketHtml + '</td>' + '<td class="col-aksi">' + aksi + '</td></tr>';
       else if (isPatch) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td class="col-date">' + (it.date || '-') + '</td>' + '<td class="col-gudang">' + (it.gudang || '-') + '</td>' + '<td>' + (it.pcType || '-') + '</td>' + '<td>' + (it.pcLength || '-') + '</td>' + '<td>' + (it.trType || '-') + '</td>' + '<td>' + (it.qty || 0) + '</td>' + '<td class="col-aksi">' + aksi + '</td></tr>';
-      else if (isAlker) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td class="col-date">' + (it.date || '-') + '</td>' + '<td class="col-nama">' + (it.nama || '-') + '</td>' + '<td class="col-sn"><code title="' + escapeHtml(it.sn || '') + '">' + (it.sn || '-') + '</code></td>' + '<td>' + (it.jenis || '-') + '</td>' + '<td>' + (it.merk || '-') + '</td>' + '<td class="col-ket">' + ketHtml + '</td>' + '<td class="col-aksi">' + aksi + '</td></tr>';
+      /* ===== BARU: baris Alker dengan Jumlah & Satuan ===== */
+      else if (isAlker) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td class="col-date">' + (it.date || '-') + '</td>' + '<td class="col-nama">' + (it.nama || '-') + '</td>' + '<td class="col-sn"><code title="' + escapeHtml(it.sn || '') + '">' + (it.sn || '-') + '</code></td>' + '<td>' + (it.jenis || '-') + '</td>' + '<td>' + (it.merk || '-') + '</td>' + '<td style="text-align:center;font-weight:700;">' + (it.jumlah !== undefined && it.jumlah !== null && it.jumlah !== '' ? it.jumlah : '-') + '</td>' + '<td style="text-align:center;">' + (it.satuan || '-') + '</td>' + '<td class="col-ket">' + ketHtml + '</td>' + '<td class="col-aksi">' + aksi + '</td></tr>';
       else if (isHJ) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td class="col-date">' + (it.date || '-') + '</td>' + '<td class="col-loc">' + (it.location || '-') + '</td>' + '<td class="col-coord">' + (it.coords || '-') + '</td>' + '<td>' + (it.kondisi || '-') + '</td>' + '<td class="col-ket">' + ketHtml + '</td>' + '<td class="col-user">' + (it.postBy || '-') + '</td>' + '<td class="col-aksi">' + aksi + '</td></tr>';
       else if (isOfCut) {
         var coDisplay = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : '-'; var upDisplay = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : '-';
@@ -4146,18 +4167,26 @@ function submitForm(e) {
     showToast('Gunakan tombol "Submit Data" di bawah List Port untuk menyimpan.', 'warning');
     return;
   } else if (cat === 'Alker') {
+    /* ===== BARU: Ambil Jumlah & Satuan ===== */
     var nama = document.getElementById('inp-alker-nama').value.trim().toUpperCase();
     var jenis = document.getElementById('inp-alker-jenis').value.trim().toUpperCase();
     var merk = document.getElementById('inp-alker-merk').value.trim().toUpperCase();
     var keterangan = document.getElementById('inp-alker-keterangan').value.trim().toUpperCase();
     var snInput = document.getElementById('inp-alker-sn').value.trim().toUpperCase();
+    var jumlah = parseInt(document.getElementById('inp-alker-jumlah').value) || 0;
+    var satuan = document.getElementById('inp-alker-satuan').value;
     if (!nama || !jenis || !merk) { showToast('Isi Nama, Jenis, dan Merk', 'error'); return; }
     if (!keterangan) { showToast('Keterangan wajib diisi!', 'error'); return; }
+    if (jumlah < 1) { showToast('Jumlah minimal 1!', 'error'); return; }
+    if (!satuan) { showToast('Pilih Satuan (PCS/MTR)!', 'error'); return; }
     var sn;
     if (!snInput) { var urutan = isEdit ? (data.urutan || 1) : getNextAlkerUrutan(); sn = generateAlkerSN(nama, jenis, merk, data.date, urutan); data.urutan = urutan; }
     else sn = snInput;
     data.sn = sn; data.nama = nama; data.jenis = jenis; data.merk = merk; data.keterangan = keterangan;
-    detailText = 'Nama: ' + nama + ' | SN: ' + sn; ketText = keterangan;
+    /* ===== BARU: Simpan Jumlah & Satuan ===== */
+    data.jumlah = jumlah;
+    data.satuan = satuan;
+    detailText = 'Nama: ' + nama + ' | SN: ' + sn + ' | Jumlah: ' + jumlah + ' ' + satuan; ketText = keterangan;
   } else if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
     var loc = document.getElementById('inp-loc').value.trim().toUpperCase();
     var crd = document.getElementById('inp-coords').value.trim();
@@ -4304,8 +4333,12 @@ function resetFormFields() {
     'inp-opm-port', 'inp-opm-dbm', 'inp-opm-ruas', 'inp-opm-dari', 'inp-opm-ke',
     'inp-opm-keterangan', 'inp-opm-ukuran', 'inp-opm-label',
     'inp-opm-warna-tube', 'inp-opm-warna-kabel',
-    'inp-alker-nama', 'inp-alker-sn', 'inp-alker-jenis', 'inp-alker-merk', 'inp-alker-keterangan'];
+    'inp-alker-nama', 'inp-alker-sn', 'inp-alker-jenis', 'inp-alker-merk', 'inp-alker-keterangan',
+    /* ===== BARU: reset jumlah & satuan ===== */
+    'inp-alker-jumlah', 'inp-alker-satuan'];
   ids.forEach(function(id) { var el = document.getElementById(id); if (el) el.value = ''; });
+  /* ===== BARU: set default jumlah ke 1 ===== */
+  var elJumlah = document.getElementById('inp-alker-jumlah'); if (elJumlah) elJumlah.value = '1';
   document.getElementById('inp-pc-qty').value = '1';
   document.getElementById('inp-pc-type').value = '';
   document.getElementById('inp-pc-length').value = '';
@@ -4326,7 +4359,9 @@ function populateFormFields(data) {
     'inp-opm-dari': data.dari, 'inp-opm-ke': data.ke, 'inp-opm-keterangan': data.keterangan,
     'inp-opm-ukuran': data.ukuranOLS, 'inp-opm-label': data.label,
     'inp-opm-warna-tube': data.warnaTube, 'inp-opm-warna-kabel': data.warnaKabel,
-    'inp-alker-nama': data.nama, 'inp-alker-sn': data.sn, 'inp-alker-jenis': data.jenis, 'inp-alker-merk': data.merk, 'inp-alker-keterangan': data.keterangan
+    'inp-alker-nama': data.nama, 'inp-alker-sn': data.sn, 'inp-alker-jenis': data.jenis, 'inp-alker-merk': data.merk, 'inp-alker-keterangan': data.keterangan,
+    /* ===== BARU: mapping jumlah & satuan ===== */
+    'inp-alker-jumlah': data.jumlah, 'inp-alker-satuan': data.satuan
   };
   Object.keys(map).forEach(function(id) { var el = document.getElementById(id); if (el && map[id] !== undefined && map[id] !== null) el.value = map[id]; });
   if (data.port) { selectedOpmPort = data.port; setTimeout(function() { renderOpmPortDropdown(); }, 50); }
@@ -4419,7 +4454,8 @@ function downloadPageExcel() {
     var it = list[k] || {}; var ket = it.keterangan || it.notes || it.keterangan_normal || ''; var row = {}; row['No'] = idx + 1;
     if (isSpare) { row['Tanggal'] = it.date || ''; row['Gudang'] = it.gudang || ''; row['SN'] = it.sn || ''; row['Nama Barang'] = it.spec || ''; row['Status'] = it.status || 'Ready'; row['Lemari'] = it.lemari || ''; row['Rak'] = it.rak || ''; row['Riwayat'] = it.riwayat || ''; row['Kondisi'] = it.kondisi || ''; row['Tujuan Pemakaian'] = it.tujuanPemakaian || ''; row['Lokasi Pemakaian'] = it.lokasiPemakaian || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
     else if (isPatch) { row['Tanggal'] = it.date || ''; row['Gudang'] = it.gudang || ''; row['Jenis'] = it.pcType || ''; row['Panjang'] = it.pcLength || ''; row['Tipe Transaksi'] = it.trType || ''; row['Jumlah (Qty)'] = it.qty || 0; row['Barcode'] = it.barcode || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
-    else if (isAlker) { row['Tanggal'] = it.date || ''; row['Nama Alker'] = it.nama || ''; row['SN'] = it.sn || ''; row['Jenis'] = it.jenis || ''; row['Merk'] = it.merk || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
+    /* ===== BARU: export Excel Alker dengan Jumlah & Satuan ===== */
+    else if (isAlker) { row['Tanggal'] = it.date || ''; row['Nama Alker'] = it.nama || ''; row['SN'] = it.sn || ''; row['Jenis'] = it.jenis || ''; row['Merk'] = it.merk || ''; row['Jumlah'] = (it.jumlah !== undefined && it.jumlah !== null) ? it.jumlah : ''; row['Satuan'] = it.satuan || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
     else if (isHJ) { row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Kondisi'] = it.kondisi || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
     else if (isOfCut) { var coDisplay = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : ''; var upDisplay = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : ''; var durasiDisplay = it.durasiText ? it.durasiText : (it.durasiMenit ? it.durasiMenit + ' menit' : ''); row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Waktu CO'] = coDisplay; row['Waktu UP'] = upDisplay; row['Durasi'] = durasiDisplay; row['Durasi (Menit)'] = (it.durasiMenit !== undefined && it.durasiMenit !== null) ? it.durasiMenit : ''; row['Panjang Cut (M)'] = it.panjangCut || ''; row['Rute'] = it.rute || ''; row['Penyebab'] = it.penyebab || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
     else if (isP3T) { row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Pelaksana'] = it.pelaksana || ''; row['Lama Pekerjaan'] = it.lamaPekerjaan || ''; row['Keterangan'] = ket; row['Diposting Oleh'] = it.postBy || ''; row['Waktu Input'] = it.createdAt ? new Date(it.createdAt).toLocaleString('id-ID') : ''; }
