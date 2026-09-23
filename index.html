@@ -355,25 +355,56 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .map-legend-item { display: flex; align-items: center; gap: 8px; padding: 2px 0; color: var(--text-muted); }
 .map-legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.2); }
 #map-legend-line { margin-top: 6px; border-top: 1px solid var(--border-subtle); padding-top: 4px; color: var(--text-muted); max-height: 80px; overflow-y: auto; }
-.map-points-filter { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 14px; background: var(--surface-1); border-bottom: 1px solid var(--border-subtle); align-items: center; }
-.map-points-filter-label { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: var(--app-font-size-xs); margin-right: 4px; display: flex; align-items: center; gap: 6px; }
-.map-points-filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; gap: 6px; }
+
+/* ===== FILTER SECTION (PREMIUM) ===== */
+.map-filter-section { padding: 10px 14px; background: var(--surface-1); border-bottom: 1px solid var(--border-subtle); }
+.map-filter-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.map-filter-row:last-child { margin-bottom: 0; }
+.map-filter-label { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: var(--app-font-size-xs); display: flex; align-items: center; gap: 6px; flex-shrink: 0; min-width: 120px; }
+.map-filter-label i { width: 14px; height: 14px; }
+.map-filter-chips { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; align-items: center; }
+.map-points-filter-btn { padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 600; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; gap: 5px; }
 .map-points-filter-btn:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); transform: translateY(-1px); }
-.map-points-filter-btn.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3); }
-:root[data-theme="light"] .map-points-filter-btn.active { box-shadow: 0 4px 12px rgba(224, 82, 82, 0.2); }
-.map-points-filter-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
-.map-lines-filter { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 14px; background: var(--surface-1); border-bottom: 1px solid var(--border-subtle); align-items: center; }
+.map-points-filter-btn.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; box-shadow: 0 3px 10px rgba(0, 217, 255, 0.3); }
+:root[data-theme="light"] .map-points-filter-btn.active { box-shadow: 0 3px 10px rgba(224, 82, 82, 0.2); }
+.map-points-filter-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.25); flex-shrink: 0; }
+.map-filter-actions { display: flex; gap: 4px; margin-left: auto; padding-left: 8px; border-left: 1px solid var(--border-subtle); }
+.map-filter-action-btn { padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border-subtle); background: transparent; cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: calc(var(--app-font-size) - 4px); display: inline-flex; align-items: center; gap: 4px; letter-spacing: 0.5px; }
+.map-filter-action-btn:hover { color: var(--primary-cyan); border-color: var(--primary-cyan); background: rgba(0, 217, 255, 0.08); }
+.map-filter-action-btn.show-all:hover { color: #10B981; border-color: #10B981; background: rgba(16, 185, 129, 0.08); }
+.map-filter-action-btn.hide-all:hover { color: #EC4899; border-color: #EC4899; background: rgba(236, 72, 153, 0.08); }
 .map-line-toggle { padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; gap: 6px; opacity: 0.5; }
 .map-line-toggle:hover { transform: translateY(-1px); border-color: var(--primary-cyan); }
 .map-line-toggle.active { opacity: 1; color: var(--text-main); border-color: var(--primary-cyan); box-shadow: 0 0 0 2px rgba(0,217,255,0.15); }
 .map-line-toggle .line-color-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); flex-shrink: 0; }
+
 .mini-map-controls { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
 .mini-map-btn { background: var(--surface-map-btn); backdrop-filter: blur(10px); border: 1px solid var(--border-glow); border-radius: 10px; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; color: var(--primary-cyan); transition: all 0.2s; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
 .mini-map-btn:hover { background: rgba(0, 217, 255, 0.2); transform: scale(1.05); }
 :root[data-theme="light"] .mini-map-btn:hover { background: rgba(224, 82, 82, 0.15); }
-.ml-marker { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 8px rgba(0, 217, 255, 0.8); cursor: pointer; transition: transform 0.15s ease; }
-.ml-marker:hover { transform: scale(1.35); }
-.draw-point { width: 12px; height: 12px; border-radius: 50%; background: #00D9FF; border: 2px solid #fff; box-shadow: 0 0 10px #00D9FF; cursor: pointer; pointer-events: auto; }
+
+/* ===== MARKER — STABIL SAAT ZOOM ===== */
+.ml-marker {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 8px rgba(0, 217, 255, 0.8);
+  cursor: pointer;
+  will-change: transform;
+  transition: box-shadow 0.2s ease;
+}
+.ml-marker:hover {
+  box-shadow: 0 0 0 4px rgba(0, 217, 255, 0.35), 0 0 14px rgba(0, 217, 255, 1);
+  z-index: 9999;
+}
+.draw-point {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #00D9FF; border: 2px solid #fff;
+  box-shadow: 0 0 10px #00D9FF;
+  cursor: pointer; pointer-events: auto;
+  will-change: transform;
+  transition: box-shadow 0.2s ease;
+}
+.draw-point:hover { box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.35), 0 0 14px #00D9FF; }
 .draw-point.first { background: #10B981; box-shadow: 0 0 12px #10B981; }
 .draw-point.last { background: #EC4899; box-shadow: 0 0 12px #EC4899; }
 .draw-cursor-active #map-container, .draw-cursor-active #map-container canvas { cursor: crosshair !important; }
@@ -419,7 +450,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .gudang-tab:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); }
 .gudang-tab.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; }
 .records-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: auto; }
-/* ===== HEADER TABEL SOLID (TIDAK TRANSPARAN) ===== */
 .records-table th {
   background: var(--surface-table-header-solid) !important;
   padding: 12px 14px;
@@ -540,7 +570,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .opm-port-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; min-height: 32px; padding: 6px; background: rgba(0,217,255,0.04); border: 1px dashed var(--border-subtle); border-radius: 10px; }
 .opm-port-chips-empty { color: var(--text-dim); font-size: var(--app-font-size-xs); font-style: italic; padding: 4px 8px; }
 .chip-port { display: inline-flex; align-items: center; gap: 4px; background: var(--tech-gradient); color: var(--text-on-accent); padding: 4px 10px; border-radius: 14px; font-size: var(--app-font-size-xs); font-weight: 800; font-family: 'Orbitron', sans-serif; min-width: auto; transition: background 0.25s ease, box-shadow 0.25s ease; }
-.chip-port.used { background: linear-gradient(135deg, #EC4899, #BE185D); }
 .chip-port span { cursor: pointer; margin-left: 4px; font-weight: bold; font-size: 14px; line-height: 1; }
 .chip-port span:hover { opacity: 0.7; }
 .chart-rekap-wrapper { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-subtle); }
@@ -671,7 +700,7 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
 .print-header-telin .print-title { font-size: 18px; font-weight: 800; color: #000; }
 @media print {
   body { background: #fff !important; color: #000 !important; padding: 0 !important; }
-  .sidebar, .top-header, .menu-toggle, .sidebar-overlay, .filter-bar, .custom-map-controls, .map-legend, .card::before, .hero-panel, #dashboard-view, .map-points-filter, .map-lines-filter, .opm-group-stats, .opm-info-banner, .opm-step-card, .icon-btn, .sub-tabs, .btn-primary, .btn-secondary, .btn-icon, .toast, .table-scroll-buttons { display: none !important; }
+  .sidebar, .top-header, .menu-toggle, .sidebar-overlay, .filter-bar, .custom-map-controls, .map-legend, .card::before, .hero-panel, #dashboard-view, .map-filter-section, .opm-group-stats, .opm-info-banner, .opm-step-card, .icon-btn, .sub-tabs, .btn-primary, .btn-secondary, .btn-icon, .toast, .table-scroll-buttons { display: none !important; }
   .print-header-telin { display: flex !important; }
   .print-header-row { display: table-row !important; }
   .records-table, .opm-group-wrapper { page-break-inside: avoid; }
@@ -693,6 +722,8 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
   .user-list-actions { flex-direction: column; }
   .kml-list-actions { flex-direction: column; }
   .records-table td.col-ket, .records-table th.col-ket { display: none; }
+  .map-filter-label { min-width: auto; }
+  .map-filter-actions { margin-left: 0; padding-left: 0; border-left: none; width: 100%; justify-content: flex-end; }
 }
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--scroll-track); }
@@ -921,44 +952,49 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
             </div>
           </div>
 
-          <div class="map-points-filter">
-            <span class="map-points-filter-label">
-              <i data-lucide="filter" style="width:14px;"></i> Tampilkan Titik:
-            </span>
-            <button class="map-points-filter-btn active" data-point-filter="all" onclick="setPointFilter('all')">
-              <i data-lucide="layout-grid" style="width:12px;"></i> Semua
-            </button>
-            <button class="map-points-filter-btn" data-point-filter="Data OF Cut" onclick="setPointFilter('Data OF Cut')">
-              <span class="map-points-filter-dot" style="background:#FF0000;"></span> OF Cut
-            </button>
-            <button class="map-points-filter-btn" data-point-filter="Pekerjaan Pihak Ke-3" onclick="setPointFilter('Pekerjaan Pihak Ke-3')">
-              <span class="map-points-filter-dot" style="background:#00FF00;"></span> P3
-            </button>
-            <button class="map-points-filter-btn" data-point-filter="Temuan Lapangan" onclick="setPointFilter('Temuan Lapangan')">
-              <span class="map-points-filter-dot" style="background:#0000FF;"></span> Temuan
-            </button>
-            <button class="map-points-filter-btn" data-point-filter="Joint" onclick="setPointFilter('Joint')">
-              <span class="map-points-filter-dot" style="background:#FFFF00;"></span> Joint
-            </button>
-            <button class="map-points-filter-btn" data-point-filter="Handhole" onclick="setPointFilter('Handhole')">
-              <span class="map-points-filter-dot" style="background:#FF00FF;"></span> Handhole
-            </button>
-          </div>
-
-          <div class="map-lines-filter" id="map-lines-filter">
-            <span class="map-points-filter-label">
-              <i data-lucide="route" style="width:14px;"></i> Tampilkan Line:
-            </span>
-            <div id="map-lines-filter-buttons" style="display:flex;gap:6px;flex-wrap:wrap;flex:1;">
-              <span style="color:var(--text-dim);font-size:var(--app-font-size-xs);font-style:italic;">Memuat line...</span>
+          <!-- FILTER SECTION (REDESIGN) -->
+          <div class="map-filter-section">
+            <div class="map-filter-row">
+              <span class="map-filter-label">
+                <i data-lucide="filter"></i> Tampilkan Titik
+              </span>
+              <div class="map-filter-chips">
+                <button class="map-points-filter-btn active" data-point-filter="all" onclick="setPointFilter('all')">
+                  <i data-lucide="layout-grid" style="width:12px;"></i> Semua
+                </button>
+                <button class="map-points-filter-btn" data-point-filter="Data OF Cut" onclick="setPointFilter('Data OF Cut')">
+                  <span class="map-points-filter-dot" style="background:#FF0000;"></span> OF Cut
+                </button>
+                <button class="map-points-filter-btn" data-point-filter="Pekerjaan Pihak Ke-3" onclick="setPointFilter('Pekerjaan Pihak Ke-3')">
+                  <span class="map-points-filter-dot" style="background:#00FF00;"></span> P3
+                </button>
+                <button class="map-points-filter-btn" data-point-filter="Temuan Lapangan" onclick="setPointFilter('Temuan Lapangan')">
+                  <span class="map-points-filter-dot" style="background:#0000FF;"></span> Temuan
+                </button>
+                <button class="map-points-filter-btn" data-point-filter="Joint" onclick="setPointFilter('Joint')">
+                  <span class="map-points-filter-dot" style="background:#FFFF00;"></span> Joint
+                </button>
+                <button class="map-points-filter-btn" data-point-filter="Handhole" onclick="setPointFilter('Handhole')">
+                  <span class="map-points-filter-dot" style="background:#FF00FF;"></span> Handhole
+                </button>
+              </div>
             </div>
-            <div style="display:flex;gap:6px;margin-left:auto;">
-              <button class="map-points-filter-btn" onclick="showAllLines()" title="Tampilkan semua line">
-                <i data-lucide="eye" style="width:12px;"></i> Semua
-              </button>
-              <button class="map-points-filter-btn" onclick="hideAllLines()" title="Sembunyikan semua line">
-                <i data-lucide="eye-off" style="width:12px;"></i> Kosongkan
-              </button>
+
+            <div class="map-filter-row">
+              <span class="map-filter-label">
+                <i data-lucide="route"></i> Tampilkan Line
+              </span>
+              <div class="map-filter-chips" id="map-lines-filter-buttons">
+                <span style="color:var(--text-dim);font-size:var(--app-font-size-xs);font-style:italic;">Memuat line...</span>
+              </div>
+              <div class="map-filter-actions">
+                <button class="map-filter-action-btn show-all" onclick="showAllLines()" title="Tampilkan semua line">
+                  <i data-lucide="eye" style="width:11px;"></i> Semua
+                </button>
+                <button class="map-filter-action-btn hide-all" onclick="hideAllLines()" title="Sembunyikan semua line">
+                  <i data-lucide="eye-off" style="width:11px;"></i> Kosong
+                </button>
+              </div>
             </div>
           </div>
 
@@ -2755,33 +2791,49 @@ function hideAllLines() {
   renderLineFilters();
   showToast('Semua line disembunyikan', 'warning');
 }
+
+/* ===== FIX #2: applyLineFilters dengan retry ===== */
 function applyLineFilters() {
   if (!map) return;
+  if (!map.isStyleLoaded()) {
+    setTimeout(function () { if (map && map.isStyleLoaded()) applyLineFilters(); }, 300);
+    return;
+  }
   var filtered = {};
-  Object.keys(kmlDataCache || {}).forEach(function(name) {
+  Object.keys(kmlDataCache || {}).forEach(function (name) {
     if (selectedLineFilters && selectedLineFilters[name] === false) return;
     filtered[name] = kmlDataCache[name];
   });
   renderAllKmlLinesFiltered(filtered);
 }
+
+/* ===== FIX #3: Skip line yang sudah ada ===== */
 function renderAllKmlLinesFiltered(kmlDataObj) {
+  if (!map || !map.isStyleLoaded()) {
+    setTimeout(function () { renderAllKmlLinesFiltered(kmlDataObj); }, 300);
+    return;
+  }
   var d = kmlDataObj || {};
-  Object.keys(kmlLayers).forEach(function(existingLine) {
+  Object.keys(kmlLayers).forEach(function (existingLine) {
     if (!d[existingLine]) {
       var l = kmlLayers[existingLine];
-      try { if (l && l.layerId && map.getLayer(l.layerId)) map.removeLayer(l.layerId); } catch(e) {}
-      try { if (l && l.sourceId && map.getSource(l.sourceId)) map.removeSource(l.sourceId); } catch(e) {}
+      try { if (l && l.layerId && map.getLayer(l.layerId)) map.removeLayer(l.layerId); } catch (e) {}
+      try { if (l && l.sourceId && map.getSource(l.sourceId)) map.removeSource(l.sourceId); } catch (e) {}
       delete kmlLayers[existingLine];
     }
   });
-  Object.keys(d).forEach(function(lineName) {
-    var kmlText = d[lineName]; if (!kmlText || typeof kmlText !== 'string') return;
+  Object.keys(d).forEach(function (lineName) {
+    var kmlText = d[lineName];
+    if (!kmlText || typeof kmlText !== 'string') return;
+    var existing = kmlLayers[lineName];
+    if (existing && existing.layerId && map.getLayer(existing.layerId)) {
+      return;
+    }
     try {
       var xml = new DOMParser().parseFromString(kmlText, "text/xml");
       var geojson = parseKmlToGeoJSON(xml);
       if (geojson.features.length > 0) {
-        if (map && map.isStyleLoaded()) drawKmlGeoJSON(lineName, geojson, false);
-        else if (map) map.once('idle', (function(nm, gj) { return function() { drawKmlGeoJSON(nm, gj, false); }; })(lineName, geojson));
+        drawKmlGeoJSON(lineName, geojson, false);
       }
     } catch (e) {}
   });
@@ -2809,7 +2861,6 @@ const WARNA_KABEL_HEX = {
   'PINK':     '#EC4899',
   'TOSKA':    '#14B8A6'
 };
-
 function getTextColorForBg(hex) {
   if (!hex) return '#FFFFFF';
   var c = hex.replace('#', '');
@@ -2821,13 +2872,11 @@ function getTextColorForBg(hex) {
   var lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
   return lum > 0.6 ? '#000000' : '#FFFFFF';
 }
-
 function getWarnaKabelHex() {
   var sel = document.getElementById('inp-opm-warna-kabel');
   var name = (sel && sel.value ? sel.value : '').toUpperCase();
   return WARNA_KABEL_HEX[name] || '#00D9FF';
 }
-
 function updatePortChipsColor() {
   renderOpmPortChips();
   renderOpmTempList();
@@ -3281,6 +3330,8 @@ function getHybridStyle() {
       { id: 'hybrid-hd-layer', type: 'raster', source: 'hybrid-hd', minzoom: 14, maxzoom: 22 }
     ] };
 }
+
+/* ===== FIX #5: initMap tanpa double load ===== */
 function initMap() {
   if (map) return;
   try {
@@ -3291,7 +3342,10 @@ function initMap() {
       pixelRatio: window.devicePixelRatio || 1,
       fadeDuration: 0, refreshExpiredTiles: false, preserveDrawingBuffer: true
     });
+    var initialLoadDone = false;
     map.on('load', function () {
+      if (initialLoadDone) return;
+      initialLoadDone = true;
       loadMarkersFromData();
       renderLineFilters();
       if (kmlDataCache) applyLineFilters();
@@ -3300,9 +3354,11 @@ function initMap() {
     map.on('click', function (e) { if (drawMode) handleDrawClick(e); });
   } catch (e) { console.error('Map init:', e); }
 }
+
+/* ===== FIX MARKER BERGERAK: anchor center ===== */
 function loadMarkersFromData() {
   if (!map) return;
-  markers.forEach(function (m) { m.remove(); }); markers = [];
+  markers.forEach(function (m) { try { m.remove(); } catch(e) {} }); markers = [];
   var categoryColors = {
     'Data OF Cut': '#FF0000',
     'Pekerjaan Pihak Ke-3': '#00FF00',
@@ -3322,13 +3378,13 @@ function loadMarkersFromData() {
       }
       if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
         var el = document.createElement('div'); el.className = 'ml-marker'; el.style.background = color;
-        el.style.border = '2px solid #000';
+        el.style.border = '2px solid #fff';
         el.style.boxShadow = '0 0 8px ' + color;
         var title = it.location || it.nama || 'Lokasi';
         el.title = title + ' — ' + cat;
         var popupHtml = '<strong style="color:var(--primary-cyan);">' + escapeHtml(title) + '</strong><br><span style="font-size:var(--app-font-size-xs);color:var(--text-muted);">' + cat + '</span>';
         var popup = new maplibregl.Popup({ offset: 14, closeButton: true }).setHTML(popupHtml);
-        var marker = new maplibregl.Marker({ element: el }).setLngLat([lng, lat]).setPopup(popup).addTo(map);
+        var marker = new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat([lng, lat]).setPopup(popup).addTo(map);
         markers.push(marker);
       }
     });
@@ -3337,21 +3393,33 @@ function loadMarkersFromData() {
 function updateMapMarkers() {
   if (!map) return;
   if (map.isStyleLoaded()) loadMarkersFromData();
-  else map.once('load', loadMarkersFromData);
+  else map.once('idle', loadMarkersFromData);
 }
 window.zoomIn = function () { if (map) map.zoomIn(); };
 window.zoomOut = function () { if (map) map.zoomOut(); };
+
+/* ===== FIX #1: toggleMapLayer pakai idle + retry ===== */
 window.toggleMapLayer = function (t, evt) {
   if (!map) return;
   var style;
   if (t === 'street') style = getStreetStyle();
   else if (t === 'hybrid') style = getHybridStyle();
   else style = getSatelliteStyle();
+
+  markers.forEach(function(m) { try { m.remove(); } catch(e) {} });
+  markers = [];
+  kmlLayers = {};
+
   map.setStyle(style);
-  map.once('styledata', function () {
-    markers = []; loadMarkersFromData(); kmlLayers = {};
-    applyLineFilters();
+
+  map.once('idle', function () {
+    loadMarkersFromData();
+    setTimeout(function () {
+      if (map && map.isStyleLoaded()) applyLineFilters();
+      else if (map) map.once('idle', function () { applyLineFilters(); });
+    }, 150);
   });
+
   document.querySelectorAll('.custom-map-btn').forEach(function (b) { b.classList.remove('active'); });
   if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
 };
@@ -3432,20 +3500,31 @@ function renderAllKmlLines(kmlDataObj) {
   var legend = document.getElementById('map-legend-line');
   if (legend) legend.textContent = 'Line aktif: ' + names.length;
 }
+
+/* ===== FIX #4: loadKmlFromFirebase dengan retry ===== */
 function loadKmlFromFirebase() {
   if (!db || kmlListenerAttached) return;
   db.ref('kmlData').on('value', function (s) {
-    var d = s.val() || {}; kmlDataCache = d;
+    var d = s.val() || {};
+    kmlDataCache = d;
     if (selectedLineFilters) {
-      Object.keys(d).forEach(function(n) {
+      Object.keys(d).forEach(function (n) {
         if (selectedLineFilters[n] === undefined) selectedLineFilters[n] = true;
       });
     }
-    if (map && map.isStyleLoaded()) applyLineFilters();
-    else if (map) { map.once('styledata', function () { applyLineFilters(); }); setTimeout(function() { if (map && map.isStyleLoaded()) applyLineFilters(); }, 1000); }
-    else setTimeout(function() { if (map && map.isStyleLoaded()) applyLineFilters(); }, 1500);
+    function tryApply(retries) {
+      if (!map) return;
+      if (map.isStyleLoaded()) {
+        applyLineFilters();
+      } else if (retries > 0) {
+        setTimeout(function () { tryApply(retries - 1); }, 300);
+      } else {
+        map.once('idle', function () { applyLineFilters(); });
+      }
+    }
+    tryApply(15);
     renderLineFilters();
-  }, function(err) {});
+  }, function (err) {});
   kmlListenerAttached = true;
 }
 
@@ -3531,14 +3610,26 @@ function startDrawing() {
   showToast('Mode menggambar aktif.', 'success');
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
+
+/* ===== FIX: handleDrawClick dengan anchor center ===== */
 function handleDrawClick(e) {
   if (!drawMode) return;
-  var lng = e.lngLat.lng; var lat = e.lngLat.lat;
+  var lng = e.lngLat.lng;
+  var lat = e.lngLat.lat;
   drawPoints.push([lng, lat]);
-  var el = document.createElement('div'); el.className = 'draw-point';
+  var el = document.createElement('div');
+  el.className = 'draw-point';
   if (drawPoints.length === 1) el.classList.add('first');
-  var marker = new maplibregl.Marker({ element: el }).setLngLat([lng, lat]).addTo(map);
-  drawMarkers.push(marker); updateDrawPreview();
+  if (drawPoints.length > 1) {
+    if (drawMarkers.length > 0) {
+      var prevEl = drawMarkers[drawMarkers.length - 1].getElement();
+      prevEl.classList.remove('last');
+    }
+    el.classList.add('last');
+  }
+  var marker = new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat([lng, lat]).addTo(map);
+  drawMarkers.push(marker);
+  updateDrawPreview();
   document.getElementById('draw-point-count').textContent = drawPoints.length + ' titik';
 }
 function updateDrawPreview() {
@@ -3552,7 +3643,7 @@ function updateDrawPreview() {
 function undoLastPoint() {
   if (drawPoints.length === 0) { showToast('Tidak ada titik', 'warning'); return; }
   drawPoints.pop(); var m = drawMarkers.pop(); if (m) m.remove();
-  drawMarkers.forEach(function(mk, i) { var el = mk.getElement(); el.classList.remove('first', 'last'); if (i === 0) el.classList.add('first'); });
+  drawMarkers.forEach(function(mk, i) { var el = mk.getElement(); el.classList.remove('first', 'last'); if (i === 0) el.classList.add('first'); if (i === drawMarkers.length - 1 && drawMarkers.length > 1) el.classList.add('last'); });
   if (drawPoints.length < 2) { try { if (map.getLayer('draw-preview-lay')) map.removeLayer('draw-preview-lay'); if (map.getSource('draw-preview-src')) map.removeSource('draw-preview-src'); } catch (e) {} }
   else updateDrawPreview();
   document.getElementById('draw-point-count').textContent = drawPoints.length + ' titik';
@@ -3715,7 +3806,7 @@ function openMapModal() {
         var lat = e.lngLat.lat; var lng = e.lngLat.lng;
         selectedMapLocation = { lat: lat, lng: lng, name: '' };
         if (mapModalMarker) mapModalMarker.remove();
-        mapModalMarker = new maplibregl.Marker({ color: '#00D9FF' }).setLngLat([lng, lat]).addTo(mapModal);
+        mapModalMarker = new maplibregl.Marker({ color: '#00D9FF', anchor: 'center' }).setLngLat([lng, lat]).addTo(mapModal);
         document.getElementById('btn-select-location').disabled = false;
         document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
         document.getElementById('map-modal-info-text').textContent = 'Mencari nama lokasi...';
@@ -3758,7 +3849,7 @@ function searchLocation() {
         if (mapModal) {
           mapModal.flyTo({ center: [lng, lat], zoom: 15 });
           if (mapModalMarker) mapModalMarker.remove();
-          mapModalMarker = new maplibregl.Marker({ color: '#00D9FF' }).setLngLat([lng, lat]).addTo(mapModal);
+          mapModalMarker = new maplibregl.Marker({ color: '#00D9FF', anchor: 'center' }).setLngLat([lng, lat]).addTo(mapModal);
           document.getElementById('btn-select-location').disabled = false;
         }
         document.getElementById('inp-loc').value = name; document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
@@ -3775,7 +3866,7 @@ function getCurrentLocation() {
     if (mapModal) {
       mapModal.flyTo({ center: [lng, lat], zoom: 15 });
       if (mapModalMarker) mapModalMarker.remove();
-      mapModalMarker = new maplibregl.Marker({ color: '#00D9FF' }).setLngLat([lng, lat]).addTo(mapModal);
+      mapModalMarker = new maplibregl.Marker({ color: '#00D9FF', anchor: 'center' }).setLngLat([lng, lat]).addTo(mapModal);
       document.getElementById('btn-select-location').disabled = false;
     }
     document.getElementById('inp-coords').value = lat.toFixed(5) + ', ' + lng.toFixed(5);
