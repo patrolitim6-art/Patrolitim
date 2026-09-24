@@ -563,7 +563,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .draw-point.first { background: #10B981; box-shadow: 0 0 12px #10B981; }
 .draw-point.last { background: #EC4899; box-shadow: 0 0 12px #EC4899; }
 .draw-cursor-active #map-container, .draw-cursor-active #map-container canvas { cursor: crosshair !important; }
-.maplibregl-popup-content { background: var(--surface-map-legend) !important; color: var(--text-main) !important; border: 1px solid var(--border-glow) !important; border-radius: 10px !important; padding: 10px 14px !important; backdrop-filter: blur(8px); box-shadow: 0 8px 24px rgba(0, 217, 255, 0.25) !important; }
+.maplibregl-popup-content { background: var(--surface-map-legend) !important; color: var(--text-main) !important; border: 1px solid var(--border-glow) !important; border-radius: 10px !important; padding: 10px 14px !important; backdrop-filter: blur(8px); box-shadow: 0 8px 24px rgba(0, 217, 255, 0.25) !important; max-width: 340px !important; white-space: normal !important; line-height: 1.5; }
 .maplibregl-popup-tip { border-top-color: var(--surface-map-legend) !important; border-bottom-color: var(--surface-map-legend) !important; }
 .maplibregl-popup-close-button { color: var(--primary-cyan) !important; font-size: 18px !important; padding: 0 6px !important; }
 .maplibregl-ctrl-top-right, .maplibregl-ctrl-top-left, .maplibregl-ctrl-bottom-right, .maplibregl-ctrl-bottom-left { display: none !important; }
@@ -3526,7 +3526,7 @@ function initMap() {
   } catch (e) { console.error('Map init:', e); }
 }
 
-/* ===== FIX MARKER BERGERAK: anchor center ===== */
+/* ===== FIX MARKER BERGERAK: anchor center + POPUP DETAIL LENGKAP ===== */
 function loadMarkersFromData() {
   if (!map) return;
   markers.forEach(function (m) { try { m.remove(); } catch(e) {} }); markers = [];
@@ -3555,14 +3555,83 @@ function loadMarkersFromData() {
         el.style.boxShadow = '0 0 8px ' + color;
         var title = it.location || it.nama || 'Lokasi';
         el.title = title + ' — ' + cat;
-        var popupHtml = '<strong style="color:var(--primary-cyan);">' + escapeHtml(title) + '</strong><br><span style="font-size:var(--app-font-size-xs);color:var(--text-muted);">' + cat + '</span>';
-        var popup = new maplibregl.Popup({ offset: 14, closeButton: true }).setHTML(popupHtml);
-        var marker = new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat([lng, lat]).setPopup(popup).addTo(map);
+
+        var popupHtml = buildMarkerPopup(cat, it, title, color);
+        var popup = new maplibregl.Popup({
+          offset: 14,
+          closeButton: true,
+          maxWidth: '340px'
+        }).setHTML(popupHtml);
+
+        var marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+          .setLngLat([lng, lat]).setPopup(popup).addTo(map);
         markers.push(marker);
       }
     });
   });
 }
+
+/* ===== POPUP MARKER DETAIL (semua keterangan tampil saat titik di-klik) ===== */
+function buildMarkerPopup(cat, it, title, color) {
+  function row(label, value, valueColor) {
+    if (value === undefined || value === null || value === '') return '';
+    return '<div style="color:#94A3B8;font-weight:700;white-space:nowrap;">' + label + '</div>' +
+           '<div style="color:' + (valueColor || '#E2E8F0') + ';font-weight:600;word-break:break-word;white-space:normal;">' +
+           escapeHtml(String(value)) + '</div>';
+  }
+
+  var rowsHtml = '';
+
+  if (cat === 'Data OF Cut') {
+    rowsHtml += row('Tanggal', it.date);
+    rowsHtml += row('Lokasi', it.location);
+    rowsHtml += row('Koordinat', it.coords);
+    rowsHtml += row('Waktu CO', it.waktuCO ? formatWaktuDisplay(it.waktuCO) : '');
+    rowsHtml += row('Waktu UP', it.waktuUP ? formatWaktuDisplay(it.waktuUP) : '');
+    var durasi = it.durasiText || (it.durasiMenit ? it.durasiMenit + ' menit' : '');
+    rowsHtml += row('Durasi', durasi, '#10B981');
+    rowsHtml += row('Panjang Cut', it.panjangCut ? it.panjangCut + ' M' : '');
+    rowsHtml += row('Rute', it.rute);
+    rowsHtml += row('Penyebab', it.penyebab, '#EC4899');
+    rowsHtml += row('User', it.postBy);
+  } else if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
+    rowsHtml += row('Tanggal', it.date);
+    rowsHtml += row('Lokasi', it.location);
+    rowsHtml += row('Koordinat', it.coords);
+    rowsHtml += row('Pelaksana', it.pelaksana);
+    rowsHtml += row('Lama Pekerjaan', it.lamaPekerjaan);
+    rowsHtml += row('User', it.postBy);
+  } else if (cat === 'Joint' || cat === 'Handhole') {
+    rowsHtml += row('Tanggal', it.date);
+    rowsHtml += row('Lokasi', it.location);
+    rowsHtml += row('Koordinat', it.coords);
+    rowsHtml += row('Kondisi', it.kondisi);
+    rowsHtml += row('User', it.postBy);
+  }
+
+  var ket = it.keterangan || it.notes || it.keterangan_normal || '';
+
+  var html = '<div style="min-width:240px;max-width:320px;">';
+  html += '<div style="font-weight:800;color:' + color + ';font-size:13px;border-bottom:1px solid rgba(148,163,184,0.25);padding-bottom:6px;margin-bottom:8px;display:flex;align-items:center;gap:6px;">';
+  html += '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + color + ';box-shadow:0 0 6px ' + color + ';"></span>';
+  html += escapeHtml(title);
+  html += '</div>';
+  html += '<div style="display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:11px;line-height:1.5;">';
+  html += rowsHtml;
+  html += '</div>';
+
+  if (ket) {
+    html += '<div style="margin-top:8px;padding-top:8px;border-top:1px dashed rgba(148,163,184,0.25);">';
+    html += '<div style="color:#94A3B8;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Keterangan</div>';
+    html += '<div style="color:#E2E8F0;font-size:11px;line-height:1.5;word-break:break-word;white-space:normal;">' +
+            escapeHtml(ket) + '</div>';
+    html += '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+window.buildMarkerPopup = buildMarkerPopup;
+
 function updateMapMarkers() {
   if (!map) return;
   if (map.isStyleLoaded()) loadMarkersFromData();
