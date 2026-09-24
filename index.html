@@ -450,16 +450,22 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 :root[data-theme="light"] .map-filter-action-btn.active {
   box-shadow: 0 2px 8px rgba(224, 82, 82, 0.25);
 }
+
+/* ===== LISTGRID FILTER (Titik & Line) ===== */
 .map-filter-chips {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
   gap: 6px;
-  flex-wrap: wrap;
-  align-items: center;
+  align-items: stretch;
   min-height: 30px;
 }
+@media (max-width: 640px) {
+  .map-filter-chips { grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); }
+}
 .map-points-filter-btn {
-  padding: 5px 12px;
-  border-radius: 20px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
   border: 1px solid var(--border-subtle);
   background: var(--surface-1);
   cursor: pointer;
@@ -470,9 +476,13 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   font-size: var(--app-font-size-xs);
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  justify-content: flex-start;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 1;
+  line-height: 1.2;
 }
 .map-points-filter-btn:hover {
   border-color: var(--primary-cyan);
@@ -497,8 +507,9 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   flex-shrink: 0;
 }
 .map-line-toggle {
-  padding: 5px 12px;
-  border-radius: 20px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
   border: 1.5px solid var(--border-subtle);
   background: var(--surface-1);
   cursor: pointer;
@@ -509,10 +520,14 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   font-size: var(--app-font-size-xs);
   display: inline-flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 6px;
   opacity: 0.5;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 1;
+  line-height: 1.2;
 }
 .map-line-toggle:hover {
   transform: translateY(-1px);
@@ -1107,7 +1122,7 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
             </div>
           </div>
 
-          <!-- FILTER SECTION (REDESIGN) -->
+          <!-- FILTER SECTION (LISTGRID) -->
           <div class="map-filter-section">
             <!-- Group: Tampilkan Titik -->
             <div class="map-filter-group">
@@ -1331,10 +1346,22 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
 
         <div id="stok-summary-container" class="hidden">
           <div class="stok-summary">
-            <div><span class="label">Total Stok</span><div class="value total" id="total-stok-value">0</div></div>
-            <div><span class="label">Ready</span><div class="value masuk" id="total-masuk-value">0</div></div>
-            <div><span class="label">Out</span><div class="value keluar" id="total-keluar-value">0</div></div>
+            <div><span class="label" id="stok-label-1">Total Stok</span><div class="value total" id="total-stok-value">0</div></div>
+            <div><span class="label" id="stok-label-2">Ready</span><div class="value masuk" id="total-masuk-value">0</div></div>
+            <div><span class="label" id="stok-label-3">Out</span><div class="value keluar" id="total-keluar-value">0</div></div>
           </div>
+
+          <!-- RINGKASAN SALDO PATCH CORD (hanya muncul di menu Patch Cord) -->
+          <div id="patchcord-summary-container" class="hidden" style="margin:0 0 12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;flex-wrap:wrap;">
+              <div style="font-weight:700;color:var(--primary-cyan);text-transform:uppercase;letter-spacing:1px;font-size:var(--app-font-size-xs);display:flex;align-items:center;gap:6px;">
+                <i data-lucide="package-check" style="width:14px;"></i> Ringkasan Saldo Patch Cord
+              </div>
+              <span id="patchcord-summary-count" style="background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-weight:800;font-size:var(--app-font-size-xs);">0 Item</span>
+            </div>
+            <div id="patchcord-summary-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;"></div>
+          </div>
+
           <div class="gudang-tabs">
             <button class="gudang-tab active" data-gudang="all" onclick="filterGudang('all')">Semua Gudang</button>
             <button class="gudang-tab" data-gudang="CLS MAMI" onclick="filterGudang('CLS MAMI')">CLS MAMI</button>
@@ -2213,7 +2240,7 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
         <ul class="about-info-list">
           <li><b>Alker</b> — alat kerja, SN otomatis, jumlah &amp; satuan (PCS/MTR).</li>
           <li><b>Stok Spare</b> — inventory per gudang.</li>
-          <li><b>Patch Cord</b> — stok per jenis &amp; panjang.</li>
+          <li><b>Patch Cord</b> — stok per jenis &amp; panjang, dengan saldo anti-minus.</li>
         </ul>
       </div>
       <div class="about-info-card">
@@ -2282,7 +2309,7 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
         &copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Pusat Operasi Jaringan Sulawesi Utara
       </p>
       <p style="color:var(--text-dim);margin:6px 0 0;font-size:calc(var(--app-font-size) - 4px);">
-        Versi 2.7.0 &nbsp;•&nbsp; By Abriliant &nbsp;•&nbsp; Mandak
+        Versi 2.8.0 &nbsp;•&nbsp; By Abriliant &nbsp;•&nbsp; Mandak
       </p>
     </div>
 
@@ -2369,11 +2396,6 @@ function previewFont() {
   document.documentElement.style.setProperty('--app-font-size', fontSz + 'px');
   applyFontSettings();
 }
-function setFontSize(size) {
-  var slider = document.getElementById('set-font-size');
-  if (slider) slider.value = size;
-  previewFont();
-}
 function resetFontSettings() {
   document.documentElement.style.setProperty('--app-font', "'DM Sans', sans-serif");
   document.documentElement.style.setProperty('--app-font-size', '14px');
@@ -2388,8 +2410,7 @@ function resetFontSettings() {
   showToast('Font direset ke default', 'success');
 }
 window.applyFontSettings = applyFontSettings;
-window.previewFont = previewFont; window.setFontSize = setFontSize;
-window.resetFontSettings = resetFontSettings;
+window.previewFont = previewFont; window.resetFontSettings = resetFontSettings;
 
 /* ============================================================ SCROLL TABEL ============================================================ */
 function scrollTableLeft() {
@@ -2931,7 +2952,7 @@ function renderLineFilters() {
   allAvailableLines.forEach(function(name) {
     var isActive = selectedLineFilters[name] !== false;
     var color = kmlLineColors[name] || (customLines[name] && customLines[name].color) || '#00D9FF';
-    var displayName = name.length > 18 ? name.substring(0, 16) + '…' : name;
+    var displayName = name.length > 20 ? name.substring(0, 18) + '…' : name;
     html += '<button type="button" class="map-line-toggle' + (isActive ? ' active' : '') + '" ' +
             'onclick="toggleLineFilter(\'' + escapeAttr(name) + '\')" ' +
             'title="' + escapeHtml(name) + '">' +
@@ -2963,7 +2984,6 @@ function hideAllLines() {
   showToast('Semua line disembunyikan', 'warning');
 }
 
-/* ===== FIX #2: applyLineFilters dengan retry ===== */
 function applyLineFilters() {
   if (!map) return;
   if (!map.isStyleLoaded()) {
@@ -2978,7 +2998,6 @@ function applyLineFilters() {
   renderAllKmlLinesFiltered(filtered);
 }
 
-/* ===== FIX #3: Skip line yang sudah ada ===== */
 function renderAllKmlLinesFiltered(kmlDataObj) {
   if (!map || !map.isStyleLoaded()) {
     setTimeout(function () { renderAllKmlLinesFiltered(kmlDataObj); }, 300);
@@ -3452,26 +3471,12 @@ function submitKmlUpload(e) {
   }
   return false;
 }
-function downloadKML() {
-  var line = prompt('Masukkan nama line yang ingin di-download:', 'OSP LINE 1'); if (!line) return;
-  var upperLine = line.trim().toUpperCase();
-  db.ref('kmlData/' + upperLine).once('value').then(function(s) {
-    var kmlText = s.val();
-    if (!kmlText) { showToast('Line "' + upperLine + '" tidak ditemukan', 'error'); return; }
-    downloadTextAsFile(kmlText, upperLine + '.kml', 'application/vnd.google-earth.kml+xml');
-    showToast('KML diunduh', 'success');
-  }).catch(function(err) { showToast(err.message, 'error'); });
-}
-function downloadKMZ() {
-  var line = prompt('Masukkan nama line yang ingin di-download:', 'OSP LINE 1'); if (!line) return;
-  var upperLine = line.trim().toUpperCase(); downloadSingleKmz(upperLine);
-}
 function downloadTextAsFile(text, filename, mimeType) {
   var blob = new Blob([text], { type: mimeType || 'text/plain' });
   var url = URL.createObjectURL(blob); var a = document.createElement('a'); a.href = url; a.download = filename;
   document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
-window.downloadKML = downloadKML; window.downloadKMZ = downloadKMZ; window.submitKmlUpload = submitKmlUpload;
+window.submitKmlUpload = submitKmlUpload;
 
 /* ============================================================ MAP STYLES ============================================================ */
 function getSatelliteStyle() {
@@ -3502,7 +3507,6 @@ function getHybridStyle() {
     ] };
 }
 
-/* ===== FIX #5: initMap tanpa double load ===== */
 function initMap() {
   if (map) return;
   try {
@@ -3526,7 +3530,6 @@ function initMap() {
   } catch (e) { console.error('Map init:', e); }
 }
 
-/* ===== FIX MARKER BERGERAK: anchor center + POPUP DETAIL LENGKAP ===== */
 function loadMarkersFromData() {
   if (!map) return;
   markers.forEach(function (m) { try { m.remove(); } catch(e) {} }); markers = [];
@@ -3571,7 +3574,7 @@ function loadMarkersFromData() {
   });
 }
 
-/* ===== POPUP MARKER DETAIL (semua keterangan tampil saat titik di-klik) ===== */
+/* ===== POPUP MARKER DETAIL ===== */
 function buildMarkerPopup(cat, it, title, color) {
   function row(label, value, valueColor) {
     if (value === undefined || value === null || value === '') return '';
@@ -3640,7 +3643,6 @@ function updateMapMarkers() {
 window.zoomIn = function () { if (map) map.zoomIn(); };
 window.zoomOut = function () { if (map) map.zoomOut(); };
 
-/* ===== FIX #1: toggleMapLayer pakai idle + retry ===== */
 window.toggleMapLayer = function (t, evt) {
   if (!map) return;
   var style;
@@ -3714,36 +3716,7 @@ function drawKmlGeoJSON(line, geojson, autoZoom) {
     } catch (e) {}
   }
 }
-function clearAllKmlLayers() {
-  if (!map) return;
-  Object.keys(kmlLayers).forEach(function(line) {
-    var l = kmlLayers[line];
-    try { if (l && l.layerId && map.getLayer(l.layerId)) map.removeLayer(l.layerId); } catch(e) {}
-    try { if (l && l.sourceId && map.getSource(l.sourceId)) map.removeSource(l.sourceId); } catch(e) {}
-  });
-  kmlLayers = {};
-}
-function renderAllKmlLines(kmlDataObj) {
-  var d = kmlDataObj || {};
-  clearAllKmlLayers();
-  var names = Object.keys(d);
-  if (names.length === 0) { var legend = document.getElementById('map-legend-line'); if (legend) legend.textContent = 'Line aktif: -'; return; }
-  names.forEach(function (lineName) {
-    var kmlText = d[lineName]; if (!kmlText || typeof kmlText !== 'string') return;
-    try {
-      var xml = new DOMParser().parseFromString(kmlText, "text/xml");
-      var geojson = parseKmlToGeoJSON(xml);
-      if (geojson.features.length > 0) {
-        if (map && map.isStyleLoaded()) drawKmlGeoJSON(lineName, geojson, false);
-        else if (map) map.once('idle', (function(nm, gj) { return function() { drawKmlGeoJSON(nm, gj, false); }; })(lineName, geojson));
-      }
-    } catch (e) {}
-  });
-  var legend = document.getElementById('map-legend-line');
-  if (legend) legend.textContent = 'Line aktif: ' + names.length;
-}
 
-/* ===== FIX #4: loadKmlFromFirebase dengan retry ===== */
 function loadKmlFromFirebase() {
   if (!db || kmlListenerAttached) return;
   db.ref('kmlData').on('value', function (s) {
@@ -3853,7 +3826,6 @@ function startDrawing() {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-/* ===== FIX: handleDrawClick dengan anchor center ===== */
 function handleDrawClick(e) {
   if (!drawMode) return;
   var lng = e.lngLat.lng;
@@ -4524,6 +4496,24 @@ function hapusOpmGroup(groupId) {
 }
 window.hapusOpmGroup = hapusOpmGroup;
 
+/* ============================================================ PATCH CORD SALDO HELPER ============================================================ */
+function hitungSaldoPCTersedia(pcType, pcLength, gudang, excludeKey) {
+  var existing = appData['Patch Cord'] || {};
+  var saldo = 0;
+  Object.keys(existing).forEach(function (k) {
+    var ex = existing[k];
+    if ((ex.gudang || '') !== (gudang || '')) return;
+    if ((ex.pcType || '').toUpperCase() !== (pcType || '').toUpperCase()) return;
+    if ((ex.pcLength || '') !== (pcLength || '')) return;
+    if (excludeKey && k === excludeKey) return;
+    var q = parseInt(ex.qty) || 0;
+    if (ex.trType === 'Masuk') saldo += q;
+    else if (ex.trType === 'Keluar') saldo -= q;
+  });
+  return saldo < 0 ? 0 : saldo;
+}
+window.hitungSaldoPCTersedia = hitungSaldoPCTersedia;
+
 /* ============================================================ FORM SUBMIT ============================================================ */
 function submitForm(e) {
   if (e && e.preventDefault) e.preventDefault();
@@ -4544,12 +4534,38 @@ function submitForm(e) {
     var trType = document.getElementById('inp-pc-trtype').value;
     var qty = parseInt(document.getElementById('inp-pc-qty').value) || 1;
     var notes = document.getElementById('inp-notes-patch').value.trim().toUpperCase();
+
     if (!pcType || !pcLength) { showToast('Pilih jenis & panjang', 'error'); return; }
-    if (trType === 'Keluar' && !notes) { showToast('Keterangan wajib', 'error'); return; }
-    data.pcType = pcType.toUpperCase(); data.pcLength = pcLength; data.gudang = selectedGudang;
-    data.qty = qty; data.trType = trType; data.notes = notes; data.keterangan = notes;
+    if (qty < 1) { showToast('Jumlah minimal 1', 'error'); return; }
+
+    // ================= VALIDASI SALDO ANTI-MINUS =================
+    if (trType === 'Keluar') {
+      var saldoTersedia = hitungSaldoPCTersedia(pcType, pcLength, selectedGudang, isEdit ? editKey : null);
+
+      if (saldoTersedia === 0) {
+        showToast('❌ Stok ' + pcType + ' ' + pcLength + ' di ' + selectedGudang + ' KOSONG! Transaksi diblokir.', 'error');
+        return;
+      }
+      if (qty > saldoTersedia) {
+        showToast('❌ Stok tidak cukup! Saldo tersedia: ' + saldoTersedia + ' | Diminta: ' + qty + '. Transaksi diblokir.', 'error');
+        return;
+      }
+    }
+    // ================= END VALIDASI =================
+
+    if (trType === 'Keluar' && !notes) { showToast('Keterangan wajib diisi untuk transaksi Keluar', 'error'); return; }
+
+    data.pcType = pcType.toUpperCase();
+    data.pcLength = pcLength;
+    data.gudang = selectedGudang;
+    data.qty = qty;
+    data.trType = trType;
+    data.notes = notes;
+    data.keterangan = notes;
     var pm = parseFloat(pcLength.replace('m', '').trim());
-    data.barcode = (!isNaN(pm) && pcType !== 'Lainnya' && pcType !== 'LAINNYA') ? generateBarcodePatchCord(pcType, pm) : 'PC-' + Date.now().toString().slice(-6);
+    data.barcode = (!isNaN(pm) && pcType !== 'Lainnya' && pcType !== 'LAINNYA')
+      ? generateBarcodePatchCord(pcType, pm)
+      : 'PC-' + Date.now().toString().slice(-6);
     detailText = pcType + ' ' + pcLength + ' | Qty: ' + qty + ' | Tipe: ' + trType;
     ketText = notes;
   } else if (cat === 'Stok Spare') {
@@ -4691,6 +4707,11 @@ function closeModal() {
   selectedOpmPort = ''; opmTempPorts = [];
   var cbb = document.getElementById('inp-opm-used'); if (cbb) cbb.checked = false;
   var lw = document.getElementById('opm-used-label-wrap'); if (lw) lw.classList.add('hidden');
+  // Reset warning patch cord
+  var qw = document.getElementById('patchcord-qty-warn');
+  if (qw) qw.style.display = 'none';
+  var qtyInp = document.getElementById('inp-pc-qty');
+  if (qtyInp) qtyInp.style.borderColor = '';
   try { renderOpmTempList(); renderOpmPortDropdown(); } catch (e) {}
 }
 function stopScanner(t) {
@@ -4754,6 +4775,11 @@ function openForm(editData, editKey) {
       document.getElementById('field-patchcord').classList.remove('hidden');
       document.getElementById('field-stock').classList.add('hidden');
       document.getElementById('patchcord-gudang-display').textContent = selectedGudang || 'Belum dipilih';
+      // Trigger validasi realtime Patch Cord saat modal dibuka
+      setTimeout(function () {
+        var qtyInp = document.getElementById('inp-pc-qty');
+        if (qtyInp) qtyInp.dispatchEvent(new Event('input'));
+      }, 250);
     } else if (isSpare && spareAction === 'update') {
       document.getElementById('form-tambah-stok').classList.add('hidden');
       document.getElementById('form-update-pemakaian').classList.remove('hidden');
@@ -4833,21 +4859,133 @@ function populateFormFields(data) {
   setTimeout(checkOpmDariKe, 100); setTimeout(hitungDurasiOF, 150);
 }
 function updateStokSummary() {
-  var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
+  var isSpare = currentCategory === 'Stok Spare';
+  var isPatch = currentCategory === 'Patch Cord';
   var c = document.getElementById('stok-summary-container');
-  if (!isStock) { c.classList.add('hidden'); return; }
+  if (!isSpare && !isPatch) { c.classList.add('hidden'); return; }
   c.classList.remove('hidden');
-  var items = Object.values(appData[currentCategory] || {});
-  var r = 0, o = 0;
-  items.forEach(function(i) {
-    if (i.status === 'Ready') r++; else if (i.status === 'Out') o++;
-    else if (i.trType === 'Masuk') r += parseInt(i.qty) || 0;
-    else if (i.trType === 'Keluar') o += parseInt(i.qty) || 0;
-  });
-  document.getElementById('total-stok-value').textContent = r + o;
-  document.getElementById('total-masuk-value').textContent = r;
-  document.getElementById('total-keluar-value').textContent = o;
+
+  var pcContainer = document.getElementById('patchcord-summary-container');
+  if (pcContainer) pcContainer.classList.toggle('hidden', !isPatch);
+
+  var lbl1 = document.getElementById('stok-label-1');
+  var lbl2 = document.getElementById('stok-label-2');
+  var lbl3 = document.getElementById('stok-label-3');
+
+  if (isPatch) {
+    // Patch Cord: hitung saldo net per gudang (terfilter)
+    var items = Object.values(appData['Patch Cord'] || {});
+    if (selectedGudangFilter !== 'all') {
+      items = items.filter(function (i) { return i.gudang === selectedGudangFilter; });
+    }
+    var masuk = 0, keluar = 0;
+    items.forEach(function (i) {
+      var q = parseInt(i.qty) || 0;
+      if (i.trType === 'Masuk') masuk += q;
+      else if (i.trType === 'Keluar') keluar += q;
+    });
+    var saldoRaw = masuk - keluar;
+    var saldo = saldoRaw < 0 ? 0 : saldoRaw; // ANTI-MINUS
+    document.getElementById('total-stok-value').textContent = saldo;
+    document.getElementById('total-masuk-value').textContent = masuk;
+    document.getElementById('total-keluar-value').textContent = keluar;
+
+    if (lbl1) lbl1.textContent = 'Saldo Akhir';
+    if (lbl2) lbl2.textContent = 'Total Masuk';
+    if (lbl3) lbl3.textContent = 'Total Keluar';
+
+    renderPatchcordSummaryGrid();
+  } else {
+    // Stok Spare: seperti sebelumnya
+    var items2 = Object.values(appData['Stok Spare'] || {});
+    var r = 0, o = 0;
+    items2.forEach(function (i) {
+      if (i.status === 'Ready') r++;
+      else if (i.status === 'Out') o++;
+    });
+    document.getElementById('total-stok-value').textContent = r + o;
+    document.getElementById('total-masuk-value').textContent = r;
+    document.getElementById('total-keluar-value').textContent = o;
+    if (lbl1) lbl1.textContent = 'Total Stok';
+    if (lbl2) lbl2.textContent = 'Ready';
+    if (lbl3) lbl3.textContent = 'Out';
+  }
 }
+function renderPatchcordSummaryGrid() {
+  var container = document.getElementById('patchcord-summary-grid');
+  var countEl = document.getElementById('patchcord-summary-count');
+  if (!container) return;
+
+  var items = Object.values(appData['Patch Cord'] || {});
+  if (selectedGudangFilter !== 'all') {
+    items = items.filter(function (i) { return i.gudang === selectedGudangFilter; });
+  }
+
+  var groups = {};
+  items.forEach(function (it) {
+    var key = (it.gudang || '-') + '|' + (it.pcType || '-') + '|' + (it.pcLength || '-');
+    if (!groups[key]) {
+      groups[key] = {
+        gudang: it.gudang || '-',
+        jenis: it.pcType || '-',
+        panjang: it.pcLength || '-',
+        masuk: 0, keluar: 0
+      };
+    }
+    var qty = parseInt(it.qty) || 0;
+    if (it.trType === 'Masuk') groups[key].masuk += qty;
+    else if (it.trType === 'Keluar') groups[key].keluar += qty;
+  });
+
+  var arr = Object.keys(groups).map(function (k) {
+    var g = groups[k];
+    var saldoRaw = g.masuk - g.keluar;
+    g.saldo = saldoRaw < 0 ? 0 : saldoRaw; // ANTI-MINUS
+    g.isOverdraft = saldoRaw < 0;
+    return g;
+  }).sort(function (a, b) {
+    var c = a.gudang.localeCompare(b.gudang);
+    if (c !== 0) return c;
+    c = a.jenis.localeCompare(b.jenis);
+    if (c !== 0) return c;
+    return a.panjang.localeCompare(b.panjang);
+  });
+
+  if (countEl) countEl.textContent = arr.length + ' Item';
+
+  if (arr.length === 0) {
+    container.innerHTML = '<div style="grid-column:1/-1;padding:20px;text-align:center;color:var(--text-muted);font-size:var(--app-font-size-xs);font-style:italic;">Belum ada data patch cord untuk filter ini</div>';
+    return;
+  }
+
+  var html = '';
+  arr.forEach(function (g) {
+    var saldoColor = g.saldo > 0 ? '#10B981' : '#94A3B8';
+    if (g.isOverdraft) saldoColor = '#EF4444';
+
+    html += '<div class="card" style="padding:12px;position:relative;overflow:hidden;cursor:default;">';
+    html += '<div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:' + saldoColor + ';"></div>';
+    html += '<div style="padding-left:6px;">';
+    html += '<div style="font-weight:800;color:var(--primary-cyan);font-family:\'Orbitron\',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:0.5px;">' + escapeHtml(g.jenis) + '</div>';
+    html += '<div style="color:var(--text-muted);font-size:var(--app-font-size-xs);font-weight:600;margin-top:2px;">' + escapeHtml(g.panjang) + ' • ' + escapeHtml(g.gudang) + '</div>';
+
+    if (g.saldo === 0 && !g.isOverdraft) {
+      html += '<div style="margin-top:4px;"><span style="display:inline-block;padding:1px 8px;border-radius:6px;background:rgba(148,163,184,0.15);color:#94A3B8;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;">Stok Habis</span></div>';
+    }
+    if (g.isOverdraft) {
+      html += '<div style="margin-top:4px;"><span style="display:inline-block;padding:1px 8px;border-radius:6px;background:rgba(239,68,68,0.15);color:#EF4444;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;">⚠ Anomali</span></div>';
+    }
+
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border-subtle);">';
+    html += '<div style="text-align:center;"><div style="color:var(--text-dim);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Masuk</div><div style="font-weight:800;color:#10B981;font-family:\'Orbitron\',sans-serif;font-size:var(--app-font-size-sm);">' + g.masuk + '</div></div>';
+    html += '<div style="text-align:center;"><div style="color:var(--text-dim);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Keluar</div><div style="font-weight:800;color:#EC4899;font-family:\'Orbitron\',sans-serif;font-size:var(--app-font-size-sm);">' + g.keluar + '</div></div>';
+    html += '<div style="text-align:center;"><div style="color:var(--text-dim);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Saldo</div><div style="font-weight:900;color:' + saldoColor + ';font-family:\'Orbitron\',sans-serif;font-size:var(--app-font-size-md);">' + g.saldo + '</div></div>';
+    html += '</div></div></div>';
+  });
+  container.innerHTML = html;
+}
+window.renderPatchcordSummaryGrid = renderPatchcordSummaryGrid;
+
 function switchSubTab(t) {
   currentSubTab = t; saveCurrentSubTab(t);
   document.querySelectorAll('.sub-tab').forEach(function(x) { x.classList.toggle('active', x.dataset.sub === t); });
@@ -4865,8 +5003,10 @@ function togglePatchLain() {
 }
 function filterGudang(g) {
   selectedGudangFilter = g;
-  document.querySelectorAll('.gudang-tab').forEach(function(t) { t.classList.toggle('active', t.dataset.gudang === g); });
-  renderTable(); try { updateTotalDataTagline(); } catch (e) {}
+  document.querySelectorAll('.gudang-tab').forEach(function (t) { t.classList.toggle('active', t.dataset.gudang === g); });
+  renderTable();
+  try { updateStokSummary(); } catch (e) {}
+  try { updateTotalDataTagline(); } catch (e) {}
 }
 function handleAddClick() {
   var isStock = ['Stok Spare', 'Patch Cord'].indexOf(currentCategory) !== -1;
@@ -5253,6 +5393,106 @@ function setupEventListeners() {
   if (pt) pt.addEventListener('change', togglePatchLain); if (pl) pl.addEventListener('change', togglePatchLain);
   var bdl = document.getElementById('btn-draw-line'); if (bdl) bdl.addEventListener('click', openDrawLineModal);
   var dln = document.getElementById('draw-line-name'); if (dln) dln.addEventListener('change', toggleCustomLineInput);
+
+  // ================= VALIDASI REALTIME QTY PATCH CORD =================
+  (function initPatchCordRealtimeValidation() {
+    var pcQtyInput = document.getElementById('inp-pc-qty');
+    var pcTrTypeInput = document.getElementById('inp-pc-trtype');
+    var pcTypeInput = document.getElementById('inp-pc-type');
+    var pcLenInput = document.getElementById('inp-pc-length');
+    var pcTypeLain = document.getElementById('inp-pc-type-lain');
+    var pcLenLain = document.getElementById('inp-pc-length-lain');
+
+    // Buat elemen peringatan kalau belum ada
+    var qtyWarn = document.getElementById('patchcord-qty-warn');
+    if (!qtyWarn && pcQtyInput) {
+      qtyWarn = document.createElement('div');
+      qtyWarn.id = 'patchcord-qty-warn';
+      qtyWarn.style.cssText = 'display:none;margin-top:6px;padding:8px 12px;border-radius:10px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.45);color:#EF4444;font-weight:700;font-size:var(--app-font-size-xs);align-items:center;gap:6px;';
+      qtyWarn.innerHTML = '<i data-lucide="alert-triangle" style="width:14px;height:14px;flex-shrink:0;"></i><span id="patchcord-qty-warn-text"></span>';
+      pcQtyInput.parentElement.appendChild(qtyWarn);
+    }
+
+    function hitungSaldoPC() {
+      if (!pcTypeInput || !pcLenInput) return 0;
+      var t = pcTypeInput.value;
+      var l = pcLenInput.value;
+      if (t === 'Lainnya') t = (pcTypeLain && pcTypeLain.value || '').trim().toUpperCase();
+      if (l === 'Lainnya') l = (pcLenLain && pcLenLain.value || '').trim();
+      if (!t || !l || !selectedGudang) return 0;
+      var editKeyNow = document.getElementById('edit-key').value;
+      return hitungSaldoPCTersedia(t, l, selectedGudang, editKeyNow || null);
+    }
+
+    function enforceQtyLimit() {
+      if (!pcQtyInput || !pcTrTypeInput) return;
+      var warnEl = document.getElementById('patchcord-qty-warn');
+      var warnText = document.getElementById('patchcord-qty-warn-text');
+
+      if (pcTrTypeInput.value !== 'Keluar') {
+        pcQtyInput.removeAttribute('max');
+        pcQtyInput.style.borderColor = '';
+        if (warnEl) warnEl.style.display = 'none';
+        return;
+      }
+
+      var saldo = hitungSaldoPC();
+      pcQtyInput.setAttribute('max', saldo);
+
+      if (saldo === 0) {
+        pcQtyInput.style.borderColor = '#EF4444';
+        if (warnEl) {
+          warnEl.style.display = 'flex';
+          warnText.textContent = '⚠ STOK KOSONG — Tidak ada saldo untuk ' + (pcTypeInput.value || 'jenis ini') + ' ' + (pcLenInput.value || '') + ' di ' + (selectedGudang || 'gudang ini') + '. Transaksi akan DIBLOKIR.';
+        }
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        return;
+      }
+
+      var cur = parseInt(pcQtyInput.value) || 0;
+      if (cur > saldo) {
+        pcQtyInput.style.borderColor = '#EF4444';
+        if (warnEl) {
+          warnEl.style.display = 'flex';
+          warnText.textContent = '⚠ Jumlah (' + cur + ') melebihi saldo tersedia (' + saldo + '). Transaksi akan DIBLOKIR.';
+        }
+      } else {
+        pcQtyInput.style.borderColor = '';
+        if (warnEl) warnEl.style.display = 'none';
+      }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    if (pcQtyInput && pcQtyInput.dataset.pcValidationAttached !== '1') {
+      pcQtyInput.dataset.pcValidationAttached = '1';
+      pcQtyInput.addEventListener('input', enforceQtyLimit);
+      pcQtyInput.addEventListener('blur', enforceQtyLimit);
+    }
+    if (pcTrTypeInput && pcTrTypeInput.dataset.pcValidationAttached !== '1') {
+      pcTrTypeInput.dataset.pcValidationAttached = '1';
+      pcTrTypeInput.addEventListener('change', enforceQtyLimit);
+    }
+    if (pcTypeInput && pcTypeInput.dataset.pcValidationAttached !== '1') {
+      pcTypeInput.dataset.pcValidationAttached = '1';
+      pcTypeInput.addEventListener('change', enforceQtyLimit);
+    }
+    if (pcLenInput && pcLenInput.dataset.pcValidationAttached !== '1') {
+      pcLenInput.dataset.pcValidationAttached = '1';
+      pcLenInput.addEventListener('change', enforceQtyLimit);
+    }
+    if (pcTypeLain && pcTypeLain.dataset.pcValidationAttached !== '1') {
+      pcTypeLain.dataset.pcValidationAttached = '1';
+      pcTypeLain.addEventListener('input', enforceQtyLimit);
+    }
+    if (pcLenLain && pcLenLain.dataset.pcValidationAttached !== '1') {
+      pcLenLain.dataset.pcValidationAttached = '1';
+      pcLenLain.addEventListener('input', enforceQtyLimit);
+    }
+
+    window.enforcePatchCordQtyLimit = enforceQtyLimit;
+  })();
+  // ================= END VALIDASI REALTIME =================
+
   document.addEventListener('click', refreshSession); document.addEventListener('keydown', refreshSession);
 }
 function restoreLastPage() {
