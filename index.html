@@ -357,26 +357,181 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 #map-legend-line { margin-top: 6px; border-top: 1px solid var(--border-subtle); padding-top: 4px; color: var(--text-muted); max-height: 80px; overflow-y: auto; }
 
 /* ===== FILTER SECTION (PREMIUM) ===== */
-.map-filter-section { padding: 10px 14px; background: var(--surface-1); border-bottom: 1px solid var(--border-subtle); }
-.map-filter-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-.map-filter-row:last-child { margin-bottom: 0; }
-.map-filter-label { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: var(--app-font-size-xs); display: flex; align-items: center; gap: 6px; flex-shrink: 0; min-width: 120px; }
+.map-filter-section {
+  padding: 12px;
+  background: var(--surface-1);
+  border-bottom: 1px solid var(--border-subtle);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 900px) {
+  .map-filter-section { grid-template-columns: 1fr; }
+}
+.map-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(0, 217, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  min-width: 0;
+  transition: border-color 0.2s ease;
+}
+.map-filter-group:hover { border-color: var(--border-glow); }
+:root[data-theme="light"] .map-filter-group { background: rgba(224, 82, 82, 0.03); }
+.map-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border-subtle);
+  flex-wrap: wrap;
+}
+.map-filter-label {
+  font-weight: 700;
+  color: var(--primary-cyan);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: var(--app-font-size-xs);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
 .map-filter-label i { width: 14px; height: 14px; }
-.map-filter-chips { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; align-items: center; }
-.map-points-filter-btn { padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 600; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; gap: 5px; }
-.map-points-filter-btn:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); transform: translateY(-1px); }
-.map-points-filter-btn.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; box-shadow: 0 3px 10px rgba(0, 217, 255, 0.3); }
-:root[data-theme="light"] .map-points-filter-btn.active { box-shadow: 0 3px 10px rgba(224, 82, 82, 0.2); }
-.map-points-filter-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.25); flex-shrink: 0; }
-.map-filter-actions { display: flex; gap: 4px; margin-left: auto; padding-left: 8px; border-left: 1px solid var(--border-subtle); }
-.map-filter-action-btn { padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border-subtle); background: transparent; cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: calc(var(--app-font-size) - 4px); display: inline-flex; align-items: center; gap: 4px; letter-spacing: 0.5px; }
-.map-filter-action-btn:hover { color: var(--primary-cyan); border-color: var(--primary-cyan); background: rgba(0, 217, 255, 0.08); }
-.map-filter-action-btn.show-all:hover { color: #10B981; border-color: #10B981; background: rgba(16, 185, 129, 0.08); }
-.map-filter-action-btn.hide-all:hover { color: #EC4899; border-color: #EC4899; background: rgba(236, 72, 153, 0.08); }
-.map-line-toggle { padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--border-subtle); background: var(--surface-1); cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.2s; font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; gap: 6px; opacity: 0.5; }
-.map-line-toggle:hover { transform: translateY(-1px); border-color: var(--primary-cyan); }
-.map-line-toggle.active { opacity: 1; color: var(--text-main); border-color: var(--primary-cyan); box-shadow: 0 0 0 2px rgba(0,217,255,0.15); }
-.map-line-toggle .line-color-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); flex-shrink: 0; }
+.map-filter-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.map-filter-action-btn {
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  font-family: inherit;
+  font-size: calc(var(--app-font-size) - 4px);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  line-height: 1;
+}
+.map-filter-action-btn:hover {
+  color: var(--primary-cyan);
+  border-color: var(--primary-cyan);
+  background: rgba(0, 217, 255, 0.08);
+  transform: translateY(-1px);
+}
+.map-filter-action-btn.show-all:hover {
+  color: #10B981;
+  border-color: #10B981;
+  background: rgba(16, 185, 129, 0.08);
+}
+.map-filter-action-btn.hide-all:hover {
+  color: #EC4899;
+  border-color: #EC4899;
+  background: rgba(236, 72, 153, 0.08);
+}
+.map-filter-action-btn.active {
+  background: var(--tech-gradient);
+  color: var(--text-on-accent);
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(0, 217, 255, 0.35);
+}
+:root[data-theme="light"] .map-filter-action-btn.active {
+  box-shadow: 0 2px 8px rgba(224, 82, 82, 0.25);
+}
+.map-filter-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 30px;
+}
+.map-points-filter-btn {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-1);
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  font-family: inherit;
+  font-size: var(--app-font-size-xs);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  line-height: 1;
+}
+.map-points-filter-btn:hover {
+  border-color: var(--primary-cyan);
+  color: var(--primary-cyan);
+  transform: translateY(-1px);
+}
+.map-points-filter-btn.active {
+  background: var(--tech-gradient);
+  color: var(--text-on-accent);
+  border-color: transparent;
+  box-shadow: 0 3px 10px rgba(0, 217, 255, 0.3);
+}
+:root[data-theme="light"] .map-points-filter-btn.active {
+  box-shadow: 0 3px 10px rgba(224, 82, 82, 0.2);
+}
+.map-points-filter-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+.map-line-toggle {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border-subtle);
+  background: var(--surface-1);
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  font-family: inherit;
+  font-size: var(--app-font-size-xs);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.5;
+  white-space: nowrap;
+  line-height: 1;
+}
+.map-line-toggle:hover {
+  transform: translateY(-1px);
+  border-color: var(--primary-cyan);
+}
+.map-line-toggle.active {
+  opacity: 1;
+  color: var(--text-main);
+  border-color: var(--primary-cyan);
+  box-shadow: 0 0 0 2px rgba(0, 217, 255, 0.15);
+}
+.map-line-toggle .line-color-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
 
 .mini-map-controls { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
 .mini-map-btn { background: var(--surface-map-btn); backdrop-filter: blur(10px); border: 1px solid var(--border-glow); border-radius: 10px; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; color: var(--primary-cyan); transition: all 0.2s; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
@@ -954,14 +1109,24 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
 
           <!-- FILTER SECTION (REDESIGN) -->
           <div class="map-filter-section">
-            <div class="map-filter-row">
-              <span class="map-filter-label">
-                <i data-lucide="filter"></i> Tampilkan Titik
-              </span>
+            <!-- Group: Tampilkan Titik -->
+            <div class="map-filter-group">
+              <div class="map-filter-header">
+                <span class="map-filter-label">
+                  <i data-lucide="filter"></i> Tampilkan Titik
+                </span>
+                <div class="map-filter-actions">
+                  <button class="map-filter-action-btn show-all" data-point-filter="all"
+                          onclick="setPointFilter('all')" title="Tampilkan semua titik">
+                    <i data-lucide="eye" style="width:11px;"></i> Semua
+                  </button>
+                  <button class="map-filter-action-btn hide-all" data-point-filter="none"
+                          onclick="setPointFilter('none')" title="Sembunyikan semua titik">
+                    <i data-lucide="eye-off" style="width:11px;"></i> Kosong
+                  </button>
+                </div>
+              </div>
               <div class="map-filter-chips">
-                <button class="map-points-filter-btn active" data-point-filter="all" onclick="setPointFilter('all')">
-                  <i data-lucide="layout-grid" style="width:12px;"></i> Semua
-                </button>
                 <button class="map-points-filter-btn" data-point-filter="Data OF Cut" onclick="setPointFilter('Data OF Cut')">
                   <span class="map-points-filter-dot" style="background:#FF0000;"></span> OF Cut
                 </button>
@@ -980,20 +1145,23 @@ table.records-table th.col-loc, table.records-table td.col-loc { min-width: 120p
               </div>
             </div>
 
-            <div class="map-filter-row">
-              <span class="map-filter-label">
-                <i data-lucide="route"></i> Tampilkan Line
-              </span>
+            <!-- Group: Tampilkan Line -->
+            <div class="map-filter-group">
+              <div class="map-filter-header">
+                <span class="map-filter-label">
+                  <i data-lucide="route"></i> Tampilkan Line
+                </span>
+                <div class="map-filter-actions">
+                  <button class="map-filter-action-btn show-all" onclick="showAllLines()" title="Tampilkan semua line">
+                    <i data-lucide="eye" style="width:11px;"></i> Semua
+                  </button>
+                  <button class="map-filter-action-btn hide-all" onclick="hideAllLines()" title="Sembunyikan semua line">
+                    <i data-lucide="eye-off" style="width:11px;"></i> Kosong
+                  </button>
+                </div>
+              </div>
               <div class="map-filter-chips" id="map-lines-filter-buttons">
                 <span style="color:var(--text-dim);font-size:var(--app-font-size-xs);font-style:italic;">Memuat line...</span>
-              </div>
-              <div class="map-filter-actions">
-                <button class="map-filter-action-btn show-all" onclick="showAllLines()" title="Tampilkan semua line">
-                  <i data-lucide="eye" style="width:11px;"></i> Semua
-                </button>
-                <button class="map-filter-action-btn hide-all" onclick="hideAllLines()" title="Sembunyikan semua line">
-                  <i data-lucide="eye-off" style="width:11px;"></i> Kosong
-                </button>
               </div>
             </div>
           </div>
@@ -2727,12 +2895,15 @@ function getNextAlkerUrutan() { return Object.keys(appData['Alker'] || {}).lengt
 /* ============================================================ POINT FILTER ============================================================ */
 function setPointFilter(filter) {
   selectedPointFilter = filter;
-  document.querySelectorAll('.map-points-filter-btn').forEach(function(b) {
+  document.querySelectorAll('[data-point-filter]').forEach(function(b) {
     b.classList.toggle('active', b.dataset.pointFilter === filter);
   });
   loadMarkersFromData();
   if (typeof lucide !== 'undefined') lucide.createIcons();
-  showToast('Tampilkan: ' + (filter === 'all' ? 'Semua titik' : filter), 'success');
+  var label = filter === 'all' ? 'Semua titik'
+            : filter === 'none' ? 'Titik disembunyikan'
+            : filter;
+  showToast('Tampilkan: ' + label, 'success');
 }
 window.setPointFilter = setPointFilter;
 
@@ -3367,7 +3538,9 @@ function loadMarkersFromData() {
     'Handhole': '#FF00FF'
   };
   var allCats = Object.keys(categoryColors);
-  var catsToShow = (selectedPointFilter === 'all') ? allCats : [selectedPointFilter];
+  var catsToShow = (selectedPointFilter === 'all') ? allCats
+                  : (selectedPointFilter === 'none') ? []
+                  : [selectedPointFilter];
   catsToShow.forEach(function (cat) {
     var items = appData[cat] || {}; var color = categoryColors[cat] || '#00D9FF';
     Object.keys(items).forEach(function (k) {
