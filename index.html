@@ -147,25 +147,20 @@
 .hero-orb.o3 { width: 140px; height: 140px; top: 30%; left: 45%; background: radial-gradient(circle, rgba(236,72,153,0.22) 0%, transparent 70%); animation: orbFloat3 13s ease-in-out infinite; opacity: 0.65; }
 :root[data-theme="light"] .hero-orb { opacity: 0.4; }
 
-/* ============ SEMI 3D ============ */
+/* ============ SEMI 3D (TANPA GERAK/BLUR) ============ */
 .ai-dashboard { perspective: 1600px; perspective-origin: 50% 0%; }
 
 .card, .ai-panel, .ytd-card, .about-info-card, .user-list-item, .kml-list-item, .opm-step-card {
-  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.42s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.32s ease, background 0.3s ease;
-  will-change: transform;
   transform-style: preserve-3d;
   filter: none !important;
   backdrop-filter: none !important;
 }
 .card:hover, .ai-panel:hover, .ytd-card:hover, .about-info-card:hover, .user-list-item:hover, .kml-list-item:hover, .opm-step-card:hover {
-  transform: translateY(-6px) rotateX(1.2deg) rotateY(-1.2deg) scale(1.014);
-  box-shadow: 0 20px 48px rgba(0, 217, 255, 0.22), 0 0 0 1px var(--border-glow) inset;
+  transform: none !important;
+  box-shadow: var(--shadow-card) !important;
   filter: none !important;
   backdrop-filter: none !important;
 }
-.ai-panel:hover { box-shadow: 0 20px 48px rgba(0, 217, 255, 0.24), 0 0 0 1px var(--border-glow) inset; }
-
-/* ============ MAPS: HILANGKAN EFEK HOVER ============ */
 .ai-panel-map,
 .ai-panel-map:hover {
   transform: none !important;
@@ -186,31 +181,31 @@
 .ai-row-hero { transform-style: preserve-3d; }
 .ai-hero {
   transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease;
+  transition: none;
 }
 .ai-hero:hover {
-  transform: translateY(-4px) rotateX(0.8deg) scale(1.006);
-  box-shadow: 0 26px 60px rgba(0, 217, 255, 0.20), 0 0 0 1px var(--border-glow) inset;
+  transform: none !important;
+  box-shadow: 0 12px 40px rgba(0, 217, 255, 0.10) !important;
 }
 
-.ai-stat-mini { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease; position: relative; overflow: hidden; transform-style: preserve-3d; }
-.ai-stat-mini::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 40%, rgba(0,217,255,0.10) 100%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
-.ai-stat-mini:hover { transform: translateY(-5px) translateZ(14px) scale(1.04); box-shadow: 0 14px 32px rgba(0,217,255,0.28), 0 0 0 1px var(--border-glow) inset; }
-.ai-stat-mini:hover::before { opacity: 1; }
+.ai-stat-mini { transition: none; position: relative; overflow: hidden; transform-style: preserve-3d; }
+.ai-stat-mini::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 40%, rgba(0,217,255,0.10) 100%); opacity: 0; transition: none; pointer-events: none; }
+.ai-stat-mini:hover { transform: none !important; box-shadow: var(--shadow-card) !important; }
+.ai-stat-mini:hover::before { opacity: 0; }
 
-.ai-cat-item { transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease; }
-.ai-cat-item:hover { transform: translateX(6px) translateZ(10px) scale(1.02); box-shadow: -3px 0 0 0 var(--primary-cyan), 0 10px 26px rgba(0,217,255,0.24); }
-.ai-cat-item:hover .ai-cat-icon { transform: rotate(-12deg) scale(1.15); }
-.ai-cat-icon { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.ai-cat-item { transition: none; }
+.ai-cat-item:hover { transform: none !important; box-shadow: none !important; }
+.ai-cat-item:hover .ai-cat-icon { transform: none !important; }
+.ai-cat-icon { transition: none; }
 
 .stok-spare-row { transform-style: preserve-3d; }
-.stok-spare-row:hover { transform: translateX(4px) translateZ(10px); box-shadow: 0 10px 26px rgba(0,217,255,0.20); }
+.stok-spare-row:hover { transform: none !important; box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important; }
 
-.btn-primary { transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, filter 0.25s ease; position: relative; overflow: hidden; }
-.btn-primary::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transition: left 0.55s ease; pointer-events: none; }
-.btn-primary:hover::after { left: 100%; }
-.btn-primary:hover { transform: translateY(-3px) scale(1.025); filter: brightness(1.08); }
-.btn-primary:active { transform: translateY(-1px) scale(0.99); }
+.btn-primary { transition: none; position: relative; overflow: hidden; }
+.btn-primary::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transition: none; pointer-events: none; }
+.btn-primary:hover::after { left: -100%; }
+.btn-primary:hover { transform: none !important; filter: none !important; }
+.btn-primary:active { transform: none !important; }
 
 @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 .brand-text, .login-title, .ai-hero-title .accent { background-size: 220% 220% !important; animation: gradientShift 5.5s ease infinite; }
@@ -284,13 +279,15 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 @keyframes logoGlow { 0%, 100% { box-shadow: 0 0 16px rgba(0, 217, 255, 0.55), 0 0 32px rgba(0, 217, 255, 0.22); } 50% { box-shadow: 0 0 26px rgba(0, 217, 255, 0.9), 0 0 52px rgba(0, 217, 255, 0.4); } }
 @keyframes logoGlowRed { 0%, 100% { box-shadow: 0 0 16px rgba(224, 82, 82, 0.45); } 50% { box-shadow: 0 0 26px rgba(224, 82, 82, 0.75); } }
 
-.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.telin-logo { height: 44px; width: auto; object-fit: contain; }
-.telin-divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 16px 0 20px; padding: 12px 16px; }
-.telin-logo-login { height: 56px; width: auto; }
+/* ============ LOGO TELIN DIPERBAIKI ============ */
+.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: rgba(255,255,255,0.04); }
+.telin-logo { height: 32px; width: auto; object-fit: contain; display: block; }
+:root[data-theme="light"] .telin-logo-wrapper { background: rgba(0,0,0,0.04); }
+.telin-divider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 16px 0 20px; padding: 12px 16px; }
+.telin-logo-login { height: 44px; width: auto; display: block; }
 .telin-footer-brand { display: flex; align-items: center; justify-content: center; gap: 8px; padding-top: 10px; margin-top: 12px; border-top: 1px solid var(--border-subtle); width: 100%; }
-.telin-footer-brand img { height: 30px; width: auto; opacity: 0.85; }
-.telin-footer-brand > span:first-child, .telin-divider > span:first-child { display: none !important; }
+.telin-footer-brand img { height: 24px; width: auto; opacity: 0.9; display: block; }
+/* ============ END LOGO TELIN ============ */
 
 .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background: var(--surface-sidebar); border-right: 1px solid var(--border-glow); z-index: 60; display: flex; flex-direction: column; box-shadow: 4px 0 40px rgba(0, 217, 255, 0.08); transition: transform 0.3s ease; overflow: hidden; }
 .sidebar-header { height: 72px; display: flex; align-items: center; gap: 12px; padding: 0 20px; border-bottom: 1px solid var(--border-subtle); flex-shrink: 0; }
@@ -494,7 +491,55 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   will-change: transform;
 }
 
-/* Popup marker — font diperkecil agar ringkas */
+/* ============ KETERANGAN TITIK POJOK KANAN ATAS (UKURAN KECIL) ============ */
+.map-legend-top-right {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1000;
+  background: var(--surface-map-legend);
+  border: 1px solid var(--border-glow);
+  border-radius: 10px;
+  padding: 8px 10px;
+  box-shadow: 0 4px 16px rgba(0,217,255,0.15);
+  max-width: 170px;
+  font-size: 9px;
+  line-height: 1.4;
+}
+.map-legend-top-right .ml-title {
+  font-weight: 800;
+  color: var(--primary-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 5px;
+  font-size: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.map-legend-top-right .ml-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 2px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.map-legend-top-right .ml-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.map-legend-top-right .ml-count {
+  margin-left: auto;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 800;
+  color: var(--text-main);
+  font-size: 8px;
+}
+/* ============ END KETERANGAN TITIK ============ */
+
 .maplibregl-popup-content { background: var(--surface-map-legend) !important; color: var(--text-main) !important; border: 1px solid var(--border-glow) !important; border-radius: 8px !important; padding: 6px 8px !important; box-shadow: 0 6px 18px rgba(0, 217, 255, 0.22) !important; max-width: 200px !important; min-width: 130px !important; white-space: normal !important; line-height: 1.25; font-size: 9px !important; }
 .maplibregl-popup-tip { border-top-color: var(--surface-map-legend) !important; border-bottom-color: var(--surface-map-legend) !important; }
 .maplibregl-popup-close-button { color: var(--primary-cyan) !important; font-size: 13px !important; padding: 0 4px !important; line-height: 1 !important; }
@@ -726,13 +771,13 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
       <div class="nav-section-label">Menu Utama</div>
       <div class="nav-item active" data-cat="dashboard"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></div>
       <div class="nav-section-label">Data Operasional</div>
-      <div class="nav-item" data-cat="Data OF Cut"><i data-lucide="scissors"></i><span>OF Cut</span></div>
+      <div class="nav-item" data-cat="Data OF Cut"><i data-lucide="scissors"></i><span>Data OF Cut</span></div>
       <div class="nav-item" data-cat="P3_Temuan"><i data-lucide="users"></i><span>P3 / Temuan</span></div>
       <div class="nav-item" data-cat="OPM-OLS"><i data-lucide="activity"></i><span>OPM / OLS</span></div>
-      <div class="nav-item" data-cat="Joint"><i data-lucide="link"></i><span>Joint</span></div>
-      <div class="nav-item" data-cat="Handhole"><i data-lucide="archive"></i><span>Handhole</span></div>
+      <div class="nav-item" data-cat="Joint"><i data-lucide="link"></i><span>Data Joint</span></div>
+      <div class="nav-item" data-cat="Handhole"><i data-lucide="archive"></i><span>Data Handhole</span></div>
       <div class="nav-section-label">Inventaris</div>
-      <div class="nav-item" data-cat="Alker"><i data-lucide="wrench"></i><span>Alker</span></div>
+      <div class="nav-item" data-cat="Alker"><i data-lucide="wrench"></i><span>Data Alker</span></div>
       <div class="nav-item" data-cat="Stok Spare"><i data-lucide="package"></i><span>Stok Spare</span></div>
       <div class="nav-item" data-cat="Patch Cord"><i data-lucide="cable"></i><span>Patch Cord</span></div>
       <div class="nav-section-label">Informasi</div>
@@ -831,6 +876,14 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 
               <div style="position:relative;flex:1;min-height:520px;">
                 <div id="map-container"></div>
+                <div class="map-legend-top-right" id="map-legend-titik">
+                  <div class="ml-title">Keterangan Titik</div>
+                  <div class="ml-item"><span class="ml-dot" style="background:#FF0000;"></span>OF Cut<span class="ml-count" id="ml-count-ofcut">0</span></div>
+                  <div class="ml-item"><span class="ml-dot" style="background:#00FF00;"></span>Pihak Ke-3<span class="ml-count" id="ml-count-p3">0</span></div>
+                  <div class="ml-item"><span class="ml-dot" style="background:#0000FF;"></span>Temuan<span class="ml-count" id="ml-count-temuan">0</span></div>
+                  <div class="ml-item"><span class="ml-dot" style="background:#FFFF00;"></span>Joint<span class="ml-count" id="ml-count-joint">0</span></div>
+                  <div class="ml-item"><span class="ml-dot" style="background:#FF00FF;"></span>Handhole<span class="ml-count" id="ml-count-handhole">0</span></div>
+                </div>
                 <div class="custom-map-controls">
                   <button class="custom-map-btn active" onclick="toggleMapLayer('satellite', event)" title="Satelit HD"><i data-lucide="satellite" style="width:14px;"></i></button>
                   <button class="custom-map-btn" onclick="toggleMapLayer('street', event)" title="Jalan HD"><i data-lucide="map" style="width:14px;"></i></button>
@@ -1685,7 +1738,6 @@ function resetFontSettings() {
 
 /* ============================================================ AUTO UPPERCASE ============================================================ */
 function applyAutoUppercase() {
-  /* Halaman login DIKECUALIKAN dari auto uppercase */
   var textInputIds = ['inp-sn','inp-spec','inp-lemari','inp-notes-stock','inp-update-sn','inp-update-spec','inp-update-notes','inp-pc-type-lain','inp-pc-length-lain','inp-notes-patch','inp-opm-keterangan','inp-opm-ukuran','inp-opm-label','inp-alker-nama','inp-alker-sn','inp-alker-jenis','inp-alker-merk','inp-alker-keterangan','inp-loc','inp-coords','inp-keterangan-normal','inp-ofcut-penyebab-lain','inp-ofcut-keterangan','inp-p3-pelaksana','inp-p3-lama','inp-p3-keterangan','map-search-input','new-username','user-list-search','draw-custom-line-name','draw-line-notes','riwayat-modal-search','hero-about-input','kml-list-search'];
   textInputIds.forEach(function(id) {
     var el = document.getElementById(id);
@@ -2493,7 +2545,16 @@ function initMap() {
   } catch (e) { console.error('Map init:', e); }
 }
 
-/* MARKER: titik tepat di koordinat — popup detail lengkap, tanpa label permanen */
+/* ============ MARKER: titik tepat di koordinat + legenda pojok kanan atas ============ */
+function updateMapLegendCounts() {
+  function count(cat) { return Object.keys(appData[cat] || {}).length; }
+  var elOfCut = document.getElementById('ml-count-ofcut'); if (elOfCut) elOfCut.textContent = count('Data OF Cut');
+  var elP3 = document.getElementById('ml-count-p3'); if (elP3) elP3.textContent = count('Pekerjaan Pihak Ke-3');
+  var elTemuan = document.getElementById('ml-count-temuan'); if (elTemuan) elTemuan.textContent = count('Temuan Lapangan');
+  var elJoint = document.getElementById('ml-count-joint'); if (elJoint) elJoint.textContent = count('Joint');
+  var elHH = document.getElementById('ml-count-handhole'); if (elHH) elHH.textContent = count('Handhole');
+}
+
 function loadMarkersFromData() {
   if (!map) return;
   markers.forEach(function(m) { try { m.remove(); } catch(e) {} }); markers = [];
@@ -2523,6 +2584,7 @@ function loadMarkersFromData() {
       }
     });
   });
+  updateMapLegendCounts();
 }
 
 /* buildMarkerPopup — data lengkap, font diperkecil */
@@ -3809,6 +3871,7 @@ function updateAiStats() {
     cats.forEach(function(c) { html += '<div class="ai-cat-item" onclick="navToCat(\'' + c.key + '\')"><div class="ai-cat-icon">' + c.icon + '</div><div class="ai-cat-name">' + c.name + '</div><div class="ai-cat-value">' + count(c.key) + '</div></div>'; });
     catList.innerHTML = html;
   }
+  updateMapLegendCounts();
 }
 
 function updateStokSpare() {
@@ -3916,7 +3979,6 @@ function setupEventListeners() {
   var lb = document.getElementById('logout-btn');
   if (lb) lb.addEventListener('click', function() { localStorage.removeItem('bucin_session'); currentUser = null; location.reload(); });
 
-  /* Theme toggle — dipasang SEKALI saja di sini */
   var tt = document.getElementById('theme-toggle');
   if (tt && !tt.dataset.bound) {
     tt.dataset.bound = '1';
