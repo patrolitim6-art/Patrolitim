@@ -135,7 +135,6 @@
 :root[data-theme="light"] .sidebar-overlay { background: rgba(107,114,128,0.55) !important; }
 :root[data-theme="light"] .map-filter-modal { background: rgba(107,114,128,0.5) !important; }
 
-/* FIX #1 + FIX #4: 3D EFFECTS + NO BLUR */
 @keyframes orbFloat1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(40px, -30px) scale(1.15); } }
 @keyframes orbFloat2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-50px, 40px) scale(1.1); } }
 @keyframes orbFloat3 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, 50px) scale(1.2); } }
@@ -148,7 +147,6 @@
 .hero-orb.o3 { width: 140px; height: 140px; top: 30%; left: 45%; background: radial-gradient(circle, rgba(236,72,153,0.22) 0%, transparent 70%); animation: orbFloat3 13s ease-in-out infinite; opacity: 0.65; }
 :root[data-theme="light"] .hero-orb { opacity: 0.4; }
 
-/* FIX #4: 3D panel shadows */
 .card, .ai-panel, .ytd-card, .about-info-card, .user-list-item, .kml-list-item, .opm-step-card {
   transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.32s ease, background 0.3s ease;
   will-change: transform;
@@ -209,11 +207,9 @@
 .chart-summary-chip .cs-label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 700; }
 .chart-summary-chip .cs-value { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 14px; margin-top: 2px; line-height: 1; }
 
-/* FIX #2: strip 2 kolom */
 .chart-summary-strip-2 { display: flex; gap: 8px; padding: 8px 4px 10px; border-bottom: 1px dashed var(--border-subtle); margin-bottom: 10px; flex-wrap: wrap; }
 .chart-summary-strip-2 .chart-summary-chip { flex: 1; min-width: 100px; padding: 10px 8px; border-radius: 10px; background: linear-gradient(160deg, var(--surface-3) 0%, rgba(15,23,42,0.5) 100%); border: 1px solid var(--border-subtle); text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
 
-/* FIX #3: stok spare list */
 .stok-spare-list { display: flex; flex-direction: column; gap: 6px; }
 .stok-spare-row {
   display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px;
@@ -363,26 +359,11 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .ai-stat-mini .stat-value.red { color: #EF4444; }
 .ai-stat-mini .stat-value.purple { color: var(--primary-purple); }
 
-/* FIX #1: MAP FULL WIDTH ROW */
-.ai-row-map-full {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-}
-.ai-row-map-full .ai-panel-map {
-  padding: 0;
-  overflow: hidden;
-  min-height: 620px;
-}
+.ai-row-map-full { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.ai-row-map-full .ai-panel-map { padding: 0; overflow: hidden; min-height: 620px; }
 @media (max-width: 900px) { .ai-row-map-full .ai-panel-map { min-height: 500px; } }
 
-/* FIX #2: 2-COLUMN LAYOUT */
-.ai-row-bottom-2col {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 14px;
-  align-items: start;
-}
+.ai-row-bottom-2col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; align-items: start; }
 @media (max-width: 1100px) { .ai-row-bottom-2col { grid-template-columns: 1fr; } }
 
 .ai-row-bottom { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
@@ -442,7 +423,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 #map-container { height: 100%; min-height: 520px; border-radius: 0; z-index: 1; overflow: hidden; position: relative; }
 
 .map-filter-buttons-row { display: flex; gap: 8px; flex-wrap: wrap; }
-/* FIX #1: filter buttons BELOW map */
 .map-filter-below {
   display: flex;
   gap: 8px;
@@ -470,8 +450,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .filter-item-card .filter-check { margin-left: auto; color: var(--primary-cyan); display: none; }
 .filter-item-card.active .filter-check { display: inline-flex; }
 
-/* FIX #5: marker with label */
-/* Marker sederhana — titik tetap di koordinat */
+/* ===== MARKER: titik tepat di koordinat ===== */
 .ml-marker {
   width: 14px; height: 14px; border-radius: 50%;
   border: 2px solid #fff;
@@ -480,7 +459,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   will-change: transform;
 }
 
-/* Label permanen di atas marker (pakai MapLibre Popup) */
+/* Label permanen di atas marker (pakai MapLibre Popup terpisah) */
 .ml-label-popup .maplibregl-popup-content {
   background: rgba(10,14,26,0.92) !important;
   color: #E2E8F0 !important;
@@ -502,6 +481,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   color: #0F172A !important;
   border-color: rgba(224,82,82,0.6) !important;
 }
+
 .draw-point { width: 12px; height: 12px; border-radius: 50%; background: #00D9FF; border: 2px solid #fff; box-shadow: 0 0 10px #00D9FF; cursor: pointer; pointer-events: auto; }
 .draw-point.first { background: #10B981; } .draw-point.last { background: #EC4899; }
 .draw-cursor-active #map-container, .draw-cursor-active #map-container canvas { cursor: crosshair !important; }
@@ -605,7 +585,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
 <div id="login-screen" class="login-screen">
   <div class="login-card">
     <div style="text-align:center;">
@@ -662,7 +641,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   </div>
 </div>
 
-<!-- FORCE CHANGE PASSWORD MODAL -->
 <div id="force-change-password-modal" class="modal-layer hidden" style="z-index:300;">
   <div class="modal-card" style="max-width:460px;border-color:#F59E0B;">
     <div style="text-align:center;margin-bottom:18px;">
@@ -706,7 +684,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   </div>
 </div>
 
-<!-- APP SHELL -->
 <div id="app-shell" class="hidden">
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-header">
@@ -822,7 +799,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </div>
           </div>
 
-          <!-- FIX #1: MAP FULL WIDTH -->
           <div class="ai-row-map-full">
             <div class="ai-panel ai-panel-map">
               <div style="padding:12px 14px;border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
@@ -855,7 +831,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                 </div>
               </div>
 
-              <!-- FIX #1: filter buttons BELOW map -->
               <div class="map-filter-below">
                 <button class="map-filter-btn-popup" onclick="openMapFilterModal('titik')">
                   <i data-lucide="filter" style="width:12px;"></i> Tampilkan Titik
@@ -869,10 +844,8 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </div>
           </div>
 
-          <!-- FIX #2: 2-COLUMN LAYOUT -->
           <div class="ai-row-bottom-2col">
 
-            <!-- LEFT COLUMN: Kategori + Grafik OF Cut -->
             <div style="display:flex;flex-direction:column;gap:14px;">
               <div class="ai-panel">
                 <div class="ai-panel-header">
@@ -886,7 +859,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                   <div class="ai-panel-title"><span class="dot"></span> Grafik OF Cut</div>
                   <select id="chart-period" class="field-control" style="min-height:28px;padding:2px 10px;font-size:var(--app-font-size-xs);width:auto;border-radius:8px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
                 </div>
-                <!-- FIX #2: 2 KOLOM SAJA -->
                 <div class="chart-summary-strip-2">
                   <div class="chart-summary-chip">
                     <div class="cs-label">Total Cut</div>
@@ -907,7 +879,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
               </div>
             </div>
 
-            <!-- RIGHT COLUMN: Perbandingan Tahunan + Ringkasan Aset -->
             <div style="display:flex;flex-direction:column;gap:14px;">
               <div class="ai-panel">
                 <div class="ai-panel-header">
@@ -942,7 +913,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                 </div>
               </div>
 
-              <!-- FIX #3: RINGKASAN ASET dengan STOK SPARE -->
               <div class="ai-panel">
                 <div class="ai-panel-header">
                   <div class="ai-panel-title"><span class="dot"></span> Ringkasan Aset</div>
@@ -989,7 +959,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                   <div class="mini-legend" id="aset-legend"></div>
                 </div>
 
-                <!-- FIX #3: STOK SPARE (bukan Stok Gudang) -->
                 <div class="ai-panel-header" style="margin-top:12px;margin-bottom:8px;">
                   <div class="ai-panel-title" style="font-size:10px;"><span class="dot"></span> Stok Spare</div>
                   <span id="stok-spare-total-badge" style="background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-weight:800;font-size:var(--app-font-size-xs);">0 Item</span>
@@ -1115,7 +1084,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   </div>
 </div>
 
-<!-- MODALS (tidak diubah dari versi asli) -->
 <div id="map-filter-modal" class="map-filter-modal hidden">
   <div class="map-filter-modal-card">
     <div class="map-filter-modal-header">
@@ -2152,52 +2120,31 @@ function applyFilterModal() {
     if (activeBtns.length === 0) selectedPointFilter = 'none';
     else if (activeBtns.length === POINT_CATEGORIES.length) selectedPointFilter = 'all';
     else selectedPointFilter = activeBtns[0].dataset.filterTitik;
-    loadMarkersFromData();function loadMarkersFromData() {
-  if (!map) return;
-  markers.forEach(function(m) { try { m.remove(); } catch(e) {} }); markers = [];
-  var catsToShow = (selectedPointFilter === 'all') ? POINT_CATEGORIES.map(function(c) { return c.key; }) : (selectedPointFilter === 'none') ? [] : [selectedPointFilter];
-  catsToShow.forEach(function(cat) {
-    var items = appData[cat] || {}, catDef = POINT_CATEGORIES.find(function(c) { return c.key === cat; }), color = catDef ? catDef.color : '#00D9FF';
-    Object.keys(items).forEach(function(k) {
-      var it = items[k], lat = null, lng = null;
-      if (it.coords) { var p = String(it.coords).split(','); if (p.length === 2) { lat = parseFloat(p[0]); lng = parseFloat(p[1]); } }
-      if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
-        var title = it.location || it.nama || 'Lokasi';
-        var shortTitle = title.length > 22 ? title.substring(0, 22) + '…' : title;
-
-        // Marker: element HANYA titik (bukan wrapper) — titik tepat di koordinat
-        var el = document.createElement('div');
-        el.className = 'ml-marker';
-        el.style.background = color;
-        el.style.boxShadow = '0 0 8px ' + color + ', 0 2px 4px rgba(0,0,0,0.4)';
-
-        // Popup DETAIL (muncul saat klik)
-        var popupHtml = buildMarkerPopup(cat, it, title, color);
-        var popup = new maplibregl.Popup({ offset: 16, closeButton: true, maxWidth: '220px' }).setHTML(popupHtml);
-
-        var marker = new maplibregl.Marker({ element: el, anchor: 'center' })
-          .setLngLat([lng, lat])
-          .setPopup(popup)
-          .addTo(map);
-
-        // Label PERMANEN di atas marker (popup terpisah, tidak menggeser marker)
-        var labelPopup = new maplibregl.Popup({
-          offset: 14,
-          closeButton: false,
-          closeOnClick: false,
-          className: 'ml-label-popup',
-          anchor: 'bottom'
-        })
-        .setLngLat([lng, lat])
-        .setHTML('<div>' + escapeHtml(shortTitle) + '</div>')
-        .addTo(map);
-
-        markers.push(marker);
-        markers.push(labelPopup);
-      }
+    loadMarkersFromData();
+    updateFilterCounts();
+    showToast('Filter titik diterapkan', 'success');
+  } else {
+    if (!selectedLineFilters) selectedLineFilters = {};
+    document.querySelectorAll('#map-filter-modal-content [data-filter-line]').forEach(function(b) {
+      selectedLineFilters[b.dataset.filterLine] = b.classList.contains('active');
     });
-  });
+    applyLineFilters();
+    updateFilterCounts();
+    showToast('Filter line diterapkan', 'success');
+  }
+  closeMapFilterModal();
 }
+function updateFilterCounts() {
+  var titikCount = 0;
+  if (selectedPointFilter === 'all') titikCount = POINT_CATEGORIES.length;
+  else if (selectedPointFilter !== 'none') titikCount = 1;
+  var elTitik = document.getElementById('filter-titik-count'); if (elTitik) elTitik.textContent = titikCount;
+  var lineActive = 0;
+  if (allAvailableLines && selectedLineFilters) { allAvailableLines.forEach(function(n) { if (selectedLineFilters[n] !== false) lineActive++; }); }
+  var elLine = document.getElementById('filter-line-count'); if (elLine) elLine.textContent = lineActive;
+}
+
+function setPointFilter(filter) { selectedPointFilter = filter; loadMarkersFromData(); updateFilterCounts(); if (typeof lucide !== 'undefined') lucide.createIcons(); }
 
 /* ============================================================ LINE FILTER ============================================================ */
 function renderLineFilters() {
@@ -2526,7 +2473,7 @@ function initMap() {
   } catch (e) { console.error('Map init:', e); }
 }
 
-/* FIX #5: Marker dengan label selalu tampil */
+/* ============================================================ FIX: MARKER TITIK TEPAT DI KOORDINAT + LABEL POPUP ============================================================ */
 function loadMarkersFromData() {
   if (!map) return;
   markers.forEach(function(m) { try { m.remove(); } catch(e) {} }); markers = [];
@@ -2538,29 +2485,37 @@ function loadMarkersFromData() {
       if (it.coords) { var p = String(it.coords).split(','); if (p.length === 2) { lat = parseFloat(p[0]); lng = parseFloat(p[1]); } }
       if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
         var title = it.location || it.nama || 'Lokasi';
-        var shortTitle = title.length > 18 ? title.substring(0, 18) + '…' : title;
+        var shortTitle = title.length > 22 ? title.substring(0, 22) + '…' : title;
 
-        // Wrapper berisi label + marker
-        var wrapper = document.createElement('div');
-        wrapper.className = 'ml-marker-wrapper';
-
-        var label = document.createElement('div');
-        label.className = 'ml-marker-label';
-        label.textContent = shortTitle;
-        label.style.borderColor = color;
-
+        // Marker: element HANYA titik — anchor center tepat di koordinat
         var el = document.createElement('div');
         el.className = 'ml-marker';
         el.style.background = color;
-        el.style.boxShadow = '0 0 10px ' + color;
+        el.style.boxShadow = '0 0 8px ' + color + ', 0 2px 4px rgba(0,0,0,0.4)';
 
-        wrapper.appendChild(label);
-        wrapper.appendChild(el);
-
+        // Popup DETAIL (muncul saat klik marker)
         var popupHtml = buildMarkerPopup(cat, it, title, color);
-        var popup = new maplibregl.Popup({ offset: 18, closeButton: true, maxWidth: '220px' }).setHTML(popupHtml);
-        var marker = new maplibregl.Marker({ element: wrapper, anchor: 'center' }).setLngLat([lng, lat]).setPopup(popup).addTo(map);
+        var popup = new maplibregl.Popup({ offset: 16, closeButton: true, maxWidth: '220px' }).setHTML(popupHtml);
+
+        var marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+          .setLngLat([lng, lat])
+          .setPopup(popup)
+          .addTo(map);
+
+        // Label PERMANEN di atas marker — pakai popup terpisah, tidak menggeser marker
+        var labelPopup = new maplibregl.Popup({
+          offset: 14,
+          closeButton: false,
+          closeOnClick: false,
+          className: 'ml-label-popup',
+          anchor: 'bottom'
+        })
+        .setLngLat([lng, lat])
+        .setHTML('<div>' + escapeHtml(shortTitle) + '</div>')
+        .addTo(map);
+
         markers.push(marker);
+        markers.push(labelPopup);
       }
     });
   });
@@ -2602,11 +2557,7 @@ function buildMarkerPopup(cat, it, title, color) {
   html += '</div>';
   return html;
 }
-function updateMapMarkers() {
-  if (!map) return;
-  if (map.isStyleLoaded()) loadMarkersFromData();
-  else map.once('idle', loadMarkersFromData);
-}
+function updateMapMarkers() { if (!map) return; if (map.isStyleLoaded()) loadMarkersFromData(); else map.once('idle', loadMarkersFromData); }
 window.zoomIn = function() { if (map) map.zoomIn(); };
 window.zoomOut = function() { if (map) map.zoomOut(); };
 window.toggleMapLayer = function(t, evt) {
@@ -3687,7 +3638,6 @@ function updateCharts() {
     chartIncidents.options.scales.y.ticks.stepSize = yMax <= 10 ? 1 : (yMax <= 20 ? 2 : (yMax <= 50 ? 5 : 10));
     chartIncidents.update();
 
-    // FIX #2: hitung total + persentase 1 tahun (2 kolom saja)
     var total = 0;
     for (var i = 0; i < 12; i++) total += dataP3[i] + dataVandal[i] + dataBencana[i] + dataLainnya[i];
     var csTotal = document.getElementById('cs-total'); if (csTotal) csTotal.textContent = total;
@@ -3698,7 +3648,6 @@ function updateCharts() {
     var csPersen = document.getElementById('cs-persentase');
     if (csPersen) csPersen.textContent = persentase + '%';
 
-    // Update doughnut OF Cut
     var sumP3 = dataP3.reduce(function(a,b){return a+b;},0);
     var sumV = dataVandal.reduce(function(a,b){return a+b;},0);
     var sumB = dataBencana.reduce(function(a,b){return a+b;},0);
@@ -3718,7 +3667,6 @@ function updateCharts() {
       }
     }
 
-    // Update doughnut aset
     if (doughnutAset) {
       var countAlker = Object.keys(appData['Alker'] || {}).length;
       var countSpare = Object.keys(appData['Stok Spare'] || {}).length;
@@ -3847,7 +3795,6 @@ function updateAiStats() {
   }
 }
 
-/* FIX #3: STOK SPARE panel */
 function updateStokSpare() {
   var container = document.getElementById('stok-spare-list');
   var badge = document.getElementById('stok-spare-total-badge');
