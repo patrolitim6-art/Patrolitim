@@ -471,30 +471,37 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .filter-item-card.active .filter-check { display: inline-flex; }
 
 /* FIX #5: marker with label */
-.ml-marker { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 8px rgba(0, 217, 255, 0.8); cursor: pointer; will-change: transform; }
-.ml-marker-wrapper { position: relative; cursor: pointer; }
-.ml-marker-label {
-  position: absolute;
-  left: 50%; top: -22px;
-  transform: translateX(-50%);
-  background: rgba(10,14,26,0.92);
-  color: #E2E8F0;
-  border: 1px solid rgba(0,217,255,0.6);
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-size: 9px;
-  font-weight: 700;
-  white-space: nowrap;
-  pointer-events: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-  z-index: 5;
-  max-width: 130px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.2;
+/* Marker sederhana — titik tetap di koordinat */
+.ml-marker {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 8px rgba(0,217,255,0.8), 0 2px 4px rgba(0,0,0,0.4);
+  cursor: pointer;
+  will-change: transform;
 }
-:root[data-theme="light"] .ml-marker-label { background: rgba(255,255,255,0.95); color: #0F172A; border-color: rgba(224,82,82,0.6); }
 
+/* Label permanen di atas marker (pakai MapLibre Popup) */
+.ml-label-popup .maplibregl-popup-content {
+  background: rgba(10,14,26,0.92) !important;
+  color: #E2E8F0 !important;
+  border: 1px solid rgba(0,217,255,0.6) !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
+  white-space: nowrap !important;
+  max-width: 160px !important;
+  line-height: 1.2 !important;
+  pointer-events: none !important;
+}
+.ml-label-popup .maplibregl-popup-tip { display: none !important; }
+.ml-label-popup .maplibregl-popup-close-button { display: none !important; }
+:root[data-theme="light"] .ml-label-popup .maplibregl-popup-content {
+  background: rgba(255,255,255,0.95) !important;
+  color: #0F172A !important;
+  border-color: rgba(224,82,82,0.6) !important;
+}
 .draw-point { width: 12px; height: 12px; border-radius: 50%; background: #00D9FF; border: 2px solid #fff; box-shadow: 0 0 10px #00D9FF; cursor: pointer; pointer-events: auto; }
 .draw-point.first { background: #10B981; } .draw-point.last { background: #EC4899; }
 .draw-cursor-active #map-container, .draw-cursor-active #map-container canvas { cursor: crosshair !important; }
@@ -2145,31 +2152,52 @@ function applyFilterModal() {
     if (activeBtns.length === 0) selectedPointFilter = 'none';
     else if (activeBtns.length === POINT_CATEGORIES.length) selectedPointFilter = 'all';
     else selectedPointFilter = activeBtns[0].dataset.filterTitik;
-    loadMarkersFromData();
-    updateFilterCounts();
-    showToast('Filter titik diterapkan', 'success');
-  } else {
-    if (!selectedLineFilters) selectedLineFilters = {};
-    document.querySelectorAll('#map-filter-modal-content [data-filter-line]').forEach(function(b) {
-      selectedLineFilters[b.dataset.filterLine] = b.classList.contains('active');
-    });
-    applyLineFilters();
-    updateFilterCounts();
-    showToast('Filter line diterapkan', 'success');
-  }
-  closeMapFilterModal();
-}
-function updateFilterCounts() {
-  var titikCount = 0;
-  if (selectedPointFilter === 'all') titikCount = POINT_CATEGORIES.length;
-  else if (selectedPointFilter !== 'none') titikCount = 1;
-  var elTitik = document.getElementById('filter-titik-count'); if (elTitik) elTitik.textContent = titikCount;
-  var lineActive = 0;
-  if (allAvailableLines && selectedLineFilters) { allAvailableLines.forEach(function(n) { if (selectedLineFilters[n] !== false) lineActive++; }); }
-  var elLine = document.getElementById('filter-line-count'); if (elLine) elLine.textContent = lineActive;
-}
+    loadMarkersFromData();function loadMarkersFromData() {
+  if (!map) return;
+  markers.forEach(function(m) { try { m.remove(); } catch(e) {} }); markers = [];
+  var catsToShow = (selectedPointFilter === 'all') ? POINT_CATEGORIES.map(function(c) { return c.key; }) : (selectedPointFilter === 'none') ? [] : [selectedPointFilter];
+  catsToShow.forEach(function(cat) {
+    var items = appData[cat] || {}, catDef = POINT_CATEGORIES.find(function(c) { return c.key === cat; }), color = catDef ? catDef.color : '#00D9FF';
+    Object.keys(items).forEach(function(k) {
+      var it = items[k], lat = null, lng = null;
+      if (it.coords) { var p = String(it.coords).split(','); if (p.length === 2) { lat = parseFloat(p[0]); lng = parseFloat(p[1]); } }
+      if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
+        var title = it.location || it.nama || 'Lokasi';
+        var shortTitle = title.length > 22 ? title.substring(0, 22) + '…' : title;
 
-function setPointFilter(filter) { selectedPointFilter = filter; loadMarkersFromData(); updateFilterCounts(); if (typeof lucide !== 'undefined') lucide.createIcons(); }
+        // Marker: element HANYA titik (bukan wrapper) — titik tepat di koordinat
+        var el = document.createElement('div');
+        el.className = 'ml-marker';
+        el.style.background = color;
+        el.style.boxShadow = '0 0 8px ' + color + ', 0 2px 4px rgba(0,0,0,0.4)';
+
+        // Popup DETAIL (muncul saat klik)
+        var popupHtml = buildMarkerPopup(cat, it, title, color);
+        var popup = new maplibregl.Popup({ offset: 16, closeButton: true, maxWidth: '220px' }).setHTML(popupHtml);
+
+        var marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+          .setLngLat([lng, lat])
+          .setPopup(popup)
+          .addTo(map);
+
+        // Label PERMANEN di atas marker (popup terpisah, tidak menggeser marker)
+        var labelPopup = new maplibregl.Popup({
+          offset: 14,
+          closeButton: false,
+          closeOnClick: false,
+          className: 'ml-label-popup',
+          anchor: 'bottom'
+        })
+        .setLngLat([lng, lat])
+        .setHTML('<div>' + escapeHtml(shortTitle) + '</div>')
+        .addTo(map);
+
+        markers.push(marker);
+        markers.push(labelPopup);
+      }
+    });
+  });
+}
 
 /* ============================================================ LINE FILTER ============================================================ */
 function renderLineFilters() {
@@ -2574,7 +2602,11 @@ function buildMarkerPopup(cat, it, title, color) {
   html += '</div>';
   return html;
 }
-function updateMapMarkers() { if (!map) return; if (map.isStyleLoaded()) loadMarkersFromData(); else map.once('idle', loadMarkersFromData); }
+function updateMapMarkers() {
+  if (!map) return;
+  if (map.isStyleLoaded()) loadMarkersFromData();
+  else map.once('idle', loadMarkersFromData);
+}
 window.zoomIn = function() { if (map) map.zoomIn(); };
 window.zoomOut = function() { if (map) map.zoomOut(); };
 window.toggleMapLayer = function(t, evt) {
