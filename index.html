@@ -459,28 +459,8 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   will-change: transform;
 }
 
-/* Label permanen di atas marker */
-.ml-label-popup .maplibregl-popup-content {
-  background: rgba(10,14,26,0.92) !important;
-  color: #E2E8F0 !important;
-  border: 1px solid rgba(0,217,255,0.6) !important;
-  border-radius: 4px !important;
-  padding: 2px 6px !important;
-  font-size: 9px !important;
-  font-weight: 700 !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
-  white-space: nowrap !important;
-  max-width: 160px !important;
-  line-height: 1.2 !important;
-  pointer-events: none !important;
-}
-.ml-label-popup .maplibregl-popup-tip { display: none !important; }
-.ml-label-popup .maplibregl-popup-close-button { display: none !important; }
-:root[data-theme="light"] .ml-label-popup .maplibregl-popup-content {
-  background: rgba(255,255,255,0.95) !important;
-  color: #0F172A !important;
-  border-color: rgba(224,82,82,0.6) !important;
-}
+/* Label permanen di atas marker — DIHAPUS */
+/* .ml-label-popup ... */
 
 .draw-point { width: 12px; height: 12px; border-radius: 50%; background: #00D9FF; border: 2px solid #fff; box-shadow: 0 0 10px #00D9FF; cursor: pointer; pointer-events: auto; }
 .draw-point.first { background: #10B981; } .draw-point.last { background: #EC4899; }
@@ -2473,7 +2453,7 @@ function initMap() {
   } catch (e) { console.error('Map init:', e); }
 }
 
-/* MARKER: titik tepat di koordinat + label popup permanen */
+/* MARKER: titik tepat di koordinat — tanpa label permanen */
 function loadMarkersFromData() {
   if (!map) return;
   markers.forEach(function(m) { try { m.remove(); } catch(e) {} }); markers = [];
@@ -2485,7 +2465,6 @@ function loadMarkersFromData() {
       if (it.coords) { var p = String(it.coords).split(','); if (p.length === 2) { lat = parseFloat(p[0]); lng = parseFloat(p[1]); } }
       if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
         var title = it.location || it.nama || 'Lokasi';
-        var shortTitle = title.length > 22 ? title.substring(0, 22) + '…' : title;
 
         // Marker: element HANYA titik — anchor center tepat di koordinat
         var el = document.createElement('div');
@@ -2493,7 +2472,7 @@ function loadMarkersFromData() {
         el.style.background = color;
         el.style.boxShadow = '0 0 8px ' + color + ', 0 2px 4px rgba(0,0,0,0.4)';
 
-        // Popup DETAIL (muncul saat klik marker) — tanpa header judul
+        // Popup DETAIL (muncul saat klik marker) — DENGAN header judul
         var popupHtml = buildMarkerPopup(cat, it, title, color);
         var popup = new maplibregl.Popup({ offset: 16, closeButton: true, maxWidth: '220px' }).setHTML(popupHtml);
 
@@ -2502,26 +2481,13 @@ function loadMarkersFromData() {
           .setPopup(popup)
           .addTo(map);
 
-        // Label PERMANEN di atas marker — popup terpisah, tidak menggeser marker
-        var labelPopup = new maplibregl.Popup({
-          offset: 14,
-          closeButton: false,
-          closeOnClick: false,
-          className: 'ml-label-popup',
-          anchor: 'bottom'
-        })
-        .setLngLat([lng, lat])
-        .setHTML('<div>' + escapeHtml(shortTitle) + '</div>')
-        .addTo(map);
-
         markers.push(marker);
-        markers.push(labelPopup);
       }
     });
   });
 }
 
-/* buildMarkerPopup — TANPA header judul (karena sudah ada label) */
+/* buildMarkerPopup — DENGAN header judul */
 function buildMarkerPopup(cat, it, title, color) {
   function row(label, value, valueColor) {
     if (value === undefined || value === null || value === '') return '';
@@ -2551,8 +2517,9 @@ function buildMarkerPopup(cat, it, title, color) {
   var ket = it.keterangan || it.notes || it.keterangan_normal || '';
   if (ket && ket.length > 60) ket = ket.substring(0, 60) + '…';
 
-  // TANPA header judul di atas
+  // DENGAN header judul di atas
   var html = '<div style="min-width:140px;max-width:200px;">';
+  html += '<div style="font-weight:800;font-size:10px;color:' + color + ';margin-bottom:4px;padding-bottom:4px;border-bottom:1px solid rgba(148,163,184,0.25);word-break:break-word;">' + escapeHtml(title) + '</div>';
   html += '<div style="display:grid;grid-template-columns:auto 1fr;gap:1px 6px;font-size:9px;line-height:1.25;">' + rowsHtml + '</div>';
   if (ket) html += '<div style="margin-top:4px;padding-top:4px;border-top:1px dashed rgba(148,163,184,0.25);font-size:9px;color:#E2E8F0;line-height:1.25;">' + escapeHtml(ket) + '</div>';
   html += '</div>';
