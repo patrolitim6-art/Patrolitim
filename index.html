@@ -211,21 +211,12 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .toast.warning { border-color: #F59E0B; }
 
 /* ============================================================
-   DASHBOARD GRID — REVISI
+   DASHBOARD GRID — REVISI v3.2
    ============================================================ */
 .ai-dashboard { display: flex; flex-direction: column; gap: 14px; }
 .ai-row-hero { display: grid; grid-template-columns: 1fr; gap: 14px; }
 
-.ai-hero {
-  background: var(--surface-hero);
-  border: 1px solid var(--border-glow);
-  border-radius: var(--radius);
-  padding: 24px 26px;
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 12px 40px rgba(0, 217, 255, 0.10);
-}
+.ai-hero { background: var(--surface-hero); border: 1px solid var(--border-glow); border-radius: var(--radius); padding: 24px 26px; position: relative; overflow: hidden; backdrop-filter: blur(12px); box-shadow: 0 12px 40px rgba(0, 217, 255, 0.10); }
 .ai-hero::before { content: ''; position: absolute; top: -50%; right: -10%; width: 320px; height: 320px; background: radial-gradient(circle, var(--bg-pattern-2) 0%, transparent 70%); border-radius: 50%; animation: float 8s ease-in-out infinite; pointer-events: none; }
 @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -20px); } }
 .ai-hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 99px; background: rgba(0, 217, 255, 0.12); border: 1px solid var(--border-glow); color: var(--primary-cyan); font-size: var(--app-font-size-xs); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; position: relative; z-index: 1; font-family: 'Orbitron', sans-serif; }
@@ -243,29 +234,22 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .ai-stat-mini .stat-value.red { color: #EF4444; }
 .ai-stat-mini .stat-value.purple { color: var(--primary-purple); }
 
-/* REVISI: ROW 2 = Kategori | Peta | Grafik (3 kolom simetris) */
+/* REVISI v3.2: Kategori (240px) | Peta (1fr lebar) | Grafik (240px = Kategori) */
 .ai-row-middle {
   display: grid;
-  grid-template-columns: 240px 1fr 1fr;
+  grid-template-columns: 240px 1fr 240px;
   gap: 14px;
   align-items: stretch;
 }
 @media (max-width: 1280px) {
-  .ai-row-middle { grid-template-columns: 220px 1fr 1fr; }
+  .ai-row-middle { grid-template-columns: 220px 1fr 220px; }
 }
 @media (max-width: 1100px) {
   .ai-row-middle { grid-template-columns: 1fr; }
 }
 
-/* REVISI: ROW 3 = YTD + Rekap | Ringkasan */
-.ai-row-bottom {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 14px;
-}
-@media (max-width: 1100px) {
-  .ai-row-bottom { grid-template-columns: 1fr; }
-}
+.ai-row-bottom { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
+@media (max-width: 1100px) { .ai-row-bottom { grid-template-columns: 1fr; } }
 
 .ai-panel { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 16px; position: relative; overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; backdrop-filter: blur(16px); box-shadow: var(--shadow-card); display: flex; flex-direction: column; }
 .ai-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.55; }
@@ -281,7 +265,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .ai-cat-name { flex: 1; font-weight: 600; color: var(--text-main); font-size: var(--app-font-size-xs); }
 .ai-cat-value { font-weight: 800; font-family: 'Orbitron', sans-serif; color: var(--primary-cyan); font-size: var(--app-font-size-sm); }
 
-/* Rekap table compact */
 .chart-rekap-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: var(--app-font-size-xs); }
 .chart-rekap-table th { background: var(--surface-table-header-solid) !important; padding: 5px 4px; text-align: center; border: 1px solid var(--surface-table-border-solid); font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; font-size: var(--app-font-size-xs); position: sticky; top: 0; z-index: 5; }
 .chart-rekap-table th.col-total { background: linear-gradient(135deg, #064E3B 0%, #0F172A 100%) !important; color: #34D399 !important; border-left: 2px solid rgba(16, 185, 129, 0.8); border-right: 2px solid rgba(16, 185, 129, 0.8); }
@@ -309,89 +292,51 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .ai-gudang-row { display: flex; justify-content: space-between; font-size: var(--app-font-size-xs); color: var(--text-muted); padding: 8px 12px; background: var(--surface-3); border-radius: 8px; border: 1px solid var(--border-subtle); transition: all 0.15s; }
 .ai-gudang-row:hover { border-color: var(--border-glow); }
 .ai-gudang-row strong { color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; }
-.ai-task-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--surface-3); margin-bottom: 6px; transition: all 0.15s; }
-.ai-task-item:hover { border-color: var(--border-glow); transform: translateX(2px); }
-.ai-task-icon { width: 30px; height: 30px; border-radius: 7px; background: rgba(0, 217, 255, 0.12); color: var(--primary-cyan); display: grid; place-items: center; font-size: 14px; flex-shrink: 0; }
-.ai-task-info { flex: 1; min-width: 0; }
-.ai-task-title { font-size: var(--app-font-size-xs); font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ai-task-sub { font-size: calc(var(--app-font-size) - 3px); color: var(--text-dim); margin-top: 1px; }
 
-/* Chart wrap */
-.ai-chart-wrap { position: relative; height: 240px; flex: 1; }
+.ai-chart-wrap { position: relative; height: 300px; flex: 1; }
 
-/* PETA */
 #map-container { height: 100%; min-height: 420px; border-radius: 0; z-index: 1; overflow: hidden; position: relative; }
 
-/* Filter Buttons (tombol popup) */
-.map-filter-buttons-row {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.map-filter-btn-popup {
-  flex: 1;
-  min-width: 130px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--border-subtle);
-  background: var(--surface-3);
-  cursor: pointer;
-  font-weight: 700;
-  color: var(--text-main);
-  font-family: inherit;
-  font-size: var(--app-font-size-xs);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: all 0.2s;
-}
+.map-filter-buttons-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.map-filter-btn-popup { flex: 1; min-width: 130px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--surface-3); cursor: pointer; font-weight: 700; color: var(--text-main); font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; }
 .map-filter-btn-popup:hover { border-color: var(--primary-cyan); background: rgba(0,217,255,0.08); }
-:root[data-theme="light"] .map-filter-btn-popup:hover { background: rgba(224,82,82,0.06); }
 .map-filter-btn-popup.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; }
 
-/* Modal filter peta */
 .map-filter-modal { position: fixed; z-index: 110; inset: 0; background: rgba(5,8,16,0.85); backdrop-filter: blur(10px); display: grid; place-items: center; padding: 20px; }
 .map-filter-modal-card { background: var(--surface-modal); border: 1px solid var(--border-glow); border-radius: 18px; width: 100%; max-width: 520px; padding: 20px; max-height: 85vh; overflow-y: auto; box-shadow: var(--shadow-modal); }
 .map-filter-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle); }
 .map-filter-modal-title { font-size: var(--app-font-size-lg); font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
 
-/* Filter item rows dalam modal */
 .filter-item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
-.filter-item-card {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1.5px solid var(--border-subtle);
-  background: var(--surface-3);
-  cursor: pointer;
-  font-weight: 600;
-  color: var(--text-muted);
-  font-family: inherit;
-  font-size: var(--app-font-size-xs);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s;
-  text-align: left;
-  min-height: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+.filter-item-card { padding: 10px; border-radius: 10px; border: 1.5px solid var(--border-subtle); background: var(--surface-3); cursor: pointer; font-weight: 600; color: var(--text-muted); font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; text-align: left; min-height: 40px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .filter-item-card:hover { border-color: var(--primary-cyan); }
 .filter-item-card.active { border-color: var(--primary-cyan); background: rgba(0,217,255,0.12); color: var(--text-main); font-weight: 700; box-shadow: 0 0 0 2px rgba(0,217,255,0.15); }
 .filter-item-card .filter-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.25); }
 .filter-item-card .filter-check { margin-left: auto; color: var(--primary-cyan); display: none; }
 .filter-item-card.active .filter-check { display: inline-flex; }
 
-/* Marker */
 .ml-marker { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 8px rgba(0, 217, 255, 0.8); cursor: pointer; will-change: transform; }
 .draw-point { width: 12px; height: 12px; border-radius: 50%; background: #00D9FF; border: 2px solid #fff; box-shadow: 0 0 10px #00D9FF; cursor: pointer; pointer-events: auto; }
 .draw-point.first { background: #10B981; } .draw-point.last { background: #EC4899; }
 .draw-cursor-active #map-container, .draw-cursor-active #map-container canvas { cursor: crosshair !important; }
-.maplibregl-popup-content { background: var(--surface-map-legend) !important; color: var(--text-main) !important; border: 1px solid var(--border-glow) !important; border-radius: 10px !important; padding: 8px 10px !important; backdrop-filter: blur(8px); box-shadow: 0 8px 24px rgba(0, 217, 255, 0.25) !important; max-width: 260px !important; white-space: normal !important; line-height: 1.4; font-size: 11px !important; }
+
+/* REVISI v3.2: Popup marker diperkecil lagi */
+.maplibregl-popup-content {
+  background: var(--surface-map-legend) !important;
+  color: var(--text-main) !important;
+  border: 1px solid var(--border-glow) !important;
+  border-radius: 8px !important;
+  padding: 6px 8px !important;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 18px rgba(0, 217, 255, 0.22) !important;
+  max-width: 190px !important;
+  min-width: 140px !important;
+  white-space: normal !important;
+  line-height: 1.3;
+  font-size: 9px !important;
+}
 .maplibregl-popup-tip { border-top-color: var(--surface-map-legend) !important; border-bottom-color: var(--surface-map-legend) !important; }
-.maplibregl-popup-close-button { color: var(--primary-cyan) !important; font-size: 16px !important; padding: 0 6px !important; }
+.maplibregl-popup-close-button { color: var(--primary-cyan) !important; font-size: 14px !important; padding: 0 4px !important; line-height: 1 !important; }
 .maplibregl-ctrl-top-right, .maplibregl-ctrl-top-left, .maplibregl-ctrl-bottom-right, .maplibregl-ctrl-bottom-left { display: none !important; }
 #map-container canvas, #map-modal-container canvas { outline: none !important; }
 .custom-map-controls { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
@@ -399,7 +344,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .custom-map-btn:hover { background: rgba(0, 217, 255, 0.15); transform: translateY(-2px); }
 .custom-map-btn.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; }
 
-/* Tables */
 .records-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: auto; font-size: var(--app-font-size-sm); }
 .records-table th { background: var(--surface-table-header-solid) !important; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--surface-table-border-solid); font-weight: 700; color: var(--primary-cyan); white-space: nowrap; text-transform: uppercase; letter-spacing: 1px; font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-xs); position: sticky; top: 0; z-index: 10; }
 .records-table td { padding: 10px 12px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; color: var(--text-main); word-break: break-word; overflow-wrap: anywhere; font-size: var(--app-font-size-sm); }
@@ -486,7 +430,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 
 @media (max-width: 720px) {
   .ai-hero-stats { grid-template-columns: repeat(2, 1fr); }
-  .ai-chart-wrap { height: 200px; }
+  .ai-chart-wrap { height: 240px; }
 }
 </style>
 </head>
@@ -668,13 +612,9 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 
     <main class="main-content">
 
-      <!-- ============================================================
-           DASHBOARD VIEW — REVISI LAYOUT
-           ============================================================ -->
       <section id="dashboard-view">
         <div class="ai-dashboard">
 
-          <!-- ROW 1: HERO -->
           <div class="ai-row-hero">
             <div class="ai-hero">
               <div class="ai-hero-badge">
@@ -684,7 +624,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
               <p class="ai-hero-sub">Pusat Operasi Jaringan Fiber Optik · Sulawesi Utara</p>
               <p class="hero-about" id="hero-about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
 
-              <!-- REVISI: Total Aset → Stok Spare, Titik Online → Handhole -->
               <div class="ai-hero-stats">
                 <div class="ai-stat-mini">
                   <div class="stat-label">Stok Spare</div>
@@ -706,10 +645,9 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </div>
           </div>
 
-          <!-- ROW 2: REVISI — Kategori | Peta | Grafik OF Cut -->
+          <!-- REVISI v3.2: Kategori 240px | Peta 1fr | Grafik 240px -->
           <div class="ai-row-middle">
 
-            <!-- Kiri: Kategori -->
             <div class="ai-panel">
               <div class="ai-panel-header">
                 <div class="ai-panel-title"><span class="dot"></span> Kategori</div>
@@ -717,7 +655,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
               <div class="ai-cat-list" id="ai-cat-list"></div>
             </div>
 
-            <!-- Tengah: Peta -->
             <div class="ai-panel" style="padding:0;overflow:hidden;">
               <div style="padding:12px 14px;border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
                 <div class="ai-panel-title"><span class="dot"></span> Peta Line & Titik Aset</div>
@@ -728,7 +665,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                 </div>
               </div>
 
-              <!-- REVISI: Filter dipindah jadi tombol popup -->
               <div style="padding:10px 12px;border-bottom:1px solid var(--border-subtle);">
                 <div class="map-filter-buttons-row">
                   <button class="map-filter-btn-popup" onclick="openMapFilterModal('titik')">
@@ -764,7 +700,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
               </div>
             </div>
 
-            <!-- Kanan: Grafik OF Cut (sekarang simetris dengan Kategori) -->
             <div class="ai-panel">
               <div class="ai-panel-header">
                 <div class="ai-panel-title"><span class="dot"></span> Grafik OF Cut</div>
@@ -776,9 +711,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </div>
           </div>
 
-          <!-- ROW 3: YTD + Rekap Tahunan | Ringkasan -->
           <div class="ai-row-bottom">
-            <!-- Kiri: Perbandingan Tahunan + Rekap Tahunan (bukan bulanan) -->
             <div class="ai-panel">
               <div class="ai-panel-header">
                 <div class="ai-panel-title"><span class="dot"></span> Perbandingan Tahunan</div>
@@ -812,7 +745,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
               </div>
             </div>
 
-            <!-- Kanan: Ringkasan Aset -->
             <div class="ai-panel">
               <div class="ai-panel-header">
                 <div class="ai-panel-title"><span class="dot"></span> Ringkasan Aset</div>
@@ -858,7 +790,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
         </div>
       </section>
 
-      <!-- DATA VIEW -->
       <section id="data-view" class="hidden">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
           <div>
@@ -1658,7 +1589,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
       <p style="line-height:1.7;color:var(--text-muted);margin-top:10px;font-size:var(--app-font-size-sm);">Sistem informasi operasional untuk tim patroli jaringan fiber optik di wilayah <strong style="color:var(--text-main);">Sulawesi Utara</strong>.</p>
     </div>
     <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);">
-      <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">&copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Versi 3.1.0</p>
+      <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">&copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Versi 3.2.0</p>
     </div>
     <div style="margin-top:16px;display:flex;justify-content:center;">
       <button onclick="closeAboutModal()" class="btn-primary" style="min-width:200px;justify-content:center;">Mengerti</button>
@@ -2087,7 +2018,7 @@ function generateAlkerSN(nama, jenis, merk, date, urutan) {
 }
 function getNextAlkerUrutan() { return Object.keys(appData['Alker'] || {}).length + 1; }
 
-/* ============================================================ FILTER MODAL (POPUP GRID) ============================================================ */
+/* ============================================================ FILTER MODAL ============================================================ */
 function openMapFilterModal(mode) {
   filterModalMode = mode;
   var modal = document.getElementById('map-filter-modal');
@@ -2181,12 +2112,7 @@ function updateFilterCounts() {
 }
 
 /* ============================================================ POINT FILTER ============================================================ */
-function setPointFilter(filter) {
-  selectedPointFilter = filter;
-  loadMarkersFromData();
-  updateFilterCounts();
-  if (typeof lucide !== 'undefined') lucide.createIcons();
-}
+function setPointFilter(filter) { selectedPointFilter = filter; loadMarkersFromData(); updateFilterCounts(); if (typeof lucide !== 'undefined') lucide.createIcons(); }
 
 /* ============================================================ LINE FILTER ============================================================ */
 function renderLineFilters() {
@@ -2348,13 +2274,11 @@ function submitOpmDataToDb() {
   }).catch(function(err) { showToast(err.message || 'Gagal', 'error'); }).finally(function() { btn.disabled = false; btn.innerHTML = orig; });
 }
 
-/* ============================================================ KML — REVISI DATABASE ============================================================ */
-// REVISI: attachKmlManagerListener juga populate selectedLineFilters & allAvailableLines
+/* ============================================================ KML ============================================================ */
 function attachKmlManagerListener() {
   if (!db || kmlManagerAttached) return;
   db.ref('kmlData').on('value', function(s) {
     kmlDataCache = s.val() || {};
-    // Update selectedLineFilters juga
     if (selectedLineFilters) {
       Object.keys(kmlDataCache).forEach(function(n) {
         if (selectedLineFilters[n] === undefined) selectedLineFilters[n] = true;
@@ -2362,7 +2286,6 @@ function attachKmlManagerListener() {
     }
     var mgr = document.getElementById('kml-manager-modal');
     if (mgr && !mgr.classList.contains('hidden')) renderKmlManagerList();
-    // Re-render line filters & counts
     try { renderLineFilters(); } catch (e) {}
     try { updateFilterCounts(); } catch (e) {}
   });
@@ -2372,7 +2295,6 @@ function closeKmlModal() { document.getElementById('kml-modal').classList.add('h
 function bukaKmlManager() {
   document.getElementById('kml-manager-modal').classList.remove('hidden');
   document.getElementById('kml-list-search').value = '';
-  // Force fetch ulang dari database
   if (db) {
     db.ref('kmlData').once('value').then(function(s) { kmlDataCache = s.val() || {}; renderKmlManagerList(); }).catch(function() { renderKmlManagerList(); });
   } else renderKmlManagerList();
@@ -2534,27 +2456,27 @@ function loadMarkersFromData() {
         var title = it.location || it.nama || 'Lokasi';
         el.title = title + ' — ' + cat;
         var popupHtml = buildMarkerPopup(cat, it, title, color);
-        var popup = new maplibregl.Popup({ offset: 10, closeButton: true, maxWidth: '260px' }).setHTML(popupHtml);
+        var popup = new maplibregl.Popup({ offset: 8, closeButton: true, maxWidth: '190px' }).setHTML(popupHtml);
         var marker = new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat([lng, lat]).setPopup(popup).addTo(map);
         markers.push(marker);
       }
     });
   });
 }
-/* REVISI: Popup kecil & presisi */
+/* REVISI v3.2: Popup lebih kecil */
 function buildMarkerPopup(cat, it, title, color) {
   function row(label, value, valueColor) {
     if (value === undefined || value === null || value === '') return '';
-    return '<div style="color:#94A3B8;font-weight:700;white-space:nowrap;font-size:9px;">' + label + '</div>' +
-           '<div style="color:' + (valueColor || '#E2E8F0') + ';font-weight:600;word-break:break-word;font-size:10px;">' + escapeHtml(String(value)) + '</div>';
+    return '<div style="color:#94A3B8;font-weight:700;white-space:nowrap;font-size:8px;">' + label + '</div>' +
+           '<div style="color:' + (valueColor || '#E2E8F0') + ';font-weight:600;word-break:break-word;font-size:9px;">' + escapeHtml(String(value)) + '</div>';
   }
   var rowsHtml = '';
   if (cat === 'Data OF Cut') {
     rowsHtml += row('Tgl', it.date);
     rowsHtml += row('Lokasi', it.location);
     rowsHtml += row('Durasi', (it.durasiText || (it.durasiMenit ? it.durasiMenit + 'm' : '')), '#10B981');
-    rowsHtml += row('Panjang', it.panjangCut ? it.panjangCut + ' M' : '');
-    rowsHtml += row('Penyebab', it.penyebab, '#EC4899');
+    rowsHtml += row('Pjg', it.panjangCut ? it.panjangCut + 'M' : '');
+    rowsHtml += row('Sebab', it.penyebab, '#EC4899');
   } else if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
     rowsHtml += row('Tgl', it.date);
     rowsHtml += row('Lokasi', it.location);
@@ -2566,11 +2488,15 @@ function buildMarkerPopup(cat, it, title, color) {
     rowsHtml += row('Kondisi', it.kondisi);
   }
   var ket = it.keterangan || it.notes || it.keterangan_normal || '';
-  var html = '<div style="min-width:180px;max-width:240px;">';
-  html += '<div style="font-weight:800;color:' + color + ';font-size:11px;border-bottom:1px solid rgba(148,163,184,0.25);padding-bottom:4px;margin-bottom:6px;display:flex;align-items:center;gap:5px;line-height:1.2;">';
-  html += '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:' + color + ';flex-shrink:0;"></span>' + escapeHtml(title) + '</div>';
-  html += '<div style="display:grid;grid-template-columns:auto 1fr;gap:2px 8px;font-size:10px;line-height:1.3;">' + rowsHtml + '</div>';
-  if (ket) { html += '<div style="margin-top:6px;padding-top:6px;border-top:1px dashed rgba(148,163,184,0.25);font-size:10px;color:#E2E8F0;line-height:1.3;">' + escapeHtml(ket) + '</div>'; }
+  if (ket && ket.length > 60) ket = ket.substring(0, 60) + '…';
+
+  var html = '<div style="min-width:140px;max-width:180px;">';
+  html += '<div style="font-weight:800;color:' + color + ';font-size:9px;border-bottom:1px solid rgba(148,163,184,0.25);padding-bottom:3px;margin-bottom:4px;display:flex;align-items:center;gap:4px;line-height:1.15;">';
+  html += '<span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:' + color + ';flex-shrink:0;"></span>' + escapeHtml(title) + '</div>';
+  html += '<div style="display:grid;grid-template-columns:auto 1fr;gap:1px 6px;font-size:9px;line-height:1.25;">' + rowsHtml + '</div>';
+  if (ket) {
+    html += '<div style="margin-top:4px;padding-top:4px;border-top:1px dashed rgba(148,163,184,0.25);font-size:9px;color:#E2E8F0;line-height:1.25;">' + escapeHtml(ket) + '</div>';
+  }
   html += '</div>';
   return html;
 }
@@ -2932,7 +2858,6 @@ function renderTable() {
     var isSpare = cat === 'Stok Spare', isPatch = cat === 'Patch Cord', isAlker = cat === 'Alker';
     var isHJ = ['Handhole', 'Joint'].indexOf(cat) !== -1, isOfCut = cat === 'Data OF Cut';
     var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
-    // REVISI: kolom "Tipe" Patch Cord → "Status"
     if (isSpare) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Keterangan</th><th class="col-aksi">Aksi</th></tr>';
     else if (isPatch) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Status</th><th>Qty</th><th class="col-aksi">Aksi</th></tr>';
     else if (isAlker) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Nama Alker</th><th>SN</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Satuan</th><th>Keterangan</th><th class="col-aksi">Aksi</th></tr>';
@@ -2947,7 +2872,6 @@ function renderTable() {
       var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')"><i data-lucide="pencil" style="width:16px;"></i></button><button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '';
       var ket = it.keterangan || it.notes || it.keterangan_normal || '';
       var ketHtml = ket ? escapeHtml(ket) : '<span style="opacity:0.35;">—</span>';
-      // REVISI: kolom Status Patch Cord pakai badge
       if (isSpare) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
       else if (isPatch) {
         var pcStatus = (it.trType === 'Masuk') ? 'Masuk' : 'Keluar';
@@ -3065,7 +2989,7 @@ function updatePatchcordSaldoInfo() {
   infoEl.style.display = 'block';
 }
 
-/* ============================================================ FORM SUBMIT — REVISI PATCH CORD AUTO-UPDATE ============================================================ */
+/* ============================================================ FORM SUBMIT ============================================================ */
 function submitForm(e) {
   if (e && e.preventDefault) e.preventDefault();
   if (isSubmitting) { showToast('Sedang memproses...', 'error'); return; }
@@ -3093,8 +3017,6 @@ function submitForm(e) {
       if (qty > saldoTersedia) { showToast('❌ Stok tidak cukup! Saldo: ' + saldoTersedia + ' | Diminta: ' + qty, 'error'); return; }
     }
     if (trType === 'Keluar' && !notes) { showToast('Keterangan wajib', 'error'); return; }
-
-    // REVISI: AUTO-UPDATE dari data yang ada (nama + jenis + panjang + gudang sama → UPDATE row)
     var existingPC = appData['Patch Cord'] || {};
     var existingKey = null;
     Object.keys(existingPC).forEach(function(k) {
@@ -3106,27 +3028,20 @@ function submitForm(e) {
       if (isEdit && k === editKey) return;
       existingKey = k;
     });
-
     var oldQty = 0;
     if (existingKey) {
       var exRow = existingPC[existingKey];
-      // Jika tipe transaksi baru BEDA dengan yang lama, reject (harus satu arah)
       if ((exRow.trType || 'Masuk') !== trType) {
-        showToast('⚠ Jenis ' + pcType + ' ' + pcLength + ' sudah ada sebagai "' + exRow.trType + '". Tidak bisa mix arah. Silakan hapus atau edit data lama.', 'error');
+        showToast('⚠ Jenis ' + pcType + ' ' + pcLength + ' sudah ada sebagai "' + exRow.trType + '". Tidak bisa mix arah.', 'error');
         return;
       }
       oldQty = parseInt(exRow.qty) || 0;
     }
-
-    // Siapkan data update
     var finalQty;
     if (existingKey) {
-      // Update: tambah/kurangi qty dari row yang ada
       if (trType === 'Masuk') finalQty = oldQty + qty;
-      else finalQty = oldQty + qty; // qty keluar dijumlahkan juga (karena row menyimpan TOTAL keluar)
-      // Cek saldo setelah update
+      else finalQty = oldQty + qty;
       if (trType === 'Keluar') {
-        // hitung saldo masuk total untuk kelompok ini
         var totalMasuk = 0, totalKeluarLain = 0;
         Object.keys(existingPC).forEach(function(k) {
           if (k === existingKey) return;
@@ -3140,7 +3055,6 @@ function submitForm(e) {
         });
         if (finalQty + totalKeluarLain > totalMasuk) { showToast('❌ Total keluar melebihi saldo masuk!', 'error'); return; }
       }
-      // Update row yang ada
       isEdit = true;
       editKey = existingKey;
       data.pcType = pcType.toUpperCase();
@@ -3156,7 +3070,6 @@ function submitForm(e) {
       ketText = notes;
       showToast('Stok ' + pcType + ' ' + pcLength + ' di-update (Total: ' + finalQty + ')', 'success');
     } else {
-      // Buat row baru
       data.pcType = pcType.toUpperCase();
       data.pcLength = pcLength;
       data.gudang = selectedGudang;
@@ -3290,7 +3203,6 @@ function closeModal() {
   selectedOpmPort = ''; opmTempPorts = [];
   var cbb = document.getElementById('inp-opm-used'); if (cbb) cbb.checked = false;
   var lw = document.getElementById('opm-used-label-wrap'); if (lw) lw.classList.add('hidden');
-  var qw = document.getElementById('patchcord-qty-warn'); if (qw) qw.style.display = 'none';
   try { renderOpmTempList(); renderOpmPortDropdown(); } catch (e) {}
 }
 function stopScanner(t) { var c = document.getElementById('modal-scanner'); if (c) { c.classList.remove('active'); c.style.display = 'none'; } if (quaggaRunning && typeof Quagga !== 'undefined') { try { Quagga.stop(); } catch (e) {} quaggaRunning = false; } if (scannerStream) { scannerStream.getTracks().forEach(function(x) { x.stop(); }); scannerStream = null; } }
@@ -3599,7 +3511,6 @@ function updateCharts() {
     renderYearComparison(selectedYear);
   } catch (e) { console.error('updateCharts error:', e); }
 }
-/* REVISI: Rekap Tahunan (bukan bulanan) — mulai 2025 */
 function renderRekapTableTahunan(currentYearNum) {
   var tbody = document.getElementById('chart-rekap-body'); if (!tbody) return;
   var years = [];
@@ -3640,7 +3551,6 @@ function getYearTotals(year) {
   totals.total = totals.p3 + totals.vandal + totals.bencana + totals.lainnya;
   return totals;
 }
-/* REVISI: Persentase lebih kecil lagi */
 function renderYearComparison(currentYearNum) {
   var prevYearNum = currentYearNum - 1;
   var labelEl = document.getElementById('ytd-year-label'), prevLabelEl = document.getElementById('ytd-prev-year-label');
@@ -3666,12 +3576,10 @@ function renderYearComparison(currentYearNum) {
 }
 function updateChartPeriod() { updateCharts(); }
 function updateDashboard() { updateCharts(); updateMapMarkers(); try { updateAiStats(); } catch (e) {} }
-function updateAiDonutChart() {}
 
-/* ============================================================ AI STATS — REVISI ============================================================ */
+/* ============================================================ AI STATS ============================================================ */
 function updateAiStats() {
   function count(cat) { return Object.keys(appData[cat] || {}).length; }
-  // REVISI: Stok Spare = Total stok spare (Ready + Out), Handhole = count HH
   var stokSpareItems = Object.values(appData['Stok Spare'] || {});
   var totalStokSpare = stokSpareItems.length;
   var totalHH = count('Handhole');
@@ -3840,7 +3748,6 @@ function setupEventListeners() {
   var pp = document.getElementById('inp-ofcut-penyebab'); if (pp) pp.addEventListener('change', togglePenyebabLain);
   var pt = document.getElementById('inp-pc-type'), pl = document.getElementById('inp-pc-length');
   if (pt) pt.addEventListener('change', togglePatchLain); if (pl) pl.addEventListener('change', togglePatchLain);
-  // Listener untuk update saldo
   ['inp-pc-type', 'inp-pc-length', 'inp-pc-type-lain', 'inp-pc-length-lain'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) { el.addEventListener('change', updatePatchcordSaldoInfo); el.addEventListener('input', updatePatchcordSaldoInfo); }
