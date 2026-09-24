@@ -165,6 +165,24 @@
 }
 .ai-panel:hover { box-shadow: 0 20px 48px rgba(0, 217, 255, 0.24), 0 0 0 1px var(--border-glow) inset; }
 
+/* ============ MAPS: HILANGKAN EFEK HOVER ============ */
+.ai-panel-map,
+.ai-panel-map:hover {
+  transform: none !important;
+  box-shadow: var(--shadow-card) !important;
+  filter: none !important;
+  will-change: auto !important;
+}
+.ai-panel-map * { will-change: auto !important; }
+#map-container,
+#map-container:hover,
+#map-container canvas,
+#map-container canvas:hover {
+  transform: none !important;
+  transition: none !important;
+}
+/* ============ END MAPS ============ */
+
 .ai-row-hero { transform-style: preserve-3d; }
 .ai-hero {
   transform-style: preserve-3d;
@@ -362,7 +380,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 :root[data-theme="light"] .hero-big-number .hbn-value { background: none; -webkit-text-fill-color: #C93F3F; color: #C93F3F; }
 @media (max-width: 720px) { .hero-big-number { position: static; text-align: left; margin-bottom: 12px; } .hero-big-number .hbn-value { font-size: 32px; } }
 
-/* HERO TITLE — DISERAGAMKAN */
 .ai-hero-title { font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-3xl); font-weight: 900; line-height: 1.2; margin-bottom: 8px; position: relative; z-index: 3; letter-spacing: 0.5px; }
 .ai-hero-title .accent { background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .ai-hero-sub { font-size: var(--app-font-size-sm); color: var(--text-muted); margin-bottom: 18px; position: relative; z-index: 3; line-height: 1.5; }
@@ -2489,13 +2506,11 @@ function loadMarkersFromData() {
       if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
         var title = it.location || it.nama || 'Lokasi';
 
-        // Marker: element HANYA titik — anchor center tepat di koordinat
         var el = document.createElement('div');
         el.className = 'ml-marker';
         el.style.background = color;
         el.style.boxShadow = '0 0 8px ' + color + ', 0 2px 4px rgba(0,0,0,0.4)';
 
-        // Popup DETAIL (muncul saat klik marker) — data lengkap sesuai menu OF Cut
         var popupHtml = buildMarkerPopup(cat, it, title, color);
         var popup = new maplibregl.Popup({ offset: 14, closeButton: true, maxWidth: '230px' }).setHTML(popupHtml);
 
@@ -3639,11 +3654,15 @@ function updateCharts() {
     for (var i = 0; i < 12; i++) total += dataP3[i] + dataVandal[i] + dataBencana[i] + dataLainnya[i];
     var csTotal = document.getElementById('cs-total'); if (csTotal) csTotal.textContent = total;
 
+    /* ============ PERBAIKAN PERSENTASE ============ */
+    /* Hitung total seluruh OF Cut di SEMUA tahun (untuk denominator) */
     var grandTotalAllYears = 0;
     Object.keys(ofCutItems).forEach(function(k) { if (ofCutItems[k].date) grandTotalAllYears++; });
+    /* Persentase = total tahun terpilih ÷ grand total semua tahun × 100% */
     var persentase = grandTotalAllYears > 0 ? Math.round((total / grandTotalAllYears) * 100) : 0;
     var csPersen = document.getElementById('cs-persentase');
     if (csPersen) csPersen.textContent = persentase + '%';
+    /* ============ END PERBAIKAN ============ */
 
     var sumP3 = dataP3.reduce(function(a,b){return a+b;},0);
     var sumV = dataVandal.reduce(function(a,b){return a+b;},0);
