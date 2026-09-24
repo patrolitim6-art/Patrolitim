@@ -147,29 +147,46 @@
 .hero-orb.o3 { width: 140px; height: 140px; top: 30%; left: 45%; background: radial-gradient(circle, rgba(236,72,153,0.22) 0%, transparent 70%); animation: orbFloat3 13s ease-in-out infinite; opacity: 0.65; }
 :root[data-theme="light"] .hero-orb { opacity: 0.4; }
 
+/* ============ SEMI 3D ============ */
+.ai-dashboard { perspective: 1600px; perspective-origin: 50% 0%; }
+
 .card, .ai-panel, .ytd-card, .about-info-card, .user-list-item, .kml-list-item, .opm-step-card {
-  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.32s ease, background 0.3s ease;
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.42s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.32s ease, background 0.3s ease;
   will-change: transform;
   transform-style: preserve-3d;
   filter: none !important;
   backdrop-filter: none !important;
 }
 .card:hover, .ai-panel:hover, .ytd-card:hover, .about-info-card:hover, .user-list-item:hover, .kml-list-item:hover, .opm-step-card:hover {
-  transform: translateY(-5px) scale(1.012);
+  transform: translateY(-6px) rotateX(1.2deg) rotateY(-1.2deg) scale(1.014);
+  box-shadow: 0 20px 48px rgba(0, 217, 255, 0.22), 0 0 0 1px var(--border-glow) inset;
   filter: none !important;
   backdrop-filter: none !important;
 }
-.ai-panel:hover { box-shadow: var(--shadow-card-hover), 0 0 0 1px var(--border-glow) inset; }
+.ai-panel:hover { box-shadow: 0 20px 48px rgba(0, 217, 255, 0.24), 0 0 0 1px var(--border-glow) inset; }
+
+.ai-row-hero { transform-style: preserve-3d; }
+.ai-hero {
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease;
+}
+.ai-hero:hover {
+  transform: translateY(-4px) rotateX(0.8deg) scale(1.006);
+  box-shadow: 0 26px 60px rgba(0, 217, 255, 0.20), 0 0 0 1px var(--border-glow) inset;
+}
 
 .ai-stat-mini { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease; position: relative; overflow: hidden; transform-style: preserve-3d; }
 .ai-stat-mini::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 40%, rgba(0,217,255,0.10) 100%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
-.ai-stat-mini:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 8px 24px rgba(0,217,255,0.22), 0 0 0 1px var(--border-glow) inset; }
+.ai-stat-mini:hover { transform: translateY(-5px) translateZ(14px) scale(1.04); box-shadow: 0 14px 32px rgba(0,217,255,0.28), 0 0 0 1px var(--border-glow) inset; }
 .ai-stat-mini:hover::before { opacity: 1; }
 
 .ai-cat-item { transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease; }
-.ai-cat-item:hover { transform: translateX(6px) scale(1.02); box-shadow: -3px 0 0 0 var(--primary-cyan), 0 4px 18px rgba(0,217,255,0.18); }
+.ai-cat-item:hover { transform: translateX(6px) translateZ(10px) scale(1.02); box-shadow: -3px 0 0 0 var(--primary-cyan), 0 10px 26px rgba(0,217,255,0.24); }
 .ai-cat-item:hover .ai-cat-icon { transform: rotate(-12deg) scale(1.15); }
 .ai-cat-icon { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+.stok-spare-row { transform-style: preserve-3d; }
+.stok-spare-row:hover { transform: translateX(4px) translateZ(10px); box-shadow: 0 10px 26px rgba(0,217,255,0.20); }
 
 .btn-primary { transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, filter 0.25s ease; position: relative; overflow: hidden; }
 .btn-primary::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transition: left 0.55s ease; pointer-events: none; }
@@ -345,9 +362,10 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 :root[data-theme="light"] .hero-big-number .hbn-value { background: none; -webkit-text-fill-color: #C93F3F; color: #C93F3F; }
 @media (max-width: 720px) { .hero-big-number { position: static; text-align: left; margin-bottom: 12px; } .hero-big-number .hbn-value { font-size: 32px; } }
 
-.ai-hero-title { font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-3xl); font-weight: 900; line-height: 1.15; margin-bottom: 6px; position: relative; z-index: 3; }
+/* HERO TITLE — DISERAGAMKAN */
+.ai-hero-title { font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-3xl); font-weight: 900; line-height: 1.2; margin-bottom: 8px; position: relative; z-index: 3; letter-spacing: 0.5px; }
 .ai-hero-title .accent { background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.ai-hero-sub { font-size: var(--app-font-size-sm); color: var(--text-muted); margin-bottom: 18px; position: relative; z-index: 3; }
+.ai-hero-sub { font-size: var(--app-font-size-sm); color: var(--text-muted); margin-bottom: 18px; position: relative; z-index: 3; line-height: 1.5; }
 .ai-hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; position: relative; z-index: 3; }
 @media (max-width: 720px) { .ai-hero-stats { grid-template-columns: repeat(2, 1fr); } }
 
@@ -459,22 +477,20 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   will-change: transform;
 }
 
-/* Label permanen di atas marker — DIHAPUS */
-/* .ml-label-popup ... */
-
-.draw-point { width: 12px; height: 12px; border-radius: 50%; background: #00D9FF; border: 2px solid #fff; box-shadow: 0 0 10px #00D9FF; cursor: pointer; pointer-events: auto; }
-.draw-point.first { background: #10B981; } .draw-point.last { background: #EC4899; }
-.draw-cursor-active #map-container, .draw-cursor-active #map-container canvas { cursor: crosshair !important; }
-
-.maplibregl-popup-content { background: var(--surface-map-legend) !important; color: var(--text-main) !important; border: 1px solid var(--border-glow) !important; border-radius: 8px !important; padding: 8px 10px !important; box-shadow: 0 6px 18px rgba(0, 217, 255, 0.22) !important; max-width: 220px !important; min-width: 140px !important; white-space: normal !important; line-height: 1.3; font-size: 10px !important; }
+/* Popup marker — font diperkecil agar ringkas */
+.maplibregl-popup-content { background: var(--surface-map-legend) !important; color: var(--text-main) !important; border: 1px solid var(--border-glow) !important; border-radius: 8px !important; padding: 6px 8px !important; box-shadow: 0 6px 18px rgba(0, 217, 255, 0.22) !important; max-width: 200px !important; min-width: 130px !important; white-space: normal !important; line-height: 1.25; font-size: 9px !important; }
 .maplibregl-popup-tip { border-top-color: var(--surface-map-legend) !important; border-bottom-color: var(--surface-map-legend) !important; }
-.maplibregl-popup-close-button { color: var(--primary-cyan) !important; font-size: 14px !important; padding: 0 4px !important; line-height: 1 !important; }
+.maplibregl-popup-close-button { color: var(--primary-cyan) !important; font-size: 13px !important; padding: 0 4px !important; line-height: 1 !important; }
 .maplibregl-ctrl-top-right, .maplibregl-ctrl-top-left, .maplibregl-ctrl-bottom-right, .maplibregl-ctrl-bottom-left { display: none !important; }
 #map-container canvas, #map-modal-container canvas { outline: none !important; }
 .custom-map-controls { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
 .custom-map-btn { background: var(--surface-map-btn); border: 1px solid var(--border-glow); border-radius: 10px; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; color: var(--primary-cyan); transition: all 0.2s; }
 .custom-map-btn:hover { background: rgba(0, 217, 255, 0.15); transform: translateY(-2px); }
 .custom-map-btn.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; }
+
+.draw-point { width: 12px; height: 12px; border-radius: 50%; background: #00D9FF; border: 2px solid #fff; box-shadow: 0 0 10px #00D9FF; cursor: pointer; pointer-events: auto; }
+.draw-point.first { background: #10B981; } .draw-point.last { background: #EC4899; }
+.draw-cursor-active #map-container, .draw-cursor-active #map-container canvas { cursor: crosshair !important; }
 
 .records-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: auto; font-size: var(--app-font-size-sm); }
 .records-table th { background: var(--surface-table-header-solid) !important; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--surface-table-border-solid); font-weight: 700; color: var(--primary-cyan); white-space: nowrap; text-transform: uppercase; letter-spacing: 1px; font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-xs); position: sticky; top: 0; z-index: 10; }
@@ -600,12 +616,12 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
     <form id="login-form" onsubmit="return handleLogin(event)">
       <div style="margin-bottom:16px;">
         <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;letter-spacing:1px;font-size:var(--app-font-size-xs);">NAMA PENGGUNA</label>
-        <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" required>
+        <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" required autocomplete="off">
       </div>
       <div style="margin-bottom:24px;">
         <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;letter-spacing:1px;font-size:var(--app-font-size-xs);">KATA SANDI</label>
         <div style="position:relative;">
-          <input id="login-password" type="password" class="field-control" placeholder="Masukkan password" required>
+          <input id="login-password" type="password" class="field-control" placeholder="Masukkan password" required autocomplete="off">
           <button type="button" id="toggle-pass" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;">
             <i data-lucide="eye" style="width:20px;"></i>
           </button>
@@ -638,7 +654,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
       <div style="margin-bottom:14px;">
         <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;font-size:var(--app-font-size-xs);">Password Baru *</label>
         <div style="position:relative;">
-          <input type="password" id="fcp-new-password" class="field-control" placeholder="Masukkan password baru" required style="padding-right:44px;">
+          <input type="password" id="fcp-new-password" class="field-control" placeholder="Masukkan password baru" required style="padding-right:44px;" autocomplete="new-password">
           <button type="button" onclick="togglePasswordVisibility('fcp-new-password', this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;">
             <i data-lucide="eye" style="width:18px;"></i>
           </button>
@@ -647,7 +663,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
       <div style="margin-bottom:16px;">
         <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;font-size:var(--app-font-size-xs);">Konfirmasi Password Baru *</label>
         <div style="position:relative;">
-          <input type="password" id="fcp-confirm-password" class="field-control" placeholder="Ulangi password baru" required style="padding-right:44px;">
+          <input type="password" id="fcp-confirm-password" class="field-control" placeholder="Ulangi password baru" required style="padding-right:44px;" autocomplete="new-password">
           <button type="button" onclick="togglePasswordVisibility('fcp-confirm-password', this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;">
             <i data-lucide="eye" style="width:18px;"></i>
           </button>
@@ -675,7 +691,13 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </linearGradient>
           </defs>
           <circle cx="50" cy="50" r="44" fill="none" stroke="url(#lgRing2)" stroke-width="2.5"/>
+          <circle cx="50" cy="50" r="36" fill="none" stroke="#00D9FF" stroke-width="0.9" stroke-dasharray="3 5" opacity="0.55">
+            <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="20s" repeatCount="indefinite"/>
+          </circle>
           <circle cx="50" cy="50" r="7.5" fill="#00D9FF"/>
+          <circle cx="50" cy="16" r="3.8" fill="#A855F7"/><circle cx="80" cy="33" r="3.8" fill="#00D9FF"/>
+          <circle cx="80" cy="67" r="3.8" fill="#A855F7"/><circle cx="50" cy="84" r="3.8" fill="#00D9FF"/>
+          <circle cx="20" cy="67" r="3.8" fill="#A855F7"/><circle cx="20" cy="33" r="3.8" fill="#00D9FF"/>
         </svg>
       </div>
       <div class="brand-text-wrapper">
@@ -728,7 +750,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
         <div class="telin-logo-wrapper" title="Telin">
           <img src="Telin_company_logo.png" alt="Telin" class="telin-logo">
         </div>
-        <button id="theme-toggle" class="icon-btn" title="Ganti Tema" onclick="toggleTheme()"><i data-lucide="sun" id="theme-icon" style="width:20px;"></i></button>
+        <button id="theme-toggle" type="button" class="icon-btn" title="Ganti Tema"><i data-lucide="sun" id="theme-icon" style="width:20px;"></i></button>
         <button id="add-user-btn" class="icon-btn hidden" title="Manajemen User"><i data-lucide="user-plus" style="width:20px;"></i></button>
         <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:20px;"></i></button>
       </div>
@@ -1646,6 +1668,7 @@ function resetFontSettings() {
 
 /* ============================================================ AUTO UPPERCASE ============================================================ */
 function applyAutoUppercase() {
+  /* Halaman login DIKECUALIKAN dari auto uppercase */
   var textInputIds = ['inp-sn','inp-spec','inp-lemari','inp-notes-stock','inp-update-sn','inp-update-spec','inp-update-notes','inp-pc-type-lain','inp-pc-length-lain','inp-notes-patch','inp-opm-keterangan','inp-opm-ukuran','inp-opm-label','inp-alker-nama','inp-alker-sn','inp-alker-jenis','inp-alker-merk','inp-alker-keterangan','inp-loc','inp-coords','inp-keterangan-normal','inp-ofcut-penyebab-lain','inp-ofcut-keterangan','inp-p3-pelaksana','inp-p3-lama','inp-p3-keterangan','map-search-input','new-username','user-list-search','draw-custom-line-name','draw-line-notes','riwayat-modal-search','hero-about-input','kml-list-search'];
   textInputIds.forEach(function(id) {
     var el = document.getElementById(id);
@@ -2453,7 +2476,7 @@ function initMap() {
   } catch (e) { console.error('Map init:', e); }
 }
 
-/* MARKER: titik tepat di koordinat — tanpa label permanen */
+/* MARKER: titik tepat di koordinat — popup detail lengkap, tanpa label permanen */
 function loadMarkersFromData() {
   if (!map) return;
   markers.forEach(function(m) { try { m.remove(); } catch(e) {} }); markers = [];
@@ -2472,9 +2495,9 @@ function loadMarkersFromData() {
         el.style.background = color;
         el.style.boxShadow = '0 0 8px ' + color + ', 0 2px 4px rgba(0,0,0,0.4)';
 
-        // Popup DETAIL (muncul saat klik marker) — DENGAN header judul
+        // Popup DETAIL (muncul saat klik marker) — data lengkap sesuai menu OF Cut
         var popupHtml = buildMarkerPopup(cat, it, title, color);
-        var popup = new maplibregl.Popup({ offset: 16, closeButton: true, maxWidth: '220px' }).setHTML(popupHtml);
+        var popup = new maplibregl.Popup({ offset: 14, closeButton: true, maxWidth: '230px' }).setHTML(popupHtml);
 
         var marker = new maplibregl.Marker({ element: el, anchor: 'center' })
           .setLngLat([lng, lat])
@@ -2487,41 +2510,46 @@ function loadMarkersFromData() {
   });
 }
 
-/* buildMarkerPopup — DENGAN header judul */
+/* buildMarkerPopup — data lengkap, font diperkecil */
 function buildMarkerPopup(cat, it, title, color) {
   function row(label, value, valueColor) {
     if (value === undefined || value === null || value === '') return '';
-    return '<div style="color:#94A3B8;font-weight:700;white-space:nowrap;font-size:8px;">' + label + '</div>' +
-           '<div style="color:' + (valueColor || '#E2E8F0') + ';font-weight:600;word-break:break-word;font-size:9px;">' + escapeHtml(String(value)) + '</div>';
+    return '<div style="color:#94A3B8;font-weight:700;white-space:nowrap;font-size:7px;">' + label + '</div>' +
+           '<div style="color:' + (valueColor || '#E2E8F0') + ';font-weight:600;word-break:break-word;font-size:8px;">' + escapeHtml(String(value)) + '</div>';
   }
   var rowsHtml = '';
   if (cat === 'Data OF Cut') {
     rowsHtml += row('Kategori', cat, color);
     rowsHtml += row('Tgl', it.date);
     rowsHtml += row('Lokasi', it.location);
-    rowsHtml += row('Durasi', (it.durasiText || (it.durasiMenit ? it.durasiMenit + 'm' : '')), '#10B981');
-    rowsHtml += row('Pjg', it.panjangCut ? it.panjangCut + 'M' : '');
-    rowsHtml += row('Sebab', it.penyebab, '#EC4899');
+    if (it.waktuCO) rowsHtml += row('Waktu CO', formatWaktuDisplay(it.waktuCO));
+    if (it.waktuUP) rowsHtml += row('Waktu UP', formatWaktuDisplay(it.waktuUP));
+    if (it.durasiText || it.durasiMenit) rowsHtml += row('Durasi', it.durasiText || (it.durasiMenit + ' menit'), '#10B981');
+    if (it.panjangCut !== undefined && it.panjangCut !== '') rowsHtml += row('Panjang Cut', it.panjangCut + ' M');
+    if (it.rute) rowsHtml += row('Rute', it.rute);
+    if (it.penyebab) rowsHtml += row('Penyebab', it.penyebab, '#EC4899');
   } else if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
     rowsHtml += row('Kategori', cat, color);
     rowsHtml += row('Tgl', it.date);
     rowsHtml += row('Lokasi', it.location);
-    rowsHtml += row('Pelaksana', it.pelaksana);
-    rowsHtml += row('Lama', it.lamaPekerjaan);
+    if (it.pelaksana) rowsHtml += row('Pelaksana', it.pelaksana);
+    if (it.lamaPekerjaan) rowsHtml += row('Lama', it.lamaPekerjaan);
   } else if (cat === 'Joint' || cat === 'Handhole') {
     rowsHtml += row('Kategori', cat, color);
     rowsHtml += row('Tgl', it.date);
     rowsHtml += row('Lokasi', it.location);
-    rowsHtml += row('Kondisi', it.kondisi);
+    if (it.kondisi) rowsHtml += row('Kondisi', it.kondisi);
+  } else {
+    rowsHtml += row('Kategori', cat, color);
+    rowsHtml += row('Tgl', it.date);
+    rowsHtml += row('Lokasi', it.location);
   }
   var ket = it.keterangan || it.notes || it.keterangan_normal || '';
-  if (ket && ket.length > 60) ket = ket.substring(0, 60) + '…';
 
-  // DENGAN header judul di atas
-  var html = '<div style="min-width:140px;max-width:200px;">';
-  html += '<div style="font-weight:800;font-size:10px;color:' + color + ';margin-bottom:4px;padding-bottom:4px;border-bottom:1px solid rgba(148,163,184,0.25);word-break:break-word;">' + escapeHtml(title) + '</div>';
-  html += '<div style="display:grid;grid-template-columns:auto 1fr;gap:1px 6px;font-size:9px;line-height:1.25;">' + rowsHtml + '</div>';
-  if (ket) html += '<div style="margin-top:4px;padding-top:4px;border-top:1px dashed rgba(148,163,184,0.25);font-size:9px;color:#E2E8F0;line-height:1.25;">' + escapeHtml(ket) + '</div>';
+  var html = '<div style="min-width:140px;max-width:210px;">';
+  html += '<div style="font-weight:800;font-size:10px;color:' + color + ';margin-bottom:3px;padding-bottom:3px;border-bottom:1px solid rgba(148,163,184,0.25);word-break:break-word;">' + escapeHtml(title) + '</div>';
+  html += '<div style="display:grid;grid-template-columns:auto 1fr;gap:1px 6px;font-size:8px;line-height:1.25;">' + rowsHtml + '</div>';
+  if (ket) html += '<div style="margin-top:4px;padding-top:4px;border-top:1px dashed rgba(148,163,184,0.25);font-size:8px;color:#E2E8F0;line-height:1.3;word-break:break-word;">' + escapeHtml(ket) + '</div>';
   html += '</div>';
   return html;
 }
@@ -3868,8 +3896,18 @@ function setupEventListeners() {
   });
   var lb = document.getElementById('logout-btn');
   if (lb) lb.addEventListener('click', function() { localStorage.removeItem('bucin_session'); currentUser = null; location.reload(); });
+
+  /* Theme toggle — dipasang SEKALI saja di sini */
   var tt = document.getElementById('theme-toggle');
-  if (tt) tt.addEventListener('click', function(e) { e.preventDefault(); toggleTheme(); });
+  if (tt && !tt.dataset.bound) {
+    tt.dataset.bound = '1';
+    tt.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleTheme();
+    });
+  }
+
   document.querySelectorAll('.nav-item').forEach(function(btn) {
     btn.addEventListener('click', function() {
       if (this.id === 'nav-about') return;
@@ -3971,6 +4009,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var savedSort = localStorage.getItem('bucin_sort');
     if (savedSort) { currentSort = savedSort; var sortSel = document.getElementById('sort-select'); if (sortSel) sortSel.value = savedSort; }
   } catch (e) {}
+  setupEventListeners();
   var saved = localStorage.getItem('bucin_session');
   if (saved) {
     try {
@@ -3993,13 +4032,13 @@ document.addEventListener('DOMContentLoaded', function() {
           try { updateStokSpare(); } catch (e) {}
           restoreLastPage();
         }, 300);
-        setupEventListeners(); loadBarcodeCache(); applyAutoUppercase(); return;
+        loadBarcodeCache(); applyAutoUppercase(); return;
       }
     } catch (e) {}
   }
   document.getElementById('login-screen').classList.remove('hidden');
   document.getElementById('app-shell').classList.add('hidden');
-  setupEventListeners(); loadSettings(); applyAutoUppercase(); applyFontSettings();
+  loadSettings(); applyAutoUppercase(); applyFontSettings();
 });
 </script>
 </body>
