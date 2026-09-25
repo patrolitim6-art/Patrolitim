@@ -263,7 +263,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .ai-panel-map { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 0; overflow: hidden; position: relative; box-shadow: var(--shadow-card); }
 .ai-panel-map::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.55; z-index: 5; }
 
-/* ============ MAP CONTAINER — FIX TERPOTONG ============ */
+/* ============ MAP CONTAINER ============ */
 .map-outer-wrap {
   position: relative;
   width: 100%;
@@ -318,7 +318,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
 .ai-chart-wrap { position: relative; height: 220px; flex: 1; }
 
-/* ============ LINE CHART OF CUT (BARU) ============ */
 .ai-chart-wrap-line {
   position: relative;
   height: 240px;
@@ -803,7 +802,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   <main class="main-content-full">
     <section id="dashboard-view">
       <div class="layout-three-columns">
-        <!-- KOLOM KIRI -->
         <div class="layout-left">
           <div class="ai-panel">
             <div class="ai-panel-header"><div class="ai-panel-title"><span class="dot"></span> Ringkasan Aset</div></div>
@@ -845,7 +843,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
           </div>
         </div>
 
-        <!-- KOLOM TENGAH -->
         <div class="layout-center">
           <div class="ai-hero">
             <div class="hero-big-number">
@@ -905,7 +902,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
           </div>
         </div>
 
-        <!-- KOLOM KANAN -->
         <div class="layout-right">
           <div class="ai-panel">
             <div class="ai-panel-header">
@@ -972,14 +968,12 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
               </table>
             </div>
 
-            <!-- ========== GRAFIK GARIS OF CUT (BARU) ========== -->
             <div class="ai-panel-header" style="margin-top:14px;margin-bottom:6px;">
               <div class="ai-panel-title" style="font-size:9px;"><span class="dot"></span> Tren OF Cut Bulanan <span id="line-chart-year-label" style="color:var(--text-dim);font-weight:600;margin-left:4px;">-</span></div>
             </div>
             <div class="ai-chart-wrap-line">
               <canvas id="chartOfCutLine"></canvas>
             </div>
-            <!-- ========== END GRAFIK GARIS ========== -->
           </div>
         </div>
       </div>
@@ -1452,19 +1446,213 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   </div>
 </div>
 
+<!-- ============================================================= -->
+<!-- MODAL TENTANG WEB BUCIN — DIPERLUAS                          -->
+<!-- ============================================================= -->
 <div id="about-modal" class="modal-layer hidden">
-  <div class="modal-card" style="max-width:920px;">
+  <div class="modal-card" style="max-width:980px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h3 style="margin:0;font-weight:800;color:var(--primary-cyan);">Tentang Web BUCIN</h3>
       <button onclick="closeAboutModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
     </div>
+
+    <!-- IDENTITAS -->
     <div style="background:linear-gradient(135deg,rgba(0,217,255,0.12) 0%,rgba(168,85,247,0.12) 100%);border:1px solid var(--border-glow);border-radius:16px;padding:20px;margin-bottom:20px;">
       <div style="font-weight:900;font-family:'Orbitron',sans-serif;background:var(--tech-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:2px;font-size:22px;">BUCIN</div>
       <div style="color:var(--primary-cyan);font-weight:700;letter-spacing:1px;font-size:var(--app-font-size-xs);">Barisan Utama Cegah Insiden Network</div>
-      <p style="line-height:1.7;color:var(--text-muted);margin-top:10px;font-size:var(--app-font-size-sm);">Sistem informasi operasional untuk tim patroli jaringan fiber optik di wilayah <strong style="color:var(--text-main);">Sulawesi Utara</strong>.</p>
+      <p style="line-height:1.7;color:var(--text-muted);margin-top:10px;font-size:var(--app-font-size-sm);">Sistem informasi operasional untuk tim patroli jaringan fiber optik di wilayah <strong style="color:var(--text-main);">Sulawesi Utara</strong>. Aplikasi ini mencakup manajemen data gangguan (OF Cut, P3, Temuan), inventaris (Alker, Spare, Patch Cord), pengukuran OPM/OLS, serta visualisasi peta & grafik analitik.</p>
     </div>
-    <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);"><p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">&copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Versi 3.5.0</p></div>
-    <div style="margin-top:16px;display:flex;justify-content:center;"><button onclick="closeAboutModal()" class="btn-primary" style="min-width:200px;justify-content:center;">Mengerti</button></div>
+
+    <!-- ============ PENJELASAN MENU ============ -->
+    <div style="margin-bottom:20px;">
+      <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">🧭 PENJELASAN MENU & FUNGSI</h4>
+
+      <!-- Dashboard -->
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📊 Dashboard</div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
+          Halaman utama yang menampilkan ringkasan operasional secara <em>real-time</em>: total insiden, ringkasan aset (Alker/Spare/Patch Cord), stok spare per gudang, kategori data, peta sebaran titik & line, serta seluruh grafik analitik OF Cut.
+        </div>
+      </div>
+
+      <!-- Data Operasional -->
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:6px;">🗄️ Data Operasional</div>
+        <div style="display:grid;gap:6px;">
+          <div style="padding-left:10px;border-left:2px solid #FF0000;">
+            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">✂️ Data OF Cut</div>
+            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Pencatatan gangguan kabel putus (Fiber Optic Cut). Field: tanggal, lokasi, koordinat, waktu CO (Cut On), waktu UP (pulih), durasi otomatis, panjang cut (meter), rute (OSP/SEA US/DWDM/IGG), penyebab (Pihak Ke-3, Vandalisme, Bencana, Lainnya), keterangan.</div>
+          </div>
+          <div style="padding-left:10px;border-left:2px solid #00FF00;">
+            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">👥 P3 dan Temuan</div>
+            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Dua sub-tab: <strong>Pekerjaan Pihak Ke-3</strong> (pencatatan pekerjaan pihak ketiga di area jalur fiber — pelaksana, lama pekerjaan) dan <strong>Temuan Lapangan</strong> (temuan kondisi tidak aman di lapangan).</div>
+          </div>
+          <div style="padding-left:10px;border-left:2px solid #4488FF;">
+            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">📡 OPM / OLS</div>
+            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Pengukuran redaman optik (OPM/OLS) per ruas. Form 3-langkah: Info Utama (Dari–Ke, kalibrasi, ruas, warna tube), Pilih Port (1–48, warna kabel, DBM, status terpakai/tersedia, label), dan List Port sebelum submit batch. Data ditampilkan grouped per sesi pengukuran.</div>
+          </div>
+          <div style="padding-left:10px;border-left:2px solid #FFFF00;">
+            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">🔗 Data Joint</div>
+            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Pencatatan titik joint (sambungan fiber) beserta lokasi, koordinat, kondisi (Baik/Kurang Baik/Rusak), dan keterangan.</div>
+          </div>
+          <div style="padding-left:10px;border-left:2px solid #FF00FF;">
+            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">📦 Data Handhole</div>
+            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Pencatatan handhole (bak kontrol) beserta lokasi, koordinat, kondisi, dan keterangan.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventory -->
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:6px;">📦 Inventory</div>
+        <div style="display:grid;gap:6px;">
+          <div style="padding-left:10px;border-left:2px solid #00D9FF;">
+            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">🔧 Alker</div>
+            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Alat kerja / perangkat. Field: nama, SN (auto-generate jika kosong), jenis, merk, jumlah, satuan (PCS/MTR), keterangan.</div>
+          </div>
+          <div style="padding-left:10px;border-left:2px solid #10B981;">
+            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">📦 Stok Spare</div>
+            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Stok material cadangan per gudang (CLS MAMI, DC MANADO, CLS KAUDITAN). Field: SN, nama barang, status (Ready/Out), lemari, rak (A–D), riwayat (Baru/Dismantle), kondisi (Baik/Rusak). Mendukung update pemakaian (Replace/PSB).</div>
+          </div>
+          <div style="padding-left:10px;border-left:2px solid #F59E0B;">
+            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">🔌 Patch Cord</div>
+            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Stok patch cord per gudang dengan transaksi Masuk/Keluar. Field: jenis (SC-SC, LC-LC, dll), panjang (0.5m–30m), qty, status. Validasi saldo otomatis — tidak bisa keluar melebihi stok tersedia.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pengaturan & User -->
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:6px;">⚙️ Pengaturan & Manajemen (Khusus Admin)</div>
+        <div style="display:grid;gap:6px;">
+          <div style="padding-left:10px;border-left:2px solid #A855F7;">
+            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">👤 Manajemen User</div>
+            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Tambah/suspend/hapus user, reset password, atur role (admin/user). Admin terakhir tidak dapat dihapus/suspend.</div>
+          </div>
+          <div style="padding-left:10px;border-left:2px solid #A855F7;">
+            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">⚙️ Pengaturan</div>
+            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Ganti tema (Dark/Light), jenis & ukuran font, serta edit keterangan hero dashboard.</div>
+          </div>
+          <div style="padding-left:10px;border-left:2px solid #A855F7;">
+            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">🕘 Riwayat</div>
+            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Log semua transaksi (Tambah/Edit/Hapus) per menu, lengkap dengan user, timestamp, detail, dan keterangan. Bisa diexport ke Excel.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ KETERANGAN GRAFIK ============ -->
+    <div style="margin-bottom:20px;">
+      <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">📈 KETERANGAN GRAFIK</h4>
+
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📊 Grafik Batang OF Cut Bulanan</div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
+          Menampilkan jumlah insiden OF Cut <strong>per bulan</strong> untuk tahun yang dipilih (dropdown tahun di kanan atas panel). Terdiri dari 4 batang per bulan:
+          <span style="color:#FF0000;font-weight:700;">Pihak Ke-3</span>,
+          <span style="color:#00FF00;font-weight:700;">Vandalisme</span>,
+          <span style="color:#0000FF;font-weight:700;">Bencana</span>,
+          <span style="color:#FF00FF;font-weight:700;">Lainnya</span>.
+        </div>
+      </div>
+
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">🍩 Doughnut OF Cut (Proporsi)</div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
+          Menampilkan proporsi total insiden per kategori penyebab untuk tahun terpilih. Legend di samping menunjukkan angka absolut tiap kategori.
+        </div>
+      </div>
+
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">🍩 Doughnut Distribusi Aset</div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
+          Menampilkan distribusi jumlah aset: <span style="color:#00D9FF;font-weight:700;">Alker</span>, <span style="color:#10B981;font-weight:700;">Stok Spare</span>, dan <span style="color:#F59E0B;font-weight:700;">Saldo Patch Cord</span>. Ring indicator di kiri dashboard menampilkan proporsi yang sama dalam bentuk radial.
+        </div>
+      </div>
+
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📉 Grafik Garis Tren OF Cut Bulanan</div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
+          Menampilkan tren per bulan dalam bentuk garis, terdiri dari 5 dataset:
+          <span style="color:#FF4444;font-weight:700;">Pihak Ke-3</span>,
+          <span style="color:#22DD22;font-weight:700;">Vandalisme</span>,
+          <span style="color:#4488FF;font-weight:700;">Bencana</span>,
+          <span style="color:#EE44EE;font-weight:700;">Lainnya</span>, dan
+          <span style="color:#00D9FF;font-weight:700;">TOTAL (putus-putus)</span>.
+          Berguna untuk melihat pola/trend musiman gangguan.
+        </div>
+      </div>
+
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📅 Perbandingan Tahunan (YTD)</div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
+          Membandingkan total insiden <strong>tahun ini vs tahun sebelumnya</strong> untuk 5 metrik: P3, Vandal, Bencana, Lainnya, dan TOTAL.
+          Indikator selisih:
+          <span style="color:#EF4444;font-weight:700;">▲ merah = naik (memburuk)</span>,
+          <span style="color:#10B981;font-weight:700;">▼ hijau = turun (membaik)</span>,
+          <span style="color:var(--text-muted);font-weight:700;">● abu = sama</span>.
+        </div>
+      </div>
+
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📋 Rekap OF Cut Tahunan (Tabel)</div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
+          Tabel multi-tahun berisi kolom <strong>Jumlah</strong> (P3, Vandal, Bencana, Lainnya), <strong>Persen</strong> per kategori (dihitung dari maksimum 5 kejadian/bulan × 12 bulan = 60/tahun), dan <strong>Total</strong> per tahun. Baris <em>TOT</em> adalah grand total.
+        </div>
+      </div>
+
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">💯 Persentase OF Cut (Chip)</div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
+          4 chip di atas doughnut menampilkan persentase rata-rata per bulan per kategori terhadap asumsi maksimum 5 insiden/bulan. Berguna sebagai indikator kesehatan jaringan.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ KETERANGAN PETA ============ -->
+    <div style="margin-bottom:20px;">
+      <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">🗺️ KETERANGAN PETA</h4>
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;">
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;margin-bottom:8px;">
+          Peta menampilkan sebaran titik aset dan line fiber optik. Setiap titik mewakili satu record dan dapat diklik untuk melihat popup detail.
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:var(--app-font-size-xs);">
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#FF0000;border:2px solid #fff;"></span> OF Cut</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#00FF00;border:2px solid #fff;"></span> Pihak Ke-3</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#0000FF;border:2px solid #fff;"></span> Temuan</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#FFFF00;border:2px solid #fff;"></span> Joint</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#FF00FF;border:2px solid #fff;"></span> Handhole</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:20px;height:3px;background:#00D9FF;"></span> Line KML / Custom</div>
+        </div>
+        <div style="color:var(--text-dim);font-size:10px;line-height:1.6;margin-top:8px;">
+          <strong>Fitur peta:</strong> ganti base layer (Satellite/Street/Hybrid), zoom in/out, gambar line baru (mode crosshair), upload KML/KMZ, filter titik/line, dan kelola line tersimpan.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ WARNA KATEGORI ============ -->
+    <div style="margin-bottom:20px;">
+      <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">🎨 KODE WARNA KATEGORI</h4>
+      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;font-size:var(--app-font-size-xs);">
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#FF0000;"></span> Pihak Ke-3 (P3)</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#00FF00;"></span> Vandalisme</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#0000FF;"></span> Bencana Alam</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#FF00FF;"></span> Lainnya</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#00D9FF;"></span> Alker / TOTAL</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#10B981;"></span> Spare / Ready</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#F59E0B;"></span> Patch Cord / Out</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);">
+      <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">&copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Versi 3.5.0 · Powered by Telin</p>
+    </div>
+    <div style="margin-top:16px;display:flex;justify-content:center;">
+      <button onclick="closeAboutModal()" class="btn-primary" style="min-width:200px;justify-content:center;">Mengerti</button>
+    </div>
   </div>
 </div>
 
@@ -1494,7 +1682,6 @@ function setTheme(theme) {
       chartIncidents.options.scales.x.ticks.color = tickColor;
       chartIncidents.update('none');
     }
-    // update line chart colors
     if (typeof chartOfCutLine !== 'undefined' && chartOfCutLine) {
       var legendColorL = theme === 'dark' ? '#E2E8F0' : '#0F172A';
       var tickColorL = theme === 'dark' ? '#94A3B8' : '#334155';
@@ -1627,7 +1814,7 @@ let selectedGudang = '';
 let chartIncidents = null;
 let doughnutIncidents = null;
 let doughnutAset = null;
-let chartOfCutLine = null;  // BARU: line chart
+let chartOfCutLine = null;
 let editingKey = null;
 let scannerStream = null;
 let isSubmitting = false;
@@ -3334,7 +3521,6 @@ function initCharts() {
         data: { labels: ['Alker','Spare','Patch Cord'], datasets: [{ data: [0,0,0], backgroundColor: ['#00D9FF','#10B981','#F59E0B'], borderWidth: 0 }] },
         options: { responsive: false, cutout: '68%', animation: { duration: 300 }, plugins: { legend: { display: false }, tooltip: { enabled: false } } }
       });
-      // ===== LINE CHART OF CUT =====
       var lctx = document.getElementById('chartOfCutLine').getContext('2d');
       chartOfCutLine = new Chart(lctx, {
         type: 'line',
@@ -3463,7 +3649,6 @@ function updateCharts() {
       setRing('ring-patchcord-val', 'ring-patchcord', pcSaldo);
     }
 
-    // ===== UPDATE LINE CHART OF CUT =====
     updateLineChartOfCut(selectedYear, dataP3, dataVandal, dataBencana, dataLainnya);
 
     renderRekapTableTahunan(selectedYear);
@@ -3471,7 +3656,6 @@ function updateCharts() {
   } catch (e) { console.error('updateCharts error:', e); }
 }
 
-/* ====== UPDATE LINE CHART OF CUT ====== */
 function updateLineChartOfCut(year, dP3, dVandal, dBencana, dLainnya) {
   if (!chartOfCutLine) return;
   try {
@@ -3493,7 +3677,6 @@ function updateLineChartOfCut(year, dP3, dVandal, dBencana, dLainnya) {
 
     chartOfCutLine.update('none');
 
-    // Update label tahun
     var lbl = document.getElementById('line-chart-year-label');
     if (lbl) lbl.textContent = '(' + year + ')';
   } catch (e) { console.error('updateLineChartOfCut error:', e); }
