@@ -3385,7 +3385,7 @@ function updateStokSummary() {
     if (selectedGudangFilter !== 'all') items = items.filter(function(i) { return i.gudang === selectedGudangFilter; });
     var masuk = 0, keluar = 0;
     items.forEach(function(i) { var q = parseInt(i.qty) || 0; if (i.trType === 'Masuk') masuk += q; else if (i.trType === 'Keluar') keluar += q; });
-    var saldoRaw = masuk - keluar, saldo = saldoRaw < 0 ? 0 : saldoRaw;
+    var saldo = masuk - keluar;
     document.getElementById('total-stok-value').textContent = saldo;
     document.getElementById('total-masuk-value').textContent = masuk;
     document.getElementById('total-keluar-value').textContent = keluar;
