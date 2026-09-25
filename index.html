@@ -48,6 +48,9 @@
   --app-font-size-sm: calc(var(--app-font-size) - 1px);
   --radius: 16px;
   --header-h: 64px;
+  /* ===== HEADER SOLID ===== */
+  --header-solid: #0F172A;
+  --header-solid-border: rgba(0, 217, 255, 0.35);
 }
 
 :root[data-theme="light"] {
@@ -70,6 +73,9 @@
   --shadow-card: 0 4px 24px rgba(107, 114, 128, 0.10);
   --shadow-modal: 0 24px 64px rgba(107, 114, 128, 0.18);
   --scroll-track: rgba(229, 231, 235, 0.6);
+  /* ===== HEADER SOLID ===== */
+  --header-solid: #FFFFFF;
+  --header-solid-border: rgba(224, 82, 82, 0.35);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -77,20 +83,24 @@ html { overflow-x: hidden; }
 body { margin: 0; font-family: var(--app-font); font-size: var(--app-font-size); background: var(--bg-main); color: var(--text-main); }
 html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, tbody, tr, th, td, form, input, button, select, textarea, label, small, strong, em, b, i, code, pre, blockquote, canvas { font-family: var(--app-font); }
 
-/* ============ HEADER & DROPDOWN FIX ============ */
+/* ============ HEADER SOLID (TIDAK TRANSPARAN) ============ */
 .top-header {
   position: sticky;
   top: 0;
   z-index: 9000 !important;
   height: var(--header-h);
-  border-bottom: 1px solid var(--border-glow);
-  background: var(--surface-glass);
+  border-bottom: 1px solid var(--header-solid-border);
+  background: var(--header-solid); /* SOLID, bukan glass */
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 18px;
   gap: 12px;
   overflow: visible !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+:root[data-theme="light"] .top-header {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .header-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
@@ -123,23 +133,23 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .nav-btn .chev { width: 12px; height: 12px; transition: transform 0.2s ease; }
 .nav-dropdown.open .nav-btn .chev { transform: rotate(180deg); }
 
-/* DROPDOWN MENU - FIX UTAMA */
+/* DROPDOWN MENU - SOLID */
 .nav-dropdown-menu {
   position: absolute;
   top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
   min-width: 220px;
-  background: #0F172A;
-  border: 1px solid var(--border-glow);
+  background: var(--header-solid); /* SOLID */
+  border: 1px solid var(--header-solid-border);
   border-radius: 14px;
   padding: 6px;
-  box-shadow: 0 18px 48px rgba(0, 217, 255, 0.25);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
   display: none;
   z-index: 99999 !important;
 }
 .nav-dropdown.open .nav-dropdown-menu { display: block; }
-:root[data-theme="light"] .nav-dropdown-menu { background: #FFFFFF; }
+:root[data-theme="light"] .nav-dropdown-menu { box-shadow: 0 18px 48px rgba(0, 0, 0, 0.15); }
 
 .nav-dropdown-item {
   display: flex; align-items: center; gap: 10px;
@@ -154,6 +164,16 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .nav-dropdown-item i { width: 15px; height: 15px; flex-shrink: 0; }
 
 .header-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+/* User info box di header — dibuat solid agar konsisten */
+.header-user-box {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 10px;
+  background: var(--surface-3); /* SOLID */
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+  margin-left: 4px;
+}
 
 /* ============ MAIN LAYOUT ============ */
 .main-content-full { padding: 14px; width: 100%; max-width: 100%; }
@@ -307,7 +327,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 @media (max-width: 900px) { .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
 @media (max-width: 600px) { .ytd-compare-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
 
-/* ============ REKAP TABLE - DIPERBAIKI ============ */
+/* ============ REKAP TABLE ============ */
 .chart-rekap-scroll { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
 .chart-rekap-table {
   width: 100%;
@@ -641,7 +661,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       <button id="theme-toggle" type="button" class="icon-btn" title="Ganti Tema"><i data-lucide="sun" id="theme-icon" style="width:18px;"></i></button>
       <button id="add-user-btn" class="icon-btn hidden" title="Manajemen User"><i data-lucide="user-plus" style="width:18px;"></i></button>
       <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:18px;"></i></button>
-      <div style="display:flex;align-items:center;gap:8px;padding:4px 10px;background:rgba(0,217,255,0.06);border-radius:10px;border:1px solid var(--border-subtle);margin-left:4px;">
+      <div class="header-user-box">
         <div style="width:28px;height:28px;border-radius:50%;background:var(--tech-gradient);display:grid;place-items:center;color:var(--text-on-accent);font-weight:900;font-size:12px;" id="header-user-initial">A</div>
         <div style="display:flex;flex-direction:column;line-height:1.2;">
           <span style="font-weight:700;font-size:11px;color:var(--text-main);" id="header-user-name">Admin</span>
@@ -3228,7 +3248,6 @@ function updateCharts() {
   } catch (e) { console.error('updateCharts error:', e); }
 }
 
-/* REKAP TABLE - DIPERBAIKI: 10 kolom, tanpa kolom Total% terpisah */
 function renderRekapTableTahunan(currentYearNum) {
   var tbody = document.getElementById('chart-rekap-body'); if (!tbody) return;
   var years = []; var startYear = 2025; var endYear = Math.max(currentYearNum, new Date().getFullYear());
