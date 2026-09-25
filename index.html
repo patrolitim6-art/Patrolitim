@@ -97,9 +97,7 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
   overflow: visible !important;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
-:root[data-theme="light"] .top-header {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-}
+:root[data-theme="light"] .top-header { box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); }
 
 .header-brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .brand-text { font-weight: 900; line-height: 1.05; font-family: 'Orbitron', sans-serif; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1.8px; font-size: 22px; }
@@ -264,7 +262,23 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
 .ai-panel-map { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 0; overflow: hidden; position: relative; box-shadow: var(--shadow-card); }
 .ai-panel-map::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.55; z-index: 5; }
-#map-container { height: 100%; min-height: 680px; z-index: 1; overflow: hidden; position: relative; }
+
+/* ============ MAP CONTAINER — FIX TERPOTONG ============ */
+.map-outer-wrap {
+  position: relative;
+  width: 100%;
+  height: 680px; /* default PC */
+  min-height: 320px;
+}
+#map-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+#map-container canvas { display: block; }
 
 .ai-cat-list { display: flex; flex-direction: column; gap: 6px; }
 .ai-cat-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 10px; background: var(--surface-3); border: 1px solid transparent; cursor: pointer; font-size: var(--app-font-size-xs); color: var(--text-muted); }
@@ -304,16 +318,16 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
 .ai-chart-wrap { position: relative; height: 220px; flex: 1; }
 
-/* ============ YTD COMPARE ============ */
+/* ============ YTD COMPARE (Rata2 DIHAPUS) ============ */
 .ytd-compare-grid-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
 .ytd-card {
   background: var(--surface-3);
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
-  padding: 8px 6px;
+  padding: 10px 8px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   min-width: 0;
   box-shadow: none;
 }
@@ -321,125 +335,71 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  font-size: 8px;
+  font-size: 9px;
   line-height: 1.2;
   border-left: 3px solid currentColor;
-  padding-left: 5px;
+  padding-left: 6px;
 }
 .ytd-card .ytd-values {
   display: flex;
   align-items: baseline;
-  gap: 4px;
+  gap: 6px;
   flex-wrap: wrap;
   font-family: 'Orbitron', sans-serif;
 }
-.ytd-card .ytd-prev { color: var(--text-dim); font-weight: 500; font-size: 8px; }
-.ytd-card .ytd-current { font-weight: 800; color: var(--text-main); font-size: 12px; }
+.ytd-card .ytd-prev { color: var(--text-dim); font-weight: 500; font-size: 9px; }
+.ytd-card .ytd-current { font-weight: 800; color: var(--text-main); font-size: 14px; }
 .ytd-card .ytd-diff {
   font-weight: 800;
-  padding: 0 4px;
+  padding: 1px 5px;
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  font-size: 8px;
+  font-size: 9px;
   border: none;
 }
 .ytd-card .ytd-diff.up { background: rgba(239, 68, 68, 0.15); color: #EF4444; }
 .ytd-card .ytd-diff.down { background: rgba(16, 185, 129, 0.15); color: #10B981; }
 .ytd-card .ytd-diff.same { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); }
-.ytd-card .ytd-persen {
-  margin-top: 4px;
-  padding-top: 4px;
-  border-top: 1px solid var(--border-subtle);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.ytd-card .ytd-persen-label { color: var(--text-dim); font-weight: 600; font-size: 7px; text-transform: uppercase; }
-.ytd-card .ytd-persen-value { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 9px; }
 
 /* ============ REKAP TABLE ============ */
 .chart-rekap-scroll { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
-.chart-rekap-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-  font-size: 9px;
-}
+.chart-rekap-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 9px; }
 .chart-rekap-table th {
   background: var(--surface-table-header-solid-alt);
-  padding: 4px 2px;
-  text-align: center;
+  padding: 4px 2px; text-align: center;
   border: 1px solid var(--border-subtle);
-  font-weight: 700;
-  color: var(--primary-cyan);
-  text-transform: uppercase;
-  letter-spacing: 0.2px;
-  white-space: nowrap;
-  font-size: 7px;
-  line-height: 1.15;
+  font-weight: 700; color: var(--primary-cyan);
+  text-transform: uppercase; letter-spacing: 0.2px;
+  white-space: nowrap; font-size: 7px; line-height: 1.15;
   vertical-align: middle;
 }
 .chart-rekap-table td {
-  padding: 3px 2px;
-  text-align: center;
+  padding: 3px 2px; text-align: center;
   border: 1px solid var(--border-subtle);
-  color: var(--text-main);
-  font-weight: 600;
-  line-height: 1.15;
-  font-size: 9px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: var(--text-main); font-weight: 600;
+  line-height: 1.15; font-size: 9px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.chart-rekap-table th.th-tahun,
-.chart-rekap-table td.td-tahun {
-  width: 34px;
-  min-width: 34px;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 800;
-  color: var(--primary-cyan);
-}
-.chart-rekap-table th.th-num,
-.chart-rekap-table td.td-num {
-  width: 28px;
-  min-width: 28px;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 700;
-}
-.chart-rekap-table th.th-pct,
-.chart-rekap-table td.td-pct {
-  width: 38px;
-  min-width: 38px;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 800;
-  font-size: 8px;
-}
-.chart-rekap-table th.th-total,
-.chart-rekap-table td.td-total {
-  width: 40px;
-  min-width: 40px;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 800;
-  color: #10B981;
-  background: rgba(16, 185, 129, 0.06);
+.chart-rekap-table th.th-tahun, .chart-rekap-table td.td-tahun { width: 34px; min-width: 34px; font-family: 'Orbitron', sans-serif; font-weight: 800; color: var(--primary-cyan); }
+.chart-rekap-table th.th-num, .chart-rekap-table td.td-num { width: 28px; min-width: 28px; font-family: 'Orbitron', sans-serif; font-weight: 700; }
+.chart-rekap-table th.th-pct, .chart-rekap-table td.td-pct { width: 38px; min-width: 38px; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 8px; }
+.chart-rekap-table th.th-total, .chart-rekap-table td.td-total {
+  width: 40px; min-width: 40px;
+  font-family: 'Orbitron', sans-serif; font-weight: 800;
+  color: #10B981; background: rgba(16, 185, 129, 0.06);
   border-left: 1px solid rgba(16, 185, 129, 0.4);
 }
 .chart-rekap-table th.th-total { background: rgba(16, 185, 129, 0.15); color: #34D399; }
-.chart-rekap-table tr.total-row td {
-  background: rgba(0, 217, 255, 0.06);
-  font-weight: 800;
-  color: var(--primary-cyan);
-  border-top: 1px solid var(--border-glow);
-}
+.chart-rekap-table tr.total-row td { background: rgba(0, 217, 255, 0.06); font-weight: 800; color: var(--primary-cyan); border-top: 1px solid var(--border-glow); }
 .chart-rekap-table tr.total-row td.td-total { background: rgba(16, 185, 129, 0.12); }
 .chart-rekap-table td.pct-p3 { color: #FF4444; }
 .chart-rekap-table td.pct-vnd { color: #22DD22; }
 .chart-rekap-table td.pct-bnc { color: #4488FF; }
 .chart-rekap-table td.pct-lain { color: #EE44EE; }
 
-/* ============ MAP ============ */
+/* ============ MAP UI ============ */
 .map-filter-below { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 12px; border-top: 1px solid var(--border-glow); background: rgba(0,217,255,0.04); }
 .map-filter-below .map-filter-btn-popup { flex: 1; min-width: 140px; }
 .map-filter-btn-popup { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--surface-3); cursor: pointer; font-weight: 700; color: var(--text-main); font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
@@ -556,64 +516,37 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--primary-cyan), var(--primary-purple)); border-radius: 4px; }
 
 /* ============================================================
-   ============ RESPONSIVE MOBILE (HP) — DIPERBAIKI ============
+   RESPONSIVE MOBILE
    ============================================================ */
-
-/* Tablet / medium */
 @media (max-width: 900px) {
   .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-/* HP (<= 768px) */
 @media (max-width: 768px) {
   :root { --header-h: 62px; }
-
-  .top-header {
-    padding: 0 12px;
-    gap: 8px;
-  }
-
-  /* Logo header lebih besar & brand teks proporsional */
+  .top-header { padding: 0 12px; gap: 8px; }
   .earth-logo { width: 44px; height: 44px; padding: 3px; border-radius: 12px; }
   .brand-text { font-size: 20px; letter-spacing: 1.5px; }
   .brand-sub { font-size: 9px; letter-spacing: 1.2px; }
-
   .header-brand { gap: 10px; }
-
-  /* Nav button jadi icon-only, tap friendly */
   .header-nav { gap: 2px; padding: 0 4px; justify-content: center; }
   .nav-btn { padding: 10px 12px; font-size: 11px; }
   .nav-btn i { width: 18px; height: 18px; }
   .nav-btn span.nav-label { display: none; }
   .nav-btn .chev { display: none; }
-
-  /* Dropdown full-width di HP */
-  .nav-dropdown-menu {
-    position: fixed;
-    top: var(--header-h);
-    left: 12px;
-    right: 12px;
-    transform: none;
-    min-width: 0;
-    width: auto;
-    border-radius: 14px;
-  }
+  .nav-dropdown-menu { position: fixed; top: var(--header-h); left: 12px; right: 12px; transform: none; min-width: 0; width: auto; border-radius: 14px; max-height: calc(100vh - var(--header-h) - 24px); overflow-y: auto; }
   .nav-dropdown-item { padding: 12px 14px; font-size: 13px; }
-
-  /* Actions: sembunyikan telin-logo kecil & user box teks di HP kecil */
   .telin-logo-wrapper { display: none; }
   .header-user-box { padding: 4px 8px; gap: 6px; margin-left: 2px; }
-  .header-user-box > div:last-child { display: none; } /* hide name/role text */
+  .header-user-box > div:last-child { display: none; }
   .header-user-box > div:first-child { width: 30px; height: 30px; font-size: 13px; }
   .icon-btn { width: 38px; height: 38px; }
   .header-actions { gap: 4px; }
 
-  /* Konten utama */
   .main-content-full { padding: 10px; }
   .layout-three-columns { gap: 10px; }
   .layout-left, .layout-center, .layout-right { gap: 10px; }
 
-  /* Hero */
   .ai-hero { padding: 14px; }
   .hero-big-number { position: static; text-align: left; margin-bottom: 10px; }
   .hero-big-number .hbn-value { font-size: 30px; }
@@ -622,13 +555,12 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .ai-stat-mini { padding: 10px; }
   .ai-stat-mini .stat-value { font-size: 20px; }
 
-  /* Panel */
   .ai-panel { padding: 12px; }
   .ai-panel-title { font-size: 10px; letter-spacing: 0.5px; }
   .ai-chart-wrap { height: 240px; }
 
-  /* Map */
-  #map-container { min-height: 420px; }
+  /* ====== MAP HEIGHT FIX UNTUK HP ====== */
+  .map-outer-wrap { height: 420px; min-height: 320px; }
   .map-legend-top-right { max-width: 140px; padding: 6px 8px; font-size: 8px; }
   .map-legend-top-right .ml-title { font-size: 7px; }
   .custom-map-controls { gap: 5px; top: 10px; right: 10px; }
@@ -636,66 +568,45 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .map-filter-below { padding: 8px 10px; gap: 6px; }
   .map-filter-below .map-filter-btn-popup { min-width: 0; flex: 1 1 40%; font-size: 10px; padding: 8px 10px; }
 
-  /* Chart summary chip 2x2 */
   .chart-summary-strip-2 { grid-template-columns: 1fr 1fr; }
-
-  /* YTD grid */
   .ytd-compare-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
   .ytd-card { padding: 8px 7px; }
   .ytd-card .ytd-current { font-size: 13px; }
   .ytd-card .ytd-prev { font-size: 8px; }
 
-  /* Table rekap — scroll */
   .chart-rekap-scroll { border-radius: 8px; }
   .chart-rekap-table { font-size: 8px; }
   .chart-rekap-table th { font-size: 6.5px; }
   .chart-rekap-table td { font-size: 8px; }
 
-  /* Records table */
   .records-table th { padding: 8px 10px; font-size: 9px; letter-spacing: 0.5px; }
   .records-table td { padding: 9px 10px; font-size: 11px; }
   .records-table th.col-no, .records-table td.col-no { width: 42px; min-width: 42px; font-size: 10px; }
   .records-table th.col-aksi, .records-table td.col-aksi { width: 88px; min-width: 88px; }
   .icon-btn.edit, .icon-btn.delete { width: 34px; height: 34px; }
 
-  /* Filter bar full width */
   .filter-bar { gap: 8px; }
   .filter-bar .filter-group { flex: 1 1 100%; padding: 6px 10px; }
-  .filter-bar .filter-group select,
-  .filter-bar .filter-group input { min-height: 38px; font-size: 13px; }
+  .filter-bar .filter-group select, .filter-bar .filter-group input { min-height: 38px; font-size: 13px; }
 
-  /* Sub tab & gudang tab */
   .sub-tab, .gudang-tab { padding: 8px 16px; font-size: 12px; }
-
-  /* Stok summary */
   .stok-summary { padding: 10px 12px; gap: 10px; }
   .stok-summary > div { flex: 1 1 30%; text-align: center; }
   .stok-summary .value { font-size: 15px; }
 
-  /* Modal */
   .modal-layer { padding: 10px; align-items: flex-start; }
   .modal-card { padding: 18px 16px; border-radius: 20px; max-height: 94vh; }
   .modal-card h3 { font-size: 16px; }
 
-  /* Login */
   .login-card { padding: 30px 22px; border-radius: 22px; }
   .earth-logo.large { width: 96px; height: 96px; border-radius: 22px; padding: 6px; }
   .login-title { font-size: 28px; letter-spacing: 4px; }
   .telin-logo-login { height: 42px; }
 
-  /* SOP */
   .sop-description { font-size: 12px; max-height: 160px; }
-
-  /* User list actions stack */
   .user-list-actions, .kml-list-actions { width: 100%; justify-content: flex-end; }
-
-  /* Buttons full width di HP untuk form actions */
-  .form-actions-mobile { flex-direction: column; }
-  .form-actions-mobile .btn-primary,
-  .form-actions-mobile .btn-secondary { width: 100%; }
 }
 
-/* HP kecil (<= 480px) */
 @media (max-width: 480px) {
   :root { --header-h: 58px; }
   .top-header { padding: 0 10px; gap: 6px; }
@@ -703,7 +614,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .brand-text { font-size: 18px; letter-spacing: 1.2px; }
   .brand-sub { font-size: 8px; }
   .header-brand { gap: 8px; }
-
   .nav-btn { padding: 9px 10px; }
   .nav-btn i { width: 17px; height: 17px; }
   .icon-btn { width: 36px; height: 36px; }
@@ -714,12 +624,11 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .ai-hero-title { font-size: 16px; }
   .ai-hero-stats { grid-template-columns: 1fr 1fr; }
   .ai-stat-mini .stat-value { font-size: 18px; }
-
   .ytd-compare-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
   .ai-chart-wrap { height: 220px; }
 
-  #map-container { min-height: 360px; }
+  /* ====== MAP HEIGHT FIX UNTUK HP KECIL ====== */
+  .map-outer-wrap { height: 380px; min-height: 300px; }
 
   .records-table th { padding: 7px 8px; font-size: 8.5px; }
   .records-table td { padding: 8px 8px; font-size: 10.5px; }
@@ -956,7 +865,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
                 <button id="btn-manage-kml" class="btn-secondary" style="padding:5px 10px;font-size:10px;border-radius:12px;min-height:auto;color:#EF4444;border-color:rgba(239,68,68,0.4);"><i data-lucide="folder-cog" style="width:11px;"></i></button>
               </div>
             </div>
-            <div style="position:relative;flex:1;min-height:640px;">
+            <!-- MAP WRAPPER BARU: pakai map-outer-wrap dengan tinggi tetap -->
+            <div class="map-outer-wrap">
               <div id="map-container"></div>
               <div class="map-legend-top-right">
                 <div class="ml-title">Keterangan Titik</div>
@@ -1770,6 +1680,7 @@ function animateCount(el, target, duration) {
   duration = duration || 900;
   var start = 0, startTime = null;
   target = parseInt(target) || 0;
+  if (el.textContent === String(target)) return; // hindari re-animate sia-sia
   function step(ts) {
     if (!startTime) startTime = ts;
     var p = Math.min((ts - startTime) / duration, 1);
@@ -1779,6 +1690,16 @@ function animateCount(el, target, duration) {
     else el.textContent = target;
   }
   requestAnimationFrame(step);
+}
+
+/* ==== DEBOUNCE (untuk search & resize) ==== */
+function debounce(fn, wait) {
+  var t;
+  return function() {
+    var ctx = this, args = arguments;
+    clearTimeout(t);
+    t = setTimeout(function() { fn.apply(ctx, args); }, wait || 200);
+  };
 }
 
 function hitungDurasiOF() {
@@ -1874,10 +1795,10 @@ function exportRiwayatMenuExcel() {
 }
 
 /* ============================================================ DATA ============================================================ */
-function loadData() {
-  if (!db || dataListenerAttached) return;
-  db.ref('data').on('value', function(s) {
-    appData = s.val() || {};
+let renderTimeout = null;
+function scheduleRender() {
+  if (renderTimeout) clearTimeout(renderTimeout);
+  renderTimeout = setTimeout(function() {
     try { updateDashboard(); } catch (e) {}
     try { renderTable(); } catch (e) {}
     try { updateStokSummary(); } catch (e) {}
@@ -1886,6 +1807,14 @@ function loadData() {
     try { updateAiStats(); } catch (e) {}
     try { updateStokSpare(); } catch (e) {}
     if (typeof lucide !== 'undefined') lucide.createIcons();
+    renderTimeout = null;
+  }, 80);
+}
+function loadData() {
+  if (!db || dataListenerAttached) return;
+  db.ref('data').on('value', function(s) {
+    appData = s.val() || {};
+    scheduleRender();
   });
   dataListenerAttached = true;
 }
@@ -1893,12 +1822,7 @@ function refetchData() {
   if (!db) return;
   db.ref('data').once('value').then(function(s) {
     appData = s.val() || {};
-    renderTable(); updateStokSummary();
-    try { updateTotalDataTagline(); } catch (e) {}
-    try { updateAiStats(); } catch (e) {}
-    try { updateStokSpare(); } catch (e) {}
-    updateMapMarkers(); updateDashboard();
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+    scheduleRender();
   });
 }
 
@@ -2422,6 +2346,7 @@ function downloadTextAsFile(text, filename, mimeType) {
 function getSatelliteStyle() { return { version: 8, sources: { satellite: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, minzoom: 0, maxzoom: 19 }, 'satellite-hd': { type: 'raster', tiles: ['https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 512, minzoom: 0, maxzoom: 20 } }, layers: [{ id: 'satellite-layer', type: 'raster', source: 'satellite', minzoom: 0, maxzoom: 14 }, { id: 'satellite-hd-layer', type: 'raster', source: 'satellite-hd', minzoom: 14, maxzoom: 22 }] }; }
 function getStreetStyle() { return { version: 8, sources: { osm: { type: 'raster', tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], tileSize: 256, minzoom: 0, maxzoom: 19 }, 'osm-hd': { type: 'raster', tiles: ['https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png','https://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png','https://c.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'], tileSize: 512, minzoom: 0, maxzoom: 20 } }, layers: [{ id: 'osm-layer', type: 'raster', source: 'osm', minzoom: 0, maxzoom: 13 }, { id: 'osm-hd-layer', type: 'raster', source: 'osm-hd', minzoom: 13, maxzoom: 22 }] }; }
 function getHybridStyle() { return { version: 8, sources: { hybrid: { type: 'raster', tiles: ['https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}'], tileSize: 256, minzoom: 0, maxzoom: 19 }, 'hybrid-hd': { type: 'raster', tiles: ['https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}'], tileSize: 512, minzoom: 14, maxzoom: 22 } }, layers: [{ id: 'hybrid-layer', type: 'raster', source: 'hybrid', minzoom: 0, maxzoom: 14 }, { id: 'hybrid-hd-layer', type: 'raster', source: 'hybrid-hd', minzoom: 14, maxzoom: 22 }] }; }
+
 function initMap() {
   if (map) return;
   try {
@@ -2429,12 +2354,31 @@ function initMap() {
     var initialLoadDone = false;
     map.on('load', function() {
       if (initialLoadDone) return; initialLoadDone = true;
+      // FIX: pastikan map resize setelah load untuk HP
+      setTimeout(function() { if (map) map.resize(); }, 100);
       loadMarkersFromData(); renderLineFilters();
       if (kmlDataCache) applyLineFilters();
       else if (db) { db.ref('kmlData').once('value').then(function(s) { kmlDataCache = s.val() || {}; applyLineFilters(); renderLineFilters(); updateFilterCounts(); }).catch(function() {}); }
     });
     map.on('click', function(e) { if (drawMode) handleDrawClick(e); });
   } catch (e) { console.error('Map init:', e); }
+}
+
+/* ==== FIX: resize map saat viewport berubah (rotate, keyboard, dsb) ==== */
+function setupMapResizeObserver() {
+  var resizeDebounced = debounce(function() {
+    if (map) { try { map.resize(); } catch (e) {} }
+    if (mapModal) { try { mapModal.resize(); } catch (e) {} }
+  }, 150);
+  window.addEventListener('resize', resizeDebounced);
+  window.addEventListener('orientationchange', function() { setTimeout(resizeDebounced, 300); });
+  if (typeof ResizeObserver !== 'undefined') {
+    var mapWrap = document.querySelector('.map-outer-wrap');
+    if (mapWrap) {
+      var ro = new ResizeObserver(resizeDebounced);
+      ro.observe(mapWrap);
+    }
+  }
 }
 
 function updateMapLegendCounts() {
@@ -2855,19 +2799,21 @@ function renderTable() {
     var isAdmin = currentUser && currentUser.role === 'admin';
 
     keys = sortData(keys, list, cat);
+    var rowsHtml = '';
     keys.forEach(function(k, idx) {
       var it = list[k], nomor = idx + 1;
       var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')">✎</button><button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')">×</button>' : '';
       var ket = it.keterangan || it.notes || '';
       var ketHtml = ket ? escapeHtml(ket) : '<span style="opacity:0.35;">—</span>';
-      if (isSpare) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else if (isPatch) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + escapeHtml(it.pcType || '-') + '</td><td>' + escapeHtml(it.pcLength || '-') + '</td><td>' + (it.trType || '-') + '</td><td>' + (it.qty || 0) + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else if (isAlker) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td style="text-align:center;">' + (it.jumlah || '-') + '</td><td style="text-align:center;">' + (it.satuan || '-') + '</td><td>' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else if (isHJ) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else if (isOfCut) { var coD = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : '-', upD = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : '-', durD = it.durasiText || '-'; tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + coD + '</td><td>' + upD + '</td><td><span class="durasi-badge">' + durD + '</span></td><td>' + (it.panjangCut || '-') + ' M</td><td>' + (it.rute || '-') + '</td><td>' + (it.penyebab || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>'; }
-      else if (isP3T) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.pelaksana || '-') + '</td><td>' + (it.lamaPekerjaan || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      if (isSpare) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      else if (isPatch) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + escapeHtml(it.pcType || '-') + '</td><td>' + escapeHtml(it.pcLength || '-') + '</td><td>' + (it.trType || '-') + '</td><td>' + (it.qty || 0) + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      else if (isAlker) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td style="text-align:center;">' + (it.jumlah || '-') + '</td><td style="text-align:center;">' + (it.satuan || '-') + '</td><td>' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      else if (isHJ) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      else if (isOfCut) { var coD = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : '-', upD = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : '-', durD = it.durasiText || '-'; rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + coD + '</td><td>' + upD + '</td><td><span class="durasi-badge">' + durD + '</span></td><td>' + (it.panjangCut || '-') + ' M</td><td>' + (it.rute || '-') + '</td><td>' + (it.penyebab || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>'; }
+      else if (isP3T) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.pelaksana || '-') + '</td><td>' + (it.lamaPekerjaan || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      else rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
     });
+    tb.innerHTML = rowsHtml;
     try { updateTotalDataTagline(); } catch (e) {}
   } catch (e) { console.error('renderTable error:', e); }
 }
@@ -3338,6 +3284,7 @@ function initCharts() {
         ] },
         options: {
           responsive: true, maintainAspectRatio: false,
+          animation: { duration: 300 },
           plugins: { legend: { display: true, position: 'top', labels: { color: '#94A3B8', font: { size: 10 }, boxWidth: 10, padding: 8 } } },
           scales: {
             y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 9 }, color: '#94A3B8' }, grid: { color: 'rgba(148,163,184,0.1)' } },
@@ -3349,13 +3296,13 @@ function initCharts() {
       doughnutIncidents = new Chart(dctx, {
         type: 'doughnut',
         data: { labels: ['P3','Vandal','Bencana','Lainnya'], datasets: [{ data: [1,1,1,1], backgroundColor: ['#FF0000','#00FF00','#0000FF','#FF00FF'], borderWidth: 0 }] },
-        options: { responsive: false, cutout: '68%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
+        options: { responsive: false, cutout: '68%', animation: { duration: 300 }, plugins: { legend: { display: false }, tooltip: { enabled: false } } }
       });
       var actx = document.getElementById('doughnutAset').getContext('2d');
       doughnutAset = new Chart(actx, {
         type: 'doughnut',
         data: { labels: ['Alker','Spare','Patch Cord'], datasets: [{ data: [0,0,0], backgroundColor: ['#00D9FF','#10B981','#F59E0B'], borderWidth: 0 }] },
-        options: { responsive: false, cutout: '68%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
+        options: { responsive: false, cutout: '68%', animation: { duration: 300 }, plugins: { legend: { display: false }, tooltip: { enabled: false } } }
       });
       updateCharts();
     }
@@ -3397,7 +3344,7 @@ function updateCharts() {
     var maxVal = Math.max.apply(null, allVals);
     var yMax = Math.max(5, Math.ceil(maxVal / 2) * 2);
     chartIncidents.options.scales.y.max = yMax;
-    chartIncidents.update();
+    chartIncidents.update('none');
 
     var totalP3 = dataP3.reduce(function(a,b){return a+b;},0);
     var totalVandal = dataVandal.reduce(function(a,b){return a+b;},0);
@@ -3411,7 +3358,7 @@ function updateCharts() {
 
     if (doughnutIncidents) {
       doughnutIncidents.data.datasets[0].data = [totalP3, totalVandal, totalBencana, totalLainnya];
-      doughnutIncidents.update();
+      doughnutIncidents.update('none');
       var legend = document.getElementById('mini-legend');
       if (legend) {
         var items = [
@@ -3432,7 +3379,7 @@ function updateCharts() {
       pcItems.forEach(function(p) { var q = parseInt(p.qty) || 0; if (p.trType === 'Masuk') pcMasuk += q; else if (p.trType === 'Keluar') pcKeluar += q; });
       var pcSaldo = pcMasuk - pcKeluar; if (pcSaldo < 0) pcSaldo = 0;
       doughnutAset.data.datasets[0].data = [countAlker, countSpare, pcSaldo];
-      doughnutAset.update();
+      doughnutAset.update('none');
       var asetLegend = document.getElementById('aset-legend');
       if (asetLegend) {
         var asetItems = [
@@ -3513,6 +3460,7 @@ function getYearTotals(year) {
   return totals;
 }
 
+/* ============ RENDER YTD — "RATA2" SUDAH DIHAPUS ============ */
 function renderYearComparison(currentYearNum) {
   var prevYearNum = currentYearNum - 1;
   var labelEl = document.getElementById('ytd-year-label'), prevLabelEl = document.getElementById('ytd-prev-year-label');
@@ -3535,7 +3483,6 @@ function renderYearComparison(currentYearNum) {
     html += '<div class="ytd-card" style="color:' + item.color + ';">';
     html += '<div class="ytd-label">' + item.label + '</div>';
     html += '<div class="ytd-values"><span class="ytd-prev">' + prevYearNum + ':' + prevVal + '</span><span class="ytd-current">' + curVal + '</span><span class="ytd-diff ' + diffClass + '">' + diffIcon + diffText + '</span></div>';
-    html += '<div class="ytd-persen"><span class="ytd-persen-label">Rata2</span><span class="ytd-persen-value" style="color:' + item.color + ';">' + fmtPersen(hitungPersenPerBulan(curVal)) + '</span></div>';
     html += '</div>';
   });
   grid.innerHTML = html;
@@ -3649,11 +3596,11 @@ function setupEventListeners() {
   var msel = document.getElementById('month-select');
   if (msel) msel.addEventListener('change', function() { currentMonth = this.value; renderTable(); });
   var si = document.getElementById('search-input');
-  if (si) si.addEventListener('input', function() { renderTable(); });
+  if (si) si.addEventListener('input', debounce(function() { renderTable(); }, 250)); // debounce search
   var blm = document.getElementById('btn-loc-map'); if (blm) blm.addEventListener('click', openMapModal);
   var bh = document.getElementById('btn-history'); if (bh) bh.addEventListener('click', bukaRiwayatMenu);
   var dep = document.getElementById('btn-download-excel-page'); if (dep) dep.addEventListener('click', downloadPageExcel);
-  var rms = document.getElementById('riwayat-modal-search'); if (rms) rms.addEventListener('input', renderRiwayatModal);
+  var rms = document.getElementById('riwayat-modal-search'); if (rms) rms.addEventListener('input', debounce(renderRiwayatModal, 250));
   var erm = document.getElementById('btn-export-riwayat-menu'); if (erm) erm.addEventListener('click', exportRiwayatMenuExcel);
   var aub = document.getElementById('add-user-btn');
   if (aub) aub.addEventListener('click', function() {
@@ -3691,7 +3638,7 @@ function setupEventListeners() {
   if (pt) pt.addEventListener('change', togglePatchLain); if (pl) pl.addEventListener('change', togglePatchLain);
   ['inp-pc-type', 'inp-pc-length', 'inp-pc-type-lain', 'inp-pc-length-lain'].forEach(function(id) {
     var el = document.getElementById(id);
-    if (el) { el.addEventListener('change', updatePatchcordSaldoInfo); el.addEventListener('input', updatePatchcordSaldoInfo); }
+    if (el) { el.addEventListener('change', updatePatchcordSaldoInfo); el.addEventListener('input', debounce(updatePatchcordSaldoInfo, 250)); }
   });
   var bdl = document.getElementById('btn-draw-line'); if (bdl) bdl.addEventListener('click', openDrawLineModal);
   var dln = document.getElementById('draw-line-name'); if (dln) dln.addEventListener('change', toggleCustomLineInput);
@@ -3732,6 +3679,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loadData(); loadRiwayat(); loadSettings(); loadUsersList();
         setTimeout(function() {
           initMap(); initCharts();
+          setupMapResizeObserver(); // FIX: pantau resize viewport
           if (map) { map.on('load', function() { loadKmlFromFirebase(); loadCustomLines(); attachKmlManagerListener(); }); }
           else { loadKmlFromFirebase(); loadCustomLines(); attachKmlManagerListener(); }
           if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -3747,6 +3695,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('login-screen').classList.remove('hidden');
   document.getElementById('app-shell').classList.add('hidden');
   loadSettings(); applyAutoUppercase(); applyFontSettings();
+  setupMapResizeObserver(); // FIX: pasang observer meskipun belum login
 });
 </script>
 </body>
