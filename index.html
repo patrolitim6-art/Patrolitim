@@ -279,7 +279,6 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 @keyframes logoGlow { 0%, 100% { box-shadow: 0 0 16px rgba(0, 217, 255, 0.55), 0 0 32px rgba(0, 217, 255, 0.22); } 50% { box-shadow: 0 0 26px rgba(0, 217, 255, 0.9), 0 0 52px rgba(0, 217, 255, 0.4); } }
 @keyframes logoGlowRed { 0%, 100% { box-shadow: 0 0 16px rgba(224, 82, 82, 0.45); } 50% { box-shadow: 0 0 26px rgba(224, 82, 82, 0.75); } }
 
-/* ============ LOGO TELIN DIPERBAIKI ============ */
 .telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: rgba(255,255,255,0.04); }
 .telin-logo { height: 32px; width: auto; object-fit: contain; display: block; }
 :root[data-theme="light"] .telin-logo-wrapper { background: rgba(0,0,0,0.04); }
@@ -287,7 +286,6 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .telin-logo-login { height: 44px; width: auto; display: block; }
 .telin-footer-brand { display: flex; align-items: center; justify-content: center; gap: 8px; padding-top: 10px; margin-top: 12px; border-top: 1px solid var(--border-subtle); width: 100%; }
 .telin-footer-brand img { height: 24px; width: auto; opacity: 0.9; display: block; }
-/* ============ END LOGO TELIN ============ */
 
 .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background: var(--surface-sidebar); border-right: 1px solid var(--border-glow); z-index: 60; display: flex; flex-direction: column; box-shadow: 4px 0 40px rgba(0, 217, 255, 0.08); transition: transform 0.3s ease; overflow: hidden; }
 .sidebar-header { height: 72px; display: flex; align-items: center; gap: 12px; padding: 0 20px; border-bottom: 1px solid var(--border-subtle); flex-shrink: 0; }
@@ -428,14 +426,12 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .chart-rekap-table td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-3); z-index: 6; width: 62px; padding-left: 6px; }
 .chart-rekap-scroll { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
 
-/* ============ KOLOM PERSENTASE DI REKAP TABLE ============ */
 .chart-rekap-table td.col-persen { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 10px; }
 .chart-rekap-table td.col-persen.p3 { color: #FF0000; background: rgba(255,0,0,0.06); }
 .chart-rekap-table td.col-persen.vandal { color: #00FF00; background: rgba(0,255,0,0.06); }
 .chart-rekap-table td.col-persen.bencana { color: #0000FF; background: rgba(0,0,255,0.06); }
 .chart-rekap-table td.col-persen.lainnya { color: #FF00FF; background: rgba(255,0,255,0.06); }
 .chart-rekap-table th.col-persen-header { font-size: 8px; padding: 4px 2px; }
-/* ============ END KOLOM PERSENTASE ============ */
 
 .ytd-compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
 .ytd-compare-grid-5 { display: grid !important; grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 10px; align-items: stretch; }
@@ -451,11 +447,9 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .ytd-card .ytd-diff.up { background: rgba(239, 68, 68, 0.15); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.4); }
 .ytd-card .ytd-diff.down { background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.4); }
 .ytd-card .ytd-diff.same { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); border: 1px solid var(--border-subtle); }
-/* ============ PERSENTASE DI YTD CARD ============ */
 .ytd-card .ytd-persen { margin-top: 4px; padding-top: 4px; border-top: 1px dashed var(--border-subtle); font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 11px; display: flex; justify-content: space-between; align-items: center; }
 .ytd-card .ytd-persen-label { color: var(--text-dim); font-weight: 600; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
 .ytd-card .ytd-persen-value { font-weight: 900; }
-/* ============ END PERSENTASE YTD ============ */
 
 @media (max-width: 900px) { .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
 @media (max-width: 600px) { .ytd-compare-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
@@ -943,7 +937,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                   <select id="chart-period" class="field-control" style="min-height:28px;padding:2px 10px;font-size:var(--app-font-size-xs);width:auto;border-radius:8px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
                 </div>
 
-                <!-- ============ 4 KARTU PERSENTASE PER BULAN PER KATEGORI ============ -->
                 <div class="chart-summary-strip-2" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
                   <div class="chart-summary-chip" style="border-left:3px solid #FF0000;">
                     <div class="cs-label" style="color:#FF0000;">P3 / Bulan</div>
@@ -966,7 +959,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                     <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-lainnya">0</span> dari 5</div>
                   </div>
                 </div>
-                <!-- ============ END 4 KARTU PERSENTASE ============ -->
 
                 <div class="mini-doughnut-wrap" id="mini-doughnut-wrap">
                   <canvas id="doughnutIncidents" width="110" height="110"></canvas>
@@ -994,7 +986,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                   <div class="ai-panel-title" style="font-size:10px;"><span class="dot"></span> Rekap OF Cut Tahunan (mulai 2025)</div>
                 </div>
                 <div class="chart-rekap-scroll">
-                  <!-- ============ TABEL REKAP + KOLOM PERSENTASE ============ -->
                   <table class="chart-rekap-table" id="chart-rekap-table">
                     <thead>
                       <tr>
@@ -1018,7 +1009,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                       <tr><td colspan="10" style="text-align:center;padding:16px;color:var(--text-muted);font-size:var(--app-font-size-xs);">Memuat data...</td></tr>
                     </tbody>
                   </table>
-                  <!-- ============ END TABEL REKAP ============ -->
                 </div>
               </div>
 
@@ -1157,15 +1147,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             <div><span class="label" id="stok-label-1">Total Stok</span><div class="value total" id="total-stok-value">0</div></div>
             <div><span class="label" id="stok-label-2">Ready</span><div class="value masuk" id="total-masuk-value">0</div></div>
             <div><span class="label" id="stok-label-3">Out</span><div class="value keluar" id="total-keluar-value">0</div></div>
-          </div>
-          <div id="patchcord-summary-container" class="hidden" style="margin:0 0 12px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;flex-wrap:wrap;">
-              <div style="font-weight:700;color:var(--primary-cyan);text-transform:uppercase;letter-spacing:1px;font-size:var(--app-font-size-xs);display:flex;align-items:center;gap:6px;">
-                <i data-lucide="package-check" style="width:14px;"></i> Ringkasan Saldo Patch Cord
-              </div>
-              <span id="patchcord-summary-count" style="background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-weight:800;font-size:var(--app-font-size-xs);">0 Item</span>
-            </div>
-            <div id="patchcord-summary-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;"></div>
           </div>
           <div class="gudang-tabs">
             <button class="gudang-tab active" data-gudang="all" onclick="filterGudang('all')">Semua Gudang</button>
@@ -3024,19 +3005,83 @@ function renderTable() {
     else if (isOfCut) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Waktu CO</th><th>Waktu UP</th><th>Durasi</th><th>Panjang</th><th>Rute</th><th>Penyebab</th><th>Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
     else if (isP3T) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Pelaksana</th><th>Lama</th><th>Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
     else th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
-    keys = sortData(keys, list, cat);
     var isAdmin = currentUser && currentUser.role === 'admin';
+
+    /* ============ PATCH CORD ============ */
+    if (isPatch) {
+      if (selectedGudangFilter === 'all') {
+        /* ============ SEMUA GUDANG: group by (Jenis + Panjang) ============ */
+        var groups = {};
+        keys.forEach(function(k) {
+          var it = list[k];
+          var gKey = (it.pcType || '-') + '||' + (it.pcLength || '-');
+          if (!groups[gKey]) {
+            groups[gKey] = { pcType: it.pcType || '-', pcLength: it.pcLength || '-', masuk: 0, keluar: 0, gudangList: [], keys: [], lastDate: it.date || '-', lastKey: k };
+            groups[gKey].gudangList = [];
+          }
+          var qty = parseInt(it.qty) || 0;
+          if (it.trType === 'Masuk') groups[gKey].masuk += qty;
+          else if (it.trType === 'Keluar') groups[gKey].keluar += qty;
+          if (it.gudang && groups[gKey].gudangList.indexOf(it.gudang) === -1) groups[gKey].gudangList.push(it.gudang);
+          groups[gKey].keys.push(k);
+          if ((it.date || '') > (groups[gKey].lastDate || '')) { groups[gKey].lastDate = it.date || ''; groups[gKey].lastKey = k; }
+        });
+        var arr = Object.keys(groups).map(function(gk) {
+          var g = groups[gk];
+          var sR = g.masuk - g.keluar;
+          g.saldo = sR < 0 ? 0 : sR;
+          g.isOverdraft = sR < 0;
+          return g;
+        });
+        arr.sort(function(a, b) {
+          var c = (a.pcType || '').localeCompare(b.pcType || '');
+          if (c !== 0) return c;
+          return (a.pcLength || '').localeCompare(b.pcLength || '');
+        });
+        arr.forEach(function(g, idx) {
+          var nomor = idx + 1;
+          var isReady = g.saldo > 0;
+          var statusBadge = isReady
+            ? '<span class="status-badge status-ready">READY</span>'
+            : '<span class="status-badge" style="background:rgba(239,68,68,0.15);color:#EF4444;">EMPTY</span>';
+          var gudangDisplay = 'SEMUA GUDANG <span style="font-weight:400;color:var(--text-dim);font-size:9px;">(' + g.gudangList.length + ')</span>';
+          var aksi = '-';
+          if (isAdmin && g.keys.length === 1) {
+            aksi = '<button class="icon-btn edit" onclick="editItem(\'' + g.keys[0] + '\',\'' + cat + '\')"><i data-lucide="pencil" style="width:16px;"></i></button><button class="icon-btn delete" onclick="deleteItem(\'' + g.keys[0] + '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>';
+          } else if (isAdmin) {
+            aksi = '<span style="font-size:9px;color:var(--text-dim);font-style:italic;" title="Data gabungan dari ' + g.keys.length + ' entri">' + g.keys.length + ' entri</span>';
+          }
+          tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (g.lastDate || '-') + '</td><td><strong style="color:var(--primary-cyan);">' + gudangDisplay + '</strong></td><td>' + escapeHtml(g.pcType) + '</td><td>' + escapeHtml(g.pcLength) + '</td><td>' + statusBadge + '</td><td><strong style="font-family:Orbitron,sans-serif;">' + g.saldo + '</strong></td><td class="col-aksi">' + aksi + '</td></tr>';
+        });
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        try { updateTotalDataTagline(); } catch (e) {}
+        return;
+      }
+      /* ============ GUDANG SPESIFIK: tampil per entry ============ */
+      keys = sortData(keys, list, cat);
+      keys.forEach(function(k, idx) {
+        var it = list[k], nomor = idx + 1;
+        var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')"><i data-lucide="pencil" style="width:16px;"></i></button><button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '';
+        var saldoGrup = hitungSaldoPCTersedia(it.pcType || '', it.pcLength || '', it.gudang || '', null);
+        var isReady = saldoGrup > 0;
+        var statusBadge = isReady
+          ? '<span class="status-badge status-ready">READY</span>'
+          : '<span class="status-badge" style="background:rgba(239,68,68,0.15);color:#EF4444;">EMPTY</span>';
+        tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + escapeHtml(it.pcType || '-') + '</td><td>' + escapeHtml(it.pcLength || '-') + '</td><td>' + statusBadge + '</td><td>' + (it.qty || 0) + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      });
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      try { updateTotalDataTagline(); } catch (e) {}
+      return;
+    }
+    /* ============ END PATCH CORD ============ */
+
+    keys = sortData(keys, list, cat);
     keys.forEach(function(k, idx) {
       var it = list[k], nomor = idx + 1;
       var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')"><i data-lucide="pencil" style="width:16px;"></i></button><button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')"><i data-lucide="trash-2" style="width:16px;"></i></button>' : '';
       var ket = it.keterangan || it.notes || it.keterangan_normal || '';
       var ketHtml = ket ? escapeHtml(ket) : '<span style="opacity:0.35;">—</span>';
       if (isSpare) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else if (isPatch) {
-        var pcStatus = (it.trType === 'Masuk') ? 'Masuk' : 'Keluar';
-        var statusBadge = pcStatus === 'Masuk' ? '<span class="status-badge status-ready">MASUK</span>' : '<span class="status-badge status-out">KELUAR</span>';
-        tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + (it.pcType || '-') + '</td><td>' + (it.pcLength || '-') + '</td><td>' + statusBadge + '</td><td>' + (it.qty || 0) + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      }
       else if (isAlker) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td style="text-align:center;">' + (it.jumlah || '-') + '</td><td style="text-align:center;">' + (it.satuan || '-') + '</td><td>' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
       else if (isHJ) tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
       else if (isOfCut) { var coD = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : '-', upD = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : '-', durD = it.durasiText || (it.durasiMenit ? it.durasiMenit + 'm' : '-'); tb.innerHTML += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + coD + '</td><td>' + upD + '</td><td><span class="durasi-badge">' + durD + '</span></td><td>' + (it.panjangCut || '-') + ' M</td><td>' + (it.rute || '-') + '</td><td>' + (it.penyebab || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>'; }
@@ -3460,8 +3505,6 @@ function updateStokSummary() {
   var c = document.getElementById('stok-summary-container');
   if (!isSpare && !isPatch) { c.classList.add('hidden'); return; }
   c.classList.remove('hidden');
-  var pcContainer = document.getElementById('patchcord-summary-container');
-  if (pcContainer) pcContainer.classList.toggle('hidden', !isPatch);
   var lbl1 = document.getElementById('stok-label-1'), lbl2 = document.getElementById('stok-label-2'), lbl3 = document.getElementById('stok-label-3');
   if (isPatch) {
     var items = Object.values(appData['Patch Cord'] || {});
@@ -3475,7 +3518,6 @@ function updateStokSummary() {
     if (lbl1) lbl1.textContent = 'Saldo Akhir';
     if (lbl2) lbl2.textContent = 'Total Masuk';
     if (lbl3) lbl3.textContent = 'Total Keluar';
-    renderPatchcordSummaryGrid();
   } else {
     var items2 = Object.values(appData['Stok Spare'] || {});
     if (selectedGudangFilter !== 'all') items2 = items2.filter(function(i) { return i.gudang === selectedGudangFilter; });
@@ -3488,95 +3530,6 @@ function updateStokSummary() {
     if (lbl2) lbl2.textContent = 'Ready';
     if (lbl3) lbl3.textContent = 'Out';
   }
-}
-
-/* ============================================================ PATCH CORD GROUPING ============================================================ */
-function renderPatchcordSummaryGrid() {
-  var container = document.getElementById('patchcord-summary-grid'), countEl = document.getElementById('patchcord-summary-count');
-  if (!container) return;
-  var items = Object.values(appData['Patch Cord'] || {});
-  var groups = {};
-
-  if (selectedGudangFilter === 'all') {
-    items.forEach(function(it) {
-      var key = (it.pcType || '-') + '|' + (it.pcLength || '-');
-      if (!groups[key]) groups[key] = { gudang: 'SEMUA GUDANG', jenis: it.pcType || '-', panjang: it.pcLength || '-', masuk: 0, keluar: 0, gudangList: {} };
-      var qty = parseInt(it.qty) || 0;
-      if (it.trType === 'Masuk') groups[key].masuk += qty; else if (it.trType === 'Keluar') groups[key].keluar += qty;
-      var gName = it.gudang || '-';
-      if (!groups[key].gudangList[gName]) groups[key].gudangList[gName] = { masuk: 0, keluar: 0 };
-      if (it.trType === 'Masuk') groups[key].gudangList[gName].masuk += qty;
-      else if (it.trType === 'Keluar') groups[key].gudangList[gName].keluar += qty;
-    });
-  } else {
-    items = items.filter(function(i) { return i.gudang === selectedGudangFilter; });
-    items.forEach(function(it) {
-      var key = (it.gudang || '-') + '|' + (it.pcType || '-') + '|' + (it.pcLength || '-');
-      if (!groups[key]) groups[key] = { gudang: it.gudang || '-', jenis: it.pcType || '-', panjang: it.pcLength || '-', masuk: 0, keluar: 0, gudangList: {} };
-      var qty = parseInt(it.qty) || 0;
-      if (it.trType === 'Masuk') groups[key].masuk += qty; else if (it.trType === 'Keluar') groups[key].keluar += qty;
-    });
-  }
-
-  var arr = Object.keys(groups).map(function(k) {
-    var g = groups[k];
-    var sR = g.masuk - g.keluar;
-    g.saldo = sR < 0 ? 0 : sR;
-    g.isOverdraft = sR < 0;
-    return g;
-  }).sort(function(a, b) {
-    if (selectedGudangFilter === 'all') {
-      var c = a.jenis.localeCompare(b.jenis);
-      if (c !== 0) return c;
-      return a.panjang.localeCompare(b.panjang);
-    } else {
-      var c = a.gudang.localeCompare(b.gudang);
-      if (c !== 0) return c;
-      c = a.jenis.localeCompare(b.jenis);
-      if (c !== 0) return c;
-      return a.panjang.localeCompare(b.panjang);
-    }
-  });
-
-  if (countEl) countEl.textContent = arr.length + ' Item';
-  if (arr.length === 0) { container.innerHTML = '<div style="grid-column:1/-1;padding:20px;text-align:center;color:var(--text-muted);font-size:var(--app-font-size-xs);font-style:italic;">Belum ada data</div>'; return; }
-
-  var html = '';
-  arr.forEach(function(g) {
-    var saldoColor = g.saldo > 0 ? '#10B981' : '#94A3B8';
-    if (g.isOverdraft) saldoColor = '#EF4444';
-
-    var subtitle;
-    if (selectedGudangFilter === 'all') {
-      var gList = Object.keys(g.gudangList).sort();
-      subtitle = g.panjang + ' • ' + gList.length + ' gudang';
-    } else {
-      subtitle = g.panjang + ' • ' + g.gudang;
-    }
-
-    html += '<div class="card" style="padding:12px;position:relative;overflow:hidden;cursor:default;"><div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:' + saldoColor + ';"></div><div style="padding-left:6px;">';
-    html += '<div style="font-weight:800;color:var(--primary-cyan);font-family:Orbitron,sans-serif;font-size:var(--app-font-size-sm);">' + escapeHtml(g.jenis) + '</div>';
-    html += '<div style="color:var(--text-muted);font-size:var(--app-font-size-xs);font-weight:600;margin-top:2px;">' + escapeHtml(subtitle) + '</div>';
-
-    if (selectedGudangFilter === 'all' && Object.keys(g.gudangList).length > 0) {
-      var detailRows = Object.keys(g.gudangList).sort().map(function(gn) {
-        var gl = g.gudangList[gn];
-        var saldoG = gl.masuk - gl.keluar;
-        if (saldoG < 0) saldoG = 0;
-        return '<div style="display:flex;justify-content:space-between;font-size:9px;padding:1px 0;color:var(--text-dim);"><span>' + escapeHtml(gn) + '</span><span style="color:var(--text-main);font-weight:700;">' + saldoG + '</span></div>';
-      }).join('');
-      html += '<div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border-subtle);">' + detailRows + '</div>';
-    }
-
-    if (g.saldo === 0 && !g.isOverdraft) html += '<div style="margin-top:4px;"><span style="display:inline-block;padding:1px 8px;border-radius:6px;background:rgba(148,163,184,0.15);color:#94A3B8;font-size:9px;font-weight:800;">Stok Habis</span></div>';
-    if (g.isOverdraft) html += '<div style="margin-top:4px;"><span style="display:inline-block;padding:1px 8px;border-radius:6px;background:rgba(239,68,68,0.15);color:#EF4444;font-size:9px;font-weight:800;">⚠ Anomali</span></div>';
-
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border-subtle);">';
-    html += '<div style="text-align:center;"><div style="color:var(--text-dim);font-size:9px;font-weight:700;">Masuk</div><div style="font-weight:800;color:#10B981;font-family:Orbitron,sans-serif;">' + g.masuk + '</div></div>';
-    html += '<div style="text-align:center;"><div style="color:var(--text-dim);font-size:9px;font-weight:700;">Keluar</div><div style="font-weight:800;color:#EC4899;font-family:Orbitron,sans-serif;">' + g.keluar + '</div></div>';
-    html += '<div style="text-align:center;"><div style="color:var(--text-dim);font-size:9px;font-weight:700;">Saldo</div><div style="font-weight:900;color:' + saldoColor + ';font-family:Orbitron,sans-serif;font-size:var(--app-font-size-md);">' + g.saldo + '</div></div></div></div></div>';
-  });
-  container.innerHTML = html;
 }
 
 /* ============================================================ TAB / GUDANG ============================================================ */
@@ -3635,7 +3588,7 @@ function downloadPageExcel() {
   keys.forEach(function(k, idx) {
     var it = list[k] || {}, ket = it.keterangan || it.notes || '', row = { 'No': idx + 1 };
     if (isSpare) { row['Tanggal'] = it.date || ''; row['Gudang'] = it.gudang || ''; row['SN'] = it.sn || ''; row['Nama'] = it.spec || ''; row['Status'] = it.status || ''; row['Lemari'] = it.lemari || ''; row['Rak'] = it.rak || ''; row['Riwayat'] = it.riwayat || ''; row['Kondisi'] = it.kondisi || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
-    else if (isPatch) { row['Tanggal'] = it.date || ''; row['Gudang'] = it.gudang || ''; row['Jenis'] = it.pcType || ''; row['Panjang'] = it.pcLength || ''; row['Status'] = it.trType || ''; row['Qty'] = it.qty || 0; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
+    else if (isPatch) { row['Tanggal'] = it.date || ''; row['Gudang'] = it.gudang || ''; row['Jenis'] = it.pcType || ''; row['Panjang'] = it.pcLength || ''; row['Transaksi'] = it.trType || ''; row['Qty'] = it.qty || 0; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
     else if (isAlker) { row['Tanggal'] = it.date || ''; row['Nama'] = it.nama || ''; row['SN'] = it.sn || ''; row['Jenis'] = it.jenis || ''; row['Merk'] = it.merk || ''; row['Jumlah'] = it.jumlah || ''; row['Satuan'] = it.satuan || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
     else if (isOfCut) { row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Waktu CO'] = it.waktuCO || ''; row['Waktu UP'] = it.waktuUP || ''; row['Durasi'] = it.durasiText || ''; row['Panjang'] = it.panjangCut || ''; row['Rute'] = it.rute || ''; row['Penyebab'] = it.penyebab || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
     else { row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
@@ -3717,7 +3670,6 @@ function klasifikasiPenyebab(p) {
   return 'lainnya';
 }
 
-/* Helper: hitung persentase per bulan per kategori: (total/12)/5 × 100% */
 function hitungPersenPerBulan(totalKategori) {
   return (totalKategori / 12) / MAKS_PER_BULAN * 100;
 }
@@ -3755,15 +3707,12 @@ function updateCharts() {
     chartIncidents.options.scales.y.ticks.stepSize = yMax <= 10 ? 1 : (yMax <= 20 ? 2 : (yMax <= 50 ? 5 : 10));
     chartIncidents.update();
 
-    /* Hitung total per kategori (akumulasi 12 bulan di tahun terpilih) */
     var totalP3      = dataP3.reduce(function(a,b){return a+b;},0);
     var totalVandal  = dataVandal.reduce(function(a,b){return a+b;},0);
     var totalBencana = dataBencana.reduce(function(a,b){return a+b;},0);
     var totalLainnya = dataLainnya.reduce(function(a,b){return a+b;},0);
     var total = totalP3 + totalVandal + totalBencana + totalLainnya;
 
-    /* ============ PERSENTASE PER BULAN PER KATEGORI ============ */
-    /* Rumus: (Total Kategori / 12) / 5 × 100% */
     var avgP3      = totalP3      / 12;
     var avgVandal  = totalVandal  / 12;
     var avgBencana = totalBencana / 12;
@@ -3791,7 +3740,6 @@ function updateCharts() {
     if (elAvgV)  elAvgV.textContent  = fmtAvg(avgVandal);
     if (elAvgB)  elAvgB.textContent  = fmtAvg(avgBencana);
     if (elAvgL)  elAvgL.textContent  = fmtAvg(avgLainnya);
-    /* ============ END PERSENTASE ============ */
 
     if (doughnutIncidents) {
       doughnutIncidents.data.datasets[0].data = [totalP3, totalVandal, totalBencana, totalLainnya];
@@ -3844,7 +3792,6 @@ function updateCharts() {
   } catch (e) { console.error('updateCharts error:', e); }
 }
 
-/* ============ REKAP TABLE dengan KOLOM PERSENTASE ============ */
 function renderRekapTableTahunan(currentYearNum) {
   var tbody = document.getElementById('chart-rekap-body'); if (!tbody) return;
   var years = []; var startYear = 2025; var endYear = Math.max(currentYearNum, new Date().getFullYear());
@@ -3862,7 +3809,6 @@ function renderRekapTableTahunan(currentYearNum) {
   years.forEach(function(y) {
     var t = totals[y]; var total = t.p3 + t.vandal + t.bencana + t.lainnya;
     grandP3 += t.p3; grandV += t.vandal; grandB += t.bencana; grandL += t.lainnya;
-    /* Hitung persentase per bulan per kategori: (totalKategori/12)/5 × 100% */
     var pP3 = hitungPersenPerBulan(t.p3);
     var pV  = hitungPersenPerBulan(t.vandal);
     var pB  = hitungPersenPerBulan(t.bencana);
@@ -3878,7 +3824,6 @@ function renderRekapTableTahunan(currentYearNum) {
     html += '</tr>';
   });
   var grand = grandP3 + grandV + grandB + grandL;
-  /* Baris total: hitung persentase rata-rata per kategori */
   var gpP3 = hitungPersenPerBulan(grandP3);
   var gpV  = hitungPersenPerBulan(grandV);
   var gpB  = hitungPersenPerBulan(grandB);
@@ -3906,7 +3851,6 @@ function getYearTotals(year) {
   return totals;
 }
 
-/* ============ YTD CARD dengan PERSENTASE PER BULAN ============ */
 function renderYearComparison(currentYearNum) {
   var prevYearNum = currentYearNum - 1;
   var labelEl = document.getElementById('ytd-year-label'), prevLabelEl = document.getElementById('ytd-prev-year-label');
@@ -3926,10 +3870,7 @@ function renderYearComparison(currentYearNum) {
     var diffClass = 'same', diffIcon = '●', diffText = '0';
     if (diffVal > 0) { diffClass = 'up'; diffIcon = '▲'; diffText = '+' + diffVal; }
     else if (diffVal < 0) { diffClass = 'down'; diffIcon = '▼'; diffText = '' + diffVal; }
-    /* Persentase per bulan untuk kategori ini (menggunakan data tahun berjalan) */
-    var persenCur = (item.key === 'total')
-      ? hitungPersenPerBulan(curVal)  /* total: pakai rumus sama, tapi total bisa > karena 4 kategori */
-      : hitungPersenPerBulan(curVal);
+    var persenCur = hitungPersenPerBulan(curVal);
     html += '<div class="ytd-card" style="border-left:3px solid ' + item.color + ';">';
     html += '<div class="ytd-label" style="color:' + item.color + ';">' + item.label + '</div>';
     html += '<div class="ytd-values"><span class="ytd-prev">' + prevYearNum + ': ' + prevVal + '</span><span class="ytd-current">' + curVal + '</span><span class="ytd-diff ' + diffClass + '">' + diffIcon + ' ' + diffText + '</span></div>';
