@@ -265,7 +265,7 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .earth-logo.large { width: 84px; height: 84px; border-radius: 20px; padding: 6px; border-width: 2px; }
 @keyframes logoGlow { 0%, 100% { box-shadow: 0 0 16px rgba(0, 217, 255, 0.55), 0 0 32px rgba(0, 217, 255, 0.22); } 50% { box-shadow: 0 0 26px rgba(0, 217, 255, 0.9), 0 0 52px rgba(0, 217, 255, 0.4); } }
 
-.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: rgba(255,255,255,0.04); }
+.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: transparent; }
 .telin-logo { height: 28px; width: auto; object-fit: contain; display: block; }
 :root[data-theme="light"] .telin-logo-wrapper { background: transparent !important; }
 .telin-divider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 16px 0 20px; padding: 12px 16px; }
@@ -365,7 +365,7 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-  z-index: 100;
+  z-index: 200;
 }
 .nav-dropdown.open .nav-dropdown-menu {
   opacity: 1;
@@ -508,27 +508,28 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .toast.error { border-color: #EC4899; }
 .toast.warning { border-color: #F59E0B; }
 
-.ai-hero { background: var(--surface-hero); border: 1px solid var(--border-glow); border-radius: var(--radius); padding: 22px 26px; position: relative; overflow: hidden; box-shadow: 0 12px 40px rgba(0, 217, 255, 0.10); }
+/* ============ HERO DIPERPENDEK ============ */
+.ai-hero { background: var(--surface-hero); border: 1px solid var(--border-glow); border-radius: var(--radius); padding: 14px 18px; position: relative; overflow: hidden; box-shadow: 0 12px 40px rgba(0, 217, 255, 0.10); }
 .ai-hero::before { content: ''; position: absolute; top: -50%; right: -10%; width: 320px; height: 320px; background: radial-gradient(circle, var(--bg-pattern-2) 0%, transparent 70%); border-radius: 50%; animation: float 8s ease-in-out infinite; pointer-events: none; }
 @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -20px); } }
-.ai-hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 99px; background: rgba(0, 217, 255, 0.12); border: 1px solid var(--border-glow); color: var(--primary-cyan); font-size: var(--app-font-size-xs); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; position: relative; z-index: 3; font-family: 'Orbitron', sans-serif; white-space: normal; line-height: 1.2; }
+.ai-hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 99px; background: rgba(0, 217, 255, 0.12); border: 1px solid var(--border-glow); color: var(--primary-cyan); font-size: 9px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; position: relative; z-index: 3; font-family: 'Orbitron', sans-serif; white-space: normal; line-height: 1.2; }
 :root[data-theme="light"] .ai-hero-badge { background: rgba(224,82,82,0.12); color: #C93F3F; }
 
-.hero-big-number { position: absolute; top: 14px; right: 20px; z-index: 3; text-align: right; }
-.hero-big-number .hbn-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); font-weight: 700; }
-.hero-big-number .hbn-value { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 38px; line-height: 1; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-big-number { position: absolute; top: 10px; right: 16px; z-index: 3; text-align: right; }
+.hero-big-number .hbn-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-dim); font-weight: 700; }
+.hero-big-number .hbn-value { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 32px; line-height: 1; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 :root[data-theme="light"] .hero-big-number .hbn-value { background: none; -webkit-text-fill-color: #C93F3F; color: #C93F3F; }
-@media (max-width: 720px) { .hero-big-number { position: static; text-align: left; margin-bottom: 12px; } .hero-big-number .hbn-value { font-size: 32px; } }
+@media (max-width: 720px) { .hero-big-number { position: static; text-align: left; margin-bottom: 8px; } .hero-big-number .hbn-value { font-size: 28px; } }
 
-.ai-hero-title { font-family: var(--app-font); font-size: 24px; font-weight: 800; line-height: 1.3; margin-bottom: 6px; position: relative; z-index: 3; letter-spacing: 0.3px; word-break: break-word; hyphens: auto; }
+.ai-hero-title { font-family: var(--app-font); font-size: 20px; font-weight: 800; line-height: 1.25; margin-bottom: 4px; position: relative; z-index: 3; letter-spacing: 0.3px; word-break: break-word; hyphens: auto; }
 .ai-hero-title .accent { font-family: var(--app-font); font-weight: 800; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.ai-hero-sub { font-size: var(--app-font-size-sm); color: var(--text-muted); margin-bottom: 14px; position: relative; z-index: 3; line-height: 1.5; word-break: break-word; }
-.ai-hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; position: relative; z-index: 3; }
+.ai-hero-sub { font-size: var(--app-font-size-xs); color: var(--text-muted); margin-bottom: 8px; position: relative; z-index: 3; line-height: 1.4; word-break: break-word; }
+.ai-hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; position: relative; z-index: 3; }
 @media (max-width: 720px) { .ai-hero-stats { grid-template-columns: repeat(2, 1fr); } }
 
-.ai-stat-mini { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 3px; position: relative; overflow: hidden; }
-.ai-stat-mini .stat-label { font-size: var(--app-font-size-xs); color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; line-height: 1.2; white-space: normal; }
-.ai-stat-mini .stat-value { font-size: calc(var(--app-font-size) + 6px); font-weight: 900; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; line-height: 1; }
+.ai-stat-mini { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; position: relative; overflow: hidden; }
+.ai-stat-mini .stat-label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 700; line-height: 1.2; white-space: normal; }
+.ai-stat-mini .stat-value { font-size: calc(var(--app-font-size) + 4px); font-weight: 900; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; line-height: 1; }
 .ai-stat-mini .stat-value.green { color: #10B981; }
 .ai-stat-mini .stat-value.blue { color: var(--primary-blue); }
 .ai-stat-mini .stat-value.red { color: #EF4444; }
@@ -536,7 +537,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 
 .ai-panel-map { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 0; overflow: hidden; position: relative; box-shadow: var(--shadow-card); }
 .ai-panel-map::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.55; z-index: 5; }
-#map-container { height: 100%; min-height: 600px; border-radius: 0; z-index: 1; overflow: hidden; position: relative; }
+#map-container { height: 100%; min-height: 680px; border-radius: 0; z-index: 1; overflow: hidden; position: relative; }
 
 .ai-panel { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 14px; position: relative; overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; box-shadow: var(--shadow-card); display: flex; flex-direction: column; }
 .ai-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.55; }
@@ -552,22 +553,24 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .ai-cat-name { flex: 1; font-weight: 600; color: var(--text-main); font-size: var(--app-font-size-xs); white-space: normal; line-height: 1.3; word-break: break-word; min-width: 0; }
 .ai-cat-value { font-weight: 800; font-family: 'Orbitron', sans-serif; color: var(--primary-cyan); font-size: var(--app-font-size-sm); }
 
+/* ============ REKAP TABLE - KOLOM PERSENTASE DIPERLEBAR ============ */
 .chart-rekap-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: var(--app-font-size-xs); }
-.chart-rekap-table th { background: var(--surface-table-header-solid) !important; padding: 5px 3px; text-align: center; border: 1px solid var(--surface-table-border-solid); font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.2px; white-space: normal; font-size: 8px; position: sticky; top: 0; z-index: 5; line-height: 1.2; word-break: break-word; }
+.chart-rekap-table th { background: var(--surface-table-header-solid) !important; padding: 5px 2px; text-align: center; border: 1px solid var(--surface-table-border-solid); font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.2px; white-space: nowrap; font-size: 7.5px; position: sticky; top: 0; z-index: 5; line-height: 1.2; }
 .chart-rekap-table th.col-total { background: linear-gradient(135deg, #064E3B 0%, #0F172A 100%) !important; color: #34D399 !important; border-left: 2px solid rgba(16, 185, 129, 0.8); border-right: 2px solid rgba(16, 185, 129, 0.8); }
-.chart-rekap-table td { padding: 3px 3px; text-align: center; border: 1px solid var(--border-subtle); color: var(--text-main); font-weight: 600; line-height: 1.2; font-size: 10px; }
+.chart-rekap-table td { padding: 3px 2px; text-align: center; border: 1px solid var(--border-subtle); color: var(--text-main); font-weight: 600; line-height: 1.2; font-size: 10px; white-space: nowrap; }
 .chart-rekap-table td.col-total { background: rgba(16, 185, 129, 0.08); border-left: 2px solid rgba(16, 185, 129, 0.5); border-right: 2px solid rgba(16, 185, 129, 0.5); font-weight: 800; color: #10B981; }
 .chart-rekap-table tr.total-row td { background: rgba(0, 217, 255, 0.08); font-weight: 900; color: var(--primary-cyan); border-top: 2px solid var(--border-glow); }
-.chart-rekap-table th:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-table-header-solid-alt) !important; z-index: 7; width: 48px; padding-left: 5px; }
-.chart-rekap-table td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-3); z-index: 6; width: 48px; padding-left: 5px; }
+.chart-rekap-table th:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-table-header-solid-alt) !important; z-index: 7; width: 42px; padding-left: 4px; }
+.chart-rekap-table td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-3); z-index: 6; width: 42px; padding-left: 4px; }
 .chart-rekap-scroll { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
 
-.chart-rekap-table td.col-persen { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 9px; }
+.chart-rekap-table td.col-persen { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 8px; white-space: nowrap; min-width: 44px; }
 .chart-rekap-table td.col-persen.p3 { color: #FF0000; background: rgba(255,0,0,0.06); }
 .chart-rekap-table td.col-persen.vandal { color: #00FF00; background: rgba(0,255,0,0.06); }
 .chart-rekap-table td.col-persen.bencana { color: #0000FF; background: rgba(0,0,255,0.06); }
-.chart-rekap-table td.col-persen.lainnya { color: #FF00FF; background: rgba(255,0,255,0.06); }
-.chart-rekap-table th.col-persen-header { font-size: 7px; padding: 3px 2px; }
+.chart-rekap-table td.col-persen.lainnya { color: #FF00FF; background: rgba(0,255,255,0.06); }
+.chart-rekap-table th.col-persen-header { font-size: 6.5px; padding: 3px 1px; white-space: nowrap; min-width: 44px; }
+.chart-rekap-table td.col-total-persen { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 8px; color: #34D399; white-space: nowrap; }
 
 .ytd-compare-grid-5 { display: grid !important; grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 6px; align-items: stretch; }
 .ytd-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 6px 8px; display: flex; flex-direction: column; gap: 2px; transition: all 0.2s; position: relative; overflow: hidden; min-width: 0; word-break: break-word; }
@@ -588,7 +591,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 @media (max-width: 900px) { .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
 @media (max-width: 600px) { .ytd-compare-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
 
-.ai-chart-wrap { position: relative; height: 200px; flex: 1; }
+.ai-chart-wrap { position: relative; height: 220px; flex: 1; }
 
 .map-filter-below { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 12px; border-top: 1px solid var(--border-glow); background: rgba(0,217,255,0.04); }
 .map-filter-below .map-filter-btn-popup { flex: 1; min-width: 140px; }
@@ -949,7 +952,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
     <section id="dashboard-view">
       <div class="layout-three-columns">
 
-        <!-- KOLOM KIRI -->
+        <!-- KOLOM KIRI: RINGKASAN ASET -->
         <div class="layout-left">
           <!-- KATEGORI -->
           <div class="ai-panel">
@@ -959,184 +962,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             <div class="ai-cat-list" id="ai-cat-list"></div>
           </div>
 
-          <!-- GRAFIK OF CUT -->
-          <div class="ai-panel">
-            <div class="ai-panel-header">
-              <div class="ai-panel-title"><span class="dot"></span> Grafik OF Cut</div>
-              <select id="chart-period" class="field-control" style="min-height:26px;padding:2px 8px;font-size:10px;width:auto;border-radius:6px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
-            </div>
-
-            <div class="chart-summary-strip-2" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-              <div class="chart-summary-chip" style="border-left:3px solid #FF0000;">
-                <div class="cs-label" style="color:#FF0000;">P3/Bln</div>
-                <div class="cs-value" id="cs-persen-p3" style="color:#FF0000;">0%</div>
-                <div style="font-size:7px;color:var(--text-dim);margin-top:1px;">avg <span id="cs-avg-p3">0</span>/5</div>
-              </div>
-              <div class="chart-summary-chip" style="border-left:3px solid #00FF00;">
-                <div class="cs-label" style="color:#00FF00;">Vandal/Bln</div>
-                <div class="cs-value" id="cs-persen-vandal" style="color:#00FF00;">0%</div>
-                <div style="font-size:7px;color:var(--text-dim);margin-top:1px;">avg <span id="cs-avg-vandal">0</span>/5</div>
-              </div>
-              <div class="chart-summary-chip" style="border-left:3px solid #0000FF;">
-                <div class="cs-label" style="color:#0000FF;">Bencana/Bln</div>
-                <div class="cs-value" id="cs-persen-bencana" style="color:#0000FF;">0%</div>
-                <div style="font-size:7px;color:var(--text-dim);margin-top:1px;">avg <span id="cs-avg-bencana">0</span>/5</div>
-              </div>
-              <div class="chart-summary-chip" style="border-left:3px solid #FF00FF;">
-                <div class="cs-label" style="color:#FF00FF;">Lainnya/Bln</div>
-                <div class="cs-value" id="cs-persen-lainnya" style="color:#FF00FF;">0%</div>
-                <div style="font-size:7px;color:var(--text-dim);margin-top:1px;">avg <span id="cs-avg-lainnya">0</span>/5</div>
-              </div>
-            </div>
-
-            <div class="mini-doughnut-wrap" id="mini-doughnut-wrap">
-              <canvas id="doughnutIncidents" width="110" height="110"></canvas>
-              <div class="mini-legend" id="mini-legend"></div>
-            </div>
-            <div class="ai-chart-wrap">
-              <canvas id="chartIncidents"></canvas>
-            </div>
-          </div>
-        </div>
-
-        <!-- KOLOM TENGAH: HERO + MAP -->
-        <div class="layout-center">
-          <!-- HERO -->
-          <div class="ai-hero">
-            <div class="hero-orb o1"></div>
-            <div class="hero-orb o2"></div>
-            <div class="hero-orb o3"></div>
-
-            <div class="hero-big-number">
-              <div class="hbn-label">TOTAL INSIDEN <span id="hbn-year">2026</span></div>
-              <div class="hbn-value" id="hbn-total">0</div>
-            </div>
-
-            <div class="ai-hero-badge">
-              <i data-lucide="crown" style="width:12px;"></i> BUCIN · LIVE OPERASIONAL
-            </div>
-            <h1 class="ai-hero-title">Barisan Utama <span class="accent">Cegah Insiden</span> Network</h1>
-            <p class="ai-hero-sub">Pusat Operasi Jaringan Fiber Optik · Sulawesi Utara · <span id="live-clock">--:--:--</span></p>
-            <p class="hero-about" id="hero-about-text" style="font-size:12px;color:var(--text-muted);line-height:1.5;position:relative;z-index:3;margin-bottom:12px;">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
-
-            <div class="ai-hero-stats">
-              <div class="ai-stat-mini">
-                <div class="stat-label">Stok Spare</div>
-                <div class="stat-value" id="ai-stat-total" data-count="0">0</div>
-              </div>
-              <div class="ai-stat-mini">
-                <div class="stat-label">OF Cut</div>
-                <div class="stat-value red" id="ai-stat-ofcut" data-count="0">0</div>
-              </div>
-              <div class="ai-stat-mini">
-                <div class="stat-label">Handhole</div>
-                <div class="stat-value green" id="ai-stat-online" data-count="0">0</div>
-              </div>
-              <div class="ai-stat-mini">
-                <div class="stat-label">Joint</div>
-                <div class="stat-value blue" id="ai-stat-joint" data-count="0">0</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- MAP -->
-          <div class="ai-panel-map">
-            <div style="padding:10px 12px;border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;position:relative;z-index:5;">
-              <div class="ai-panel-title"><span class="dot"></span> Peta Line & Titik Aset</div>
-              <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                <button id="btn-draw-line" class="btn-primary" style="padding:4px 10px;font-size:10px;border-radius:12px;min-height:auto;"><i data-lucide="pen-line" style="width:11px;"></i> Line</button>
-                <button id="btn-upload-kml" class="btn-secondary" style="padding:4px 10px;font-size:10px;border-radius:12px;min-height:auto;"><i data-lucide="upload" style="width:11px;"></i> KML</button>
-                <button id="btn-manage-kml" class="btn-secondary" style="padding:4px 10px;font-size:10px;border-radius:12px;min-height:auto;color:#EF4444;border-color:rgba(239,68,68,0.4);"><i data-lucide="folder-cog" style="width:11px;"></i></button>
-              </div>
-            </div>
-
-            <div style="position:relative;flex:1;min-height:560px;">
-              <div id="map-container"></div>
-              <div class="map-legend-top-right" id="map-legend-titik">
-                <div class="ml-title">Keterangan Titik</div>
-                <div class="ml-item"><span class="ml-dot" style="background:#FF0000;"></span>OF Cut<span class="ml-count" id="ml-count-ofcut">0</span></div>
-                <div class="ml-item"><span class="ml-dot" style="background:#00FF00;"></span>Pihak Ke-3<span class="ml-count" id="ml-count-p3">0</span></div>
-                <div class="ml-item"><span class="ml-dot" style="background:#0000FF;"></span>Temuan<span class="ml-count" id="ml-count-temuan">0</span></div>
-                <div class="ml-item"><span class="ml-dot" style="background:#FFFF00;"></span>Joint<span class="ml-count" id="ml-count-joint">0</span></div>
-                <div class="ml-item"><span class="ml-dot" style="background:#FF00FF;"></span>Handhole<span class="ml-count" id="ml-count-handhole">0</span></div>
-              </div>
-              <div class="custom-map-controls">
-                <button class="custom-map-btn active" onclick="toggleMapLayer('satellite', event)" title="Satelit HD"><i data-lucide="satellite" style="width:14px;"></i></button>
-                <button class="custom-map-btn" onclick="toggleMapLayer('street', event)" title="Jalan HD"><i data-lucide="map" style="width:14px;"></i></button>
-                <button class="custom-map-btn" onclick="toggleMapLayer('hybrid', event)" title="Hybrid HD"><i data-lucide="layers" style="width:14px;"></i></button>
-                <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:14px;"></i></button>
-                <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:14px;"></i></button>
-              </div>
-              <div id="draw-controls" class="hidden" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:1100;background:var(--surface-map-legend);border:1px solid var(--border-glow);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,217,255,0.3);flex-wrap:wrap;justify-content:center;">
-                <span style="font-weight:700;color:var(--primary-cyan);white-space:nowrap;font-size:11px;">
-                  <i data-lucide="pen-line" style="width:14px;display:inline-block;vertical-align:middle;"></i>
-                  <span id="draw-status">Klik peta untuk mulai menggambar</span>
-                </span>
-                <span id="draw-point-count" style="font-weight:700;color:var(--text-muted);background:rgba(0,217,255,0.1);padding:3px 8px;border-radius:6px;font-size:10px;">0 titik</span>
-                <button onclick="finishDrawLine()" class="btn-primary" style="padding:5px 10px;font-size:10px;border-radius:8px;min-height:28px;"><i data-lucide="check" style="width:12px;"></i> Selesai</button>
-                <button onclick="undoLastPoint()" class="btn-secondary" style="padding:5px 10px;font-size:10px;border-radius:8px;min-height:28px;"><i data-lucide="undo-2" style="width:12px;"></i> Undo</button>
-                <button onclick="cancelDrawLine()" class="btn-secondary" style="padding:5px 10px;font-size:10px;border-radius:8px;min-height:28px;color:#EF4444;border-color:rgba(239,68,68,0.4);"><i data-lucide="x" style="width:12px;"></i> Batal</button>
-              </div>
-            </div>
-
-            <div class="map-filter-below">
-              <button class="map-filter-btn-popup" onclick="openMapFilterModal('titik')">
-                <i data-lucide="filter" style="width:12px;"></i> Tampilkan Titik
-                <span id="filter-titik-count" style="background:rgba(0,217,255,0.2);color:var(--primary-cyan);padding:1px 6px;border-radius:99px;font-size:9px;margin-left:4px;">-</span>
-              </button>
-              <button class="map-filter-btn-popup" onclick="openMapFilterModal('line')">
-                <i data-lucide="route" style="width:12px;"></i> Tampilkan Line
-                <span id="filter-line-count" style="background:rgba(0,217,255,0.2);color:var(--primary-cyan);padding:1px 6px;border-radius:99px;font-size:9px;margin-left:4px;">-</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- KOLOM KANAN -->
-        <div class="layout-right">
-          <!-- PERBANDINGAN TAHUNAN -->
-          <div class="ai-panel">
-            <div class="ai-panel-header">
-              <div class="ai-panel-title"><span class="dot"></span> Perbandingan Tahunan</div>
-              <span style="font-size:10px;color:var(--text-dim);font-family:'Orbitron',sans-serif;">
-                <span id="ytd-year-label">-</span> vs <span id="ytd-prev-year-label">-</span>
-              </span>
-            </div>
-            <div class="ytd-compare-grid-5" id="ytd-compare-grid">
-              <div style="text-align:center;color:var(--text-muted);padding:16px;grid-column:1/-1;font-size:11px;">Memuat data...</div>
-            </div>
-
-            <div class="ai-panel-header" style="margin-top:12px;margin-bottom:6px;">
-              <div class="ai-panel-title" style="font-size:9px;"><span class="dot"></span> Rekap OF Cut Tahunan</div>
-            </div>
-            <div class="chart-rekap-scroll">
-              <table class="chart-rekap-table" id="chart-rekap-table">
-                <thead>
-                  <tr>
-                    <th rowspan="2" style="vertical-align:middle;">Thn</th>
-                    <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);">Jumlah</th>
-                    <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);border-left:2px solid rgba(168,85,247,0.5);">Persentase</th>
-                    <th class="col-total" rowspan="2" style="vertical-align:middle;">Tot</th>
-                  </tr>
-                  <tr>
-                    <th style="color:#FF0000;">P3</th>
-                    <th style="color:#00FF00;">Vnd</th>
-                    <th style="color:#0000FF;">Bnc</th>
-                    <th style="color:#FF00FF;">Lain</th>
-                    <th class="col-persen-header" style="color:#FF0000;border-left:2px solid rgba(168,85,247,0.5);">P3%</th>
-                    <th class="col-persen-header" style="color:#00FF00;">Vnd%</th>
-                    <th class="col-persen-header" style="color:#0000FF;">Bnc%</th>
-                    <th class="col-persen-header" style="color:#FF00FF;">Lain%</th>
-                  </tr>
-                </thead>
-                <tbody id="chart-rekap-body">
-                  <tr><td colspan="10" style="text-align:center;padding:16px;color:var(--text-muted);font-size:10px;">Memuat data...</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- RINGKASAN ASET -->
+          <!-- RINGKASAN ASET (DIPINDAH KE KIRI) -->
           <div class="ai-panel">
             <div class="ai-panel-header">
               <div class="ai-panel-title"><span class="dot"></span> Ringkasan Aset</div>
@@ -1188,6 +1014,184 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
               <span id="stok-spare-total-badge" style="background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-weight:800;font-size:10px;">0 Item</span>
             </div>
             <div class="stok-spare-list" id="stok-spare-list"></div>
+          </div>
+        </div>
+
+        <!-- KOLOM TENGAH: HERO + MAP -->
+        <div class="layout-center">
+          <!-- HERO DIPERPENDEK -->
+          <div class="ai-hero">
+            <div class="hero-orb o1"></div>
+            <div class="hero-orb o2"></div>
+            <div class="hero-orb o3"></div>
+
+            <div class="hero-big-number">
+              <div class="hbn-label">TOTAL INSIDEN <span id="hbn-year">2026</span></div>
+              <div class="hbn-value" id="hbn-total">0</div>
+            </div>
+
+            <div class="ai-hero-badge">
+              <i data-lucide="crown" style="width:12px;"></i> BUCIN · LIVE OPERASIONAL
+            </div>
+            <h1 class="ai-hero-title">Barisan Utama <span class="accent">Cegah Insiden</span> Network</h1>
+            <p class="ai-hero-sub">Pusat Operasi Jaringan Fiber Optik · Sulawesi Utara · <span id="live-clock">--:--:--</span></p>
+            <p class="hero-about" id="hero-about-text" style="font-size:11px;color:var(--text-muted);line-height:1.4;position:relative;z-index:3;margin-bottom:8px;">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
+
+            <div class="ai-hero-stats">
+              <div class="ai-stat-mini">
+                <div class="stat-label">Stok Spare</div>
+                <div class="stat-value" id="ai-stat-total" data-count="0">0</div>
+              </div>
+              <div class="ai-stat-mini">
+                <div class="stat-label">OF Cut</div>
+                <div class="stat-value red" id="ai-stat-ofcut" data-count="0">0</div>
+              </div>
+              <div class="ai-stat-mini">
+                <div class="stat-label">Handhole</div>
+                <div class="stat-value green" id="ai-stat-online" data-count="0">0</div>
+              </div>
+              <div class="ai-stat-mini">
+                <div class="stat-label">Joint</div>
+                <div class="stat-value blue" id="ai-stat-joint" data-count="0">0</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MAP -->
+          <div class="ai-panel-map">
+            <div style="padding:10px 12px;border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;position:relative;z-index:5;">
+              <div class="ai-panel-title"><span class="dot"></span> Peta Line & Titik Aset</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button id="btn-draw-line" class="btn-primary" style="padding:4px 10px;font-size:10px;border-radius:12px;min-height:auto;"><i data-lucide="pen-line" style="width:11px;"></i> Line</button>
+                <button id="btn-upload-kml" class="btn-secondary" style="padding:4px 10px;font-size:10px;border-radius:12px;min-height:auto;"><i data-lucide="upload" style="width:11px;"></i> KML</button>
+                <button id="btn-manage-kml" class="btn-secondary" style="padding:4px 10px;font-size:10px;border-radius:12px;min-height:auto;color:#EF4444;border-color:rgba(239,68,68,0.4);"><i data-lucide="folder-cog" style="width:11px;"></i></button>
+              </div>
+            </div>
+
+            <div style="position:relative;flex:1;min-height:640px;">
+              <div id="map-container"></div>
+              <div class="map-legend-top-right" id="map-legend-titik">
+                <div class="ml-title">Keterangan Titik</div>
+                <div class="ml-item"><span class="ml-dot" style="background:#FF0000;"></span>OF Cut<span class="ml-count" id="ml-count-ofcut">0</span></div>
+                <div class="ml-item"><span class="ml-dot" style="background:#00FF00;"></span>Pihak Ke-3<span class="ml-count" id="ml-count-p3">0</span></div>
+                <div class="ml-item"><span class="ml-dot" style="background:#0000FF;"></span>Temuan<span class="ml-count" id="ml-count-temuan">0</span></div>
+                <div class="ml-item"><span class="ml-dot" style="background:#FFFF00;"></span>Joint<span class="ml-count" id="ml-count-joint">0</span></div>
+                <div class="ml-item"><span class="ml-dot" style="background:#FF00FF;"></span>Handhole<span class="ml-count" id="ml-count-handhole">0</span></div>
+              </div>
+              <div class="custom-map-controls">
+                <button class="custom-map-btn active" onclick="toggleMapLayer('satellite', event)" title="Satelit HD"><i data-lucide="satellite" style="width:14px;"></i></button>
+                <button class="custom-map-btn" onclick="toggleMapLayer('street', event)" title="Jalan HD"><i data-lucide="map" style="width:14px;"></i></button>
+                <button class="custom-map-btn" onclick="toggleMapLayer('hybrid', event)" title="Hybrid HD"><i data-lucide="layers" style="width:14px;"></i></button>
+                <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:14px;"></i></button>
+                <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:14px;"></i></button>
+              </div>
+              <div id="draw-controls" class="hidden" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:1100;background:var(--surface-map-legend);border:1px solid var(--border-glow);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,217,255,0.3);flex-wrap:wrap;justify-content:center;">
+                <span style="font-weight:700;color:var(--primary-cyan);white-space:nowrap;font-size:11px;">
+                  <i data-lucide="pen-line" style="width:14px;display:inline-block;vertical-align:middle;"></i>
+                  <span id="draw-status">Klik peta untuk mulai menggambar</span>
+                </span>
+                <span id="draw-point-count" style="font-weight:700;color:var(--text-muted);background:rgba(0,217,255,0.1);padding:3px 8px;border-radius:6px;font-size:10px;">0 titik</span>
+                <button onclick="finishDrawLine()" class="btn-primary" style="padding:5px 10px;font-size:10px;border-radius:8px;min-height:28px;"><i data-lucide="check" style="width:12px;"></i> Selesai</button>
+                <button onclick="undoLastPoint()" class="btn-secondary" style="padding:5px 10px;font-size:10px;border-radius:8px;min-height:28px;"><i data-lucide="undo-2" style="width:12px;"></i> Undo</button>
+                <button onclick="cancelDrawLine()" class="btn-secondary" style="padding:5px 10px;font-size:10px;border-radius:8px;min-height:28px;color:#EF4444;border-color:rgba(239,68,68,0.4);"><i data-lucide="x" style="width:12px;"></i> Batal</button>
+              </div>
+            </div>
+
+            <div class="map-filter-below">
+              <button class="map-filter-btn-popup" onclick="openMapFilterModal('titik')">
+                <i data-lucide="filter" style="width:12px;"></i> Tampilkan Titik
+                <span id="filter-titik-count" style="background:rgba(0,217,255,0.2);color:var(--primary-cyan);padding:1px 6px;border-radius:99px;font-size:9px;margin-left:4px;">-</span>
+              </button>
+              <button class="map-filter-btn-popup" onclick="openMapFilterModal('line')">
+                <i data-lucide="route" style="width:12px;"></i> Tampilkan Line
+                <span id="filter-line-count" style="background:rgba(0,217,255,0.2);color:var(--primary-cyan);padding:1px 6px;border-radius:99px;font-size:9px;margin-left:4px;">-</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- KOLOM KANAN: GRAFIK OF CUT (DIPINDAH KE KANAN) -->
+        <div class="layout-right">
+          <!-- GRAFIK OF CUT -->
+          <div class="ai-panel">
+            <div class="ai-panel-header">
+              <div class="ai-panel-title"><span class="dot"></span> Grafik OF Cut</div>
+              <select id="chart-period" class="field-control" style="min-height:26px;padding:2px 8px;font-size:10px;width:auto;border-radius:6px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
+            </div>
+
+            <div class="chart-summary-strip-2" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+              <div class="chart-summary-chip" style="border-left:3px solid #FF0000;">
+                <div class="cs-label" style="color:#FF0000;">P3/Bln</div>
+                <div class="cs-value" id="cs-persen-p3" style="color:#FF0000;">0%</div>
+                <div style="font-size:7px;color:var(--text-dim);margin-top:1px;">avg <span id="cs-avg-p3">0</span>/5</div>
+              </div>
+              <div class="chart-summary-chip" style="border-left:3px solid #00FF00;">
+                <div class="cs-label" style="color:#00FF00;">Vandal/Bln</div>
+                <div class="cs-value" id="cs-persen-vandal" style="color:#00FF00;">0%</div>
+                <div style="font-size:7px;color:var(--text-dim);margin-top:1px;">avg <span id="cs-avg-vandal">0</span>/5</div>
+              </div>
+              <div class="chart-summary-chip" style="border-left:3px solid #0000FF;">
+                <div class="cs-label" style="color:#0000FF;">Bencana/Bln</div>
+                <div class="cs-value" id="cs-persen-bencana" style="color:#0000FF;">0%</div>
+                <div style="font-size:7px;color:var(--text-dim);margin-top:1px;">avg <span id="cs-avg-bencana">0</span>/5</div>
+              </div>
+              <div class="chart-summary-chip" style="border-left:3px solid #FF00FF;">
+                <div class="cs-label" style="color:#FF00FF;">Lainnya/Bln</div>
+                <div class="cs-value" id="cs-persen-lainnya" style="color:#FF00FF;">0%</div>
+                <div style="font-size:7px;color:var(--text-dim);margin-top:1px;">avg <span id="cs-avg-lainnya">0</span>/5</div>
+              </div>
+            </div>
+
+            <div class="mini-doughnut-wrap" id="mini-doughnut-wrap">
+              <canvas id="doughnutIncidents" width="110" height="110"></canvas>
+              <div class="mini-legend" id="mini-legend"></div>
+            </div>
+            <div class="ai-chart-wrap">
+              <canvas id="chartIncidents"></canvas>
+            </div>
+          </div>
+
+          <!-- PERBANDINGAN TAHUNAN -->
+          <div class="ai-panel">
+            <div class="ai-panel-header">
+              <div class="ai-panel-title"><span class="dot"></span> Perbandingan Tahunan</div>
+              <span style="font-size:10px;color:var(--text-dim);font-family:'Orbitron',sans-serif;">
+                <span id="ytd-year-label">-</span> vs <span id="ytd-prev-year-label">-</span>
+              </span>
+            </div>
+            <div class="ytd-compare-grid-5" id="ytd-compare-grid">
+              <div style="text-align:center;color:var(--text-muted);padding:16px;grid-column:1/-1;font-size:11px;">Memuat data...</div>
+            </div>
+
+            <div class="ai-panel-header" style="margin-top:12px;margin-bottom:6px;">
+              <div class="ai-panel-title" style="font-size:9px;"><span class="dot"></span> Rekap OF Cut Tahunan</div>
+            </div>
+            <div class="chart-rekap-scroll">
+              <table class="chart-rekap-table" id="chart-rekap-table">
+                <thead>
+                  <tr>
+                    <th rowspan="2" style="vertical-align:middle;">Thn</th>
+                    <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);">Jumlah</th>
+                    <th colspan="5" style="border-bottom:2px solid var(--surface-table-border-solid);border-left:2px solid rgba(168,85,247,0.5);">Persentase</th>
+                    <th class="col-total" rowspan="2" style="vertical-align:middle;">Tot</th>
+                  </tr>
+                  <tr>
+                    <th style="color:#FF0000;">P3</th>
+                    <th style="color:#00FF00;">Vnd</th>
+                    <th style="color:#0000FF;">Bnc</th>
+                    <th style="color:#FF00FF;">Lain</th>
+                    <th class="col-persen-header" style="color:#FF0000;border-left:2px solid rgba(168,85,247,0.5);">P3%</th>
+                    <th class="col-persen-header" style="color:#00FF00;">Vnd%</th>
+                    <th class="col-persen-header" style="color:#0000FF;">Bnc%</th>
+                    <th class="col-persen-header" style="color:#FF00FF;">Lain%</th>
+                    <th class="col-persen-header" style="color:#34D399;border-left:2px solid rgba(168,85,247,0.5);">Total%</th>
+                  </tr>
+                </thead>
+                <tbody id="chart-rekap-body">
+                  <tr><td colspan="11" style="text-align:center;padding:16px;color:var(--text-muted);font-size:10px;">Memuat data...</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -1842,13 +1846,20 @@ function updateThemeButtons() {
 }
 function loadTheme() { var saved = 'dark'; try { saved = localStorage.getItem('bucin_theme') || 'dark'; } catch (e) {} setTheme(saved); }
 
-/* ============================================================ DROPDOWN MENU ============================================================ */
+/* ============================================================ DROPDOWN MENU (PERBAIKAN) ============================================================ */
 function toggleDropdown(btn) {
   var parent = btn.closest('.nav-dropdown');
+  if (!parent) return;
   var wasOpen = parent.classList.contains('open');
-  document.querySelectorAll('.nav-dropdown').forEach(function(d) { d.classList.remove('open'); });
-  if (!wasOpen) parent.classList.add('open');
+  // Tutup semua dropdown lain
+  document.querySelectorAll('.nav-dropdown').forEach(function(d) {
+    if (d !== parent) d.classList.remove('open');
+  });
+  // Toggle dropdown saat ini
+  parent.classList.toggle('open', !wasOpen);
 }
+
+// Tutup dropdown saat klik di luar
 document.addEventListener('click', function(e) {
   if (!e.target.closest('.nav-dropdown')) {
     document.querySelectorAll('.nav-dropdown').forEach(function(d) { d.classList.remove('open'); });
@@ -3952,6 +3963,7 @@ function renderRekapTableTahunan(currentYearNum) {
     var pV  = hitungPersenPerBulan(t.vandal);
     var pB  = hitungPersenPerBulan(t.bencana);
     var pL  = hitungPersenPerBulan(t.lainnya);
+    var pTotal = hitungPersenPerBulan(total);
     html += '<tr>';
     html += '<td>' + y + '</td>';
     html += '<td>' + (t.p3 || '') + '</td><td>' + (t.vandal || '') + '</td><td>' + (t.bencana || '') + '</td><td>' + (t.lainnya || '') + '</td>';
@@ -3959,6 +3971,7 @@ function renderRekapTableTahunan(currentYearNum) {
     html += '<td class="col-persen vandal">' + fmtPersen(pV) + '</td>';
     html += '<td class="col-persen bencana">' + fmtPersen(pB) + '</td>';
     html += '<td class="col-persen lainnya">' + fmtPersen(pL) + '</td>';
+    html += '<td class="col-total-persen">' + fmtPersen(pTotal) + '</td>';
     html += '<td class="col-total">' + (total || '') + '</td>';
     html += '</tr>';
   });
@@ -3967,12 +3980,14 @@ function renderRekapTableTahunan(currentYearNum) {
   var gpV  = hitungPersenPerBulan(grandV);
   var gpB  = hitungPersenPerBulan(grandB);
   var gpL  = hitungPersenPerBulan(grandL);
+  var gpTotal = hitungPersenPerBulan(grand);
   html += '<tr class="total-row"><td>TOTAL</td>';
   html += '<td>' + grandP3 + '</td><td>' + grandV + '</td><td>' + grandB + '</td><td>' + grandL + '</td>';
   html += '<td class="col-persen p3">' + fmtPersen(gpP3) + '</td>';
   html += '<td class="col-persen vandal">' + fmtPersen(gpV) + '</td>';
   html += '<td class="col-persen bencana">' + fmtPersen(gpB) + '</td>';
   html += '<td class="col-persen lainnya">' + fmtPersen(gpL) + '</td>';
+  html += '<td class="col-total-persen">' + fmtPersen(gpTotal) + '</td>';
   html += '<td class="col-total">' + grand + '</td></tr>';
   tbody.innerHTML = html;
 }
