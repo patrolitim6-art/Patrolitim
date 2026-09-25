@@ -1463,19 +1463,15 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       <p style="line-height:1.7;color:var(--text-muted);margin-top:10px;font-size:var(--app-font-size-sm);">Sistem informasi operasional untuk tim patroli jaringan fiber optik di wilayah <strong style="color:var(--text-main);">Sulawesi Utara</strong>. Aplikasi ini mencakup manajemen data gangguan (OF Cut, P3, Temuan), inventaris (Alker, Spare, Patch Cord), pengukuran OPM/OLS, serta visualisasi peta & grafik analitik.</p>
     </div>
 
-    <!-- ============ PENJELASAN MENU ============ -->
+    <!-- PENJELASAN MENU -->
     <div style="margin-bottom:20px;">
       <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">🧭 PENJELASAN MENU & FUNGSI</h4>
 
-      <!-- Dashboard -->
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📊 Dashboard</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
-          Halaman utama yang menampilkan ringkasan operasional secara <em>real-time</em>: total insiden, ringkasan aset (Alker/Spare/Patch Cord), stok spare per gudang, kategori data, peta sebaran titik & line, serta seluruh grafik analitik OF Cut.
-        </div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Halaman utama yang menampilkan ringkasan operasional secara <em>real-time</em>: total insiden, ringkasan aset (Alker/Spare/Patch Cord), stok spare per gudang, kategori data, peta sebaran titik & line, serta seluruh grafik analitik OF Cut.</div>
       </div>
 
-      <!-- Data Operasional -->
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:6px;">🗄️ Data Operasional</div>
         <div style="display:grid;gap:6px;">
@@ -1502,7 +1498,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
         </div>
       </div>
 
-      <!-- Inventory -->
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:6px;">📦 Inventory</div>
         <div style="display:grid;gap:6px;">
@@ -1516,12 +1511,11 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
           </div>
           <div style="padding-left:10px;border-left:2px solid #F59E0B;">
             <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">🔌 Patch Cord</div>
-            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Stok patch cord per gudang dengan transaksi Masuk/Keluar. Field: jenis (SC-SC, LC-LC, dll), panjang (0.5m–30m), qty, status. Validasi saldo otomatis — tidak bisa keluar melebihi stok tersedia.</div>
+            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Stok patch cord per gudang dengan transaksi <strong>Masuk</strong>/<strong>Keluar</strong>. Field: jenis (SC-SC, LC-LC, dll), panjang (0.5m–30m), qty, status. <strong>Saldo Akhir = Total Masuk − Total Keluar</strong> (bisa negatif jika Keluar &gt; Masuk). Validasi: pengeluaran tidak boleh melebihi saldo tersedia.</div>
           </div>
         </div>
       </div>
 
-      <!-- Pengaturan & User -->
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:6px;">⚙️ Pengaturan & Manajemen (Khusus Admin)</div>
         <div style="display:grid;gap:6px;">
@@ -1541,81 +1535,51 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       </div>
     </div>
 
-    <!-- ============ KETERANGAN GRAFIK ============ -->
+    <!-- KETERANGAN GRAFIK -->
     <div style="margin-bottom:20px;">
       <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">📈 KETERANGAN GRAFIK</h4>
 
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📊 Grafik Batang OF Cut Bulanan</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
-          Menampilkan jumlah insiden OF Cut <strong>per bulan</strong> untuk tahun yang dipilih (dropdown tahun di kanan atas panel). Terdiri dari 4 batang per bulan:
-          <span style="color:#FF0000;font-weight:700;">Pihak Ke-3</span>,
-          <span style="color:#00FF00;font-weight:700;">Vandalisme</span>,
-          <span style="color:#0000FF;font-weight:700;">Bencana</span>,
-          <span style="color:#FF00FF;font-weight:700;">Lainnya</span>.
-        </div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Menampilkan jumlah insiden OF Cut <strong>per bulan</strong> untuk tahun yang dipilih (dropdown tahun di kanan atas panel). Terdiri dari 4 batang per bulan: <span style="color:#FF0000;font-weight:700;">Pihak Ke-3</span>, <span style="color:#00FF00;font-weight:700;">Vandalisme</span>, <span style="color:#0000FF;font-weight:700;">Bencana</span>, <span style="color:#FF00FF;font-weight:700;">Lainnya</span>.</div>
       </div>
 
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">🍩 Doughnut OF Cut (Proporsi)</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
-          Menampilkan proporsi total insiden per kategori penyebab untuk tahun terpilih. Legend di samping menunjukkan angka absolut tiap kategori.
-        </div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Menampilkan proporsi total insiden per kategori penyebab untuk tahun terpilih. Legend di samping menunjukkan angka absolut tiap kategori.</div>
       </div>
 
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">🍩 Doughnut Distribusi Aset</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
-          Menampilkan distribusi jumlah aset: <span style="color:#00D9FF;font-weight:700;">Alker</span>, <span style="color:#10B981;font-weight:700;">Stok Spare</span>, dan <span style="color:#F59E0B;font-weight:700;">Saldo Patch Cord</span>. Ring indicator di kiri dashboard menampilkan proporsi yang sama dalam bentuk radial.
-        </div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Menampilkan distribusi jumlah aset: <span style="color:#00D9FF;font-weight:700;">Alker</span>, <span style="color:#10B981;font-weight:700;">Stok Spare</span>, dan <span style="color:#F59E0B;font-weight:700;">Saldo Patch Cord</span>. Ring indicator di kiri dashboard menampilkan proporsi yang sama dalam bentuk radial.</div>
       </div>
 
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📉 Grafik Garis Tren OF Cut Bulanan</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
-          Menampilkan tren per bulan dalam bentuk garis, terdiri dari 5 dataset:
-          <span style="color:#FF4444;font-weight:700;">Pihak Ke-3</span>,
-          <span style="color:#22DD22;font-weight:700;">Vandalisme</span>,
-          <span style="color:#4488FF;font-weight:700;">Bencana</span>,
-          <span style="color:#EE44EE;font-weight:700;">Lainnya</span>, dan
-          <span style="color:#00D9FF;font-weight:700;">TOTAL (putus-putus)</span>.
-          Berguna untuk melihat pola/trend musiman gangguan.
-        </div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Menampilkan tren per bulan dalam bentuk garis, terdiri dari 5 dataset: <span style="color:#FF4444;font-weight:700;">Pihak Ke-3</span>, <span style="color:#22DD22;font-weight:700;">Vandalisme</span>, <span style="color:#4488FF;font-weight:700;">Bencana</span>, <span style="color:#EE44EE;font-weight:700;">Lainnya</span>, dan <span style="color:#00D9FF;font-weight:700;">TOTAL (putus-putus)</span>. Berguna untuk melihat pola/trend musiman gangguan.</div>
       </div>
 
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📅 Perbandingan Tahunan (YTD)</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
-          Membandingkan total insiden <strong>tahun ini vs tahun sebelumnya</strong> untuk 5 metrik: P3, Vandal, Bencana, Lainnya, dan TOTAL.
-          Indikator selisih:
-          <span style="color:#EF4444;font-weight:700;">▲ merah = naik (memburuk)</span>,
-          <span style="color:#10B981;font-weight:700;">▼ hijau = turun (membaik)</span>,
-          <span style="color:var(--text-muted);font-weight:700;">● abu = sama</span>.
-        </div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Membandingkan total insiden <strong>tahun ini vs tahun sebelumnya</strong> untuk 5 metrik: P3, Vandal, Bencana, Lainnya, dan TOTAL. Indikator selisih: <span style="color:#EF4444;font-weight:700;">▲ merah = naik (memburuk)</span>, <span style="color:#10B981;font-weight:700;">▼ hijau = turun (membaik)</span>, <span style="color:var(--text-muted);font-weight:700;">● abu = sama</span>.</div>
       </div>
 
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📋 Rekap OF Cut Tahunan (Tabel)</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
-          Tabel multi-tahun berisi kolom <strong>Jumlah</strong> (P3, Vandal, Bencana, Lainnya), <strong>Persen</strong> per kategori (dihitung dari maksimum 5 kejadian/bulan × 12 bulan = 60/tahun), dan <strong>Total</strong> per tahun. Baris <em>TOT</em> adalah grand total.
-        </div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Tabel multi-tahun berisi kolom <strong>Jumlah</strong> (P3, Vandal, Bencana, Lainnya), <strong>Persen</strong> per kategori (dihitung dari maksimum 5 kejadian/bulan × 12 bulan = 60/tahun), dan <strong>Total</strong> per tahun. Baris <em>TOT</em> adalah grand total.</div>
       </div>
 
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">💯 Persentase OF Cut (Chip)</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">
-          4 chip di atas doughnut menampilkan persentase rata-rata per bulan per kategori terhadap asumsi maksimum 5 insiden/bulan. Berguna sebagai indikator kesehatan jaringan.
-        </div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">4 chip di atas doughnut menampilkan persentase rata-rata per bulan per kategori terhadap asumsi maksimum 5 insiden/bulan. Berguna sebagai indikator kesehatan jaringan.</div>
       </div>
     </div>
 
-    <!-- ============ KETERANGAN PETA ============ -->
+    <!-- KETERANGAN PETA -->
     <div style="margin-bottom:20px;">
       <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">🗺️ KETERANGAN PETA</h4>
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;">
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;margin-bottom:8px;">
-          Peta menampilkan sebaran titik aset dan line fiber optik. Setiap titik mewakili satu record dan dapat diklik untuk melihat popup detail.
-        </div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;margin-bottom:8px;">Peta menampilkan sebaran titik aset dan line fiber optik. Setiap titik mewakili satu record dan dapat diklik untuk melihat popup detail.</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:var(--app-font-size-xs);">
           <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#FF0000;border:2px solid #fff;"></span> OF Cut</div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#00FF00;border:2px solid #fff;"></span> Pihak Ke-3</div>
@@ -1624,13 +1588,11 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
           <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#FF00FF;border:2px solid #fff;"></span> Handhole</div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="width:20px;height:3px;background:#00D9FF;"></span> Line KML / Custom</div>
         </div>
-        <div style="color:var(--text-dim);font-size:10px;line-height:1.6;margin-top:8px;">
-          <strong>Fitur peta:</strong> ganti base layer (Satellite/Street/Hybrid), zoom in/out, gambar line baru (mode crosshair), upload KML/KMZ, filter titik/line, dan kelola line tersimpan.
-        </div>
+        <div style="color:var(--text-dim);font-size:10px;line-height:1.6;margin-top:8px;"><strong>Fitur peta:</strong> ganti base layer (Satellite/Street/Hybrid), zoom in/out, gambar line baru (mode crosshair), upload KML/KMZ, filter titik/line, dan kelola line tersimpan.</div>
       </div>
     </div>
 
-    <!-- ============ WARNA KATEGORI ============ -->
+    <!-- WARNA KATEGORI -->
     <div style="margin-bottom:20px;">
       <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">🎨 KODE WARNA KATEGORI</h4>
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;">
@@ -1646,7 +1608,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       </div>
     </div>
 
-    <!-- FOOTER -->
     <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);">
       <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">&copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Versi 3.5.0 · Powered by Telin</p>
     </div>
@@ -3373,7 +3334,7 @@ function populateFormFields(data) {
   setTimeout(checkOpmDariKe, 100); setTimeout(hitungDurasiOF, 150);
 }
 
-/* ============================================================ STOK SUMMARY ============================================================ */
+/* ============================================================ STOK SUMMARY — FIX BUG PATCH CORD ============================================================ */
 function updateStokSummary() {
   var isSpare = currentCategory === 'Stok Spare', isPatch = currentCategory === 'Patch Cord';
   var c = document.getElementById('stok-summary-container');
@@ -3385,7 +3346,7 @@ function updateStokSummary() {
     if (selectedGudangFilter !== 'all') items = items.filter(function(i) { return i.gudang === selectedGudangFilter; });
     var masuk = 0, keluar = 0;
     items.forEach(function(i) { var q = parseInt(i.qty) || 0; if (i.trType === 'Masuk') masuk += q; else if (i.trType === 'Keluar') keluar += q; });
-    var saldo = masuk - keluar;
+    var saldo = masuk - keluar;   // ← FIX: tidak di-clamp ke 0
     document.getElementById('total-stok-value').textContent = saldo;
     document.getElementById('total-masuk-value').textContent = masuk;
     document.getElementById('total-keluar-value').textContent = keluar;
@@ -3540,11 +3501,7 @@ function initCharts() {
           interaction: { mode: 'index', intersect: false },
           plugins: {
             legend: { display: true, position: 'top', labels: { color: '#94A3B8', font: { size: 9 }, boxWidth: 10, padding: 6, usePointStyle: true, pointStyle: 'circle' } },
-            tooltip: {
-              backgroundColor: 'rgba(15,23,42,0.95)', titleColor: '#00D9FF', bodyColor: '#E2E8F0',
-              borderColor: 'rgba(0,217,255,0.4)', borderWidth: 1, padding: 8, cornerRadius: 8,
-              titleFont: { size: 10, weight: '700' }, bodyFont: { size: 10 }
-            }
+            tooltip: { backgroundColor: 'rgba(15,23,42,0.95)', titleColor: '#00D9FF', bodyColor: '#E2E8F0', borderColor: 'rgba(0,217,255,0.4)', borderWidth: 1, padding: 8, cornerRadius: 8, titleFont: { size: 10, weight: '700' }, bodyFont: { size: 10 } }
           },
           scales: {
             y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 9 }, color: '#94A3B8', precision: 0 }, grid: { color: 'rgba(148,163,184,0.1)' } },
