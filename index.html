@@ -400,6 +400,22 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .ai-row-map-full .ai-panel-map { padding: 0; overflow: hidden; min-height: 620px; }
 @media (max-width: 900px) { .ai-row-map-full .ai-panel-map { min-height: 500px; } }
 
+/* ============ NEW LAYOUT GRID (3 KOLOM SETELAH HERO) ============ */
+.ai-row-three-col {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1.15fr;
+  gap: 14px;
+  align-items: start;
+}
+@media (max-width: 1280px) {
+  .ai-row-three-col { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  .ai-row-three-col { grid-template-columns: 1fr; }
+}
+.ai-row-three-col > .ai-panel { height: 100%; }
+/* ============ END NEW LAYOUT GRID ============ */
+
 .ai-row-bottom-2col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; align-items: start; }
 @media (max-width: 1100px) { .ai-row-bottom-2col { grid-template-columns: 1fr; } }
 
@@ -409,6 +425,19 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .ai-row-middle { display: grid; grid-template-columns: 240px 1fr 320px; gap: 14px; align-items: stretch; }
 @media (max-width: 1280px) { .ai-row-middle { grid-template-columns: 220px 1fr 300px; } }
 @media (max-width: 1100px) { .ai-row-middle { grid-template-columns: 1fr; } }
+
+/* ============ RINGKASAN ASET FULL WIDTH ============ */
+.ai-row-aset-full { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.ai-row-aset-full .aset-grid-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .ai-row-aset-full .aset-grid-content { grid-template-columns: 1fr; }
+}
+/* ============ END ============ */
 
 .ai-panel { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 16px; position: relative; overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; box-shadow: var(--shadow-card); display: flex; flex-direction: column; }
 .ai-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.55; }
@@ -850,6 +879,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
       <section id="dashboard-view">
         <div class="ai-dashboard">
 
+          <!-- ============ BARIS 1: HERO ============ -->
           <div class="ai-row-hero">
             <div class="ai-hero">
               <div class="hero-orb o1"></div>
@@ -890,6 +920,100 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </div>
           </div>
 
+          <!-- ============ BARIS 2: KATEGORI | GRAFIK OF CUT | PERBANDINGAN TAHUNAN ============ -->
+          <div class="ai-row-three-col">
+
+            <!-- KOLOM 1: KATEGORI -->
+            <div class="ai-panel">
+              <div class="ai-panel-header">
+                <div class="ai-panel-title"><span class="dot"></span> Kategori</div>
+              </div>
+              <div class="ai-cat-list" id="ai-cat-list"></div>
+            </div>
+
+            <!-- KOLOM 2: GRAFIK OF CUT -->
+            <div class="ai-panel">
+              <div class="ai-panel-header">
+                <div class="ai-panel-title"><span class="dot"></span> Grafik OF Cut</div>
+                <select id="chart-period" class="field-control" style="min-height:28px;padding:2px 10px;font-size:var(--app-font-size-xs);width:auto;border-radius:8px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
+              </div>
+
+              <div class="chart-summary-strip-2" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div class="chart-summary-chip" style="border-left:3px solid #FF0000;">
+                  <div class="cs-label" style="color:#FF0000;">P3 / Bulan</div>
+                  <div class="cs-value" id="cs-persen-p3" style="color:#FF0000;">0%</div>
+                  <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-p3">0</span> dari 5</div>
+                </div>
+                <div class="chart-summary-chip" style="border-left:3px solid #00FF00;">
+                  <div class="cs-label" style="color:#00FF00;">Vandal / Bulan</div>
+                  <div class="cs-value" id="cs-persen-vandal" style="color:#00FF00;">0%</div>
+                  <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-vandal">0</span> dari 5</div>
+                </div>
+                <div class="chart-summary-chip" style="border-left:3px solid #0000FF;">
+                  <div class="cs-label" style="color:#0000FF;">Bencana / Bulan</div>
+                  <div class="cs-value" id="cs-persen-bencana" style="color:#0000FF;">0%</div>
+                  <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-bencana">0</span> dari 5</div>
+                </div>
+                <div class="chart-summary-chip" style="border-left:3px solid #FF00FF;">
+                  <div class="cs-label" style="color:#FF00FF;">Lainnya / Bulan</div>
+                  <div class="cs-value" id="cs-persen-lainnya" style="color:#FF00FF;">0%</div>
+                  <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-lainnya">0</span> dari 5</div>
+                </div>
+              </div>
+
+              <div class="mini-doughnut-wrap" id="mini-doughnut-wrap">
+                <canvas id="doughnutIncidents" width="110" height="110"></canvas>
+                <div class="mini-legend" id="mini-legend"></div>
+              </div>
+              <div class="ai-chart-wrap" style="height:200px;">
+                <canvas id="chartIncidents"></canvas>
+              </div>
+            </div>
+
+            <!-- KOLOM 3: PERBANDINGAN TAHUNAN + REKAP -->
+            <div class="ai-panel">
+              <div class="ai-panel-header">
+                <div class="ai-panel-title"><span class="dot"></span> Perbandingan Tahunan</div>
+                <span style="font-size:var(--app-font-size-xs);color:var(--text-dim);font-family:'Orbitron',sans-serif;">
+                  <span id="ytd-year-label">-</span> vs <span id="ytd-prev-year-label">-</span>
+                </span>
+              </div>
+              <div class="ytd-compare-grid-5" id="ytd-compare-grid">
+                <div style="text-align:center;color:var(--text-muted);padding:16px;grid-column:1/-1;">Memuat data...</div>
+              </div>
+
+              <div class="ai-panel-header" style="margin-top:14px;margin-bottom:6px;">
+                <div class="ai-panel-title" style="font-size:10px;"><span class="dot"></span> Rekap OF Cut Tahunan (mulai 2025)</div>
+              </div>
+              <div class="chart-rekap-scroll">
+                <table class="chart-rekap-table" id="chart-rekap-table">
+                  <thead>
+                    <tr>
+                      <th rowspan="2" style="vertical-align:middle;">Tahun</th>
+                      <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);">Jumlah</th>
+                      <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);border-left:2px solid rgba(168,85,247,0.5);">Persentase / Bulan (maks 5)</th>
+                      <th class="col-total" rowspan="2" style="vertical-align:middle;">Total</th>
+                    </tr>
+                    <tr>
+                      <th style="color:#FF0000;">P3</th>
+                      <th style="color:#00FF00;">Vandal</th>
+                      <th style="color:#0000FF;">Bencana</th>
+                      <th style="color:#FF00FF;">Lainnya</th>
+                      <th class="col-persen-header" style="color:#FF0000;border-left:2px solid rgba(168,85,247,0.5);">P3 %</th>
+                      <th class="col-persen-header" style="color:#00FF00;">Vandal %</th>
+                      <th class="col-persen-header" style="color:#0000FF;">Bencana %</th>
+                      <th class="col-persen-header" style="color:#FF00FF;">Lainnya %</th>
+                    </tr>
+                  </thead>
+                  <tbody id="chart-rekap-body">
+                    <tr><td colspan="10" style="text-align:center;padding:16px;color:var(--text-muted);font-size:var(--app-font-size-xs);">Memuat data...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ BARIS 3: PETA FULL WIDTH ============ -->
           <div class="ai-row-map-full">
             <div class="ai-panel ai-panel-map">
               <div style="padding:12px 14px;border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
@@ -943,151 +1067,73 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
             </div>
           </div>
 
-          <div class="ai-row-bottom-2col">
-
-            <div style="display:flex;flex-direction:column;gap:14px;">
-              <div class="ai-panel">
-                <div class="ai-panel-header">
-                  <div class="ai-panel-title"><span class="dot"></span> Kategori</div>
-                </div>
-                <div class="ai-cat-list" id="ai-cat-list"></div>
+          <!-- ============ BARIS 4: RINGKASAN ASET FULL WIDTH ============ -->
+          <div class="ai-row-aset-full">
+            <div class="ai-panel">
+              <div class="ai-panel-header">
+                <div class="ai-panel-title"><span class="dot"></span> Ringkasan Aset</div>
               </div>
 
-              <div class="ai-panel">
-                <div class="ai-panel-header">
-                  <div class="ai-panel-title"><span class="dot"></span> Grafik OF Cut</div>
-                  <select id="chart-period" class="field-control" style="min-height:28px;padding:2px 10px;font-size:var(--app-font-size-xs);width:auto;border-radius:8px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
-                </div>
-
-                <div class="chart-summary-strip-2" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                  <div class="chart-summary-chip" style="border-left:3px solid #FF0000;">
-                    <div class="cs-label" style="color:#FF0000;">P3 / Bulan</div>
-                    <div class="cs-value" id="cs-persen-p3" style="color:#FF0000;">0%</div>
-                    <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-p3">0</span> dari 5</div>
-                  </div>
-                  <div class="chart-summary-chip" style="border-left:3px solid #00FF00;">
-                    <div class="cs-label" style="color:#00FF00;">Vandal / Bulan</div>
-                    <div class="cs-value" id="cs-persen-vandal" style="color:#00FF00;">0%</div>
-                    <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-vandal">0</span> dari 5</div>
-                  </div>
-                  <div class="chart-summary-chip" style="border-left:3px solid #0000FF;">
-                    <div class="cs-label" style="color:#0000FF;">Bencana / Bulan</div>
-                    <div class="cs-value" id="cs-persen-bencana" style="color:#0000FF;">0%</div>
-                    <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-bencana">0</span> dari 5</div>
-                  </div>
-                  <div class="chart-summary-chip" style="border-left:3px solid #FF00FF;">
-                    <div class="cs-label" style="color:#FF00FF;">Lainnya / Bulan</div>
-                    <div class="cs-value" id="cs-persen-lainnya" style="color:#FF00FF;">0%</div>
-                    <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-lainnya">0</span> dari 5</div>
-                  </div>
-                </div>
-
-                <div class="mini-doughnut-wrap" id="mini-doughnut-wrap">
-                  <canvas id="doughnutIncidents" width="110" height="110"></canvas>
-                  <div class="mini-legend" id="mini-legend"></div>
-                </div>
-                <div class="ai-chart-wrap" style="height:200px;">
-                  <canvas id="chartIncidents"></canvas>
-                </div>
-              </div>
-            </div>
-
-            <div style="display:flex;flex-direction:column;gap:14px;">
-              <div class="ai-panel">
-                <div class="ai-panel-header">
-                  <div class="ai-panel-title"><span class="dot"></span> Perbandingan Tahunan</div>
-                  <span style="font-size:var(--app-font-size-xs);color:var(--text-dim);font-family:'Orbitron',sans-serif;">
-                    <span id="ytd-year-label">-</span> vs <span id="ytd-prev-year-label">-</span>
-                  </span>
-                </div>
-                <div class="ytd-compare-grid-5" id="ytd-compare-grid">
-                  <div style="text-align:center;color:var(--text-muted);padding:16px;grid-column:1/-1;">Memuat data...</div>
-                </div>
-
-                <div class="ai-panel-header" style="margin-top:14px;margin-bottom:6px;">
-                  <div class="ai-panel-title" style="font-size:10px;"><span class="dot"></span> Rekap OF Cut Tahunan (mulai 2025)</div>
-                </div>
-                <div class="chart-rekap-scroll">
-                  <table class="chart-rekap-table" id="chart-rekap-table">
-                    <thead>
-                      <tr>
-                        <th rowspan="2" style="vertical-align:middle;">Tahun</th>
-                        <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);">Jumlah</th>
-                        <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);border-left:2px solid rgba(168,85,247,0.5);">Persentase / Bulan (maks 5)</th>
-                        <th class="col-total" rowspan="2" style="vertical-align:middle;">Total</th>
-                      </tr>
-                      <tr>
-                        <th style="color:#FF0000;">P3</th>
-                        <th style="color:#00FF00;">Vandal</th>
-                        <th style="color:#0000FF;">Bencana</th>
-                        <th style="color:#FF00FF;">Lainnya</th>
-                        <th class="col-persen-header" style="color:#FF0000;border-left:2px solid rgba(168,85,247,0.5);">P3 %</th>
-                        <th class="col-persen-header" style="color:#00FF00;">Vandal %</th>
-                        <th class="col-persen-header" style="color:#0000FF;">Bencana %</th>
-                        <th class="col-persen-header" style="color:#FF00FF;">Lainnya %</th>
-                      </tr>
-                    </thead>
-                    <tbody id="chart-rekap-body">
-                      <tr><td colspan="10" style="text-align:center;padding:16px;color:var(--text-muted);font-size:var(--app-font-size-xs);">Memuat data...</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div class="ai-panel">
-                <div class="ai-panel-header">
-                  <div class="ai-panel-title"><span class="dot"></span> Ringkasan Aset</div>
-                </div>
-
-                <div style="display:flex;gap:10px;justify-content:space-around;padding:6px 0 10px;border-bottom:1px dashed var(--border-subtle);">
-                  <div style="text-align:center;">
-                    <div class="radial-ring">
-                      <svg viewBox="0 0 60 60">
-                        <circle class="ring-bg" cx="30" cy="30" r="24"/>
-                        <circle class="ring-fg" id="ring-alker" cx="30" cy="30" r="24" stroke="#00D9FF" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
-                      </svg>
-                      <div class="ring-label" id="ring-alker-val" style="color:#00D9FF;">0</div>
+              <div class="aset-grid-content">
+                <!-- KOLOM 1: Radial Ring ALKER/SPARE/PATCHCORD -->
+                <div>
+                  <div style="display:flex;gap:14px;justify-content:space-around;padding:6px 0 12px;border-bottom:1px dashed var(--border-subtle);">
+                    <div style="text-align:center;">
+                      <div class="radial-ring">
+                        <svg viewBox="0 0 60 60">
+                          <circle class="ring-bg" cx="30" cy="30" r="24"/>
+                          <circle class="ring-fg" id="ring-alker" cx="30" cy="30" r="24" stroke="#00D9FF" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
+                        </svg>
+                        <div class="ring-label" id="ring-alker-val" style="color:#00D9FF;">0</div>
+                      </div>
+                      <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700;color:var(--text-dim);margin-top:4px;">Alker</div>
                     </div>
-                    <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700;color:var(--text-dim);margin-top:4px;">Alker</div>
-                  </div>
-                  <div style="text-align:center;">
-                    <div class="radial-ring">
-                      <svg viewBox="0 0 60 60">
-                        <circle class="ring-bg" cx="30" cy="30" r="24"/>
-                        <circle class="ring-fg" id="ring-spare" cx="30" cy="30" r="24" stroke="#10B981" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
-                      </svg>
-                      <div class="ring-label" id="ring-spare-val" style="color:#10B981;">0</div>
+                    <div style="text-align:center;">
+                      <div class="radial-ring">
+                        <svg viewBox="0 0 60 60">
+                          <circle class="ring-bg" cx="30" cy="30" r="24"/>
+                          <circle class="ring-fg" id="ring-spare" cx="30" cy="30" r="24" stroke="#10B981" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
+                        </svg>
+                        <div class="ring-label" id="ring-spare-val" style="color:#10B981;">0</div>
+                      </div>
+                      <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700;color:var(--text-dim);margin-top:4px;">Spare</div>
                     </div>
-                    <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700;color:var(--text-dim);margin-top:4px;">Spare</div>
-                  </div>
-                  <div style="text-align:center;">
-                    <div class="radial-ring">
-                      <svg viewBox="0 0 60 60">
-                        <circle class="ring-bg" cx="30" cy="30" r="24"/>
-                        <circle class="ring-fg" id="ring-patchcord" cx="30" cy="30" r="24" stroke="#F59E0B" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
-                      </svg>
-                      <div class="ring-label" id="ring-patchcord-val" style="color:#F59E0B;">0</div>
+                    <div style="text-align:center;">
+                      <div class="radial-ring">
+                        <svg viewBox="0 0 60 60">
+                          <circle class="ring-bg" cx="30" cy="30" r="24"/>
+                          <circle class="ring-fg" id="ring-patchcord" cx="30" cy="30" r="24" stroke="#F59E0B" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
+                        </svg>
+                        <div class="ring-label" id="ring-patchcord-val" style="color:#F59E0B;">0</div>
+                      </div>
+                      <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700;color:var(--text-dim);margin-top:4px;">Patch Cord</div>
                     </div>
-                    <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700;color:var(--text-dim);margin-top:4px;">Patch Cord</div>
                   </div>
                 </div>
 
-                <div class="ai-panel-header" style="margin-top:12px;margin-bottom:8px;">
-                  <div class="ai-panel-title" style="font-size:10px;"><span class="dot"></span> Distribusi Aset</div>
-                </div>
-                <div class="mini-doughnut-wrap" id="aset-doughnut-wrap">
-                  <canvas id="doughnutAset" width="110" height="110"></canvas>
-                  <div class="mini-legend" id="aset-legend"></div>
+                <!-- KOLOM 2: Distribusi Aset -->
+                <div>
+                  <div class="ai-panel-header" style="margin-bottom:8px;">
+                    <div class="ai-panel-title" style="font-size:10px;"><span class="dot"></span> Distribusi Aset</div>
+                  </div>
+                  <div class="mini-doughnut-wrap" id="aset-doughnut-wrap">
+                    <canvas id="doughnutAset" width="110" height="110"></canvas>
+                    <div class="mini-legend" id="aset-legend"></div>
+                  </div>
                 </div>
 
-                <div class="ai-panel-header" style="margin-top:12px;margin-bottom:8px;">
-                  <div class="ai-panel-title" style="font-size:10px;"><span class="dot"></span> Stok Spare</div>
-                  <span id="stok-spare-total-badge" style="background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-weight:800;font-size:var(--app-font-size-xs);">0 Item</span>
+                <!-- KOLOM 3: Stok Spare -->
+                <div>
+                  <div class="ai-panel-header" style="margin-bottom:8px;">
+                    <div class="ai-panel-title" style="font-size:10px;"><span class="dot"></span> Stok Spare</div>
+                    <span id="stok-spare-total-badge" style="background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-weight:800;font-size:var(--app-font-size-xs);">0 Item</span>
+                  </div>
+                  <div class="stok-spare-list" id="stok-spare-list"></div>
                 </div>
-                <div class="stok-spare-list" id="stok-spare-list"></div>
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
@@ -3029,7 +3075,6 @@ function renderTable() {
     else th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
     var isAdmin = currentUser && currentUser.role === 'admin';
 
-    /* ============ PATCH CORD ============ */
     if (isPatch) {
       if (selectedGudangFilter === 'all') {
         var groups = {};
@@ -3093,7 +3138,6 @@ function renderTable() {
       try { updateTotalDataTagline(); } catch (e) {}
       return;
     }
-    /* ============ END PATCH CORD ============ */
 
     keys = sortData(keys, list, cat);
     keys.forEach(function(k, idx) {
