@@ -267,7 +267,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .map-outer-wrap {
   position: relative;
   width: 100%;
-  height: 680px; /* default PC */
+  height: 680px;
   min-height: 320px;
 }
 #map-container {
@@ -318,7 +318,15 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
 .ai-chart-wrap { position: relative; height: 220px; flex: 1; }
 
-/* ============ YTD COMPARE (Rata2 DIHAPUS) ============ */
+/* ============ LINE CHART OF CUT (BARU) ============ */
+.ai-chart-wrap-line {
+  position: relative;
+  height: 240px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* ============ YTD COMPARE ============ */
 .ytd-compare-grid-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
 .ytd-card {
   background: var(--surface-3);
@@ -558,8 +566,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .ai-panel { padding: 12px; }
   .ai-panel-title { font-size: 10px; letter-spacing: 0.5px; }
   .ai-chart-wrap { height: 240px; }
+  .ai-chart-wrap-line { height: 220px; }
 
-  /* ====== MAP HEIGHT FIX UNTUK HP ====== */
   .map-outer-wrap { height: 420px; min-height: 320px; }
   .map-legend-top-right { max-width: 140px; padding: 6px 8px; font-size: 8px; }
   .map-legend-top-right .ml-title { font-size: 7px; }
@@ -626,8 +634,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .ai-stat-mini .stat-value { font-size: 18px; }
   .ytd-compare-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ai-chart-wrap { height: 220px; }
+  .ai-chart-wrap-line { height: 200px; }
 
-  /* ====== MAP HEIGHT FIX UNTUK HP KECIL ====== */
   .map-outer-wrap { height: 380px; min-height: 300px; }
 
   .records-table th { padding: 7px 8px; font-size: 8.5px; }
@@ -865,7 +873,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
                 <button id="btn-manage-kml" class="btn-secondary" style="padding:5px 10px;font-size:10px;border-radius:12px;min-height:auto;color:#EF4444;border-color:rgba(239,68,68,0.4);"><i data-lucide="folder-cog" style="width:11px;"></i></button>
               </div>
             </div>
-            <!-- MAP WRAPPER BARU: pakai map-outer-wrap dengan tinggi tetap -->
             <div class="map-outer-wrap">
               <div id="map-container"></div>
               <div class="map-legend-top-right">
@@ -964,6 +971,15 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
                 </tbody>
               </table>
             </div>
+
+            <!-- ========== GRAFIK GARIS OF CUT (BARU) ========== -->
+            <div class="ai-panel-header" style="margin-top:14px;margin-bottom:6px;">
+              <div class="ai-panel-title" style="font-size:9px;"><span class="dot"></span> Tren OF Cut Bulanan <span id="line-chart-year-label" style="color:var(--text-dim);font-weight:600;margin-left:4px;">-</span></div>
+            </div>
+            <div class="ai-chart-wrap-line">
+              <canvas id="chartOfCutLine"></canvas>
+            </div>
+            <!-- ========== END GRAFIK GARIS ========== -->
           </div>
         </div>
       </div>
@@ -1478,6 +1494,17 @@ function setTheme(theme) {
       chartIncidents.options.scales.x.ticks.color = tickColor;
       chartIncidents.update('none');
     }
+    // update line chart colors
+    if (typeof chartOfCutLine !== 'undefined' && chartOfCutLine) {
+      var legendColorL = theme === 'dark' ? '#E2E8F0' : '#0F172A';
+      var tickColorL = theme === 'dark' ? '#94A3B8' : '#334155';
+      var gridColorL = theme === 'dark' ? 'rgba(148,163,184,0.1)' : 'rgba(107,114,128,0.1)';
+      chartOfCutLine.options.plugins.legend.labels.color = legendColorL;
+      chartOfCutLine.options.scales.y.ticks.color = tickColorL;
+      chartOfCutLine.options.scales.y.grid.color = gridColorL;
+      chartOfCutLine.options.scales.x.ticks.color = tickColorL;
+      chartOfCutLine.update('none');
+    }
     if (typeof doughnutIncidents !== 'undefined' && doughnutIncidents) doughnutIncidents.update('none');
     if (typeof doughnutAset !== 'undefined' && doughnutAset) doughnutAset.update('none');
   } catch (e) {}
@@ -1518,6 +1545,11 @@ function applyFontSettings() {
       var fontStack = fontFamily.replace(/['"]/g, '').split(',')[0].trim();
       chartIncidents.options.plugins.legend.labels.font = { size: Math.max(9, parseInt(fontSize) - 3), weight: '600', family: fontStack };
       chartIncidents.update('none');
+    }
+    if (typeof chartOfCutLine !== 'undefined' && chartOfCutLine) {
+      var fontStackL = fontFamily.replace(/['"]/g, '').split(',')[0].trim();
+      chartOfCutLine.options.plugins.legend.labels.font = { size: Math.max(9, parseInt(fontSize) - 4), weight: '600', family: fontStackL };
+      chartOfCutLine.update('none');
     }
   } catch (e) {}
 }
@@ -1595,6 +1627,7 @@ let selectedGudang = '';
 let chartIncidents = null;
 let doughnutIncidents = null;
 let doughnutAset = null;
+let chartOfCutLine = null;  // BARU: line chart
 let editingKey = null;
 let scannerStream = null;
 let isSubmitting = false;
@@ -1680,7 +1713,7 @@ function animateCount(el, target, duration) {
   duration = duration || 900;
   var start = 0, startTime = null;
   target = parseInt(target) || 0;
-  if (el.textContent === String(target)) return; // hindari re-animate sia-sia
+  if (el.textContent === String(target)) return;
   function step(ts) {
     if (!startTime) startTime = ts;
     var p = Math.min((ts - startTime) / duration, 1);
@@ -1692,7 +1725,6 @@ function animateCount(el, target, duration) {
   requestAnimationFrame(step);
 }
 
-/* ==== DEBOUNCE (untuk search & resize) ==== */
 function debounce(fn, wait) {
   var t;
   return function() {
@@ -2354,7 +2386,6 @@ function initMap() {
     var initialLoadDone = false;
     map.on('load', function() {
       if (initialLoadDone) return; initialLoadDone = true;
-      // FIX: pastikan map resize setelah load untuk HP
       setTimeout(function() { if (map) map.resize(); }, 100);
       loadMarkersFromData(); renderLineFilters();
       if (kmlDataCache) applyLineFilters();
@@ -2364,7 +2395,6 @@ function initMap() {
   } catch (e) { console.error('Map init:', e); }
 }
 
-/* ==== FIX: resize map saat viewport berubah (rotate, keyboard, dsb) ==== */
 function setupMapResizeObserver() {
   var resizeDebounced = debounce(function() {
     if (map) { try { map.resize(); } catch (e) {} }
@@ -3304,6 +3334,38 @@ function initCharts() {
         data: { labels: ['Alker','Spare','Patch Cord'], datasets: [{ data: [0,0,0], backgroundColor: ['#00D9FF','#10B981','#F59E0B'], borderWidth: 0 }] },
         options: { responsive: false, cutout: '68%', animation: { duration: 300 }, plugins: { legend: { display: false }, tooltip: { enabled: false } } }
       });
+      // ===== LINE CHART OF CUT =====
+      var lctx = document.getElementById('chartOfCutLine').getContext('2d');
+      chartOfCutLine = new Chart(lctx, {
+        type: 'line',
+        data: {
+          labels: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'],
+          datasets: [
+            { label: 'Pihak Ke-3', data: new Array(12).fill(0), borderColor: '#FF4444', backgroundColor: 'rgba(255,68,68,0.10)', pointBackgroundColor: '#FF4444', pointBorderColor: '#fff', pointRadius: 3, pointHoverRadius: 5, borderWidth: 2, tension: 0.35, fill: false },
+            { label: 'Vandalisme', data: new Array(12).fill(0), borderColor: '#22DD22', backgroundColor: 'rgba(34,221,34,0.10)', pointBackgroundColor: '#22DD22', pointBorderColor: '#fff', pointRadius: 3, pointHoverRadius: 5, borderWidth: 2, tension: 0.35, fill: false },
+            { label: 'Bencana', data: new Array(12).fill(0), borderColor: '#4488FF', backgroundColor: 'rgba(68,136,255,0.10)', pointBackgroundColor: '#4488FF', pointBorderColor: '#fff', pointRadius: 3, pointHoverRadius: 5, borderWidth: 2, tension: 0.35, fill: false },
+            { label: 'Lainnya', data: new Array(12).fill(0), borderColor: '#EE44EE', backgroundColor: 'rgba(238,68,238,0.10)', pointBackgroundColor: '#EE44EE', pointBorderColor: '#fff', pointRadius: 3, pointHoverRadius: 5, borderWidth: 2, tension: 0.35, fill: false },
+            { label: 'TOTAL', data: new Array(12).fill(0), borderColor: '#00D9FF', backgroundColor: 'rgba(0,217,255,0.12)', pointBackgroundColor: '#00D9FF', pointBorderColor: '#fff', pointRadius: 3, pointHoverRadius: 5, borderWidth: 2.5, tension: 0.35, fill: false, borderDash: [5, 3] }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          animation: { duration: 300 },
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { display: true, position: 'top', labels: { color: '#94A3B8', font: { size: 9 }, boxWidth: 10, padding: 6, usePointStyle: true, pointStyle: 'circle' } },
+            tooltip: {
+              backgroundColor: 'rgba(15,23,42,0.95)', titleColor: '#00D9FF', bodyColor: '#E2E8F0',
+              borderColor: 'rgba(0,217,255,0.4)', borderWidth: 1, padding: 8, cornerRadius: 8,
+              titleFont: { size: 10, weight: '700' }, bodyFont: { size: 10 }
+            }
+          },
+          scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 9 }, color: '#94A3B8', precision: 0 }, grid: { color: 'rgba(148,163,184,0.1)' } },
+            x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#94A3B8' } }
+          }
+        }
+      });
       updateCharts();
     }
   } catch (e) { console.error('Chart init:', e); }
@@ -3401,9 +3463,40 @@ function updateCharts() {
       setRing('ring-patchcord-val', 'ring-patchcord', pcSaldo);
     }
 
+    // ===== UPDATE LINE CHART OF CUT =====
+    updateLineChartOfCut(selectedYear, dataP3, dataVandal, dataBencana, dataLainnya);
+
     renderRekapTableTahunan(selectedYear);
     renderYearComparison(selectedYear);
   } catch (e) { console.error('updateCharts error:', e); }
+}
+
+/* ====== UPDATE LINE CHART OF CUT ====== */
+function updateLineChartOfCut(year, dP3, dVandal, dBencana, dLainnya) {
+  if (!chartOfCutLine) return;
+  try {
+    var p3 = dP3 || new Array(12).fill(0);
+    var vd = dVandal || new Array(12).fill(0);
+    var bn = dBencana || new Array(12).fill(0);
+    var ln = dLainnya || new Array(12).fill(0);
+    var total = [];
+    for (var i = 0; i < 12; i++) total.push((p3[i] || 0) + (vd[i] || 0) + (bn[i] || 0) + (ln[i] || 0));
+
+    chartOfCutLine.data.datasets[0].data = p3;
+    chartOfCutLine.data.datasets[1].data = vd;
+    chartOfCutLine.data.datasets[2].data = bn;
+    chartOfCutLine.data.datasets[3].data = ln;
+    chartOfCutLine.data.datasets[4].data = total;
+
+    var maxV = Math.max.apply(null, total.concat(p3, vd, bn, ln));
+    chartOfCutLine.options.scales.y.max = Math.max(3, Math.ceil(maxV / 2) * 2);
+
+    chartOfCutLine.update('none');
+
+    // Update label tahun
+    var lbl = document.getElementById('line-chart-year-label');
+    if (lbl) lbl.textContent = '(' + year + ')';
+  } catch (e) { console.error('updateLineChartOfCut error:', e); }
 }
 
 function renderRekapTableTahunan(currentYearNum) {
@@ -3460,7 +3553,6 @@ function getYearTotals(year) {
   return totals;
 }
 
-/* ============ RENDER YTD — "RATA2" SUDAH DIHAPUS ============ */
 function renderYearComparison(currentYearNum) {
   var prevYearNum = currentYearNum - 1;
   var labelEl = document.getElementById('ytd-year-label'), prevLabelEl = document.getElementById('ytd-prev-year-label');
@@ -3596,7 +3688,7 @@ function setupEventListeners() {
   var msel = document.getElementById('month-select');
   if (msel) msel.addEventListener('change', function() { currentMonth = this.value; renderTable(); });
   var si = document.getElementById('search-input');
-  if (si) si.addEventListener('input', debounce(function() { renderTable(); }, 250)); // debounce search
+  if (si) si.addEventListener('input', debounce(function() { renderTable(); }, 250));
   var blm = document.getElementById('btn-loc-map'); if (blm) blm.addEventListener('click', openMapModal);
   var bh = document.getElementById('btn-history'); if (bh) bh.addEventListener('click', bukaRiwayatMenu);
   var dep = document.getElementById('btn-download-excel-page'); if (dep) dep.addEventListener('click', downloadPageExcel);
@@ -3679,7 +3771,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loadData(); loadRiwayat(); loadSettings(); loadUsersList();
         setTimeout(function() {
           initMap(); initCharts();
-          setupMapResizeObserver(); // FIX: pantau resize viewport
+          setupMapResizeObserver();
           if (map) { map.on('load', function() { loadKmlFromFirebase(); loadCustomLines(); attachKmlManagerListener(); }); }
           else { loadKmlFromFirebase(); loadCustomLines(); attachKmlManagerListener(); }
           if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -3695,7 +3787,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('login-screen').classList.remove('hidden');
   document.getElementById('app-shell').classList.add('hidden');
   loadSettings(); applyAutoUppercase(); applyFontSettings();
-  setupMapResizeObserver(); // FIX: pasang observer meskipun belum login
+  setupMapResizeObserver();
 });
 </script>
 </body>
