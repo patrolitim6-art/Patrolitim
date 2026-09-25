@@ -48,7 +48,6 @@
   --app-font-size-sm: calc(var(--app-font-size) - 1px);
   --radius: 16px;
   --header-h: 64px;
-  /* ===== HEADER SOLID ===== */
   --header-solid: #0F172A;
   --header-solid-border: rgba(0, 217, 255, 0.35);
 }
@@ -73,7 +72,6 @@
   --shadow-card: 0 4px 24px rgba(107, 114, 128, 0.10);
   --shadow-modal: 0 24px 64px rgba(107, 114, 128, 0.18);
   --scroll-track: rgba(229, 231, 235, 0.6);
-  /* ===== HEADER SOLID ===== */
   --header-solid: #FFFFFF;
   --header-solid-border: rgba(224, 82, 82, 0.35);
 }
@@ -90,7 +88,7 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
   z-index: 9000 !important;
   height: var(--header-h);
   border-bottom: 1px solid var(--header-solid-border);
-  background: var(--header-solid); /* SOLID, bukan glass */
+  background: var(--header-solid);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -133,14 +131,13 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .nav-btn .chev { width: 12px; height: 12px; transition: transform 0.2s ease; }
 .nav-dropdown.open .nav-btn .chev { transform: rotate(180deg); }
 
-/* DROPDOWN MENU - SOLID */
 .nav-dropdown-menu {
   position: absolute;
   top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
   min-width: 220px;
-  background: var(--header-solid); /* SOLID */
+  background: var(--header-solid);
   border: 1px solid var(--header-solid-border);
   border-radius: 14px;
   padding: 6px;
@@ -165,11 +162,10 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 
 .header-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 
-/* User info box di header — dibuat solid agar konsisten */
 .header-user-box {
   display: flex; align-items: center; gap: 8px;
   padding: 4px 10px;
-  background: var(--surface-3); /* SOLID */
+  background: var(--surface-3);
   border-radius: 10px;
   border: 1px solid var(--border-subtle);
   margin-left: 4px;
@@ -285,12 +281,12 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .radial-ring .ring-label { position: absolute; inset: 0; display: grid; place-items: center; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 12px; }
 
 .chart-summary-strip-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px 4px 10px; border-bottom: 1px dashed var(--border-subtle); margin-bottom: 10px; }
-.chart-summary-chip { padding: 10px 8px; border-radius: 10px; background: linear-gradient(160deg, var(--surface-3) 0%, rgba(15,23,42,0.5) 100%); border: 1px solid var(--border-subtle); text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2px; }
+.chart-summary-chip { padding: 10px 8px; border-radius: 10px; background: var(--surface-3); border: 1px solid var(--border-subtle); text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2px; }
 .chart-summary-chip .cs-label { font-size: 8px; letter-spacing: 0.4px; line-height: 1.2; font-weight: 700; }
 .chart-summary-chip .cs-value { font-size: 16px; line-height: 1.1; font-family: 'Orbitron', sans-serif; font-weight: 800; }
 
 .stok-spare-list { display: flex; flex-direction: column; gap: 6px; }
-.stok-spare-row { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; background: linear-gradient(160deg, var(--surface-3) 0%, rgba(15,23,42,0.5) 100%); border: 1px solid var(--border-subtle); }
+.stok-spare-row { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; background: var(--surface-3); border: 1px solid var(--border-subtle); }
 .stok-spare-icon { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-size: 13px; flex-shrink: 0; background: rgba(0,217,255,0.12); color: var(--primary-cyan); }
 .stok-spare-info { flex: 1; min-width: 0; }
 .stok-spare-name { font-weight: 700; color: var(--text-main); font-size: var(--app-font-size-xs); line-height: 1.2; }
@@ -309,25 +305,65 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
 .ai-chart-wrap { position: relative; height: 220px; flex: 1; }
 
-/* ============ YTD COMPARE ============ */
+/* ============ YTD COMPARE — RAPIH, TANPA EFEK 3D ============ */
 .ytd-compare-grid-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
-.ytd-card { background: var(--surface-3); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 6px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.ytd-card .ytd-label { font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; font-size: 8px; line-height: 1.2; }
-.ytd-card .ytd-values { display: flex; align-items: baseline; gap: 3px; flex-wrap: wrap; }
+.ytd-card {
+  background: var(--surface-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  box-shadow: none;
+}
+.ytd-card .ytd-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-size: 8px;
+  line-height: 1.2;
+  border-left: 3px solid currentColor;
+  padding-left: 5px;
+}
+.ytd-card .ytd-values {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex-wrap: wrap;
+  font-family: 'Orbitron', sans-serif;
+}
 .ytd-card .ytd-prev { color: var(--text-dim); font-weight: 500; font-size: 8px; }
-.ytd-card .ytd-current { font-weight: 800; color: var(--text-main); font-family: 'Orbitron', sans-serif; font-size: 11px; }
-.ytd-card .ytd-diff { font-weight: 800; padding: 0px 4px; border-radius: 4px; display: inline-flex; align-items: center; gap: 2px; font-family: 'Orbitron', sans-serif; font-size: 8px; }
-.ytd-card .ytd-diff.up { background: rgba(239, 68, 68, 0.15); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.4); }
-.ytd-card .ytd-diff.down { background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.4); }
-.ytd-card .ytd-diff.same { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); border: 1px solid var(--border-subtle); }
-.ytd-card .ytd-persen { margin-top: 3px; padding-top: 3px; border-top: 1px dashed var(--border-subtle); display: flex; justify-content: space-between; align-items: center; }
+.ytd-card .ytd-current { font-weight: 800; color: var(--text-main); font-size: 12px; }
+.ytd-card .ytd-diff {
+  font-weight: 800;
+  padding: 0 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 8px;
+  border: none;
+}
+.ytd-card .ytd-diff.up { background: rgba(239, 68, 68, 0.15); color: #EF4444; }
+.ytd-card .ytd-diff.down { background: rgba(16, 185, 129, 0.15); color: #10B981; }
+.ytd-card .ytd-diff.same { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); }
+.ytd-card .ytd-persen {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .ytd-card .ytd-persen-label { color: var(--text-dim); font-weight: 600; font-size: 7px; text-transform: uppercase; }
-.ytd-card .ytd-persen-value { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 9px; }
+.ytd-card .ytd-persen-value { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 9px; }
 
 @media (max-width: 900px) { .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
 @media (max-width: 600px) { .ytd-compare-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
 
-/* ============ REKAP TABLE ============ */
+/* ============ REKAP TABLE — RAPIH, TANPA EFEK 3D ============ */
 .chart-rekap-scroll { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
 .chart-rekap-table {
   width: 100%;
@@ -339,7 +375,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   background: var(--surface-table-header-solid-alt);
   padding: 4px 2px;
   text-align: center;
-  border: 1px solid var(--surface-table-border-solid);
+  border: 1px solid var(--border-subtle);
   font-weight: 700;
   color: var(--primary-cyan);
   text-transform: uppercase;
@@ -389,15 +425,19 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   width: 40px;
   min-width: 40px;
   font-family: 'Orbitron', sans-serif;
-  font-weight: 900;
+  font-weight: 800;
   color: #10B981;
-  background: rgba(16, 185, 129, 0.08);
-  border-left: 2px solid rgba(16, 185, 129, 0.6);
-  border-right: 2px solid rgba(16, 185, 129, 0.6);
+  background: rgba(16, 185, 129, 0.06);
+  border-left: 1px solid rgba(16, 185, 129, 0.4);
 }
-.chart-rekap-table th.th-total { background: #064E3B; color: #34D399; }
-.chart-rekap-table tr.total-row td { background: rgba(0, 217, 255, 0.08); font-weight: 900; color: var(--primary-cyan); border-top: 2px solid var(--border-glow); }
-.chart-rekap-table tr.total-row td.td-total { background: rgba(16, 185, 129, 0.15); }
+.chart-rekap-table th.th-total { background: rgba(16, 185, 129, 0.15); color: #34D399; }
+.chart-rekap-table tr.total-row td {
+  background: rgba(0, 217, 255, 0.06);
+  font-weight: 800;
+  color: var(--primary-cyan);
+  border-top: 1px solid var(--border-glow);
+}
+.chart-rekap-table tr.total-row td.td-total { background: rgba(16, 185, 129, 0.12); }
 .chart-rekap-table td.pct-p3 { color: #FF4444; }
 .chart-rekap-table td.pct-vnd { color: #22DD22; }
 .chart-rekap-table td.pct-bnc { color: #4488FF; }
@@ -675,13 +715,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   <main class="main-content-full">
     <section id="dashboard-view">
       <div class="layout-three-columns">
-        <!-- KOLOM KIRI -->
+        <!-- KOLOM KIRI (Ringkasan Aset DULU, baru Kategori) -->
         <div class="layout-left">
-          <div class="ai-panel">
-            <div class="ai-panel-header"><div class="ai-panel-title"><span class="dot"></span> Kategori</div></div>
-            <div class="ai-cat-list" id="ai-cat-list"></div>
-          </div>
-
           <div class="ai-panel">
             <div class="ai-panel-header"><div class="ai-panel-title"><span class="dot"></span> Ringkasan Aset</div></div>
             <div style="display:flex;gap:10px;justify-content:space-around;padding:6px 0 10px;border-bottom:1px dashed var(--border-subtle);">
@@ -714,6 +749,11 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
               <span id="stok-spare-total-badge" style="background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-weight:800;font-size:10px;">0 Item</span>
             </div>
             <div class="stok-spare-list" id="stok-spare-list"></div>
+          </div>
+
+          <div class="ai-panel">
+            <div class="ai-panel-header"><div class="ai-panel-title"><span class="dot"></span> Kategori</div></div>
+            <div class="ai-cat-list" id="ai-cat-list"></div>
           </div>
         </div>
 
@@ -786,19 +826,19 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
             </div>
             <div class="chart-summary-strip-2">
               <div class="chart-summary-chip" style="border-left:3px solid #FF0000;">
-                <div class="cs-label" style="color:#FF0000;">P3/Bln</div>
+                <div class="cs-label" style="color:#FF0000;">P3</div>
                 <div class="cs-value" id="cs-persen-p3" style="color:#FF0000;">0%</div>
               </div>
               <div class="chart-summary-chip" style="border-left:3px solid #00FF00;">
-                <div class="cs-label" style="color:#00FF00;">Vandal/Bln</div>
+                <div class="cs-label" style="color:#00FF00;">Vandal</div>
                 <div class="cs-value" id="cs-persen-vandal" style="color:#00FF00;">0%</div>
               </div>
               <div class="chart-summary-chip" style="border-left:3px solid #0000FF;">
-                <div class="cs-label" style="color:#0000FF;">Bencana/Bln</div>
+                <div class="cs-label" style="color:#0000FF;">Bencana</div>
                 <div class="cs-value" id="cs-persen-bencana" style="color:#0000FF;">0%</div>
               </div>
               <div class="chart-summary-chip" style="border-left:3px solid #FF00FF;">
-                <div class="cs-label" style="color:#FF00FF;">Lainnya/Bln</div>
+                <div class="cs-label" style="color:#FF00FF;">Lainnya</div>
                 <div class="cs-value" id="cs-persen-lainnya" style="color:#FF00FF;">0%</div>
               </div>
             </div>
@@ -823,8 +863,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
                 <thead>
                   <tr>
                     <th class="th-tahun" rowspan="2">Thn</th>
-                    <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);">Jumlah</th>
-                    <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);border-left:2px solid rgba(168,85,247,0.5);">Persen</th>
+                    <th colspan="4">Jumlah</th>
+                    <th colspan="4" style="border-left:1px solid var(--border-subtle);">Persen</th>
                     <th class="th-total" rowspan="2">Tot</th>
                   </tr>
                   <tr>
@@ -832,7 +872,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
                     <th class="th-num" style="color:#22DD22;">Vnd</th>
                     <th class="th-num" style="color:#4488FF;">Bnc</th>
                     <th class="th-num" style="color:#EE44EE;">Lain</th>
-                    <th class="th-pct" style="color:#FF4444;border-left:2px solid rgba(168,85,247,0.5);">P3%</th>
+                    <th class="th-pct" style="color:#FF4444;border-left:1px solid var(--border-subtle);">P3%</th>
                     <th class="th-pct" style="color:#22DD22;">Vnd%</th>
                     <th class="th-pct" style="color:#4488FF;">Bnc%</th>
                     <th class="th-pct" style="color:#EE44EE;">Lain%</th>
@@ -3321,8 +3361,8 @@ function renderYearComparison(currentYearNum) {
     var diffClass = 'same', diffIcon = '●', diffText = '0';
     if (diffVal > 0) { diffClass = 'up'; diffIcon = '▲'; diffText = '+' + diffVal; }
     else if (diffVal < 0) { diffClass = 'down'; diffIcon = '▼'; diffText = '' + diffVal; }
-    html += '<div class="ytd-card" style="border-left:3px solid ' + item.color + ';">';
-    html += '<div class="ytd-label" style="color:' + item.color + ';">' + item.label + '</div>';
+    html += '<div class="ytd-card" style="color:' + item.color + ';">';
+    html += '<div class="ytd-label">' + item.label + '</div>';
     html += '<div class="ytd-values"><span class="ytd-prev">' + prevYearNum + ':' + prevVal + '</span><span class="ytd-current">' + curVal + '</span><span class="ytd-diff ' + diffClass + '">' + diffIcon + diffText + '</span></div>';
     html += '<div class="ytd-persen"><span class="ytd-persen-label">Rata2</span><span class="ytd-persen-value" style="color:' + item.color + ';">' + fmtPersen(hitungPersenPerBulan(curVal)) + '</span></div>';
     html += '</div>';
