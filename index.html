@@ -3215,12 +3215,16 @@ function submitForm(e) {
     var notes = document.getElementById('inp-notes-patch').value.trim().toUpperCase();
     if (!pcType || !pcLength) { showToast('Pilih jenis & panjang', 'error'); return; }
     if (qty < 1) { showToast('Jumlah minimal 1', 'error'); return; }
+
+    /* Validasi stok keluar */
     if (trType === 'Keluar') {
       var saldoTersedia = hitungSaldoPCTersedia(pcType, pcLength, selectedGudang, isEdit ? editKey : null);
       if (saldoTersedia <= 0) { showToast('❌ Stok ' + pcType + ' ' + pcLength + ' di ' + selectedGudang + ' KOSONG!', 'error'); return; }
       if (qty > saldoTersedia) { showToast('❌ Stok tidak cukup! Saldo: ' + saldoTersedia + ' | Diminta: ' + qty, 'error'); return; }
     }
     if (trType === 'Keluar' && !notes) { showToast('Keterangan wajib', 'error'); return; }
+
+    /* Cari entry existing dengan (Gudang + Jenis + Panjang + Arah) SAMA */
     var existingPC = appData['Patch Cord'] || {};
     var existingKey = null;
     Object.keys(existingPC).forEach(function(k) {
@@ -3229,63 +3233,55 @@ function submitForm(e) {
       if ((ex.gudang || '') !== (selectedGudang || '')) return;
       if ((ex.pcType || '').toUpperCase() !== pcType.toUpperCase()) return;
       if ((ex.pcLength || '') !== pcLength) return;
+      if ((ex.trType || 'Masuk') !== trType) return;  /* ← hanya match arah yang sama */
       if (isEdit && k === editKey) return;
       existingKey = k;
     });
+
     var oldQty = 0;
     if (existingKey) {
-      var exRow = existingPC[existingKey];
-      if ((exRow.trType || 'Masuk') !== trType) {
-        showToast('⚠ Jenis ' + pcType + ' ' + pcLength + ' sudah ada sebagai "' + exRow.trType + '". Tidak bisa mix arah.', 'error');
+      oldQty = parseInt(existingPC[existingKey].qty) || 0;
+    }
+    var finalQty = oldQty + qty;
+
+    /* Validasi total keluar tidak melebihi total masuk */
+    if (trType === 'Keluar') {
+      var totalMasuk = 0, totalKeluarLain = 0;
+      Object.keys(existingPC).forEach(function(k) {
+        if (existingKey && k === existingKey) return;
+        var ex = existingPC[k];
+        if ((ex.gudang || '') !== (selectedGudang || '')) return;
+        if ((ex.pcType || '').toUpperCase() !== pcType.toUpperCase()) return;
+        if ((ex.pcLength || '') !== pcLength) return;
+        var q = parseInt(ex.qty) || 0;
+        if (ex.trType === 'Masuk') totalMasuk += q;
+        else if (ex.trType === 'Keluar') totalKeluarLain += q;
+      });
+      if (finalQty + totalKeluarLain > totalMasuk) {
+        showToast('❌ Total keluar melebihi saldo masuk! Masuk: ' + totalMasuk + ' | Keluar total: ' + (finalQty + totalKeluarLain), 'error');
         return;
       }
-      oldQty = parseInt(exRow.qty) || 0;
     }
-    var finalQty;
+
+    data.pcType = pcType.toUpperCase();
+    data.pcLength = pcLength;
+    data.gudang = selectedGudang;
+    data.qty = finalQty;
+    data.trType = trType;
+    data.notes = notes;
+    data.keterangan = notes;
+    var pm = parseFloat(pcLength.replace('m', '').trim());
+    data.barcode = (!isNaN(pm) && pcType !== 'Lainnya' && pcType !== 'LAINNYA') ? generateBarcodePatchCord(pcType, pm) : 'PC-' + Date.now().toString().slice(-6);
+
     if (existingKey) {
-      if (trType === 'Masuk') finalQty = oldQty + qty;
-      else finalQty = oldQty + qty;
-      if (trType === 'Keluar') {
-        var totalMasuk = 0, totalKeluarLain = 0;
-        Object.keys(existingPC).forEach(function(k) {
-          if (k === existingKey) return;
-          var ex = existingPC[k];
-          if ((ex.gudang || '') !== (selectedGudang || '')) return;
-          if ((ex.pcType || '').toUpperCase() !== pcType.toUpperCase()) return;
-          if ((ex.pcLength || '') !== pcLength) return;
-          var q = parseInt(ex.qty) || 0;
-          if (ex.trType === 'Masuk') totalMasuk += q;
-          else totalKeluarLain += q;
-        });
-        if (finalQty + totalKeluarLain > totalMasuk) { showToast('❌ Total keluar melebihi saldo masuk!', 'error'); return; }
-      }
       isEdit = true;
       editKey = existingKey;
-      data.pcType = pcType.toUpperCase();
-      data.pcLength = pcLength;
-      data.gudang = selectedGudang;
-      data.qty = finalQty;
-      data.trType = trType;
-      data.notes = notes;
-      data.keterangan = notes;
-      var pm2 = parseFloat(pcLength.replace('m', '').trim());
-      data.barcode = (!isNaN(pm2) && pcType !== 'Lainnya' && pcType !== 'LAINNYA') ? generateBarcodePatchCord(pcType, pm2) : 'PC-' + Date.now().toString().slice(-6);
-      detailText = pcType + ' ' + pcLength + ' | ' + trType + ': ' + qty + ' → Total: ' + finalQty;
-      ketText = notes;
-      showToast('Stok ' + pcType + ' ' + pcLength + ' di-update (Total: ' + finalQty + ')', 'success');
+      detailText = pcType + ' ' + pcLength + ' | ' + trType + ': +' + qty + ' → Total: ' + finalQty;
+      showToast('Stok ' + pcType + ' ' + pcLength + ' ' + trType + ' di-update (Total: ' + finalQty + ')', 'success');
     } else {
-      data.pcType = pcType.toUpperCase();
-      data.pcLength = pcLength;
-      data.gudang = selectedGudang;
-      data.qty = qty;
-      data.trType = trType;
-      data.notes = notes;
-      data.keterangan = notes;
-      var pm = parseFloat(pcLength.replace('m', '').trim());
-      data.barcode = (!isNaN(pm) && pcType !== 'Lainnya' && pcType !== 'LAINNYA') ? generateBarcodePatchCord(pcType, pm) : 'PC-' + Date.now().toString().slice(-6);
       detailText = pcType + ' ' + pcLength + ' | ' + trType + ': ' + qty;
-      ketText = notes;
     }
+    ketText = notes;
   } else if (cat === 'Stok Spare') {
     var mode = document.getElementById('form-mode').value;
     if (mode === 'tambah') {
