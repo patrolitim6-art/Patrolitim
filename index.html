@@ -428,6 +428,15 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .chart-rekap-table td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-3); z-index: 6; width: 62px; padding-left: 6px; }
 .chart-rekap-scroll { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
 
+/* ============ KOLOM PERSENTASE DI REKAP TABLE ============ */
+.chart-rekap-table td.col-persen { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 10px; }
+.chart-rekap-table td.col-persen.p3 { color: #FF0000; background: rgba(255,0,0,0.06); }
+.chart-rekap-table td.col-persen.vandal { color: #00FF00; background: rgba(0,255,0,0.06); }
+.chart-rekap-table td.col-persen.bencana { color: #0000FF; background: rgba(0,0,255,0.06); }
+.chart-rekap-table td.col-persen.lainnya { color: #FF00FF; background: rgba(255,0,255,0.06); }
+.chart-rekap-table th.col-persen-header { font-size: 8px; padding: 4px 2px; }
+/* ============ END KOLOM PERSENTASE ============ */
+
 .ytd-compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
 .ytd-compare-grid-5 { display: grid !important; grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 10px; align-items: stretch; }
 .ytd-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; transition: all 0.2s; position: relative; overflow: hidden; }
@@ -442,6 +451,11 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .ytd-card .ytd-diff.up { background: rgba(239, 68, 68, 0.15); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.4); }
 .ytd-card .ytd-diff.down { background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.4); }
 .ytd-card .ytd-diff.same { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); border: 1px solid var(--border-subtle); }
+/* ============ PERSENTASE DI YTD CARD ============ */
+.ytd-card .ytd-persen { margin-top: 4px; padding-top: 4px; border-top: 1px dashed var(--border-subtle); font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 11px; display: flex; justify-content: space-between; align-items: center; }
+.ytd-card .ytd-persen-label { color: var(--text-dim); font-weight: 600; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.ytd-card .ytd-persen-value { font-weight: 900; }
+/* ============ END PERSENTASE YTD ============ */
 
 @media (max-width: 900px) { .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
 @media (max-width: 600px) { .ytd-compare-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
@@ -482,7 +496,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .filter-item-card .filter-check { margin-left: auto; color: var(--primary-cyan); display: none; }
 .filter-item-card.active .filter-check { display: inline-flex; }
 
-/* MARKER: titik tepat di koordinat */
 .ml-marker {
   width: 14px; height: 14px; border-radius: 50%;
   border: 2px solid #fff;
@@ -491,7 +504,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   will-change: transform;
 }
 
-/* ============ KETERANGAN TITIK POJOK KANAN ATAS (UKURAN KECIL) ============ */
 .map-legend-top-right {
   position: absolute;
   top: 12px;
@@ -538,7 +550,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
   color: var(--text-main);
   font-size: 8px;
 }
-/* ============ END KETERANGAN TITIK ============ */
 
 .maplibregl-popup-content { background: var(--surface-map-legend) !important; color: var(--text-main) !important; border: 1px solid var(--border-glow) !important; border-radius: 8px !important; padding: 6px 8px !important; box-shadow: 0 6px 18px rgba(0, 217, 255, 0.22) !important; max-width: 200px !important; min-width: 130px !important; white-space: normal !important; line-height: 1.25; font-size: 9px !important; }
 .maplibregl-popup-tip { border-top-color: var(--surface-map-legend) !important; border-bottom-color: var(--surface-map-legend) !important; }
@@ -931,16 +942,32 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                   <div class="ai-panel-title"><span class="dot"></span> Grafik OF Cut</div>
                   <select id="chart-period" class="field-control" style="min-height:28px;padding:2px 10px;font-size:var(--app-font-size-xs);width:auto;border-radius:8px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
                 </div>
-                <div class="chart-summary-strip-2">
-                  <div class="chart-summary-chip">
-                    <div class="cs-label">Total Cut</div>
-                    <div class="cs-value" id="cs-total" style="color:#00D9FF;">0</div>
+
+                <!-- ============ 4 KARTU PERSENTASE PER BULAN PER KATEGORI ============ -->
+                <div class="chart-summary-strip-2" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                  <div class="chart-summary-chip" style="border-left:3px solid #FF0000;">
+                    <div class="cs-label" style="color:#FF0000;">P3 / Bulan</div>
+                    <div class="cs-value" id="cs-persen-p3" style="color:#FF0000;">0%</div>
+                    <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-p3">0</span> dari 5</div>
                   </div>
-                  <div class="chart-summary-chip">
-                    <div class="cs-label">Persentase 1 Tahun</div>
-                    <div class="cs-value" id="cs-persentase" style="color:#A855F7;">0%</div>
+                  <div class="chart-summary-chip" style="border-left:3px solid #00FF00;">
+                    <div class="cs-label" style="color:#00FF00;">Vandal / Bulan</div>
+                    <div class="cs-value" id="cs-persen-vandal" style="color:#00FF00;">0%</div>
+                    <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-vandal">0</span> dari 5</div>
+                  </div>
+                  <div class="chart-summary-chip" style="border-left:3px solid #0000FF;">
+                    <div class="cs-label" style="color:#0000FF;">Bencana / Bulan</div>
+                    <div class="cs-value" id="cs-persen-bencana" style="color:#0000FF;">0%</div>
+                    <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-bencana">0</span> dari 5</div>
+                  </div>
+                  <div class="chart-summary-chip" style="border-left:3px solid #FF00FF;">
+                    <div class="cs-label" style="color:#FF00FF;">Lainnya / Bulan</div>
+                    <div class="cs-value" id="cs-persen-lainnya" style="color:#FF00FF;">0%</div>
+                    <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-lainnya">0</span> dari 5</div>
                   </div>
                 </div>
+                <!-- ============ END 4 KARTU PERSENTASE ============ -->
+
                 <div class="mini-doughnut-wrap" id="mini-doughnut-wrap">
                   <canvas id="doughnutIncidents" width="110" height="110"></canvas>
                   <div class="mini-legend" id="mini-legend"></div>
@@ -967,21 +994,31 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
                   <div class="ai-panel-title" style="font-size:10px;"><span class="dot"></span> Rekap OF Cut Tahunan (mulai 2025)</div>
                 </div>
                 <div class="chart-rekap-scroll">
+                  <!-- ============ TABEL REKAP + KOLOM PERSENTASE ============ -->
                   <table class="chart-rekap-table" id="chart-rekap-table">
                     <thead>
                       <tr>
-                        <th>Tahun</th>
+                        <th rowspan="2" style="vertical-align:middle;">Tahun</th>
+                        <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);">Jumlah</th>
+                        <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);border-left:2px solid rgba(168,85,247,0.5);">Persentase / Bulan (maks 5)</th>
+                        <th class="col-total" rowspan="2" style="vertical-align:middle;">Total</th>
+                      </tr>
+                      <tr>
                         <th style="color:#FF0000;">P3</th>
                         <th style="color:#00FF00;">Vandal</th>
                         <th style="color:#0000FF;">Bencana</th>
                         <th style="color:#FF00FF;">Lainnya</th>
-                        <th class="col-total">Total</th>
+                        <th class="col-persen-header" style="color:#FF0000;border-left:2px solid rgba(168,85,247,0.5);">P3 %</th>
+                        <th class="col-persen-header" style="color:#00FF00;">Vandal %</th>
+                        <th class="col-persen-header" style="color:#0000FF;">Bencana %</th>
+                        <th class="col-persen-header" style="color:#FF00FF;">Lainnya %</th>
                       </tr>
                     </thead>
                     <tbody id="chart-rekap-body">
-                      <tr><td colspan="6" style="text-align:center;padding:16px;color:var(--text-muted);font-size:var(--app-font-size-xs);">Memuat data...</td></tr>
+                      <tr><td colspan="10" style="text-align:center;padding:16px;color:var(--text-muted);font-size:var(--app-font-size-xs);">Memuat data...</td></tr>
                     </tbody>
                   </table>
+                  <!-- ============ END TABEL REKAP ============ -->
                 </div>
               </div>
 
@@ -1816,6 +1853,7 @@ let opmTempPorts = [];
 let filterModalMode = 'titik';
 let liveClockInterval = null;
 const SESSION_TIMEOUT_MS = 15 * 60 * 1000;
+const MAKS_PER_BULAN = 5;
 
 const MENU_LABELS = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan Lapangan', 'OPM-OLS': 'OPM/OLS', 'Joint': 'Joint', 'Handhole': 'Handhole', 'Alker': 'Alker', 'Stok Spare': 'Stok Spare', 'Patch Cord': 'Patch Cord' };
 const MENU_NO_PERIOD = ['Alker', 'Stok Spare', 'Patch Cord'];
@@ -2545,7 +2583,6 @@ function initMap() {
   } catch (e) { console.error('Map init:', e); }
 }
 
-/* ============ MARKER: titik tepat di koordinat + legenda pojok kanan atas ============ */
 function updateMapLegendCounts() {
   function count(cat) { return Object.keys(appData[cat] || {}).length; }
   var elOfCut = document.getElementById('ml-count-ofcut'); if (elOfCut) elOfCut.textContent = count('Data OF Cut');
@@ -2566,20 +2603,13 @@ function loadMarkersFromData() {
       if (it.coords) { var p = String(it.coords).split(','); if (p.length === 2) { lat = parseFloat(p[0]); lng = parseFloat(p[1]); } }
       if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
         var title = it.location || it.nama || 'Lokasi';
-
         var el = document.createElement('div');
         el.className = 'ml-marker';
         el.style.background = color;
         el.style.boxShadow = '0 0 8px ' + color + ', 0 2px 4px rgba(0,0,0,0.4)';
-
         var popupHtml = buildMarkerPopup(cat, it, title, color);
         var popup = new maplibregl.Popup({ offset: 14, closeButton: true, maxWidth: '230px' }).setHTML(popupHtml);
-
-        var marker = new maplibregl.Marker({ element: el, anchor: 'center' })
-          .setLngLat([lng, lat])
-          .setPopup(popup)
-          .addTo(map);
-
+        var marker = new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat([lng, lat]).setPopup(popup).addTo(map);
         markers.push(marker);
       }
     });
@@ -2587,7 +2617,6 @@ function loadMarkersFromData() {
   updateMapLegendCounts();
 }
 
-/* buildMarkerPopup — data lengkap, font diperkecil */
 function buildMarkerPopup(cat, it, title, color) {
   function row(label, value, valueColor) {
     if (value === undefined || value === null || value === '') return '';
@@ -2622,7 +2651,6 @@ function buildMarkerPopup(cat, it, title, color) {
     rowsHtml += row('Lokasi', it.location);
   }
   var ket = it.keterangan || it.notes || it.keterangan_normal || '';
-
   var html = '<div style="min-width:140px;max-width:210px;">';
   html += '<div style="font-weight:800;font-size:10px;color:' + color + ';margin-bottom:3px;padding-bottom:3px;border-bottom:1px solid rgba(148,163,184,0.25);word-break:break-word;">' + escapeHtml(title) + '</div>';
   html += '<div style="display:grid;grid-template-columns:auto 1fr;gap:1px 6px;font-size:8px;line-height:1.25;">' + rowsHtml + '</div>';
@@ -3688,6 +3716,21 @@ function klasifikasiPenyebab(p) {
   if (p.indexOf('bencana') !== -1) return 'bencana';
   return 'lainnya';
 }
+
+/* Helper: hitung persentase per bulan per kategori: (total/12)/5 × 100% */
+function hitungPersenPerBulan(totalKategori) {
+  return (totalKategori / 12) / MAKS_PER_BULAN * 100;
+}
+function fmtPersen(v) {
+  if (!isFinite(v) || isNaN(v)) return '0%';
+  var r = Math.round(v * 10) / 10;
+  return (r % 1 === 0 ? r.toFixed(0) : r.toFixed(1)) + '%';
+}
+function fmtAvg(v) {
+  if (!isFinite(v) || isNaN(v)) return '0';
+  return (Math.round(v * 10) / 10).toString();
+}
+
 function updateCharts() {
   if (!chartIncidents) return;
   try {
@@ -3712,34 +3755,54 @@ function updateCharts() {
     chartIncidents.options.scales.y.ticks.stepSize = yMax <= 10 ? 1 : (yMax <= 20 ? 2 : (yMax <= 50 ? 5 : 10));
     chartIncidents.update();
 
-    var total = 0;
-    for (var i = 0; i < 12; i++) total += dataP3[i] + dataVandal[i] + dataBencana[i] + dataLainnya[i];
-    var csTotal = document.getElementById('cs-total'); if (csTotal) csTotal.textContent = total;
+    /* Hitung total per kategori (akumulasi 12 bulan di tahun terpilih) */
+    var totalP3      = dataP3.reduce(function(a,b){return a+b;},0);
+    var totalVandal  = dataVandal.reduce(function(a,b){return a+b;},0);
+    var totalBencana = dataBencana.reduce(function(a,b){return a+b;},0);
+    var totalLainnya = dataLainnya.reduce(function(a,b){return a+b;},0);
+    var total = totalP3 + totalVandal + totalBencana + totalLainnya;
 
-    /* ============ PERBAIKAN PERSENTASE ============ */
-    /* Hitung total seluruh OF Cut di SEMUA tahun (untuk denominator) */
-    var grandTotalAllYears = 0;
-    Object.keys(ofCutItems).forEach(function(k) { if (ofCutItems[k].date) grandTotalAllYears++; });
-    /* Persentase = total tahun terpilih ÷ grand total semua tahun × 100% */
-    var persentase = grandTotalAllYears > 0 ? Math.round((total / grandTotalAllYears) * 100) : 0;
-    var csPersen = document.getElementById('cs-persentase');
-    if (csPersen) csPersen.textContent = persentase + '%';
-    /* ============ END PERBAIKAN ============ */
+    /* ============ PERSENTASE PER BULAN PER KATEGORI ============ */
+    /* Rumus: (Total Kategori / 12) / 5 × 100% */
+    var avgP3      = totalP3      / 12;
+    var avgVandal  = totalVandal  / 12;
+    var avgBencana = totalBencana / 12;
+    var avgLainnya = totalLainnya / 12;
 
-    var sumP3 = dataP3.reduce(function(a,b){return a+b;},0);
-    var sumV = dataVandal.reduce(function(a,b){return a+b;},0);
-    var sumB = dataBencana.reduce(function(a,b){return a+b;},0);
-    var sumL = dataLainnya.reduce(function(a,b){return a+b;},0);
+    var persenP3      = hitungPersenPerBulan(totalP3);
+    var persenVandal  = hitungPersenPerBulan(totalVandal);
+    var persenBencana = hitungPersenPerBulan(totalBencana);
+    var persenLainnya = hitungPersenPerBulan(totalLainnya);
+
+    var elP3 = document.getElementById('cs-persen-p3');
+    var elV  = document.getElementById('cs-persen-vandal');
+    var elB  = document.getElementById('cs-persen-bencana');
+    var elL  = document.getElementById('cs-persen-lainnya');
+    if (elP3) elP3.textContent = fmtPersen(persenP3);
+    if (elV)  elV.textContent  = fmtPersen(persenVandal);
+    if (elB)  elB.textContent  = fmtPersen(persenBencana);
+    if (elL)  elL.textContent  = fmtPersen(persenLainnya);
+
+    var elAvgP3 = document.getElementById('cs-avg-p3');
+    var elAvgV  = document.getElementById('cs-avg-vandal');
+    var elAvgB  = document.getElementById('cs-avg-bencana');
+    var elAvgL  = document.getElementById('cs-avg-lainnya');
+    if (elAvgP3) elAvgP3.textContent = fmtAvg(avgP3);
+    if (elAvgV)  elAvgV.textContent  = fmtAvg(avgVandal);
+    if (elAvgB)  elAvgB.textContent  = fmtAvg(avgBencana);
+    if (elAvgL)  elAvgL.textContent  = fmtAvg(avgLainnya);
+    /* ============ END PERSENTASE ============ */
+
     if (doughnutIncidents) {
-      doughnutIncidents.data.datasets[0].data = [sumP3, sumV, sumB, sumL];
+      doughnutIncidents.data.datasets[0].data = [totalP3, totalVandal, totalBencana, totalLainnya];
       doughnutIncidents.update();
       var legend = document.getElementById('mini-legend');
       if (legend) {
         var items = [
-          { name: 'P3', val: sumP3, color: '#FF0000' },
-          { name: 'Vandal', val: sumV, color: '#00FF00' },
-          { name: 'Bencana', val: sumB, color: '#0000FF' },
-          { name: 'Lainnya', val: sumL, color: '#FF00FF' }
+          { name: 'P3', val: totalP3, color: '#FF0000' },
+          { name: 'Vandal', val: totalVandal, color: '#00FF00' },
+          { name: 'Bencana', val: totalBencana, color: '#0000FF' },
+          { name: 'Lainnya', val: totalLainnya, color: '#FF00FF' }
         ];
         legend.innerHTML = items.map(function(it) { return '<div class="mini-legend-item"><span class="mini-legend-dot" style="background:' + it.color + ';"></span><span class="mini-legend-name">' + it.name + '</span><span class="mini-legend-value">' + it.val + '</span></div>'; }).join('');
       }
@@ -3780,6 +3843,8 @@ function updateCharts() {
     renderYearComparison(selectedYear);
   } catch (e) { console.error('updateCharts error:', e); }
 }
+
+/* ============ REKAP TABLE dengan KOLOM PERSENTASE ============ */
 function renderRekapTableTahunan(currentYearNum) {
   var tbody = document.getElementById('chart-rekap-body'); if (!tbody) return;
   var years = []; var startYear = 2025; var endYear = Math.max(currentYearNum, new Date().getFullYear());
@@ -3797,12 +3862,37 @@ function renderRekapTableTahunan(currentYearNum) {
   years.forEach(function(y) {
     var t = totals[y]; var total = t.p3 + t.vandal + t.bencana + t.lainnya;
     grandP3 += t.p3; grandV += t.vandal; grandB += t.bencana; grandL += t.lainnya;
-    html += '<tr><td>' + y + '</td><td>' + (t.p3 || '') + '</td><td>' + (t.vandal || '') + '</td><td>' + (t.bencana || '') + '</td><td>' + (t.lainnya || '') + '</td><td class="col-total">' + (total || '') + '</td></tr>';
+    /* Hitung persentase per bulan per kategori: (totalKategori/12)/5 × 100% */
+    var pP3 = hitungPersenPerBulan(t.p3);
+    var pV  = hitungPersenPerBulan(t.vandal);
+    var pB  = hitungPersenPerBulan(t.bencana);
+    var pL  = hitungPersenPerBulan(t.lainnya);
+    html += '<tr>';
+    html += '<td>' + y + '</td>';
+    html += '<td>' + (t.p3 || '') + '</td><td>' + (t.vandal || '') + '</td><td>' + (t.bencana || '') + '</td><td>' + (t.lainnya || '') + '</td>';
+    html += '<td class="col-persen p3">' + fmtPersen(pP3) + '</td>';
+    html += '<td class="col-persen vandal">' + fmtPersen(pV) + '</td>';
+    html += '<td class="col-persen bencana">' + fmtPersen(pB) + '</td>';
+    html += '<td class="col-persen lainnya">' + fmtPersen(pL) + '</td>';
+    html += '<td class="col-total">' + (total || '') + '</td>';
+    html += '</tr>';
   });
   var grand = grandP3 + grandV + grandB + grandL;
-  html += '<tr class="total-row"><td>TOTAL</td><td>' + grandP3 + '</td><td>' + grandV + '</td><td>' + grandB + '</td><td>' + grandL + '</td><td class="col-total">' + grand + '</td></tr>';
+  /* Baris total: hitung persentase rata-rata per kategori */
+  var gpP3 = hitungPersenPerBulan(grandP3);
+  var gpV  = hitungPersenPerBulan(grandV);
+  var gpB  = hitungPersenPerBulan(grandB);
+  var gpL  = hitungPersenPerBulan(grandL);
+  html += '<tr class="total-row"><td>TOTAL</td>';
+  html += '<td>' + grandP3 + '</td><td>' + grandV + '</td><td>' + grandB + '</td><td>' + grandL + '</td>';
+  html += '<td class="col-persen p3">' + fmtPersen(gpP3) + '</td>';
+  html += '<td class="col-persen vandal">' + fmtPersen(gpV) + '</td>';
+  html += '<td class="col-persen bencana">' + fmtPersen(gpB) + '</td>';
+  html += '<td class="col-persen lainnya">' + fmtPersen(gpL) + '</td>';
+  html += '<td class="col-total">' + grand + '</td></tr>';
   tbody.innerHTML = html;
 }
+
 function getYearTotals(year) {
   var ofCutItems = appData['Data OF Cut'] || {};
   var totals = { p3: 0, vandal: 0, bencana: 0, lainnya: 0, total: 0 };
@@ -3815,6 +3905,8 @@ function getYearTotals(year) {
   totals.total = totals.p3 + totals.vandal + totals.bencana + totals.lainnya;
   return totals;
 }
+
+/* ============ YTD CARD dengan PERSENTASE PER BULAN ============ */
 function renderYearComparison(currentYearNum) {
   var prevYearNum = currentYearNum - 1;
   var labelEl = document.getElementById('ytd-year-label'), prevLabelEl = document.getElementById('ytd-prev-year-label');
@@ -3834,10 +3926,19 @@ function renderYearComparison(currentYearNum) {
     var diffClass = 'same', diffIcon = '●', diffText = '0';
     if (diffVal > 0) { diffClass = 'up'; diffIcon = '▲'; diffText = '+' + diffVal; }
     else if (diffVal < 0) { diffClass = 'down'; diffIcon = '▼'; diffText = '' + diffVal; }
-    html += '<div class="ytd-card" style="border-left:3px solid ' + item.color + ';"><div class="ytd-label" style="color:' + item.color + ';">' + item.label + '</div><div class="ytd-values"><span class="ytd-prev">' + prevYearNum + ': ' + prevVal + '</span><span class="ytd-current">' + curVal + '</span><span class="ytd-diff ' + diffClass + '">' + diffIcon + ' ' + diffText + '</span></div></div>';
+    /* Persentase per bulan untuk kategori ini (menggunakan data tahun berjalan) */
+    var persenCur = (item.key === 'total')
+      ? hitungPersenPerBulan(curVal)  /* total: pakai rumus sama, tapi total bisa > karena 4 kategori */
+      : hitungPersenPerBulan(curVal);
+    html += '<div class="ytd-card" style="border-left:3px solid ' + item.color + ';">';
+    html += '<div class="ytd-label" style="color:' + item.color + ';">' + item.label + '</div>';
+    html += '<div class="ytd-values"><span class="ytd-prev">' + prevYearNum + ': ' + prevVal + '</span><span class="ytd-current">' + curVal + '</span><span class="ytd-diff ' + diffClass + '">' + diffIcon + ' ' + diffText + '</span></div>';
+    html += '<div class="ytd-persen"><span class="ytd-persen-label">Rata2/Bln</span><span class="ytd-persen-value" style="color:' + item.color + ';">' + fmtPersen(persenCur) + '</span></div>';
+    html += '</div>';
   });
   grid.innerHTML = html;
 }
+
 function updateChartPeriod() { updateCharts(); }
 function updateDashboard() { updateCharts(); updateMapMarkers(); try { updateAiStats(); } catch (e) {} try { updateStokSpare(); } catch (e) {} }
 
