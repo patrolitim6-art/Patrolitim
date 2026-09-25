@@ -81,7 +81,7 @@ html { overflow-x: hidden; }
 body { margin: 0; font-family: var(--app-font); font-size: var(--app-font-size); background: var(--bg-main); color: var(--text-main); }
 html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, tbody, tr, th, td, form, input, button, select, textarea, label, small, strong, em, b, i, code, pre, blockquote, canvas { font-family: var(--app-font); }
 
-/* ============ HEADER SOLID ============ */
+/* ============ HEADER ============ */
 .top-header {
   position: sticky;
   top: 0;
@@ -263,7 +263,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .ai-panel-map { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 0; overflow: hidden; position: relative; box-shadow: var(--shadow-card); }
 .ai-panel-map::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.55; z-index: 5; }
 
-/* ============ MAP CONTAINER ============ */
 .map-outer-wrap {
   position: relative;
   width: 100%;
@@ -325,7 +324,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   margin-top: 4px;
 }
 
-/* ============ YTD COMPARE ============ */
 .ytd-compare-grid-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
 .ytd-card {
   background: var(--surface-3);
@@ -370,7 +368,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .ytd-card .ytd-diff.down { background: rgba(16, 185, 129, 0.15); color: #10B981; }
 .ytd-card .ytd-diff.same { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); }
 
-/* ============ REKAP TABLE ============ */
 .chart-rekap-scroll { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
 .chart-rekap-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 9px; }
 .chart-rekap-table th {
@@ -406,7 +403,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .chart-rekap-table td.pct-bnc { color: #4488FF; }
 .chart-rekap-table td.pct-lain { color: #EE44EE; }
 
-/* ============ MAP UI ============ */
 .map-filter-below { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 12px; border-top: 1px solid var(--border-glow); background: rgba(0,217,255,0.04); }
 .map-filter-below .map-filter-btn-popup { flex: 1; min-width: 140px; }
 .map-filter-btn-popup { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--surface-3); cursor: pointer; font-weight: 700; color: var(--text-main); font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
@@ -447,7 +443,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .draw-point.first { background: #10B981; } .draw-point.last { background: #EC4899; }
 .draw-cursor-active #map-container, .draw-cursor-active #map-container canvas { cursor: crosshair !important; }
 
-/* ============ TABLES ============ */
 .records-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--app-font-size-sm); }
 .records-table th { background: var(--surface-table-header-solid) !important; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--surface-table-border-solid); font-weight: 700; color: var(--primary-cyan); white-space: nowrap; text-transform: uppercase; letter-spacing: 1px; font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-xs); position: sticky; top: 0; z-index: 10; }
 .records-table td { padding: 10px 12px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; color: var(--text-main); word-break: break-word; font-size: var(--app-font-size-sm); }
@@ -522,9 +517,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 ::-webkit-scrollbar-track { background: var(--scroll-track); }
 ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--primary-cyan), var(--primary-purple)); border-radius: 4px; }
 
-/* ============================================================
-   RESPONSIVE MOBILE
-   ============================================================ */
 @media (max-width: 900px) {
   .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
@@ -1446,9 +1438,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   </div>
 </div>
 
-<!-- ============================================================= -->
-<!-- MODAL TENTANG WEB BUCIN — DIPERLUAS                          -->
-<!-- ============================================================= -->
 <div id="about-modal" class="modal-layer hidden">
   <div class="modal-card" style="max-width:980px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
@@ -1456,160 +1445,48 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       <button onclick="closeAboutModal()" style="border:0;background:none;cursor:pointer;color:var(--text-muted);"><i data-lucide="x" style="width:26px;"></i></button>
     </div>
 
-    <!-- IDENTITAS -->
     <div style="background:linear-gradient(135deg,rgba(0,217,255,0.12) 0%,rgba(168,85,247,0.12) 100%);border:1px solid var(--border-glow);border-radius:16px;padding:20px;margin-bottom:20px;">
       <div style="font-weight:900;font-family:'Orbitron',sans-serif;background:var(--tech-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:2px;font-size:22px;">BUCIN</div>
       <div style="color:var(--primary-cyan);font-weight:700;letter-spacing:1px;font-size:var(--app-font-size-xs);">Barisan Utama Cegah Insiden Network</div>
-      <p style="line-height:1.7;color:var(--text-muted);margin-top:10px;font-size:var(--app-font-size-sm);">Sistem informasi operasional untuk tim patroli jaringan fiber optik di wilayah <strong style="color:var(--text-main);">Sulawesi Utara</strong>. Aplikasi ini mencakup manajemen data gangguan (OF Cut, P3, Temuan), inventaris (Alker, Spare, Patch Cord), pengukuran OPM/OLS, serta visualisasi peta & grafik analitik.</p>
+      <p style="line-height:1.7;color:var(--text-muted);margin-top:10px;font-size:var(--app-font-size-sm);">Sistem informasi operasional untuk tim patroli jaringan fiber optik di wilayah <strong style="color:var(--text-main);">Sulawesi Utara</strong>.</p>
     </div>
 
-    <!-- PENJELASAN MENU -->
     <div style="margin-bottom:20px;">
       <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">🧭 PENJELASAN MENU & FUNGSI</h4>
 
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📊 Dashboard</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Halaman utama yang menampilkan ringkasan operasional secara <em>real-time</em>: total insiden, ringkasan aset (Alker/Spare/Patch Cord), stok spare per gudang, kategori data, peta sebaran titik & line, serta seluruh grafik analitik OF Cut.</div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Halaman utama yang menampilkan ringkasan operasional secara real-time: total insiden, ringkasan aset, stok spare per gudang, peta sebaran titik & line, serta seluruh grafik analitik OF Cut.</div>
       </div>
 
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:6px;">🗄️ Data Operasional</div>
         <div style="display:grid;gap:6px;">
-          <div style="padding-left:10px;border-left:2px solid #FF0000;">
-            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">✂️ Data OF Cut</div>
-            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Pencatatan gangguan kabel putus (Fiber Optic Cut). Field: tanggal, lokasi, koordinat, waktu CO (Cut On), waktu UP (pulih), durasi otomatis, panjang cut (meter), rute (OSP/SEA US/DWDM/IGG), penyebab (Pihak Ke-3, Vandalisme, Bencana, Lainnya), keterangan.</div>
-          </div>
-          <div style="padding-left:10px;border-left:2px solid #00FF00;">
-            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">👥 P3 dan Temuan</div>
-            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Dua sub-tab: <strong>Pekerjaan Pihak Ke-3</strong> (pencatatan pekerjaan pihak ketiga di area jalur fiber — pelaksana, lama pekerjaan) dan <strong>Temuan Lapangan</strong> (temuan kondisi tidak aman di lapangan).</div>
-          </div>
-          <div style="padding-left:10px;border-left:2px solid #4488FF;">
-            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">📡 OPM / OLS</div>
-            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Pengukuran redaman optik (OPM/OLS) per ruas. Form 3-langkah: Info Utama (Dari–Ke, kalibrasi, ruas, warna tube), Pilih Port (1–48, warna kabel, DBM, status terpakai/tersedia, label), dan List Port sebelum submit batch. Data ditampilkan grouped per sesi pengukuran.</div>
-          </div>
-          <div style="padding-left:10px;border-left:2px solid #FFFF00;">
-            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">🔗 Data Joint</div>
-            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Pencatatan titik joint (sambungan fiber) beserta lokasi, koordinat, kondisi (Baik/Kurang Baik/Rusak), dan keterangan.</div>
-          </div>
-          <div style="padding-left:10px;border-left:2px solid #FF00FF;">
-            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">📦 Data Handhole</div>
-            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Pencatatan handhole (bak kontrol) beserta lokasi, koordinat, kondisi, dan keterangan.</div>
-          </div>
+          <div style="padding-left:10px;border-left:2px solid #FF0000;"><div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">✂️ Data OF Cut</div><div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Pencatatan gangguan kabel putus (Fiber Optic Cut). Field: tanggal, lokasi, koordinat, waktu CO & UP, durasi otomatis, panjang cut, rute, penyebab, keterangan.</div></div>
+          <div style="padding-left:10px;border-left:2px solid #00FF00;"><div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">👥 P3 dan Temuan</div><div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Dua sub-tab: Pekerjaan Pihak Ke-3 dan Temuan Lapangan.</div></div>
+          <div style="padding-left:10px;border-left:2px solid #4488FF;"><div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">📡 OPM / OLS</div><div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Pengukuran redaman optik per ruas dengan form 3-langkah (Info Utama → Pilih Port → List Port).</div></div>
+          <div style="padding-left:10px;border-left:2px solid #FFFF00;"><div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">🔗 Data Joint</div><div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Pencatatan titik sambungan fiber beserta lokasi, koordinat, kondisi.</div></div>
+          <div style="padding-left:10px;border-left:2px solid #FF00FF;"><div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">📦 Data Handhole</div><div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Pencatatan bak kontrol beserta lokasi, koordinat, kondisi.</div></div>
         </div>
       </div>
 
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:6px;">📦 Inventory</div>
         <div style="display:grid;gap:6px;">
-          <div style="padding-left:10px;border-left:2px solid #00D9FF;">
-            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">🔧 Alker</div>
-            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Alat kerja / perangkat. Field: nama, SN (auto-generate jika kosong), jenis, merk, jumlah, satuan (PCS/MTR), keterangan.</div>
-          </div>
-          <div style="padding-left:10px;border-left:2px solid #10B981;">
-            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">📦 Stok Spare</div>
-            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Stok material cadangan per gudang (CLS MAMI, DC MANADO, CLS KAUDITAN). Field: SN, nama barang, status (Ready/Out), lemari, rak (A–D), riwayat (Baru/Dismantle), kondisi (Baik/Rusak). Mendukung update pemakaian (Replace/PSB).</div>
-          </div>
-          <div style="padding-left:10px;border-left:2px solid #F59E0B;">
-            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">🔌 Patch Cord</div>
-            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Stok patch cord per gudang dengan transaksi <strong>Masuk</strong>/<strong>Keluar</strong>. Field: jenis (SC-SC, LC-LC, dll), panjang (0.5m–30m), qty, status. <strong>Saldo Akhir = Total Masuk − Total Keluar</strong> (bisa negatif jika Keluar &gt; Masuk). Validasi: pengeluaran tidak boleh melebihi saldo tersedia.</div>
-          </div>
+          <div style="padding-left:10px;border-left:2px solid #00D9FF;"><div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">🔧 Alker</div><div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Alat kerja dengan SN auto-generate, jenis, merk, jumlah, satuan.</div></div>
+          <div style="padding-left:10px;border-left:2px solid #10B981;"><div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">📦 Stok Spare</div><div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Stok material cadangan per gudang. Status Ready/Out.</div></div>
+          <div style="padding-left:10px;border-left:2px solid #F59E0B;"><div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">🔌 Patch Cord</div><div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;"><strong>Model stok bergerak:</strong> Masuk menambah qty, Keluar mengurangi qty. Tabel menampilkan <strong>stok bersih</strong> per jenis/panjang/gudang. Keluar melebihi stok akan ditolak.</div></div>
         </div>
       </div>
 
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:6px;">⚙️ Pengaturan & Manajemen (Khusus Admin)</div>
-        <div style="display:grid;gap:6px;">
-          <div style="padding-left:10px;border-left:2px solid #A855F7;">
-            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">👤 Manajemen User</div>
-            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Tambah/suspend/hapus user, reset password, atur role (admin/user). Admin terakhir tidak dapat dihapus/suspend.</div>
-          </div>
-          <div style="padding-left:10px;border-left:2px solid #A855F7;">
-            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">⚙️ Pengaturan</div>
-            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Ganti tema (Dark/Light), jenis & ukuran font, serta edit keterangan hero dashboard.</div>
-          </div>
-          <div style="padding-left:10px;border-left:2px solid #A855F7;">
-            <div style="font-weight:700;color:var(--text-main);font-size:var(--app-font-size-xs);">🕘 Riwayat</div>
-            <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.5;">Log semua transaksi (Tambah/Edit/Hapus) per menu, lengkap dengan user, timestamp, detail, dan keterangan. Bisa diexport ke Excel.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- KETERANGAN GRAFIK -->
-    <div style="margin-bottom:20px;">
-      <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">📈 KETERANGAN GRAFIK</h4>
-
-      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
-        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📊 Grafik Batang OF Cut Bulanan</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Menampilkan jumlah insiden OF Cut <strong>per bulan</strong> untuk tahun yang dipilih (dropdown tahun di kanan atas panel). Terdiri dari 4 batang per bulan: <span style="color:#FF0000;font-weight:700;">Pihak Ke-3</span>, <span style="color:#00FF00;font-weight:700;">Vandalisme</span>, <span style="color:#0000FF;font-weight:700;">Bencana</span>, <span style="color:#FF00FF;font-weight:700;">Lainnya</span>.</div>
-      </div>
-
-      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
-        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">🍩 Doughnut OF Cut (Proporsi)</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Menampilkan proporsi total insiden per kategori penyebab untuk tahun terpilih. Legend di samping menunjukkan angka absolut tiap kategori.</div>
-      </div>
-
-      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
-        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">🍩 Doughnut Distribusi Aset</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Menampilkan distribusi jumlah aset: <span style="color:#00D9FF;font-weight:700;">Alker</span>, <span style="color:#10B981;font-weight:700;">Stok Spare</span>, dan <span style="color:#F59E0B;font-weight:700;">Saldo Patch Cord</span>. Ring indicator di kiri dashboard menampilkan proporsi yang sama dalam bentuk radial.</div>
-      </div>
-
-      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
-        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📉 Grafik Garis Tren OF Cut Bulanan</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Menampilkan tren per bulan dalam bentuk garis, terdiri dari 5 dataset: <span style="color:#FF4444;font-weight:700;">Pihak Ke-3</span>, <span style="color:#22DD22;font-weight:700;">Vandalisme</span>, <span style="color:#4488FF;font-weight:700;">Bencana</span>, <span style="color:#EE44EE;font-weight:700;">Lainnya</span>, dan <span style="color:#00D9FF;font-weight:700;">TOTAL (putus-putus)</span>. Berguna untuk melihat pola/trend musiman gangguan.</div>
-      </div>
-
-      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
-        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📅 Perbandingan Tahunan (YTD)</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Membandingkan total insiden <strong>tahun ini vs tahun sebelumnya</strong> untuk 5 metrik: P3, Vandal, Bencana, Lainnya, dan TOTAL. Indikator selisih: <span style="color:#EF4444;font-weight:700;">▲ merah = naik (memburuk)</span>, <span style="color:#10B981;font-weight:700;">▼ hijau = turun (membaik)</span>, <span style="color:var(--text-muted);font-weight:700;">● abu = sama</span>.</div>
-      </div>
-
-      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
-        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📋 Rekap OF Cut Tahunan (Tabel)</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Tabel multi-tahun berisi kolom <strong>Jumlah</strong> (P3, Vandal, Bencana, Lainnya), <strong>Persen</strong> per kategori (dihitung dari maksimum 5 kejadian/bulan × 12 bulan = 60/tahun), dan <strong>Total</strong> per tahun. Baris <em>TOT</em> adalah grand total.</div>
-      </div>
-
-      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
-        <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">💯 Persentase OF Cut (Chip)</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">4 chip di atas doughnut menampilkan persentase rata-rata per bulan per kategori terhadap asumsi maksimum 5 insiden/bulan. Berguna sebagai indikator kesehatan jaringan.</div>
-      </div>
-    </div>
-
-    <!-- KETERANGAN PETA -->
-    <div style="margin-bottom:20px;">
-      <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">🗺️ KETERANGAN PETA</h4>
-      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;">
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;margin-bottom:8px;">Peta menampilkan sebaran titik aset dan line fiber optik. Setiap titik mewakili satu record dan dapat diklik untuk melihat popup detail.</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:var(--app-font-size-xs);">
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#FF0000;border:2px solid #fff;"></span> OF Cut</div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#00FF00;border:2px solid #fff;"></span> Pihak Ke-3</div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#0000FF;border:2px solid #fff;"></span> Temuan</div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#FFFF00;border:2px solid #fff;"></span> Joint</div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#FF00FF;border:2px solid #fff;"></span> Handhole</div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:20px;height:3px;background:#00D9FF;"></span> Line KML / Custom</div>
-        </div>
-        <div style="color:var(--text-dim);font-size:10px;line-height:1.6;margin-top:8px;"><strong>Fitur peta:</strong> ganti base layer (Satellite/Street/Hybrid), zoom in/out, gambar line baru (mode crosshair), upload KML/KMZ, filter titik/line, dan kelola line tersimpan.</div>
-      </div>
-    </div>
-
-    <!-- WARNA KATEGORI -->
-    <div style="margin-bottom:20px;">
-      <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">🎨 KODE WARNA KATEGORI</h4>
-      <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;">
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;font-size:var(--app-font-size-xs);">
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#FF0000;"></span> Pihak Ke-3 (P3)</div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#00FF00;"></span> Vandalisme</div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#0000FF;"></span> Bencana Alam</div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#FF00FF;"></span> Lainnya</div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#00D9FF;"></span> Alker / TOTAL</div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#10B981;"></span> Spare / Ready</div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:3px;background:#F59E0B;"></span> Patch Cord / Out</div>
-        </div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Manajemen User, Tema & Font, Edit Hero, Riwayat Transaksi (log semua aktivitas).</div>
       </div>
     </div>
 
     <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);">
-      <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">&copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Versi 3.5.0 · Powered by Telin</p>
+      <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">&copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Versi 3.5.1</p>
     </div>
     <div style="margin-top:16px;display:flex;justify-content:center;">
       <button onclick="closeAboutModal()" class="btn-primary" style="min-width:200px;justify-content:center;">Mengerti</button>
@@ -2120,12 +1997,6 @@ function logoutForceChange() {
 }
 
 /* ============================================================ GENERATORS ============================================================ */
-function generateBarcodePatchCord(j, p) {
-  const m = { 'SC-SC': 'SCSC', 'LC-LC': 'LCLC', 'FC-FC': 'FCFC', 'ST-ST': 'STST', 'SC-FC': 'SCFC', 'FC-ST': 'FCST', 'ST-SC': 'STSC', 'FC-LC': 'FCLC', 'LC-ST': 'LCST', 'LC-SC': 'LCSC' };
-  let t = (m[j] || 'XXXX').padEnd(4, ' ');
-  let l; if (p === 0.5) l = "505"; else if (p === 5) l = "005"; else if (p === 50) l = "050"; else l = String(Math.round(p)).padStart(3, '0');
-  return 'PC' + t + l;
-}
 function generateAlkerSN(nama, jenis, merk, date, urutan) {
   var d = new Date(date); var dd = String(d.getDate()).padStart(2, '0'), mm = String(d.getMonth() + 1).padStart(2, '0'), yy = String(d.getFullYear()).slice(-2);
   var hN = (nama || 'X').charAt(0).toUpperCase();
@@ -2968,7 +2839,7 @@ function renderTable() {
     var isHJ = ['Handhole', 'Joint'].indexOf(cat) !== -1, isOfCut = cat === 'Data OF Cut';
     var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
     if (isSpare) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Keterangan</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isPatch) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Status</th><th>Qty</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isPatch) th.innerHTML = '<tr>' + thNo() + '<th>Tgl Update</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Stok</th><th>Keterangan</th><th class="col-aksi">Aksi</th></tr>';
     else if (isAlker) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Nama Alker</th><th>SN</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Satuan</th><th>Keterangan</th><th class="col-aksi">Aksi</th></tr>';
     else if (isHJ) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th>Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
     else if (isOfCut) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Waktu CO</th><th>Waktu UP</th><th>Durasi</th><th>Panjang</th><th>Rute</th><th>Penyebab</th><th>Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
@@ -2984,7 +2855,11 @@ function renderTable() {
       var ket = it.keterangan || it.notes || '';
       var ketHtml = ket ? escapeHtml(ket) : '<span style="opacity:0.35;">—</span>';
       if (isSpare) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else if (isPatch) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + escapeHtml(it.pcType || '-') + '</td><td>' + escapeHtml(it.pcLength || '-') + '</td><td>' + (it.trType || '-') + '</td><td>' + (it.qty || 0) + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      else if (isPatch) {
+        var stokVal = parseInt(it.qty) || 0;
+        var stokBadge = stokVal <= 0 ? '<span class="status-badge status-out" style="background:rgba(239,68,68,0.15);color:#EF4444;">' + stokVal + '</span>' : '<span class="status-badge status-ready">' + stokVal + '</span>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.lastUpdate || it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + escapeHtml(it.pcType || '-') + '</td><td>' + escapeHtml(it.pcLength || '-') + '</td><td style="text-align:center;font-family:Orbitron,sans-serif;font-weight:800;">' + stokBadge + '</td><td>' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      }
       else if (isAlker) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td style="text-align:center;">' + (it.jumlah || '-') + '</td><td style="text-align:center;">' + (it.satuan || '-') + '</td><td>' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
       else if (isHJ) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
       else if (isOfCut) { var coD = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : '-', upD = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : '-', durD = it.durasiText || '-'; rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + coD + '</td><td>' + upD + '</td><td><span class="durasi-badge">' + durD + '</span></td><td>' + (it.panjangCut || '-') + ' M</td><td>' + (it.rute || '-') + '</td><td>' + (it.penyebab || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>'; }
@@ -3065,20 +2940,27 @@ function hapusOpmGroup(groupId) {
   db.ref().update(updates).then(function() { catatRiwayat('OPM-OLS', 'Hapus Tabel', dari + ' → ' + ke, ''); showToast('✅ ' + keysToDelete.length + ' baris dihapus', 'success'); setTimeout(refetchData, 300); });
 }
 
-/* ============================================================ PATCH CORD SALDO ============================================================ */
-function hitungSaldoPCTersedia(pcType, pcLength, gudang, excludeKey) {
+/* ============================================================ PATCH CORD — MODEL STOK BERGERAK ============================================================ */
+/* Cari kunci baris existing Patch Cord berdasarkan gudang + jenis + panjang */
+function findPatchcordRow(pcType, pcLength, gudang, excludeKey) {
   var existing = appData['Patch Cord'] || {};
-  var saldo = 0;
+  var found = null;
   Object.keys(existing).forEach(function(k) {
     var ex = existing[k];
+    if (excludeKey && k === excludeKey) return;
     if ((ex.gudang || '') !== (gudang || '')) return;
     if ((ex.pcType || '').toUpperCase() !== (pcType || '').toUpperCase()) return;
     if ((ex.pcLength || '') !== (pcLength || '')) return;
-    if (excludeKey && k === excludeKey) return;
-    var q = parseInt(ex.qty) || 0;
-    if (ex.trType === 'Masuk') saldo += q; else if (ex.trType === 'Keluar') saldo -= q;
+    if (found === null) found = k;
   });
-  return saldo;
+  return found;
+}
+/* Ambil stok bersih saat ini (qty adalah stok langsung karena hanya ada 1 baris per jenis) */
+function getPatchcordStok(pcType, pcLength, gudang, excludeKey) {
+  var k = findPatchcordRow(pcType, pcLength, gudang, excludeKey);
+  if (k === null) return 0;
+  var it = (appData['Patch Cord'] || {})[k] || {};
+  return parseInt(it.qty) || 0;
 }
 function updatePatchcordSaldoInfo() {
   var infoEl = document.getElementById('patchcord-saldo-info');
@@ -3090,8 +2972,8 @@ function updatePatchcordSaldoInfo() {
   if (t === 'Lainnya') t = (document.getElementById('inp-pc-type-lain').value || '').trim().toUpperCase();
   if (l === 'Lainnya') l = (document.getElementById('inp-pc-length-lain').value || '').trim();
   if (!t || !l || !selectedGudang) { infoEl.style.display = 'none'; return; }
-  var saldo = hitungSaldoPCTersedia(t, l, selectedGudang, null);
-  saldoEl.textContent = saldo;
+  var stok = getPatchcordStok(t, l, selectedGudang, null);
+  saldoEl.textContent = stok;
   infoEl.style.display = 'block';
 }
 
@@ -3117,17 +2999,66 @@ function submitForm(e) {
     var notes = document.getElementById('inp-notes-patch').value.trim().toUpperCase();
     if (!pcType || !pcLength) { showToast('Pilih jenis & panjang', 'error'); return; }
     if (qty < 1) { showToast('Jumlah minimal 1', 'error'); return; }
-    if (trType === 'Keluar') {
-      var saldoTersedia = hitungSaldoPCTersedia(pcType, pcLength, selectedGudang, isEdit ? editKey : null);
-      if (saldoTersedia <= 0) { showToast('❌ Stok KOSONG!', 'error'); return; }
-      if (qty > saldoTersedia) { showToast('❌ Stok tidak cukup! Saldo: ' + saldoTersedia, 'error'); return; }
+
+    /* MODE EDIT: cukup update langsung baris */
+    if (isEdit) {
+      if (trType === 'Keluar' && !notes) { showToast('Keterangan wajib untuk pengeluaran', 'error'); return; }
+      data.pcType = pcType.toUpperCase(); data.pcLength = pcLength; data.gudang = selectedGudang;
+      data.qty = qty; data.trType = 'Stok'; data.notes = notes; data.keterangan = notes;
+      data.lastUpdate = data.date;
+      detailText = pcType + ' ' + pcLength + ' | Stok: ' + qty;
+      ketText = notes;
+      isSubmitting = true;
+      var btnE = document.getElementById('btn-submit-form');
+      btnE.disabled = true; btnE.textContent = 'Menyimpan...';
+      db.ref('data/Patch Cord/' + editKey).update(data).then(function() {
+        catatRiwayat('Patch Cord', 'Update Stok', detailText, ketText);
+        showToast('Stok diupdate', 'success');
+        closeModal(); setTimeout(refetchData, 300);
+      }).catch(function(err) { showToast(err.message || 'Gagal', 'error'); }).finally(function() { isSubmitting = false; btnE.disabled = false; btnE.textContent = 'Simpan Data'; });
+      return;
     }
-    if (trType === 'Keluar' && !notes) { showToast('Keterangan wajib', 'error'); return; }
-    data.pcType = pcType.toUpperCase(); data.pcLength = pcLength; data.gudang = selectedGudang;
-    data.qty = qty; data.trType = trType; data.notes = notes; data.keterangan = notes;
-    detailText = pcType + ' ' + pcLength + ' | ' + trType + ': ' + qty;
-    ketText = notes;
+
+    /* MODE TAMBAH BARU */
+    var existingKey = findPatchcordRow(pcType, pcLength, selectedGudang, null);
+    var existingItem = existingKey !== null ? (appData['Patch Cord'] || {})[existingKey] : null;
+    var stokSaatIni = existingItem ? (parseInt(existingItem.qty) || 0) : 0;
+
+    if (trType === 'Masuk') {
+      var newQty = stokSaatIni + qty;
+      data.pcType = pcType.toUpperCase(); data.pcLength = pcLength; data.gudang = selectedGudang;
+      data.qty = newQty; data.trType = 'Stok'; data.notes = notes; data.keterangan = notes;
+      data.lastUpdate = data.date; data.createdAt = (existingItem && existingItem.createdAt) || Date.now();
+      detailText = pcType + ' ' + pcLength + ' | +' + qty + ' → ' + newQty;
+      ketText = 'MASUK: ' + qty + (notes ? ' | ' + notes : '');
+    } else {
+      /* KELUAR */
+      if (stokSaatIni < qty) {
+        showToast('❌ Stok tidak cukup! Tersedia: ' + stokSaatIni, 'error');
+        return;
+      }
+      var newQtyKeluar = stokSaatIni - qty;
+      if (!notes) { showToast('Keterangan wajib untuk pengeluaran', 'error'); return; }
+      data.pcType = pcType.toUpperCase(); data.pcLength = pcLength; data.gudang = selectedGudang;
+      data.qty = newQtyKeluar; data.trType = 'Stok'; data.notes = notes; data.keterangan = notes;
+      data.lastUpdate = data.date; data.createdAt = (existingItem && existingItem.createdAt) || Date.now();
+      detailText = pcType + ' ' + pcLength + ' | -' + qty + ' → ' + newQtyKeluar;
+      ketText = 'KELUAR: ' + qty + (notes ? ' | ' + notes : '');
+    }
+    isSubmitting = true;
+    var btn = document.getElementById('btn-submit-form');
+    btn.disabled = true; btn.textContent = 'Menyimpan...';
+    var promise;
+    if (existingKey !== null) promise = db.ref('data/Patch Cord/' + existingKey).update(data);
+    else promise = db.ref('data/Patch Cord').push(data);
+    promise.then(function() {
+      catatRiwayat('Patch Cord', trType, detailText, ketText);
+      showToast('✅ ' + detailText, 'success');
+      closeModal(); setTimeout(refetchData, 300);
+    }).catch(function(err) { showToast(err.message || 'Gagal simpan', 'error'); }).finally(function() { isSubmitting = false; btn.disabled = false; btn.textContent = 'Simpan Data'; });
+    return;
   } else if (cat === 'Stok Spare') {
+    /* ... (tidak diubah) ... */
     var mode = document.getElementById('form-mode').value;
     if (mode === 'tambah') {
       var sn = document.getElementById('inp-sn').value.trim().toUpperCase();
@@ -3225,15 +3156,15 @@ function submitForm(e) {
   }
   if (!cat || cat === 'dashboard') { showToast('Kategori tidak valid', 'error'); return; }
   isSubmitting = true;
-  var btn = document.getElementById('btn-submit-form');
-  btn.disabled = true; btn.textContent = 'Menyimpan...';
+  var btn2 = document.getElementById('btn-submit-form');
+  btn2.disabled = true; btn2.textContent = 'Menyimpan...';
   var ref = db.ref('data/' + cat);
-  var promise = isEdit && editKey ? ref.child(editKey).update(data) : ref.push(data);
-  promise.then(function() {
+  var promise2 = isEdit && editKey ? ref.child(editKey).update(data) : ref.push(data);
+  promise2.then(function() {
     catatRiwayat(cat, isEdit ? 'Update' : 'Tambah', detailText, ketText);
     showToast('Data tersimpan', 'success');
     closeModal(); setTimeout(refetchData, 300);
-  }).catch(function(err) { showToast(err.message || 'Gagal simpan', 'error'); }).finally(function() { isSubmitting = false; btn.disabled = false; btn.textContent = 'Simpan Data'; });
+  }).catch(function(err) { showToast(err.message || 'Gagal simpan', 'error'); }).finally(function() { isSubmitting = false; btn2.disabled = false; btn2.textContent = 'Simpan Data'; });
 }
 function closeModal() {
   document.getElementById('form-modal').classList.add('hidden');
@@ -3334,7 +3265,7 @@ function populateFormFields(data) {
   setTimeout(checkOpmDariKe, 100); setTimeout(hitungDurasiOF, 150);
 }
 
-/* ============================================================ STOK SUMMARY — FIX BUG PATCH CORD ============================================================ */
+/* ============================================================ STOK SUMMARY ============================================================ */
 function updateStokSummary() {
   var isSpare = currentCategory === 'Stok Spare', isPatch = currentCategory === 'Patch Cord';
   var c = document.getElementById('stok-summary-container');
@@ -3344,15 +3275,15 @@ function updateStokSummary() {
   if (isPatch) {
     var items = Object.values(appData['Patch Cord'] || {});
     if (selectedGudangFilter !== 'all') items = items.filter(function(i) { return i.gudang === selectedGudangFilter; });
-    var masuk = 0, keluar = 0;
-    items.forEach(function(i) { var q = parseInt(i.qty) || 0; if (i.trType === 'Masuk') masuk += q; else if (i.trType === 'Keluar') keluar += q; });
-    var saldo = masuk - keluar;   // ← FIX: tidak di-clamp ke 0
-    document.getElementById('total-stok-value').textContent = saldo;
-    document.getElementById('total-masuk-value').textContent = masuk;
-    document.getElementById('total-keluar-value').textContent = keluar;
-    if (lbl1) lbl1.textContent = 'Saldo Akhir';
-    if (lbl2) lbl2.textContent = 'Total Masuk';
-    if (lbl3) lbl3.textContent = 'Total Keluar';
+    /* qty sudah = stok bersih */
+    var totalStok = 0, jenisCount = 0;
+    items.forEach(function(i) { totalStok += parseInt(i.qty) || 0; jenisCount++; });
+    document.getElementById('total-stok-value').textContent = totalStok;
+    document.getElementById('total-masuk-value').textContent = jenisCount;
+    document.getElementById('total-keluar-value').textContent = items.filter(function(i) { return (parseInt(i.qty) || 0) <= 0; }).length;
+    if (lbl1) lbl1.textContent = 'Total Stok';
+    if (lbl2) lbl2.textContent = 'Jenis Item';
+    if (lbl3) lbl3.textContent = 'Habis';
   } else {
     var items2 = Object.values(appData['Stok Spare'] || {});
     if (selectedGudangFilter !== 'all') items2 = items2.filter(function(i) { return i.gudang === selectedGudangFilter; });
@@ -3422,7 +3353,7 @@ function downloadPageExcel() {
   keys.forEach(function(k, idx) {
     var it = list[k] || {}, ket = it.keterangan || it.notes || '', row = { 'No': idx + 1 };
     if (isSpare) { row['Tanggal'] = it.date || ''; row['Gudang'] = it.gudang || ''; row['SN'] = it.sn || ''; row['Nama'] = it.spec || ''; row['Status'] = it.status || ''; row['Lemari'] = it.lemari || ''; row['Rak'] = it.rak || ''; row['Riwayat'] = it.riwayat || ''; row['Kondisi'] = it.kondisi || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
-    else if (isPatch) { row['Tanggal'] = it.date || ''; row['Gudang'] = it.gudang || ''; row['Jenis'] = it.pcType || ''; row['Panjang'] = it.pcLength || ''; row['Transaksi'] = it.trType || ''; row['Qty'] = it.qty || 0; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
+    else if (isPatch) { row['Tgl Update'] = it.lastUpdate || it.date || ''; row['Gudang'] = it.gudang || ''; row['Jenis'] = it.pcType || ''; row['Panjang'] = it.pcLength || ''; row['Stok'] = it.qty || 0; row['Keterangan'] = ket; }
     else if (isAlker) { row['Tanggal'] = it.date || ''; row['Nama'] = it.nama || ''; row['SN'] = it.sn || ''; row['Jenis'] = it.jenis || ''; row['Merk'] = it.merk || ''; row['Jumlah'] = it.jumlah || ''; row['Satuan'] = it.satuan || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
     else if (isOfCut) { row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Waktu CO'] = it.waktuCO || ''; row['Waktu UP'] = it.waktuUP || ''; row['Durasi'] = it.durasiText || ''; row['Panjang'] = it.panjangCut || ''; row['Rute'] = it.rute || ''; row['Penyebab'] = it.penyebab || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
     else { row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
@@ -3579,22 +3510,22 @@ function updateCharts() {
     if (doughnutAset) {
       var countAlker = Object.keys(appData['Alker'] || {}).length;
       var countSpare = Object.keys(appData['Stok Spare'] || {}).length;
+      /* Patch Cord: total stok bersih */
       var pcItems = Object.values(appData['Patch Cord'] || {});
-      var pcMasuk = 0, pcKeluar = 0;
-      pcItems.forEach(function(p) { var q = parseInt(p.qty) || 0; if (p.trType === 'Masuk') pcMasuk += q; else if (p.trType === 'Keluar') pcKeluar += q; });
-      var pcSaldo = pcMasuk - pcKeluar; if (pcSaldo < 0) pcSaldo = 0;
-      doughnutAset.data.datasets[0].data = [countAlker, countSpare, pcSaldo];
+      var pcTotalStok = 0;
+      pcItems.forEach(function(p) { pcTotalStok += parseInt(p.qty) || 0; });
+      doughnutAset.data.datasets[0].data = [countAlker, countSpare, pcTotalStok];
       doughnutAset.update('none');
       var asetLegend = document.getElementById('aset-legend');
       if (asetLegend) {
         var asetItems = [
           { name: 'Alker', val: countAlker, color: '#00D9FF' },
           { name: 'Spare', val: countSpare, color: '#10B981' },
-          { name: 'Patch Cord', val: pcSaldo, color: '#F59E0B' }
+          { name: 'Patch Cord', val: pcTotalStok, color: '#F59E0B' }
         ];
         asetLegend.innerHTML = asetItems.map(function(it) { return '<div class="mini-legend-item"><span class="mini-legend-dot" style="background:' + it.color + ';"></span><span class="mini-legend-name">' + it.name + '</span><span class="mini-legend-value">' + it.val + '</span></div>'; }).join('');
       }
-      var maxRing = Math.max(countAlker, countSpare, pcSaldo, 5);
+      var maxRing = Math.max(countAlker, countSpare, pcTotalStok, 5);
       var circumference = 2 * Math.PI * 24;
       function setRing(idVal, idArc, val) {
         var arc = document.getElementById(idArc); var valEl = document.getElementById(idVal);
@@ -3603,7 +3534,7 @@ function updateCharts() {
       }
       setRing('ring-alker-val', 'ring-alker', countAlker);
       setRing('ring-spare-val', 'ring-spare', countSpare);
-      setRing('ring-patchcord-val', 'ring-patchcord', pcSaldo);
+      setRing('ring-patchcord-val', 'ring-patchcord', pcTotalStok);
     }
 
     updateLineChartOfCut(selectedYear, dataP3, dataVandal, dataBencana, dataLainnya);
