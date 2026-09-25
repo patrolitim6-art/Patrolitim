@@ -59,6 +59,7 @@
   --app-font-size-2xl: calc(var(--app-font-size) + 8px);
   --app-font-size-3xl: calc(var(--app-font-size) + 12px);
   --radius: 16px;
+  --header-h: 64px;
 }
 
 :root[data-theme="light"] {
@@ -214,28 +215,12 @@
 @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeSlideLeft { from { opacity: 0; transform: translateX(-22px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes fadeScaleIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
-.ai-row-hero   { animation: fadeSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both; }
-.ai-row-middle { animation: fadeSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both; }
-.ai-row-bottom { animation: fadeSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both; }
-.ai-cat-item { animation: fadeSlideLeft 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.ai-cat-item:nth-child(1) { animation-delay: 0.10s; } .ai-cat-item:nth-child(2) { animation-delay: 0.16s; }
-.ai-cat-item:nth-child(3) { animation-delay: 0.22s; } .ai-cat-item:nth-child(4) { animation-delay: 0.28s; }
-.ai-cat-item:nth-child(5) { animation-delay: 0.34s; } .ai-cat-item:nth-child(6) { animation-delay: 0.40s; }
-.ai-stat-mini { animation: fadeScaleIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.ai-stat-mini:nth-child(1) { animation-delay: 0.28s; } .ai-stat-mini:nth-child(2) { animation-delay: 0.34s; }
-.ai-stat-mini:nth-child(3) { animation-delay: 0.40s; } .ai-stat-mini:nth-child(4) { animation-delay: 0.46s; }
 
 .radial-ring { position: relative; width: 56px; height: 56px; flex-shrink: 0; }
 .radial-ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
 .radial-ring .ring-bg { fill: none; stroke: var(--border-subtle); stroke-width: 6; }
 .radial-ring .ring-fg { fill: none; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
 .radial-ring .ring-label { position: absolute; inset: 0; display: grid; place-items: center; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 12px; }
-
-.chart-wrap-enhanced { position: relative; flex: 1; min-height: 260px; }
-.chart-summary-strip { display: flex; gap: 8px; padding: 8px 4px 10px; border-bottom: 1px dashed var(--border-subtle); margin-bottom: 10px; flex-wrap: wrap; }
-.chart-summary-chip { flex: 1; min-width: 70px; padding: 6px 8px; border-radius: 8px; background: var(--surface-3); border: 1px solid var(--border-subtle); text-align: center; }
-.chart-summary-chip .cs-label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 700; }
-.chart-summary-chip .cs-value { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 14px; margin-top: 2px; line-height: 1; }
 
 .chart-summary-strip-2 { display: flex; gap: 8px; padding: 8px 4px 10px; border-bottom: 1px dashed var(--border-subtle); margin-bottom: 10px; flex-wrap: wrap; align-items: stretch; }
 .chart-summary-strip-2 .chart-summary-chip { flex: 1; min-width: 100px; padding: 10px 8px; border-radius: 10px; background: linear-gradient(160deg, var(--surface-3) 0%, rgba(15,23,42,0.5) 100%); border: 1px solid var(--border-subtle); text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.2); overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2px; }
@@ -270,61 +255,217 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html { overflow-x: hidden; }
-body { margin: 0; font-family: var(--app-font); font-size: var(--app-font-size); background: var(--bg-main); color: var(--text-main); transition: background 0.3s ease, color 0.3s ease, padding-left 0.3s ease;
+body { margin: 0; font-family: var(--app-font); font-size: var(--app-font-size); background: var(--bg-main); color: var(--text-main); transition: background 0.3s ease, color 0.3s ease;
   background-image: linear-gradient(var(--bg-pattern-1) 1px, transparent 1px), linear-gradient(90deg, var(--bg-pattern-1) 1px, transparent 1px), radial-gradient(circle at 15% 20%, var(--bg-pattern-2) 0%, transparent 45%), radial-gradient(circle at 85% 80%, var(--bg-pattern-3) 0%, transparent 45%), radial-gradient(circle at 50% 50%, var(--bg-pattern-4) 0%, transparent 60%);
-  background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%, 100% 100%; background-attachment: fixed; padding-left: 260px; }
+  background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%, 100% 100%; background-attachment: fixed; }
 html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, tbody, tr, th, td, form, input, button, select, textarea, label, small, strong, em, b, i, code, pre, blockquote, canvas { font-family: var(--app-font); }
 
 .earth-logo { width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; position: relative; overflow: hidden; display: grid; place-items: center; padding: 3px; background: linear-gradient(145deg, #0F2444 0%, #050D1F 100%); border: 1.5px solid rgba(0, 217, 255, 0.55); box-shadow: 0 0 16px rgba(0, 217, 255, 0.55), 0 0 32px rgba(0, 217, 255, 0.22); animation: logoGlow 2.5s ease-in-out infinite; }
 .earth-logo svg { width: 100%; height: 100%; display: block; }
 .earth-logo.large { width: 84px; height: 84px; border-radius: 20px; padding: 6px; border-width: 2px; }
 @keyframes logoGlow { 0%, 100% { box-shadow: 0 0 16px rgba(0, 217, 255, 0.55), 0 0 32px rgba(0, 217, 255, 0.22); } 50% { box-shadow: 0 0 26px rgba(0, 217, 255, 0.9), 0 0 52px rgba(0, 217, 255, 0.4); } }
-@keyframes logoGlowRed { 0%, 100% { box-shadow: 0 0 16px rgba(224, 82, 82, 0.45); } 50% { box-shadow: 0 0 26px rgba(224, 82, 82, 0.75); } }
 
 .telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: rgba(255,255,255,0.04); }
-.telin-logo { height: 32px; width: auto; object-fit: contain; display: block; }
+.telin-logo { height: 28px; width: auto; object-fit: contain; display: block; }
 :root[data-theme="light"] .telin-logo-wrapper { background: transparent !important; }
 .telin-divider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 16px 0 20px; padding: 12px 16px; }
 .telin-logo-login { height: 44px; width: auto; display: block; }
 .telin-footer-brand { display: flex; align-items: center; justify-content: center; gap: 8px; padding-top: 10px; margin-top: 12px; border-top: 1px solid var(--border-subtle); width: 100%; }
-.telin-footer-brand img { height: 24px; width: auto; opacity: 0.9; display: block; }
+.telin-footer-brand img { height: 22px; width: auto; opacity: 0.9; display: block; }
 :root[data-theme="light"] .telin-footer-brand,
 :root[data-theme="light"] .telin-divider { background: transparent !important; }
 :root[data-theme="light"] .telin-footer-brand img,
 :root[data-theme="light"] .telin-logo,
 :root[data-theme="light"] .telin-logo-login { opacity: 1; }
 
-.sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background: var(--surface-sidebar); border-right: 1px solid var(--border-glow); z-index: 60; display: flex; flex-direction: column; box-shadow: 4px 0 40px rgba(0, 217, 255, 0.08); transition: transform 0.3s ease; overflow: hidden; }
-.sidebar-header { height: 72px; display: flex; align-items: center; gap: 12px; padding: 0 20px; border-bottom: 1px solid var(--border-subtle); flex-shrink: 0; }
-.brand-text-wrapper { display: flex; flex-direction: column; overflow: hidden; }
-.brand-text { font-weight: 900; line-height: 1.1; font-family: 'Orbitron', sans-serif; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1.5px; font-size: var(--app-font-size-2xl); }
-.brand-sub { color: var(--primary-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-top: 3px; font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-xs); }
-.sidebar-nav { flex: 1; overflow-y: auto; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
-.nav-section-label { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px; padding: 14px 14px 6px; opacity: 0.7; font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-xs); }
-.nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 12px; color: var(--text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s ease; position: relative; user-select: none; border: 1px solid transparent; font-size: var(--app-font-size-sm); }
-.nav-item:hover { background: rgba(0, 217, 255, 0.08); color: var(--primary-cyan); border-color: var(--border-glow); transform: translateX(2px); }
-.nav-item.active { background: var(--tech-gradient); color: var(--text-on-accent); box-shadow: 0 6px 20px rgba(0, 217, 255, 0.35); }
-.nav-item.active::before { content: ''; position: absolute; left: -12px; top: 50%; transform: translateY(-50%); width: 4px; height: 60%; background: var(--primary-cyan); border-radius: 0 4px 4px 0; box-shadow: 0 0 12px var(--primary-cyan); }
-.nav-item i { width: 20px; height: 20px; flex-shrink: 0; }
-.sidebar-footer { border-top: 1px solid var(--border-subtle); padding: 12px; display: flex; align-items: center; gap: 10px; background: var(--surface-sidebar-footer); flex-direction: column; }
-.user-chip { flex: 1; display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: rgba(0, 217, 255, 0.06); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-subtle); width: 100%; }
-.user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--tech-gradient); display: grid; place-items: center; color: var(--text-on-accent); font-weight: 900; font-size: 14px; flex-shrink: 0; }
-.user-info { display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
-.user-name { font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: var(--app-font-size-xs); }
-.user-role { color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; font-size: calc(var(--app-font-size) - 5px); }
+/* ============ HEADER FULL WIDTH DENGAN MENU ============ */
+.top-header {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  height: var(--header-h);
+  border-bottom: 1px solid var(--border-glow);
+  background: var(--surface-glass);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  gap: 12px;
+}
 
-.top-header { position: sticky; top: 0; z-index: 40; height: 72px; border-bottom: 1px solid var(--border-glow); background: var(--surface-glass); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; }
-.main-content { padding: 20px 24px 40px; max-width: 1600px; margin: 0 auto; width: 100%; }
-.menu-toggle { display: none; width: 42px; height: 42px; border-radius: 10px; border: 1px solid var(--border-glow); background: var(--surface-1); color: var(--primary-cyan); cursor: pointer; align-items: center; justify-content: center; }
-.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(5, 8, 16, 0.75); z-index: 55; }
-.sidebar-overlay.active { display: block; }
-@media (max-width: 900px) { body { padding-left: 0; } .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .menu-toggle { display: flex; } .top-header { padding: 0 16px; } .main-content { padding: 16px 16px 40px; } }
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.brand-text { font-weight: 900; line-height: 1.1; font-family: 'Orbitron', sans-serif; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1.5px; font-size: 18px; }
+.brand-sub { color: var(--primary-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-family: 'Orbitron', sans-serif; font-size: 9px; margin-top: 1px; }
 
+/* MENU NAVIGASI HEADER */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+  overflow-x: auto;
+  padding: 0 8px;
+}
+.header-nav::-webkit-scrollbar { height: 0; display: none; }
+
+.nav-dropdown {
+  position: relative;
+  flex-shrink: 0;
+}
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+}
+.nav-btn:hover {
+  background: rgba(0, 217, 255, 0.08);
+  color: var(--primary-cyan);
+  border-color: var(--border-glow);
+}
+.nav-btn.active {
+  background: var(--tech-gradient);
+  color: var(--text-on-accent);
+  border-color: transparent;
+  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.35);
+}
+.nav-btn i { width: 15px; height: 15px; }
+.nav-btn .chev { width: 12px; height: 12px; transition: transform 0.2s ease; }
+.nav-dropdown.open .nav-btn .chev { transform: rotate(180deg); }
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  min-width: 220px;
+  background: var(--surface-modal);
+  border: 1px solid var(--border-glow);
+  border-radius: 14px;
+  padding: 6px;
+  box-shadow: 0 18px 48px rgba(0, 217, 255, 0.18);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 100;
+}
+.nav-dropdown.open .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: var(--surface-modal);
+  border-left: 1px solid var(--border-glow);
+  border-top: 1px solid var(--border-glow);
+}
+.nav-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12.5px;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.nav-dropdown-item:hover {
+  background: rgba(0, 217, 255, 0.08);
+  color: var(--primary-cyan);
+  border-color: var(--border-glow);
+}
+.nav-dropdown-item.active {
+  background: rgba(0, 217, 255, 0.14);
+  color: var(--primary-cyan);
+  border-color: var(--border-glow);
+  font-weight: 700;
+}
+.nav-dropdown-item i { width: 15px; height: 15px; flex-shrink: 0; }
+
+/* HEADER ACTIONS */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ============ MAIN CONTENT FULL WIDTH ============ */
+.main-content-full {
+  padding: 14px;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ============ LAYOUT 3 KOLOM DENGAN HERO+MAP DI TENGAH ============ */
+.layout-three-columns {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr) 320px;
+  gap: 12px;
+  align-items: start;
+}
+@media (max-width: 1400px) {
+  .layout-three-columns { grid-template-columns: 280px minmax(0, 1fr) 300px; }
+}
+@media (max-width: 1200px) {
+  .layout-three-columns { grid-template-columns: 1fr; }
+  .layout-three-columns > .layout-left,
+  .layout-three-columns > .layout-right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+}
+@media (max-width: 720px) {
+  .layout-three-columns > .layout-left,
+  .layout-three-columns > .layout-right { grid-template-columns: 1fr; }
+}
+
+.layout-center {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.layout-left, .layout-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* ============ CARD ============ */
 .btn-primary { background: var(--tech-gradient); color: var(--text-on-accent); border: none; border-radius: 24px; font-weight: 800; padding: 12px 28px; cursor: pointer; transition: all 0.25s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 20px rgba(0, 217, 255, 0.35); min-height: 52px; font-size: var(--app-font-size-md); font-family: inherit; }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-secondary { background: var(--surface-1); color: var(--primary-cyan); border: 1px solid var(--border-glow); border-radius: 24px; font-weight: 600; padding: 12px 24px; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; font-size: var(--app-font-size-sm); font-family: inherit; }
 .btn-secondary:hover { background: rgba(0, 217, 255, 0.12); border-color: var(--primary-cyan); box-shadow: 0 0 16px rgba(0, 217, 255, 0.35); }
-.icon-btn { width: 42px; height: 42px; border-radius: 10px; display: grid; place-items: center; cursor: pointer; background: transparent; border: none; color: var(--text-muted); transition: all 0.2s; }
+.icon-btn { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; cursor: pointer; background: transparent; border: none; color: var(--text-muted); transition: all 0.2s; }
 .icon-btn:hover { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); }
 .icon-btn.delete { color: #EC4899; }
 .icon-btn.edit { color: #10B981; }
@@ -367,151 +508,92 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .toast.error { border-color: #EC4899; }
 .toast.warning { border-color: #F59E0B; }
 
-.ai-dashboard { display: flex; flex-direction: column; gap: 14px; }
-.ai-row-hero { display: grid; grid-template-columns: 1fr; gap: 14px; }
-
-.ai-hero { background: var(--surface-hero); border: 1px solid var(--border-glow); border-radius: var(--radius); padding: 26px 28px; position: relative; overflow: hidden; box-shadow: 0 12px 40px rgba(0, 217, 255, 0.10); }
+.ai-hero { background: var(--surface-hero); border: 1px solid var(--border-glow); border-radius: var(--radius); padding: 22px 26px; position: relative; overflow: hidden; box-shadow: 0 12px 40px rgba(0, 217, 255, 0.10); }
 .ai-hero::before { content: ''; position: absolute; top: -50%; right: -10%; width: 320px; height: 320px; background: radial-gradient(circle, var(--bg-pattern-2) 0%, transparent 70%); border-radius: 50%; animation: float 8s ease-in-out infinite; pointer-events: none; }
 @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -20px); } }
-.ai-hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 99px; background: rgba(0, 217, 255, 0.12); border: 1px solid var(--border-glow); color: var(--primary-cyan); font-size: var(--app-font-size-xs); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 14px; position: relative; z-index: 3; font-family: 'Orbitron', sans-serif; white-space: normal; line-height: 1.2; }
+.ai-hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 99px; background: rgba(0, 217, 255, 0.12); border: 1px solid var(--border-glow); color: var(--primary-cyan); font-size: var(--app-font-size-xs); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; position: relative; z-index: 3; font-family: 'Orbitron', sans-serif; white-space: normal; line-height: 1.2; }
 :root[data-theme="light"] .ai-hero-badge { background: rgba(224,82,82,0.12); color: #C93F3F; }
 
-.hero-big-number { position: absolute; top: 16px; right: 24px; z-index: 3; text-align: right; }
+.hero-big-number { position: absolute; top: 14px; right: 20px; z-index: 3; text-align: right; }
 .hero-big-number .hbn-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); font-weight: 700; }
-.hero-big-number .hbn-value { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 42px; line-height: 1; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-big-number .hbn-value { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 38px; line-height: 1; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 :root[data-theme="light"] .hero-big-number .hbn-value { background: none; -webkit-text-fill-color: #C93F3F; color: #C93F3F; }
 @media (max-width: 720px) { .hero-big-number { position: static; text-align: left; margin-bottom: 12px; } .hero-big-number .hbn-value { font-size: 32px; } }
 
-.ai-hero-title { font-family: var(--app-font); font-size: var(--app-font-size-3xl); font-weight: 800; line-height: 1.3; margin-bottom: 8px; position: relative; z-index: 3; letter-spacing: 0.3px; word-break: break-word; hyphens: auto; }
+.ai-hero-title { font-family: var(--app-font); font-size: 24px; font-weight: 800; line-height: 1.3; margin-bottom: 6px; position: relative; z-index: 3; letter-spacing: 0.3px; word-break: break-word; hyphens: auto; }
 .ai-hero-title .accent { font-family: var(--app-font); font-weight: 800; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.ai-hero-sub { font-size: var(--app-font-size-sm); color: var(--text-muted); margin-bottom: 18px; position: relative; z-index: 3; line-height: 1.5; word-break: break-word; }
-.ai-hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; position: relative; z-index: 3; }
+.ai-hero-sub { font-size: var(--app-font-size-sm); color: var(--text-muted); margin-bottom: 14px; position: relative; z-index: 3; line-height: 1.5; word-break: break-word; }
+.ai-hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; position: relative; z-index: 3; }
 @media (max-width: 720px) { .ai-hero-stats { grid-template-columns: repeat(2, 1fr); } }
 
-.ai-stat-mini { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; position: relative; overflow: hidden; }
+.ai-stat-mini { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 3px; position: relative; overflow: hidden; }
 .ai-stat-mini .stat-label { font-size: var(--app-font-size-xs); color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; line-height: 1.2; white-space: normal; }
-.ai-stat-mini .stat-value { font-size: calc(var(--app-font-size) + 8px); font-weight: 900; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; line-height: 1; }
+.ai-stat-mini .stat-value { font-size: calc(var(--app-font-size) + 6px); font-weight: 900; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; line-height: 1; }
 .ai-stat-mini .stat-value.green { color: #10B981; }
 .ai-stat-mini .stat-value.blue { color: var(--primary-blue); }
 .ai-stat-mini .stat-value.red { color: #EF4444; }
 .ai-stat-mini .stat-value.purple { color: var(--primary-purple); }
 
-.ai-row-map-full { display: grid; grid-template-columns: 1fr; gap: 14px; }
-.ai-row-map-full .ai-panel-map { padding: 0; overflow: hidden; min-height: 620px; }
-@media (max-width: 900px) { .ai-row-map-full .ai-panel-map { min-height: 500px; } }
+.ai-panel-map { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 0; overflow: hidden; position: relative; box-shadow: var(--shadow-card); }
+.ai-panel-map::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.55; z-index: 5; }
+#map-container { height: 100%; min-height: 600px; border-radius: 0; z-index: 1; overflow: hidden; position: relative; }
 
-/* ============ NEW LAYOUT GRID (3 KOLOM SETELAH HERO) ============ */
-.ai-row-three-col {
-  display: grid;
-  grid-template-columns: 1fr 1.3fr 1.15fr;
-  gap: 14px;
-  align-items: start;
-}
-@media (max-width: 1280px) {
-  .ai-row-three-col { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 900px) {
-  .ai-row-three-col { grid-template-columns: 1fr; }
-}
-.ai-row-three-col > .ai-panel { height: 100%; }
-/* ============ END NEW LAYOUT GRID ============ */
-
-.ai-row-bottom-2col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; align-items: start; }
-@media (max-width: 1100px) { .ai-row-bottom-2col { grid-template-columns: 1fr; } }
-
-.ai-row-bottom { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
-@media (max-width: 1100px) { .ai-row-bottom { grid-template-columns: 1fr; } }
-
-.ai-row-middle { display: grid; grid-template-columns: 240px 1fr 320px; gap: 14px; align-items: stretch; }
-@media (max-width: 1280px) { .ai-row-middle { grid-template-columns: 220px 1fr 300px; } }
-@media (max-width: 1100px) { .ai-row-middle { grid-template-columns: 1fr; } }
-
-/* ============ RINGKASAN ASET FULL WIDTH ============ */
-.ai-row-aset-full { display: grid; grid-template-columns: 1fr; gap: 14px; }
-.ai-row-aset-full .aset-grid-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 18px;
-  align-items: start;
-}
-@media (max-width: 900px) {
-  .ai-row-aset-full .aset-grid-content { grid-template-columns: 1fr; }
-}
-/* ============ END ============ */
-
-.ai-panel { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 16px; position: relative; overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; box-shadow: var(--shadow-card); display: flex; flex-direction: column; }
+.ai-panel { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 14px; position: relative; overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; box-shadow: var(--shadow-card); display: flex; flex-direction: column; }
 .ai-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.55; }
-.ai-panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 8px; flex-wrap: wrap; min-height: 24px; }
+.ai-panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; flex-wrap: wrap; min-height: 24px; }
 .ai-panel-header > * { min-width: 0; }
 .ai-panel-title { font-size: var(--app-font-size-xs); font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 6px; font-family: 'Orbitron', sans-serif; line-height: 1.2; white-space: normal; word-break: break-word; }
 .ai-panel-title .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary-cyan); box-shadow: 0 0 8px var(--primary-cyan); }
 
 .ai-cat-list { display: flex; flex-direction: column; gap: 6px; }
-.ai-cat-item { display: flex; align-items: center; gap: 10px; padding: 9px 11px; border-radius: 10px; background: var(--surface-3); border: 1px solid transparent; cursor: pointer; transition: all 0.15s; font-size: var(--app-font-size-xs); color: var(--text-muted); }
+.ai-cat-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; background: var(--surface-3); border: 1px solid transparent; cursor: pointer; transition: all 0.15s; font-size: var(--app-font-size-xs); color: var(--text-muted); }
 .ai-cat-item:hover { border-color: var(--border-glow); background: rgba(0, 217, 255, 0.05); }
-.ai-cat-icon { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; font-size: 13px; background: rgba(0, 217, 255, 0.12); color: var(--primary-cyan); flex-shrink: 0; }
+.ai-cat-icon { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; font-size: 12px; background: rgba(0, 217, 255, 0.12); color: var(--primary-cyan); flex-shrink: 0; }
 .ai-cat-name { flex: 1; font-weight: 600; color: var(--text-main); font-size: var(--app-font-size-xs); white-space: normal; line-height: 1.3; word-break: break-word; min-width: 0; }
 .ai-cat-value { font-weight: 800; font-family: 'Orbitron', sans-serif; color: var(--primary-cyan); font-size: var(--app-font-size-sm); }
 
 .chart-rekap-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: var(--app-font-size-xs); }
-.chart-rekap-table th { background: var(--surface-table-header-solid) !important; padding: 6px 4px; text-align: center; border: 1px solid var(--surface-table-border-solid); font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.2px; white-space: normal; font-size: 9px; position: sticky; top: 0; z-index: 5; line-height: 1.2; word-break: break-word; }
+.chart-rekap-table th { background: var(--surface-table-header-solid) !important; padding: 5px 3px; text-align: center; border: 1px solid var(--surface-table-border-solid); font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.2px; white-space: normal; font-size: 8px; position: sticky; top: 0; z-index: 5; line-height: 1.2; word-break: break-word; }
 .chart-rekap-table th.col-total { background: linear-gradient(135deg, #064E3B 0%, #0F172A 100%) !important; color: #34D399 !important; border-left: 2px solid rgba(16, 185, 129, 0.8); border-right: 2px solid rgba(16, 185, 129, 0.8); }
-.chart-rekap-table td { padding: 4px 4px; text-align: center; border: 1px solid var(--border-subtle); color: var(--text-main); font-weight: 600; line-height: 1.2; }
+.chart-rekap-table td { padding: 3px 3px; text-align: center; border: 1px solid var(--border-subtle); color: var(--text-main); font-weight: 600; line-height: 1.2; font-size: 10px; }
 .chart-rekap-table td.col-total { background: rgba(16, 185, 129, 0.08); border-left: 2px solid rgba(16, 185, 129, 0.5); border-right: 2px solid rgba(16, 185, 129, 0.5); font-weight: 800; color: #10B981; }
 .chart-rekap-table tr.total-row td { background: rgba(0, 217, 255, 0.08); font-weight: 900; color: var(--primary-cyan); border-top: 2px solid var(--border-glow); }
-.chart-rekap-table th:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-table-header-solid-alt) !important; z-index: 7; width: 62px; padding-left: 6px; }
-.chart-rekap-table td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-3); z-index: 6; width: 62px; padding-left: 6px; }
+.chart-rekap-table th:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-table-header-solid-alt) !important; z-index: 7; width: 48px; padding-left: 5px; }
+.chart-rekap-table td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface-3); z-index: 6; width: 48px; padding-left: 5px; }
 .chart-rekap-scroll { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
 
-.chart-rekap-table td.col-persen { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 10px; }
+.chart-rekap-table td.col-persen { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 9px; }
 .chart-rekap-table td.col-persen.p3 { color: #FF0000; background: rgba(255,0,0,0.06); }
 .chart-rekap-table td.col-persen.vandal { color: #00FF00; background: rgba(0,255,0,0.06); }
 .chart-rekap-table td.col-persen.bencana { color: #0000FF; background: rgba(0,0,255,0.06); }
 .chart-rekap-table td.col-persen.lainnya { color: #FF00FF; background: rgba(255,0,255,0.06); }
-.chart-rekap-table th.col-persen-header { font-size: 8px; padding: 4px 2px; }
+.chart-rekap-table th.col-persen-header { font-size: 7px; padding: 3px 2px; }
 
-.ytd-compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
-.ytd-compare-grid-5 { display: grid !important; grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 10px; align-items: stretch; }
-.ytd-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; transition: all 0.2s; position: relative; overflow: hidden; min-width: 0; word-break: break-word; }
+.ytd-compare-grid-5 { display: grid !important; grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 6px; align-items: stretch; }
+.ytd-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 6px 8px; display: flex; flex-direction: column; gap: 2px; transition: all 0.2s; position: relative; overflow: hidden; min-width: 0; word-break: break-word; }
 .ytd-card > * { min-width: 0; }
-.ytd-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--primary-cyan), transparent); opacity: 0; transition: opacity 0.3s ease; }
-.ytd-card:hover::after { opacity: 0.7; }
-.ytd-card:hover { border-color: var(--border-glow); transform: translateY(-3px); }
-.ytd-card .ytd-label { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.3px; font-size: calc(var(--app-font-size) - 4px); line-height: 1.2; white-space: normal; word-break: break-word; }
-.ytd-card .ytd-values { display: flex; align-items: baseline; gap: 4px; row-gap: 2px; flex-wrap: wrap; }
-.ytd-card .ytd-prev { color: var(--text-dim); font-weight: 500; font-size: calc(var(--app-font-size) - 4px); }
-.ytd-card .ytd-current { font-weight: 800; color: var(--text-main); font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-sm); }
-.ytd-card .ytd-diff { font-weight: 800; padding: 1px 6px; border-radius: 5px; display: inline-flex; align-items: center; gap: 3px; font-family: 'Orbitron', sans-serif; font-size: calc(var(--app-font-size) - 4px); }
+.ytd-card:hover { border-color: var(--border-glow); }
+.ytd-card .ytd-label { font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.3px; font-size: 8px; line-height: 1.2; white-space: normal; word-break: break-word; }
+.ytd-card .ytd-values { display: flex; align-items: baseline; gap: 3px; row-gap: 2px; flex-wrap: wrap; }
+.ytd-card .ytd-prev { color: var(--text-dim); font-weight: 500; font-size: 8px; }
+.ytd-card .ytd-current { font-weight: 800; color: var(--text-main); font-family: 'Orbitron', sans-serif; font-size: 11px; }
+.ytd-card .ytd-diff { font-weight: 800; padding: 0px 5px; border-radius: 4px; display: inline-flex; align-items: center; gap: 2px; font-family: 'Orbitron', sans-serif; font-size: 8px; }
 .ytd-card .ytd-diff.up { background: rgba(239, 68, 68, 0.15); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.4); }
 .ytd-card .ytd-diff.down { background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.4); }
 .ytd-card .ytd-diff.same { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); border: 1px solid var(--border-subtle); }
-.ytd-card .ytd-persen { margin-top: 4px; padding-top: 4px; border-top: 1px dashed var(--border-subtle); font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 11px; display: flex; justify-content: space-between; align-items: center; }
-.ytd-card .ytd-persen-label { color: var(--text-dim); font-weight: 600; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.ytd-card .ytd-persen { margin-top: 3px; padding-top: 3px; border-top: 1px dashed var(--border-subtle); font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 9px; display: flex; justify-content: space-between; align-items: center; }
+.ytd-card .ytd-persen-label { color: var(--text-dim); font-weight: 600; font-size: 7px; text-transform: uppercase; letter-spacing: 0.5px; }
 .ytd-card .ytd-persen-value { font-weight: 900; }
 
 @media (max-width: 900px) { .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
 @media (max-width: 600px) { .ytd-compare-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
 
-.ai-stok-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.ai-gudang-row { display: flex; justify-content: space-between; font-size: var(--app-font-size-xs); color: var(--text-muted); padding: 8px 12px; background: var(--surface-3); border-radius: 8px; border: 1px solid var(--border-subtle); transition: all 0.15s; }
-.ai-gudang-row:hover { border-color: var(--border-glow); }
-.ai-gudang-row strong { color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; }
+.ai-chart-wrap { position: relative; height: 200px; flex: 1; }
 
-.ai-chart-wrap { position: relative; height: 300px; flex: 1; }
-#map-container { height: 100%; min-height: 520px; border-radius: 0; z-index: 1; overflow: hidden; position: relative; }
+.map-filter-below { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 12px; border-top: 1px solid var(--border-glow); background: rgba(0,217,255,0.04); }
+.map-filter-below .map-filter-btn-popup { flex: 1; min-width: 140px; }
 
-.map-filter-buttons-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.map-filter-below {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  padding: 12px 14px;
-  border-top: 1px solid var(--border-glow);
-  background: rgba(0,217,255,0.04);
-}
-.map-filter-below .map-filter-btn-popup { flex: 1; min-width: 180px; }
-
-.map-filter-btn-popup { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--surface-3); cursor: pointer; font-weight: 700; color: var(--text-main); font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; }
+.map-filter-btn-popup { padding: 7px 12px; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--surface-3); cursor: pointer; font-weight: 700; color: var(--text-main); font-family: inherit; font-size: var(--app-font-size-xs); display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; }
 .map-filter-btn-popup:hover { border-color: var(--primary-cyan); background: rgba(0,217,255,0.08); }
 .map-filter-btn-popup.active { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; }
 
@@ -528,60 +610,13 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .filter-item-card .filter-check { margin-left: auto; color: var(--primary-cyan); display: none; }
 .filter-item-card.active .filter-check { display: inline-flex; }
 
-.ml-marker {
-  width: 14px; height: 14px; border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 0 8px rgba(0,217,255,0.8), 0 2px 4px rgba(0,0,0,0.4);
-  cursor: pointer;
-  will-change: transform;
-}
+.ml-marker { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 8px rgba(0,217,255,0.8), 0 2px 4px rgba(0,0,0,0.4); cursor: pointer; will-change: transform; }
 
-.map-legend-top-right {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 1000;
-  background: var(--surface-map-legend);
-  border: 1px solid var(--border-glow);
-  border-radius: 10px;
-  padding: 8px 10px;
-  box-shadow: 0 4px 16px rgba(0,217,255,0.15);
-  max-width: 170px;
-  font-size: 9px;
-  line-height: 1.4;
-}
-.map-legend-top-right .ml-title {
-  font-weight: 800;
-  color: var(--primary-cyan);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 5px;
-  font-size: 8px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid var(--border-subtle);
-}
-.map-legend-top-right .ml-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: 2px;
-  color: var(--text-muted);
-  font-weight: 600;
-}
-.map-legend-top-right .ml-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  border: 1px solid rgba(255,255,255,0.2);
-}
-.map-legend-top-right .ml-count {
-  margin-left: auto;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 800;
-  color: var(--text-main);
-  font-size: 8px;
-}
+.map-legend-top-right { position: absolute; top: 12px; left: 12px; z-index: 1000; background: var(--surface-map-legend); border: 1px solid var(--border-glow); border-radius: 10px; padding: 8px 10px; box-shadow: 0 4px 16px rgba(0,217,255,0.15); max-width: 170px; font-size: 9px; line-height: 1.4; }
+.map-legend-top-right .ml-title { font-weight: 800; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; font-size: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--border-subtle); }
+.map-legend-top-right .ml-item { display: flex; align-items: center; gap: 5px; margin-bottom: 2px; color: var(--text-muted); font-weight: 600; }
+.map-legend-top-right .ml-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.2); }
+.map-legend-top-right .ml-count { margin-left: auto; font-family: 'Orbitron', sans-serif; font-weight: 800; color: var(--text-main); font-size: 8px; }
 
 .maplibregl-popup-content { background: var(--surface-map-legend) !important; color: var(--text-main) !important; border: 1px solid var(--border-glow) !important; border-radius: 8px !important; padding: 6px 8px !important; box-shadow: 0 6px 18px rgba(0, 217, 255, 0.22) !important; max-width: 200px !important; min-width: 130px !important; white-space: normal !important; line-height: 1.25; font-size: 9px !important; }
 .maplibregl-popup-tip { border-top-color: var(--surface-map-legend) !important; border-bottom-color: var(--surface-map-legend) !important; }
@@ -651,7 +686,7 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .opm-warning.show { display: flex; }
 
 .user-list-item, .kml-list-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; transition: all 0.2s; }
-.user-list-item:hover, .kml-list-item:hover { border-color: var(--border-glow); transform: translateX(2px); }
+.user-list-item:hover, .kml-list-item:hover { border-color: var(--border-glow); }
 .user-list-item.suspended { opacity: 0.7; border-color: rgba(239, 68, 68, 0.4); }
 .user-list-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--tech-gradient); display: grid; place-items: center; color: var(--text-on-accent); font-weight: 900; font-size: var(--app-font-size-md); flex-shrink: 0; }
 .user-list-info, .kml-list-info { flex: 1; min-width: 0; }
@@ -669,11 +704,6 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 .user-list-btn.reset { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); border-color: rgba(0, 217, 255, 0.4); }
 .user-list-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-.about-info-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px; transition: all 0.2s; }
-.about-info-card:hover { border-color: var(--border-glow); transform: translateY(-2px); }
-.about-info-title { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-weight: 800; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: var(--app-font-size-xs); }
-.about-info-list { margin: 0; padding-left: 16px; color: var(--text-muted); line-height: 1.8; font-size: var(--app-font-size-xs); }
-
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--scroll-track); }
 ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--primary-cyan), var(--primary-purple)); border-radius: 4px; }
@@ -681,9 +711,14 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 @media (max-width: 720px) {
   .ai-hero-stats { grid-template-columns: repeat(2, 1fr); }
   .ai-chart-wrap { height: 240px; }
+  .header-nav { justify-content: flex-start; }
+  .brand-text { font-size: 16px; }
+  .nav-btn { padding: 8px 10px; font-size: 11px; }
+  .nav-btn span.nav-label { display: none; }
+  .nav-btn i { width: 16px; height: 16px; }
 }
 
-/* ============ PERBAIKAN WRAPPING TEXT DASHBOARD ============ */
+/* ============ PERBAIKAN WRAPPING ============ */
 .ai-panel-header span,
 .ai-panel-header > div,
 .ai-panel-header > select {
@@ -799,9 +834,11 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
 </div>
 
 <div id="app-shell" class="hidden">
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-header">
-      <div class="earth-logo">
+
+  <!-- HEADER FULL WIDTH DENGAN MENU DROPDOWN -->
+  <header class="top-header">
+    <div class="header-brand">
+      <div class="earth-logo" style="width:38px;height:38px;padding:2px;">
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="lgRing2" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -818,428 +855,447 @@ input.field-control[type="date"], input.field-control[type="datetime-local"], in
           <circle cx="20" cy="67" r="3.8" fill="#A855F7"/><circle cx="20" cy="33" r="3.8" fill="#00D9FF"/>
         </svg>
       </div>
-      <div class="brand-text-wrapper">
-        <span class="brand-text">BUCIN</span>
-        <span class="brand-sub">Cegah Insiden</span>
+      <div>
+        <div class="brand-text">BUCIN</div>
+        <div class="brand-sub">Cegah Insiden</div>
       </div>
     </div>
-    <nav class="sidebar-nav">
-      <div class="nav-section-label">Menu Utama</div>
-      <div class="nav-item active" data-cat="dashboard"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></div>
-      <div class="nav-section-label">Data Operasional</div>
-      <div class="nav-item" data-cat="Data OF Cut"><i data-lucide="scissors"></i><span>Data OF Cut</span></div>
-      <div class="nav-item" data-cat="P3_Temuan"><i data-lucide="users"></i><span>P3 / Temuan</span></div>
-      <div class="nav-item" data-cat="OPM-OLS"><i data-lucide="activity"></i><span>OPM / OLS</span></div>
-      <div class="nav-item" data-cat="Joint"><i data-lucide="link"></i><span>Data Joint</span></div>
-      <div class="nav-item" data-cat="Handhole"><i data-lucide="archive"></i><span>Data Handhole</span></div>
-      <div class="nav-section-label">Inventaris</div>
-      <div class="nav-item" data-cat="Alker"><i data-lucide="wrench"></i><span>Data Alker</span></div>
-      <div class="nav-item" data-cat="Stok Spare"><i data-lucide="package"></i><span>Stok Spare</span></div>
-      <div class="nav-item" data-cat="Patch Cord"><i data-lucide="cable"></i><span>Patch Cord</span></div>
-      <div class="nav-section-label">Informasi</div>
-      <div class="nav-item" id="nav-about" onclick="openAboutModal()"><i data-lucide="info"></i><span>Tentang Web BUCIN</span></div>
+
+    <nav class="header-nav">
+      <!-- 1. DASHBOARD -->
+      <div class="nav-dropdown" data-menu="dashboard">
+        <button class="nav-btn active" data-cat="dashboard" onclick="navTo('dashboard')">
+          <i data-lucide="layout-dashboard"></i>
+          <span class="nav-label">Dashboard</span>
+        </button>
+      </div>
+
+      <!-- 2. DATA OPERASIONAL -->
+      <div class="nav-dropdown" data-menu="data-operasional">
+        <button class="nav-btn" onclick="toggleDropdown(this)">
+          <i data-lucide="database"></i>
+          <span class="nav-label">Data Operasional</span>
+          <i data-lucide="chevron-down" class="chev"></i>
+        </button>
+        <div class="nav-dropdown-menu">
+          <div class="nav-dropdown-item" data-cat="Data OF Cut" onclick="navTo('Data OF Cut')">
+            <i data-lucide="scissors"></i> Data OF Cut
+          </div>
+          <div class="nav-dropdown-item" data-cat="P3_Temuan" onclick="navTo('P3_Temuan')">
+            <i data-lucide="users"></i> P3 dan Temuan
+          </div>
+          <div class="nav-dropdown-item" data-cat="OPM-OLS" onclick="navTo('OPM-OLS')">
+            <i data-lucide="activity"></i> OPM / OLS
+          </div>
+          <div class="nav-dropdown-item" data-cat="Joint" onclick="navTo('Joint')">
+            <i data-lucide="link"></i> Data Joint
+          </div>
+          <div class="nav-dropdown-item" data-cat="Handhole" onclick="navTo('Handhole')">
+            <i data-lucide="archive"></i> Data Handhole
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. INVENTORY -->
+      <div class="nav-dropdown" data-menu="inventory">
+        <button class="nav-btn" onclick="toggleDropdown(this)">
+          <i data-lucide="package"></i>
+          <span class="nav-label">Inventory</span>
+          <i data-lucide="chevron-down" class="chev"></i>
+        </button>
+        <div class="nav-dropdown-menu">
+          <div class="nav-dropdown-item" data-cat="Alker" onclick="navTo('Alker')">
+            <i data-lucide="wrench"></i> Alker
+          </div>
+          <div class="nav-dropdown-item" data-cat="Stok Spare" onclick="navTo('Stok Spare')">
+            <i data-lucide="package"></i> Stok Spare
+          </div>
+          <div class="nav-dropdown-item" data-cat="Patch Cord" onclick="navTo('Patch Cord')">
+            <i data-lucide="cable"></i> Stok Patch Cord
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. TENTANG WEB BUCIN -->
+      <div class="nav-dropdown" data-menu="about">
+        <button class="nav-btn" onclick="openAboutModal()">
+          <i data-lucide="info"></i>
+          <span class="nav-label">Tentang Web BUCIN</span>
+        </button>
+      </div>
     </nav>
-    <div class="sidebar-footer">
-      <div style="display:flex;align-items:center;gap:10px;width:100%;">
-        <div class="user-chip">
-          <div class="user-avatar" id="sidebar-user-initial">A</div>
-          <div class="user-info">
-            <div class="user-name" id="sidebar-user-name">Admin</div>
-            <div class="user-role" id="sidebar-user-role">Administrator</div>
-          </div>
+
+    <div class="header-actions">
+      <div class="telin-logo-wrapper" title="Telin">
+        <img src="Telin_company_logo.png" alt="Telin" class="telin-logo">
+      </div>
+      <button id="theme-toggle" type="button" class="icon-btn" title="Ganti Tema"><i data-lucide="sun" id="theme-icon" style="width:18px;"></i></button>
+      <button id="add-user-btn" class="icon-btn hidden" title="Manajemen User"><i data-lucide="user-plus" style="width:18px;"></i></button>
+      <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:18px;"></i></button>
+      <div style="display:flex;align-items:center;gap:8px;padding:4px 10px;background:rgba(0,217,255,0.06);border-radius:10px;border:1px solid var(--border-subtle);margin-left:4px;">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--tech-gradient);display:grid;place-items:center;color:var(--text-on-accent);font-weight:900;font-size:12px;" id="header-user-initial">A</div>
+        <div style="display:flex;flex-direction:column;line-height:1.2;">
+          <span style="font-weight:700;font-size:11px;color:var(--text-main);" id="header-user-name">Admin</span>
+          <span style="font-weight:700;font-size:8px;color:var(--primary-cyan);text-transform:uppercase;letter-spacing:0.5px;" id="header-user-role">Administrator</span>
         </div>
-        <button id="logout-btn" class="icon-btn" title="Keluar"><i data-lucide="log-out" style="width:20px;"></i></button>
       </div>
-      <div class="telin-footer-brand">
-        <span style="color:var(--text-dim);font-size:calc(var(--app-font-size) - 5px);font-weight:600;text-transform:uppercase;letter-spacing:1px;">Powered by</span>
-        <img src="Telin_company_logo.png" alt="Telin">
-      </div>
+      <button id="logout-btn" class="icon-btn" title="Keluar"><i data-lucide="log-out" style="width:18px;"></i></button>
     </div>
-  </aside>
-  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  </header>
 
-  <div class="main-wrapper">
-    <header class="top-header">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <button id="menu-toggle" class="menu-toggle" title="Menu"><i data-lucide="menu" style="width:22px;"></i></button>
-        <h2 id="header-title" style="margin:0;font-weight:800;color:var(--primary-cyan);letter-spacing:1px;">Dashboard</h2>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <div class="telin-logo-wrapper" title="Telin">
-          <img src="Telin_company_logo.png" alt="Telin" class="telin-logo">
+  <main class="main-content-full">
+
+    <!-- ============ DASHBOARD VIEW ============ -->
+    <section id="dashboard-view">
+      <div class="layout-three-columns">
+
+        <!-- KOLOM KIRI -->
+        <div class="layout-left">
+          <!-- KATEGORI -->
+          <div class="ai-panel">
+            <div class="ai-panel-header">
+              <div class="ai-panel-title"><span class="dot"></span> Kategori</div>
+            </div>
+            <div class="ai-cat-list" id="ai-cat-list"></div>
+          </div>
+
+          <!-- GRAFIK OF CUT -->
+          <div class="ai-panel">
+            <div class="ai-panel-header">
+              <div class="ai-panel-title"><span class="dot"></span> Grafik OF Cut</div>
+              <select id="chart-period" class="field-control" style="min-height:26px;padding:2px 8px;font-size:10px;width:auto;border-radius:6px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
+            </div>
+
+            <div class="chart-summary-strip-2" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+              <div class="chart-summary-chip" style="border-left:3px solid #FF0000;">
+                <div class="cs-label" style="color:#FF0000;">P3/Bln</div>
+                <div class="cs-value" id="cs-persen-p3" style="color:#FF0000;">0%</div>
+                <div style="font-size:7px;color:var(--text-dim);margin-top:1px;">avg <span id="cs-avg-p3">0</span>/5</div>
+              </div>
+              <div class="chart-summary-chip" style="border-left:3px solid #00FF00;">
+                <div class="cs-label" style="color:#00FF00;">Vandal/Bln</div>
+                <div class="cs-value" id="cs-persen-vandal" style="color:#00FF00;">0%</div>
+                <div style="font-size:7px;color:var(--text-dim);margin-top:1px;">avg <span id="cs-avg-vandal">0</span>/5</div>
+              </div>
+              <div class="chart-summary-chip" style="border-left:3px solid #0000FF;">
+                <div class="cs-label" style="color:#0000FF;">Bencana/Bln</div>
+                <div class="cs-value" id="cs-persen-bencana" style="color:#0000FF;">0%</div>
+                <div style="font-size:7px;color:var(--text-dim);margin-top:1px;">avg <span id="cs-avg-bencana">0</span>/5</div>
+              </div>
+              <div class="chart-summary-chip" style="border-left:3px solid #FF00FF;">
+                <div class="cs-label" style="color:#FF00FF;">Lainnya/Bln</div>
+                <div class="cs-value" id="cs-persen-lainnya" style="color:#FF00FF;">0%</div>
+                <div style="font-size:7px;color:var(--text-dim);margin-top:1px;">avg <span id="cs-avg-lainnya">0</span>/5</div>
+              </div>
+            </div>
+
+            <div class="mini-doughnut-wrap" id="mini-doughnut-wrap">
+              <canvas id="doughnutIncidents" width="110" height="110"></canvas>
+              <div class="mini-legend" id="mini-legend"></div>
+            </div>
+            <div class="ai-chart-wrap">
+              <canvas id="chartIncidents"></canvas>
+            </div>
+          </div>
         </div>
-        <button id="theme-toggle" type="button" class="icon-btn" title="Ganti Tema"><i data-lucide="sun" id="theme-icon" style="width:20px;"></i></button>
-        <button id="add-user-btn" class="icon-btn hidden" title="Manajemen User"><i data-lucide="user-plus" style="width:20px;"></i></button>
-        <button id="settings-btn" class="icon-btn hidden" title="Pengaturan"><i data-lucide="settings" style="width:20px;"></i></button>
-      </div>
-    </header>
 
-    <main class="main-content">
+        <!-- KOLOM TENGAH: HERO + MAP -->
+        <div class="layout-center">
+          <!-- HERO -->
+          <div class="ai-hero">
+            <div class="hero-orb o1"></div>
+            <div class="hero-orb o2"></div>
+            <div class="hero-orb o3"></div>
 
-      <section id="dashboard-view">
-        <div class="ai-dashboard">
+            <div class="hero-big-number">
+              <div class="hbn-label">TOTAL INSIDEN <span id="hbn-year">2026</span></div>
+              <div class="hbn-value" id="hbn-total">0</div>
+            </div>
 
-          <!-- ============ BARIS 1: HERO ============ -->
-          <div class="ai-row-hero">
-            <div class="ai-hero">
-              <div class="hero-orb o1"></div>
-              <div class="hero-orb o2"></div>
-              <div class="hero-orb o3"></div>
+            <div class="ai-hero-badge">
+              <i data-lucide="crown" style="width:12px;"></i> BUCIN · LIVE OPERASIONAL
+            </div>
+            <h1 class="ai-hero-title">Barisan Utama <span class="accent">Cegah Insiden</span> Network</h1>
+            <p class="ai-hero-sub">Pusat Operasi Jaringan Fiber Optik · Sulawesi Utara · <span id="live-clock">--:--:--</span></p>
+            <p class="hero-about" id="hero-about-text" style="font-size:12px;color:var(--text-muted);line-height:1.5;position:relative;z-index:3;margin-bottom:12px;">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
 
-              <div class="hero-big-number">
-                <div class="hbn-label">TOTAL INSIDEN <span id="hbn-year">2026</span></div>
-                <div class="hbn-value" id="hbn-total">0</div>
+            <div class="ai-hero-stats">
+              <div class="ai-stat-mini">
+                <div class="stat-label">Stok Spare</div>
+                <div class="stat-value" id="ai-stat-total" data-count="0">0</div>
               </div>
-
-              <div class="ai-hero-badge">
-                <span class="live-dot"></span>
-                <i data-lucide="crown" style="width:12px;"></i> BUCIN · LIVE OPERASIONAL
+              <div class="ai-stat-mini">
+                <div class="stat-label">OF Cut</div>
+                <div class="stat-value red" id="ai-stat-ofcut" data-count="0">0</div>
               </div>
-              <h1 class="ai-hero-title">Barisan Utama <span class="accent">Cegah Insiden</span> Network</h1>
-              <p class="ai-hero-sub">Pusat Operasi Jaringan Fiber Optik · Sulawesi Utara · <span id="live-clock">--:--:--</span></p>
-              <p class="hero-about" id="hero-about-text">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
-
-              <div class="ai-hero-stats">
-                <div class="ai-stat-mini">
-                  <div class="stat-label">Stok Spare</div>
-                  <div class="stat-value" id="ai-stat-total" data-count="0">0</div>
-                </div>
-                <div class="ai-stat-mini">
-                  <div class="stat-label">OF Cut</div>
-                  <div class="stat-value red" id="ai-stat-ofcut" data-count="0">0</div>
-                </div>
-                <div class="ai-stat-mini">
-                  <div class="stat-label">Handhole</div>
-                  <div class="stat-value green" id="ai-stat-online" data-count="0">0</div>
-                </div>
-                <div class="ai-stat-mini">
-                  <div class="stat-label">Joint</div>
-                  <div class="stat-value blue" id="ai-stat-joint" data-count="0">0</div>
-                </div>
+              <div class="ai-stat-mini">
+                <div class="stat-label">Handhole</div>
+                <div class="stat-value green" id="ai-stat-online" data-count="0">0</div>
+              </div>
+              <div class="ai-stat-mini">
+                <div class="stat-label">Joint</div>
+                <div class="stat-value blue" id="ai-stat-joint" data-count="0">0</div>
               </div>
             </div>
           </div>
 
-          <!-- ============ BARIS 2: KATEGORI | GRAFIK OF CUT | PERBANDINGAN TAHUNAN ============ -->
-          <div class="ai-row-three-col">
-
-            <!-- KOLOM 1: KATEGORI -->
-            <div class="ai-panel">
-              <div class="ai-panel-header">
-                <div class="ai-panel-title"><span class="dot"></span> Kategori</div>
-              </div>
-              <div class="ai-cat-list" id="ai-cat-list"></div>
-            </div>
-
-            <!-- KOLOM 2: GRAFIK OF CUT -->
-            <div class="ai-panel">
-              <div class="ai-panel-header">
-                <div class="ai-panel-title"><span class="dot"></span> Grafik OF Cut</div>
-                <select id="chart-period" class="field-control" style="min-height:28px;padding:2px 10px;font-size:var(--app-font-size-xs);width:auto;border-radius:8px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
-              </div>
-
-              <div class="chart-summary-strip-2" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                <div class="chart-summary-chip" style="border-left:3px solid #FF0000;">
-                  <div class="cs-label" style="color:#FF0000;">P3 / Bulan</div>
-                  <div class="cs-value" id="cs-persen-p3" style="color:#FF0000;">0%</div>
-                  <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-p3">0</span> dari 5</div>
-                </div>
-                <div class="chart-summary-chip" style="border-left:3px solid #00FF00;">
-                  <div class="cs-label" style="color:#00FF00;">Vandal / Bulan</div>
-                  <div class="cs-value" id="cs-persen-vandal" style="color:#00FF00;">0%</div>
-                  <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-vandal">0</span> dari 5</div>
-                </div>
-                <div class="chart-summary-chip" style="border-left:3px solid #0000FF;">
-                  <div class="cs-label" style="color:#0000FF;">Bencana / Bulan</div>
-                  <div class="cs-value" id="cs-persen-bencana" style="color:#0000FF;">0%</div>
-                  <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-bencana">0</span> dari 5</div>
-                </div>
-                <div class="chart-summary-chip" style="border-left:3px solid #FF00FF;">
-                  <div class="cs-label" style="color:#FF00FF;">Lainnya / Bulan</div>
-                  <div class="cs-value" id="cs-persen-lainnya" style="color:#FF00FF;">0%</div>
-                  <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">rata-rata <span id="cs-avg-lainnya">0</span> dari 5</div>
-                </div>
-              </div>
-
-              <div class="mini-doughnut-wrap" id="mini-doughnut-wrap">
-                <canvas id="doughnutIncidents" width="110" height="110"></canvas>
-                <div class="mini-legend" id="mini-legend"></div>
-              </div>
-              <div class="ai-chart-wrap" style="height:200px;">
-                <canvas id="chartIncidents"></canvas>
+          <!-- MAP -->
+          <div class="ai-panel-map">
+            <div style="padding:10px 12px;border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;position:relative;z-index:5;">
+              <div class="ai-panel-title"><span class="dot"></span> Peta Line & Titik Aset</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button id="btn-draw-line" class="btn-primary" style="padding:4px 10px;font-size:10px;border-radius:12px;min-height:auto;"><i data-lucide="pen-line" style="width:11px;"></i> Line</button>
+                <button id="btn-upload-kml" class="btn-secondary" style="padding:4px 10px;font-size:10px;border-radius:12px;min-height:auto;"><i data-lucide="upload" style="width:11px;"></i> KML</button>
+                <button id="btn-manage-kml" class="btn-secondary" style="padding:4px 10px;font-size:10px;border-radius:12px;min-height:auto;color:#EF4444;border-color:rgba(239,68,68,0.4);"><i data-lucide="folder-cog" style="width:11px;"></i></button>
               </div>
             </div>
 
-            <!-- KOLOM 3: PERBANDINGAN TAHUNAN + REKAP -->
-            <div class="ai-panel">
-              <div class="ai-panel-header">
-                <div class="ai-panel-title"><span class="dot"></span> Perbandingan Tahunan</div>
-                <span style="font-size:var(--app-font-size-xs);color:var(--text-dim);font-family:'Orbitron',sans-serif;">
-                  <span id="ytd-year-label">-</span> vs <span id="ytd-prev-year-label">-</span>
+            <div style="position:relative;flex:1;min-height:560px;">
+              <div id="map-container"></div>
+              <div class="map-legend-top-right" id="map-legend-titik">
+                <div class="ml-title">Keterangan Titik</div>
+                <div class="ml-item"><span class="ml-dot" style="background:#FF0000;"></span>OF Cut<span class="ml-count" id="ml-count-ofcut">0</span></div>
+                <div class="ml-item"><span class="ml-dot" style="background:#00FF00;"></span>Pihak Ke-3<span class="ml-count" id="ml-count-p3">0</span></div>
+                <div class="ml-item"><span class="ml-dot" style="background:#0000FF;"></span>Temuan<span class="ml-count" id="ml-count-temuan">0</span></div>
+                <div class="ml-item"><span class="ml-dot" style="background:#FFFF00;"></span>Joint<span class="ml-count" id="ml-count-joint">0</span></div>
+                <div class="ml-item"><span class="ml-dot" style="background:#FF00FF;"></span>Handhole<span class="ml-count" id="ml-count-handhole">0</span></div>
+              </div>
+              <div class="custom-map-controls">
+                <button class="custom-map-btn active" onclick="toggleMapLayer('satellite', event)" title="Satelit HD"><i data-lucide="satellite" style="width:14px;"></i></button>
+                <button class="custom-map-btn" onclick="toggleMapLayer('street', event)" title="Jalan HD"><i data-lucide="map" style="width:14px;"></i></button>
+                <button class="custom-map-btn" onclick="toggleMapLayer('hybrid', event)" title="Hybrid HD"><i data-lucide="layers" style="width:14px;"></i></button>
+                <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:14px;"></i></button>
+                <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:14px;"></i></button>
+              </div>
+              <div id="draw-controls" class="hidden" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:1100;background:var(--surface-map-legend);border:1px solid var(--border-glow);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,217,255,0.3);flex-wrap:wrap;justify-content:center;">
+                <span style="font-weight:700;color:var(--primary-cyan);white-space:nowrap;font-size:11px;">
+                  <i data-lucide="pen-line" style="width:14px;display:inline-block;vertical-align:middle;"></i>
+                  <span id="draw-status">Klik peta untuk mulai menggambar</span>
                 </span>
+                <span id="draw-point-count" style="font-weight:700;color:var(--text-muted);background:rgba(0,217,255,0.1);padding:3px 8px;border-radius:6px;font-size:10px;">0 titik</span>
+                <button onclick="finishDrawLine()" class="btn-primary" style="padding:5px 10px;font-size:10px;border-radius:8px;min-height:28px;"><i data-lucide="check" style="width:12px;"></i> Selesai</button>
+                <button onclick="undoLastPoint()" class="btn-secondary" style="padding:5px 10px;font-size:10px;border-radius:8px;min-height:28px;"><i data-lucide="undo-2" style="width:12px;"></i> Undo</button>
+                <button onclick="cancelDrawLine()" class="btn-secondary" style="padding:5px 10px;font-size:10px;border-radius:8px;min-height:28px;color:#EF4444;border-color:rgba(239,68,68,0.4);"><i data-lucide="x" style="width:12px;"></i> Batal</button>
               </div>
-              <div class="ytd-compare-grid-5" id="ytd-compare-grid">
-                <div style="text-align:center;color:var(--text-muted);padding:16px;grid-column:1/-1;">Memuat data...</div>
-              </div>
+            </div>
 
-              <div class="ai-panel-header" style="margin-top:14px;margin-bottom:6px;">
-                <div class="ai-panel-title" style="font-size:10px;"><span class="dot"></span> Rekap OF Cut Tahunan (mulai 2025)</div>
-              </div>
-              <div class="chart-rekap-scroll">
-                <table class="chart-rekap-table" id="chart-rekap-table">
-                  <thead>
-                    <tr>
-                      <th rowspan="2" style="vertical-align:middle;">Tahun</th>
-                      <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);">Jumlah</th>
-                      <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);border-left:2px solid rgba(168,85,247,0.5);">Persentase / Bulan (maks 5)</th>
-                      <th class="col-total" rowspan="2" style="vertical-align:middle;">Total</th>
-                    </tr>
-                    <tr>
-                      <th style="color:#FF0000;">P3</th>
-                      <th style="color:#00FF00;">Vandal</th>
-                      <th style="color:#0000FF;">Bencana</th>
-                      <th style="color:#FF00FF;">Lainnya</th>
-                      <th class="col-persen-header" style="color:#FF0000;border-left:2px solid rgba(168,85,247,0.5);">P3 %</th>
-                      <th class="col-persen-header" style="color:#00FF00;">Vandal %</th>
-                      <th class="col-persen-header" style="color:#0000FF;">Bencana %</th>
-                      <th class="col-persen-header" style="color:#FF00FF;">Lainnya %</th>
-                    </tr>
-                  </thead>
-                  <tbody id="chart-rekap-body">
-                    <tr><td colspan="10" style="text-align:center;padding:16px;color:var(--text-muted);font-size:var(--app-font-size-xs);">Memuat data...</td></tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="map-filter-below">
+              <button class="map-filter-btn-popup" onclick="openMapFilterModal('titik')">
+                <i data-lucide="filter" style="width:12px;"></i> Tampilkan Titik
+                <span id="filter-titik-count" style="background:rgba(0,217,255,0.2);color:var(--primary-cyan);padding:1px 6px;border-radius:99px;font-size:9px;margin-left:4px;">-</span>
+              </button>
+              <button class="map-filter-btn-popup" onclick="openMapFilterModal('line')">
+                <i data-lucide="route" style="width:12px;"></i> Tampilkan Line
+                <span id="filter-line-count" style="background:rgba(0,217,255,0.2);color:var(--primary-cyan);padding:1px 6px;border-radius:99px;font-size:9px;margin-left:4px;">-</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- KOLOM KANAN -->
+        <div class="layout-right">
+          <!-- PERBANDINGAN TAHUNAN -->
+          <div class="ai-panel">
+            <div class="ai-panel-header">
+              <div class="ai-panel-title"><span class="dot"></span> Perbandingan Tahunan</div>
+              <span style="font-size:10px;color:var(--text-dim);font-family:'Orbitron',sans-serif;">
+                <span id="ytd-year-label">-</span> vs <span id="ytd-prev-year-label">-</span>
+              </span>
+            </div>
+            <div class="ytd-compare-grid-5" id="ytd-compare-grid">
+              <div style="text-align:center;color:var(--text-muted);padding:16px;grid-column:1/-1;font-size:11px;">Memuat data...</div>
+            </div>
+
+            <div class="ai-panel-header" style="margin-top:12px;margin-bottom:6px;">
+              <div class="ai-panel-title" style="font-size:9px;"><span class="dot"></span> Rekap OF Cut Tahunan</div>
+            </div>
+            <div class="chart-rekap-scroll">
+              <table class="chart-rekap-table" id="chart-rekap-table">
+                <thead>
+                  <tr>
+                    <th rowspan="2" style="vertical-align:middle;">Thn</th>
+                    <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);">Jumlah</th>
+                    <th colspan="4" style="border-bottom:2px solid var(--surface-table-border-solid);border-left:2px solid rgba(168,85,247,0.5);">Persentase</th>
+                    <th class="col-total" rowspan="2" style="vertical-align:middle;">Tot</th>
+                  </tr>
+                  <tr>
+                    <th style="color:#FF0000;">P3</th>
+                    <th style="color:#00FF00;">Vnd</th>
+                    <th style="color:#0000FF;">Bnc</th>
+                    <th style="color:#FF00FF;">Lain</th>
+                    <th class="col-persen-header" style="color:#FF0000;border-left:2px solid rgba(168,85,247,0.5);">P3%</th>
+                    <th class="col-persen-header" style="color:#00FF00;">Vnd%</th>
+                    <th class="col-persen-header" style="color:#0000FF;">Bnc%</th>
+                    <th class="col-persen-header" style="color:#FF00FF;">Lain%</th>
+                  </tr>
+                </thead>
+                <tbody id="chart-rekap-body">
+                  <tr><td colspan="10" style="text-align:center;padding:16px;color:var(--text-muted);font-size:10px;">Memuat data...</td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <!-- ============ BARIS 3: PETA FULL WIDTH ============ -->
-          <div class="ai-row-map-full">
-            <div class="ai-panel ai-panel-map">
-              <div style="padding:12px 14px;border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-                <div class="ai-panel-title"><span class="dot"></span> Peta Line & Titik Aset</div>
-                <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                  <button id="btn-draw-line" class="btn-primary" style="padding:4px 10px;font-size:var(--app-font-size-xs);border-radius:14px;min-height:auto;"><i data-lucide="pen-line" style="width:11px;"></i> Line</button>
-                  <button id="btn-upload-kml" class="btn-secondary" style="padding:4px 10px;font-size:var(--app-font-size-xs);border-radius:14px;min-height:auto;"><i data-lucide="upload" style="width:11px;"></i> KML</button>
-                  <button id="btn-manage-kml" class="btn-secondary" style="padding:4px 10px;font-size:var(--app-font-size-xs);border-radius:14px;min-height:auto;color:#EF4444;border-color:rgba(239,68,68,0.4);"><i data-lucide="folder-cog" style="width:11px;"></i></button>
-                </div>
-              </div>
+          <!-- RINGKASAN ASET -->
+          <div class="ai-panel">
+            <div class="ai-panel-header">
+              <div class="ai-panel-title"><span class="dot"></span> Ringkasan Aset</div>
+            </div>
 
-              <div style="position:relative;flex:1;min-height:520px;">
-                <div id="map-container"></div>
-                <div class="map-legend-top-right" id="map-legend-titik">
-                  <div class="ml-title">Keterangan Titik</div>
-                  <div class="ml-item"><span class="ml-dot" style="background:#FF0000;"></span>OF Cut<span class="ml-count" id="ml-count-ofcut">0</span></div>
-                  <div class="ml-item"><span class="ml-dot" style="background:#00FF00;"></span>Pihak Ke-3<span class="ml-count" id="ml-count-p3">0</span></div>
-                  <div class="ml-item"><span class="ml-dot" style="background:#0000FF;"></span>Temuan<span class="ml-count" id="ml-count-temuan">0</span></div>
-                  <div class="ml-item"><span class="ml-dot" style="background:#FFFF00;"></span>Joint<span class="ml-count" id="ml-count-joint">0</span></div>
-                  <div class="ml-item"><span class="ml-dot" style="background:#FF00FF;"></span>Handhole<span class="ml-count" id="ml-count-handhole">0</span></div>
+            <div style="display:flex;gap:10px;justify-content:space-around;padding:6px 0 10px;border-bottom:1px dashed var(--border-subtle);">
+              <div style="text-align:center;">
+                <div class="radial-ring">
+                  <svg viewBox="0 0 60 60">
+                    <circle class="ring-bg" cx="30" cy="30" r="24"/>
+                    <circle class="ring-fg" id="ring-alker" cx="30" cy="30" r="24" stroke="#00D9FF" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
+                  </svg>
+                  <div class="ring-label" id="ring-alker-val" style="color:#00D9FF;">0</div>
                 </div>
-                <div class="custom-map-controls">
-                  <button class="custom-map-btn active" onclick="toggleMapLayer('satellite', event)" title="Satelit HD"><i data-lucide="satellite" style="width:14px;"></i></button>
-                  <button class="custom-map-btn" onclick="toggleMapLayer('street', event)" title="Jalan HD"><i data-lucide="map" style="width:14px;"></i></button>
-                  <button class="custom-map-btn" onclick="toggleMapLayer('hybrid', event)" title="Hybrid HD"><i data-lucide="layers" style="width:14px;"></i></button>
-                  <button class="custom-map-btn" onclick="zoomIn()" title="Zoom In"><i data-lucide="plus" style="width:14px;"></i></button>
-                  <button class="custom-map-btn" onclick="zoomOut()" title="Zoom Out"><i data-lucide="minus" style="width:14px;"></i></button>
-                </div>
-                <div id="draw-controls" class="hidden" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:1100;background:var(--surface-map-legend);border:1px solid var(--border-glow);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,217,255,0.3);flex-wrap:wrap;justify-content:center;">
-                  <span style="font-weight:700;color:var(--primary-cyan);white-space:nowrap;font-size:var(--app-font-size-xs);">
-                    <i data-lucide="pen-line" style="width:14px;display:inline-block;vertical-align:middle;"></i>
-                    <span id="draw-status">Klik peta untuk mulai menggambar</span>
-                  </span>
-                  <span id="draw-point-count" style="font-weight:700;color:var(--text-muted);background:rgba(0,217,255,0.1);padding:3px 8px;border-radius:6px;font-size:var(--app-font-size-xs);">0 titik</span>
-                  <button onclick="finishDrawLine()" class="btn-primary" style="padding:5px 10px;font-size:var(--app-font-size-xs);border-radius:8px;min-height:30px;"><i data-lucide="check" style="width:12px;"></i> Selesai</button>
-                  <button onclick="undoLastPoint()" class="btn-secondary" style="padding:5px 10px;font-size:var(--app-font-size-xs);border-radius:8px;min-height:30px;"><i data-lucide="undo-2" style="width:12px;"></i> Undo</button>
-                  <button onclick="cancelDrawLine()" class="btn-secondary" style="padding:5px 10px;font-size:var(--app-font-size-xs);border-radius:8px;min-height:30px;color:#EF4444;border-color:rgba(239,68,68,0.4);"><i data-lucide="x" style="width:12px;"></i> Batal</button>
-                </div>
+                <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700;color:var(--text-dim);margin-top:4px;">Alker</div>
               </div>
-
-              <div class="map-filter-below">
-                <button class="map-filter-btn-popup" onclick="openMapFilterModal('titik')">
-                  <i data-lucide="filter" style="width:12px;"></i> Tampilkan Titik
-                  <span id="filter-titik-count" style="background:rgba(0,217,255,0.2);color:var(--primary-cyan);padding:1px 6px;border-radius:99px;font-size:9px;margin-left:4px;">-</span>
-                </button>
-                <button class="map-filter-btn-popup" onclick="openMapFilterModal('line')">
-                  <i data-lucide="route" style="width:12px;"></i> Tampilkan Line
-                  <span id="filter-line-count" style="background:rgba(0,217,255,0.2);color:var(--primary-cyan);padding:1px 6px;border-radius:99px;font-size:9px;margin-left:4px;">-</span>
-                </button>
+              <div style="text-align:center;">
+                <div class="radial-ring">
+                  <svg viewBox="0 0 60 60">
+                    <circle class="ring-bg" cx="30" cy="30" r="24"/>
+                    <circle class="ring-fg" id="ring-spare" cx="30" cy="30" r="24" stroke="#10B981" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
+                  </svg>
+                  <div class="ring-label" id="ring-spare-val" style="color:#10B981;">0</div>
+                </div>
+                <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700;color:var(--text-dim);margin-top:4px;">Spare</div>
+              </div>
+              <div style="text-align:center;">
+                <div class="radial-ring">
+                  <svg viewBox="0 0 60 60">
+                    <circle class="ring-bg" cx="30" cy="30" r="24"/>
+                    <circle class="ring-fg" id="ring-patchcord" cx="30" cy="30" r="24" stroke="#F59E0B" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
+                  </svg>
+                  <div class="ring-label" id="ring-patchcord-val" style="color:#F59E0B;">0</div>
+                </div>
+                <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700;color:var(--text-dim);margin-top:4px;">Patch Cord</div>
               </div>
             </div>
-          </div>
 
-          <!-- ============ BARIS 4: RINGKASAN ASET FULL WIDTH ============ -->
-          <div class="ai-row-aset-full">
-            <div class="ai-panel">
-              <div class="ai-panel-header">
-                <div class="ai-panel-title"><span class="dot"></span> Ringkasan Aset</div>
-              </div>
-
-              <div class="aset-grid-content">
-                <!-- KOLOM 1: Radial Ring ALKER/SPARE/PATCHCORD -->
-                <div>
-                  <div style="display:flex;gap:14px;justify-content:space-around;padding:6px 0 12px;border-bottom:1px dashed var(--border-subtle);">
-                    <div style="text-align:center;">
-                      <div class="radial-ring">
-                        <svg viewBox="0 0 60 60">
-                          <circle class="ring-bg" cx="30" cy="30" r="24"/>
-                          <circle class="ring-fg" id="ring-alker" cx="30" cy="30" r="24" stroke="#00D9FF" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
-                        </svg>
-                        <div class="ring-label" id="ring-alker-val" style="color:#00D9FF;">0</div>
-                      </div>
-                      <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700;color:var(--text-dim);margin-top:4px;">Alker</div>
-                    </div>
-                    <div style="text-align:center;">
-                      <div class="radial-ring">
-                        <svg viewBox="0 0 60 60">
-                          <circle class="ring-bg" cx="30" cy="30" r="24"/>
-                          <circle class="ring-fg" id="ring-spare" cx="30" cy="30" r="24" stroke="#10B981" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
-                        </svg>
-                        <div class="ring-label" id="ring-spare-val" style="color:#10B981;">0</div>
-                      </div>
-                      <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700;color:var(--text-dim);margin-top:4px;">Spare</div>
-                    </div>
-                    <div style="text-align:center;">
-                      <div class="radial-ring">
-                        <svg viewBox="0 0 60 60">
-                          <circle class="ring-bg" cx="30" cy="30" r="24"/>
-                          <circle class="ring-fg" id="ring-patchcord" cx="30" cy="30" r="24" stroke="#F59E0B" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
-                        </svg>
-                        <div class="ring-label" id="ring-patchcord-val" style="color:#F59E0B;">0</div>
-                      </div>
-                      <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700;color:var(--text-dim);margin-top:4px;">Patch Cord</div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- KOLOM 2: Distribusi Aset -->
-                <div>
-                  <div class="ai-panel-header" style="margin-bottom:8px;">
-                    <div class="ai-panel-title" style="font-size:10px;"><span class="dot"></span> Distribusi Aset</div>
-                  </div>
-                  <div class="mini-doughnut-wrap" id="aset-doughnut-wrap">
-                    <canvas id="doughnutAset" width="110" height="110"></canvas>
-                    <div class="mini-legend" id="aset-legend"></div>
-                  </div>
-                </div>
-
-                <!-- KOLOM 3: Stok Spare -->
-                <div>
-                  <div class="ai-panel-header" style="margin-bottom:8px;">
-                    <div class="ai-panel-title" style="font-size:10px;"><span class="dot"></span> Stok Spare</div>
-                    <span id="stok-spare-total-badge" style="background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-weight:800;font-size:var(--app-font-size-xs);">0 Item</span>
-                  </div>
-                  <div class="stok-spare-list" id="stok-spare-list"></div>
-                </div>
-              </div>
+            <div class="ai-panel-header" style="margin-top:10px;margin-bottom:6px;">
+              <div class="ai-panel-title" style="font-size:9px;"><span class="dot"></span> Distribusi Aset</div>
             </div>
-          </div>
-
-        </div>
-      </section>
-
-      <section id="data-view" class="hidden">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
-          <div>
-            <h2 id="page-title" style="margin:0;font-weight:800;color:var(--primary-cyan);letter-spacing:1px;">Data Operasional</h2>
-            <div id="total-data-tagline" class="hidden" style="margin-top:6px;display:flex;align-items:center;gap:8px;font-weight:600;color:var(--text-muted);font-size:var(--app-font-size-sm);">
-              <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 8px var(--primary-cyan);"></span>
-              <span>Total Data: <strong id="total-data-count" style="color:var(--primary-cyan);font-family:'Orbitron',sans-serif;font-weight:900;">0</strong></span>
-              <span id="total-data-filter-info" style="color:var(--text-dim);font-weight:500;font-size:var(--app-font-size-xs);"></span>
+            <div class="mini-doughnut-wrap" id="aset-doughnut-wrap">
+              <canvas id="doughnutAset" width="110" height="110"></canvas>
+              <div class="mini-legend" id="aset-legend"></div>
             </div>
-          </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button id="btn-history" class="btn-secondary" style="padding:8px 16px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;"><i data-lucide="history" style="width:16px;"></i> Riwayat</button>
-            <button id="btn-download-excel-page" class="btn-secondary" style="padding:8px 16px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;"><i data-lucide="file-spreadsheet" style="width:16px;"></i> Excel</button>
-            <button id="btn-add" class="btn-primary" style="padding:8px 20px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;"><i data-lucide="plus" style="width:16px;"></i> Tambah</button>
-          </div>
-        </div>
 
-        <div id="sop-description-container" class="sop-description hidden">
-          <strong>SOP Penanganan Gangguan OF Cut:</strong><br>
-          1. Terima Laporan 2. Mobilisasi 3. Amankan Lokasi 4. Identifikasi 5. Ukur Titik Rusak 6. Siapkan Perbaikan 7. Sambung Fiber 8. Pasang Closure 9. Uji Ulang 10. Bersihkan Lokasi 11. Lapor 12. APD dibersihkan.
+            <div class="ai-panel-header" style="margin-top:10px;margin-bottom:6px;">
+              <div class="ai-panel-title" style="font-size:9px;"><span class="dot"></span> Stok Spare</div>
+              <span id="stok-spare-total-badge" style="background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-weight:800;font-size:10px;">0 Item</span>
+            </div>
+            <div class="stok-spare-list" id="stok-spare-list"></div>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <div id="sub-tabs-container" class="sub-tabs hidden">
-          <button class="sub-tab active" data-sub="p3" onclick="switchSubTab('p3')">Pekerjaan Pihak Ke-3</button>
-          <button class="sub-tab" data-sub="temuan" onclick="switchSubTab('temuan')">Temuan Lapangan</button>
+    <!-- ============ DATA VIEW ============ -->
+    <section id="data-view" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+        <div>
+          <h2 id="page-title" style="margin:0;font-weight:800;color:var(--primary-cyan);letter-spacing:1px;">Data Operasional</h2>
+          <div id="total-data-tagline" class="hidden" style="margin-top:6px;display:flex;align-items:center;gap:8px;font-weight:600;color:var(--text-muted);font-size:var(--app-font-size-sm);">
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary-cyan);box-shadow:0 0 8px var(--primary-cyan);"></span>
+            <span>Total Data: <strong id="total-data-count" style="color:var(--primary-cyan);font-family:'Orbitron',sans-serif;font-weight:900;">0</strong></span>
+            <span id="total-data-filter-info" style="color:var(--text-dim);font-weight:500;font-size:var(--app-font-size-xs);"></span>
+          </div>
         </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button id="btn-history" class="btn-secondary" style="padding:8px 16px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;"><i data-lucide="history" style="width:16px;"></i> Riwayat</button>
+          <button id="btn-download-excel-page" class="btn-secondary" style="padding:8px 16px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;"><i data-lucide="file-spreadsheet" style="width:16px;"></i> Excel</button>
+          <button id="btn-add" class="btn-primary" style="padding:8px 20px;font-size:var(--app-font-size-xs);border-radius:20px;min-height:auto;"><i data-lucide="plus" style="width:16px;"></i> Tambah</button>
+        </div>
+      </div>
 
-        <div id="filter-bar-container" class="filter-bar">
-          <div class="filter-group">
-            <i data-lucide="search" style="width:16px;color:var(--primary-cyan);"></i>
-            <input type="text" id="search-input" placeholder="Cari data..." style="min-width:160px;">
-          </div>
-          <div class="filter-group" id="period-filter-group">
-            <i data-lucide="calendar" style="width:16px;color:var(--primary-cyan);"></i>
-            <select id="period-select">
-              <option value="all">Semua Periode</option>
-              <option value="weekly">Minggu Ini</option>
-              <option value="monthly">Bulan Ini</option>
-              <option value="yearly">Tahun Ini</option>
-              <option value="custom">Pilih Bulan...</option>
-            </select>
-          </div>
-          <div class="filter-group hidden" id="year-filter-group">
-            <i data-lucide="calendar-days" style="width:16px;color:var(--primary-cyan);"></i>
-            <select id="year-select"></select>
-          </div>
-          <div class="filter-group hidden" id="month-filter-group">
-            <i data-lucide="calendar-range" style="width:16px;color:var(--primary-cyan);"></i>
-            <select id="month-select">
-              <option value="all">Semua Bulan</option>
-              <option value="0">Januari</option><option value="1">Februari</option>
-              <option value="2">Maret</option><option value="3">April</option>
-              <option value="4">Mei</option><option value="5">Juni</option>
-              <option value="6">Juli</option><option value="7">Agustus</option>
-              <option value="8">September</option><option value="9">Oktober</option>
-              <option value="10">November</option><option value="11">Desember</option>
-            </select>
-          </div>
-          <div class="filter-group" id="sort-filter-group">
-            <i data-lucide="arrow-up-down" style="width:16px;color:var(--primary-cyan);"></i>
-            <select id="sort-select" onchange="applySort()">
-              <option value="date_desc">Tanggal (Terbaru)</option>
-              <option value="date_asc">Tanggal (Terlama)</option>
-              <option value="name_asc">Nama (A-Z)</option>
-              <option value="name_desc">Nama (Z-A)</option>
-              <option value="location_asc">Lokasi (A-Z)</option>
-              <option value="location_desc">Lokasi (Z-A)</option>
-              <option value="user_asc">User (A-Z)</option>
-              <option value="user_desc">User (Z-A)</option>
-            </select>
-          </div>
-        </div>
+      <div id="sop-description-container" class="sop-description hidden">
+        <strong>SOP Penanganan Gangguan OF Cut:</strong><br>
+        1. Terima Laporan 2. Mobilisasi 3. Amankan Lokasi 4. Identifikasi 5. Ukur Titik Rusak 6. Siapkan Perbaikan 7. Sambung Fiber 8. Pasang Closure 9. Uji Ulang 10. Bersihkan Lokasi 11. Lapor 12. APD dibersihkan.
+      </div>
 
-        <div id="stok-summary-container" class="hidden">
-          <div class="stok-summary">
-            <div><span class="label" id="stok-label-1">Total Stok</span><div class="value total" id="total-stok-value">0</div></div>
-            <div><span class="label" id="stok-label-2">Ready</span><div class="value masuk" id="total-masuk-value">0</div></div>
-            <div><span class="label" id="stok-label-3">Out</span><div class="value keluar" id="total-keluar-value">0</div></div>
-          </div>
-          <div class="gudang-tabs">
-            <button class="gudang-tab active" data-gudang="all" onclick="filterGudang('all')">Semua Gudang</button>
-            <button class="gudang-tab" data-gudang="CLS MAMI" onclick="filterGudang('CLS MAMI')">CLS MAMI</button>
-            <button class="gudang-tab" data-gudang="DC MANADO CENTRUM" onclick="filterGudang('DC MANADO CENTRUM')">DC MANADO</button>
-            <button class="gudang-tab" data-gudang="CLS KAUDITAN" onclick="filterGudang('CLS KAUDITAN')">CLS KAUDITAN</button>
-          </div>
-        </div>
+      <div id="sub-tabs-container" class="sub-tabs hidden">
+        <button class="sub-tab active" data-sub="p3" onclick="switchSubTab('p3')">Pekerjaan Pihak Ke-3</button>
+        <button class="sub-tab" data-sub="temuan" onclick="switchSubTab('temuan')">Temuan Lapangan</button>
+      </div>
 
-        <div class="card" style="padding:0;overflow:hidden;">
-          <div id="table-regular-wrapper" style="overflow-x:auto;max-height:70vh;">
-            <table class="records-table">
-              <thead id="table-head"></thead>
-              <tbody id="table-body"></tbody>
-            </table>
-          </div>
-          <div id="table-opm-wrapper" class="hidden" style="padding:16px;"></div>
-          <div id="empty-state" style="padding:48px;text-align:center;color:var(--text-muted);display:none;">
-            <i data-lucide="inbox" style="width:48px;height:48px;margin-bottom:12px;opacity:0.3;"></i>
-            <p>Belum ada data</p>
-          </div>
+      <div id="filter-bar-container" class="filter-bar">
+        <div class="filter-group">
+          <i data-lucide="search" style="width:16px;color:var(--primary-cyan);"></i>
+          <input type="text" id="search-input" placeholder="Cari data..." style="min-width:160px;">
         </div>
-      </section>
-    </main>
-  </div>
+        <div class="filter-group" id="period-filter-group">
+          <i data-lucide="calendar" style="width:16px;color:var(--primary-cyan);"></i>
+          <select id="period-select">
+            <option value="all">Semua Periode</option>
+            <option value="weekly">Minggu Ini</option>
+            <option value="monthly">Bulan Ini</option>
+            <option value="yearly">Tahun Ini</option>
+            <option value="custom">Pilih Bulan...</option>
+          </select>
+        </div>
+        <div class="filter-group hidden" id="year-filter-group">
+          <i data-lucide="calendar-days" style="width:16px;color:var(--primary-cyan);"></i>
+          <select id="year-select"></select>
+        </div>
+        <div class="filter-group hidden" id="month-filter-group">
+          <i data-lucide="calendar-range" style="width:16px;color:var(--primary-cyan);"></i>
+          <select id="month-select">
+            <option value="all">Semua Bulan</option>
+            <option value="0">Januari</option><option value="1">Februari</option>
+            <option value="2">Maret</option><option value="3">April</option>
+            <option value="4">Mei</option><option value="5">Juni</option>
+            <option value="6">Juli</option><option value="7">Agustus</option>
+            <option value="8">September</option><option value="9">Oktober</option>
+            <option value="10">November</option><option value="11">Desember</option>
+          </select>
+        </div>
+        <div class="filter-group" id="sort-filter-group">
+          <i data-lucide="arrow-up-down" style="width:16px;color:var(--primary-cyan);"></i>
+          <select id="sort-select" onchange="applySort()">
+            <option value="date_desc">Tanggal (Terbaru)</option>
+            <option value="date_asc">Tanggal (Terlama)</option>
+            <option value="name_asc">Nama (A-Z)</option>
+            <option value="name_desc">Nama (Z-A)</option>
+            <option value="location_asc">Lokasi (A-Z)</option>
+            <option value="location_desc">Lokasi (Z-A)</option>
+            <option value="user_asc">User (A-Z)</option>
+            <option value="user_desc">User (Z-A)</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="stok-summary-container" class="hidden">
+        <div class="stok-summary">
+          <div><span class="label" id="stok-label-1">Total Stok</span><div class="value total" id="total-stok-value">0</div></div>
+          <div><span class="label" id="stok-label-2">Ready</span><div class="value masuk" id="total-masuk-value">0</div></div>
+          <div><span class="label" id="stok-label-3">Out</span><div class="value keluar" id="total-keluar-value">0</div></div>
+        </div>
+        <div class="gudang-tabs">
+          <button class="gudang-tab active" data-gudang="all" onclick="filterGudang('all')">Semua Gudang</button>
+          <button class="gudang-tab" data-gudang="CLS MAMI" onclick="filterGudang('CLS MAMI')">CLS MAMI</button>
+          <button class="gudang-tab" data-gudang="DC MANADO CENTRUM" onclick="filterGudang('DC MANADO CENTRUM')">DC MANADO</button>
+          <button class="gudang-tab" data-gudang="CLS KAUDITAN" onclick="filterGudang('CLS KAUDITAN')">CLS KAUDITAN</button>
+        </div>
+      </div>
+
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div id="table-regular-wrapper" style="overflow-x:auto;max-height:70vh;">
+          <table class="records-table">
+            <thead id="table-head"></thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+        <div id="table-opm-wrapper" class="hidden" style="padding:16px;"></div>
+        <div id="empty-state" style="padding:48px;text-align:center;color:var(--text-muted);display:none;">
+          <i data-lucide="inbox" style="width:48px;height:48px;margin-bottom:12px;opacity:0.3;"></i>
+          <p>Belum ada data</p>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>
 
 <div id="map-filter-modal" class="map-filter-modal hidden">
@@ -1758,7 +1814,7 @@ function setTheme(theme) {
     var btn = document.getElementById('theme-toggle');
     if (btn) {
       var iconName = (theme === 'dark') ? 'sun' : 'moon';
-      btn.innerHTML = '<i data-lucide="' + iconName + '" style="width:20px;"></i>';
+      btn.innerHTML = '<i data-lucide="' + iconName + '" style="width:18px;"></i>';
       if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
     }
   } catch (e) {}
@@ -1785,6 +1841,19 @@ function updateThemeButtons() {
   document.querySelectorAll('[data-theme-opt]').forEach(function(b) { b.classList.toggle('active', b.dataset.themeOpt === cur); });
 }
 function loadTheme() { var saved = 'dark'; try { saved = localStorage.getItem('bucin_theme') || 'dark'; } catch (e) {} setTheme(saved); }
+
+/* ============================================================ DROPDOWN MENU ============================================================ */
+function toggleDropdown(btn) {
+  var parent = btn.closest('.nav-dropdown');
+  var wasOpen = parent.classList.contains('open');
+  document.querySelectorAll('.nav-dropdown').forEach(function(d) { d.classList.remove('open'); });
+  if (!wasOpen) parent.classList.add('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.querySelectorAll('.nav-dropdown').forEach(function(d) { d.classList.remove('open'); });
+  }
+});
 
 /* ============================================================ FONT ============================================================ */
 function applyFontSettings() {
@@ -1936,9 +2005,9 @@ function checkFirebaseConnection() {
   });
 }
 function ensureDefaultUser() { if (!firebaseReady || !db) return; db.ref('users').once('value').then(function(snap) { var users = snap.val(); if (!users || Object.keys(users).length === 0) db.ref('users').set({ 'admin': { pass: 'admin123', role: 'admin' } }); }).catch(function() {}); }
-function updateSidebarUser() {
+function updateHeaderUser() {
   if (!currentUser) return;
-  var n = document.getElementById('sidebar-user-name'), r = document.getElementById('sidebar-user-role'), i = document.getElementById('sidebar-user-initial');
+  var n = document.getElementById('header-user-name'), r = document.getElementById('header-user-role'), i = document.getElementById('header-user-initial');
   if (n) n.textContent = currentUser.name;
   if (r) r.textContent = currentUser.role === 'admin' ? 'Administrator' : 'Operator';
   if (i) i.textContent = currentUser.name.charAt(0).toUpperCase();
@@ -2012,6 +2081,23 @@ function startLiveClock() {
   }
   tick();
   liveClockInterval = setInterval(tick, 1000);
+}
+
+/* ============================================================ NAVIGASI ============================================================ */
+function navTo(cat) {
+  document.querySelectorAll('.nav-dropdown').forEach(function(d) { d.classList.remove('open'); });
+  document.querySelectorAll('.nav-dropdown-item').forEach(function(b) { b.classList.remove('active'); });
+  var item = document.querySelector('.nav-dropdown-item[data-cat="' + cat + '"]');
+  if (item) item.classList.add('active');
+
+  document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+  var mainBtn = null;
+  if (cat === 'dashboard') mainBtn = document.querySelector('.nav-dropdown[data-menu="dashboard"] .nav-btn');
+  else if (['Data OF Cut', 'P3_Temuan', 'OPM-OLS', 'Joint', 'Handhole'].indexOf(cat) !== -1) mainBtn = document.querySelector('.nav-dropdown[data-menu="data-operasional"] .nav-btn');
+  else if (['Alker', 'Stok Spare', 'Patch Cord'].indexOf(cat) !== -1) mainBtn = document.querySelector('.nav-dropdown[data-menu="inventory"] .nav-btn');
+  if (mainBtn) mainBtn.classList.add('active');
+
+  switchView(cat);
 }
 
 /* ============================================================ RIWAYAT ============================================================ */
@@ -2119,7 +2205,7 @@ function handleLogin(e) {
     document.getElementById('login-screen').classList.add('hidden');
     document.getElementById('app-shell').classList.remove('hidden');
     if (currentUser.role === 'admin') { document.getElementById('add-user-btn').classList.remove('hidden'); document.getElementById('settings-btn').classList.remove('hidden'); }
-    updateSidebarUser(); resetSessionTimer();
+    updateHeaderUser(); resetSessionTimer();
     loadData(); loadRiwayat(); loadSettings(); loadUsersList();
     try { applyFontSettings(); } catch (e) {}
     setTimeout(function() {
@@ -2175,7 +2261,7 @@ function submitForceChangePassword(e) {
     document.getElementById('force-change-password-modal').classList.add('hidden');
     document.getElementById('app-shell').classList.remove('hidden');
     if (role === 'admin') { document.getElementById('add-user-btn').classList.remove('hidden'); document.getElementById('settings-btn').classList.remove('hidden'); }
-    updateSidebarUser(); resetSessionTimer();
+    updateHeaderUser(); resetSessionTimer();
     loadData(); loadRiwayat(); loadSettings(); loadUsersList();
     setTimeout(function() {
       initMap(); initCharts(); loadKmlFromFirebase(); loadCustomLines(); attachKmlManagerListener(); applyAutoUppercase(); updateAiStats();
@@ -2852,8 +2938,8 @@ function finishDrawLine() {
 }
 
 /* ============================================================ ABOUT / USER ============================================================ */
-function openAboutModal() { document.getElementById('about-modal').classList.remove('hidden'); document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); }); var navAbout = document.getElementById('nav-about'); if (navAbout) navAbout.classList.add('active'); }
-function closeAboutModal() { document.getElementById('about-modal').classList.add('hidden'); document.querySelectorAll('.nav-item').forEach(function(b) { if (b.id === 'nav-about') { b.classList.remove('active'); return; } if (b.dataset.cat === currentCategory) b.classList.add('active'); }); }
+function openAboutModal() { document.getElementById('about-modal').classList.remove('hidden'); document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); }); document.querySelectorAll('.nav-dropdown').forEach(function(d) { d.classList.remove('open'); }); }
+function closeAboutModal() { document.getElementById('about-modal').classList.add('hidden'); }
 function loadUsersList() { if (!db || usersListListenerAttached) return; db.ref('users').on('value', function(s) { usersListData = s.val() || {}; renderUserList(); }); usersListListenerAttached = true; }
 function renderUserList() {
   var container = document.getElementById('user-list-container'), countBadge = document.getElementById('user-count-badge');
@@ -2966,11 +3052,9 @@ function switchView(cat) {
   document.getElementById('inp-cat').value = currentCategory;
   document.getElementById('dashboard-view').classList.add('hidden');
   document.getElementById('data-view').classList.add('hidden');
-  var headerTitle = document.getElementById('header-title');
   if (cat === 'dashboard') {
     document.getElementById('dashboard-view').classList.remove('hidden');
-    if (headerTitle) headerTitle.textContent = 'Dashboard';
-    closeSidebarMobile(); saveCurrentPage('dashboard');
+    saveCurrentPage('dashboard');
     setTimeout(function() { if (map) map.resize(); }, 200);
     return;
   }
@@ -2979,7 +3063,6 @@ function switchView(cat) {
   var isP3T = cat === 'P3_Temuan', isOfCut = cat === 'Data OF Cut';
   var title = isP3T ? 'Pekerjaan & Temuan' : (cat === 'OPM-OLS' ? 'OPM / OLS' : cat);
   document.getElementById('page-title').textContent = title;
-  if (headerTitle) headerTitle.textContent = title;
   var st = document.getElementById('sub-tabs-container');
   if (isP3T) { st.classList.remove('hidden'); document.querySelectorAll('.sub-tab').forEach(function(t) { t.classList.toggle('active', t.dataset.sub === currentSubTab); }); document.getElementById('inp-cat').value = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan'; }
   else { st.classList.add('hidden'); document.getElementById('inp-cat').value = cat; }
@@ -2991,9 +3074,8 @@ function switchView(cat) {
   else { periodGroup.classList.remove('hidden'); if (currentPeriod === 'yearly' || currentPeriod === 'custom') yearGroup.classList.remove('hidden'); else yearGroup.classList.add('hidden'); if (monthGroup) { if (currentPeriod === 'custom') monthGroup.classList.remove('hidden'); else monthGroup.classList.add('hidden'); } }
   renderTable(); updateStokSummary();
   try { updateTotalDataTagline(); } catch (e) {}
-  refreshSession(); closeSidebarMobile(); saveCurrentPage(cat);
+  refreshSession(); saveCurrentPage(cat);
 }
-function closeSidebarMobile() { var sb = document.getElementById('sidebar'), ov = document.getElementById('sidebar-overlay'); if (window.innerWidth <= 900) { sb.classList.remove('open'); ov.classList.remove('active'); } }
 function isInPeriod(dateStr, period) {
   if (!dateStr) return period === 'all';
   if (period === 'all') return true;
@@ -4016,8 +4098,7 @@ function updateStokSpare() {
   container.innerHTML = html;
 }
 function navToCat(cat) {
-  document.querySelectorAll('.nav-item').forEach(function(b) { if (b.id === 'nav-about') { b.classList.remove('active'); return; } b.classList.toggle('active', b.dataset.cat === cat); });
-  switchView(cat);
+  navTo(cat);
 }
 
 /* ============================================================ SETTINGS ============================================================ */
@@ -4088,17 +4169,6 @@ function setupEventListeners() {
     });
   }
 
-  document.querySelectorAll('.nav-item').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      if (this.id === 'nav-about') return;
-      document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
-      this.classList.add('active');
-      switchView(this.dataset.cat);
-    });
-  });
-  var mt = document.getElementById('menu-toggle'), sb = document.getElementById('sidebar'), ov = document.getElementById('sidebar-overlay');
-  if (mt) mt.addEventListener('click', function() { sb.classList.toggle('open'); ov.classList.toggle('active'); });
-  if (ov) ov.addEventListener('click', function() { sb.classList.remove('open'); ov.classList.remove('active'); });
   var ab = document.getElementById('btn-add'); if (ab) ab.addEventListener('click', handleAddClick);
   var bmk = document.getElementById('btn-manage-kml'); if (bmk) bmk.addEventListener('click', bukaKmlManager);
   var ps = document.getElementById('period-select');
@@ -4170,11 +4240,9 @@ function restoreLastPage() {
   var savedPage = getSavedPage(), savedSub = getSavedSubTab();
   if (savedPage && savedPage !== 'dashboard') {
     if (savedPage === 'P3_Temuan') currentSubTab = savedSub;
-    document.querySelectorAll('.nav-item').forEach(function(b) { if (b.id === 'nav-about') { b.classList.remove('active'); return; } b.classList.toggle('active', b.dataset.cat === savedPage); });
-    switchView(savedPage);
+    navTo(savedPage);
   } else {
-    document.querySelectorAll('.nav-item').forEach(function(b) { if (b.id === 'nav-about') { b.classList.remove('active'); return; } b.classList.toggle('active', b.dataset.cat === 'dashboard'); });
-    switchView('dashboard');
+    navTo('dashboard');
   }
 }
 
@@ -4199,7 +4267,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('login-screen').classList.add('hidden');
         document.getElementById('app-shell').classList.remove('hidden');
         if (currentUser.role === 'admin') { document.getElementById('add-user-btn').classList.remove('hidden'); document.getElementById('settings-btn').classList.remove('hidden'); }
-        updateSidebarUser(); resetSessionTimer();
+        updateHeaderUser(); resetSessionTimer();
         loadData(); loadRiwayat(); loadSettings(); loadUsersList();
         try { applyFontSettings(); } catch (e) {}
         setTimeout(function() {
