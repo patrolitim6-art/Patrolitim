@@ -3364,7 +3364,7 @@ function renderYearComparison(currentYearNum) {
     html += '<div class="ytd-card" style="color:' + item.color + ';">';
     html += '<div class="ytd-label">' + item.label + '</div>';
     html += '<div class="ytd-values"><span class="ytd-prev">' + prevYearNum + ':' + prevVal + '</span><span class="ytd-current">' + curVal + '</span><span class="ytd-diff ' + diffClass + '">' + diffIcon + diffText + '</span></div>';
-    html += '<div class="ytd-persen"><span class="ytd-persen-label">Rata2</span><span class="ytd-persen-value" style="color:' + item.color + ';">' + fmtPersen(hitungPersenPerBulan(curVal)) + '</span></div>';
+    html += '<div class="ytd-persen"><span class="ytd-persen-label"></span><span class="ytd-persen-value" style="color:' + item.color + ';">' + fmtPersen(hitungPersenPerBulan(curVal)) + '</span></div>';
     html += '</div>';
   });
   grid.innerHTML = html;
