@@ -248,9 +248,9 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .login-error { color: #EC4899; font-weight: 600; text-align: center; padding: 8px 12px; background: rgba(236, 72, 153, 0.12); border-radius: 8px; margin-bottom: 12px; display: none; border: 1px solid rgba(236, 72, 153, 0.3); font-size: var(--app-font-size-xs); }
 .login-error.show { display: block; }
 
-/* === LOGO BUCIN (gambar) - DIPERBAIKI === */
+/* === LOGO BUCIN (gambar) - UKURAN 2X LEBIH BESAR === */
 .earth-logo {
-  width: 72px; height: 72px; border-radius: 16px; flex-shrink: 0;
+  width: 144px; height: 144px; border-radius: 20px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   padding: 0;
   background: transparent;
@@ -262,27 +262,28 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   width: 100%; height: 100%;
   object-fit: contain;
   display: block;
-  border-radius: 12px;
+  border-radius: 16px;
   position: relative; z-index: 2;
   transform: scale(1.15);
   transform-origin: center center;
 }
 .earth-logo.large {
-  width: 160px; height: 160px;
-  border-radius: 28px;
+  width: 320px; height: 320px;
+  border-radius: 40px;
   padding: 0;
   border: none;
   box-shadow: none;
 }
 .earth-logo.large img {
-  border-radius: 20px;
+  border-radius: 32px;
   transform: scale(1.12);
 }
 
-.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: transparent; }
-.telin-logo { height: 32px; width: auto; object-fit: contain; display: block; }
+/* === TELIN LOGO - UKURAN DIPERBESAR === */
+.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 6px 10px; border-radius: 8px; background: transparent; }
+.telin-logo { height: 42px; width: auto; object-fit: contain; display: block; }
 .telin-divider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 16px 0 20px; padding: 12px 16px; flex-wrap: wrap; }
-.telin-logo-login { height: 50px; width: auto; display: block; }
+.telin-logo-login { height: 72px; width: auto; display: block; }
 
 .ai-hero { background: var(--surface-hero); border: 1px solid var(--border-glow); border-radius: var(--radius); padding: 16px 18px; position: relative; overflow: hidden; }
 .hero-big-number { position: absolute; top: 12px; right: 16px; text-align: right; }
@@ -460,7 +461,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
 .opm-step-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
 .opm-step-title { font-weight: 800; color: var(--primary-cyan); font-size: var(--app-font-size-xs); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; font-family: 'Orbitron', sans-serif; }
-.opm-port-chip { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 32px; padding: 4px 8px; border-radius: 8px; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: var(--app-font-size-sm); border: 2px solid; }
+.opm-port-chip { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 24px; padding: 2px 6px; border-radius: 6px; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: var(--app-font-size-xs); border: 1.5px solid; }
 .opm-label-badge { display: inline-block; background: rgba(168,85,247,0.15); color: #A855F7; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: var(--app-font-size-xs); border: 1px solid rgba(168,85,247,0.4); }
 .opm-temp-list-wrap { max-height: 280px; overflow-y: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
 .opm-temp-list-table { width: 100%; border-collapse: separate; border-spacing: 0; }
@@ -470,12 +471,12 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .opm-warning { display: none; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.5); color: #F59E0B; padding: 10px 14px; border-radius: 10px; font-weight: 600; margin-top: 10px; align-items: center; gap: 8px; font-size: var(--app-font-size-sm); }
 .opm-warning.show { display: flex; }
 
-/* === OPM Sequential Input === */
+/* === OPM Sequential Input - COMPACT === */
 .opm-current-port-box {
   background: linear-gradient(135deg, rgba(0,217,255,0.14), rgba(168,85,247,0.14));
   border: 2px solid var(--primary-cyan);
   border-radius: 14px;
-  padding: 16px;
+  padding: 12px;
   text-align: center;
   margin-bottom: 10px;
   position: relative;
@@ -483,7 +484,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .opm-current-port-box .opm-current-port-num {
   font-family: 'Orbitron', sans-serif;
   font-weight: 900;
-  font-size: 48px;
+  font-size: 32px;
   line-height: 1;
   background: var(--tech-gradient);
   -webkit-background-clip: text;
@@ -491,7 +492,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   background-clip: text;
 }
 .opm-current-port-box .opm-current-port-label {
-  font-size: 11px;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--text-muted);
@@ -499,7 +500,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   margin-bottom: 4px;
 }
 .opm-current-port-box .opm-current-port-hint {
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-dim);
   margin-top: 6px;
 }
@@ -511,12 +512,12 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 }
 .opm-input-row input {
   flex: 1;
-  min-height: 52px;
-  font-size: 20px;
+  min-height: 38px;
+  font-size: 14px;
   text-align: center;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-family: inherit;
+  font-weight: 600;
+  padding: 0 12px;
 }
 .opm-color-preview {
   display: flex;
@@ -549,7 +550,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 10px;
+  padding: 6px 10px;
   background: rgba(0,217,255,0.06);
   border: 1px solid var(--border-glow);
   border-radius: 8px;
@@ -561,12 +562,14 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   color: var(--primary-cyan);
   min-width: 32px;
   text-align: center;
+  font-size: var(--app-font-size-xs);
 }
 .opm-submitted-item .opm-sub-dbm {
   font-weight: 700;
   color: var(--text-main);
   min-width: 56px;
   text-align: center;
+  font-size: var(--app-font-size-xs);
 }
 .opm-submitted-item .opm-sub-colors {
   display: flex;
@@ -646,8 +649,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 @media (max-width: 768px) {
   :root { --header-h: 62px; }
   .top-header { padding: 0 10px; gap: 6px; }
-  .earth-logo { width: 52px; height: 52px; padding: 0; border-radius: 12px; }
-  .earth-logo img { transform: scale(1.15); border-radius: 10px; }
+  .earth-logo { width: 88px; height: 88px; padding: 0; border-radius: 14px; }
+  .earth-logo img { transform: scale(1.15); border-radius: 12px; }
   .brand-text { font-size: 18px; letter-spacing: 1.2px; }
   .brand-sub { font-size: 8px; letter-spacing: 1px; }
   .header-brand { gap: 8px; flex-shrink: 0; }
@@ -660,7 +663,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .nav-dropdown-menu { position: fixed; top: var(--header-h); left: 8px; right: 8px; transform: none; min-width: 0; width: auto; border-radius: 14px; max-height: calc(100vh - var(--header-h) - 24px); overflow-y: auto; }
   .nav-dropdown-item { padding: 12px 14px; font-size: 13px; }
   .telin-logo-wrapper { display: flex !important; padding: 2px; }
-  .telin-logo { height: 22px; }
+  .telin-logo { height: 28px; }
   .header-actions { gap: 2px; flex-shrink: 0; }
   .header-user-box { padding: 3px 6px; gap: 4px; margin-left: 0; }
   .header-user-box > div:last-child { display: none; }
@@ -740,10 +743,10 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .modal-card h3 { font-size: 14px; }
 
   .login-card { padding: 24px 16px; border-radius: 20px; }
-  .earth-logo.large { width: 120px; height: 120px; border-radius: 22px; padding: 0; }
-  .earth-logo.large img { transform: scale(1.12); border-radius: 18px; }
+  .earth-logo.large { width: 200px; height: 200px; border-radius: 26px; padding: 0; }
+  .earth-logo.large img { transform: scale(1.12); border-radius: 22px; }
   .login-title { font-size: 24px; letter-spacing: 3px; }
-  .telin-logo-login { height: 36px; }
+  .telin-logo-login { height: 48px; }
 
   .sop-description { font-size: 10px; max-height: 140px; padding: 8px 12px; }
   .user-list-actions, .kml-list-actions { width: 100%; justify-content: flex-end; }
@@ -764,13 +767,13 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .maps-popup-card { max-width: 92vw; }
   .maps-popup-body { padding: 12px; }
 
-  .opm-current-port-box .opm-current-port-num { font-size: 36px; }
+  .opm-current-port-box .opm-current-port-num { font-size: 28px; }
 }
 
 @media (max-width: 420px) {
   .header-brand { gap: 6px; }
-  .earth-logo { width: 44px; height: 44px; padding: 0; border-radius: 10px; }
-  .earth-logo img { transform: scale(1.15); border-radius: 8px; }
+  .earth-logo { width: 72px; height: 72px; padding: 0; border-radius: 12px; }
+  .earth-logo img { transform: scale(1.15); border-radius: 10px; }
   .brand-text { font-size: 15px; letter-spacing: 1px; }
   .brand-sub { font-size: 7px; }
   .nav-btn { padding: 6px 6px; }
@@ -805,13 +808,13 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
   .modal-card { padding: 12px 10px; }
   .login-card { padding: 20px 12px; }
-  .earth-logo.large { width: 100px; height: 100px; border-radius: 18px; padding: 0; }
-  .earth-logo.large img { transform: scale(1.12); border-radius: 14px; }
+  .earth-logo.large { width: 160px; height: 160px; border-radius: 22px; padding: 0; }
+  .earth-logo.large img { transform: scale(1.12); border-radius: 18px; }
   .login-title { font-size: 20px; letter-spacing: 2px; }
-  .telin-logo-login { height: 30px; }
+  .telin-logo-login { height: 40px; }
 
   .ytd-compare-grid-5 { grid-template-columns: repeat(2, 1fr); }
-  .opm-current-port-box .opm-current-port-num { font-size: 30px; }
+  .opm-current-port-box .opm-current-port-num { font-size: 24px; }
 }
 </style>
 </head>
@@ -843,7 +846,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
     <div class="login-divider"><span>LOGIN</span></div>
     <div id="login-error" class="login-error"><span id="login-error-text">Username atau password salah</span></div>
     <form id="login-form" onsubmit="return handleLogin(event)">
-      <div style="margin-bottom:36px;">
+      <div style="margin-bottom:16px;">
         <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;letter-spacing:1px;font-size:var(--app-font-size-xs);">NAMA PENGGUNA</label>
         <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" required autocomplete="off">
       </div>
@@ -1506,11 +1509,11 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
             </div>
             <div class="opm-input-row">
               <input type="number" step="0.01" id="opm-dbm-input" class="field-control" placeholder="Nilai DBM" autocomplete="off">
-              <button type="button" id="btn-opm-submit-port" class="btn-primary" style="min-height:52px;min-width:120px;padding:0 20px;" onclick="submitOpmPort()">Submit Port</button>
+              <button type="button" id="btn-opm-submit-port" class="btn-primary" style="min-height:38px;min-width:100px;padding:0 16px;font-size:12px;" onclick="submitOpmPort()">Submit Port</button>
             </div>
             <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-              <button type="button" class="btn-secondary" style="flex:1;min-height:38px;font-size:var(--app-font-size-xs);" onclick="skipOpmPort()">Lewati Port (Kosong)</button>
-              <button type="button" class="btn-secondary" style="flex:1;min-height:38px;font-size:var(--app-font-size-xs);color:#EF4444;border-color:rgba(239,68,68,0.4);" onclick="resetOpmForm()">Reset Semua</button>
+              <button type="button" class="btn-secondary" style="flex:1;min-height:32px;font-size:11px;" onclick="skipOpmPort()">Lewati Port (Kosong)</button>
+              <button type="button" class="btn-secondary" style="flex:1;min-height:32px;font-size:11px;color:#EF4444;border-color:rgba(239,68,68,0.4);" onclick="resetOpmForm()">Reset Semua</button>
             </div>
           </div>
           <div class="opm-step-card">
