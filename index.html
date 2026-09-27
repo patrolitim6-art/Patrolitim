@@ -96,6 +96,8 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
   gap: 12px;
   overflow: visible !important;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  /* PERBAIKAN: selalu tampilkan logo dan tombol logout */
+  flex-wrap: nowrap;
 }
 :root[data-theme="light"] .top-header { box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); }
 
@@ -471,7 +473,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .records-table th.col-no { background: var(--surface-table-header-solid-alt) !important; z-index: 12; }
 .records-table th.col-aksi, .records-table td.col-aksi { width: 130px; min-width: 130px; text-align: center; white-space: nowrap; position: sticky; right: 0; border-left: 1px solid var(--surface-table-border-solid); background: var(--surface-3); z-index: 2; }
 .records-table th.col-aksi { background: var(--surface-table-header-solid-alt) !important; z-index: 12; }
-/* kolom-kolom tengah default text-align kiri dari th, tapi data juga kiri karena default */
 .records-table td { text-align: left; }
 
 .durasi-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(16,185,129,0.15); color: #10B981; font-weight: 700; font-size: var(--app-font-size-xs); white-space: nowrap; }
@@ -542,129 +543,164 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
+/* ============ RESPONSIVE MOBILE (REVISI TOTAL) ============ */
 @media (max-width: 768px) {
   :root { --header-h: 62px; }
-  .top-header { padding: 0 12px; gap: 8px; }
-  .earth-logo { width: 44px; height: 44px; padding: 3px; border-radius: 12px; }
-  .brand-text { font-size: 20px; letter-spacing: 1.5px; }
-  .brand-sub { font-size: 9px; letter-spacing: 1.2px; }
-  .header-brand { gap: 10px; }
-  .header-nav { gap: 2px; padding: 0 4px; justify-content: center; }
-  .nav-btn { padding: 10px 12px; font-size: 11px; }
-  .nav-btn i { width: 18px; height: 18px; }
+  .top-header { padding: 0 10px; gap: 6px; }
+  .earth-logo { width: 40px; height: 40px; padding: 3px; border-radius: 11px; }
+  .brand-text { font-size: 18px; letter-spacing: 1.2px; }
+  .brand-sub { font-size: 8px; letter-spacing: 1px; }
+  .header-brand { gap: 8px; flex-shrink: 0; }
+  .header-nav { gap: 2px; padding: 0 2px; justify-content: center; flex: 1; min-width: 0; overflow-x: auto; overflow-y: visible; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .header-nav::-webkit-scrollbar { display: none; }
+  .nav-btn { padding: 8px 10px; font-size: 10px; gap: 4px; }
+  .nav-btn i { width: 16px; height: 16px; }
   .nav-btn span.nav-label { display: none; }
   .nav-btn .chev { display: none; }
-  .nav-dropdown-menu { position: fixed; top: var(--header-h); left: 12px; right: 12px; transform: none; min-width: 0; width: auto; border-radius: 14px; max-height: calc(100vh - var(--header-h) - 24px); overflow-y: auto; }
+  .nav-dropdown-menu { position: fixed; top: var(--header-h); left: 8px; right: 8px; transform: none; min-width: 0; width: auto; border-radius: 14px; max-height: calc(100vh - var(--header-h) - 24px); overflow-y: auto; }
   .nav-dropdown-item { padding: 12px 14px; font-size: 13px; }
-  .telin-logo-wrapper { display: none; }
-  .header-user-box { padding: 4px 8px; gap: 6px; margin-left: 2px; }
+  /* PERBAIKAN: tampilkan telin & logo logout */
+  .telin-logo-wrapper { display: flex !important; padding: 2px; }
+  .telin-logo { height: 22px; }
+  .header-actions { gap: 2px; flex-shrink: 0; }
+  .header-user-box { padding: 3px 6px; gap: 4px; margin-left: 0; }
   .header-user-box > div:last-child { display: none; }
-  .header-user-box > div:first-child { width: 30px; height: 30px; font-size: 13px; }
-  .icon-btn { width: 38px; height: 38px; }
-  .header-actions { gap: 4px; }
-
-  .main-content-full { padding: 10px; }
-  .layout-three-columns { gap: 10px; }
-  .layout-left, .layout-center, .layout-right { gap: 10px; }
-
-  .ai-hero { padding: 14px; }
-  .hero-big-number { position: static; text-align: left; margin-bottom: 10px; }
-  .hero-big-number .hbn-value { font-size: 30px; }
-  .ai-hero-title { font-size: 18px; }
-  .ai-hero-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .ai-stat-mini { padding: 10px; }
-  .ai-stat-mini .stat-value { font-size: 20px; }
-
-  .ai-panel { padding: 12px; }
-  .ai-panel-title { font-size: 10px; letter-spacing: 0.5px; }
-  .ai-chart-wrap { height: 240px; }
-  .ai-chart-wrap-line { height: 220px; }
-
-  .map-outer-wrap { height: 420px; min-height: 320px; }
-  .map-legend-top-right { max-width: 140px; padding: 6px 8px; font-size: 8px; }
-  .map-legend-top-right .ml-title { font-size: 7px; }
-  .custom-map-controls { gap: 5px; top: 10px; right: 10px; }
-  .custom-map-btn { width: 34px; height: 34px; }
-  .map-filter-below { padding: 8px 10px; gap: 6px; }
-  .map-filter-below .map-filter-btn-popup { min-width: 0; flex: 1 1 40%; font-size: 10px; padding: 8px 10px; }
-
-  .chart-summary-strip-2 { grid-template-columns: 1fr 1fr; }
-  .ytd-compare-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
-  .ytd-card { padding: 8px 7px; }
-  .ytd-card .ytd-current { font-size: 13px; }
-  .ytd-card .ytd-prev { font-size: 8px; }
-
-  .chart-rekap-scroll { border-radius: 8px; }
-  .chart-rekap-table { font-size: 8px; }
-  .chart-rekap-table th { font-size: 6.5px; }
-  .chart-rekap-table td { font-size: 8px; }
-
-  .records-table th { padding: 10px 12px; font-size: 9px; letter-spacing: 0.5px; }
-  .records-table td { padding: 11px 12px; font-size: 11px; }
-  .records-table th.col-no, .records-table td.col-no { width: 48px; min-width: 48px; font-size: 10px; }
-  .records-table th.col-aksi, .records-table td.col-aksi { width: 115px; min-width: 115px; }
-  .records-table .col-aksi .icon-btn { width: 42px; height: 42px; min-width: 42px; min-height: 42px; font-size: 20px; }
-
-  .filter-bar { gap: 8px; }
-  .filter-bar .filter-group { flex: 1 1 100%; padding: 6px 10px; }
-  .filter-bar .filter-group select, .filter-bar .filter-group input { min-height: 38px; font-size: 13px; }
-
-  .sub-tab, .gudang-tab { padding: 8px 16px; font-size: 12px; }
-  .stok-summary { padding: 10px 12px; gap: 10px; }
-  .stok-summary > div { flex: 1 1 30%; text-align: center; }
-  .stok-summary .value { font-size: 15px; }
-
-  .modal-layer { padding: 10px; align-items: flex-start; }
-  .modal-card { padding: 18px 16px; border-radius: 20px; max-height: 94vh; }
-  .modal-card h3 { font-size: 16px; }
-
-  .login-card { padding: 30px 22px; border-radius: 22px; }
-  .earth-logo.large { width: 96px; height: 96px; border-radius: 22px; padding: 6px; }
-  .login-title { font-size: 28px; letter-spacing: 4px; }
-  .telin-logo-login { height: 42px; }
-
-  .sop-description { font-size: 12px; max-height: 160px; }
-  .user-list-actions, .kml-list-actions { width: 100%; justify-content: flex-end; }
-}
-
-@media (max-width: 480px) {
-  :root { --header-h: 58px; }
-  .top-header { padding: 0 10px; gap: 6px; }
-  .earth-logo { width: 40px; height: 40px; padding: 2px; border-radius: 11px; }
-  .brand-text { font-size: 18px; letter-spacing: 1.2px; }
-  .brand-sub { font-size: 8px; }
-  .header-brand { gap: 8px; }
-  .nav-btn { padding: 9px 10px; }
-  .nav-btn i { width: 17px; height: 17px; }
-  .icon-btn { width: 36px; height: 36px; }
-  .header-user-box > div:first-child { width: 28px; height: 28px; font-size: 12px; }
+  .header-user-box > div:first-child { width: 26px; height: 26px; font-size: 11px; }
+  .icon-btn { width: 34px; height: 34px; }
+  .icon-btn i { width: 16px; }
 
   .main-content-full { padding: 8px; }
+  .layout-three-columns { gap: 8px; }
+  .layout-left, .layout-center, .layout-right { gap: 8px; }
+
+  /* Hero adjustments */
   .ai-hero { padding: 12px; }
-  .ai-hero-title { font-size: 16px; }
-  .ai-hero-stats { grid-template-columns: 1fr 1fr; }
-  .ai-stat-mini .stat-value { font-size: 18px; }
-  .ytd-compare-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ai-chart-wrap { height: 220px; }
+  .hero-big-number { position: static; text-align: left; margin-bottom: 6px; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+  .hero-big-number .hbn-value { font-size: 28px; display: inline; }
+  .hero-big-number .hbn-label { font-size: 7px; display: inline; }
+  .ai-hero-badge { display: none; }  /* HILANGKAN BADGE */
+  .ai-hero-title { font-size: 16px; display: inline; margin-right: 8px; }
+  .ai-hero-sub { font-size: 10px; margin-bottom: 6px; }
+  .ai-hero-stats { grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 8px; }
+  .ai-stat-mini { padding: 6px 4px; }
+  .ai-stat-mini .stat-value { font-size: 14px; }
+  .ai-stat-mini .stat-label { font-size: 7px; }
+
+  .ai-panel { padding: 10px; }
+  .ai-panel-title { font-size: 9px; letter-spacing: 0.4px; }
+  .ai-chart-wrap { height: 200px; }
   .ai-chart-wrap-line { height: 200px; }
 
-  .map-outer-wrap { height: 380px; min-height: 300px; }
+  /* Map */
+  .map-outer-wrap { height: 380px; min-height: 280px; }
+  .map-legend-top-right { max-width: 130px; padding: 5px 7px; font-size: 7px; }
+  .map-legend-top-right .ml-title { font-size: 6px; }
+  .custom-map-controls { gap: 4px; top: 8px; right: 8px; }
+  .custom-map-btn { width: 30px; height: 30px; }
+  .map-filter-below { padding: 6px 8px; gap: 4px; }
+  .map-filter-below .map-filter-btn-popup { min-width: 0; flex: 1 1 40%; font-size: 9px; padding: 6px 8px; }
 
-  .records-table th { padding: 8px 10px; font-size: 8.5px; }
-  .records-table td { padding: 9px 10px; font-size: 10.5px; }
-  .records-table th.col-no, .records-table td.col-no { width: 42px; min-width: 42px; font-size: 9px; }
-  .records-table th.col-aksi, .records-table td.col-aksi { width: 100px; min-width: 100px; }
-  .records-table .col-aksi .icon-btn { width: 38px; height: 38px; min-width: 38px; min-height: 38px; font-size: 18px; border-radius: 10px; }
+  /* Chart & table rekap */
+  .chart-summary-strip-2 { grid-template-columns: 1fr 1fr; gap: 4px; }
+  .chart-summary-chip { padding: 6px 4px; }
+  .chart-summary-chip .cs-value { font-size: 13px; }
+  .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+  .ytd-card { padding: 6px 5px; }
+  .ytd-card .ytd-current { font-size: 12px; }
+  .ytd-card .ytd-prev { font-size: 7px; }
 
-  .modal-card { padding: 16px 14px; border-radius: 18px; }
-  .login-card { padding: 26px 18px; border-radius: 20px; }
-  .earth-logo.large { width: 88px; height: 88px; border-radius: 20px; padding: 5px; }
-  .login-title { font-size: 26px; letter-spacing: 3.5px; }
-  .telin-logo-login { height: 38px; }
+  .chart-rekap-scroll { border-radius: 6px; }
+  .chart-rekap-table { font-size: 7px; }
+  .chart-rekap-table th { font-size: 5.5px; padding: 2px 1px; }
+  .chart-rekap-table td { font-size: 7px; padding: 2px 1px; }
+  .chart-rekap-table th.th-tahun, .chart-rekap-table td.td-tahun { width: 26px; min-width: 26px; font-size: 7px; }
+  .chart-rekap-table th.th-num, .chart-rekap-table td.td-num { width: 20px; min-width: 20px; font-size: 7px; }
+  .chart-rekap-table th.th-pct, .chart-rekap-table td.td-pct { width: 28px; min-width: 28px; font-size: 6px; }
+  .chart-rekap-table th.th-total, .chart-rekap-table td.td-total { width: 28px; min-width: 28px; font-size: 7px; }
 
-  .user-list-item, .kml-list-item { padding: 10px 12px; gap: 10px; }
-  .user-list-avatar { width: 36px; height: 36px; }
-  .user-list-btn { padding: 6px 10px; font-size: 10.5px; }
+  /* TABEL DATA - lebih kompak */
+  .records-table th { padding: 6px 6px; font-size: 7.5px; letter-spacing: 0.3px; }
+  .records-table td { padding: 5px 6px; font-size: 9px; }
+  .records-table th.col-no, .records-table td.col-no { width: 34px; min-width: 34px; font-size: 8px; }
+  .records-table th.col-aksi, .records-table td.col-aksi { width: 80px; min-width: 80px; }
+  .records-table .col-aksi .icon-btn { width: 32px; height: 32px; min-width: 32px; min-height: 32px; font-size: 14px; border-radius: 8px; }
+
+  /* Sub-tabs / gudang */
+  .sub-tab, .gudang-tab { padding: 6px 12px; font-size: 10px; }
+  .stok-summary { padding: 8px 10px; gap: 6px; }
+  .stok-summary > div { flex: 1 1 28%; text-align: center; }
+  .stok-summary .value { font-size: 13px; }
+  .stok-summary .label { font-size: 8px; }
+
+  .filter-bar { gap: 6px; }
+  .filter-bar .filter-group { flex: 1 1 100%; padding: 4px 8px; }
+  .filter-bar .filter-group select, .filter-bar .filter-group input { min-height: 32px; font-size: 11px; }
+
+  .modal-layer { padding: 8px; align-items: flex-start; }
+  .modal-card { padding: 14px 12px; border-radius: 16px; max-height: 94vh; }
+  .modal-card h3 { font-size: 14px; }
+
+  .login-card { padding: 24px 16px; border-radius: 20px; }
+  .earth-logo.large { width: 80px; height: 80px; border-radius: 20px; padding: 6px; }
+  .login-title { font-size: 24px; letter-spacing: 3px; }
+  .telin-logo-login { height: 36px; }
+
+  .sop-description { font-size: 10px; max-height: 140px; padding: 8px 12px; }
+  .user-list-actions, .kml-list-actions { width: 100%; justify-content: flex-end; }
+
+  .mini-doughnut-wrap { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .mini-doughnut-wrap canvas { max-width: 80px; max-height: 80px; }
+  .mini-legend { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 2px 8px; }
+  .mini-legend-item { flex: 0 0 45%; }
+
+  .radial-ring { width: 44px; height: 44px; }
+  .radial-ring .ring-label { font-size: 10px; }
+
+  .stok-spare-row { padding: 6px 8px; gap: 6px; }
+  .stok-spare-icon { width: 24px; height: 24px; font-size: 11px; }
+  .stok-spare-name { font-size: 10px; }
+  .stok-spare-value { font-size: 12px; }
+}
+
+@media (max-width: 420px) {
+  .header-brand { gap: 6px; }
+  .earth-logo { width: 34px; height: 34px; padding: 2px; border-radius: 9px; }
+  .brand-text { font-size: 15px; letter-spacing: 1px; }
+  .brand-sub { font-size: 7px; }
+  .nav-btn { padding: 6px 6px; }
+  .nav-btn i { width: 14px; height: 14px; }
+  .header-user-box > div:first-child { width: 22px; height: 22px; font-size: 9px; }
+  .icon-btn { width: 30px; height: 30px; }
+  .icon-btn i { width: 14px; }
+
+  .ai-hero-title { font-size: 14px; }
+  .hero-big-number .hbn-value { font-size: 22px; }
+  .ai-stat-mini .stat-value { font-size: 12px; }
+  .ai-stat-mini .stat-label { font-size: 6px; }
+
+  .ai-chart-wrap { height: 170px; }
+  .ai-chart-wrap-line { height: 170px; }
+
+  .records-table th { padding: 4px 4px; font-size: 6.5px; }
+  .records-table td { padding: 4px 4px; font-size: 8px; }
+  .records-table th.col-no, .records-table td.col-no { width: 26px; min-width: 26px; font-size: 7px; }
+  .records-table th.col-aksi, .records-table td.col-aksi { width: 66px; min-width: 66px; }
+  .records-table .col-aksi .icon-btn { width: 28px; height: 28px; min-width: 28px; min-height: 28px; font-size: 12px; border-radius: 6px; }
+
+  .chart-rekap-table th { font-size: 4.5px; padding: 1px; }
+  .chart-rekap-table td { font-size: 6px; padding: 1px; }
+  .chart-rekap-table th.th-tahun, .chart-rekap-table td.td-tahun { width: 20px; min-width: 20px; font-size: 6px; }
+  .chart-rekap-table th.th-num, .chart-rekap-table td.td-num { width: 16px; min-width: 16px; font-size: 6px; }
+  .chart-rekap-table th.th-pct, .chart-rekap-table td.td-pct { width: 22px; min-width: 22px; font-size: 5px; }
+  .chart-rekap-table th.th-total, .chart-rekap-table td.td-total { width: 22px; min-width: 22px; font-size: 6px; }
+
+  .modal-card { padding: 12px 10px; }
+  .login-card { padding: 20px 12px; }
+  .earth-logo.large { width: 70px; height: 70px; border-radius: 16px; padding: 5px; }
+  .login-title { font-size: 20px; letter-spacing: 2px; }
+  .telin-logo-login { height: 30px; }
+
+  .ytd-compare-grid-5 { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
 </head>
@@ -863,7 +899,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
               <div class="hbn-label">TOTAL INSIDEN <span id="hbn-year">2026</span></div>
               <div class="hbn-value" id="hbn-total">0</div>
             </div>
-            <div class="ai-hero-badge"><i data-lucide="crown" style="width:12px;"></i> BUCIN · LIVE OPERASIONAL</div>
+            <!-- BADGE DIHILANGKAN DARI SINI -->
             <h1 class="ai-hero-title">Barisan Utama <span class="accent">Cegah Insiden</span> Network</h1>
             <p class="ai-hero-sub">Pusat Operasi Jaringan Fiber Optik · Sulawesi Utara · <span id="live-clock">--:--:--</span></p>
             <p id="hero-about-text" style="font-size:11px;color:var(--text-muted);line-height:1.4;margin-bottom:8px;">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
