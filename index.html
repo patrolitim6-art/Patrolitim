@@ -96,7 +96,6 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
   gap: 12px;
   overflow: visible !important;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
-  /* PERBAIKAN: selalu tampilkan logo dan tombol logout */
   flex-wrap: nowrap;
 }
 :root[data-theme="light"] .top-header { box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); }
@@ -203,20 +202,20 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .icon-btn.delete { color: #EC4899; }
 .icon-btn.edit { color: #10B981; }
 
-/* ===== TOMBOL EDIT & HAPUS DIPERBESAR (khusus admin di tabel) ===== */
+/* ===== TOMBOL EDIT & HAPUS DIPERKECIL (khusus admin di tabel) ===== */
 .records-table .col-aksi .icon-btn,
 .records-table .col-aksi .icon-btn.edit,
 .records-table .col-aksi .icon-btn.delete {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  min-height: 48px;
-  font-size: 22px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
+  font-size: 16px;
   font-weight: 900;
-  border-radius: 12px;
+  border-radius: 8px;
   display: inline-grid;
   place-items: center;
-  margin: 0 2px;
+  margin: 0 1px;
 }
 .records-table .col-aksi .icon-btn.edit:hover { background: rgba(16, 185, 129, 0.2); }
 .records-table .col-aksi .icon-btn.delete:hover { background: rgba(236, 72, 153, 0.2); }
@@ -465,15 +464,18 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
 /* ============ TABEL ============ */
 .records-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--app-font-size-sm); }
-.records-table th { background: var(--surface-table-header-solid) !important; padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--surface-table-border-solid); font-weight: 700; color: var(--primary-cyan); white-space: nowrap; text-transform: uppercase; letter-spacing: 1px; font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-xs); position: sticky; top: 0; z-index: 10; }
-.records-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; color: var(--text-main); word-break: break-word; font-size: var(--app-font-size-sm); }
+.records-table th { background: var(--surface-table-header-solid) !important; padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--surface-table-border-solid); font-weight: 700; color: var(--primary-cyan); white-space: nowrap; text-transform: uppercase; letter-spacing: 0.8px; font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-xs); position: sticky; top: 0; z-index: 10; }
+.records-table td { padding: 10px 8px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; color: var(--text-main); font-size: var(--app-font-size-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+/* Kolom Keterangan: boleh wrap */
+.records-table td.col-keterangan,
+.records-table th.col-keterangan { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; word-break: break-word; max-width: 260px; }
 .records-table tr:hover td { background: rgba(0, 217, 255, 0.05); }
-.records-table code { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); padding: 2px 8px; border-radius: 6px; font-family: 'Orbitron', monospace; border: 1px solid rgba(0, 217, 255, 0.2); font-size: var(--app-font-size-xs); }
-.records-table th.col-no, .records-table td.col-no { width: 56px; min-width: 56px; text-align: center; font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; position: sticky; left: 0; z-index: 3; background: var(--surface-3); border-right: 1px solid var(--surface-table-border-solid); font-size: var(--app-font-size-xs); }
+.records-table code { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); padding: 2px 6px; border-radius: 6px; font-family: 'Orbitron', monospace; border: 1px solid rgba(0, 217, 255, 0.2); font-size: var(--app-font-size-xs); white-space: nowrap; }
+.records-table th.col-no, .records-table td.col-no { width: 44px; min-width: 44px; text-align: center; font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; position: sticky; left: 0; z-index: 3; background: var(--surface-3); border-right: 1px solid var(--surface-table-border-solid); font-size: var(--app-font-size-xs); white-space: nowrap; }
 .records-table th.col-no { background: var(--surface-table-header-solid-alt) !important; z-index: 12; }
-.records-table th.col-aksi, .records-table td.col-aksi { width: 130px; min-width: 130px; text-align: center; white-space: nowrap; position: sticky; right: 0; border-left: 1px solid var(--surface-table-border-solid); background: var(--surface-3); z-index: 2; }
+/* KOLOM AKSI DIPERKECIL */
+.records-table th.col-aksi, .records-table td.col-aksi { width: 90px; min-width: 90px; text-align: center; white-space: nowrap; position: sticky; right: 0; border-left: 1px solid var(--surface-table-border-solid); background: var(--surface-3); z-index: 2; padding: 6px 4px; }
 .records-table th.col-aksi { background: var(--surface-table-header-solid-alt) !important; z-index: 12; }
-.records-table td { text-align: left; }
 
 .durasi-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(16,185,129,0.15); color: #10B981; font-weight: 700; font-size: var(--app-font-size-xs); white-space: nowrap; }
 .status-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: var(--app-font-size-xs); white-space: nowrap; }
@@ -543,7 +545,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-/* ============ RESPONSIVE MOBILE (REVISI TOTAL) ============ */
+/* ============ RESPONSIVE MOBILE ============ */
 @media (max-width: 768px) {
   :root { --header-h: 62px; }
   .top-header { padding: 0 10px; gap: 6px; }
@@ -559,7 +561,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .nav-btn .chev { display: none; }
   .nav-dropdown-menu { position: fixed; top: var(--header-h); left: 8px; right: 8px; transform: none; min-width: 0; width: auto; border-radius: 14px; max-height: calc(100vh - var(--header-h) - 24px); overflow-y: auto; }
   .nav-dropdown-item { padding: 12px 14px; font-size: 13px; }
-  /* PERBAIKAN: tampilkan telin & logo logout */
   .telin-logo-wrapper { display: flex !important; padding: 2px; }
   .telin-logo { height: 22px; }
   .header-actions { gap: 2px; flex-shrink: 0; }
@@ -573,12 +574,11 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .layout-three-columns { gap: 8px; }
   .layout-left, .layout-center, .layout-right { gap: 8px; }
 
-  /* Hero adjustments */
   .ai-hero { padding: 12px; }
   .hero-big-number { position: static; text-align: left; margin-bottom: 6px; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
   .hero-big-number .hbn-value { font-size: 28px; display: inline; }
   .hero-big-number .hbn-label { font-size: 7px; display: inline; }
-  .ai-hero-badge { display: none; }  /* HILANGKAN BADGE */
+  .ai-hero-badge { display: none; }
   .ai-hero-title { font-size: 16px; display: inline; margin-right: 8px; }
   .ai-hero-sub { font-size: 10px; margin-bottom: 6px; }
   .ai-hero-stats { grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 8px; }
@@ -591,7 +591,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .ai-chart-wrap { height: 200px; }
   .ai-chart-wrap-line { height: 200px; }
 
-  /* Map */
   .map-outer-wrap { height: 380px; min-height: 280px; }
   .map-legend-top-right { max-width: 130px; padding: 5px 7px; font-size: 7px; }
   .map-legend-top-right .ml-title { font-size: 6px; }
@@ -600,7 +599,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .map-filter-below { padding: 6px 8px; gap: 4px; }
   .map-filter-below .map-filter-btn-popup { min-width: 0; flex: 1 1 40%; font-size: 9px; padding: 6px 8px; }
 
-  /* Chart & table rekap */
   .chart-summary-strip-2 { grid-template-columns: 1fr 1fr; gap: 4px; }
   .chart-summary-chip { padding: 6px 4px; }
   .chart-summary-chip .cs-value { font-size: 13px; }
@@ -618,14 +616,14 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .chart-rekap-table th.th-pct, .chart-rekap-table td.td-pct { width: 28px; min-width: 28px; font-size: 6px; }
   .chart-rekap-table th.th-total, .chart-rekap-table td.td-total { width: 28px; min-width: 28px; font-size: 7px; }
 
-  /* TABEL DATA - lebih kompak */
-  .records-table th { padding: 6px 6px; font-size: 7.5px; letter-spacing: 0.3px; }
-  .records-table td { padding: 5px 6px; font-size: 9px; }
-  .records-table th.col-no, .records-table td.col-no { width: 34px; min-width: 34px; font-size: 8px; }
-  .records-table th.col-aksi, .records-table td.col-aksi { width: 80px; min-width: 80px; }
-  .records-table .col-aksi .icon-btn { width: 32px; height: 32px; min-width: 32px; min-height: 32px; font-size: 14px; border-radius: 8px; }
+  /* TABEL DATA - kompak 1 baris */
+  .records-table th { padding: 5px 5px; font-size: 7px; letter-spacing: 0.3px; }
+  .records-table td { padding: 4px 5px; font-size: 9px; max-width: 130px; }
+  .records-table td.col-keterangan, .records-table th.col-keterangan { max-width: 160px; }
+  .records-table th.col-no, .records-table td.col-no { width: 28px; min-width: 28px; font-size: 8px; }
+  .records-table th.col-aksi, .records-table td.col-aksi { width: 60px; min-width: 60px; padding: 4px 2px; }
+  .records-table .col-aksi .icon-btn { width: 26px; height: 26px; min-width: 26px; min-height: 26px; font-size: 12px; border-radius: 6px; margin: 0 1px; }
 
-  /* Sub-tabs / gudang */
   .sub-tab, .gudang-tab { padding: 6px 12px; font-size: 10px; }
   .stok-summary { padding: 8px 10px; gap: 6px; }
   .stok-summary > div { flex: 1 1 28%; text-align: center; }
@@ -681,11 +679,12 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .ai-chart-wrap { height: 170px; }
   .ai-chart-wrap-line { height: 170px; }
 
-  .records-table th { padding: 4px 4px; font-size: 6.5px; }
-  .records-table td { padding: 4px 4px; font-size: 8px; }
-  .records-table th.col-no, .records-table td.col-no { width: 26px; min-width: 26px; font-size: 7px; }
-  .records-table th.col-aksi, .records-table td.col-aksi { width: 66px; min-width: 66px; }
-  .records-table .col-aksi .icon-btn { width: 28px; height: 28px; min-width: 28px; min-height: 28px; font-size: 12px; border-radius: 6px; }
+  .records-table th { padding: 4px 3px; font-size: 6.5px; }
+  .records-table td { padding: 3px 3px; font-size: 8px; max-width: 100px; }
+  .records-table td.col-keterangan, .records-table th.col-keterangan { max-width: 130px; }
+  .records-table th.col-no, .records-table td.col-no { width: 22px; min-width: 22px; font-size: 7px; }
+  .records-table th.col-aksi, .records-table td.col-aksi { width: 52px; min-width: 52px; padding: 3px 1px; }
+  .records-table .col-aksi .icon-btn { width: 22px; height: 22px; min-width: 22px; min-height: 22px; font-size: 11px; border-radius: 5px; margin: 0; }
 
   .chart-rekap-table th { font-size: 4.5px; padding: 1px; }
   .chart-rekap-table td { font-size: 6px; padding: 1px; }
@@ -899,7 +898,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
               <div class="hbn-label">TOTAL INSIDEN <span id="hbn-year">2026</span></div>
               <div class="hbn-value" id="hbn-total">0</div>
             </div>
-            <!-- BADGE DIHILANGKAN DARI SINI -->
             <h1 class="ai-hero-title">Barisan Utama <span class="accent">Cegah Insiden</span> Network</h1>
             <p class="ai-hero-sub">Pusat Operasi Jaringan Fiber Optik · Sulawesi Utara · <span id="live-clock">--:--:--</span></p>
             <p id="hero-about-text" style="font-size:11px;color:var(--text-muted);line-height:1.4;margin-bottom:8px;">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
@@ -2883,14 +2881,13 @@ function renderTable() {
     var isHJ = ['Handhole', 'Joint'].indexOf(cat) !== -1, isOfCut = cat === 'Data OF Cut';
     var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
     /* ===== HEADER ===== */
-    if (isSpare) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th>Keterangan</th><th class="col-aksi">Aksi</th></tr>';
-    /* Patch Cord: kolom Keterangan dihapus */
+    if (isSpare) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th class="col-keterangan">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
     else if (isPatch) th.innerHTML = '<tr>' + thNo() + '<th>Tgl Update</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Stok</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isAlker) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Nama Alker</th><th>SN</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Satuan</th><th>Keterangan</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isHJ) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th>Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isOfCut) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Waktu CO</th><th>Waktu UP</th><th>Durasi</th><th>Panjang</th><th>Rute</th><th>Penyebab</th><th>Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isP3T) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Pelaksana</th><th>Lama</th><th>Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
-    else th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isAlker) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Nama Alker</th><th>SN</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Satuan</th><th class="col-keterangan">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isHJ) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th class="col-keterangan">Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isOfCut) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Waktu CO</th><th>Waktu UP</th><th>Durasi</th><th>Panjang</th><th>Rute</th><th>Penyebab</th><th class="col-keterangan">Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isP3T) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Pelaksana</th><th>Lama</th><th class="col-keterangan">Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
+    else th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th class="col-keterangan">Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
     var isAdmin = currentUser && currentUser.role === 'admin';
 
     keys = sortData(keys, list, cat);
@@ -2900,18 +2897,17 @@ function renderTable() {
       var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')" title="Edit">✎</button><button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')" title="Hapus">×</button>' : '';
       var ket = it.keterangan || it.notes || '';
       var ketHtml = ket ? escapeHtml(ket) : '<span style="opacity:0.35;">—</span>';
-      if (isSpare) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      /* Patch Cord: kolom Keterangan dihapus dari body */
+      if (isSpare) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td class="col-keterangan">' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
       else if (isPatch) {
         var stokVal = parseInt(it.qty) || 0;
         var stokBadge = stokVal <= 0 ? '<span class="status-badge" style="background:rgba(239,68,68,0.15);color:#EF4444;font-family:Orbitron,sans-serif;">' + stokVal + '</span>' : '<span class="status-badge status-ready" style="font-family:Orbitron,sans-serif;">' + stokVal + '</span>';
         rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.lastUpdate || it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + escapeHtml(it.pcType || '-') + '</td><td>' + escapeHtml(it.pcLength || '-') + '</td><td>' + stokBadge + '</td><td class="col-aksi">' + aksi + '</td></tr>';
       }
-      else if (isAlker) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td>' + (it.jumlah || '-') + '</td><td>' + (it.satuan || '-') + '</td><td>' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else if (isHJ) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else if (isOfCut) { var coD = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : '-', upD = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : '-', durD = it.durasiText || '-'; rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + coD + '</td><td>' + upD + '</td><td><span class="durasi-badge">' + durD + '</span></td><td>' + (it.panjangCut || '-') + ' M</td><td>' + (it.rute || '-') + '</td><td>' + (it.penyebab || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>'; }
-      else if (isP3T) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.pelaksana || '-') + '</td><td>' + (it.lamaPekerjaan || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      else if (isAlker) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td>' + (it.jumlah || '-') + '</td><td>' + (it.satuan || '-') + '</td><td class="col-keterangan">' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      else if (isHJ) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td class="col-keterangan">' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      else if (isOfCut) { var coD = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : '-', upD = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : '-', durD = it.durasiText || '-'; rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + coD + '</td><td>' + upD + '</td><td><span class="durasi-badge">' + durD + '</span></td><td>' + (it.panjangCut || '-') + ' M</td><td>' + (it.rute || '-') + '</td><td>' + (it.penyebab || '-') + '</td><td class="col-keterangan">' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>'; }
+      else if (isP3T) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.pelaksana || '-') + '</td><td>' + (it.lamaPekerjaan || '-') + '</td><td class="col-keterangan">' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      else rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td class="col-keterangan">' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
     });
     tb.innerHTML = rowsHtml;
     try { updateTotalDataTagline(); } catch (e) {}
