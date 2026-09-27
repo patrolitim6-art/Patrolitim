@@ -248,9 +248,41 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .login-error { color: #EC4899; font-weight: 600; text-align: center; padding: 8px 12px; background: rgba(236, 72, 153, 0.12); border-radius: 8px; margin-bottom: 12px; display: none; border: 1px solid rgba(236, 72, 153, 0.3); font-size: var(--app-font-size-xs); }
 .login-error.show { display: block; }
 
-.earth-logo { width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0; display: grid; place-items: center; padding: 4px; background: linear-gradient(145deg, #0F2444 0%, #050D1F 100%); border: 1.5px solid rgba(0, 217, 255, 0.55); box-shadow: 0 0 18px rgba(0, 217, 255, 0.55); }
-.earth-logo svg { width: 100%; height: 100%; display: block; }
+/* === LOGO TAMENG ANIMASI === */
+.earth-logo {
+  width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0;
+  display: grid; place-items: center; padding: 4px;
+  background: linear-gradient(145deg, #0F2444 0%, #050D1F 100%);
+  border: 1.5px solid rgba(0, 217, 255, 0.55);
+  box-shadow: 0 0 18px rgba(0, 217, 255, 0.55);
+  position: relative; overflow: hidden;
+}
+.earth-logo svg { width: 100%; height: 100%; display: block; position: relative; z-index: 2; }
+.earth-logo .shield-pulse {
+  position: absolute; inset: -4px; border-radius: 50%;
+  border: 2px solid rgba(0, 217, 255, 0.4);
+  animation: shieldPulse 2.5s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes shieldPulse {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+.earth-logo .shield-glow {
+  position: absolute; inset: 0; border-radius: 14px;
+  background: radial-gradient(circle at 30% 30%, rgba(0, 217, 255, 0.3), transparent 70%);
+  animation: shieldGlow 3s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes shieldGlow {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.9; }
+}
 .earth-logo.large { width: 110px; height: 110px; border-radius: 26px; padding: 8px; border-width: 2.5px; }
+.earth-logo.large .shield-pulse { inset: -8px; border-width: 3px; }
+:root[data-theme="light"] .earth-logo { background: linear-gradient(145deg, #FEF2F2 0%, #FEE2E2 100%); border-color: rgba(201, 63, 63, 0.6); box-shadow: 0 0 18px rgba(201, 63, 63, 0.4); }
+:root[data-theme="light"] .earth-logo .shield-pulse { border-color: rgba(201, 63, 63, 0.4); }
+:root[data-theme="light"] .earth-logo .shield-glow { background: radial-gradient(circle at 30% 30%, rgba(201, 63, 63, 0.2), transparent 70%); }
 
 .telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: transparent; }
 .telin-logo { height: 32px; width: auto; object-fit: contain; display: block; }
@@ -469,6 +501,29 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
+/* === NOTIFIKASI LANDSCAPE === */
+.landscape-overlay {
+  position: fixed; inset: 0; z-index: 99999;
+  background: rgba(5, 8, 16, 0.96);
+  display: none; place-items: center; padding: 24px;
+  text-align: center; flex-direction: column; gap: 16px;
+}
+.landscape-overlay.show { display: grid; }
+.landscape-overlay .rotate-icon {
+  width: 80px; height: 80px; border-radius: 24px;
+  background: var(--tech-gradient);
+  display: grid; place-items: center;
+  animation: rotatePhone 2s ease-in-out infinite;
+  box-shadow: 0 0 40px rgba(0, 217, 255, 0.5);
+}
+@keyframes rotatePhone {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(90deg); }
+}
+.landscape-overlay h3 { color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; font-size: 20px; margin: 0; }
+.landscape-overlay p { color: var(--text-muted); font-size: 14px; max-width: 320px; line-height: 1.6; margin: 0; }
+.landscape-overlay .btn-lanjut { margin-top: 8px; }
+
 @media (max-width: 768px) {
   :root { --header-h: 62px; }
   .top-header { padding: 0 10px; gap: 6px; }
@@ -636,21 +691,36 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 </head>
 <body>
 
+<!-- ===== NOTIFIKASI LANDSCAPE ===== -->
+<div id="landscape-overlay" class="landscape-overlay" onclick="dismissLandscape()">
+  <div class="rotate-icon">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#050810" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12" y2="18"></line></svg>
+  </div>
+  <h3>Putar Perangkat Anda</h3>
+  <p>Untuk pengalaman terbaik, silakan putar perangkat Anda ke mode <strong>Landscape</strong> (mendatar).</p>
+  <button class="btn-primary btn-lanjut" onclick="event.stopPropagation();dismissLandscape()">Lanjutkan Saja</button>
+</div>
+
 <div id="login-screen" class="login-screen">
   <div class="login-card">
     <div style="text-align:center;">
-      <div class="earth-logo large" style="margin:0 auto;">
+      <div class="earth-logo large" style="margin:0 auto;position:relative;">
+        <div class="shield-pulse"></div>
+        <div class="shield-glow"></div>
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="lgRing" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00D9FF"/><stop offset="100%" stop-color="#A855F7"/></linearGradient>
-            <radialGradient id="lgCore" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="45%" stop-color="#00D9FF"/><stop offset="100%" stop-color="#0EA5E9"/></radialGradient>
+            <linearGradient id="lgShield" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00D9FF"/><stop offset="100%" stop-color="#A855F7"/></linearGradient>
+            <linearGradient id="lgShieldFill" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="rgba(0,217,255,0.25)"/><stop offset="100%" stop-color="rgba(168,85,247,0.25)"/></linearGradient>
           </defs>
-          <circle cx="50" cy="50" r="44" fill="none" stroke="url(#lgRing)" stroke-width="2.2"/>
-          <circle cx="50" cy="50" r="36" fill="none" stroke="#00D9FF" stroke-width="0.9" stroke-dasharray="3 5" opacity="0.55"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="20s" repeatCount="indefinite"/></circle>
-          <circle cx="50" cy="50" r="7" fill="url(#lgCore)"/>
-          <circle cx="50" cy="16" r="3.8" fill="#A855F7"/><circle cx="80" cy="33" r="3.8" fill="#00D9FF"/>
-          <circle cx="80" cy="67" r="3.8" fill="#A855F7"/><circle cx="50" cy="84" r="3.8" fill="#00D9FF"/>
-          <circle cx="20" cy="67" r="3.8" fill="#A855F7"/><circle cx="20" cy="33" r="3.8" fill="#00D9FF"/>
+          <path d="M50 8 L88 24 L88 52 C88 72 70 88 50 94 C30 88 12 72 12 52 L12 24 Z" fill="url(#lgShieldFill)" stroke="url(#lgShield)" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M50 20 L78 32 L78 52 C78 66 64 78 50 83 C36 78 22 66 22 52 L22 32 Z" fill="none" stroke="#00D9FF" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.7">
+            <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="12s" repeatCount="indefinite"/>
+          </path>
+          <circle cx="50" cy="48" r="6" fill="#00D9FF"><animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/></circle>
+          <circle cx="36" cy="36" r="3" fill="#A855F7"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></circle>
+          <circle cx="64" cy="36" r="3" fill="#00D9FF"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></circle>
+          <circle cx="36" cy="64" r="3" fill="#00D9FF"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/></circle>
+          <circle cx="64" cy="64" r="3" fill="#A855F7"><animate attributeName="opacity" values="1;0.5;1" dur="2.5s" repeatCount="indefinite"/></circle>
         </svg>
       </div>
       <h1 class="login-title">BUCIN</h1>
@@ -717,14 +787,16 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   <header class="top-header">
     <div class="header-brand">
       <div class="earth-logo">
+        <div class="shield-pulse"></div>
+        <div class="shield-glow"></div>
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <defs><linearGradient id="lgRing2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00D9FF"/><stop offset="100%" stop-color="#A855F7"/></linearGradient></defs>
-          <circle cx="50" cy="50" r="44" fill="none" stroke="url(#lgRing2)" stroke-width="2.5"/>
-          <circle cx="50" cy="50" r="36" fill="none" stroke="#00D9FF" stroke-width="0.9" stroke-dasharray="3 5" opacity="0.55"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="20s" repeatCount="indefinite"/></circle>
-          <circle cx="50" cy="50" r="7.5" fill="#00D9FF"/>
-          <circle cx="50" cy="16" r="3.8" fill="#A855F7"/><circle cx="80" cy="33" r="3.8" fill="#00D9FF"/>
-          <circle cx="80" cy="67" r="3.8" fill="#A855F7"/><circle cx="50" cy="84" r="3.8" fill="#00D9FF"/>
-          <circle cx="20" cy="67" r="3.8" fill="#A855F7"/><circle cx="20" cy="33" r="3.8" fill="#00D9FF"/>
+          <defs><linearGradient id="lgShield2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00D9FF"/><stop offset="100%" stop-color="#A855F7"/></linearGradient></defs>
+          <path d="M50 8 L88 24 L88 52 C88 72 70 88 50 94 C30 88 12 72 12 52 L12 24 Z" fill="rgba(0,217,255,0.15)" stroke="url(#lgShield2)" stroke-width="2.5" stroke-linejoin="round"/>
+          <circle cx="50" cy="48" r="6" fill="#00D9FF"><animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite"/></circle>
+          <circle cx="36" cy="36" r="3" fill="#A855F7"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></circle>
+          <circle cx="64" cy="36" r="3" fill="#00D9FF"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></circle>
+          <circle cx="36" cy="64" r="3" fill="#00D9FF"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/></circle>
+          <circle cx="64" cy="64" r="3" fill="#A855F7"><animate attributeName="opacity" values="1;0.5;1" dur="2.5s" repeatCount="indefinite"/></circle>
         </svg>
       </div>
       <div>
@@ -1328,7 +1400,10 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
             <div class="opm-temp-list-wrap">
               <table class="opm-temp-list-table"><thead><tr><th style="width:36px;">No</th><th style="width:50px;">Port</th><th style="width:70px;">DBM</th><th style="width:70px;">Tube</th><th style="width:70px;">Kabel</th><th>Status</th></tr></thead><tbody id="opm-temp-list-body"><tr><td colspan="6" class="opm-temp-list-empty">Belum ada port.</td></tr></tbody></table>
             </div>
-            <button type="button" id="btn-opm-submit-data" onclick="submitOpmDataToDb()" class="btn-primary" style="width:100%;justify-content:center;margin-top:14px;">Submit Data</button>
+            <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
+              <button type="button" id="btn-opm-submit-data" onclick="submitOpmDataToDb()" class="btn-primary" style="flex:2;justify-content:center;">Submit Data</button>
+              <button type="button" id="btn-opm-reset" onclick="resetOpmForm()" class="btn-secondary" style="flex:1;justify-content:center;color:#EF4444;border-color:rgba(239,68,68,0.4);">Reset</button>
+            </div>
           </div>
         </div>
         <div id="field-alker" class="hidden">
@@ -1694,7 +1769,7 @@ let selectedPointFilter = 'all';
 let opmRows = []; // daftar baris port OPM yang sedang diinput
 let filterModalMode = 'titik';
 let liveClockInterval = null;
-const SESSION_TIMEOUT_MS = 15 * 60 * 1000;
+const SESSION_TIMEOUT_MS = 5 * 60 * 1000; // 5 menit
 const MAKS_PER_BULAN = 5;
 
 const MENU_LABELS = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan Lapangan', 'OPM-OLS': 'OPM/OLS', 'Joint': 'Joint', 'Handhole': 'Handhole', 'Alker': 'Alker', 'Stok Spare': 'Stok Spare', 'Patch Cord': 'Patch Cord' };
@@ -1948,13 +2023,11 @@ const URUTAN_WARNA_KABEL = ['BIRU','ORANGE','HIJAU','COKELAT','ABU-ABU','PUTIH',
 
 function getWarnaTubeByPort(port) {
   var p = parseInt(port) || 1;
-  // Tube: berubah tiap 12 port. Port 1-12 = Biru, 13-24 = Orange, dst.
   var idx = Math.floor((p - 1) / 12) % 12;
   return URUTAN_WARNA_TUBE[idx] || 'BIRU';
 }
 function getWarnaKabelByPort(port) {
   var p = parseInt(port) || 1;
-  // Kabel: berubah tiap 1 port. Port 1 = Biru, Port 2 = Orange, dst.
   var idx = (p - 1) % 12;
   return URUTAN_WARNA_KABEL[idx] || 'BIRU';
 }
@@ -1975,6 +2048,8 @@ function warnaChipHtml(warna) {
 }
 
 /* ============================================================ OPM — INPUT BARIS DINAMIS ============================================================ */
+/* Sesuai permintaan: hanya 1 kolom DBM yang tampil, 
+   port berurutan dari 1-48, ringkasan di bawah. */
 function renderOpmRows() {
   var wrap = document.getElementById('opm-port-input-list');
   if (!wrap) return;
@@ -1999,7 +2074,6 @@ function renderOpmRows() {
   updateOpmTempList();
 }
 function addOpmRow() {
-  // Cari port berikutnya yang belum ada di opmRows
   var used = opmRows.map(function(r) { return parseInt(r.port); });
   var next = 1;
   while (used.indexOf(next) !== -1) next++;
@@ -2010,7 +2084,6 @@ function addOpmRow() {
 function removeOpmRow(idx) {
   if (idx < 0 || idx >= opmRows.length) return;
   opmRows.splice(idx, 1);
-  // Re-index port agar tetap berurutan
   opmRows.forEach(function(r, i) { r.port = i + 1; });
   renderOpmRows();
 }
@@ -2046,7 +2119,6 @@ function submitOpmDataToDb() {
   if (dari === ke) { showToast('❌ "Dari" dan "Ke" tidak boleh sama!', 'error'); return; }
   var filled = opmRows.filter(function(r) { return r.dbm !== '' && !isNaN(parseFloat(r.dbm)); });
   if (filled.length === 0) { showToast('Isi minimal 1 DBM', 'error'); return; }
-  // Validasi port harus berurutan mulai dari 1
   for (var i = 0; i < filled.length; i++) {
     if (parseInt(filled[i].port) !== i + 1) {
       showToast('❌ Port harus berurutan mulai dari Port 1!', 'error'); return;
@@ -2055,7 +2127,6 @@ function submitOpmDataToDb() {
   var btn = document.getElementById('btn-opm-submit-data'), orig = btn.innerHTML;
   btn.disabled = true; btn.innerHTML = 'Menyimpan...';
 
-  // Jika edit: hapus grup lama dulu
   var preClean = Promise.resolve();
   if (isEdit) {
     var oldData = (appData['OPM-OLS'] || {})[editKey];
@@ -2084,6 +2155,17 @@ function submitOpmDataToDb() {
     showToast('✅ ' + filled.length + ' port disimpan!', 'success');
     opmRows = []; closeModal(); setTimeout(refetchData, 400);
   }).catch(function(err) { showToast(err.message || 'Gagal', 'error'); }).finally(function() { btn.disabled = false; btn.innerHTML = orig; });
+}
+function resetOpmForm() {
+  if (!confirm('Reset semua input OPM?')) return;
+  opmRows = [];
+  document.getElementById('inp-opm-dari').value = '';
+  document.getElementById('inp-opm-ke').value = '';
+  document.getElementById('inp-opm-ukuran').value = '';
+  document.getElementById('inp-opm-ruas').value = '';
+  checkOpmDariKe();
+  renderOpmRows();
+  showToast('Form OPM direset', 'success');
 }
 
 /* ============================================================ NAVIGASI ============================================================ */
@@ -2233,7 +2315,7 @@ function resetSessionTimer() {
       localStorage.removeItem('bucin_session'); currentUser = null;
       document.getElementById('login-screen').classList.remove('hidden');
       document.getElementById('app-shell').classList.add('hidden');
-      showToast('Sesi habis', 'warning');
+      showToast('Sesi habis (5 menit tidak aktif)', 'warning');
     }
   }, SESSION_TIMEOUT_MS);
 }
@@ -3223,13 +3305,11 @@ function submitForm(e) {
     if (!pcType || !pcLength) { showToast('Pilih jenis & panjang', 'error'); return; }
     if (qty < 1) { showToast('Jumlah minimal 1', 'error'); return; }
 
-    // Cari baris yang sudah ada dengan jenis+panjang+gudang sama
     var existingKey = findPatchcordRow(pcType, pcLength, patchcordGudang, null);
     var existingItem = existingKey !== null ? (appData['Patch Cord'] || {})[existingKey] : null;
     var stokSaatIni = existingItem ? (parseInt(existingItem.qty) || 0) : 0;
 
     if (isEdit) {
-      // Mode edit dari tabel
       data.pcType = pcType.toUpperCase(); data.pcLength = pcLength; data.gudang = selectedGudang;
       data.qty = qty; data.notes = notes; data.keterangan = notes;
       data.lastUpdate = tglMasuk;
@@ -3246,9 +3326,7 @@ function submitForm(e) {
       return;
     }
 
-    // Mode baru: masuk atau keluar
     if (patchcordAction === 'masuk') {
-      // BARANG MASUK: tambah stok
       var newQty = stokSaatIni + qty;
       data.pcType = pcType.toUpperCase(); data.pcLength = pcLength; data.gudang = patchcordGudang;
       data.qty = newQty; data.notes = notes; data.keterangan = notes;
@@ -3268,7 +3346,6 @@ function submitForm(e) {
       }).catch(function(err) { showToast(err.message || 'Gagal simpan', 'error'); }).finally(function() { isSubmitting = false; btn.disabled = false; btn.textContent = 'Simpan Data'; });
       return;
     } else {
-      // BARANG KELUAR: kurangi stok, tidak menambah baris baru
       if (existingKey === null) { showToast('❌ Jenis & panjang ini belum ada stok di ' + patchcordGudang, 'error'); return; }
       if (stokSaatIni < qty) { showToast('❌ Stok tidak cukup! Tersedia: ' + stokSaatIni, 'error'); return; }
       var newQtyKeluar = stokSaatIni - qty;
@@ -3450,7 +3527,6 @@ function openForm(editData, editKey) {
       document.getElementById('field-stock').classList.add('hidden');
       document.getElementById('patchcord-gudang-display').textContent = patchcordGudang || selectedGudang || 'Belum dipilih';
       document.getElementById('patchcord-action-display').textContent = 'Aksi: ' + (patchcordAction === 'masuk' ? 'BARANG MASUK (menambah stok)' : 'BARANG KELUAR (mengurangi stok)');
-      // Jika edit, isi tanggal masuk
       var tglEl = document.getElementById('inp-pc-tgl-masuk');
       if (editData && editData.lastUpdate) tglEl.value = editData.lastUpdate;
       else tglEl.valueAsDate = new Date();
@@ -3540,7 +3616,6 @@ function filterGudang(g) {
 }
 function handleAddClick() {
   if (currentCategory === 'Patch Cord') {
-    // Khusus Patch Cord: buka modal pilih gudang + aksi (masuk/keluar)
     patchcordGudang = ''; patchcordAction = 'masuk';
     document.querySelectorAll('.patchcord-gudang-card').forEach(function(c) { c.classList.remove('selected'); });
     document.querySelectorAll('.patchcord-action-btn').forEach(function(b) { b.classList.toggle('active', b.dataset.action === 'masuk'); });
@@ -3974,6 +4049,26 @@ function loadSettings() {
   }).catch(function() { applyFontSettings(); });
 }
 
+/* ============================================================ NOTIFIKASI LANDSCAPE ============================================================ */
+function checkLandscape() {
+  var overlay = document.getElementById('landscape-overlay');
+  if (!overlay) return;
+  var isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  var isPortrait = window.innerHeight > window.innerWidth;
+  if (isMobile && isPortrait && !sessionStorage.getItem('landscape_dismissed')) {
+    overlay.classList.add('show');
+  } else {
+    overlay.classList.remove('show');
+  }
+}
+function dismissLandscape() {
+  var overlay = document.getElementById('landscape-overlay');
+  if (overlay) overlay.classList.remove('show');
+  sessionStorage.setItem('landscape_dismissed', '1');
+}
+window.addEventListener('resize', debounce(checkLandscape, 200));
+window.addEventListener('orientationchange', function() { setTimeout(checkLandscape, 300); });
+
 /* ============================================================ EVENT LISTENERS ============================================================ */
 function setupEventListeners() {
   var lf = document.getElementById('login-form'); if (lf) lf.addEventListener('submit', handleLogin);
@@ -4074,6 +4169,7 @@ document.addEventListener('DOMContentLoaded', function() {
   checkFirebaseConnection().then(function(ok) { if (ok) ensureDefaultUser(); });
   applyAutoUppercase(); renderOpmRows();
   startLiveClock();
+  checkLandscape();
   try {
     var savedSort = localStorage.getItem('bucin_sort');
     if (savedSort) { currentSort = savedSort; var sortSel = document.getElementById('sort-select'); if (sortSel) sortSel.value = savedSort; }
