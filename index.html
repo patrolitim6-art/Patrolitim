@@ -524,6 +524,25 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .landscape-overlay p { color: var(--text-muted); font-size: 14px; max-width: 320px; line-height: 1.6; margin: 0; }
 .landscape-overlay .btn-lanjut { margin-top: 8px; }
 
+/* === GUDANG/PATCHCORD CARD SELECTED STATE (FIX) === */
+.gudang-card.selected,
+.patchcord-gudang-card.selected {
+  border-color: var(--primary-cyan) !important;
+  background: rgba(0, 217, 255, 0.18) !important;
+  color: var(--primary-cyan) !important;
+  font-weight: 800 !important;
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.25), 0 4px 16px rgba(0, 217, 255, 0.3);
+  transform: translateY(-1px);
+}
+.spare-action-btn.active,
+.patchcord-action-btn.active {
+  background: var(--tech-gradient) !important;
+  color: var(--text-on-accent) !important;
+  border-color: transparent !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.35);
+}
+
 @media (max-width: 768px) {
   :root { --header-h: 62px; }
   .top-header { padding: 0 10px; gap: 6px; }
@@ -1264,14 +1283,14 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       <h3 style="margin:0;font-weight:800;color:var(--primary-cyan);">Pilih Gudang</h3>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0;">
-      <div class="gudang-card" data-gudang="CLS MAMI" onclick="selectGudang(this)" style="padding:16px;border:1px solid var(--border-subtle);border-radius:14px;cursor:pointer;text-align:center;background:var(--surface-1);color:var(--text-main);">CLS MAMI</div>
-      <div class="gudang-card" data-gudang="DC MANADO CENTRUM" onclick="selectGudang(this)" style="padding:16px;border:1px solid var(--border-subtle);border-radius:14px;cursor:pointer;text-align:center;background:var(--surface-1);color:var(--text-main);">DC MANADO</div>
-      <div class="gudang-card" data-gudang="CLS KAUDITAN" onclick="selectGudang(this)" style="padding:16px;border:1px solid var(--border-subtle);border-radius:14px;cursor:pointer;text-align:center;background:var(--surface-1);color:var(--text-main);">CLS KAUDITAN</div>
+      <div class="gudang-card" data-gudang="CLS MAMI" onclick="selectGudang(this)" style="padding:16px;border:1px solid var(--border-subtle);border-radius:14px;cursor:pointer;text-align:center;background:var(--surface-1);color:var(--text-main);transition:all 0.2s;">CLS MAMI</div>
+      <div class="gudang-card" data-gudang="DC MANADO CENTRUM" onclick="selectGudang(this)" style="padding:16px;border:1px solid var(--border-subtle);border-radius:14px;cursor:pointer;text-align:center;background:var(--surface-1);color:var(--text-main);transition:all 0.2s;">DC MANADO</div>
+      <div class="gudang-card" data-gudang="CLS KAUDITAN" onclick="selectGudang(this)" style="padding:16px;border:1px solid var(--border-subtle);border-radius:14px;cursor:pointer;text-align:center;background:var(--surface-1);color:var(--text-main);transition:all 0.2s;">CLS KAUDITAN</div>
     </div>
     <div id="spare-action-container" class="hidden" style="margin:12px 0;">
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="spare-action-btn active" data-action="tambah" onclick="selectSpareAction('tambah')" style="flex:1;min-width:120px;padding:12px;border-radius:12px;border:1px solid var(--border-subtle);background:var(--surface-1);cursor:pointer;font-weight:600;color:var(--text-main);font-family:inherit;">Tambah Stok</button>
-        <button class="spare-action-btn" data-action="update" onclick="selectSpareAction('update')" style="flex:1;min-width:120px;padding:12px;border-radius:12px;border:1px solid var(--border-subtle);background:var(--surface-1);cursor:pointer;font-weight:600;color:var(--text-main);font-family:inherit;">Update Pemakaian</button>
+        <button class="spare-action-btn active" data-action="tambah" onclick="selectSpareAction('tambah')" style="flex:1;min-width:120px;padding:12px;border-radius:12px;border:1px solid var(--border-subtle);background:var(--surface-1);cursor:pointer;font-weight:600;color:var(--text-main);font-family:inherit;transition:all 0.2s;">Tambah Stok</button>
+        <button class="spare-action-btn" data-action="update" onclick="selectSpareAction('update')" style="flex:1;min-width:120px;padding:12px;border-radius:12px;border:1px solid var(--border-subtle);background:var(--surface-1);cursor:pointer;font-weight:600;color:var(--text-main);font-family:inherit;transition:all 0.2s;">Update Pemakaian</button>
       </div>
     </div>
     <div style="display:flex;gap:10px;margin-top:8px;">
@@ -1289,15 +1308,15 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       <h3 style="margin:0;font-weight:800;color:var(--primary-cyan);">Pilih Gudang & Aksi</h3>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0;">
-      <div class="patchcord-gudang-card" data-gudang="CLS MAMI" onclick="selectPatchcordGudang(this)" style="padding:16px;border:1px solid var(--border-subtle);border-radius:14px;cursor:pointer;text-align:center;background:var(--surface-1);color:var(--text-main);">CLS MAMI</div>
-      <div class="patchcord-gudang-card" data-gudang="DC MANADO CENTRUM" onclick="selectPatchcordGudang(this)" style="padding:16px;border:1px solid var(--border-subtle);border-radius:14px;cursor:pointer;text-align:center;background:var(--surface-1);color:var(--text-main);">DC MANADO</div>
-      <div class="patchcord-gudang-card" data-gudang="CLS KAUDITAN" onclick="selectPatchcordGudang(this)" style="padding:16px;border:1px solid var(--border-subtle);border-radius:14px;cursor:pointer;text-align:center;background:var(--surface-1);color:var(--text-main);">CLS KAUDITAN</div>
+      <div class="patchcord-gudang-card" data-gudang="CLS MAMI" onclick="selectPatchcordGudang(this)" style="padding:16px;border:1px solid var(--border-subtle);border-radius:14px;cursor:pointer;text-align:center;background:var(--surface-1);color:var(--text-main);transition:all 0.2s;">CLS MAMI</div>
+      <div class="patchcord-gudang-card" data-gudang="DC MANADO CENTRUM" onclick="selectPatchcordGudang(this)" style="padding:16px;border:1px solid var(--border-subtle);border-radius:14px;cursor:pointer;text-align:center;background:var(--surface-1);color:var(--text-main);transition:all 0.2s;">DC MANADO</div>
+      <div class="patchcord-gudang-card" data-gudang="CLS KAUDITAN" onclick="selectPatchcordGudang(this)" style="padding:16px;border:1px solid var(--border-subtle);border-radius:14px;cursor:pointer;text-align:center;background:var(--surface-1);color:var(--text-main);transition:all 0.2s;">CLS KAUDITAN</div>
     </div>
     <div style="margin:14px 0;">
       <div style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Pilih Aksi</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="patchcord-action-btn active" data-action="masuk" onclick="selectPatchcordAction('masuk')" style="flex:1;min-width:120px;padding:12px;border-radius:12px;border:1px solid var(--border-subtle);background:var(--surface-1);cursor:pointer;font-weight:600;color:var(--text-main);font-family:inherit;"><i data-lucide="log-in" style="width:14px;vertical-align:middle;margin-right:4px;"></i> Barang Masuk</button>
-        <button class="patchcord-action-btn" data-action="keluar" onclick="selectPatchcordAction('keluar')" style="flex:1;min-width:120px;padding:12px;border-radius:12px;border:1px solid var(--border-subtle);background:var(--surface-1);cursor:pointer;font-weight:600;color:var(--text-main);font-family:inherit;"><i data-lucide="log-out" style="width:14px;vertical-align:middle;margin-right:4px;"></i> Barang Keluar</button>
+        <button class="patchcord-action-btn active" data-action="masuk" onclick="selectPatchcordAction('masuk')" style="flex:1;min-width:120px;padding:12px;border-radius:12px;border:1px solid var(--border-subtle);background:var(--surface-1);cursor:pointer;font-weight:600;color:var(--text-main);font-family:inherit;transition:all 0.2s;"><i data-lucide="log-in" style="width:14px;vertical-align:middle;margin-right:4px;"></i> Barang Masuk</button>
+        <button class="patchcord-action-btn" data-action="keluar" onclick="selectPatchcordAction('keluar')" style="flex:1;min-width:120px;padding:12px;border-radius:12px;border:1px solid var(--border-subtle);background:var(--surface-1);cursor:pointer;font-weight:600;color:var(--text-main);font-family:inherit;transition:all 0.2s;"><i data-lucide="log-out" style="width:14px;vertical-align:middle;margin-right:4px;"></i> Barang Keluar</button>
       </div>
     </div>
     <div style="display:flex;gap:10px;margin-top:8px;">
@@ -1390,10 +1409,13 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
           <div class="opm-step-card">
             <div class="opm-step-title">Step 2 — Isi DBM Port</div>
             <div style="background:rgba(0,217,255,0.06);padding:10px 12px;border-radius:10px;border:1px solid var(--border-glow);margin-bottom:12px;font-size:var(--app-font-size-xs);color:var(--text-muted);">
-              Port otomatis berurutan dari <strong style="color:var(--primary-cyan);">Port 1</strong> hingga <strong style="color:var(--primary-cyan);">Port 48</strong>. Warna Tube & Kabel otomatis.
+              Masukkan nilai DBM secara berurutan mulai dari <strong style="color:var(--primary-cyan);">Port 1</strong> hingga <strong style="color:var(--primary-cyan);">Port 48</strong>. Kosongkan jika tidak digunakan. Warna Tube & Kabel otomatis.
             </div>
-            <div id="opm-port-input-list" style="display:grid;gap:8px;max-height:400px;overflow-y:auto;padding-right:4px;"></div>
-            <button type="button" onclick="addOpmRow()" class="btn-secondary" style="width:100%;justify-content:center;margin-top:10px;">+ Tambah Baris Port</button>
+            <div id="opm-port-input-list" style="display:grid;gap:6px;max-height:360px;overflow-y:auto;padding-right:4px;"></div>
+            <div style="display:flex;gap:8px;margin-top:10px;">
+              <button type="button" onclick="addOpmRow()" class="btn-secondary" style="flex:1;justify-content:center;font-size:var(--app-font-size-xs);min-height:40px;">+ Tambah 1 Port</button>
+              <button type="button" onclick="fillOpmAllPorts()" class="btn-secondary" style="flex:1;justify-content:center;font-size:var(--app-font-size-xs);min-height:40px;">Isi Semua 48 Port</button>
+            </div>
           </div>
           <div class="opm-step-card">
             <div class="opm-step-title">Step 3 — Ringkasan <span id="opm-temp-count" style="margin-left:auto;background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-size:var(--app-font-size-xs);">0 Port</span></div>
@@ -1766,10 +1788,10 @@ let currentFilteredCount = 0;
 let usersListData = {};
 let usersListListenerAttached = false;
 let selectedPointFilter = 'all';
-let opmRows = []; // daftar baris port OPM yang sedang diinput
+let opmRows = [];
 let filterModalMode = 'titik';
 let liveClockInterval = null;
-const SESSION_TIMEOUT_MS = 5 * 60 * 1000; // 5 menit
+const SESSION_TIMEOUT_MS = 5 * 60 * 1000;
 const MAKS_PER_BULAN = 5;
 
 const MENU_LABELS = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan Lapangan', 'OPM-OLS': 'OPM/OLS', 'Joint': 'Joint', 'Handhole': 'Handhole', 'Alker': 'Alker', 'Stok Spare': 'Stok Spare', 'Patch Cord': 'Patch Cord' };
@@ -2047,33 +2069,38 @@ function warnaChipHtml(warna) {
   return '<span class="warna-chip" style="background:' + hex + ';color:' + txt + ';border-color:' + hex + ';">' + escapeHtml(warna) + '</span>';
 }
 
-/* ============================================================ OPM — INPUT BARIS DINAMIS ============================================================ */
-/* Sesuai permintaan: hanya 1 kolom DBM yang tampil, 
-   port berurutan dari 1-48, ringkasan di bawah. */
+/* ============================================================ OPM — INPUT BARIS DINAMIS (1 KOLOM DBM BERURUTAN) ============================================================ */
+/* 
+   REVISI: Hanya 1 kolom DBM yang tampil. Port otomatis berurutan 1-48.
+   Input DBM diisi satu per satu, ringkasan otomatis muncul di bawah.
+*/
 function renderOpmRows() {
   var wrap = document.getElementById('opm-port-input-list');
   if (!wrap) return;
   var html = '';
-  opmRows.forEach(function(r, idx) {
-    var tube = getWarnaTubeByPort(r.port);
-    var kabel = getWarnaKabelByPort(r.port);
+  // Selalu tampilkan semua 48 port, tapi hanya yang terisi yang dianggap valid
+  for (var port = 1; port <= 48; port++) {
+    var r = opmRows.find(function(x) { return parseInt(x.port) === port; });
+    var dbmVal = r ? r.dbm : '';
+    var tube = getWarnaTubeByPort(port);
+    var kabel = getWarnaKabelByPort(port);
     var tubeHex = WARNA_KABEL_HEX[tube] || '#00D9FF';
     var kabelHex = WARNA_KABEL_HEX[kabel] || '#00D9FF';
     var tubeTxt = getTextColorForBg(tubeHex);
     var kabelTxt = getTextColorForBg(kabelHex);
-    html += '<div style="display:grid;grid-template-columns:60px 1fr 60px 60px 36px;gap:8px;align-items:center;background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:10px;padding:8px 10px;">';
-    html += '<div style="text-align:center;font-family:Orbitron,sans-serif;font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);">' + r.port + '</div>';
-    html += '<input type="number" step="0.01" class="field-control" placeholder="DBM" value="' + (r.dbm !== '' ? r.dbm : '') + '" onchange="updateOpmRow(' + idx + ', this.value)" style="min-height:36px;font-size:var(--app-font-size-sm);">';
-    html += '<span class="warna-chip" style="background:' + tubeHex + ';color:' + tubeTxt + ';border-color:' + tubeHex + ';text-align:center;">' + tube + '</span>';
-    html += '<span class="warna-chip" style="background:' + kabelHex + ';color:' + kabelTxt + ';border-color:' + kabelHex + ';text-align:center;">' + kabel + '</span>';
-    html += '<button type="button" class="icon-btn delete" onclick="removeOpmRow(' + idx + ')" style="width:28px;height:28px;min-height:28px;font-size:14px;">×</button>';
+    var isFilled = dbmVal !== '' && !isNaN(parseFloat(dbmVal));
+    html += '<div style="display:grid;grid-template-columns:52px 1fr 52px 52px;gap:6px;align-items:center;background:' + (isFilled ? 'rgba(0,217,255,0.08)' : 'var(--surface-3)') + ';border:1px solid ' + (isFilled ? 'var(--primary-cyan)' : 'var(--border-subtle)') + ';border-radius:8px;padding:6px 8px;">';
+    html += '<div style="text-align:center;font-family:Orbitron,sans-serif;font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);">' + port + '</div>';
+    html += '<input type="number" step="0.01" class="field-control" placeholder="DBM" value="' + escapeAttr(dbmVal) + '" data-port="' + port + '" oninput="updateOpmRowByPort(' + port + ', this.value)" style="min-height:34px;font-size:var(--app-font-size-sm);padding:0 10px;">';
+    html += '<span class="warna-chip" style="background:' + tubeHex + ';color:' + tubeTxt + ';border-color:' + tubeHex + ';text-align:center;font-size:9px;padding:2px 4px;">' + tube + '</span>';
+    html += '<span class="warna-chip" style="background:' + kabelHex + ';color:' + kabelTxt + ';border-color:' + kabelHex + ';text-align:center;font-size:9px;padding:2px 4px;">' + kabel + '</span>';
     html += '</div>';
-  });
-  if (html === '') html = '<div style="padding:16px;text-align:center;color:var(--text-dim);font-size:var(--app-font-size-xs);font-style:italic;">Belum ada baris. Klik "+ Tambah Baris Port".</div>';
+  }
   wrap.innerHTML = html;
   updateOpmTempList();
 }
 function addOpmRow() {
+  // Cari port berikutnya yang belum ada di opmRows
   var used = opmRows.map(function(r) { return parseInt(r.port); });
   var next = 1;
   while (used.indexOf(next) !== -1) next++;
@@ -2081,11 +2108,39 @@ function addOpmRow() {
   opmRows.push({ port: next, dbm: '' });
   renderOpmRows();
 }
+function fillOpmAllPorts() {
+  // Isi semua port 1-48 jika belum ada
+  for (var p = 1; p <= 48; p++) {
+    if (!opmRows.find(function(x) { return parseInt(x.port) === p; })) {
+      opmRows.push({ port: p, dbm: '' });
+    }
+  }
+  opmRows.sort(function(a, b) { return parseInt(a.port) - parseInt(b.port); });
+  renderOpmRows();
+  showToast('Semua 48 port siap diisi', 'success');
+}
 function removeOpmRow(idx) {
   if (idx < 0 || idx >= opmRows.length) return;
   opmRows.splice(idx, 1);
   opmRows.forEach(function(r, i) { r.port = i + 1; });
   renderOpmRows();
+}
+function updateOpmRowByPort(port, val) {
+  var existing = opmRows.find(function(x) { return parseInt(x.port) === parseInt(port); });
+  if (existing) {
+    existing.dbm = val;
+  } else {
+    opmRows.push({ port: parseInt(port), dbm: val });
+  }
+  // Update border highlight tanpa render ulang penuh (agar fokus input tidak hilang)
+  var inputEl = document.querySelector('#opm-port-input-list input[data-port="' + port + '"]');
+  if (inputEl) {
+    var parent = inputEl.parentElement;
+    var isFilled = val !== '' && !isNaN(parseFloat(val));
+    parent.style.background = isFilled ? 'rgba(0,217,255,0.08)' : 'var(--surface-3)';
+    parent.style.borderColor = isFilled ? 'var(--primary-cyan)' : 'var(--border-subtle)';
+  }
+  updateOpmTempList();
 }
 function updateOpmRow(idx, val) {
   if (idx < 0 || idx >= opmRows.length) return;
@@ -2096,7 +2151,8 @@ function updateOpmTempList() {
   var tbody = document.getElementById('opm-temp-list-body');
   var countEl = document.getElementById('opm-temp-count');
   if (!tbody) return;
-  var filled = opmRows.filter(function(r) { return r.dbm !== '' && !isNaN(parseFloat(r.dbm)); });
+  var filled = opmRows.filter(function(r) { return r.dbm !== '' && r.dbm !== undefined && !isNaN(parseFloat(r.dbm)); });
+  filled.sort(function(a, b) { return parseInt(a.port) - parseInt(b.port); });
   if (countEl) countEl.textContent = filled.length + ' Port';
   if (filled.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="opm-temp-list-empty">Belum ada port terisi.</td></tr>'; return; }
   var html = '';
@@ -2117,7 +2173,8 @@ function submitOpmDataToDb() {
   var isEdit = !!editKey;
   if (!dateVal || !dari || !ke || !nilaiKalibrasi || !ruas) { showToast('Lengkapi Step 1', 'error'); return; }
   if (dari === ke) { showToast('❌ "Dari" dan "Ke" tidak boleh sama!', 'error'); return; }
-  var filled = opmRows.filter(function(r) { return r.dbm !== '' && !isNaN(parseFloat(r.dbm)); });
+  var filled = opmRows.filter(function(r) { return r.dbm !== '' && r.dbm !== undefined && !isNaN(parseFloat(r.dbm)); });
+  filled.sort(function(a, b) { return parseInt(a.port) - parseInt(b.port); });
   if (filled.length === 0) { showToast('Isi minimal 1 DBM', 'error'); return; }
   for (var i = 0; i < filled.length; i++) {
     if (parseInt(filled[i].port) !== i + 1) {
