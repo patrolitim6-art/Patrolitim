@@ -248,7 +248,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .login-error { color: #EC4899; font-weight: 600; text-align: center; padding: 8px 12px; background: rgba(236, 72, 153, 0.12); border-radius: 8px; margin-bottom: 12px; display: none; border: 1px solid rgba(236, 72, 153, 0.3); font-size: var(--app-font-size-xs); }
 .login-error.show { display: block; }
 
-/* === LOGO TAMENG ANIMASI === */
+/* === LOGO BUCIN (gambar) === */
 .earth-logo {
   width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0;
   display: grid; place-items: center; padding: 4px;
@@ -257,7 +257,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   box-shadow: 0 0 18px rgba(0, 217, 255, 0.55);
   position: relative; overflow: hidden;
 }
-.earth-logo svg { width: 100%; height: 100%; display: block; position: relative; z-index: 2; }
+.earth-logo img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 10px; position: relative; z-index: 2; }
 .earth-logo .shield-pulse {
   position: absolute; inset: -4px; border-radius: 50%;
   border: 2px solid rgba(0, 217, 255, 0.4);
@@ -475,6 +475,111 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .opm-warning { display: none; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.5); color: #F59E0B; padding: 10px 14px; border-radius: 10px; font-weight: 600; margin-top: 10px; align-items: center; gap: 8px; font-size: var(--app-font-size-sm); }
 .opm-warning.show { display: flex; }
 
+/* === OPM Sequential Input === */
+.opm-current-port-box {
+  background: linear-gradient(135deg, rgba(0,217,255,0.14), rgba(168,85,247,0.14));
+  border: 2px solid var(--primary-cyan);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+.opm-current-port-box .opm-current-port-num {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 48px;
+  line-height: 1;
+  background: var(--tech-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.opm-current-port-box .opm-current-port-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.opm-current-port-box .opm-current-port-hint {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+.opm-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}
+.opm-input-row input {
+  flex: 1;
+  min-height: 52px;
+  font-size: 20px;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+.opm-color-preview {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.opm-color-preview .opm-color-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.opm-color-preview .opm-color-item .opm-color-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+.opm-submitted-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.opm-submitted-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: rgba(0,217,255,0.06);
+  border: 1px solid var(--border-glow);
+  border-radius: 8px;
+  font-size: var(--app-font-size-xs);
+}
+.opm-submitted-item .opm-sub-port {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 800;
+  color: var(--primary-cyan);
+  min-width: 32px;
+  text-align: center;
+}
+.opm-submitted-item .opm-sub-dbm {
+  font-weight: 700;
+  color: var(--text-main);
+  min-width: 56px;
+  text-align: center;
+}
+.opm-submitted-item .opm-sub-colors {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
 .user-list-item, .kml-list-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; flex-wrap: wrap; }
 .user-list-item.suspended { opacity: 0.7; border-color: rgba(239, 68, 68, 0.4); }
 .user-list-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--tech-gradient); display: grid; place-items: center; color: var(--text-on-accent); font-weight: 900; font-size: var(--app-font-size); flex-shrink: 0; }
@@ -524,7 +629,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .landscape-overlay p { color: var(--text-muted); font-size: 14px; max-width: 320px; line-height: 1.6; margin: 0; }
 .landscape-overlay .btn-lanjut { margin-top: 8px; }
 
-/* === GUDANG/PATCHCORD CARD SELECTED STATE (FIX) === */
+/* === GUDANG/PATCHCORD CARD SELECTED STATE === */
 .gudang-card.selected,
 .patchcord-gudang-card.selected {
   border-color: var(--primary-cyan) !important;
@@ -661,6 +766,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
   .maps-popup-card { max-width: 92vw; }
   .maps-popup-body { padding: 12px; }
+
+  .opm-current-port-box .opm-current-port-num { font-size: 36px; }
 }
 
 @media (max-width: 420px) {
@@ -705,6 +812,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .telin-logo-login { height: 30px; }
 
   .ytd-compare-grid-5 { grid-template-columns: repeat(2, 1fr); }
+  .opm-current-port-box .opm-current-port-num { font-size: 30px; }
 }
 </style>
 </head>
@@ -726,21 +834,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       <div class="earth-logo large" style="margin:0 auto;position:relative;">
         <div class="shield-pulse"></div>
         <div class="shield-glow"></div>
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="lgShield" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00D9FF"/><stop offset="100%" stop-color="#A855F7"/></linearGradient>
-            <linearGradient id="lgShieldFill" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="rgba(0,217,255,0.25)"/><stop offset="100%" stop-color="rgba(168,85,247,0.25)"/></linearGradient>
-          </defs>
-          <path d="M50 8 L88 24 L88 52 C88 72 70 88 50 94 C30 88 12 72 12 52 L12 24 Z" fill="url(#lgShieldFill)" stroke="url(#lgShield)" stroke-width="2.5" stroke-linejoin="round"/>
-          <path d="M50 20 L78 32 L78 52 C78 66 64 78 50 83 C36 78 22 66 22 52 L22 32 Z" fill="none" stroke="#00D9FF" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.7">
-            <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="12s" repeatCount="indefinite"/>
-          </path>
-          <circle cx="50" cy="48" r="6" fill="#00D9FF"><animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/></circle>
-          <circle cx="36" cy="36" r="3" fill="#A855F7"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></circle>
-          <circle cx="64" cy="36" r="3" fill="#00D9FF"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></circle>
-          <circle cx="36" cy="64" r="3" fill="#00D9FF"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/></circle>
-          <circle cx="64" cy="64" r="3" fill="#A855F7"><animate attributeName="opacity" values="1;0.5;1" dur="2.5s" repeatCount="indefinite"/></circle>
-        </svg>
+        <img src="logo_bucin.png" alt="BUCIN">
       </div>
       <h1 class="login-title">BUCIN</h1>
       <p class="login-subtitle">Sistem Cegah Insiden Network</p>
@@ -808,15 +902,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       <div class="earth-logo">
         <div class="shield-pulse"></div>
         <div class="shield-glow"></div>
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <defs><linearGradient id="lgShield2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00D9FF"/><stop offset="100%" stop-color="#A855F7"/></linearGradient></defs>
-          <path d="M50 8 L88 24 L88 52 C88 72 70 88 50 94 C30 88 12 72 12 52 L12 24 Z" fill="rgba(0,217,255,0.15)" stroke="url(#lgShield2)" stroke-width="2.5" stroke-linejoin="round"/>
-          <circle cx="50" cy="48" r="6" fill="#00D9FF"><animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite"/></circle>
-          <circle cx="36" cy="36" r="3" fill="#A855F7"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></circle>
-          <circle cx="64" cy="36" r="3" fill="#00D9FF"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></circle>
-          <circle cx="36" cy="64" r="3" fill="#00D9FF"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/></circle>
-          <circle cx="64" cy="64" r="3" fill="#A855F7"><animate attributeName="opacity" values="1;0.5;1" dur="2.5s" repeatCount="indefinite"/></circle>
-        </svg>
+        <img src="logo_bucin.png" alt="BUCIN">
       </div>
       <div>
         <div class="brand-text">BUCIN</div>
@@ -1119,7 +1205,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
           <div><span class="label" id="stok-label-2">Ready</span><div class="value masuk" id="total-masuk-value">0</div></div>
           <div><span class="label" id="stok-label-3">Out</span><div class="value keluar" id="total-keluar-value">0</div></div>
         </div>
-        <div class="gudang-tabs">
+        <div class="gudang-tabs" id="gudang-tabs-container">
           <button class="gudang-tab active" data-gudang="all" onclick="filterGudang('all')">Semua Gudang</button>
           <button class="gudang-tab" data-gudang="CLS MAMI" onclick="filterGudang('CLS MAMI')">CLS MAMI</button>
           <button class="gudang-tab" data-gudang="DC MANADO CENTRUM" onclick="filterGudang('DC MANADO CENTRUM')">DC MANADO</button>
@@ -1392,7 +1478,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
           <div id="patchcord-saldo-info" style="margin-top:10px;padding:10px 14px;background:rgba(0,217,255,0.06);border:1px solid var(--border-glow);border-radius:10px;font-size:var(--app-font-size-xs);color:var(--text-muted);display:none;"><strong>Stok Saat Ini:</strong> <span id="patchcord-saldo-current" style="color:var(--primary-cyan);font-family:'Orbitron',sans-serif;font-weight:800;">0</span></div>
           <div style="margin-top:12px;"><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Keterangan</label><textarea id="inp-notes-patch" class="field-control" rows="2" style="resize:none;"></textarea></div>
         </div>
-        <!-- FORM OPM -->
+        <!-- FORM OPM (Sequential) -->
         <div id="field-opm" class="hidden">
           <div class="opm-step-card">
             <div class="opm-step-title">Step 1 — Info Utama</div>
@@ -1407,24 +1493,38 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
             <div id="opm-warning" class="opm-warning"><span>"Dari" dan "Ke" tidak boleh sama!</span></div>
           </div>
           <div class="opm-step-card">
-            <div class="opm-step-title">Step 2 — Isi DBM Port</div>
-            <div style="background:rgba(0,217,255,0.06);padding:10px 12px;border-radius:10px;border:1px solid var(--border-glow);margin-bottom:12px;font-size:var(--app-font-size-xs);color:var(--text-muted);">
-              Masukkan nilai DBM secara berurutan mulai dari <strong style="color:var(--primary-cyan);">Port 1</strong> hingga <strong style="color:var(--primary-cyan);">Port 48</strong>. Kosongkan jika tidak digunakan. Warna Tube & Kabel otomatis.
+            <div class="opm-step-title">Step 2 — Input DBM Port <span id="opm-current-port-badge" style="margin-left:auto;background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-size:var(--app-font-size-xs);">Port 1</span></div>
+            <div class="opm-current-port-box">
+              <div class="opm-current-port-label">Port Saat Ini</div>
+              <div class="opm-current-port-num" id="opm-current-port-num">1</div>
+              <div class="opm-current-port-hint">Masukkan nilai DBM lalu tekan <strong style="color:var(--primary-cyan);">Submit Port</strong></div>
             </div>
-            <div id="opm-port-input-list" style="display:grid;gap:6px;max-height:360px;overflow-y:auto;padding-right:4px;"></div>
-            <div style="display:flex;gap:8px;margin-top:10px;">
-              <button type="button" onclick="addOpmRow()" class="btn-secondary" style="flex:1;justify-content:center;font-size:var(--app-font-size-xs);min-height:40px;">+ Tambah 1 Port</button>
-              <button type="button" onclick="fillOpmAllPorts()" class="btn-secondary" style="flex:1;justify-content:center;font-size:var(--app-font-size-xs);min-height:40px;">Isi Semua 48 Port</button>
+            <div class="opm-color-preview">
+              <div class="opm-color-item">
+                <div class="opm-color-label">Tube</div>
+                <div id="opm-current-tube-chip"></div>
+              </div>
+              <div class="opm-color-item">
+                <div class="opm-color-label">Kabel</div>
+                <div id="opm-current-kabel-chip"></div>
+              </div>
+            </div>
+            <div class="opm-input-row">
+              <input type="number" step="0.01" id="opm-dbm-input" class="field-control" placeholder="Nilai DBM" autocomplete="off">
+              <button type="button" id="btn-opm-submit-port" class="btn-primary" style="min-height:52px;min-width:120px;padding:0 20px;" onclick="submitOpmPort()">Submit Port</button>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+              <button type="button" class="btn-secondary" style="flex:1;min-height:38px;font-size:var(--app-font-size-xs);" onclick="skipOpmPort()">Lewati Port (Kosong)</button>
+              <button type="button" class="btn-secondary" style="flex:1;min-height:38px;font-size:var(--app-font-size-xs);color:#EF4444;border-color:rgba(239,68,68,0.4);" onclick="resetOpmForm()">Reset Semua</button>
             </div>
           </div>
           <div class="opm-step-card">
-            <div class="opm-step-title">Step 3 — Ringkasan <span id="opm-temp-count" style="margin-left:auto;background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-size:var(--app-font-size-xs);">0 Port</span></div>
-            <div class="opm-temp-list-wrap">
-              <table class="opm-temp-list-table"><thead><tr><th style="width:36px;">No</th><th style="width:50px;">Port</th><th style="width:70px;">DBM</th><th style="width:70px;">Tube</th><th style="width:70px;">Kabel</th><th>Status</th></tr></thead><tbody id="opm-temp-list-body"><tr><td colspan="6" class="opm-temp-list-empty">Belum ada port.</td></tr></tbody></table>
+            <div class="opm-step-title">Step 3 — Ringkasan Port <span id="opm-temp-count" style="margin-left:auto;background:rgba(0,217,255,0.15);color:var(--primary-cyan);padding:2px 10px;border-radius:99px;font-size:var(--app-font-size-xs);">0 Port</span></div>
+            <div class="opm-submitted-list" id="opm-submitted-list">
+              <div style="padding:16px;text-align:center;color:var(--text-dim);font-size:var(--app-font-size-xs);font-style:italic;">Belum ada port tersubmit.</div>
             </div>
             <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
-              <button type="button" id="btn-opm-submit-data" onclick="submitOpmDataToDb()" class="btn-primary" style="flex:2;justify-content:center;">Submit Data</button>
-              <button type="button" id="btn-opm-reset" onclick="resetOpmForm()" class="btn-secondary" style="flex:1;justify-content:center;color:#EF4444;border-color:rgba(239,68,68,0.4);">Reset</button>
+              <button type="button" id="btn-opm-submit-data" onclick="submitOpmDataToDb()" class="btn-primary" style="flex:2;justify-content:center;">Submit Data ke Database</button>
             </div>
           </div>
         </div>
@@ -1484,7 +1584,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
           <div style="margin-top:12px;"><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Keterangan</label><textarea id="inp-p3-keterangan" class="field-control" rows="2" style="resize:none;"></textarea></div>
         </div>
       </div>
-      <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+      <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;" id="form-action-buttons">
         <button type="button" onclick="closeModal()" class="btn-secondary" style="flex:1;min-width:120px;justify-content:center;">Batal</button>
         <button type="button" id="btn-submit-form" class="btn-primary" onclick="simpanData()" style="flex:2;min-width:160px;justify-content:center;">Simpan Data</button>
       </div>
@@ -1788,11 +1888,14 @@ let currentFilteredCount = 0;
 let usersListData = {};
 let usersListListenerAttached = false;
 let selectedPointFilter = 'all';
-let opmRows = [];
 let filterModalMode = 'titik';
 let liveClockInterval = null;
 const SESSION_TIMEOUT_MS = 5 * 60 * 1000;
 const MAKS_PER_BULAN = 5;
+
+/* === OPM Sequential state === */
+let opmCurrentPort = 1;      // Port yang sedang diinput (1-48)
+let opmSubmitted = [];        // { port, dbm, tube, kabel }
 
 const MENU_LABELS = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan Lapangan', 'OPM-OLS': 'OPM/OLS', 'Joint': 'Joint', 'Handhole': 'Handhole', 'Alker': 'Alker', 'Stok Spare': 'Stok Spare', 'Patch Cord': 'Patch Cord' };
 const MENU_NO_PERIOD = ['Alker', 'Stok Spare', 'Patch Cord'];
@@ -2069,99 +2172,100 @@ function warnaChipHtml(warna) {
   return '<span class="warna-chip" style="background:' + hex + ';color:' + txt + ';border-color:' + hex + ';">' + escapeHtml(warna) + '</span>';
 }
 
-/* ============================================================ OPM — INPUT BARIS DINAMIS (1 KOLOM DBM BERURUTAN) ============================================================ */
-/* 
-   REVISI: Hanya 1 kolom DBM yang tampil. Port otomatis berurutan 1-48.
-   Input DBM diisi satu per satu, ringkasan otomatis muncul di bawah.
-*/
-function renderOpmRows() {
-  var wrap = document.getElementById('opm-port-input-list');
+/* ============================================================ OPM — SEQUENTIAL INPUT ============================================================ */
+function renderOpmCurrentPort() {
+  var numEl = document.getElementById('opm-current-port-num');
+  var badgeEl = document.getElementById('opm-current-port-badge');
+  var tubeChipEl = document.getElementById('opm-current-tube-chip');
+  var kabelChipEl = document.getElementById('opm-current-kabel-chip');
+  var dbmInput = document.getElementById('opm-dbm-input');
+  var submitBtn = document.getElementById('btn-opm-submit-port');
+  if (!numEl) return;
+  if (opmCurrentPort > 48) {
+    numEl.textContent = '✓';
+    if (badgeEl) badgeEl.textContent = 'Selesai';
+    if (tubeChipEl) tubeChipEl.innerHTML = '<span style="opacity:0.35;">—</span>';
+    if (kabelChipEl) kabelChipEl.innerHTML = '<span style="opacity:0.35;">—</span>';
+    if (dbmInput) { dbmInput.disabled = true; dbmInput.placeholder = 'Semua port selesai'; dbmInput.value = ''; }
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Selesai'; }
+    return;
+  }
+  numEl.textContent = opmCurrentPort;
+  if (badgeEl) badgeEl.textContent = 'Port ' + opmCurrentPort;
+  var tube = getWarnaTubeByPort(opmCurrentPort);
+  var kabel = getWarnaKabelByPort(opmCurrentPort);
+  if (tubeChipEl) tubeChipEl.innerHTML = warnaChipHtml(tube);
+  if (kabelChipEl) kabelChipEl.innerHTML = warnaChipHtml(kabel);
+  if (dbmInput) { dbmInput.disabled = false; dbmInput.placeholder = 'Nilai DBM Port ' + opmCurrentPort; dbmInput.value = ''; }
+  if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit Port'; }
+  setTimeout(function() { if (dbmInput) dbmInput.focus(); }, 150);
+}
+function submitOpmPort() {
+  if (opmCurrentPort > 48) { showToast('Semua port sudah selesai', 'info'); return; }
+  var dbmInput = document.getElementById('opm-dbm-input');
+  var val = dbmInput.value.trim();
+  if (val === '' || isNaN(parseFloat(val))) { showToast('Masukkan nilai DBM yang valid', 'error'); return; }
+  var tube = getWarnaTubeByPort(opmCurrentPort);
+  var kabel = getWarnaKabelByPort(opmCurrentPort);
+  opmSubmitted.push({ port: opmCurrentPort, dbm: parseFloat(val), tube: tube, kabel: kabel });
+  opmSubmitted.sort(function(a, b) { return a.port - b.port; });
+  opmCurrentPort++;
+  renderOpmCurrentPort();
+  renderOpmSubmittedList();
+  updateOpmCount();
+}
+function skipOpmPort() {
+  if (opmCurrentPort > 48) return;
+  opmCurrentPort++;
+  renderOpmCurrentPort();
+  showToast('Port dilewati', 'info');
+}
+function renderOpmSubmittedList() {
+  var wrap = document.getElementById('opm-submitted-list');
   if (!wrap) return;
+  if (opmSubmitted.length === 0) {
+    wrap.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text-dim);font-size:var(--app-font-size-xs);font-style:italic;">Belum ada port tersubmit.</div>';
+    return;
+  }
   var html = '';
-  // Selalu tampilkan semua 48 port, tapi hanya yang terisi yang dianggap valid
-  for (var port = 1; port <= 48; port++) {
-    var r = opmRows.find(function(x) { return parseInt(x.port) === port; });
-    var dbmVal = r ? r.dbm : '';
-    var tube = getWarnaTubeByPort(port);
-    var kabel = getWarnaKabelByPort(port);
-    var tubeHex = WARNA_KABEL_HEX[tube] || '#00D9FF';
-    var kabelHex = WARNA_KABEL_HEX[kabel] || '#00D9FF';
-    var tubeTxt = getTextColorForBg(tubeHex);
-    var kabelTxt = getTextColorForBg(kabelHex);
-    var isFilled = dbmVal !== '' && !isNaN(parseFloat(dbmVal));
-    html += '<div style="display:grid;grid-template-columns:52px 1fr 52px 52px;gap:6px;align-items:center;background:' + (isFilled ? 'rgba(0,217,255,0.08)' : 'var(--surface-3)') + ';border:1px solid ' + (isFilled ? 'var(--primary-cyan)' : 'var(--border-subtle)') + ';border-radius:8px;padding:6px 8px;">';
-    html += '<div style="text-align:center;font-family:Orbitron,sans-serif;font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);">' + port + '</div>';
-    html += '<input type="number" step="0.01" class="field-control" placeholder="DBM" value="' + escapeAttr(dbmVal) + '" data-port="' + port + '" oninput="updateOpmRowByPort(' + port + ', this.value)" style="min-height:34px;font-size:var(--app-font-size-sm);padding:0 10px;">';
-    html += '<span class="warna-chip" style="background:' + tubeHex + ';color:' + tubeTxt + ';border-color:' + tubeHex + ';text-align:center;font-size:9px;padding:2px 4px;">' + tube + '</span>';
-    html += '<span class="warna-chip" style="background:' + kabelHex + ';color:' + kabelTxt + ';border-color:' + kabelHex + ';text-align:center;font-size:9px;padding:2px 4px;">' + kabel + '</span>';
+  opmSubmitted.forEach(function(r) {
+    html += '<div class="opm-submitted-item">';
+    html += '<span class="opm-sub-port">P' + r.port + '</span>';
+    html += '<span class="opm-sub-dbm">' + r.dbm + ' dBm</span>';
+    html += '<span class="opm-sub-colors">' + warnaChipHtml(r.tube) + warnaChipHtml(r.kabel) + '</span>';
+    html += '<button type="button" class="icon-btn delete" onclick="removeOpmSubmitted(' + r.port + ')" title="Hapus" style="width:24px;height:24px;min-height:24px;font-size:12px;">×</button>';
     html += '</div>';
-  }
-  wrap.innerHTML = html;
-  updateOpmTempList();
-}
-function addOpmRow() {
-  // Cari port berikutnya yang belum ada di opmRows
-  var used = opmRows.map(function(r) { return parseInt(r.port); });
-  var next = 1;
-  while (used.indexOf(next) !== -1) next++;
-  if (next > 48) { showToast('Semua 48 port sudah ditambahkan', 'warning'); return; }
-  opmRows.push({ port: next, dbm: '' });
-  renderOpmRows();
-}
-function fillOpmAllPorts() {
-  // Isi semua port 1-48 jika belum ada
-  for (var p = 1; p <= 48; p++) {
-    if (!opmRows.find(function(x) { return parseInt(x.port) === p; })) {
-      opmRows.push({ port: p, dbm: '' });
-    }
-  }
-  opmRows.sort(function(a, b) { return parseInt(a.port) - parseInt(b.port); });
-  renderOpmRows();
-  showToast('Semua 48 port siap diisi', 'success');
-}
-function removeOpmRow(idx) {
-  if (idx < 0 || idx >= opmRows.length) return;
-  opmRows.splice(idx, 1);
-  opmRows.forEach(function(r, i) { r.port = i + 1; });
-  renderOpmRows();
-}
-function updateOpmRowByPort(port, val) {
-  var existing = opmRows.find(function(x) { return parseInt(x.port) === parseInt(port); });
-  if (existing) {
-    existing.dbm = val;
-  } else {
-    opmRows.push({ port: parseInt(port), dbm: val });
-  }
-  // Update border highlight tanpa render ulang penuh (agar fokus input tidak hilang)
-  var inputEl = document.querySelector('#opm-port-input-list input[data-port="' + port + '"]');
-  if (inputEl) {
-    var parent = inputEl.parentElement;
-    var isFilled = val !== '' && !isNaN(parseFloat(val));
-    parent.style.background = isFilled ? 'rgba(0,217,255,0.08)' : 'var(--surface-3)';
-    parent.style.borderColor = isFilled ? 'var(--primary-cyan)' : 'var(--border-subtle)';
-  }
-  updateOpmTempList();
-}
-function updateOpmRow(idx, val) {
-  if (idx < 0 || idx >= opmRows.length) return;
-  opmRows[idx].dbm = val;
-  updateOpmTempList();
-}
-function updateOpmTempList() {
-  var tbody = document.getElementById('opm-temp-list-body');
-  var countEl = document.getElementById('opm-temp-count');
-  if (!tbody) return;
-  var filled = opmRows.filter(function(r) { return r.dbm !== '' && r.dbm !== undefined && !isNaN(parseFloat(r.dbm)); });
-  filled.sort(function(a, b) { return parseInt(a.port) - parseInt(b.port); });
-  if (countEl) countEl.textContent = filled.length + ' Port';
-  if (filled.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="opm-temp-list-empty">Belum ada port terisi.</td></tr>'; return; }
-  var html = '';
-  filled.forEach(function(r, i) {
-    var tube = getWarnaTubeByPort(r.port);
-    var kabel = getWarnaKabelByPort(r.port);
-    html += '<tr><td style="text-align:center;">' + (i + 1) + '</td><td style="text-align:center;font-family:Orbitron,sans-serif;font-weight:800;color:var(--primary-cyan);">' + r.port + '</td><td style="text-align:center;font-weight:700;">' + r.dbm + '</td><td style="text-align:center;">' + warnaChipHtml(tube) + '</td><td style="text-align:center;">' + warnaChipHtml(kabel) + '</td><td style="text-align:center;"><span class="status-badge status-ready">TERSEDIA</span></td></tr>';
   });
-  tbody.innerHTML = html;
+  wrap.innerHTML = html;
+}
+function removeOpmSubmitted(port) {
+  var idx = opmSubmitted.findIndex(function(x) { return x.port === port; });
+  if (idx === -1) return;
+  opmSubmitted.splice(idx, 1);
+  // Jika port yang dihapus lebih kecil dari current, kembalikan current ke port tersebut
+  if (port < opmCurrentPort) opmCurrentPort = port;
+  renderOpmCurrentPort();
+  renderOpmSubmittedList();
+  updateOpmCount();
+}
+function updateOpmCount() {
+  var el = document.getElementById('opm-temp-count');
+  if (el) el.textContent = opmSubmitted.length + ' Port';
+}
+function resetOpmForm() {
+  if (!confirm('Reset semua input OPM?')) return;
+  opmCurrentPort = 1;
+  opmSubmitted = [];
+  document.getElementById('inp-opm-dari').value = '';
+  document.getElementById('inp-opm-ke').value = '';
+  document.getElementById('inp-opm-ukuran').value = '';
+  document.getElementById('inp-opm-ruas').value = '';
+  var dbmInput = document.getElementById('opm-dbm-input'); if (dbmInput) dbmInput.value = '';
+  checkOpmDariKe();
+  renderOpmCurrentPort();
+  renderOpmSubmittedList();
+  updateOpmCount();
+  showToast('Form OPM direset', 'success');
 }
 function submitOpmDataToDb() {
   if (!currentUser) { showToast('Login dulu', 'error'); return; }
@@ -2173,14 +2277,7 @@ function submitOpmDataToDb() {
   var isEdit = !!editKey;
   if (!dateVal || !dari || !ke || !nilaiKalibrasi || !ruas) { showToast('Lengkapi Step 1', 'error'); return; }
   if (dari === ke) { showToast('❌ "Dari" dan "Ke" tidak boleh sama!', 'error'); return; }
-  var filled = opmRows.filter(function(r) { return r.dbm !== '' && r.dbm !== undefined && !isNaN(parseFloat(r.dbm)); });
-  filled.sort(function(a, b) { return parseInt(a.port) - parseInt(b.port); });
-  if (filled.length === 0) { showToast('Isi minimal 1 DBM', 'error'); return; }
-  for (var i = 0; i < filled.length; i++) {
-    if (parseInt(filled[i].port) !== i + 1) {
-      showToast('❌ Port harus berurutan mulai dari Port 1!', 'error'); return;
-    }
-  }
+  if (opmSubmitted.length === 0) { showToast('Submit minimal 1 port DBM', 'error'); return; }
   var btn = document.getElementById('btn-opm-submit-data'), orig = btn.innerHTML;
   btn.disabled = true; btn.innerHTML = 'Menyimpan...';
 
@@ -2199,30 +2296,18 @@ function submitOpmDataToDb() {
     }
   }
   preClean.then(function() {
-    var promises = filled.map(function(r) {
-      var tube = getWarnaTubeByPort(r.port);
-      var kabel = getWarnaKabelByPort(r.port);
-      var ket = 'TUBE: ' + tube + ' | KABEL: ' + kabel + ' | DBM: ' + r.dbm;
-      var row = { date: dateVal, postBy: currentUser.name, createdAt: Date.now(), dari: dari, ke: ke, ukuranOLS: nilaiKalibrasi, ruas: ruas, warnaTube: tube, warnaKabel: kabel, port: r.port, dbm: parseFloat(r.dbm), isUsed: false, label: '', keterangan: ket };
+    var promises = opmSubmitted.map(function(r) {
+      var ket = 'TUBE: ' + r.tube + ' | KABEL: ' + r.kabel + ' | DBM: ' + r.dbm;
+      var row = { date: dateVal, postBy: currentUser.name, createdAt: Date.now(), dari: dari, ke: ke, ukuranOLS: nilaiKalibrasi, ruas: ruas, warnaTube: r.tube, warnaKabel: r.kabel, port: r.port, dbm: r.dbm, isUsed: false, label: '', keterangan: ket };
       return db.ref('data/OPM-OLS').push(row);
     });
     return Promise.all(promises);
   }).then(function() {
-    catatRiwayat('OPM-OLS', isEdit ? 'Update Batch' : 'Tambah Batch', dari + ' → ' + ke + ' | ' + filled.length + ' port', '');
-    showToast('✅ ' + filled.length + ' port disimpan!', 'success');
-    opmRows = []; closeModal(); setTimeout(refetchData, 400);
+    catatRiwayat('OPM-OLS', isEdit ? 'Update Batch' : 'Tambah Batch', dari + ' → ' + ke + ' | ' + opmSubmitted.length + ' port', '');
+    showToast('✅ ' + opmSubmitted.length + ' port disimpan!', 'success');
+    opmCurrentPort = 1; opmSubmitted = [];
+    closeModal(); setTimeout(refetchData, 400);
   }).catch(function(err) { showToast(err.message || 'Gagal', 'error'); }).finally(function() { btn.disabled = false; btn.innerHTML = orig; });
-}
-function resetOpmForm() {
-  if (!confirm('Reset semua input OPM?')) return;
-  opmRows = [];
-  document.getElementById('inp-opm-dari').value = '';
-  document.getElementById('inp-opm-ke').value = '';
-  document.getElementById('inp-opm-ukuran').value = '';
-  document.getElementById('inp-opm-ruas').value = '';
-  checkOpmDariKe();
-  renderOpmRows();
-  showToast('Form OPM direset', 'success');
 }
 
 /* ============================================================ NAVIGASI ============================================================ */
@@ -3075,6 +3160,14 @@ function switchView(cat) {
   var periodGroup = document.getElementById('period-filter-group'), yearGroup = document.getElementById('year-filter-group'), monthGroup = document.getElementById('month-filter-group');
   if (hidePeriod) { periodGroup.classList.add('hidden'); yearGroup.classList.add('hidden'); if (monthGroup) monthGroup.classList.add('hidden'); }
   else { periodGroup.classList.remove('hidden'); if (currentPeriod === 'yearly' || currentPeriod === 'custom') yearGroup.classList.remove('hidden'); else yearGroup.classList.add('hidden'); if (monthGroup) { if (currentPeriod === 'custom') monthGroup.classList.remove('hidden'); else monthGroup.classList.add('hidden'); } }
+
+  /* === SEMBUNYIKAN GUDANG TABS KHUSUS PATCH CORD === */
+  var gudangTabs = document.getElementById('gudang-tabs-container');
+  if (gudangTabs) {
+    if (cat === 'Patch Cord') gudangTabs.classList.add('hidden');
+    else gudangTabs.classList.remove('hidden');
+  }
+
   renderTable(); updateStokSummary();
   try { updateTotalDataTagline(); } catch (e) {}
   refreshSession(); saveCurrentPage(cat);
@@ -3533,8 +3626,11 @@ function closeModal() {
   document.getElementById('opm-warning').classList.remove('show');
   var durInfo = document.getElementById('durasi-info'); if (durInfo) durInfo.style.display = 'none';
   var pcInfo = document.getElementById('patchcord-saldo-info'); if (pcInfo) pcInfo.style.display = 'none';
-  opmRows = [];
-  try { renderOpmRows(); } catch (e) {}
+  opmCurrentPort = 1;
+  opmSubmitted = [];
+  renderOpmCurrentPort();
+  renderOpmSubmittedList();
+  updateOpmCount();
 }
 window.deleteItem = function(k, cat) {
   if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya admin', 'error'); return; }
@@ -3574,7 +3670,9 @@ function openForm(editData, editKey) {
   document.getElementById('form-update-pemakaian').classList.add('hidden');
   document.getElementById('form-mode').value = 'tambah';
   var btnSubmitForm = document.getElementById('btn-submit-form');
-  if (isOpm) btnSubmitForm.style.display = 'none'; else btnSubmitForm.style.display = 'flex';
+  var formActionButtons = document.getElementById('form-action-buttons');
+  if (isOpm) { btnSubmitForm.style.display = 'none'; if (formActionButtons) formActionButtons.style.display = 'none'; }
+  else { btnSubmitForm.style.display = 'flex'; if (formActionButtons) formActionButtons.style.display = 'flex'; }
   if (isStock) {
     document.getElementById('field-stock').classList.remove('hidden');
     document.getElementById('selected-gudang-display').textContent = selectedGudang || 'Belum dipilih';
@@ -3596,7 +3694,12 @@ function openForm(editData, editKey) {
     }
   }
   if (isAlker) document.getElementById('field-alker').classList.remove('hidden');
-  if (isOpm) { document.getElementById('field-opm').classList.remove('hidden'); opmRows = []; setTimeout(function() { renderOpmRows(); checkOpmDariKe(); }, 100); }
+  if (isOpm) {
+    document.getElementById('field-opm').classList.remove('hidden');
+    opmCurrentPort = 1;
+    opmSubmitted = [];
+    setTimeout(function() { renderOpmCurrentPort(); renderOpmSubmittedList(); updateOpmCount(); checkOpmDariKe(); }, 100);
+  }
   if (isHH || isJoint) { document.getElementById('field-normal').classList.remove('hidden'); document.getElementById('field-coords-wrap').classList.remove('hidden'); document.getElementById('field-kondisi').classList.remove('hidden'); document.getElementById('field-keterangan-normal').classList.remove('hidden'); }
   if (isOfCut) { document.getElementById('field-normal').classList.remove('hidden'); document.getElementById('field-coords-wrap').classList.remove('hidden'); document.getElementById('field-ofcut').classList.remove('hidden'); setTimeout(hitungDurasiOF, 200); }
   if (isP3T) { document.getElementById('field-normal').classList.remove('hidden'); document.getElementById('field-coords-wrap').classList.remove('hidden'); document.getElementById('field-p3temuan').classList.remove('hidden'); }
@@ -3614,8 +3717,9 @@ function resetFormFields() {
   document.getElementById('penyebab-lain-wrap').classList.add('hidden');
   var pl = document.getElementById('patchcord-lainnya'); if (pl) pl.classList.add('hidden');
   var durInfo = document.getElementById('durasi-info'); if (durInfo) durInfo.style.display = 'none';
-  opmRows = [];
-  try { renderOpmRows(); } catch (e) {}
+  opmCurrentPort = 1;
+  opmSubmitted = [];
+  try { renderOpmCurrentPort(); renderOpmSubmittedList(); updateOpmCount(); } catch (e) {}
 }
 function populateFormFields(data) {
   var map = { 'inp-loc': data.location, 'inp-coords': data.coords, 'inp-keterangan-normal': data.keterangan, 'inp-ofcut-waktu-co': data.waktuCO, 'inp-ofcut-waktu-up': data.waktuUP, 'inp-opm-ukuran': data.ukuranOLS, 'inp-alker-nama': data.nama, 'inp-alker-sn': data.sn, 'inp-alker-jenis': data.jenis, 'inp-alker-merk': data.merk, 'inp-alker-keterangan': data.keterangan, 'inp-alker-jumlah': data.jumlah, 'inp-alker-satuan': data.satuan };
@@ -3632,7 +3736,6 @@ function updateStokSummary() {
   var lbl1 = document.getElementById('stok-label-1'), lbl2 = document.getElementById('stok-label-2'), lbl3 = document.getElementById('stok-label-3');
   if (isPatch) {
     var items = Object.values(appData['Patch Cord'] || {});
-    if (selectedGudangFilter !== 'all') items = items.filter(function(i) { return i.gudang === selectedGudangFilter; });
     var totalStok = 0, jenisCount = 0;
     items.forEach(function(i) { totalStok += parseInt(i.qty) || 0; jenisCount++; });
     document.getElementById('total-stok-value').textContent = totalStok;
@@ -4208,6 +4311,14 @@ function setupEventListeners() {
   var bdl = document.getElementById('btn-draw-line'); if (bdl) bdl.addEventListener('click', openDrawLineModal);
   var dln = document.getElementById('draw-line-name'); if (dln) dln.addEventListener('change', toggleCustomLineInput);
   document.addEventListener('click', refreshSession); document.addEventListener('keydown', refreshSession);
+
+  /* === OPM: Enter key on DBM input === */
+  var opmDbmInput = document.getElementById('opm-dbm-input');
+  if (opmDbmInput) {
+    opmDbmInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); submitOpmPort(); }
+    });
+  }
 }
 function restoreLastPage() {
   var savedPage = getSavedPage(), savedSub = getSavedSubTab();
@@ -4224,7 +4335,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadTheme(); applyFontSettings();
   if (typeof lucide !== 'undefined') lucide.createIcons();
   checkFirebaseConnection().then(function(ok) { if (ok) ensureDefaultUser(); });
-  applyAutoUppercase(); renderOpmRows();
+  applyAutoUppercase();
   startLiveClock();
   checkLandscape();
   try {
