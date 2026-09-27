@@ -201,11 +201,13 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .icon-btn:hover { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); }
 .icon-btn.delete { color: #EC4899; }
 .icon-btn.edit { color: #10B981; }
+.icon-btn.info { color: #F59E0B; }
 
-/* ===== TOMBOL EDIT & HAPUS DIPERKECIL (khusus admin di tabel) ===== */
+/* ===== TOMBOL EDIT & HAPUS & INFO DI TABEL ===== */
 .records-table .col-aksi .icon-btn,
 .records-table .col-aksi .icon-btn.edit,
-.records-table .col-aksi .icon-btn.delete {
+.records-table .col-aksi .icon-btn.delete,
+.records-table .col-aksi .icon-btn.info {
   width: 34px;
   height: 34px;
   min-width: 34px;
@@ -219,6 +221,7 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 }
 .records-table .col-aksi .icon-btn.edit:hover { background: rgba(16, 185, 129, 0.2); }
 .records-table .col-aksi .icon-btn.delete:hover { background: rgba(236, 72, 153, 0.2); }
+.records-table .col-aksi .icon-btn.info:hover { background: rgba(245, 158, 11, 0.2); }
 
 .card { background: var(--surface-1); border-radius: var(--radius); box-shadow: var(--shadow-card); padding: 16px; border: 1px solid var(--border-subtle); position: relative; overflow: hidden; }
 .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.6; }
@@ -232,6 +235,28 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .modal-layer { position: fixed; z-index: 10000; inset: 0; background: rgba(5, 8, 16, 0.85); display: grid; place-items: center; padding: 20px; overflow-y: auto; }
 .modal-card { background: var(--surface-modal); width: 100%; max-width: 560px; border-radius: 24px; max-height: 92vh; overflow-y: auto; padding: 24px; box-shadow: var(--shadow-modal); border: 1px solid var(--border-glow); color: var(--text-main); }
 .hidden { display: none !important; }
+
+/* ===== POPUP LOKASI ===== */
+.lokasi-link { color: var(--primary-cyan); cursor: pointer; text-decoration: underline dotted; font-weight: 600; }
+.lokasi-link:hover { color: #F59E0B; }
+.lokasi-popup-overlay { position: fixed; z-index: 12000; inset: 0; background: rgba(5,8,16,0.85); display: grid; place-items: center; padding: 20px; }
+.lokasi-popup-card { background: var(--surface-modal); border: 1px solid var(--border-glow); border-radius: 16px; max-width: 480px; width: 100%; padding: 20px; box-shadow: var(--shadow-modal); }
+.lokasi-popup-title { font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.lokasi-popup-body { background: rgba(0,217,255,0.06); padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border-glow); color: var(--text-main); line-height: 1.6; word-break: break-word; font-size: var(--app-font-size-sm); margin-bottom: 14px; }
+.lokasi-popup-coords { color: var(--text-muted); font-size: var(--app-font-size-xs); font-family: 'Orbitron', monospace; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-subtle); }
+
+/* ===== POPUP KETERANGAN (INFO) ===== */
+.ket-popup-card { background: var(--surface-modal); border: 1px solid var(--border-glow); border-radius: 16px; max-width: 560px; width: 100%; padding: 20px; box-shadow: var(--shadow-modal); max-height: 85vh; overflow-y: auto; }
+.ket-popup-title { font-weight: 800; color: #F59E0B; font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--border-subtle); }
+.ket-popup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin-bottom: 12px; }
+.ket-popup-row { display: flex; flex-direction: column; gap: 2px; padding: 6px 0; border-bottom: 1px dashed var(--border-subtle); }
+.ket-popup-row.full { grid-column: 1 / -1; }
+.ket-popup-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+.ket-popup-value { font-size: var(--app-font-size-sm); color: var(--text-main); font-weight: 600; word-break: break-word; }
+.ket-popup-keterangan-box { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); border-radius: 10px; padding: 12px 14px; margin-top: 8px; }
+.ket-popup-keterangan-box .label { font-size: 10px; color: #F59E0B; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; margin-bottom: 6px; }
+.ket-popup-keterangan-box .content { color: var(--text-main); font-size: var(--app-font-size-sm); line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+@media (max-width: 600px) { .ket-popup-grid { grid-template-columns: 1fr; } }
 
 .login-screen { position: fixed; inset: 0; background: var(--surface-login); z-index: 20000; display: grid; place-items: center; padding: 20px; overflow-y: auto; }
 .login-card { background: var(--surface-login-card); padding: 40px 36px; border-radius: 28px; width: 100%; max-width: 420px; box-shadow: var(--shadow-modal), 0 0 0 1px var(--border-glow); border: 1px solid var(--border-glow); }
@@ -466,15 +491,14 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .records-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--app-font-size-sm); }
 .records-table th { background: var(--surface-table-header-solid) !important; padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--surface-table-border-solid); font-weight: 700; color: var(--primary-cyan); white-space: nowrap; text-transform: uppercase; letter-spacing: 0.8px; font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-xs); position: sticky; top: 0; z-index: 10; }
 .records-table td { padding: 10px 8px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; color: var(--text-main); font-size: var(--app-font-size-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
-/* Kolom Keterangan: boleh wrap */
-.records-table td.col-keterangan,
-.records-table th.col-keterangan { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; word-break: break-word; max-width: 260px; }
+.records-table td.col-ket,
+.records-table th.col-ket { white-space: nowrap !important; overflow: visible !important; text-overflow: clip !important; text-align: center; }
 .records-table tr:hover td { background: rgba(0, 217, 255, 0.05); }
 .records-table code { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); padding: 2px 6px; border-radius: 6px; font-family: 'Orbitron', monospace; border: 1px solid rgba(0, 217, 255, 0.2); font-size: var(--app-font-size-xs); white-space: nowrap; }
 .records-table th.col-no, .records-table td.col-no { width: 44px; min-width: 44px; text-align: center; font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; position: sticky; left: 0; z-index: 3; background: var(--surface-3); border-right: 1px solid var(--surface-table-border-solid); font-size: var(--app-font-size-xs); white-space: nowrap; }
 .records-table th.col-no { background: var(--surface-table-header-solid-alt) !important; z-index: 12; }
-/* KOLOM AKSI DIPERKECIL */
-.records-table th.col-aksi, .records-table td.col-aksi { width: 90px; min-width: 90px; text-align: center; white-space: nowrap; position: sticky; right: 0; border-left: 1px solid var(--surface-table-border-solid); background: var(--surface-3); z-index: 2; padding: 6px 4px; }
+/* KOLOM AKSI */
+.records-table th.col-aksi, .records-table td.col-aksi { width: 120px; min-width: 120px; text-align: center; white-space: nowrap; position: sticky; right: 0; border-left: 1px solid var(--surface-table-border-solid); background: var(--surface-3); z-index: 2; padding: 6px 4px; }
 .records-table th.col-aksi { background: var(--surface-table-header-solid-alt) !important; z-index: 12; }
 
 .durasi-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(16,185,129,0.15); color: #10B981; font-weight: 700; font-size: var(--app-font-size-xs); white-space: nowrap; }
@@ -616,13 +640,15 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .chart-rekap-table th.th-pct, .chart-rekap-table td.td-pct { width: 28px; min-width: 28px; font-size: 6px; }
   .chart-rekap-table th.th-total, .chart-rekap-table td.td-total { width: 28px; min-width: 28px; font-size: 7px; }
 
-  /* TABEL DATA - kompak 1 baris */
+  /* TABEL DATA - kompak */
   .records-table th { padding: 5px 5px; font-size: 7px; letter-spacing: 0.3px; }
   .records-table td { padding: 4px 5px; font-size: 9px; max-width: 130px; }
-  .records-table td.col-keterangan, .records-table th.col-keterangan { max-width: 160px; }
   .records-table th.col-no, .records-table td.col-no { width: 28px; min-width: 28px; font-size: 8px; }
-  .records-table th.col-aksi, .records-table td.col-aksi { width: 60px; min-width: 60px; padding: 4px 2px; }
-  .records-table .col-aksi .icon-btn { width: 26px; height: 26px; min-width: 26px; min-height: 26px; font-size: 12px; border-radius: 6px; margin: 0 1px; }
+  .records-table th.col-aksi, .records-table td.col-aksi { width: 96px; min-width: 96px; padding: 4px 2px; }
+  .records-table .col-aksi .icon-btn,
+  .records-table .col-aksi .icon-btn.edit,
+  .records-table .col-aksi .icon-btn.delete,
+  .records-table .col-aksi .icon-btn.info { width: 26px; height: 26px; min-width: 26px; min-height: 26px; font-size: 12px; border-radius: 6px; margin: 0 1px; }
 
   .sub-tab, .gudang-tab { padding: 6px 12px; font-size: 10px; }
   .stok-summary { padding: 8px 10px; gap: 6px; }
@@ -658,6 +684,9 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .stok-spare-icon { width: 24px; height: 24px; font-size: 11px; }
   .stok-spare-name { font-size: 10px; }
   .stok-spare-value { font-size: 12px; }
+
+  .ket-popup-card { padding: 14px; }
+  .lokasi-popup-card { padding: 14px; }
 }
 
 @media (max-width: 420px) {
@@ -681,10 +710,12 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
   .records-table th { padding: 4px 3px; font-size: 6.5px; }
   .records-table td { padding: 3px 3px; font-size: 8px; max-width: 100px; }
-  .records-table td.col-keterangan, .records-table th.col-keterangan { max-width: 130px; }
   .records-table th.col-no, .records-table td.col-no { width: 22px; min-width: 22px; font-size: 7px; }
-  .records-table th.col-aksi, .records-table td.col-aksi { width: 52px; min-width: 52px; padding: 3px 1px; }
-  .records-table .col-aksi .icon-btn { width: 22px; height: 22px; min-width: 22px; min-height: 22px; font-size: 11px; border-radius: 5px; margin: 0; }
+  .records-table th.col-aksi, .records-table td.col-aksi { width: 88px; min-width: 88px; padding: 3px 1px; }
+  .records-table .col-aksi .icon-btn,
+  .records-table .col-aksi .icon-btn.edit,
+  .records-table .col-aksi .icon-btn.delete,
+  .records-table .col-aksi .icon-btn.info { width: 24px; height: 24px; min-width: 24px; min-height: 24px; font-size: 11px; border-radius: 5px; margin: 0 1px; }
 
   .chart-rekap-table th { font-size: 4.5px; padding: 1px; }
   .chart-rekap-table td { font-size: 6px; padding: 1px; }
@@ -1116,6 +1147,29 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   </main>
 </div>
 
+<!-- POPUP LOKASI -->
+<div id="lokasi-popup" class="lokasi-popup-overlay hidden" onclick="if(event.target===this) closeLokasiPopup()">
+  <div class="lokasi-popup-card">
+    <div class="lokasi-popup-title"><i data-lucide="map-pin" style="width:18px;"></i> Detail Lokasi</div>
+    <div class="lokasi-popup-body" id="lokasi-popup-body">-</div>
+    <div class="lokasi-popup-coords" id="lokasi-popup-coords" style="display:none;">Koordinat: -</div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap;">
+      <button class="btn-secondary" onclick="closeLokasiPopup()" style="padding:8px 16px;min-height:40px;border-radius:10px;font-size:var(--app-font-size-xs);">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP KETERANGAN (INFO) -->
+<div id="ket-popup" class="lokasi-popup-overlay hidden" onclick="if(event.target===this) closeKetPopup()">
+  <div class="ket-popup-card">
+    <div class="ket-popup-title"><i data-lucide="info" style="width:18px;"></i> <span id="ket-popup-title-text">Detail Data</span></div>
+    <div id="ket-popup-content"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap;">
+      <button class="btn-secondary" onclick="closeKetPopup()" style="padding:8px 16px;min-height:40px;border-radius:10px;font-size:var(--app-font-size-xs);">Tutup</button>
+    </div>
+  </div>
+</div>
+
 <div id="map-filter-modal" class="map-filter-modal hidden">
   <div class="map-filter-modal-card">
     <div class="map-filter-modal-header">
@@ -1528,7 +1582,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
     </div>
 
     <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);">
-      <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">&copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Versi 3.5.2</p>
+      <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">&copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Versi 3.5.3</p>
     </div>
     <div style="margin-top:16px;display:flex;justify-content:center;">
       <button onclick="closeAboutModal()" class="btn-primary" style="min-width:200px;justify-content:center;">Mengerti</button>
@@ -1838,6 +1892,116 @@ function startLiveClock() {
   tick();
   liveClockInterval = setInterval(tick, 1000);
 }
+
+/* ===== EKSTRAK NAMA JALAN DARI LOKASI LENGKAP ===== */
+function ekstrakNamaJalan(lokasi) {
+  if (!lokasi) return '-';
+  var s = String(lokasi).trim();
+  if (!s) return '-';
+  var parts = s.split(',').map(function(x) { return x.trim(); }).filter(function(x) { return x; });
+  if (parts.length === 0) return '-';
+  for (var i = 0; i < parts.length; i++) {
+    var p = parts[i];
+    if (/^(jl\.?|jalan|gang|gg\.?|jln\.?)\s/i.test(p)) return p;
+  }
+  if (/^\d/.test(parts[0]) && parts.length > 1) return parts[1];
+  return parts[0];
+}
+
+/* ===== POPUP LOKASI ===== */
+function showLokasiPopup(lokasi, coords) {
+  var bodyEl = document.getElementById('lokasi-popup-body');
+  var coordsEl = document.getElementById('lokasi-popup-coords');
+  if (bodyEl) bodyEl.textContent = lokasi || '-';
+  if (coordsEl) {
+    if (coords) { coordsEl.style.display = 'block'; coordsEl.textContent = 'Koordinat: ' + coords; }
+    else coordsEl.style.display = 'none';
+  }
+  document.getElementById('lokasi-popup').classList.remove('hidden');
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+function closeLokasiPopup() { document.getElementById('lokasi-popup').classList.add('hidden'); }
+window.showLokasiPopup = showLokasiPopup;
+window.closeLokasiPopup = closeLokasiPopup;
+
+/* ===== POPUP KETERANGAN (INFO) ===== */
+function buildKetPopupContent(cat, it) {
+  function row(label, value) {
+    if (value === undefined || value === null || value === '') return '';
+    return '<div class="ket-popup-row"><div class="ket-popup-label">' + escapeHtml(label) + '</div><div class="ket-popup-value">' + escapeHtml(String(value)) + '</div></div>';
+  }
+  function rowFull(label, value) {
+    if (value === undefined || value === null || value === '') return '';
+    return '<div class="ket-popup-row full"><div class="ket-popup-label">' + escapeHtml(label) + '</div><div class="ket-popup-value">' + escapeHtml(String(value)) + '</div></div>';
+  }
+  var html = '<div class="ket-popup-grid">';
+  html += row('Kategori', cat);
+  html += row('Tanggal', it.date || '-');
+  if (it.postBy) html += row('User', it.postBy);
+  if (it.location) html += row('Lokasi', it.location);
+  if (it.coords) html += row('Koordinat', it.coords);
+
+  if (cat === 'Data OF Cut') {
+    if (it.waktuCO) html += row('Waktu CO', formatWaktuDisplay(it.waktuCO));
+    if (it.waktuUP) html += row('Waktu UP', formatWaktuDisplay(it.waktuUP));
+    if (it.durasiText) html += row('Durasi', it.durasiText);
+    if (it.panjangCut) html += row('Panjang Cut', it.panjangCut + ' M');
+    if (it.rute) html += row('Rute', it.rute);
+    if (it.penyebab) html += row('Penyebab', it.penyebab);
+  } else if (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan') {
+    if (it.pelaksana) html += row('Pelaksana', it.pelaksana);
+    if (it.lamaPekerjaan) html += row('Lama Pekerjaan', it.lamaPekerjaan);
+  } else if (cat === 'Joint' || cat === 'Handhole') {
+    if (it.kondisi) html += row('Kondisi', it.kondisi);
+  } else if (cat === 'Alker') {
+    if (it.nama) html += row('Nama Alker', it.nama);
+    if (it.sn) html += row('SN', it.sn);
+    if (it.jenis) html += row('Jenis', it.jenis);
+    if (it.merk) html += row('Merk', it.merk);
+    if (it.jumlah) html += row('Jumlah', it.jumlah);
+    if (it.satuan) html += row('Satuan', it.satuan);
+  } else if (cat === 'Stok Spare') {
+    if (it.gudang) html += row('Gudang', it.gudang);
+    if (it.sn) html += row('SN', it.sn);
+    if (it.spec) html += row('Nama Barang', it.spec);
+    if (it.status) html += row('Status', it.status);
+    if (it.lemari) html += row('Lemari', it.lemari);
+    if (it.rak) html += row('Rak', it.rak);
+    if (it.riwayat) html += row('Riwayat', it.riwayat);
+    if (it.kondisi) html += row('Kondisi', it.kondisi);
+    if (it.tujuanPemakaian) html += row('Tujuan Pakai', it.tujuanPemakaian);
+    if (it.lokasiPemakaian) html += row('Lokasi Pakai', it.lokasiPemakaian);
+  } else if (cat === 'Patch Cord') {
+    if (it.gudang) html += row('Gudang', it.gudang);
+    if (it.pcType) html += row('Jenis', it.pcType);
+    if (it.pcLength) html += row('Panjang', it.pcLength);
+    if (it.qty !== undefined) html += row('Stok', it.qty);
+    if (it.lastUpdate) html += row('Update Terakhir', it.lastUpdate);
+  }
+  html += '</div>';
+
+  var ket = it.keterangan || it.notes || '';
+  if (ket) {
+    html += '<div class="ket-popup-keterangan-box">';
+    html += '<div class="label">Keterangan</div>';
+    html += '<div class="content">' + escapeHtml(ket) + '</div>';
+    html += '</div>';
+  }
+  return html;
+}
+function showKetPopup(key, cat) {
+  var it = (appData[cat] || {})[key];
+  if (!it) { showToast('Data tidak ditemukan', 'error'); return; }
+  var titleEl = document.getElementById('ket-popup-title-text');
+  var contentEl = document.getElementById('ket-popup-content');
+  if (titleEl) titleEl.textContent = 'Detail - ' + cat;
+  if (contentEl) contentEl.innerHTML = buildKetPopupContent(cat, it);
+  document.getElementById('ket-popup').classList.remove('hidden');
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+function closeKetPopup() { document.getElementById('ket-popup').classList.add('hidden'); }
+window.showKetPopup = showKetPopup;
+window.closeKetPopup = closeKetPopup;
 
 /* ============================================================ NAVIGASI ============================================================ */
 function navTo(cat) {
@@ -2880,34 +3044,53 @@ function renderTable() {
     var isSpare = cat === 'Stok Spare', isPatch = cat === 'Patch Cord', isAlker = cat === 'Alker';
     var isHJ = ['Handhole', 'Joint'].indexOf(cat) !== -1, isOfCut = cat === 'Data OF Cut';
     var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
-    /* ===== HEADER ===== */
-    if (isSpare) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th class="col-keterangan">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isPatch) th.innerHTML = '<tr>' + thNo() + '<th>Tgl Update</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Stok</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isAlker) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Nama Alker</th><th>SN</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Satuan</th><th class="col-keterangan">Keterangan</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isHJ) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th class="col-keterangan">Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isOfCut) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Waktu CO</th><th>Waktu UP</th><th>Durasi</th><th>Panjang</th><th>Rute</th><th>Penyebab</th><th class="col-keterangan">Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isP3T) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Pelaksana</th><th>Lama</th><th class="col-keterangan">Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
-    else th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th class="col-keterangan">Keterangan</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
+
+    /* ===== HEADER - kolom Keterangan diganti "Ket" (tombol info) ===== */
+    if (isSpare) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th class="col-ket">Ket</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isPatch) th.innerHTML = '<tr>' + thNo() + '<th>Tgl Update</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Stok</th><th class="col-ket">Ket</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isAlker) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Nama Alker</th><th>SN</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Satuan</th><th class="col-ket">Ket</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isHJ) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th class="col-ket">Ket</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isOfCut) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Waktu CO</th><th>Waktu UP</th><th>Durasi</th><th>Panjang</th><th>Rute</th><th>Penyebab</th><th class="col-ket">Ket</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
+    else if (isP3T) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Pelaksana</th><th>Lama</th><th class="col-ket">Ket</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
+    else th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th class="col-ket">Ket</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
     var isAdmin = currentUser && currentUser.role === 'admin';
 
     keys = sortData(keys, list, cat);
     var rowsHtml = '';
     keys.forEach(function(k, idx) {
       var it = list[k], nomor = idx + 1;
-      var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')" title="Edit">✎</button><button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')" title="Hapus">×</button>' : '';
-      var ket = it.keterangan || it.notes || '';
-      var ketHtml = ket ? escapeHtml(ket) : '<span style="opacity:0.35;">—</span>';
-      if (isSpare) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td class="col-keterangan">' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else if (isPatch) {
+      /* Tombol info (ⓘ) selalu tampil, tombol edit/hapus hanya admin */
+      var infoBtn = '<button class="icon-btn info" onclick="showKetPopup(\'' + escapeAttr(k) + '\',\'' + escapeAttr(cat) + '\')" title="Info">ⓘ</button>';
+      var aksi = infoBtn + (isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')" title="Edit">✎</button><button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')" title="Hapus">×</button>' : '');
+      var ketBtn = '<button class="icon-btn info" onclick="showKetPopup(\'' + escapeAttr(k) + '\',\'' + escapeAttr(cat) + '\')" title="Lihat Keterangan" style="width:28px;height:28px;min-width:28px;min-height:28px;font-size:14px;">ⓘ</button>';
+
+      /* ===== BODY ===== */
+      if (isSpare) {
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      } else if (isPatch) {
         var stokVal = parseInt(it.qty) || 0;
         var stokBadge = stokVal <= 0 ? '<span class="status-badge" style="background:rgba(239,68,68,0.15);color:#EF4444;font-family:Orbitron,sans-serif;">' + stokVal + '</span>' : '<span class="status-badge status-ready" style="font-family:Orbitron,sans-serif;">' + stokVal + '</span>';
-        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.lastUpdate || it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + escapeHtml(it.pcType || '-') + '</td><td>' + escapeHtml(it.pcLength || '-') + '</td><td>' + stokBadge + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.lastUpdate || it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + escapeHtml(it.pcType || '-') + '</td><td>' + escapeHtml(it.pcLength || '-') + '</td><td>' + stokBadge + '</td><td class="col-ket">' + ketBtn + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      } else if (isAlker) {
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td>' + (it.jumlah || '-') + '</td><td>' + (it.satuan || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      } else if (isHJ) {
+        var lokasiShort = ekstrakNamaJalan(it.location);
+        var lokasiBtn = '<span class="lokasi-link" onclick="showLokasiPopup(\'' + escapeAttr(it.location || '') + '\',\'' + escapeAttr(it.coords || '') + '\')" title="Klik untuk lihat lokasi lengkap">' + escapeHtml(lokasiShort) + '</span>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + lokasiBtn + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      } else if (isOfCut) {
+        var coD = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : '-', upD = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : '-', durD = it.durasiText || '-';
+        var lokasiShort2 = ekstrakNamaJalan(it.location);
+        var lokasiBtn2 = '<span class="lokasi-link" onclick="showLokasiPopup(\'' + escapeAttr(it.location || '') + '\',\'' + escapeAttr(it.coords || '') + '\')" title="Klik untuk lihat lokasi lengkap">' + escapeHtml(lokasiShort2) + '</span>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + lokasiBtn2 + '</td><td>' + (it.coords || '-') + '</td><td>' + coD + '</td><td>' + upD + '</td><td><span class="durasi-badge">' + durD + '</span></td><td>' + (it.panjangCut || '-') + ' M</td><td>' + (it.rute || '-') + '</td><td>' + (it.penyebab || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      } else if (isP3T) {
+        var lokasiShort3 = ekstrakNamaJalan(it.location);
+        var lokasiBtn3 = '<span class="lokasi-link" onclick="showLokasiPopup(\'' + escapeAttr(it.location || '') + '\',\'' + escapeAttr(it.coords || '') + '\')" title="Klik untuk lihat lokasi lengkap">' + escapeHtml(lokasiShort3) + '</span>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + lokasiBtn3 + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.pelaksana || '-') + '</td><td>' + (it.lamaPekerjaan || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      } else {
+        var lokasiShort4 = ekstrakNamaJalan(it.location);
+        var lokasiBtn4 = '<span class="lokasi-link" onclick="showLokasiPopup(\'' + escapeAttr(it.location || '') + '\',\'' + escapeAttr(it.coords || '') + '\')" title="Klik untuk lihat lokasi lengkap">' + escapeHtml(lokasiShort4) + '</span>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + lokasiBtn4 + '</td><td>' + (it.coords || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
       }
-      else if (isAlker) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td>' + (it.jumlah || '-') + '</td><td>' + (it.satuan || '-') + '</td><td class="col-keterangan">' + ketHtml + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else if (isHJ) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td class="col-keterangan">' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else if (isOfCut) { var coD = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : '-', upD = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : '-', durD = it.durasiText || '-'; rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + coD + '</td><td>' + upD + '</td><td><span class="durasi-badge">' + durD + '</span></td><td>' + (it.panjangCut || '-') + ' M</td><td>' + (it.rute || '-') + '</td><td>' + (it.penyebab || '-') + '</td><td class="col-keterangan">' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>'; }
-      else if (isP3T) rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.pelaksana || '-') + '</td><td>' + (it.lamaPekerjaan || '-') + '</td><td class="col-keterangan">' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
-      else rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.location || '-') + '</td><td>' + (it.coords || '-') + '</td><td class="col-keterangan">' + ketHtml + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
     });
     tb.innerHTML = rowsHtml;
     try { updateTotalDataTagline(); } catch (e) {}
@@ -2938,18 +3121,17 @@ function renderOpmGroupedTables(list) {
     html += '<div style="padding:12px 14px;background:linear-gradient(135deg, rgba(0,217,255,0.12), rgba(168,85,247,0.12));border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
     html += '<div style="font-weight:800;color:var(--primary-cyan);font-family:Orbitron,sans-serif;display:flex;align-items:center;gap:8px;font-size:var(--app-font-size-sm);flex-wrap:wrap;">' + escapeHtml(g.date) + ' <span style="background:rgba(0,217,255,0.15);padding:3px 10px;border-radius:99px;font-size:var(--app-font-size-xs);">' + escapeHtml(g.dari) + ' → ' + escapeHtml(g.ke) + '</span> <span style="background:rgba(0,217,255,0.15);padding:3px 10px;border-radius:99px;font-size:var(--app-font-size-xs);">Kal: ' + escapeHtml(g.ukuranOLS) + '</span></div>';
     html += '<div style="display:flex;gap:14px;font-size:var(--app-font-size-xs);"><div><div style="color:var(--text-muted);">Total</div><strong style="font-family:Orbitron,sans-serif;">' + g.items.length + '</strong></div><div><div style="color:var(--text-muted);">Terpakai</div><strong style="font-family:Orbitron,sans-serif;color:#EC4899;">' + usedCount + '</strong></div><div><div style="color:var(--text-muted);">Tersedia</div><strong style="font-family:Orbitron,sans-serif;color:#10B981;">' + availCount + '</strong></div></div></div>';
-    html += '<div style="overflow-x:auto;"><table class="records-table"><thead><tr><th class="col-no">No</th><th style="text-align:center;">Port</th><th style="text-align:center;">DBM</th><th style="text-align:center;">Status</th><th>Label / Ket</th><th>User</th><th class="col-aksi">Aksi</th></tr></thead><tbody>';
+    html += '<div style="overflow-x:auto;"><table class="records-table"><thead><tr><th class="col-no">No</th><th style="text-align:center;">Port</th><th style="text-align:center;">DBM</th><th style="text-align:center;">Status</th><th class="col-ket">Ket</th><th>User</th><th class="col-aksi">Aksi</th></tr></thead><tbody>';
     g.items.forEach(function(x, i) {
       var it = x.data;
-      var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + x.key + '\',\'OPM-OLS\')" title="Edit">✎</button><button class="icon-btn delete" onclick="deleteItem(\'' + x.key + '\',\'OPM-OLS\')" title="Hapus">×</button>' : '';
+      var infoBtn = '<button class="icon-btn info" onclick="showKetPopup(\'' + escapeAttr(x.key) + '\',\'OPM-OLS\')" title="Info">ⓘ</button>';
+      var aksi = infoBtn + (isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + x.key + '\',\'OPM-OLS\')" title="Edit">✎</button><button class="icon-btn delete" onclick="deleteItem(\'' + x.key + '\',\'OPM-OLS\')" title="Hapus">×</button>' : '');
       var isUsed = it.isUsed === true;
       var portHex = WARNA_KABEL_HEX[(it.warnaKabel || '').toUpperCase()] || (isUsed ? '#EC4899' : '#10B981');
       var portTxt = getTextColorForBg(portHex);
       var statusBadge = isUsed ? '<span class="status-badge" style="background:rgba(236,72,153,0.15);color:#EC4899;">TERPAKAI</span>' : '<span class="status-badge status-ready">TERSEDIA</span>';
-      var ket = (isUsed && it.label) ? '<span class="opm-label-badge">' + escapeHtml(it.label) + '</span> ' : '';
-      if (it.keterangan) ket += escapeHtml(it.keterangan);
-      if (!ket) ket = '<span style="opacity:0.35;">—</span>';
-      html += '<tr><td class="col-no">' + (i + 1) + '</td><td style="text-align:center;"><span class="opm-port-chip" style="background:' + portHex + ';color:' + portTxt + ';border-color:' + portHex + ';">' + (it.port || '-') + '</span></td><td style="text-align:center;font-weight:700;">' + (it.dbm !== undefined ? it.dbm : '-') + '</td><td style="text-align:center;">' + statusBadge + '</td><td>' + ket + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      var ketBtn = '<button class="icon-btn info" onclick="showKetPopup(\'' + escapeAttr(x.key) + '\',\'OPM-OLS\')" title="Lihat Keterangan" style="width:28px;height:28px;min-width:28px;min-height:28px;font-size:14px;">ⓘ</button>';
+      html += '<tr><td class="col-no">' + (i + 1) + '</td><td style="text-align:center;"><span class="opm-port-chip" style="background:' + portHex + ';color:' + portTxt + ';border-color:' + portHex + ';">' + (it.port || '-') + '</span></td><td style="text-align:center;font-weight:700;">' + (it.dbm !== undefined ? it.dbm : '-') + '</td><td style="text-align:center;">' + statusBadge + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
     });
     html += '</tbody></table></div>';
     html += '<div style="padding:10px 14px;border-top:1px solid var(--border-subtle);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">';
@@ -3364,7 +3546,7 @@ function selectSpareAction(a) { spareAction = a; document.querySelectorAll('.spa
 function confirmSpareAction() { if (!selectedGudang) { showToast('Pilih gudang', 'error'); return; } closeGudangModal(); openForm(); }
 function closeGudangModal() { document.getElementById('gudang-modal').classList.add('hidden'); }
 
-/* ============================================================ EXPORT EXCEL ============================================================ */
+/* ============================================================ EXPORT EXCEL (data tetap lengkap) ============================================================ */
 function downloadPageExcel() {
   var cat = currentCategory;
   if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
@@ -3380,17 +3562,18 @@ function downloadPageExcel() {
   var isSpare = cat === 'Stok Spare', isPatch = cat === 'Patch Cord', isAlker = cat === 'Alker', isOfCut = cat === 'Data OF Cut';
   keys.forEach(function(k, idx) {
     var it = list[k] || {}, ket = it.keterangan || it.notes || '', row = { 'No': idx + 1 };
+    /* EXPORT TETAP LENGKAP (semua field diisi apa adanya) */
     if (isSpare) { row['Tanggal'] = it.date || ''; row['Gudang'] = it.gudang || ''; row['SN'] = it.sn || ''; row['Nama'] = it.spec || ''; row['Status'] = it.status || ''; row['Lemari'] = it.lemari || ''; row['Rak'] = it.rak || ''; row['Riwayat'] = it.riwayat || ''; row['Kondisi'] = it.kondisi || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
-    else if (isPatch) { row['Tgl Update'] = it.lastUpdate || it.date || ''; row['Gudang'] = it.gudang || ''; row['Jenis'] = it.pcType || ''; row['Panjang'] = it.pcLength || ''; row['Stok'] = it.qty || 0; }
+    else if (isPatch) { row['Tgl Update'] = it.lastUpdate || it.date || ''; row['Gudang'] = it.gudang || ''; row['Jenis'] = it.pcType || ''; row['Panjang'] = it.pcLength || ''; row['Stok'] = it.qty || 0; row['Keterangan'] = ket; }
     else if (isAlker) { row['Tanggal'] = it.date || ''; row['Nama'] = it.nama || ''; row['SN'] = it.sn || ''; row['Jenis'] = it.jenis || ''; row['Merk'] = it.merk || ''; row['Jumlah'] = it.jumlah || ''; row['Satuan'] = it.satuan || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
-    else if (isOfCut) { row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Waktu CO'] = it.waktuCO || ''; row['Waktu UP'] = it.waktuUP || ''; row['Durasi'] = it.durasiText || ''; row['Panjang'] = it.panjangCut || ''; row['Rute'] = it.rute || ''; row['Penyebab'] = it.penyebab || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
-    else { row['Tanggal'] = it.date || ''; row['Lokasi'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
+    else if (isOfCut) { row['Tanggal'] = it.date || ''; row['Lokasi Lengkap'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Waktu CO'] = it.waktuCO || ''; row['Waktu UP'] = it.waktuUP || ''; row['Durasi'] = it.durasiText || ''; row['Panjang'] = it.panjangCut || ''; row['Rute'] = it.rute || ''; row['Penyebab'] = it.penyebab || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
+    else { row['Tanggal'] = it.date || ''; row['Lokasi Lengkap'] = it.location || ''; row['Koordinat'] = it.coords || ''; row['Keterangan'] = ket; row['User'] = it.postBy || ''; }
     rows.push(row);
   });
   var ws = XLSX.utils.json_to_sheet(rows);
   var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, cat.substring(0, 31));
   XLSX.writeFile(wb, 'BUCIN_' + cat.replace(/\s+/g, '_') + '_' + Date.now() + '.xlsx');
-  showToast('✅ Excel diunduh', 'success');
+  showToast('✅ Excel diunduh (data lengkap)', 'success');
 }
 
 /* ============================================================ CHART ============================================================ */
