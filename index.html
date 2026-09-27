@@ -81,9 +81,6 @@ html { overflow-x: hidden; }
 body { margin: 0; font-family: var(--app-font); font-size: var(--app-font-size); background: var(--bg-main); color: var(--text-main); }
 html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, tbody, tr, th, td, form, input, button, select, textarea, label, small, strong, em, b, i, code, pre, blockquote, canvas { font-family: var(--app-font); }
 
-/* ============================================================ */
-/* === HEADER: diperbaiki agar semua menu terlihat & rapi === */
-/* ============================================================ */
 .top-header {
   position: sticky; top: 0; z-index: 9000 !important;
   height: var(--header-h);
@@ -98,72 +95,11 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 }
 :root[data-theme="light"] .top-header { box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); }
 
-.header-brand {
-  display: flex; align-items: center; gap: 10px;
-  flex-shrink: 0; position: relative;
-  min-width: 0;
-}
-
-/* Logo: ukuran & posisi tetap seperti yang sudah pas */
-.earth-logo {
-  width: 130px; height: 130px;
-  flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  padding: 0;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  position: absolute;
-  top: calc(50% + 6px);
-  left: 0;
-  transform: translateY(-50%);
-  z-index: 2;
-  pointer-events: none;
-  overflow: visible;
-}
-.earth-logo img {
-  width: 100%; height: 100%;
-  object-fit: contain;
-  display: block;
-  border-radius: 16px;
-  filter: drop-shadow(0 4px 12px rgba(0, 217, 255, 0.45));
-}
-.earth-logo.large {
-  width: 140px; height: 140px;
-  border-radius: 24px;
-  padding: 0;
-  border: none;
-  box-shadow: none;
-  margin: 0 auto;
-  position: static;
-  transform: none;
-  pointer-events: auto;
-}
-.earth-logo.large img {
-  border-radius: 20px;
-  filter: drop-shadow(0 6px 20px rgba(0, 217, 255, 0.5));
-}
-
-.brand-text-wrap {
-  margin-left: 142px;
-  position: relative;
-  z-index: 3;
-  white-space: nowrap;
-}
-
+.header-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; position: relative; min-width: 0; }
 .brand-text { font-weight: 900; line-height: 1.05; font-family: 'Orbitron', sans-serif; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1.8px; font-size: 22px; position: relative; z-index: 3; }
 .brand-sub { color: var(--primary-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-family: 'Orbitron', sans-serif; font-size: 10px; margin-top: 2px; position: relative; z-index: 3; }
 
-/* Nav: ditengahkan, tidak overflow, gap pas */
-.header-nav {
-  display: flex; align-items: center; gap: 4px;
-  flex: 1 1 auto;
-  justify-content: center;
-  overflow: visible !important;
-  padding: 0 8px;
-  position: relative; z-index: 3;
-  min-width: 0;
-}
+.header-nav { display: flex; align-items: center; gap: 4px; flex: 1 1 auto; justify-content: center; overflow: visible !important; padding: 0 8px; position: relative; z-index: 3; min-width: 0; }
 
 .nav-dropdown { position: relative; flex-shrink: 0; }
 .nav-btn {
@@ -204,12 +140,7 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .nav-dropdown-item.active { background: rgba(0, 217, 255, 0.14); color: var(--primary-cyan); border-color: var(--border-glow); font-weight: 700; }
 .nav-dropdown-item i { width: 15px; height: 15px; flex-shrink: 0; }
 
-/* Actions: rapat & tidak overflow */
-.header-actions {
-  display: flex; align-items: center; gap: 6px;
-  flex-shrink: 0; position: relative; z-index: 3;
-  min-width: 0;
-}
+.header-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; position: relative; z-index: 3; min-width: 0; }
 
 .header-user-box {
   display: flex; align-items: center; gap: 8px;
@@ -218,20 +149,6 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
   flex-shrink: 0;
 }
 
-.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: transparent; }
-.telin-logo { height: 36px; width: auto; object-fit: contain; display: block; }
-.telin-divider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0 14px; padding: 8px 16px; flex-wrap: wrap; }
-.telin-logo-login { height: 48px; width: auto; display: block; }
-
-.icon-btn { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; cursor: pointer; background: transparent; border: none; color: var(--text-muted); transition: all 0.2s; flex-shrink: 0; }
-.icon-btn:hover { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); }
-.icon-btn.delete { color: #EC4899; }
-.icon-btn.edit { color: #10B981; }
-.icon-btn.info { color: #F59E0B; }
-
-/* ============================================================ */
-/* === SISA STYLING === */
-/* ============================================================ */
 .main-content-full { padding: 14px; width: 100%; max-width: 100%; }
 
 .layout-three-columns {
@@ -255,6 +172,11 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-secondary { background: var(--surface-1); color: var(--primary-cyan); border: 1px solid var(--border-glow); border-radius: 24px; font-weight: 600; padding: 12px 24px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; font-size: var(--app-font-size-sm); font-family: inherit; }
 .btn-secondary:hover { background: rgba(0, 217, 255, 0.12); border-color: var(--primary-cyan); }
+.icon-btn { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; cursor: pointer; background: transparent; border: none; color: var(--text-muted); transition: all 0.2s; flex-shrink: 0; }
+.icon-btn:hover { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); }
+.icon-btn.delete { color: #EC4899; }
+.icon-btn.edit { color: #10B981; }
+.icon-btn.info { color: #F59E0B; }
 
 .records-table .col-aksi .icon-btn,
 .records-table .col-aksi .icon-btn.edit,
@@ -321,6 +243,33 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .login-footer p { color: var(--text-dim); font-size: var(--app-font-size-xs); }
 .login-error { color: #EC4899; font-weight: 600; text-align: center; padding: 8px 12px; background: rgba(236, 72, 153, 0.12); border-radius: 8px; margin-bottom: 12px; display: none; border: 1px solid rgba(236, 72, 153, 0.3); font-size: var(--app-font-size-xs); }
 .login-error.show { display: block; }
+
+.earth-logo {
+  width: 130px; height: 130px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  position: absolute;
+  top: calc(50% + 6px);
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+.earth-logo img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 16px; filter: drop-shadow(0 4px 12px rgba(0, 217, 255, 0.45)); }
+.earth-logo.large { width: 140px; height: 140px; border-radius: 24px; padding: 0; border: none; box-shadow: none; margin: 0 auto; position: static; transform: none; pointer-events: auto; }
+.earth-logo.large img { border-radius: 20px; filter: drop-shadow(0 6px 20px rgba(0, 217, 255, 0.5)); }
+
+.brand-text-wrap { margin-left: 142px; position: relative; z-index: 3; white-space: nowrap; }
+
+.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: transparent; }
+.telin-logo { height: 36px; width: auto; object-fit: contain; display: block; }
+.telin-divider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0 14px; padding: 8px 16px; flex-wrap: wrap; }
+.telin-logo-login { height: 48px; width: auto; display: block; }
 
 .ai-hero { background: var(--surface-hero); border: 1px solid var(--border-glow); border-radius: var(--radius); padding: 16px 18px; position: relative; overflow: hidden; }
 .hero-big-number { position: absolute; top: 12px; right: 16px; text-align: right; }
@@ -514,6 +463,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .opm-current-port-box .opm-current-port-hint { font-size: 9px; color: var(--text-dim); margin-top: 6px; }
 .opm-input-row { display: flex; gap: 8px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
 .opm-input-row input { flex: 1; min-height: 38px; font-size: 14px; text-align: center; font-family: inherit; font-weight: 600; padding: 0 12px; min-width: 120px; }
+.opm-input-row input.opm-label-input { text-align: left; }
 .opm-color-preview { display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
 .opm-color-preview .opm-color-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .opm-color-preview .opm-color-item .opm-color-label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
@@ -581,11 +531,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   box-shadow: 0 4px 16px rgba(0, 217, 255, 0.35);
 }
 
-/* ============================================================ */
-/* === RESPONSIVE HEADER === */
-/* ============================================================ */
-
-/* <= 1366px: kurangi sedikit padding header agar semua menu muat */
 @media (max-width: 1366px) {
   .top-header { padding: 0 12px; gap: 8px; }
   .header-nav { gap: 2px; padding: 0 4px; }
@@ -595,7 +540,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .telin-logo { height: 32px; }
   .icon-btn { width: 36px; height: 36px; }
 }
-
 @media (max-width: 1200px) {
   .top-header { padding: 0 10px; gap: 6px; }
   .header-nav { gap: 2px; padding: 0 2px; }
@@ -606,7 +550,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .telin-logo { height: 28px; }
   .icon-btn { width: 34px; height: 34px; }
 }
-
 @media (max-width: 1024px) {
   .top-header { padding: 0 8px; gap: 4px; }
   .nav-btn { padding: 7px 8px; font-size: 11px; gap: 5px; }
@@ -615,12 +558,10 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .brand-text { font-size: 20px; }
   .brand-sub { font-size: 9px; }
 }
-
 @media (max-width: 900px) {
   .telin-logo-wrapper { padding: 2px 4px; }
   .telin-logo { height: 24px; }
 }
-
 @media (max-width: 768px) {
   :root { --header-h: 68px; }
   .top-header { padding: 0 10px; gap: 6px; }
@@ -1363,7 +1304,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   </div>
 </div>
 
-<!-- GUDANG MODAL PATCH CORD (dengan aksi masuk/keluar) -->
 <div id="patchcord-gudang-modal" class="modal-layer hidden">
   <div class="modal-card">
     <div style="text-align:center;margin-bottom:8px;">
@@ -1474,7 +1414,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
             <div class="opm-current-port-box">
               <div class="opm-current-port-label">Port Saat Ini</div>
               <div class="opm-current-port-num" id="opm-current-port-num">1</div>
-              <div class="opm-current-port-hint">Isi <strong style="color:var(--primary-cyan);">Label Port</strong> lalu centang untuk menandai port terpakai</div>
+              <div class="opm-current-port-hint">Isi <strong style="color:var(--primary-cyan);">DBM</strong> lalu centang. <strong style="color:#A855F7;">Label</strong> opsional (jika port terisi pelanggan)</div>
             </div>
             <div class="opm-color-preview">
               <div class="opm-color-item">
@@ -1487,13 +1427,13 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
               </div>
             </div>
             <div class="opm-input-row">
-              <input type="text" id="opm-label-input" class="field-control" placeholder="Label Port (wajib)" autocomplete="off" style="text-align:left;">
+              <input type="number" step="0.01" id="opm-dbm-input" class="field-control" placeholder="Nilai DBM" autocomplete="off">
+              <input type="text" id="opm-label-input" class="field-control opm-label-input" placeholder="Label (opsional)" autocomplete="off">
               <button type="button" id="btn-opm-check-port" class="opm-check-btn" onclick="toggleOpmPortCheck()" title="Centang port terpakai">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </button>
             </div>
             <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-              <button type="button" class="btn-secondary" style="flex:1;min-height:32px;font-size:11px;" onclick="skipOpmPort()">Lewati Port (Kosong)</button>
               <button type="button" class="btn-secondary" style="flex:1;min-height:32px;font-size:11px;color:#EF4444;border-color:rgba(239,68,68,0.4);" onclick="resetOpmForm()">Reset Semua</button>
             </div>
           </div>
@@ -1795,7 +1735,7 @@ function resetFontSettings() {
 
 /* ============================================================ AUTO UPPERCASE ============================================================ */
 function applyAutoUppercase() {
-  var textInputIds = ['inp-sn','inp-spec','inp-lemari','inp-notes-stock','inp-update-sn','inp-update-spec','inp-update-notes','inp-pc-type-lain','inp-pc-length-lain','inp-notes-patch','inp-opm-ukuran','inp-opm-label','inp-alker-nama','inp-alker-sn','inp-alker-jenis','inp-alker-merk','inp-alker-keterangan','inp-loc','inp-coords','inp-keterangan-normal','inp-ofcut-penyebab-lain','inp-ofcut-keterangan','inp-p3-pelaksana','inp-p3-lama','inp-p3-keterangan','map-search-input','new-username','user-list-search','draw-custom-line-name','draw-line-notes','riwayat-modal-search','hero-about-input','kml-list-search'];
+  var textInputIds = ['inp-sn','inp-spec','inp-lemari','inp-notes-stock','inp-update-sn','inp-update-spec','inp-update-notes','inp-pc-type-lain','inp-pc-length-lain','inp-notes-patch','inp-opm-ukuran','inp-opm-label','opm-label-input','inp-alker-nama','inp-alker-sn','inp-alker-jenis','inp-alker-merk','inp-alker-keterangan','inp-loc','inp-coords','inp-keterangan-normal','inp-ofcut-penyebab-lain','inp-ofcut-keterangan','inp-p3-pelaksana','inp-p3-lama','inp-p3-keterangan','map-search-input','new-username','user-list-search','draw-custom-line-name','draw-line-notes','riwayat-modal-search','hero-about-input','kml-list-search'];
   textInputIds.forEach(function(id) {
     var el = document.getElementById(id);
     if (!el || el.dataset.uppercaseAttached === '1') return;
@@ -2003,9 +1943,7 @@ function ekstrakNamaJalan(lokasi) {
   if (parts.length === 0) return '-';
   for (var i = 0; i < parts.length; i++) {
     var p = parts[i];
-    if (/^(jl\.?|jalan|jln\.?)\s/i.test(p)) {
-      return p.replace(/^(jl\.?|jalan|jln\.?)\s/i, 'Jl. ');
-    }
+    if (/^(jl\.?|jalan|jln\.?)\s/i.test(p)) { return p.replace(/^(jl\.?|jalan|jln\.?)\s/i, 'Jl. '); }
     if (/^gang\s/i.test(p) || /^gg\.?\s/i.test(p)) return p;
   }
   if (/^\d/.test(parts[0]) && parts.length > 1) {
@@ -2087,7 +2025,7 @@ function buildKetPopupContent(cat, it) {
     if (it.ukuranOLS) html += row('Kalibrasi', it.ukuranOLS);
     if (it.ruas) html += row('Ruas', it.ruas);
     if (it.port) html += row('Port', it.port);
-    if (it.dbm !== undefined) html += row('DBM', it.dbm);
+    if (it.dbm !== undefined && it.dbm !== '') html += row('DBM', it.dbm);
     if (it.warnaTube) html += row('Warna Tube', it.warnaTube);
     if (it.warnaKabel) html += row('Warna Kabel', it.warnaKabel);
     if (it.isUsed !== undefined) html += row('Status', it.isUsed ? 'Terpakai' : 'Tersedia');
@@ -2155,6 +2093,7 @@ function renderOpmCurrentPort() {
   var badgeEl = document.getElementById('opm-current-port-badge');
   var tubeChipEl = document.getElementById('opm-current-tube-chip');
   var kabelChipEl = document.getElementById('opm-current-kabel-chip');
+  var dbmInput = document.getElementById('opm-dbm-input');
   var labelInput = document.getElementById('opm-label-input');
   var checkBtn = document.getElementById('btn-opm-check-port');
   if (!numEl) return;
@@ -2163,6 +2102,7 @@ function renderOpmCurrentPort() {
     if (badgeEl) badgeEl.textContent = 'Selesai';
     if (tubeChipEl) tubeChipEl.innerHTML = '<span style="opacity:0.35;">—</span>';
     if (kabelChipEl) kabelChipEl.innerHTML = '<span style="opacity:0.35;">—</span>';
+    if (dbmInput) { dbmInput.disabled = true; dbmInput.placeholder = 'Semua port selesai'; dbmInput.value = ''; }
     if (labelInput) { labelInput.disabled = true; labelInput.placeholder = 'Semua port selesai'; labelInput.value = ''; }
     if (checkBtn) { checkBtn.disabled = true; checkBtn.classList.remove('checked'); }
     return;
@@ -2173,18 +2113,22 @@ function renderOpmCurrentPort() {
   var kabel = getWarnaKabelByPort(opmCurrentPort);
   if (tubeChipEl) tubeChipEl.innerHTML = warnaChipHtml(tube);
   if (kabelChipEl) kabelChipEl.innerHTML = warnaChipHtml(kabel);
-  if (labelInput) { labelInput.disabled = false; labelInput.value = ''; labelInput.placeholder = 'Label Port ' + opmCurrentPort + ' (wajib)'; }
+  if (dbmInput) { dbmInput.disabled = false; dbmInput.value = ''; dbmInput.placeholder = 'Nilai DBM Port ' + opmCurrentPort; }
+  if (labelInput) { labelInput.disabled = false; labelInput.value = ''; labelInput.placeholder = 'Label (opsional)'; }
   if (checkBtn) { checkBtn.disabled = false; checkBtn.classList.remove('checked'); }
   opmPortChecked = false;
-  setTimeout(function() { if (labelInput) labelInput.focus(); }, 150);
+  setTimeout(function() { if (dbmInput) dbmInput.focus(); }, 150);
 }
 function toggleOpmPortCheck() {
   if (opmCurrentPort > 48) return;
+  var dbmInput = document.getElementById('opm-dbm-input');
   var labelInput = document.getElementById('opm-label-input');
   var checkBtn = document.getElementById('btn-opm-check-port');
-  var val = (labelInput.value || '').trim().toUpperCase();
-  if (!val) {
-    showToast('Label port wajib diisi!', 'error');
+  var dbmVal = (dbmInput.value || '').trim();
+  var labelVal = (labelInput.value || '').trim().toUpperCase();
+  if (dbmVal === '' || isNaN(parseFloat(dbmVal))) {
+    showToast('Masukkan nilai DBM yang valid!', 'error');
+    if (dbmInput) dbmInput.focus();
     return;
   }
   if (opmPortChecked) {
@@ -2197,7 +2141,7 @@ function toggleOpmPortCheck() {
   } else {
     var tube = getWarnaTubeByPort(opmCurrentPort);
     var kabel = getWarnaKabelByPort(opmCurrentPort);
-    opmSubmitted.push({ port: opmCurrentPort, label: val, tube: tube, kabel: kabel });
+    opmSubmitted.push({ port: opmCurrentPort, dbm: parseFloat(dbmVal), label: labelVal, tube: tube, kabel: kabel });
     opmSubmitted.sort(function(a, b) { return a.port - b.port; });
     opmPortChecked = true;
     if (checkBtn) checkBtn.classList.add('checked');
@@ -2205,12 +2149,6 @@ function toggleOpmPortCheck() {
     updateOpmCount();
     showToast('✅ Port ' + opmCurrentPort + ' ditandai terpakai', 'success');
   }
-}
-function skipOpmPort() {
-  if (opmCurrentPort > 48) return;
-  opmCurrentPort++;
-  renderOpmCurrentPort();
-  showToast('Port dilewati', 'info');
 }
 function renderOpmSubmittedList() {
   var wrap = document.getElementById('opm-submitted-list');
@@ -2223,7 +2161,8 @@ function renderOpmSubmittedList() {
   opmSubmitted.forEach(function(r) {
     html += '<div class="opm-submitted-item">';
     html += '<span class="opm-sub-port">P' + r.port + '</span>';
-    html += '<span class="opm-sub-label">' + escapeHtml(r.label || '-') + '</span>';
+    html += '<span class="opm-sub-dbm">' + r.dbm + ' dBm</span>';
+    if (r.label) html += '<span class="opm-sub-label">' + escapeHtml(r.label) + '</span>';
     html += '<span class="opm-sub-colors">' + warnaChipHtml(r.tube) + warnaChipHtml(r.kabel) + '</span>';
     html += '<button type="button" class="icon-btn delete" onclick="removeOpmSubmitted(' + r.port + ')" title="Hapus" style="width:24px;height:24px;min-height:24px;font-size:12px;">×</button>';
     html += '</div>';
@@ -2255,6 +2194,7 @@ function resetOpmForm() {
   document.getElementById('inp-opm-ke').value = '';
   document.getElementById('inp-opm-ukuran').value = '';
   document.getElementById('inp-opm-ruas').value = '';
+  var dbmInput = document.getElementById('opm-dbm-input'); if (dbmInput) dbmInput.value = '';
   var labelInput = document.getElementById('opm-label-input'); if (labelInput) labelInput.value = '';
   checkOpmDariKe();
   renderOpmCurrentPort();
@@ -2292,8 +2232,10 @@ function submitOpmDataToDb() {
   }
   preClean.then(function() {
     var promises = opmSubmitted.map(function(r) {
-      var ket = 'TUBE: ' + r.tube + ' | KABEL: ' + r.kabel + ' | LABEL: ' + r.label;
-      var row = { date: dateVal, postBy: currentUser.name, createdAt: Date.now(), dari: dari, ke: ke, ukuranOLS: nilaiKalibrasi, ruas: ruas, warnaTube: r.tube, warnaKabel: r.kabel, port: r.port, dbm: '', isUsed: true, label: r.label, keterangan: ket };
+      var ketParts = ['TUBE: ' + r.tube, 'KABEL: ' + r.kabel, 'DBM: ' + r.dbm];
+      if (r.label) ketParts.push('LABEL: ' + r.label);
+      var ket = ketParts.join(' | ');
+      var row = { date: dateVal, postBy: currentUser.name, createdAt: Date.now(), dari: dari, ke: ke, ukuranOLS: nilaiKalibrasi, ruas: ruas, warnaTube: r.tube, warnaKabel: r.kabel, port: r.port, dbm: r.dbm, isUsed: true, label: r.label || '', keterangan: ket };
       return db.ref('data/OPM-OLS').push(row);
     });
     return Promise.all(promises);
@@ -3345,7 +3287,7 @@ function renderOpmGroupedTables(list) {
     html += '<div style="padding:12px 14px;background:linear-gradient(135deg, rgba(0,217,255,0.12), rgba(168,85,247,0.12));border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
     html += '<div style="font-weight:800;color:var(--primary-cyan);font-family:Orbitron,sans-serif;display:flex;align-items:center;gap:8px;font-size:var(--app-font-size-sm);flex-wrap:wrap;">' + escapeHtml(g.date) + ' <span style="background:rgba(0,217,255,0.15);padding:3px 10px;border-radius:99px;font-size:var(--app-font-size-xs);">' + escapeHtml(g.dari) + ' → ' + escapeHtml(g.ke) + '</span> <span style="background:rgba(0,217,255,0.15);padding:3px 10px;border-radius:99px;font-size:var(--app-font-size-xs);">Kal: ' + escapeHtml(g.ukuranOLS) + '</span></div>';
     html += '<div style="display:flex;gap:14px;font-size:var(--app-font-size-xs);"><div><div style="color:var(--text-muted);">Total</div><strong style="font-family:Orbitron,sans-serif;">' + g.items.length + '</strong></div><div><div style="color:var(--text-muted);">Terpakai</div><strong style="font-family:Orbitron,sans-serif;color:#EC4899;">' + usedCount + '</strong></div><div><div style="color:var(--text-muted);">Tersedia</div><strong style="font-family:Orbitron,sans-serif;color:#10B981;">' + availCount + '</strong></div></div></div>';
-    html += '<div style="overflow-x:auto;"><table class="records-table"><thead><tr><th class="col-no">No</th><th style="text-align:center;">Port</th><th style="text-align:center;">Label</th><th style="text-align:center;">Warna Tube</th><th style="text-align:center;">Warna Kabel</th><th style="text-align:center;">Status</th><th class="col-ket">Ket</th><th>User</th><th class="' + aksiClass + '">Aksi</th></tr></thead><tbody>';
+    html += '<div style="overflow-x:auto;"><table class="records-table"><thead><tr><th class="col-no">No</th><th style="text-align:center;">Port</th><th style="text-align:center;">DBM</th><th style="text-align:center;">Label</th><th style="text-align:center;">Warna Tube</th><th style="text-align:center;">Warna Kabel</th><th style="text-align:center;">Status</th><th class="col-ket">Ket</th><th>User</th><th class="' + aksiClass + '">Aksi</th></tr></thead><tbody>';
     g.items.forEach(function(x, i) {
       var it = x.data;
       var ketBtn = '<button class="ket-btn" onclick="showKetPopup(\'' + escapeAttr(x.key) + '\',\'OPM-OLS\')" title="Lihat Keterangan">ⓘ</button>';
@@ -3354,7 +3296,7 @@ function renderOpmGroupedTables(list) {
       var portHex = WARNA_KABEL_HEX[(it.warnaKabel || '').toUpperCase()] || '#00D9FF';
       var portTxt = getTextColorForBg(portHex);
       var statusBadge = isUsed ? '<span class="status-badge" style="background:rgba(236,72,153,0.15);color:#EC4899;">TERPAKAI</span>' : '<span class="status-badge status-ready">TERSEDIA</span>';
-      html += '<tr><td class="col-no">' + (i + 1) + '</td><td style="text-align:center;"><span class="opm-port-chip" style="background:' + portHex + ';color:' + portTxt + ';border-color:' + portHex + ';">' + (it.port || '-') + '</span></td><td style="text-align:center;font-weight:600;color:#A855F7;">' + (it.label || '-') + '</td><td style="text-align:center;">' + warnaChipHtml(it.warnaTube) + '</td><td style="text-align:center;">' + warnaChipHtml(it.warnaKabel) + '</td><td style="text-align:center;">' + statusBadge + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="' + aksiClass + '">' + aksi + '</td></tr>';
+      html += '<tr><td class="col-no">' + (i + 1) + '</td><td style="text-align:center;"><span class="opm-port-chip" style="background:' + portHex + ';color:' + portTxt + ';border-color:' + portHex + ';">' + (it.port || '-') + '</span></td><td style="text-align:center;font-weight:700;">' + (it.dbm !== undefined && it.dbm !== '' ? it.dbm : '-') + '</td><td style="text-align:center;font-weight:600;color:#A855F7;">' + (it.label || '-') + '</td><td style="text-align:center;">' + warnaChipHtml(it.warnaTube) + '</td><td style="text-align:center;">' + warnaChipHtml(it.warnaKabel) + '</td><td style="text-align:center;">' + statusBadge + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="' + aksiClass + '">' + aksi + '</td></tr>';
     });
     html += '</tbody></table></div>';
     html += '<div style="padding:10px 14px;border-top:1px solid var(--border-subtle);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">';
@@ -3371,7 +3313,7 @@ function exportOpmGroup(groupId) {
   var list = appData['OPM-OLS'] || {};
   var keys = Object.keys(list).filter(function(k) { var it = list[k]; return (it.date || '-') === date && (it.dari || '-') === dari && (it.ke || '-') === ke && (it.ukuranOLS || '-') === kal; });
   if (keys.length === 0) { showToast('Tidak ada data', 'error'); return; }
-  var rows = keys.map(function(k, idx) { var it = list[k] || {}; return { 'No': idx + 1, 'Tanggal': it.date || '', 'Dari': it.dari || '', 'Ke': it.ke || '', 'Kalibrasi': it.ukuranOLS || '', 'Ruas': it.ruas || '', 'Port': it.port || '', 'Label': it.label || '', 'Warna Tube': it.warnaTube || '', 'Warna Kabel': it.warnaKabel || '', 'Status': it.isUsed ? 'Terpakai' : 'Tersedia', 'Keterangan': it.keterangan || '', 'User': it.postBy || '' }; });
+  var rows = keys.map(function(k, idx) { var it = list[k] || {}; return { 'No': idx + 1, 'Tanggal': it.date || '', 'Dari': it.dari || '', 'Ke': it.ke || '', 'Kalibrasi': it.ukuranOLS || '', 'Ruas': it.ruas || '', 'Port': it.port || '', 'DBM': it.dbm || '', 'Label': it.label || '', 'Warna Tube': it.warnaTube || '', 'Warna Kabel': it.warnaKabel || '', 'Status': it.isUsed ? 'Terpakai' : 'Tersedia', 'Keterangan': it.keterangan || '', 'User': it.postBy || '' }; });
   var ws = XLSX.utils.json_to_sheet(rows);
   var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'OPM-OLS');
   XLSX.writeFile(wb, 'BUCIN_OPM_' + dari + '_' + ke + '_' + date + '.xlsx');
@@ -3389,7 +3331,7 @@ function hapusOpmGroup(groupId) {
   db.ref().update(updates).then(function() { catatRiwayat('OPM-OLS', 'Hapus Tabel', dari + ' → ' + ke, ''); showToast('✅ ' + keysToDelete.length + ' baris dihapus', 'success'); setTimeout(refetchData, 300); });
 }
 
-/* ============================================================ PATCH CORD — STOK BERGERAK ============================================================ */
+/* ============================================================ PATCH CORD ============================================================ */
 function findPatchcordRow(pcType, pcLength, gudang, excludeKey) {
   var existing = appData['Patch Cord'] || {};
   var found = null;
@@ -3595,7 +3537,7 @@ function submitForm(e) {
     var pel = document.getElementById('inp-p3-pelaksana').value.trim().toUpperCase();
     var lama = document.getElementById('inp-p3-lama').value.trim().toUpperCase();
     if (!loc3 || !crd3 || !pel || !lama) { showToast('Isi semua field', 'error'); return; }
-    data.location = loc3; data.coords = crd3; data.pelaksana = pel; data.lamaPekerjaan = lama;
+    data.location = loc3; data.coords = crd3; data.pelaksanaan = pel; data.lamaPekerjaan = lama;
     data.keterangan = document.getElementById('inp-p3-keterangan').value.trim().toUpperCase();
     detailText = loc3 + ' | ' + pel; ketText = data.keterangan;
   }
@@ -3701,7 +3643,7 @@ function openForm(editData, editKey) {
   try { applyAutoUppercase(); } catch (e) {}
 }
 function resetFormFields() {
-  var ids = ['inp-loc','inp-coords','inp-notes-stock','inp-notes-patch','inp-sn','inp-spec','inp-kondisi','inp-lemari','inp-rak','inp-riwayat','inp-kondisi-spare','inp-keterangan-normal','inp-update-sn','inp-update-spec','inp-update-tujuan','inp-update-lokasi','inp-update-notes','inp-ofcut-panjang','inp-ofcut-rute','inp-ofcut-penyebab','inp-ofcut-penyebab-lain','inp-ofcut-keterangan','inp-ofcut-waktu-co','inp-ofcut-waktu-up','inp-p3-pelaksana','inp-p3-lama','inp-p3-keterangan','inp-pc-type-lain','inp-pc-length-lain','inp-opm-ukuran','inp-alker-nama','inp-alker-sn','inp-alker-jenis','inp-alker-merk','inp-alker-keterangan','inp-alker-jumlah','inp-alker-satuan'];
+  var ids = ['inp-loc','inp-coords','inp-notes-stock','inp-notes-patch','inp-sn','inp-spec','inp-kondisi','inp-lemari','inp-rak','inp-riwayat','inp-kondisi-spare','inp-keterangan-normal','inp-update-sn','inp-update-spec','inp-update-tujuan','inp-update-lokasi','inp-update-notes','inp-ofcut-panjang','inp-ofcut-rute','inp-ofcut-penyebab','inp-ofcut-penyebab-lain','inp-ofcut-keterangan','inp-ofcut-waktu-co','inp-ofcut-waktu-up','inp-p3-pelaksana','inp-p3-lama','inp-p3-keterangan','inp-pc-type-lain','inp-pc-length-lain','inp-opm-ukuran','opm-dbm-input','opm-label-input','inp-alker-nama','inp-alker-sn','inp-alker-jenis','inp-alker-merk','inp-alker-keterangan','inp-alker-jumlah','inp-alker-satuan'];
   ids.forEach(function(id) { var el = document.getElementById(id); if (el) el.value = ''; });
   var elJumlah = document.getElementById('inp-alker-jumlah'); if (elJumlah) elJumlah.value = '1';
   document.getElementById('inp-pc-qty').value = '1';
@@ -4306,6 +4248,12 @@ function setupEventListeners() {
   var dln = document.getElementById('draw-line-name'); if (dln) dln.addEventListener('change', toggleCustomLineInput);
   document.addEventListener('click', refreshSession); document.addEventListener('keydown', refreshSession);
 
+  var opmDbmInput = document.getElementById('opm-dbm-input');
+  if (opmDbmInput) {
+    opmDbmInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); toggleOpmPortCheck(); }
+    });
+  }
   var opmLabelInput = document.getElementById('opm-label-input');
   if (opmLabelInput) {
     opmLabelInput.addEventListener('keydown', function(e) {
