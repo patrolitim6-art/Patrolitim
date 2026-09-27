@@ -83,18 +83,12 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 
 /* ============ HEADER ============ */
 .top-header {
-  position: sticky;
-  top: 0;
-  z-index: 9000 !important;
+  position: sticky; top: 0; z-index: 9000 !important;
   height: var(--header-h);
   border-bottom: 1px solid var(--header-solid-border);
   background: var(--header-solid);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 18px;
-  gap: 12px;
-  overflow: visible !important;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 18px; gap: 12px; overflow: visible !important;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
   flex-wrap: nowrap;
 }
@@ -104,15 +98,7 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .brand-text { font-weight: 900; line-height: 1.05; font-family: 'Orbitron', sans-serif; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1.8px; font-size: 22px; }
 .brand-sub { color: var(--primary-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-family: 'Orbitron', sans-serif; font-size: 10px; margin-top: 2px; }
 
-.header-nav {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex: 1;
-  justify-content: center;
-  overflow: visible !important;
-  padding: 0 8px;
-}
+.header-nav { display: flex; align-items: center; gap: 4px; flex: 1; justify-content: center; overflow: visible !important; padding: 0 8px; }
 
 .nav-dropdown { position: relative; flex-shrink: 0; }
 .nav-btn {
@@ -131,18 +117,12 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .nav-dropdown.open .nav-btn .chev { transform: rotate(180deg); }
 
 .nav-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 220px;
-  background: var(--header-solid);
+  position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  min-width: 220px; background: var(--header-solid);
   border: 1px solid var(--header-solid-border);
-  border-radius: 14px;
-  padding: 6px;
+  border-radius: 14px; padding: 6px;
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
-  display: none;
-  z-index: 99999 !important;
+  display: none; z-index: 99999 !important;
 }
 .nav-dropdown.open .nav-dropdown-menu { display: block; }
 :root[data-theme="light"] .nav-dropdown-menu { box-shadow: 0 18px 48px rgba(0, 0, 0, 0.15); }
@@ -163,11 +143,8 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 
 .header-user-box {
   display: flex; align-items: center; gap: 8px;
-  padding: 5px 10px;
-  background: var(--surface-3);
-  border-radius: 10px;
-  border: 1px solid var(--border-subtle);
-  margin-left: 4px;
+  padding: 5px 10px; background: var(--surface-3);
+  border-radius: 10px; border: 1px solid var(--border-subtle); margin-left: 4px;
 }
 
 /* ============ MAIN LAYOUT ============ */
@@ -176,8 +153,7 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .layout-three-columns {
   display: grid;
   grid-template-columns: 300px minmax(0, 1fr) 340px;
-  gap: 12px;
-  align-items: start;
+  gap: 12px; align-items: start;
 }
 @media (max-width: 1400px) { .layout-three-columns { grid-template-columns: 280px minmax(0, 1fr) 320px; } }
 @media (max-width: 1200px) {
@@ -189,7 +165,6 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
   .layout-three-columns > .layout-left,
   .layout-three-columns > .layout-right { grid-template-columns: 1fr; }
 }
-
 .layout-center, .layout-left, .layout-right { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 
 /* ============ BUTTONS ============ */
@@ -203,25 +178,26 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .icon-btn.edit { color: #10B981; }
 .icon-btn.info { color: #F59E0B; }
 
-/* ===== TOMBOL EDIT & HAPUS & INFO DI TABEL ===== */
+/* ===== KOLOM AKSI DIPERKECIL & HANYA UNTUK ADMIN ===== */
 .records-table .col-aksi .icon-btn,
 .records-table .col-aksi .icon-btn.edit,
-.records-table .col-aksi .icon-btn.delete,
-.records-table .col-aksi .icon-btn.info {
-  width: 34px;
-  height: 34px;
-  min-width: 34px;
-  min-height: 34px;
-  font-size: 16px;
+.records-table .col-aksi .icon-btn.delete {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  font-size: 13px;
   font-weight: 900;
-  border-radius: 8px;
+  border-radius: 6px;
   display: inline-grid;
   place-items: center;
   margin: 0 1px;
 }
 .records-table .col-aksi .icon-btn.edit:hover { background: rgba(16, 185, 129, 0.2); }
 .records-table .col-aksi .icon-btn.delete:hover { background: rgba(236, 72, 153, 0.2); }
-.records-table .col-aksi .icon-btn.info:hover { background: rgba(245, 158, 11, 0.2); }
+/* Sembunyikan kolom aksi dari user non-admin */
+.records-table th.col-aksi.no-admin,
+.records-table td.col-aksi.no-admin { display: none !important; }
 
 .card { background: var(--surface-1); border-radius: var(--radius); box-shadow: var(--shadow-card); padding: 16px; border: 1px solid var(--border-subtle); position: relative; overflow: hidden; }
 .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.6; }
@@ -231,23 +207,25 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 textarea.field-control { padding: 12px 16px; resize: vertical; }
 select.field-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300D9FF' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
 select.field-control option { background: var(--surface-3); color: var(--text-main); }
+.field-control[readonly] { background: rgba(148,163,184,0.08); cursor: not-allowed; }
 
 .modal-layer { position: fixed; z-index: 10000; inset: 0; background: rgba(5, 8, 16, 0.85); display: grid; place-items: center; padding: 20px; overflow-y: auto; }
 .modal-card { background: var(--surface-modal); width: 100%; max-width: 560px; border-radius: 24px; max-height: 92vh; overflow-y: auto; padding: 24px; box-shadow: var(--shadow-modal); border: 1px solid var(--border-glow); color: var(--text-main); }
 .hidden { display: none !important; }
 
-/* ===== POPUP LOKASI ===== */
-.lokasi-link { color: var(--primary-cyan); cursor: pointer; text-decoration: underline dotted; font-weight: 600; }
-.lokasi-link:hover { color: #F59E0B; }
-.lokasi-popup-overlay { position: fixed; z-index: 12000; inset: 0; background: rgba(5,8,16,0.85); display: grid; place-items: center; padding: 20px; }
-.lokasi-popup-card { background: var(--surface-modal); border: 1px solid var(--border-glow); border-radius: 16px; max-width: 480px; width: 100%; padding: 20px; box-shadow: var(--shadow-modal); }
-.lokasi-popup-title { font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-.lokasi-popup-body { background: rgba(0,217,255,0.06); padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border-glow); color: var(--text-main); line-height: 1.6; word-break: break-word; font-size: var(--app-font-size-sm); margin-bottom: 14px; }
-.lokasi-popup-coords { color: var(--text-muted); font-size: var(--app-font-size-xs); font-family: 'Orbitron', monospace; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-subtle); }
+/* ===== POPUP MAPS-STYLE (floating) ===== */
+.maps-popup-overlay { position: fixed; z-index: 12000; inset: 0; background: rgba(5,8,16,0.55); display: grid; place-items: center; padding: 20px; }
+.maps-popup-card { background: var(--surface-modal); border: 1px solid var(--border-glow); border-radius: 14px; max-width: 420px; width: 100%; padding: 0; box-shadow: var(--shadow-modal), 0 0 0 1px rgba(0,217,255,0.15); overflow: hidden; position: relative; animation: popupIn 0.18s ease-out; }
+@keyframes popupIn { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.maps-popup-header { padding: 12px 14px; background: linear-gradient(135deg, rgba(0,217,255,0.12), rgba(168,85,247,0.12)); border-bottom: 1px solid var(--border-glow); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.maps-popup-title { font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-sm); display: flex; align-items: center; gap: 8px; }
+.maps-popup-close { background: none; border: 0; color: var(--text-muted); cursor: pointer; padding: 4px; border-radius: 6px; display: grid; place-items: center; }
+.maps-popup-close:hover { background: rgba(239,68,68,0.15); color: #EF4444; }
+.maps-popup-body { padding: 14px; max-height: 70vh; overflow-y: auto; }
+.maps-popup-coords { color: var(--text-muted); font-size: var(--app-font-size-xs); font-family: 'Orbitron', monospace; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-subtle); }
+.maps-popup-arrow { position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%) rotate(45deg); width: 16px; height: 16px; background: var(--surface-modal); border-right: 1px solid var(--border-glow); border-bottom: 1px solid var(--border-glow); }
 
-/* ===== POPUP KETERANGAN (INFO) ===== */
-.ket-popup-card { background: var(--surface-modal); border: 1px solid var(--border-glow); border-radius: 16px; max-width: 560px; width: 100%; padding: 20px; box-shadow: var(--shadow-modal); max-height: 85vh; overflow-y: auto; }
-.ket-popup-title { font-weight: 800; color: #F59E0B; font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--border-subtle); }
+/* Keterangan grid di popup */
 .ket-popup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin-bottom: 12px; }
 .ket-popup-row { display: flex; flex-direction: column; gap: 2px; padding: 6px 0; border-bottom: 1px dashed var(--border-subtle); }
 .ket-popup-row.full { grid-column: 1 / -1; }
@@ -257,6 +235,15 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .ket-popup-keterangan-box .label { font-size: 10px; color: #F59E0B; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; margin-bottom: 6px; }
 .ket-popup-keterangan-box .content { color: var(--text-main); font-size: var(--app-font-size-sm); line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
 @media (max-width: 600px) { .ket-popup-grid { grid-template-columns: 1fr; } }
+
+/* Lokasi di tabel sebagai tombol popup */
+.lokasi-btn { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 6px; background: rgba(0,217,255,0.08); border: 1px solid var(--border-glow); color: var(--primary-cyan); cursor: pointer; font-weight: 600; font-size: var(--app-font-size-xs); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lokasi-btn:hover { background: rgba(0,217,255,0.18); border-color: var(--primary-cyan); }
+.lokasi-btn i { width: 10px; height: 10px; flex-shrink: 0; }
+
+/* Ket button */
+.ket-btn { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.4); color: #F59E0B; cursor: pointer; font-size: 13px; font-weight: 900; }
+.ket-btn:hover { background: rgba(245,158,11,0.25); }
 
 .login-screen { position: fixed; inset: 0; background: var(--surface-login); z-index: 20000; display: grid; place-items: center; padding: 20px; overflow-y: auto; }
 .login-card { background: var(--surface-login-card); padding: 40px 36px; border-radius: 28px; width: 100%; max-width: 420px; box-shadow: var(--shadow-modal), 0 0 0 1px var(--border-glow); border: 1px solid var(--border-glow); }
@@ -284,7 +271,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .hero-big-number { position: absolute; top: 12px; right: 16px; text-align: right; }
 .hero-big-number .hbn-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-dim); font-weight: 700; }
 .hero-big-number .hbn-value { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 34px; line-height: 1; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.ai-hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 99px; background: rgba(0, 217, 255, 0.12); border: 1px solid var(--border-glow); color: var(--primary-cyan); font-size: 9px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; font-family: 'Orbitron', sans-serif; }
 .ai-hero-title { font-size: 20px; font-weight: 800; line-height: 1.25; margin-bottom: 4px; }
 .ai-hero-title .accent { background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .ai-hero-sub { font-size: var(--app-font-size-xs); color: var(--text-muted); margin-bottom: 8px; }
@@ -307,20 +293,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .ai-panel-map { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 0; overflow: hidden; position: relative; box-shadow: var(--shadow-card); }
 .ai-panel-map::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tech-gradient); opacity: 0.55; z-index: 5; }
 
-.map-outer-wrap {
-  position: relative;
-  width: 100%;
-  height: 680px;
-  min-height: 320px;
-}
-#map-container {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  overflow: hidden;
-}
+.map-outer-wrap { position: relative; width: 100%; height: 680px; min-height: 320px; }
+#map-container { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
 #map-container canvas { display: block; }
 
 .ai-cat-list { display: flex; flex-direction: column; gap: 6px; }
@@ -360,85 +334,27 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .mini-legend-value { font-family: 'Orbitron', sans-serif; font-weight: 800; color: var(--text-main); }
 
 .ai-chart-wrap { position: relative; height: 220px; flex: 1; }
-
-.ai-chart-wrap-line {
-  position: relative;
-  height: 240px;
-  width: 100%;
-  margin-top: 4px;
-}
+.ai-chart-wrap-line { position: relative; height: 240px; width: 100%; margin-top: 4px; }
 
 .ytd-compare-grid-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
-.ytd-card {
-  background: var(--surface-3);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  padding: 10px 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 0;
-  box-shadow: none;
-}
-.ytd-card .ytd-label {
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  font-size: 9px;
-  line-height: 1.2;
-  border-left: 3px solid currentColor;
-  padding-left: 6px;
-}
-.ytd-card .ytd-values {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  flex-wrap: wrap;
-  font-family: 'Orbitron', sans-serif;
-}
+.ytd-card { background: var(--surface-3); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 10px 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0; box-shadow: none; }
+.ytd-card .ytd-label { font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; font-size: 9px; line-height: 1.2; border-left: 3px solid currentColor; padding-left: 6px; }
+.ytd-card .ytd-values { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; font-family: 'Orbitron', sans-serif; }
 .ytd-card .ytd-prev { color: var(--text-dim); font-weight: 500; font-size: 9px; }
 .ytd-card .ytd-current { font-weight: 800; color: var(--text-main); font-size: 14px; }
-.ytd-card .ytd-diff {
-  font-weight: 800;
-  padding: 1px 5px;
-  border-radius: 4px;
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  font-size: 9px;
-  border: none;
-}
+.ytd-card .ytd-diff { font-weight: 800; padding: 1px 5px; border-radius: 4px; display: inline-flex; align-items: center; gap: 2px; font-size: 9px; border: none; }
 .ytd-card .ytd-diff.up { background: rgba(239, 68, 68, 0.15); color: #EF4444; }
 .ytd-card .ytd-diff.down { background: rgba(16, 185, 129, 0.15); color: #10B981; }
 .ytd-card .ytd-diff.same { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); }
 
 .chart-rekap-scroll { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
 .chart-rekap-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 9px; }
-.chart-rekap-table th {
-  background: var(--surface-table-header-solid-alt);
-  padding: 4px 2px; text-align: center;
-  border: 1px solid var(--border-subtle);
-  font-weight: 700; color: var(--primary-cyan);
-  text-transform: uppercase; letter-spacing: 0.2px;
-  white-space: nowrap; font-size: 7px; line-height: 1.15;
-  vertical-align: middle;
-}
-.chart-rekap-table td {
-  padding: 3px 2px; text-align: center;
-  border: 1px solid var(--border-subtle);
-  color: var(--text-main); font-weight: 600;
-  line-height: 1.15; font-size: 9px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
+.chart-rekap-table th { background: var(--surface-table-header-solid-alt); padding: 4px 2px; text-align: center; border: 1px solid var(--border-subtle); font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.2px; white-space: nowrap; font-size: 7px; line-height: 1.15; vertical-align: middle; }
+.chart-rekap-table td { padding: 3px 2px; text-align: center; border: 1px solid var(--border-subtle); color: var(--text-main); font-weight: 600; line-height: 1.15; font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .chart-rekap-table th.th-tahun, .chart-rekap-table td.td-tahun { width: 34px; min-width: 34px; font-family: 'Orbitron', sans-serif; font-weight: 800; color: var(--primary-cyan); }
 .chart-rekap-table th.th-num, .chart-rekap-table td.td-num { width: 28px; min-width: 28px; font-family: 'Orbitron', sans-serif; font-weight: 700; }
 .chart-rekap-table th.th-pct, .chart-rekap-table td.td-pct { width: 38px; min-width: 38px; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 8px; }
-.chart-rekap-table th.th-total, .chart-rekap-table td.td-total {
-  width: 40px; min-width: 40px;
-  font-family: 'Orbitron', sans-serif; font-weight: 800;
-  color: #10B981; background: rgba(16, 185, 129, 0.06);
-  border-left: 1px solid rgba(16, 185, 129, 0.4);
-}
+.chart-rekap-table th.th-total, .chart-rekap-table td.td-total { width: 40px; min-width: 40px; font-family: 'Orbitron', sans-serif; font-weight: 800; color: #10B981; background: rgba(16, 185, 129, 0.06); border-left: 1px solid rgba(16, 185, 129, 0.4); }
 .chart-rekap-table th.th-total { background: rgba(16, 185, 129, 0.15); color: #34D399; }
 .chart-rekap-table tr.total-row td { background: rgba(0, 217, 255, 0.06); font-weight: 800; color: var(--primary-cyan); border-top: 1px solid var(--border-glow); }
 .chart-rekap-table tr.total-row td.td-total { background: rgba(16, 185, 129, 0.12); }
@@ -492,13 +408,13 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .records-table th { background: var(--surface-table-header-solid) !important; padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--surface-table-border-solid); font-weight: 700; color: var(--primary-cyan); white-space: nowrap; text-transform: uppercase; letter-spacing: 0.8px; font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-xs); position: sticky; top: 0; z-index: 10; }
 .records-table td { padding: 10px 8px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; color: var(--text-main); font-size: var(--app-font-size-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
 .records-table td.col-ket,
-.records-table th.col-ket { white-space: nowrap !important; overflow: visible !important; text-overflow: clip !important; text-align: center; }
+.records-table th.col-ket { white-space: nowrap !important; overflow: visible !important; text-overflow: clip !important; text-align: center; width: 44px; min-width: 44px; }
 .records-table tr:hover td { background: rgba(0, 217, 255, 0.05); }
 .records-table code { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); padding: 2px 6px; border-radius: 6px; font-family: 'Orbitron', monospace; border: 1px solid rgba(0, 217, 255, 0.2); font-size: var(--app-font-size-xs); white-space: nowrap; }
 .records-table th.col-no, .records-table td.col-no { width: 44px; min-width: 44px; text-align: center; font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; position: sticky; left: 0; z-index: 3; background: var(--surface-3); border-right: 1px solid var(--surface-table-border-solid); font-size: var(--app-font-size-xs); white-space: nowrap; }
 .records-table th.col-no { background: var(--surface-table-header-solid-alt) !important; z-index: 12; }
-/* KOLOM AKSI */
-.records-table th.col-aksi, .records-table td.col-aksi { width: 120px; min-width: 120px; text-align: center; white-space: nowrap; position: sticky; right: 0; border-left: 1px solid var(--surface-table-border-solid); background: var(--surface-3); z-index: 2; padding: 6px 4px; }
+/* KOLOM AKSI DIPERKECIL */
+.records-table th.col-aksi, .records-table td.col-aksi { width: 66px; min-width: 66px; text-align: center; white-space: nowrap; position: sticky; right: 0; border-left: 1px solid var(--surface-table-border-solid); background: var(--surface-3); z-index: 2; padding: 6px 4px; }
 .records-table th.col-aksi { background: var(--surface-table-header-solid-alt) !important; z-index: 12; }
 
 .durasi-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(16,185,129,0.15); color: #10B981; font-weight: 700; font-size: var(--app-font-size-xs); white-space: nowrap; }
@@ -602,7 +518,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .hero-big-number { position: static; text-align: left; margin-bottom: 6px; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
   .hero-big-number .hbn-value { font-size: 28px; display: inline; }
   .hero-big-number .hbn-label { font-size: 7px; display: inline; }
-  .ai-hero-badge { display: none; }
   .ai-hero-title { font-size: 16px; display: inline; margin-right: 8px; }
   .ai-hero-sub { font-size: 10px; margin-bottom: 6px; }
   .ai-hero-stats { grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 8px; }
@@ -640,15 +555,17 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .chart-rekap-table th.th-pct, .chart-rekap-table td.td-pct { width: 28px; min-width: 28px; font-size: 6px; }
   .chart-rekap-table th.th-total, .chart-rekap-table td.td-total { width: 28px; min-width: 28px; font-size: 7px; }
 
-  /* TABEL DATA - kompak */
   .records-table th { padding: 5px 5px; font-size: 7px; letter-spacing: 0.3px; }
   .records-table td { padding: 4px 5px; font-size: 9px; max-width: 130px; }
   .records-table th.col-no, .records-table td.col-no { width: 28px; min-width: 28px; font-size: 8px; }
-  .records-table th.col-aksi, .records-table td.col-aksi { width: 96px; min-width: 96px; padding: 4px 2px; }
+  .records-table th.col-ket, .records-table td.col-ket { width: 34px; min-width: 34px; }
+  .records-table th.col-aksi, .records-table td.col-aksi { width: 52px; min-width: 52px; padding: 4px 2px; }
   .records-table .col-aksi .icon-btn,
   .records-table .col-aksi .icon-btn.edit,
-  .records-table .col-aksi .icon-btn.delete,
-  .records-table .col-aksi .icon-btn.info { width: 26px; height: 26px; min-width: 26px; min-height: 26px; font-size: 12px; border-radius: 6px; margin: 0 1px; }
+  .records-table .col-aksi .icon-btn.delete { width: 22px; height: 22px; min-width: 22px; min-height: 22px; font-size: 11px; border-radius: 5px; margin: 0 1px; }
+
+  .ket-btn { width: 20px; height: 20px; font-size: 11px; }
+  .lokasi-btn { padding: 2px 6px; font-size: 8px; }
 
   .sub-tab, .gudang-tab { padding: 6px 12px; font-size: 10px; }
   .stok-summary { padding: 8px 10px; gap: 6px; }
@@ -685,8 +602,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .stok-spare-name { font-size: 10px; }
   .stok-spare-value { font-size: 12px; }
 
-  .ket-popup-card { padding: 14px; }
-  .lokasi-popup-card { padding: 14px; }
+  .maps-popup-card { max-width: 92vw; }
+  .maps-popup-body { padding: 12px; }
 }
 
 @media (max-width: 420px) {
@@ -711,11 +628,11 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .records-table th { padding: 4px 3px; font-size: 6.5px; }
   .records-table td { padding: 3px 3px; font-size: 8px; max-width: 100px; }
   .records-table th.col-no, .records-table td.col-no { width: 22px; min-width: 22px; font-size: 7px; }
-  .records-table th.col-aksi, .records-table td.col-aksi { width: 88px; min-width: 88px; padding: 3px 1px; }
+  .records-table th.col-ket, .records-table td.col-ket { width: 30px; min-width: 30px; }
+  .records-table th.col-aksi, .records-table td.col-aksi { width: 46px; min-width: 46px; padding: 3px 1px; }
   .records-table .col-aksi .icon-btn,
   .records-table .col-aksi .icon-btn.edit,
-  .records-table .col-aksi .icon-btn.delete,
-  .records-table .col-aksi .icon-btn.info { width: 24px; height: 24px; min-width: 24px; min-height: 24px; font-size: 11px; border-radius: 5px; margin: 0 1px; }
+  .records-table .col-aksi .icon-btn.delete { width: 20px; height: 20px; min-width: 20px; min-height: 20px; font-size: 10px; border-radius: 4px; margin: 0; }
 
   .chart-rekap-table th { font-size: 4.5px; padding: 1px; }
   .chart-rekap-table td { font-size: 6px; padding: 1px; }
@@ -1147,26 +1064,32 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   </main>
 </div>
 
-<!-- POPUP LOKASI -->
-<div id="lokasi-popup" class="lokasi-popup-overlay hidden" onclick="if(event.target===this) closeLokasiPopup()">
-  <div class="lokasi-popup-card">
-    <div class="lokasi-popup-title"><i data-lucide="map-pin" style="width:18px;"></i> Detail Lokasi</div>
-    <div class="lokasi-popup-body" id="lokasi-popup-body">-</div>
-    <div class="lokasi-popup-coords" id="lokasi-popup-coords" style="display:none;">Koordinat: -</div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap;">
-      <button class="btn-secondary" onclick="closeLokasiPopup()" style="padding:8px 16px;min-height:40px;border-radius:10px;font-size:var(--app-font-size-xs);">Tutup</button>
+<!-- POPUP LOKASI (gaya maps) -->
+<div id="lokasi-popup" class="maps-popup-overlay hidden" onclick="if(event.target===this) closeLokasiPopup()">
+  <div class="maps-popup-card">
+    <div class="maps-popup-header">
+      <div class="maps-popup-title"><i data-lucide="map-pin" style="width:16px;"></i> Detail Lokasi</div>
+      <button class="maps-popup-close" onclick="closeLokasiPopup()" title="Tutup"><i data-lucide="x" style="width:18px;"></i></button>
     </div>
+    <div class="maps-popup-body">
+      <div id="lokasi-popup-body" style="color:var(--text-main);line-height:1.6;font-size:var(--app-font-size-sm);">-</div>
+      <div class="maps-popup-coords" id="lokasi-popup-coords" style="display:none;">Koordinat: -</div>
+    </div>
+    <div class="maps-popup-arrow"></div>
   </div>
 </div>
 
-<!-- POPUP KETERANGAN (INFO) -->
-<div id="ket-popup" class="lokasi-popup-overlay hidden" onclick="if(event.target===this) closeKetPopup()">
-  <div class="ket-popup-card">
-    <div class="ket-popup-title"><i data-lucide="info" style="width:18px;"></i> <span id="ket-popup-title-text">Detail Data</span></div>
-    <div id="ket-popup-content"></div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap;">
-      <button class="btn-secondary" onclick="closeKetPopup()" style="padding:8px 16px;min-height:40px;border-radius:10px;font-size:var(--app-font-size-xs);">Tutup</button>
+<!-- POPUP KETERANGAN (gaya maps) -->
+<div id="ket-popup" class="maps-popup-overlay hidden" onclick="if(event.target===this) closeKetPopup()">
+  <div class="maps-popup-card">
+    <div class="maps-popup-header">
+      <div class="maps-popup-title"><i data-lucide="info" style="width:16px;"></i> <span id="ket-popup-title-text">Detail Data</span></div>
+      <button class="maps-popup-close" onclick="closeKetPopup()" title="Tutup"><i data-lucide="x" style="width:18px;"></i></button>
     </div>
+    <div class="maps-popup-body">
+      <div id="ket-popup-content"></div>
+    </div>
+    <div class="maps-popup-arrow"></div>
   </div>
 </div>
 
@@ -1380,14 +1303,14 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
               <div><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Nilai Kalibrasi *</label><input type="text" id="inp-opm-ukuran" class="field-control"></div>
               <div><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Ruas *</label><select id="inp-opm-ruas" class="field-control"><option value="">-- Pilih --</option><option value="OSP LINE 1">OSP LINE 1</option><option value="OSP LINE 2">OSP LINE 2</option><option value="OSP LINE 3">OSP LINE 3</option><option value="IGG LINE 1">IGG LINE 1</option><option value="IGG LINE 2">IGG LINE 2</option><option value="DWDM">DWDM</option><option value="SEA US LINE 1">SEA US LINE 1</option><option value="SEA US LINE 2">SEA US LINE 2</option></select></div>
             </div>
-            <div style="margin-top:12px;"><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Warna Tube</label><select id="inp-opm-warna-tube" class="field-control"><option value="">-- Pilih --</option><option value="BIRU">Biru</option><option value="ORANGE">Orange</option><option value="HIJAU">Hijau</option><option value="COKELAT">Cokelat</option><option value="ABU-ABU">Abu-abu</option><option value="PUTIH">Putih</option><option value="MERAH">Merah</option><option value="HITAM">Hitam</option><option value="KUNING">Kuning</option><option value="UNGU">Ungu</option><option value="PINK">Pink</option><option value="TOSKA">Toska</option></select></div>
+            <div style="margin-top:12px;"><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Warna Tube (otomatis)</label><input type="text" id="inp-opm-warna-tube" class="field-control" readonly placeholder="Otomatis mengikuti port"></div>
             <div id="opm-warning" class="opm-warning"><span>"Dari" dan "Ke" tidak boleh sama!</span></div>
           </div>
           <div class="opm-step-card">
             <div class="opm-step-title">Step 2 — Pilih Port</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <div><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Port</label><select id="opm-port-select" class="field-control" onchange="pilihPortDropdown(this)"></select></div>
-              <div><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Warna Kabel</label><select id="inp-opm-warna-kabel" class="field-control" onchange="updatePortChipsColor()"><option value="">-- Pilih --</option><option value="BIRU">Biru</option><option value="ORANGE">Orange</option><option value="HIJAU">Hijau</option><option value="COKELAT">Cokelat</option><option value="ABU-ABU">Abu-abu</option><option value="PUTIH">Putih</option><option value="MERAH">Merah</option><option value="HITAM">Hitam</option><option value="KUNING">Kuning</option><option value="UNGU">Ungu</option><option value="PINK">Pink</option><option value="TOSKA">Toska</option></select></div>
+              <div><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Port (harus berurutan)</label><select id="opm-port-select" class="field-control" onchange="pilihPortDropdown(this)"></select></div>
+              <div><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Warna Kabel (otomatis)</label><input type="text" id="inp-opm-warna-kabel" class="field-control" readonly placeholder="Otomatis mengikuti port"></div>
             </div>
             <div class="opm-port-chips" id="opm-port-chips"><span class="opm-port-chips-empty">Belum ada port dipilih</span></div>
             <input type="hidden" id="inp-opm-port" value="">
@@ -1396,7 +1319,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
               <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:700;color:#EC4899;font-size:var(--app-font-size-sm);"><input type="checkbox" id="inp-opm-used" onchange="toggleOpmUsedLabel()" style="width:18px;height:18px;accent-color:#EC4899;">Port Telah Terpakai</label>
               <div id="opm-used-label-wrap" class="hidden" style="margin-top:10px;"><input type="text" id="inp-opm-label" class="field-control" placeholder="Label"></div>
             </div>
-            <div style="margin-top:12px;"><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Keterangan</label><input type="text" id="inp-opm-keterangan" class="field-control"></div>
             <button type="button" onclick="addOpmPortToList()" class="btn-primary" style="width:100%;justify-content:center;margin-top:14px;background:linear-gradient(135deg,#10B981 0%,#059669 100%);">Submit Port</button>
           </div>
           <div class="opm-step-card">
@@ -1582,7 +1504,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
     </div>
 
     <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border-subtle);">
-      <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">&copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Versi 3.5.3</p>
+      <p style="color:var(--text-dim);margin:0;font-size:var(--app-font-size-xs);">&copy; 2026 <strong style="color:var(--primary-cyan);">BUCIN</strong> — Versi 3.5.4</p>
     </div>
     <div style="margin-top:16px;display:flex;justify-content:center;">
       <button onclick="closeAboutModal()" class="btn-primary" style="min-width:200px;justify-content:center;">Mengerti</button>
@@ -1743,16 +1665,13 @@ let customLines = {};
 let selectedLineFilters = null;
 let allAvailableLines = [];
 const kmlLineColors = { 'OSP LINE 1': '#FF0000','OSP LINE 2': '#00FF00','OSP LINE 3': '#0000FF','IGG LINE 1': '#FFA500','IGG LINE 2': '#800080','DWDM': '#FF00FF','SEA US LINE 1': '#00FFFF','SEA US LINE 2': '#FFD700' };
-let quaggaRunning = false;
 let selectedGudang = '';
 let chartIncidents = null;
 let doughnutIncidents = null;
 let doughnutAset = null;
 let chartOfCutLine = null;
 let editingKey = null;
-let scannerStream = null;
 let isSubmitting = false;
-let barcodeCache = {};
 let selectedGudangFilter = 'all';
 let currentPeriod = 'all';
 let currentYear = new Date().getFullYear();
@@ -1786,6 +1705,9 @@ const POINT_CATEGORIES = [
   { key: 'Joint', label: 'Joint', color: '#FFFF00' },
   { key: 'Handhole', label: 'Handhole', color: '#FF00FF' }
 ];
+
+/* Urutan warna tube & kabel standar (12 warna) */
+const WARNA_URUTAN = ['BIRU','ORANGE','HIJAU','COKELAT','ABU-ABU','PUTIH','MERAH','HITAM','KUNING','UNGU','PINK','TOSKA'];
 
 const LS_KEY_PAGE = 'bucin_current_page';
 const LS_KEY_SUBTAB = 'bucin_current_subtab';
@@ -1893,7 +1815,7 @@ function startLiveClock() {
   liveClockInterval = setInterval(tick, 1000);
 }
 
-/* ===== EKSTRAK NAMA JALAN DARI LOKASI LENGKAP ===== */
+/* ===== EKSTRAK NAMA JALAN (disingkat Jl.) ===== */
 function ekstrakNamaJalan(lokasi) {
   if (!lokasi) return '-';
   var s = String(lokasi).trim();
@@ -1902,13 +1824,24 @@ function ekstrakNamaJalan(lokasi) {
   if (parts.length === 0) return '-';
   for (var i = 0; i < parts.length; i++) {
     var p = parts[i];
-    if (/^(jl\.?|jalan|gang|gg\.?|jln\.?)\s/i.test(p)) return p;
+    // Deteksi nama jalan
+    if (/^(jl\.?|jalan|jln\.?)\s/i.test(p)) {
+      // Ubah "Jalan" / "Jln" menjadi "Jl."
+      return p.replace(/^(jl\.?|jalan|jln\.?)\s/i, 'Jl. ');
+    }
+    if (/^gang\s/i.test(p) || /^gg\.?\s/i.test(p)) return p;
   }
-  if (/^\d/.test(parts[0]) && parts.length > 1) return parts[1];
-  return parts[0];
+  if (/^\d/.test(parts[0]) && parts.length > 1) {
+    var p2 = parts[1];
+    if (/^(jl\.?|jalan|jln\.?)\s/i.test(p2)) return p2.replace(/^(jl\.?|jalan|jln\.?)\s/i, 'Jl. ');
+    return p2;
+  }
+  var first = parts[0];
+  if (/^(jl\.?|jalan|jln\.?)\s/i.test(first)) return first.replace(/^(jl\.?|jalan|jln\.?)\s/i, 'Jl. ');
+  return first;
 }
 
-/* ===== POPUP LOKASI ===== */
+/* ===== POPUP LOKASI (gaya maps) ===== */
 function showLokasiPopup(lokasi, coords) {
   var bodyEl = document.getElementById('lokasi-popup-body');
   var coordsEl = document.getElementById('lokasi-popup-coords');
@@ -1924,15 +1857,11 @@ function closeLokasiPopup() { document.getElementById('lokasi-popup').classList.
 window.showLokasiPopup = showLokasiPopup;
 window.closeLokasiPopup = closeLokasiPopup;
 
-/* ===== POPUP KETERANGAN (INFO) ===== */
+/* ===== POPUP KETERANGAN (gaya maps) ===== */
 function buildKetPopupContent(cat, it) {
   function row(label, value) {
     if (value === undefined || value === null || value === '') return '';
     return '<div class="ket-popup-row"><div class="ket-popup-label">' + escapeHtml(label) + '</div><div class="ket-popup-value">' + escapeHtml(String(value)) + '</div></div>';
-  }
-  function rowFull(label, value) {
-    if (value === undefined || value === null || value === '') return '';
-    return '<div class="ket-popup-row full"><div class="ket-popup-label">' + escapeHtml(label) + '</div><div class="ket-popup-value">' + escapeHtml(String(value)) + '</div></div>';
   }
   var html = '<div class="ket-popup-grid">';
   html += row('Kategori', cat);
@@ -1977,6 +1906,17 @@ function buildKetPopupContent(cat, it) {
     if (it.pcLength) html += row('Panjang', it.pcLength);
     if (it.qty !== undefined) html += row('Stok', it.qty);
     if (it.lastUpdate) html += row('Update Terakhir', it.lastUpdate);
+  } else if (cat === 'OPM-OLS') {
+    if (it.dari) html += row('Dari', it.dari);
+    if (it.ke) html += row('Ke', it.ke);
+    if (it.ukuranOLS) html += row('Kalibrasi', it.ukuranOLS);
+    if (it.ruas) html += row('Ruas', it.ruas);
+    if (it.port) html += row('Port', it.port);
+    if (it.dbm !== undefined) html += row('DBM', it.dbm);
+    if (it.warnaTube) html += row('Warna Tube', it.warnaTube);
+    if (it.warnaKabel) html += row('Warna Kabel', it.warnaKabel);
+    if (it.isUsed !== undefined) html += row('Status', it.isUsed ? 'Terpakai' : 'Tersedia');
+    if (it.label) html += row('Label', it.label);
   }
   html += '</div>';
 
@@ -2353,66 +2293,106 @@ function getTextColorForBg(hex) {
   return lum > 0.6 ? '#000000' : '#FFFFFF';
 }
 function getWarnaKabelHex() { var sel = document.getElementById('inp-opm-warna-kabel'); var name = (sel && sel.value ? sel.value : '').toUpperCase(); return WARNA_KABEL_HEX[name] || '#00D9FF'; }
-function updatePortChipsColor() { renderOpmPortChips(); renderOpmTempList(); }
 
 /* ============================================================ OPM ============================================================ */
+function getWarnaByPort(port) {
+  var p = parseInt(port);
+  if (isNaN(p) || p < 1) return '';
+  return WARNA_URUTAN[(p - 1) % 12] || '';
+}
+function updateOpmWarnaFields() {
+  var port = document.getElementById('inp-opm-port').value;
+  var warna = getWarnaByPort(port);
+  var tubeEl = document.getElementById('inp-opm-warna-tube');
+  var kabelEl = document.getElementById('inp-opm-warna-kabel');
+  if (tubeEl) tubeEl.value = warna;
+  if (kabelEl) kabelEl.value = warna;
+  renderOpmPortChips();
+}
 function renderOpmPortDropdown() {
   var sel = document.getElementById('opm-port-select'); if (!sel) return;
   var currentVal = sel.value;
   sel.innerHTML = '<option value="">-- Pilih Port --</option>';
-  var availCount = 0;
-  for (var i = 1; i <= 48; i++) {
-    var inList = opmTempPorts.some(function(p) { return String(p.port) === String(i); });
-    if (!inList) { var opt = document.createElement('option'); opt.value = i; opt.textContent = 'Port ' + i; sel.appendChild(opt); availCount++; }
+  // Port harus berurutan: mulai dari 1, skip yang sudah dipakai
+  // Cari port terkecil yang belum dipakai
+  var usedPorts = opmTempPorts.map(function(p) { return parseInt(p.port); });
+  var nextPort = 1;
+  while (usedPorts.indexOf(nextPort) !== -1) nextPort++;
+  // Hanya tampilkan port berurutan mulai dari nextPort sampai 48
+  for (var i = nextPort; i <= 48; i++) {
+    if (usedPorts.indexOf(i) !== -1) continue;
+    var opt = document.createElement('option'); opt.value = i; opt.textContent = 'Port ' + i;
+    sel.appendChild(opt);
   }
-  if (availCount === 0) {
-    sel.style.display = 'none';
-    if (!document.getElementById('opm-port-all-picked')) {
-      var msg = document.createElement('div'); msg.id = 'opm-port-all-picked';
-      msg.style.cssText = 'padding:10px 14px;border-radius:10px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.4);color:#10B981;font-weight:700;font-size:var(--app-font-size-xs);text-align:center;';
-      msg.textContent = '✓ Semua 48 port telah dipilih';
-      sel.parentElement.appendChild(msg);
-    }
-  } else { sel.style.display = ''; var msgEl = document.getElementById('opm-port-all-picked'); if (msgEl) msgEl.remove(); }
   if (currentVal) { var exists = Array.from(sel.options).some(function(o) { return o.value === currentVal; }); if (exists) sel.value = currentVal; }
+  // Info bantu
+  var infoEl = document.getElementById('opm-port-info');
+  if (!infoEl) {
+    infoEl = document.createElement('div'); infoEl.id = 'opm-port-info';
+    infoEl.style.cssText = 'margin-top:8px;padding:8px 12px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);border-radius:8px;color:#10B981;font-size:var(--app-font-size-xs);font-weight:600;';
+    sel.parentElement.appendChild(infoEl);
+  }
+  if (nextPort > 48) {
+    infoEl.textContent = '✓ Semua 48 port telah dipilih';
+  } else {
+    infoEl.textContent = '→ Port berikutnya: ' + nextPort + ' (warna ' + WARNA_URUTAN[(nextPort - 1) % 12] + ')';
+  }
   renderOpmPortChips();
 }
 function renderOpmPortChips() {
   var chipsEl = document.getElementById('opm-port-chips'); if (!chipsEl) return;
   if (opmTempPorts.length === 0) { chipsEl.innerHTML = '<span class="opm-port-chips-empty">Belum ada port dipilih</span>'; return; }
-  var cableHex = getWarnaKabelHex(), textColor = getTextColorForBg(cableHex), html = '';
+  var html = '';
   opmTempPorts.forEach(function(p) {
+    var cableHex = WARNA_KABEL_HEX[(p.warnaKabel || '').toUpperCase()] || '#00D9FF';
+    var textColor = getTextColorForBg(cableHex);
     var borderCol = p.isUsed ? '#EC4899' : 'rgba(0,0,0,0.35)';
     html += '<span class="chip-port" style="background:' + cableHex + ';color:' + textColor + ';border:2px solid ' + borderCol + ';">Port ' + p.port + ' <span onclick="hapusPortChip(' + p.port + ')" style="color:' + textColor + ';">&times;</span></span>';
   });
   chipsEl.innerHTML = html;
 }
-function pilihPortDropdown(sel) { var val = sel.value; if (!val) return; selectedOpmPort = val; document.getElementById('inp-opm-port').value = val; }
-function hapusPortChip(port) { var idx = opmTempPorts.findIndex(function(p) { return String(p.port) === String(port); }); if (idx === -1) return; opmTempPorts.splice(idx, 1); renderOpmPortDropdown(); renderOpmTempList(); }
+function pilihPortDropdown(sel) {
+  var val = sel.value; if (!val) return;
+  selectedOpmPort = val; document.getElementById('inp-opm-port').value = val;
+  updateOpmWarnaFields();
+}
+function hapusPortChip(port) {
+  var idx = opmTempPorts.findIndex(function(p) { return String(p.port) === String(port); });
+  if (idx === -1) return;
+  opmTempPorts.splice(idx, 1);
+  renderOpmPortDropdown(); renderOpmTempList();
+}
 function toggleOpmUsedLabel() { var cb = document.getElementById('inp-opm-used'), wrap = document.getElementById('opm-used-label-wrap'); if (cb.checked) wrap.classList.remove('hidden'); else { wrap.classList.add('hidden'); document.getElementById('inp-opm-label').value = ''; } }
 function addOpmPortToList() {
   var dari = document.getElementById('inp-opm-dari').value, ke = document.getElementById('inp-opm-ke').value;
   var nilaiKalibrasi = document.getElementById('inp-opm-ukuran').value.trim().toUpperCase();
-  var ruas = document.getElementById('inp-opm-ruas').value, warnaTube = document.getElementById('inp-opm-warna-tube').value;
-  var warnaKabel = (document.getElementById('inp-opm-warna-kabel').value || '').toUpperCase();
+  var ruas = document.getElementById('inp-opm-ruas').value;
   var port = document.getElementById('inp-opm-port').value, dbm = parseFloat(document.getElementById('inp-opm-dbm').value);
   var isUsed = document.getElementById('inp-opm-used').checked;
   var label = document.getElementById('inp-opm-label').value.trim().toUpperCase();
-  var ket = document.getElementById('inp-opm-keterangan').value.trim().toUpperCase();
   if (!dari || !ke) { showToast('Isi "Dari" dan "Ke"', 'error'); return; }
   if (dari === ke) { showToast('❌ "Dari" dan "Ke" tidak boleh sama!', 'error'); return; }
-  if (!nilaiKalibrasi || !ruas || !port || isNaN(dbm) || !warnaKabel) { showToast('Lengkapi field dulu', 'error'); return; }
+  if (!nilaiKalibrasi || !ruas || !port || isNaN(dbm)) { showToast('Lengkapi field dulu', 'error'); return; }
   if (isUsed && !label) { showToast('Label wajib', 'error'); return; }
-  if (opmTempPorts.some(function(p) { return String(p.port) === String(port); })) { showToast('Port sudah ada', 'warning'); return; }
-  opmTempPorts.push({ port: port, dbm: dbm, isUsed: isUsed, label: isUsed ? label : '', keterangan: ket, warnaTube: warnaTube, warnaKabel: warnaKabel });
+  // Cek port berurutan
+  var usedPorts = opmTempPorts.map(function(p) { return parseInt(p.port); });
+  var nextPort = 1;
+  while (usedPorts.indexOf(nextPort) !== -1) nextPort++;
+  if (parseInt(port) !== nextPort) {
+    showToast('❌ Port harus berurutan! Berikutnya: Port ' + nextPort, 'error');
+    return;
+  }
+  var warna = getWarnaByPort(port);
+  opmTempPorts.push({ port: port, dbm: dbm, isUsed: isUsed, label: isUsed ? label : '', keterangan: '', warnaTube: warna, warnaKabel: warna });
   opmTempPorts.sort(function(a, b) { return parseInt(a.port) - parseInt(b.port); });
   selectedOpmPort = '';
   document.getElementById('inp-opm-port').value = ''; document.getElementById('opm-port-select').value = '';
   document.getElementById('inp-opm-dbm').value = ''; document.getElementById('inp-opm-used').checked = false;
-  document.getElementById('inp-opm-label').value = ''; document.getElementById('inp-opm-keterangan').value = '';
+  document.getElementById('inp-opm-label').value = '';
   document.getElementById('opm-used-label-wrap').classList.add('hidden');
+  updateOpmWarnaFields();
   renderOpmTempList(); renderOpmPortDropdown(); renderOpmPortChips();
-  showToast('Port ditambahkan', 'success');
+  showToast('✅ Port ' + port + ' ditambahkan (warna ' + warna + ')', 'success');
 }
 function removeOpmPortFromList(idx) { opmTempPorts.splice(idx, 1); renderOpmTempList(); renderOpmPortDropdown(); }
 function renderOpmTempList() {
@@ -2424,7 +2404,6 @@ function renderOpmTempList() {
   opmTempPorts.forEach(function(p, idx) {
     var status = p.isUsed ? '<span class="opm-label-badge">TERPAKAI</span>' : '<span class="opm-label-badge" style="background:rgba(16,185,129,0.15);color:#10B981;">TERSEDIA</span>';
     var ket = p.isUsed && p.label ? '<strong style="color:#EC4899;">' + escapeHtml(p.label) + '</strong>' : '';
-    if (p.keterangan) ket += (ket ? ' • ' : '') + escapeHtml(p.keterangan);
     if (!ket) ket = '<span style="opacity:0.35;">—</span>';
     var portHex = WARNA_KABEL_HEX[(p.warnaKabel || '').toUpperCase()] || (p.isUsed ? '#EC4899' : '#10B981');
     var portTxt = getTextColorForBg(portHex);
@@ -2436,17 +2415,44 @@ function submitOpmDataToDb() {
   if (!currentUser) { showToast('Login dulu', 'error'); return; }
   var dari = document.getElementById('inp-opm-dari').value, ke = document.getElementById('inp-opm-ke').value;
   var nilaiKalibrasi = document.getElementById('inp-opm-ukuran').value.trim().toUpperCase();
-  var ruas = document.getElementById('inp-opm-ruas').value, warnaTube = document.getElementById('inp-opm-warna-tube').value;
-  var warnaKabel = document.getElementById('inp-opm-warna-kabel').value;
+  var ruas = document.getElementById('inp-opm-ruas').value;
   var dateVal = document.getElementById('inp-date').value;
+  var editKey = document.getElementById('edit-key').value;
+  var isEdit = !!editKey;
   if (!dateVal || !dari || !ke || !nilaiKalibrasi || !ruas) { showToast('Lengkapi Step 1', 'error'); return; }
   if (opmTempPorts.length === 0) { showToast('List Port kosong', 'error'); return; }
   var btn = document.getElementById('btn-opm-submit-data'), orig = btn.innerHTML;
   btn.disabled = true; btn.innerHTML = 'Menyimpan...';
+  if (isEdit) {
+    // Mode edit: update data yang sudah ada (bukan duplikasi)
+    var oldData = (appData['OPM-OLS'] || {})[editKey];
+    if (!oldData) { showToast('Data tidak ditemukan', 'error'); btn.disabled = false; btn.innerHTML = orig; return; }
+    // Update: hapus semua port lama dengan grup yang sama, lalu tambahkan port baru
+    var list = appData['OPM-OLS'] || {};
+    var keysToDelete = Object.keys(list).filter(function(k) {
+      var it = list[k];
+      return (it.date || '-') === (oldData.date || '-') && (it.dari || '-') === (oldData.dari || '-') && (it.ke || '-') === (oldData.ke || '-') && (it.ukuranOLS || '-') === (oldData.ukuranOLS || '-');
+    });
+    var updates = {};
+    keysToDelete.forEach(function(k) { updates['data/OPM-OLS/' + k] = null; });
+    db.ref().update(updates).then(function() {
+      var promises = opmTempPorts.map(function(p) {
+        var ket = 'STATUS: ' + (p.isUsed ? 'TERPAKAI' : 'TERSEDIA') + ' | TUBE: ' + (p.warnaTube || '-') + ' | KABEL: ' + (p.warnaKabel || '-') + ' | DBM: ' + p.dbm;
+        var row = { date: dateVal, postBy: currentUser.name, createdAt: Date.now(), dari: dari, ke: ke, ukuranOLS: nilaiKalibrasi, ruas: ruas, warnaTube: p.warnaTube || '', warnaKabel: p.warnaKabel || '', port: p.port, dbm: p.dbm, isUsed: p.isUsed, label: p.label || '', keterangan: ket };
+        return db.ref('data/OPM-OLS').push(row);
+      });
+      return Promise.all(promises);
+    }).then(function() {
+      catatRiwayat('OPM-OLS', 'Update Batch', dari + ' → ' + ke + ' | ' + opmTempPorts.length + ' port', '');
+      showToast('✅ ' + opmTempPorts.length + ' port diupdate!', 'success');
+      opmTempPorts = []; closeModal(); setTimeout(refetchData, 400);
+    }).catch(function(err) { showToast(err.message || 'Gagal', 'error'); }).finally(function() { btn.disabled = false; btn.innerHTML = orig; });
+    return;
+  }
+  // Mode tambah: push data baru
   var promises = opmTempPorts.map(function(p) {
-    var ket = p.keterangan || '';
-    if (!ket.trim()) ket = 'STATUS: ' + (p.isUsed ? 'TERPAKAI' : 'TERSEDIA') + ' | TUBE: ' + (p.warnaTube || warnaTube || '-') + ' | KABEL: ' + (p.warnaKabel || warnaKabel || '-') + ' | DBM: ' + p.dbm;
-    var row = { date: dateVal, postBy: currentUser.name, createdAt: Date.now(), dari: dari, ke: ke, ukuranOLS: nilaiKalibrasi, ruas: ruas, warnaTube: p.warnaTube || warnaTube || '', warnaKabel: p.warnaKabel || warnaKabel || '', port: p.port, dbm: p.dbm, isUsed: p.isUsed, label: p.label || '', keterangan: ket };
+    var ket = 'STATUS: ' + (p.isUsed ? 'TERPAKAI' : 'TERSEDIA') + ' | TUBE: ' + (p.warnaTube || '-') + ' | KABEL: ' + (p.warnaKabel || '-') + ' | DBM: ' + p.dbm;
+    var row = { date: dateVal, postBy: currentUser.name, createdAt: Date.now(), dari: dari, ke: ke, ukuranOLS: nilaiKalibrasi, ruas: ruas, warnaTube: p.warnaTube || '', warnaKabel: p.warnaKabel || '', port: p.port, dbm: p.dbm, isUsed: p.isUsed, label: p.label || '', keterangan: ket };
     return db.ref('data/OPM-OLS').push(row);
   });
   Promise.all(promises).then(function() {
@@ -3044,55 +3050,53 @@ function renderTable() {
     var isSpare = cat === 'Stok Spare', isPatch = cat === 'Patch Cord', isAlker = cat === 'Alker';
     var isHJ = ['Handhole', 'Joint'].indexOf(cat) !== -1, isOfCut = cat === 'Data OF Cut';
     var isP3T = (cat === 'Pekerjaan Pihak Ke-3' || cat === 'Temuan Lapangan');
-
-    /* ===== HEADER - kolom Keterangan diganti "Ket" (tombol info) ===== */
-    if (isSpare) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th class="col-ket">Ket</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isPatch) th.innerHTML = '<tr>' + thNo() + '<th>Tgl Update</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Stok</th><th class="col-ket">Ket</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isAlker) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Nama Alker</th><th>SN</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Satuan</th><th class="col-ket">Ket</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isHJ) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th class="col-ket">Ket</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isOfCut) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Waktu CO</th><th>Waktu UP</th><th>Durasi</th><th>Panjang</th><th>Rute</th><th>Penyebab</th><th class="col-ket">Ket</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
-    else if (isP3T) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Pelaksana</th><th>Lama</th><th class="col-ket">Ket</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
-    else th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th class="col-ket">Ket</th><th>User</th><th class="col-aksi">Aksi</th></tr>';
     var isAdmin = currentUser && currentUser.role === 'admin';
+    var aksiClass = isAdmin ? 'col-aksi' : 'col-aksi no-admin';
+
+    /* ===== HEADER ===== */
+    if (isSpare) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th class="col-ket">Ket</th><th class="' + aksiClass + '">Aksi</th></tr>';
+    else if (isPatch) th.innerHTML = '<tr>' + thNo() + '<th>Tgl Update</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Stok</th><th class="col-ket">Ket</th><th class="' + aksiClass + '">Aksi</th></tr>';
+    else if (isAlker) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Nama Alker</th><th>SN</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Satuan</th><th class="col-ket">Ket</th><th class="' + aksiClass + '">Aksi</th></tr>';
+    else if (isHJ) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th class="col-ket">Ket</th><th>User</th><th class="' + aksiClass + '">Aksi</th></tr>';
+    else if (isOfCut) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Waktu CO</th><th>Waktu UP</th><th>Durasi</th><th>Panjang</th><th>Rute</th><th>Penyebab</th><th class="col-ket">Ket</th><th>User</th><th class="' + aksiClass + '">Aksi</th></tr>';
+    else if (isP3T) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Pelaksana</th><th>Lama</th><th class="col-ket">Ket</th><th>User</th><th class="' + aksiClass + '">Aksi</th></tr>';
+    else th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th class="col-ket">Ket</th><th>User</th><th class="' + aksiClass + '">Aksi</th></tr>';
 
     keys = sortData(keys, list, cat);
     var rowsHtml = '';
     keys.forEach(function(k, idx) {
       var it = list[k], nomor = idx + 1;
-      /* Tombol info (ⓘ) selalu tampil, tombol edit/hapus hanya admin */
-      var infoBtn = '<button class="icon-btn info" onclick="showKetPopup(\'' + escapeAttr(k) + '\',\'' + escapeAttr(cat) + '\')" title="Info">ⓘ</button>';
-      var aksi = infoBtn + (isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')" title="Edit">✎</button><button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')" title="Hapus">×</button>' : '');
-      var ketBtn = '<button class="icon-btn info" onclick="showKetPopup(\'' + escapeAttr(k) + '\',\'' + escapeAttr(cat) + '\')" title="Lihat Keterangan" style="width:28px;height:28px;min-width:28px;min-height:28px;font-size:14px;">ⓘ</button>';
+      // Tombol aksi (hanya admin)
+      var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')" title="Edit">✎</button><button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')" title="Hapus">×</button>' : '';
+      // Tombol Ket (popup)
+      var ketBtn = '<button class="ket-btn" onclick="showKetPopup(\'' + escapeAttr(k) + '\',\'' + escapeAttr(cat) + '\')" title="Lihat Keterangan">ⓘ</button>';
+      // Tombol Lokasi (popup)
+      var lokasiBtn = function(loc, crd) {
+        var short = ekstrakNamaJalan(loc);
+        return '<span class="lokasi-btn" onclick="showLokasiPopup(\'' + escapeAttr(loc || '') + '\',\'' + escapeAttr(crd || '') + '\')" title="Klik untuk lihat lokasi lengkap"><i data-lucide="map-pin"></i>' + escapeHtml(short) + '</span>';
+      };
 
-      /* ===== BODY ===== */
       if (isSpare) {
-        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.spec || '-') + '</td><td><span class="status-badge ' + (it.status === 'Ready' ? 'status-ready' : 'status-out') + '">' + (it.status || 'Ready') + '</span></td><td>' + (it.lemari || '-') + '</td><td>' + (it.rak || '-') + '</td><td>' + (it.riwayat || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td class="' + aksiClass + '">' + aksi + '</td></tr>';
       } else if (isPatch) {
         var stokVal = parseInt(it.qty) || 0;
         var stokBadge = stokVal <= 0 ? '<span class="status-badge" style="background:rgba(239,68,68,0.15);color:#EF4444;font-family:Orbitron,sans-serif;">' + stokVal + '</span>' : '<span class="status-badge status-ready" style="font-family:Orbitron,sans-serif;">' + stokVal + '</span>';
-        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.lastUpdate || it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + escapeHtml(it.pcType || '-') + '</td><td>' + escapeHtml(it.pcLength || '-') + '</td><td>' + stokBadge + '</td><td class="col-ket">' + ketBtn + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.lastUpdate || it.date || '-') + '</td><td>' + (it.gudang || '-') + '</td><td>' + escapeHtml(it.pcType || '-') + '</td><td>' + escapeHtml(it.pcLength || '-') + '</td><td>' + stokBadge + '</td><td class="col-ket">' + ketBtn + '</td><td class="' + aksiClass + '">' + aksi + '</td></tr>';
       } else if (isAlker) {
-        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td>' + (it.jumlah || '-') + '</td><td>' + (it.satuan || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + (it.nama || '-') + '</td><td><code>' + (it.sn || '-') + '</code></td><td>' + (it.jenis || '-') + '</td><td>' + (it.merk || '-') + '</td><td>' + (it.jumlah || '-') + '</td><td>' + (it.satuan || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td class="' + aksiClass + '">' + aksi + '</td></tr>';
       } else if (isHJ) {
-        var lokasiShort = ekstrakNamaJalan(it.location);
-        var lokasiBtn = '<span class="lokasi-link" onclick="showLokasiPopup(\'' + escapeAttr(it.location || '') + '\',\'' + escapeAttr(it.coords || '') + '\')" title="Klik untuk lihat lokasi lengkap">' + escapeHtml(lokasiShort) + '</span>';
-        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + lokasiBtn + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + lokasiBtn(it.location, it.coords) + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.kondisi || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="' + aksiClass + '">' + aksi + '</td></tr>';
       } else if (isOfCut) {
         var coD = it.waktuCO ? formatWaktuDisplay(it.waktuCO) : '-', upD = it.waktuUP ? formatWaktuDisplay(it.waktuUP) : '-', durD = it.durasiText || '-';
-        var lokasiShort2 = ekstrakNamaJalan(it.location);
-        var lokasiBtn2 = '<span class="lokasi-link" onclick="showLokasiPopup(\'' + escapeAttr(it.location || '') + '\',\'' + escapeAttr(it.coords || '') + '\')" title="Klik untuk lihat lokasi lengkap">' + escapeHtml(lokasiShort2) + '</span>';
-        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + lokasiBtn2 + '</td><td>' + (it.coords || '-') + '</td><td>' + coD + '</td><td>' + upD + '</td><td><span class="durasi-badge">' + durD + '</span></td><td>' + (it.panjangCut || '-') + ' M</td><td>' + (it.rute || '-') + '</td><td>' + (it.penyebab || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + lokasiBtn(it.location, it.coords) + '</td><td>' + (it.coords || '-') + '</td><td>' + coD + '</td><td>' + upD + '</td><td><span class="durasi-badge">' + durD + '</span></td><td>' + (it.panjangCut || '-') + ' M</td><td>' + (it.rute || '-') + '</td><td>' + (it.penyebab || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="' + aksiClass + '">' + aksi + '</td></tr>';
       } else if (isP3T) {
-        var lokasiShort3 = ekstrakNamaJalan(it.location);
-        var lokasiBtn3 = '<span class="lokasi-link" onclick="showLokasiPopup(\'' + escapeAttr(it.location || '') + '\',\'' + escapeAttr(it.coords || '') + '\')" title="Klik untuk lihat lokasi lengkap">' + escapeHtml(lokasiShort3) + '</span>';
-        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + lokasiBtn3 + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.pelaksana || '-') + '</td><td>' + (it.lamaPekerjaan || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + lokasiBtn(it.location, it.coords) + '</td><td>' + (it.coords || '-') + '</td><td>' + (it.pelaksana || '-') + '</td><td>' + (it.lamaPekerjaan || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="' + aksiClass + '">' + aksi + '</td></tr>';
       } else {
-        var lokasiShort4 = ekstrakNamaJalan(it.location);
-        var lokasiBtn4 = '<span class="lokasi-link" onclick="showLokasiPopup(\'' + escapeAttr(it.location || '') + '\',\'' + escapeAttr(it.coords || '') + '\')" title="Klik untuk lihat lokasi lengkap">' + escapeHtml(lokasiShort4) + '</span>';
-        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + lokasiBtn4 + '</td><td>' + (it.coords || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+        rowsHtml += '<tr>' + tdNo(nomor) + '<td>' + (it.date || '-') + '</td><td>' + lokasiBtn(it.location, it.coords) + '</td><td>' + (it.coords || '-') + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="' + aksiClass + '">' + aksi + '</td></tr>';
       }
     });
     tb.innerHTML = rowsHtml;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
     try { updateTotalDataTagline(); } catch (e) {}
   } catch (e) { console.error('renderTable error:', e); }
 }
@@ -3111,7 +3115,9 @@ function renderOpmGroupedTables(list) {
     groups[gKey].items.push({ key: k, data: it });
   });
   var sortedKeys = Object.keys(groups).sort(function(a, b) { return (groups[b].date || '').localeCompare(groups[a].date || ''); });
-  var isAdmin = currentUser && currentUser.role === 'admin', html = '';
+  var isAdmin = currentUser && currentUser.role === 'admin';
+  var aksiClass = isAdmin ? 'col-aksi' : 'col-aksi no-admin';
+  var html = '';
   sortedKeys.forEach(function(gKey) {
     var g = groups[gKey];
     g.items.sort(function(a, b) { return (parseInt(a.data.port) || 0) - (parseInt(b.data.port) || 0); });
@@ -3121,17 +3127,16 @@ function renderOpmGroupedTables(list) {
     html += '<div style="padding:12px 14px;background:linear-gradient(135deg, rgba(0,217,255,0.12), rgba(168,85,247,0.12));border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
     html += '<div style="font-weight:800;color:var(--primary-cyan);font-family:Orbitron,sans-serif;display:flex;align-items:center;gap:8px;font-size:var(--app-font-size-sm);flex-wrap:wrap;">' + escapeHtml(g.date) + ' <span style="background:rgba(0,217,255,0.15);padding:3px 10px;border-radius:99px;font-size:var(--app-font-size-xs);">' + escapeHtml(g.dari) + ' → ' + escapeHtml(g.ke) + '</span> <span style="background:rgba(0,217,255,0.15);padding:3px 10px;border-radius:99px;font-size:var(--app-font-size-xs);">Kal: ' + escapeHtml(g.ukuranOLS) + '</span></div>';
     html += '<div style="display:flex;gap:14px;font-size:var(--app-font-size-xs);"><div><div style="color:var(--text-muted);">Total</div><strong style="font-family:Orbitron,sans-serif;">' + g.items.length + '</strong></div><div><div style="color:var(--text-muted);">Terpakai</div><strong style="font-family:Orbitron,sans-serif;color:#EC4899;">' + usedCount + '</strong></div><div><div style="color:var(--text-muted);">Tersedia</div><strong style="font-family:Orbitron,sans-serif;color:#10B981;">' + availCount + '</strong></div></div></div>';
-    html += '<div style="overflow-x:auto;"><table class="records-table"><thead><tr><th class="col-no">No</th><th style="text-align:center;">Port</th><th style="text-align:center;">DBM</th><th style="text-align:center;">Status</th><th class="col-ket">Ket</th><th>User</th><th class="col-aksi">Aksi</th></tr></thead><tbody>';
+    html += '<div style="overflow-x:auto;"><table class="records-table"><thead><tr><th class="col-no">No</th><th style="text-align:center;">Port</th><th style="text-align:center;">DBM</th><th style="text-align:center;">Status</th><th class="col-ket">Ket</th><th>User</th><th class="' + aksiClass + '">Aksi</th></tr></thead><tbody>';
     g.items.forEach(function(x, i) {
       var it = x.data;
-      var infoBtn = '<button class="icon-btn info" onclick="showKetPopup(\'' + escapeAttr(x.key) + '\',\'OPM-OLS\')" title="Info">ⓘ</button>';
-      var aksi = infoBtn + (isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + x.key + '\',\'OPM-OLS\')" title="Edit">✎</button><button class="icon-btn delete" onclick="deleteItem(\'' + x.key + '\',\'OPM-OLS\')" title="Hapus">×</button>' : '');
+      var ketBtn = '<button class="ket-btn" onclick="showKetPopup(\'' + escapeAttr(x.key) + '\',\'OPM-OLS\')" title="Lihat Keterangan">ⓘ</button>';
+      var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + x.key + '\',\'OPM-OLS\')" title="Edit">✎</button><button class="icon-btn delete" onclick="deleteItem(\'' + x.key + '\',\'OPM-OLS\')" title="Hapus">×</button>' : '';
       var isUsed = it.isUsed === true;
       var portHex = WARNA_KABEL_HEX[(it.warnaKabel || '').toUpperCase()] || (isUsed ? '#EC4899' : '#10B981');
       var portTxt = getTextColorForBg(portHex);
       var statusBadge = isUsed ? '<span class="status-badge" style="background:rgba(236,72,153,0.15);color:#EC4899;">TERPAKAI</span>' : '<span class="status-badge status-ready">TERSEDIA</span>';
-      var ketBtn = '<button class="icon-btn info" onclick="showKetPopup(\'' + escapeAttr(x.key) + '\',\'OPM-OLS\')" title="Lihat Keterangan" style="width:28px;height:28px;min-width:28px;min-height:28px;font-size:14px;">ⓘ</button>';
-      html += '<tr><td class="col-no">' + (i + 1) + '</td><td style="text-align:center;"><span class="opm-port-chip" style="background:' + portHex + ';color:' + portTxt + ';border-color:' + portHex + ';">' + (it.port || '-') + '</span></td><td style="text-align:center;font-weight:700;">' + (it.dbm !== undefined ? it.dbm : '-') + '</td><td style="text-align:center;">' + statusBadge + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="col-aksi">' + aksi + '</td></tr>';
+      html += '<tr><td class="col-no">' + (i + 1) + '</td><td style="text-align:center;"><span class="opm-port-chip" style="background:' + portHex + ';color:' + portTxt + ';border-color:' + portHex + ';">' + (it.port || '-') + '</span></td><td style="text-align:center;font-weight:700;">' + (it.dbm !== undefined ? it.dbm : '-') + '</td><td style="text-align:center;">' + statusBadge + '</td><td class="col-ket">' + ketBtn + '</td><td>' + (it.postBy || '-') + '</td><td class="' + aksiClass + '">' + aksi + '</td></tr>';
     });
     html += '</tbody></table></div>';
     html += '<div style="padding:10px 14px;border-top:1px solid var(--border-subtle);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">';
@@ -3140,6 +3145,7 @@ function renderOpmGroupedTables(list) {
     html += '</div><div id="' + groupId + '" class="hidden" data-date="' + escapeHtml(g.date) + '" data-dari="' + escapeHtml(g.dari) + '" data-ke="' + escapeHtml(g.ke) + '" data-kal="' + escapeHtml(g.ukuranOLS) + '"></div></div>';
   });
   wrap.innerHTML = html;
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 function exportOpmGroup(groupId) {
   var el = document.getElementById(groupId); if (!el) return;
@@ -3147,7 +3153,7 @@ function exportOpmGroup(groupId) {
   var list = appData['OPM-OLS'] || {};
   var keys = Object.keys(list).filter(function(k) { var it = list[k]; return (it.date || '-') === date && (it.dari || '-') === dari && (it.ke || '-') === ke && (it.ukuranOLS || '-') === kal; });
   if (keys.length === 0) { showToast('Tidak ada data', 'error'); return; }
-  var rows = keys.map(function(k, idx) { var it = list[k] || {}; return { 'No': idx + 1, 'Tanggal': it.date || '', 'Dari': it.dari || '', 'Ke': it.ke || '', 'Kalibrasi': it.ukuranOLS || '', 'Ruas': it.ruas || '', 'Port': it.port || '', 'DBM': it.dbm || '', 'Status': it.isUsed ? 'Terpakai' : 'Tersedia', 'Label': it.label || '', 'Keterangan': it.keterangan || '', 'User': it.postBy || '' }; });
+  var rows = keys.map(function(k, idx) { var it = list[k] || {}; return { 'No': idx + 1, 'Tanggal': it.date || '', 'Dari': it.dari || '', 'Ke': it.ke || '', 'Kalibrasi': it.ukuranOLS || '', 'Ruas': it.ruas || '', 'Port': it.port || '', 'DBM': it.dbm || '', 'Warna Tube': it.warnaTube || '', 'Warna Kabel': it.warnaKabel || '', 'Status': it.isUsed ? 'Terpakai' : 'Tersedia', 'Label': it.label || '', 'Keterangan': it.keterangan || '', 'User': it.postBy || '' }; });
   var ws = XLSX.utils.json_to_sheet(rows);
   var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'OPM-OLS');
   XLSX.writeFile(wb, 'BUCIN_OPM_' + dari + '_' + ke + '_' + date + '.xlsx');
@@ -3387,6 +3393,8 @@ function closeModal() {
   selectedOpmPort = ''; opmTempPorts = [];
   var cbb = document.getElementById('inp-opm-used'); if (cbb) cbb.checked = false;
   var lw = document.getElementById('opm-used-label-wrap'); if (lw) lw.classList.add('hidden');
+  var tubeEl = document.getElementById('inp-opm-warna-tube'); if (tubeEl) tubeEl.value = '';
+  var kabelEl = document.getElementById('inp-opm-warna-kabel'); if (kabelEl) kabelEl.value = '';
   try { renderOpmTempList(); renderOpmPortDropdown(); } catch (e) {}
 }
 window.deleteItem = function(k, cat) {
@@ -3445,7 +3453,7 @@ function openForm(editData, editKey) {
     }
   }
   if (isAlker) document.getElementById('field-alker').classList.remove('hidden');
-  if (isOpm) { document.getElementById('field-opm').classList.remove('hidden'); opmTempPorts = []; setTimeout(function() { renderOpmPortDropdown(); renderOpmTempList(); checkOpmDariKe(); }, 100); }
+  if (isOpm) { document.getElementById('field-opm').classList.remove('hidden'); opmTempPorts = []; setTimeout(function() { renderOpmPortDropdown(); renderOpmTempList(); checkOpmDariKe(); updateOpmWarnaFields(); }, 100); }
   if (isHH || isJoint) { document.getElementById('field-normal').classList.remove('hidden'); document.getElementById('field-coords-wrap').classList.remove('hidden'); document.getElementById('field-kondisi').classList.remove('hidden'); document.getElementById('field-keterangan-normal').classList.remove('hidden'); }
   if (isOfCut) { document.getElementById('field-normal').classList.remove('hidden'); document.getElementById('field-coords-wrap').classList.remove('hidden'); document.getElementById('field-ofcut').classList.remove('hidden'); setTimeout(hitungDurasiOF, 200); }
   if (isP3T) { document.getElementById('field-normal').classList.remove('hidden'); document.getElementById('field-coords-wrap').classList.remove('hidden'); document.getElementById('field-p3temuan').classList.remove('hidden'); }
@@ -3453,7 +3461,7 @@ function openForm(editData, editKey) {
   try { applyAutoUppercase(); } catch (e) {}
 }
 function resetFormFields() {
-  var ids = ['inp-loc','inp-coords','inp-notes-stock','inp-notes-patch','inp-sn','inp-spec','inp-kondisi','inp-lemari','inp-rak','inp-riwayat','inp-kondisi-spare','inp-keterangan-normal','inp-update-sn','inp-update-spec','inp-update-tujuan','inp-update-lokasi','inp-update-notes','inp-ofcut-panjang','inp-ofcut-rute','inp-ofcut-penyebab','inp-ofcut-penyebab-lain','inp-ofcut-keterangan','inp-ofcut-waktu-co','inp-ofcut-waktu-up','inp-p3-pelaksana','inp-p3-lama','inp-p3-keterangan','inp-pc-type-lain','inp-pc-length-lain','inp-opm-port','inp-opm-dbm','inp-opm-ruas','inp-opm-dari','inp-opm-ke','inp-opm-keterangan','inp-opm-ukuran','inp-opm-label','inp-opm-warna-tube','inp-opm-warna-kabel','inp-alker-nama','inp-alker-sn','inp-alker-jenis','inp-alker-merk','inp-alker-keterangan','inp-alker-jumlah','inp-alker-satuan'];
+  var ids = ['inp-loc','inp-coords','inp-notes-stock','inp-notes-patch','inp-sn','inp-spec','inp-kondisi','inp-lemari','inp-rak','inp-riwayat','inp-kondisi-spare','inp-keterangan-normal','inp-update-sn','inp-update-spec','inp-update-tujuan','inp-update-lokasi','inp-update-notes','inp-ofcut-panjang','inp-ofcut-rute','inp-ofcut-penyebab','inp-ofcut-penyebab-lain','inp-ofcut-keterangan','inp-ofcut-waktu-co','inp-ofcut-waktu-up','inp-p3-pelaksana','inp-p3-lama','inp-p3-keterangan','inp-pc-type-lain','inp-pc-length-lain','inp-opm-port','inp-opm-dbm','inp-opm-ruas','inp-opm-dari','inp-opm-ke','inp-opm-ukuran','inp-opm-label','inp-opm-warna-tube','inp-opm-warna-kabel','inp-alker-nama','inp-alker-sn','inp-alker-jenis','inp-alker-merk','inp-alker-keterangan','inp-alker-jumlah','inp-alker-satuan'];
   ids.forEach(function(id) { var el = document.getElementById(id); if (el) el.value = ''; });
   var elJumlah = document.getElementById('inp-alker-jumlah'); if (elJumlah) elJumlah.value = '1';
   document.getElementById('inp-pc-qty').value = '1';
@@ -3469,9 +3477,9 @@ function resetFormFields() {
   try { renderOpmTempList(); renderOpmPortDropdown(); renderOpmPortChips(); } catch (e) {}
 }
 function populateFormFields(data) {
-  var map = { 'inp-loc': data.location, 'inp-coords': data.coords, 'inp-keterangan-normal': data.keterangan, 'inp-ofcut-waktu-co': data.waktuCO, 'inp-ofcut-waktu-up': data.waktuUP, 'inp-opm-port': data.port, 'inp-opm-dbm': data.dbm, 'inp-opm-ruas': data.ruas, 'inp-opm-dari': data.dari, 'inp-opm-ke': data.ke, 'inp-opm-keterangan': data.keterangan, 'inp-opm-ukuran': data.ukuranOLS, 'inp-opm-label': data.label, 'inp-opm-warna-tube': data.warnaTube, 'inp-opm-warna-kabel': data.warnaKabel, 'inp-alker-nama': data.nama, 'inp-alker-sn': data.sn, 'inp-alker-jenis': data.jenis, 'inp-alker-merk': data.merk, 'inp-alker-keterangan': data.keterangan, 'inp-alker-jumlah': data.jumlah, 'inp-alker-satuan': data.satuan };
+  var map = { 'inp-loc': data.location, 'inp-coords': data.coords, 'inp-keterangan-normal': data.keterangan, 'inp-ofcut-waktu-co': data.waktuCO, 'inp-ofcut-waktu-up': data.waktuUP, 'inp-opm-port': data.port, 'inp-opm-dbm': data.dbm, 'inp-opm-ruas': data.ruas, 'inp-opm-dari': data.dari, 'inp-opm-ke': data.ke, 'inp-opm-ukuran': data.ukuranOLS, 'inp-opm-label': data.label, 'inp-alker-nama': data.nama, 'inp-alker-sn': data.sn, 'inp-alker-jenis': data.jenis, 'inp-alker-merk': data.merk, 'inp-alker-keterangan': data.keterangan, 'inp-alker-jumlah': data.jumlah, 'inp-alker-satuan': data.satuan };
   Object.keys(map).forEach(function(id) { var el = document.getElementById(id); if (el && map[id] !== undefined && map[id] !== null) el.value = map[id]; });
-  if (data.port) { selectedOpmPort = data.port; setTimeout(function() { renderOpmPortDropdown(); }, 50); }
+  if (data.port) { selectedOpmPort = data.port; setTimeout(function() { renderOpmPortDropdown(); updateOpmWarnaFields(); }, 50); }
   if (data.isUsed) { var cb = document.getElementById('inp-opm-used'); if (cb) { cb.checked = true; toggleOpmUsedLabel(); } }
   setTimeout(checkOpmDariKe, 100); setTimeout(hitungDurasiOF, 150);
 }
