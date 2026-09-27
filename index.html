@@ -248,41 +248,36 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .login-error { color: #EC4899; font-weight: 600; text-align: center; padding: 8px 12px; background: rgba(236, 72, 153, 0.12); border-radius: 8px; margin-bottom: 12px; display: none; border: 1px solid rgba(236, 72, 153, 0.3); font-size: var(--app-font-size-xs); }
 .login-error.show { display: block; }
 
-/* === LOGO BUCIN (gambar) === */
+/* === LOGO BUCIN (gambar) - DIPERBAIKI === */
 .earth-logo {
-  width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0;
-  display: grid; place-items: center; padding: 4px;
-  background: linear-gradient(145deg, #0F2444 0%, #050D1F 100%);
-  border: 1.5px solid rgba(0, 217, 255, 0.55);
-  box-shadow: 0 0 18px rgba(0, 217, 255, 0.55);
+  width: 72px; height: 72px; border-radius: 16px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
   position: relative; overflow: hidden;
 }
-.earth-logo img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 10px; position: relative; z-index: 2; }
-.earth-logo .shield-pulse {
-  position: absolute; inset: -4px; border-radius: 50%;
-  border: 2px solid rgba(0, 217, 255, 0.4);
-  animation: shieldPulse 2.5s ease-out infinite;
-  pointer-events: none;
+.earth-logo img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 12px;
+  position: relative; z-index: 2;
+  transform: scale(1.15);
+  transform-origin: center center;
 }
-@keyframes shieldPulse {
-  0% { transform: scale(0.8); opacity: 0.8; }
-  100% { transform: scale(1.4); opacity: 0; }
+.earth-logo.large {
+  width: 160px; height: 160px;
+  border-radius: 28px;
+  padding: 0;
+  border: none;
+  box-shadow: none;
 }
-.earth-logo .shield-glow {
-  position: absolute; inset: 0; border-radius: 14px;
-  background: radial-gradient(circle at 30% 30%, rgba(0, 217, 255, 0.3), transparent 70%);
-  animation: shieldGlow 3s ease-in-out infinite alternate;
-  pointer-events: none;
+.earth-logo.large img {
+  border-radius: 20px;
+  transform: scale(1.12);
 }
-@keyframes shieldGlow {
-  0% { opacity: 0.4; }
-  100% { opacity: 0.9; }
-}
-.earth-logo.large { width: 110px; height: 110px; border-radius: 26px; padding: 8px; border-width: 2.5px; }
-.earth-logo.large .shield-pulse { inset: -8px; border-width: 3px; }
-:root[data-theme="light"] .earth-logo { background: linear-gradient(145deg, #FEF2F2 0%, #FEE2E2 100%); border-color: rgba(201, 63, 63, 0.6); box-shadow: 0 0 18px rgba(201, 63, 63, 0.4); }
-:root[data-theme="light"] .earth-logo .shield-pulse { border-color: rgba(201, 63, 63, 0.4); }
-:root[data-theme="light"] .earth-logo .shield-glow { background: radial-gradient(circle at 30% 30%, rgba(201, 63, 63, 0.2), transparent 70%); }
 
 .telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: transparent; }
 .telin-logo { height: 32px; width: auto; object-fit: contain; display: block; }
@@ -651,7 +646,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 @media (max-width: 768px) {
   :root { --header-h: 62px; }
   .top-header { padding: 0 10px; gap: 6px; }
-  .earth-logo { width: 40px; height: 40px; padding: 3px; border-radius: 11px; }
+  .earth-logo { width: 52px; height: 52px; padding: 0; border-radius: 12px; }
+  .earth-logo img { transform: scale(1.15); border-radius: 10px; }
   .brand-text { font-size: 18px; letter-spacing: 1.2px; }
   .brand-sub { font-size: 8px; letter-spacing: 1px; }
   .header-brand { gap: 8px; flex-shrink: 0; }
@@ -744,7 +740,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .modal-card h3 { font-size: 14px; }
 
   .login-card { padding: 24px 16px; border-radius: 20px; }
-  .earth-logo.large { width: 80px; height: 80px; border-radius: 20px; padding: 6px; }
+  .earth-logo.large { width: 120px; height: 120px; border-radius: 22px; padding: 0; }
+  .earth-logo.large img { transform: scale(1.12); border-radius: 18px; }
   .login-title { font-size: 24px; letter-spacing: 3px; }
   .telin-logo-login { height: 36px; }
 
@@ -772,7 +769,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
 @media (max-width: 420px) {
   .header-brand { gap: 6px; }
-  .earth-logo { width: 34px; height: 34px; padding: 2px; border-radius: 9px; }
+  .earth-logo { width: 44px; height: 44px; padding: 0; border-radius: 10px; }
+  .earth-logo img { transform: scale(1.15); border-radius: 8px; }
   .brand-text { font-size: 15px; letter-spacing: 1px; }
   .brand-sub { font-size: 7px; }
   .nav-btn { padding: 6px 6px; }
@@ -807,7 +805,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
   .modal-card { padding: 12px 10px; }
   .login-card { padding: 20px 12px; }
-  .earth-logo.large { width: 70px; height: 70px; border-radius: 16px; padding: 5px; }
+  .earth-logo.large { width: 100px; height: 100px; border-radius: 18px; padding: 0; }
+  .earth-logo.large img { transform: scale(1.12); border-radius: 14px; }
   .login-title { font-size: 20px; letter-spacing: 2px; }
   .telin-logo-login { height: 30px; }
 
@@ -832,8 +831,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   <div class="login-card">
     <div style="text-align:center;">
       <div class="earth-logo large" style="margin:0 auto;position:relative;">
-        <div class="shield-pulse"></div>
-        <div class="shield-glow"></div>
         <img src="logo_bucin.png" alt="BUCIN">
       </div>
       <h1 class="login-title">BUCIN</h1>
@@ -900,8 +897,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   <header class="top-header">
     <div class="header-brand">
       <div class="earth-logo">
-        <div class="shield-pulse"></div>
-        <div class="shield-glow"></div>
         <img src="logo_bucin.png" alt="BUCIN">
       </div>
       <div>
@@ -1894,8 +1889,8 @@ const SESSION_TIMEOUT_MS = 5 * 60 * 1000;
 const MAKS_PER_BULAN = 5;
 
 /* === OPM Sequential state === */
-let opmCurrentPort = 1;      // Port yang sedang diinput (1-48)
-let opmSubmitted = [];        // { port, dbm, tube, kabel }
+let opmCurrentPort = 1;
+let opmSubmitted = [];
 
 const MENU_LABELS = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan Lapangan', 'OPM-OLS': 'OPM/OLS', 'Joint': 'Joint', 'Handhole': 'Handhole', 'Alker': 'Alker', 'Stok Spare': 'Stok Spare', 'Patch Cord': 'Patch Cord' };
 const MENU_NO_PERIOD = ['Alker', 'Stok Spare', 'Patch Cord'];
@@ -2242,7 +2237,6 @@ function removeOpmSubmitted(port) {
   var idx = opmSubmitted.findIndex(function(x) { return x.port === port; });
   if (idx === -1) return;
   opmSubmitted.splice(idx, 1);
-  // Jika port yang dihapus lebih kecil dari current, kembalikan current ke port tersebut
   if (port < opmCurrentPort) opmCurrentPort = port;
   renderOpmCurrentPort();
   renderOpmSubmittedList();
