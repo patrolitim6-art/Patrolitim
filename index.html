@@ -47,7 +47,7 @@
   --app-font-size-xs: calc(var(--app-font-size) - 3px);
   --app-font-size-sm: calc(var(--app-font-size) - 1px);
   --radius: 16px;
-  --header-h: 68px;
+  --header-h: 72px;
   --header-solid: #0F172A;
   --header-solid-border: rgba(0, 217, 255, 0.35);
 }
@@ -94,11 +94,11 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 }
 :root[data-theme="light"] .top-header { box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); }
 
-.header-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.brand-text { font-weight: 900; line-height: 1.05; font-family: 'Orbitron', sans-serif; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1.8px; font-size: 22px; }
-.brand-sub { color: var(--primary-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-family: 'Orbitron', sans-serif; font-size: 10px; margin-top: 2px; }
+.header-brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; position: relative; }
+.brand-text { font-weight: 900; line-height: 1.05; font-family: 'Orbitron', sans-serif; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1.8px; font-size: 22px; position: relative; z-index: 3; }
+.brand-sub { color: var(--primary-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-family: 'Orbitron', sans-serif; font-size: 10px; margin-top: 2px; position: relative; z-index: 3; }
 
-.header-nav { display: flex; align-items: center; gap: 4px; flex: 1; justify-content: center; overflow: visible !important; padding: 0 8px; }
+.header-nav { display: flex; align-items: center; gap: 4px; flex: 1; justify-content: center; overflow: visible !important; padding: 0 8px; position: relative; z-index: 3; }
 
 .nav-dropdown { position: relative; flex-shrink: 0; }
 .nav-btn {
@@ -139,7 +139,7 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .nav-dropdown-item.active { background: rgba(0, 217, 255, 0.14); color: var(--primary-cyan); border-color: var(--border-glow); font-weight: 700; }
 .nav-dropdown-item i { width: 15px; height: 15px; flex-shrink: 0; }
 
-.header-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.header-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; position: relative; z-index: 3; }
 
 .header-user-box {
   display: flex; align-items: center; gap: 8px;
@@ -237,35 +237,41 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .ket-btn { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.4); color: #F59E0B; cursor: pointer; font-size: 13px; font-weight: 900; }
 .ket-btn:hover { background: rgba(245,158,11,0.25); }
 
-.login-screen { position: fixed; inset: 0; background: var(--surface-login); z-index: 20000; display: grid; place-items: center; padding: 20px; overflow-y: auto; }
-.login-card { background: var(--surface-login-card); padding: 40px 36px; border-radius: 28px; width: 100%; max-width: 420px; box-shadow: var(--shadow-modal), 0 0 0 1px var(--border-glow); border: 1px solid var(--border-glow); }
-.login-title { font-weight: 900; margin: 18px 0 4px; font-family: 'Orbitron', sans-serif; letter-spacing: 5px; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-align: center; font-size: 32px; }
+.login-screen { position: fixed; inset: 0; background: var(--surface-login); z-index: 20000; display: grid; place-items: center; padding: 12px; overflow-y: auto; }
+.login-card { background: var(--surface-login-card); padding: 24px 28px; border-radius: 24px; width: 100%; max-width: 400px; box-shadow: var(--shadow-modal), 0 0 0 1px var(--border-glow); border: 1px solid var(--border-glow); }
+.login-title { font-weight: 900; margin: 10px 0 4px; font-family: 'Orbitron', sans-serif; letter-spacing: 5px; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-align: center; font-size: 28px; }
 .login-subtitle { color: var(--text-muted); font-weight: 500; text-align: center; font-size: var(--app-font-size-sm); }
-.login-divider { display: flex; align-items: center; gap: 16px; margin: 20px 0; }
+.login-divider { display: flex; align-items: center; gap: 16px; margin: 14px 0; }
 .login-divider::before, .login-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border-glow), transparent); }
 .login-divider span { color: var(--primary-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 3px; font-family: 'Orbitron', sans-serif; font-size: var(--app-font-size-xs); }
-.login-footer { text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+.login-footer { text-align: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-subtle); }
 .login-footer p { color: var(--text-dim); font-size: var(--app-font-size-xs); }
 .login-error { color: #EC4899; font-weight: 600; text-align: center; padding: 8px 12px; background: rgba(236, 72, 153, 0.12); border-radius: 8px; margin-bottom: 12px; display: none; border: 1px solid rgba(236, 72, 153, 0.3); font-size: var(--app-font-size-xs); }
 .login-error.show { display: block; }
 
-/* === LOGO BUCIN (gambar) - DIPERKECIL SEDIKIT === */
+/* === LOGO BUCIN (gambar) - UKURAN 3X DARI SEBELUMNYA, POSISI OVERLAY HEADER === */
 .earth-logo {
-  width: 52px; height: 52px; border-radius: 12px; flex-shrink: 0;
+  width: 156px; height: 156px;
+  flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   padding: 0;
   background: transparent;
   border: none;
   box-shadow: none;
-  position: relative; overflow: visible;
-  margin-left: 2px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
 }
 .earth-logo img {
   width: 100%; height: 100%;
   object-fit: contain;
   display: block;
-  border-radius: 10px;
-  position: relative; z-index: 2;
+  border-radius: 16px;
+  filter: drop-shadow(0 4px 12px rgba(0, 217, 255, 0.45));
 }
 .earth-logo.large {
   width: 140px; height: 140px;
@@ -274,16 +280,26 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   border: none;
   box-shadow: none;
   margin: 0 auto;
+  position: static;
+  transform: none;
+  pointer-events: auto;
 }
 .earth-logo.large img {
   border-radius: 20px;
+  filter: drop-shadow(0 6px 20px rgba(0, 217, 255, 0.5));
+}
+
+.brand-text-wrap {
+  margin-left: 168px;
+  position: relative;
+  z-index: 3;
 }
 
 /* === TELIN LOGO === */
 .telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: transparent; }
 .telin-logo { height: 36px; width: auto; object-fit: contain; display: block; }
-.telin-divider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 16px 0 20px; padding: 12px 16px; flex-wrap: wrap; }
-.telin-logo-login { height: 60px; width: auto; display: block; }
+.telin-divider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0 14px; padding: 8px 16px; flex-wrap: wrap; }
+.telin-logo-login { height: 48px; width: auto; display: block; }
 
 .ai-hero { background: var(--surface-hero); border: 1px solid var(--border-glow); border-radius: var(--radius); padding: 16px 18px; position: relative; overflow: hidden; }
 .hero-big-number { position: absolute; top: 12px; right: 16px; text-align: right; }
@@ -647,9 +663,10 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 }
 
 @media (max-width: 768px) {
-  :root { --header-h: 62px; }
+  :root { --header-h: 68px; }
   .top-header { padding: 0 10px; gap: 6px; }
-  .earth-logo { width: 40px; height: 40px; padding: 0; border-radius: 10px; margin-left: 0; }
+  .earth-logo { width: 110px; height: 110px; padding: 0; }
+  .brand-text-wrap { margin-left: 120px; }
   .brand-text { font-size: 18px; letter-spacing: 1.2px; }
   .brand-sub { font-size: 8px; letter-spacing: 1px; }
   .header-brand { gap: 8px; flex-shrink: 0; }
@@ -741,10 +758,13 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .modal-card { padding: 14px 12px; border-radius: 16px; max-height: 94vh; }
   .modal-card h3 { font-size: 14px; }
 
-  .login-card { padding: 24px 16px; border-radius: 20px; }
+  .login-card { padding: 20px 18px; border-radius: 20px; max-width: 360px; }
   .earth-logo.large { width: 110px; height: 110px; border-radius: 20px; padding: 0; }
-  .login-title { font-size: 24px; letter-spacing: 3px; }
-  .telin-logo-login { height: 48px; }
+  .login-title { font-size: 22px; letter-spacing: 3px; margin: 8px 0 2px; }
+  .login-subtitle { font-size: 11px; }
+  .telin-logo-login { height: 40px; }
+  .login-divider { margin: 10px 0; }
+  .login-footer { margin-top: 10px; padding-top: 10px; }
 
   .sop-description { font-size: 10px; max-height: 140px; padding: 8px 12px; }
   .user-list-actions, .kml-list-actions { width: 100%; justify-content: flex-end; }
@@ -770,7 +790,8 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 
 @media (max-width: 420px) {
   .header-brand { gap: 6px; }
-  .earth-logo { width: 34px; height: 34px; padding: 0; border-radius: 8px; margin-left: 0; }
+  .earth-logo { width: 90px; height: 90px; padding: 0; }
+  .brand-text-wrap { margin-left: 96px; }
   .brand-text { font-size: 15px; letter-spacing: 1px; }
   .brand-sub { font-size: 7px; }
   .nav-btn { padding: 6px 6px; }
@@ -804,10 +825,13 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .chart-rekap-table th.th-total, .chart-rekap-table td.td-total { width: 22px; min-width: 22px; font-size: 6px; }
 
   .modal-card { padding: 12px 10px; }
-  .login-card { padding: 20px 12px; }
+  .login-card { padding: 16px 12px; max-width: 320px; }
   .earth-logo.large { width: 90px; height: 90px; border-radius: 16px; padding: 0; }
-  .login-title { font-size: 20px; letter-spacing: 2px; }
-  .telin-logo-login { height: 40px; }
+  .login-title { font-size: 18px; letter-spacing: 2px; margin: 6px 0 2px; }
+  .login-subtitle { font-size: 10px; }
+  .telin-logo-login { height: 32px; }
+  .login-divider { margin: 8px 0; }
+  .login-footer { margin-top: 8px; padding-top: 8px; }
 
   .ytd-compare-grid-5 { grid-template-columns: repeat(2, 1fr); }
   .opm-current-port-box .opm-current-port-num { font-size: 24px; }
@@ -829,7 +853,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 <div id="login-screen" class="login-screen">
   <div class="login-card">
     <div style="text-align:center;">
-      <div class="earth-logo large" style="margin:0 auto;position:relative;">
+      <div class="earth-logo large">
         <img src="logo_bucin.png" alt="BUCIN">
       </div>
       <h1 class="login-title">BUCIN</h1>
@@ -842,18 +866,18 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
     <div class="login-divider"><span>LOGIN</span></div>
     <div id="login-error" class="login-error"><span id="login-error-text">Username atau password salah</span></div>
     <form id="login-form" onsubmit="return handleLogin(event)">
-      <div style="margin-bottom:16px;">
-        <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;letter-spacing:1px;font-size:var(--app-font-size-xs);">NAMA PENGGUNA</label>
-        <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" required autocomplete="off">
+      <div style="margin-bottom:12px;">
+        <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:4px;letter-spacing:1px;font-size:var(--app-font-size-xs);">NAMA PENGGUNA</label>
+        <input id="login-username" type="text" class="field-control" placeholder="Masukkan username" required autocomplete="off" style="min-height:42px;">
       </div>
-      <div style="margin-bottom:24px;">
-        <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:6px;letter-spacing:1px;font-size:var(--app-font-size-xs);">KATA SANDI</label>
+      <div style="margin-bottom:16px;">
+        <label style="font-weight:700;color:var(--primary-cyan);display:block;margin-bottom:4px;letter-spacing:1px;font-size:var(--app-font-size-xs);">KATA SANDI</label>
         <div style="position:relative;">
-          <input id="login-password" type="password" class="field-control" placeholder="Masukkan password" required autocomplete="off">
-          <button type="button" id="toggle-pass" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;"><i data-lucide="eye" style="width:20px;"></i></button>
+          <input id="login-password" type="password" class="field-control" placeholder="Masukkan password" required autocomplete="off" style="min-height:42px;">
+          <button type="button" id="toggle-pass" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;"><i data-lucide="eye" style="width:18px;"></i></button>
         </div>
       </div>
-      <button type="submit" id="login-btn" class="btn-primary" style="width:100%;justify-content:center;height:52px;border-radius:28px;"><i data-lucide="log-in" style="width:18px;"></i> Masuk Sistem</button>
+      <button type="submit" id="login-btn" class="btn-primary" style="width:100%;justify-content:center;height:46px;border-radius:24px;font-size:13px;"><i data-lucide="log-in" style="width:16px;"></i> Masuk Sistem</button>
     </form>
     <div class="login-footer"><p style="margin-top:4px;color:var(--text-dim);">&copy; 2026 BUCIN - Barisan Utama Cegah Insiden</p></div>
   </div>
@@ -898,7 +922,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       <div class="earth-logo">
         <img src="logo_bucin.png" alt="BUCIN">
       </div>
-      <div>
+      <div class="brand-text-wrap">
         <div class="brand-text">BUCIN</div>
         <div class="brand-sub">Cegah Insiden</div>
       </div>
