@@ -81,24 +81,89 @@ html { overflow-x: hidden; }
 body { margin: 0; font-family: var(--app-font); font-size: var(--app-font-size); background: var(--bg-main); color: var(--text-main); }
 html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, tbody, tr, th, td, form, input, button, select, textarea, label, small, strong, em, b, i, code, pre, blockquote, canvas { font-family: var(--app-font); }
 
+/* ============================================================ */
+/* === HEADER: diperbaiki agar semua menu terlihat & rapi === */
+/* ============================================================ */
 .top-header {
   position: sticky; top: 0; z-index: 9000 !important;
   height: var(--header-h);
   border-bottom: 1px solid var(--header-solid-border);
   background: var(--header-solid);
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 18px; gap: 12px; overflow: visible !important;
+  padding: 0 14px; gap: 10px; overflow: visible !important;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
   flex-wrap: nowrap;
   width: 100%;
+  box-sizing: border-box;
 }
 :root[data-theme="light"] .top-header { box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); }
 
-.header-brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; position: relative; }
+.header-brand {
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0; position: relative;
+  min-width: 0;
+}
+
+/* Logo: ukuran & posisi tetap seperti yang sudah pas */
+.earth-logo {
+  width: 130px; height: 130px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  position: absolute;
+  top: calc(50% + 6px);
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+.earth-logo img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 16px;
+  filter: drop-shadow(0 4px 12px rgba(0, 217, 255, 0.45));
+}
+.earth-logo.large {
+  width: 140px; height: 140px;
+  border-radius: 24px;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  margin: 0 auto;
+  position: static;
+  transform: none;
+  pointer-events: auto;
+}
+.earth-logo.large img {
+  border-radius: 20px;
+  filter: drop-shadow(0 6px 20px rgba(0, 217, 255, 0.5));
+}
+
+.brand-text-wrap {
+  margin-left: 142px;
+  position: relative;
+  z-index: 3;
+  white-space: nowrap;
+}
+
 .brand-text { font-weight: 900; line-height: 1.05; font-family: 'Orbitron', sans-serif; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1.8px; font-size: 22px; position: relative; z-index: 3; }
 .brand-sub { color: var(--primary-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-family: 'Orbitron', sans-serif; font-size: 10px; margin-top: 2px; position: relative; z-index: 3; }
 
-.header-nav { display: flex; align-items: center; gap: 4px; flex: 1; justify-content: center; overflow: visible !important; padding: 0 8px; position: relative; z-index: 3; }
+/* Nav: ditengahkan, tidak overflow, gap pas */
+.header-nav {
+  display: flex; align-items: center; gap: 4px;
+  flex: 1 1 auto;
+  justify-content: center;
+  overflow: visible !important;
+  padding: 0 8px;
+  position: relative; z-index: 3;
+  min-width: 0;
+}
 
 .nav-dropdown { position: relative; flex-shrink: 0; }
 .nav-btn {
@@ -139,14 +204,34 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .nav-dropdown-item.active { background: rgba(0, 217, 255, 0.14); color: var(--primary-cyan); border-color: var(--border-glow); font-weight: 700; }
 .nav-dropdown-item i { width: 15px; height: 15px; flex-shrink: 0; }
 
-.header-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; position: relative; z-index: 3; }
+/* Actions: rapat & tidak overflow */
+.header-actions {
+  display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0; position: relative; z-index: 3;
+  min-width: 0;
+}
 
 .header-user-box {
   display: flex; align-items: center; gap: 8px;
   padding: 5px 10px; background: var(--surface-3);
   border-radius: 10px; border: 1px solid var(--border-subtle); margin-left: 4px;
+  flex-shrink: 0;
 }
 
+.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: transparent; }
+.telin-logo { height: 36px; width: auto; object-fit: contain; display: block; }
+.telin-divider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0 14px; padding: 8px 16px; flex-wrap: wrap; }
+.telin-logo-login { height: 48px; width: auto; display: block; }
+
+.icon-btn { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; cursor: pointer; background: transparent; border: none; color: var(--text-muted); transition: all 0.2s; flex-shrink: 0; }
+.icon-btn:hover { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); }
+.icon-btn.delete { color: #EC4899; }
+.icon-btn.edit { color: #10B981; }
+.icon-btn.info { color: #F59E0B; }
+
+/* ============================================================ */
+/* === SISA STYLING === */
+/* ============================================================ */
 .main-content-full { padding: 14px; width: 100%; max-width: 100%; }
 
 .layout-three-columns {
@@ -170,25 +255,13 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-secondary { background: var(--surface-1); color: var(--primary-cyan); border: 1px solid var(--border-glow); border-radius: 24px; font-weight: 600; padding: 12px 24px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; font-size: var(--app-font-size-sm); font-family: inherit; }
 .btn-secondary:hover { background: rgba(0, 217, 255, 0.12); border-color: var(--primary-cyan); }
-.icon-btn { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; cursor: pointer; background: transparent; border: none; color: var(--text-muted); transition: all 0.2s; }
-.icon-btn:hover { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); }
-.icon-btn.delete { color: #EC4899; }
-.icon-btn.edit { color: #10B981; }
-.icon-btn.info { color: #F59E0B; }
 
 .records-table .col-aksi .icon-btn,
 .records-table .col-aksi .icon-btn.edit,
 .records-table .col-aksi .icon-btn.delete {
-  width: 26px;
-  height: 26px;
-  min-width: 26px;
-  min-height: 26px;
-  font-size: 13px;
-  font-weight: 900;
-  border-radius: 6px;
-  display: inline-grid;
-  place-items: center;
-  margin: 0 1px;
+  width: 26px; height: 26px; min-width: 26px; min-height: 26px;
+  font-size: 13px; font-weight: 900; border-radius: 6px;
+  display: inline-grid; place-items: center; margin: 0 1px;
 }
 .records-table .col-aksi .icon-btn.edit:hover { background: rgba(16, 185, 129, 0.2); }
 .records-table .col-aksi .icon-btn.delete:hover { background: rgba(236, 72, 153, 0.2); }
@@ -248,58 +321,6 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .login-footer p { color: var(--text-dim); font-size: var(--app-font-size-xs); }
 .login-error { color: #EC4899; font-weight: 600; text-align: center; padding: 8px 12px; background: rgba(236, 72, 153, 0.12); border-radius: 8px; margin-bottom: 12px; display: none; border: 1px solid rgba(236, 72, 153, 0.3); font-size: var(--app-font-size-xs); }
 .login-error.show { display: block; }
-
-/* === LOGO BUCIN (gambar) - UKURAN DIPERKECIL & DITURUNKAN SEDIKIT, POSISI OVERLAY HEADER === */
-.earth-logo {
-  width: 130px; height: 130px;
-  flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  padding: 0;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  position: absolute;
-  top: calc(50% + 6px);
-  left: 0;
-  transform: translateY(-50%);
-  z-index: 2;
-  pointer-events: none;
-  overflow: visible;
-}
-.earth-logo img {
-  width: 100%; height: 100%;
-  object-fit: contain;
-  display: block;
-  border-radius: 16px;
-  filter: drop-shadow(0 4px 12px rgba(0, 217, 255, 0.45));
-}
-.earth-logo.large {
-  width: 140px; height: 140px;
-  border-radius: 24px;
-  padding: 0;
-  border: none;
-  box-shadow: none;
-  margin: 0 auto;
-  position: static;
-  transform: none;
-  pointer-events: auto;
-}
-.earth-logo.large img {
-  border-radius: 20px;
-  filter: drop-shadow(0 6px 20px rgba(0, 217, 255, 0.5));
-}
-
-.brand-text-wrap {
-  margin-left: 142px;
-  position: relative;
-  z-index: 3;
-}
-
-/* === TELIN LOGO === */
-.telin-logo-wrapper { display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 4px 8px; border-radius: 8px; background: transparent; }
-.telin-logo { height: 36px; width: auto; object-fit: contain; display: block; }
-.telin-divider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0 14px; padding: 8px 16px; flex-wrap: wrap; }
-.telin-logo-login { height: 48px; width: auto; display: block; }
 
 .ai-hero { background: var(--surface-hero); border: 1px solid var(--border-glow); border-radius: var(--radius); padding: 16px 18px; position: relative; overflow: hidden; }
 .hero-big-number { position: absolute; top: 12px; right: 16px; text-align: right; }
@@ -487,147 +508,25 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .opm-warning { display: none; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.5); color: #F59E0B; padding: 10px 14px; border-radius: 10px; font-weight: 600; margin-top: 10px; align-items: center; gap: 8px; font-size: var(--app-font-size-sm); }
 .opm-warning.show { display: flex; }
 
-/* === OPM Sequential Input - COMPACT === */
-.opm-current-port-box {
-  background: linear-gradient(135deg, rgba(0,217,255,0.14), rgba(168,85,247,0.14));
-  border: 2px solid var(--primary-cyan);
-  border-radius: 14px;
-  padding: 12px;
-  text-align: center;
-  margin-bottom: 10px;
-  position: relative;
-}
-.opm-current-port-box .opm-current-port-num {
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 900;
-  font-size: 32px;
-  line-height: 1;
-  background: var(--tech-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.opm-current-port-box .opm-current-port-label {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--text-muted);
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.opm-current-port-box .opm-current-port-hint {
-  font-size: 9px;
-  color: var(--text-dim);
-  margin-top: 6px;
-}
-.opm-input-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-.opm-input-row input {
-  flex: 1;
-  min-height: 38px;
-  font-size: 14px;
-  text-align: center;
-  font-family: inherit;
-  font-weight: 600;
-  padding: 0 12px;
-  min-width: 120px;
-}
-.opm-color-preview {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  margin-top: 10px;
-  flex-wrap: wrap;
-}
-.opm-color-preview .opm-color-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-.opm-color-preview .opm-color-item .opm-color-label {
-  font-size: 9px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 700;
-}
-.opm-submitted-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-height: 220px;
-  overflow-y: auto;
-}
-.opm-submitted-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 10px;
-  background: rgba(0,217,255,0.06);
-  border: 1px solid var(--border-glow);
-  border-radius: 8px;
-  font-size: var(--app-font-size-xs);
-}
-.opm-submitted-item .opm-sub-port {
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 800;
-  color: var(--primary-cyan);
-  min-width: 32px;
-  text-align: center;
-  font-size: var(--app-font-size-xs);
-}
-.opm-submitted-item .opm-sub-dbm {
-  font-weight: 700;
-  color: var(--text-main);
-  min-width: 56px;
-  text-align: center;
-  font-size: var(--app-font-size-xs);
-}
-.opm-submitted-item .opm-sub-label {
-  font-weight: 600;
-  color: #A855F7;
-  font-size: var(--app-font-size-xs);
-  flex: 1;
-  min-width: 60px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.opm-submitted-item .opm-sub-colors {
-  display: flex;
-  gap: 4px;
-  justify-content: flex-end;
-  flex-shrink: 0;
-}
+.opm-current-port-box { background: linear-gradient(135deg, rgba(0,217,255,0.14), rgba(168,85,247,0.14)); border: 2px solid var(--primary-cyan); border-radius: 14px; padding: 12px; text-align: center; margin-bottom: 10px; position: relative; }
+.opm-current-port-box .opm-current-port-num { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 32px; line-height: 1; background: var(--tech-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.opm-current-port-box .opm-current-port-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px; }
+.opm-current-port-box .opm-current-port-hint { font-size: 9px; color: var(--text-dim); margin-top: 6px; }
+.opm-input-row { display: flex; gap: 8px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+.opm-input-row input { flex: 1; min-height: 38px; font-size: 14px; text-align: center; font-family: inherit; font-weight: 600; padding: 0 12px; min-width: 120px; }
+.opm-color-preview { display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+.opm-color-preview .opm-color-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.opm-color-preview .opm-color-item .opm-color-label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+.opm-submitted-list { display: flex; flex-direction: column; gap: 6px; max-height: 220px; overflow-y: auto; }
+.opm-submitted-item { display: flex; align-items: center; gap: 10px; padding: 6px 10px; background: rgba(0,217,255,0.06); border: 1px solid var(--border-glow); border-radius: 8px; font-size: var(--app-font-size-xs); }
+.opm-submitted-item .opm-sub-port { font-family: 'Orbitron', sans-serif; font-weight: 800; color: var(--primary-cyan); min-width: 32px; text-align: center; font-size: var(--app-font-size-xs); }
+.opm-submitted-item .opm-sub-dbm { font-weight: 700; color: var(--text-main); min-width: 56px; text-align: center; font-size: var(--app-font-size-xs); }
+.opm-submitted-item .opm-sub-label { font-weight: 600; color: #A855F7; font-size: var(--app-font-size-xs); flex: 1; min-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.opm-submitted-item .opm-sub-colors { display: flex; gap: 4px; justify-content: flex-end; flex-shrink: 0; }
 
-/* Tombol centang untuk OPM port terisi */
-.opm-check-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  border: 2px solid var(--border-subtle);
-  background: var(--surface-input);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s;
-  flex-shrink: 0;
-}
+.opm-check-btn { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; border: 2px solid var(--border-subtle); background: var(--surface-input); color: var(--text-muted); cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
 .opm-check-btn:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); }
-.opm-check-btn.checked {
-  background: var(--tech-gradient);
-  color: var(--text-on-accent);
-  border-color: transparent;
-  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.4);
-}
+.opm-check-btn.checked { background: var(--tech-gradient); color: var(--text-on-accent); border-color: transparent; box-shadow: 0 4px 16px rgba(0, 217, 255, 0.4); }
 .opm-check-btn svg { width: 20px; height: 20px; }
 
 .user-list-item, .kml-list-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; flex-wrap: wrap; }
@@ -656,30 +555,14 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .ytd-compare-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-/* === NOTIFIKASI LANDSCAPE === */
-.landscape-overlay {
-  position: fixed; inset: 0; z-index: 99999;
-  background: rgba(5, 8, 16, 0.96);
-  display: none; place-items: center; padding: 24px;
-  text-align: center; flex-direction: column; gap: 16px;
-}
+.landscape-overlay { position: fixed; inset: 0; z-index: 99999; background: rgba(5, 8, 16, 0.96); display: none; place-items: center; padding: 24px; text-align: center; flex-direction: column; gap: 16px; }
 .landscape-overlay.show { display: grid; }
-.landscape-overlay .rotate-icon {
-  width: 80px; height: 80px; border-radius: 24px;
-  background: var(--tech-gradient);
-  display: grid; place-items: center;
-  animation: rotatePhone 2s ease-in-out infinite;
-  box-shadow: 0 0 40px rgba(0, 217, 255, 0.5);
-}
-@keyframes rotatePhone {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(90deg); }
-}
+.landscape-overlay .rotate-icon { width: 80px; height: 80px; border-radius: 24px; background: var(--tech-gradient); display: grid; place-items: center; animation: rotatePhone 2s ease-in-out infinite; box-shadow: 0 0 40px rgba(0, 217, 255, 0.5); }
+@keyframes rotatePhone { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(90deg); } }
 .landscape-overlay h3 { color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; font-size: 20px; margin: 0; }
 .landscape-overlay p { color: var(--text-muted); font-size: 14px; max-width: 320px; line-height: 1.6; margin: 0; }
 .landscape-overlay .btn-lanjut { margin-top: 8px; }
 
-/* === GUDANG/PATCHCORD CARD SELECTED STATE === */
 .gudang-card.selected,
 .patchcord-gudang-card.selected {
   border-color: var(--primary-cyan) !important;
@@ -696,6 +579,46 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   border-color: transparent !important;
   font-weight: 800 !important;
   box-shadow: 0 4px 16px rgba(0, 217, 255, 0.35);
+}
+
+/* ============================================================ */
+/* === RESPONSIVE HEADER === */
+/* ============================================================ */
+
+/* <= 1366px: kurangi sedikit padding header agar semua menu muat */
+@media (max-width: 1366px) {
+  .top-header { padding: 0 12px; gap: 8px; }
+  .header-nav { gap: 2px; padding: 0 4px; }
+  .nav-btn { padding: 9px 11px; font-size: 12px; }
+  .header-actions { gap: 4px; }
+  .header-user-box { padding: 5px 8px; margin-left: 2px; }
+  .telin-logo { height: 32px; }
+  .icon-btn { width: 36px; height: 36px; }
+}
+
+@media (max-width: 1200px) {
+  .top-header { padding: 0 10px; gap: 6px; }
+  .header-nav { gap: 2px; padding: 0 2px; }
+  .nav-btn { padding: 8px 9px; font-size: 11.5px; }
+  .nav-btn i { width: 15px; height: 15px; }
+  .header-user-box { padding: 4px 7px; gap: 6px; }
+  .header-user-box > div:first-child { width: 28px; height: 28px; font-size: 12px; }
+  .telin-logo { height: 28px; }
+  .icon-btn { width: 34px; height: 34px; }
+}
+
+@media (max-width: 1024px) {
+  .top-header { padding: 0 8px; gap: 4px; }
+  .nav-btn { padding: 7px 8px; font-size: 11px; gap: 5px; }
+  .nav-btn i { width: 14px; height: 14px; }
+  .nav-btn .chev { width: 10px; height: 10px; }
+  .brand-text { font-size: 20px; }
+  .brand-sub { font-size: 9px; }
+}
+
+@media (max-width: 900px) {
+  .telin-logo-wrapper { padding: 2px 4px; }
+  .telin-logo { height: 24px; }
 }
 
 @media (max-width: 768px) {
@@ -1951,8 +1874,8 @@ const MAKS_PER_BULAN = 5;
 
 /* === OPM Sequential state === */
 let opmCurrentPort = 1;
-let opmSubmitted = [];   // {port, label, tube, kabel}
-let opmPortChecked = false;  // apakah port saat ini sudah di-centang
+let opmSubmitted = [];
+let opmPortChecked = false;
 
 const MENU_LABELS = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan Lapangan', 'OPM-OLS': 'OPM/OLS', 'Joint': 'Joint', 'Handhole': 'Handhole', 'Alker': 'Alker', 'Stok Spare': 'Stok Spare', 'Patch Cord': 'Patch Cord' };
 const MENU_NO_PERIOD = ['Alker', 'Stok Spare', 'Patch Cord'];
@@ -2072,7 +1995,6 @@ function startLiveClock() {
   liveClockInterval = setInterval(tick, 1000);
 }
 
-/* ===== EKSTRAK NAMA JALAN (disingkat Jl.) ===== */
 function ekstrakNamaJalan(lokasi) {
   if (!lokasi) return '-';
   var s = String(lokasi).trim();
@@ -2096,7 +2018,6 @@ function ekstrakNamaJalan(lokasi) {
   return first;
 }
 
-/* ===== POPUP LOKASI (gaya maps) ===== */
 function showLokasiPopup(lokasi, coords) {
   var bodyEl = document.getElementById('lokasi-popup-body');
   var coordsEl = document.getElementById('lokasi-popup-coords');
@@ -2112,7 +2033,6 @@ function closeLokasiPopup() { document.getElementById('lokasi-popup').classList.
 window.showLokasiPopup = showLokasiPopup;
 window.closeLokasiPopup = closeLokasiPopup;
 
-/* ===== POPUP KETERANGAN (gaya maps) ===== */
 function buildKetPopupContent(cat, it) {
   function row(label, value) {
     if (value === undefined || value === null || value === '') return '';
@@ -2229,7 +2149,7 @@ function warnaChipHtml(warna) {
   return '<span class="warna-chip" style="background:' + hex + ';color:' + txt + ';border-color:' + hex + ';">' + escapeHtml(warna) + '</span>';
 }
 
-/* ============================================================ OPM — SEQUENTIAL INPUT (LABEL WAJIB & CENTANG) ============================================================ */
+/* ============================================================ OPM — SEQUENTIAL INPUT ============================================================ */
 function renderOpmCurrentPort() {
   var numEl = document.getElementById('opm-current-port-num');
   var badgeEl = document.getElementById('opm-current-port-badge');
@@ -2268,7 +2188,6 @@ function toggleOpmPortCheck() {
     return;
   }
   if (opmPortChecked) {
-    // uncheck → hapus port dari daftar
     opmSubmitted = opmSubmitted.filter(function(r) { return r.port !== opmCurrentPort; });
     opmPortChecked = false;
     if (checkBtn) checkBtn.classList.remove('checked');
@@ -2276,7 +2195,6 @@ function toggleOpmPortCheck() {
     updateOpmCount();
     showToast('Port ' + opmCurrentPort + ' dibatalkan', 'warning');
   } else {
-    // centang → tambahkan port
     var tube = getWarnaTubeByPort(opmCurrentPort);
     var kabel = getWarnaKabelByPort(opmCurrentPort);
     opmSubmitted.push({ port: opmCurrentPort, label: val, tube: tube, kabel: kabel });
@@ -3238,7 +3156,6 @@ function switchView(cat) {
   if (hidePeriod) { periodGroup.classList.add('hidden'); yearGroup.classList.add('hidden'); if (monthGroup) monthGroup.classList.add('hidden'); }
   else { periodGroup.classList.remove('hidden'); if (currentPeriod === 'yearly' || currentPeriod === 'custom') yearGroup.classList.remove('hidden'); else yearGroup.classList.add('hidden'); if (monthGroup) { if (currentPeriod === 'custom') monthGroup.classList.remove('hidden'); else monthGroup.classList.add('hidden'); } }
 
-  /* === SEMBUNYIKAN GUDANG TABS KHUSUS PATCH CORD === */
   var gudangTabs = document.getElementById('gudang-tabs-container');
   if (gudangTabs) {
     if (cat === 'Patch Cord') gudangTabs.classList.add('hidden');
@@ -3302,7 +3219,6 @@ function sortData(keys, list, cat) {
   return keys;
 }
 
-/* ===== PATCH CORD: total per jenis+panjang (lintas gudang) ===== */
 function getPatchcordTotals() {
   var items = Object.values(appData['Patch Cord'] || {});
   var map = {};
@@ -3326,7 +3242,6 @@ function renderTable() {
     var tb = document.getElementById('table-body'), th = document.getElementById('table-head');
     if (!tb || !th) return; tb.innerHTML = '';
     var isPatch = cat === 'Patch Cord';
-    /* === Khusus Patch Cord: mode "all" tampilkan rekap per jenis+panjang === */
     if (isPatch && selectedGudangFilter === 'all') {
       var totals = getPatchcordTotals();
       var rows = Object.keys(totals).map(function(k) { return totals[k]; });
@@ -3883,7 +3798,6 @@ function selectSpareAction(a) { spareAction = a; document.querySelectorAll('.spa
 function confirmSpareAction() { if (!selectedGudang) { showToast('Pilih gudang', 'error'); return; } closeGudangModal(); openForm(); }
 function closeGudangModal() { document.getElementById('gudang-modal').classList.add('hidden'); }
 
-/* Patch Cord gudang & aksi */
 window.selectPatchcordGudang = function(el) {
   document.querySelectorAll('.patchcord-gudang-card').forEach(function(c) { c.classList.remove('selected'); });
   el.classList.add('selected');
@@ -3902,7 +3816,7 @@ function confirmPatchcordAction() {
 }
 function closePatchcordGudangModal() { document.getElementById('patchcord-gudang-modal').classList.add('hidden'); }
 
-/* ============================================================ EXPORT EXCEL (data tetap lengkap) ============================================================ */
+/* ============================================================ EXPORT EXCEL ============================================================ */
 function downloadPageExcel() {
   var cat = currentCategory;
   if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
@@ -4392,7 +4306,6 @@ function setupEventListeners() {
   var dln = document.getElementById('draw-line-name'); if (dln) dln.addEventListener('change', toggleCustomLineInput);
   document.addEventListener('click', refreshSession); document.addEventListener('keydown', refreshSession);
 
-  /* === OPM: Enter key on label input === */
   var opmLabelInput = document.getElementById('opm-label-input');
   if (opmLabelInput) {
     opmLabelInput.addEventListener('keydown', function(e) {
