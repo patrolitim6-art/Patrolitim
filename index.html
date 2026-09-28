@@ -741,6 +741,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 </head>
 <body>
 
+<!-- ===== NOTIFIKASI LANDSCAPE ===== -->
 <div id="landscape-overlay" class="landscape-overlay" onclick="dismissLandscape()">
   <div class="rotate-icon">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#050810" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12" y2="18"></line></svg>
@@ -836,7 +837,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       <div class="nav-dropdown" data-menu="data-operasional">
         <button class="nav-btn" onclick="toggleDropdown(event, this)"><i data-lucide="database"></i><span class="nav-label">Data Operasional</span><i data-lucide="chevron-down" class="chev"></i></button>
         <div class="nav-dropdown-menu">
-          <div class="nav-dropdown-item" onclick="navTo('Data OF Cut')"><i data-lucide="scissors"></i> Data FO Cut</div>
+          <div class="nav-dropdown-item" onclick="navTo('Data OF Cut')"><i data-lucide="scissors"></i> Data OF Cut</div>
           <div class="nav-dropdown-item" onclick="navTo('P3_Temuan')"><i data-lucide="users"></i> P3 dan Temuan</div>
           <div class="nav-dropdown-item" onclick="navTo('OPM-OLS')"><i data-lucide="activity"></i> OPM / OLS</div>
           <div class="nav-dropdown-item" onclick="navTo('Joint')"><i data-lucide="link"></i> Data Joint</div>
@@ -929,7 +930,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
             <p id="hero-about-text" style="font-size:11px;color:var(--text-muted);line-height:1.4;margin-bottom:8px;">Tim patroli BUCIN (Barisan Utama Cegah Insiden Network) adalah unit operasional khusus yang bertugas menjaga keandalan infrastruktur jaringan fiber optik di wilayah Sulawesi Utara.</p>
             <div class="ai-hero-stats">
               <div class="ai-stat-mini"><div class="stat-label">Stok Spare</div><div class="stat-value" id="ai-stat-total">0</div></div>
-              <div class="ai-stat-mini"><div class="stat-label">FO Cut</div><div class="stat-value red" id="ai-stat-ofcut">0</div></div>
+              <div class="ai-stat-mini"><div class="stat-label">OF Cut</div><div class="stat-value red" id="ai-stat-ofcut">0</div></div>
               <div class="ai-stat-mini"><div class="stat-label">Handhole</div><div class="stat-value green" id="ai-stat-online">0</div></div>
               <div class="ai-stat-mini"><div class="stat-label">Joint</div><div class="stat-value blue" id="ai-stat-joint">0</div></div>
             </div>
@@ -948,7 +949,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
               <div id="map-container"></div>
               <div class="map-legend-top-right">
                 <div class="ml-title">Keterangan Titik</div>
-                <div class="ml-item"><span class="ml-dot" style="background:#FF0000;"></span>FO Cut<span class="ml-count" id="ml-count-ofcut">0</span></div>
+                <div class="ml-item"><span class="ml-dot" style="background:#FF0000;"></span>OF Cut<span class="ml-count" id="ml-count-ofcut">0</span></div>
                 <div class="ml-item"><span class="ml-dot" style="background:#00FF00;"></span>Pihak Ke-3<span class="ml-count" id="ml-count-p3">0</span></div>
                 <div class="ml-item"><span class="ml-dot" style="background:#0000FF;"></span>Temuan<span class="ml-count" id="ml-count-temuan">0</span></div>
                 <div class="ml-item"><span class="ml-dot" style="background:#FFFF00;"></span>Joint<span class="ml-count" id="ml-count-joint">0</span></div>
@@ -979,7 +980,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
         <div class="layout-right">
           <div class="ai-panel">
             <div class="ai-panel-header">
-              <div class="ai-panel-title"><span class="dot"></span> Grafik FO Cut</div>
+              <div class="ai-panel-title"><span class="dot"></span> Grafik OF Cut</div>
               <select id="chart-period" class="field-control" style="min-height:28px;padding:2px 8px;font-size:11px;width:auto;border-radius:6px;color:var(--primary-cyan);" onchange="updateChartPeriod()"></select>
             </div>
             <div class="chart-summary-strip-2">
@@ -1014,7 +1015,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
             </div>
 
             <div class="ai-panel-header" style="margin-top:12px;margin-bottom:6px;">
-              <div class="ai-panel-title" style="font-size:9px;"><span class="dot"></span> Rekap FO Cut Tahunan</div>
+              <div class="ai-panel-title" style="font-size:9px;"><span class="dot"></span> Rekap OF Cut Tahunan</div>
             </div>
             <div class="chart-rekap-scroll">
               <table class="chart-rekap-table" id="chart-rekap-table">
@@ -1043,7 +1044,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
             </div>
 
             <div class="ai-panel-header" style="margin-top:14px;margin-bottom:6px;">
-              <div class="ai-panel-title" style="font-size:9px;"><span class="dot"></span> Tren FO Cut Bulanan <span id="line-chart-year-label" style="color:var(--text-dim);font-weight:600;margin-left:4px;">-</span></div>
+              <div class="ai-panel-title" style="font-size:9px;"><span class="dot"></span> Tren OF Cut Bulanan <span id="line-chart-year-label" style="color:var(--text-dim);font-weight:600;margin-left:4px;">-</span></div>
             </div>
             <div class="ai-chart-wrap-line">
               <canvas id="chartOfCutLine"></canvas>
@@ -1071,7 +1072,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       </div>
 
       <div id="sop-description-container" class="sop-description hidden">
-        <strong>SOP Penanganan Gangguan FO Cut:</strong><br>
+        <strong>SOP Penanganan Gangguan OF Cut:</strong><br>
         1. Terima Laporan 2. Mobilisasi 3. Amankan Lokasi 4. Identifikasi 5. Ukur Titik Rusak 6. Siapkan Perbaikan 7. Sambung Fiber 8. Pasang Closure 9. Uji Ulang 10. Bersihkan Lokasi 11. Lapor 12. APD dibersihkan.
       </div>
 
@@ -1373,6 +1374,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
             <div style="margin-top:12px;"><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Keterangan</label><textarea id="inp-update-notes" class="field-control" rows="2" style="resize:none;"></textarea></div>
           </div>
         </div>
+        <!-- FORM PATCH CORD -->
         <div id="field-patchcord" class="hidden">
           <div style="background:rgba(0,217,255,0.08);padding:12px 14px;border-radius:12px;margin-bottom:12px;border:1px solid var(--border-glow);">
             <div style="font-weight:600;color:var(--text-muted);font-size:var(--app-font-size-xs);">Patch Cord</div>
@@ -1394,6 +1396,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
           <div id="patchcord-saldo-info" style="margin-top:10px;padding:10px 14px;background:rgba(0,217,255,0.06);border:1px solid var(--border-glow);border-radius:10px;font-size:var(--app-font-size-xs);color:var(--text-muted);display:none;"><strong>Stok Saat Ini:</strong> <span id="patchcord-saldo-current" style="color:var(--primary-cyan);font-family:'Orbitron',sans-serif;font-weight:800;">0</span></div>
           <div style="margin-top:12px;"><label style="font-weight:700;color:var(--primary-cyan);font-size:var(--app-font-size-xs);">Keterangan</label><textarea id="inp-notes-patch" class="field-control" rows="2" style="resize:none;"></textarea></div>
         </div>
+        <!-- FORM OPM (Sequential) -->
         <div id="field-opm" class="hidden">
           <div class="opm-step-card">
             <div class="opm-step-title">Step 1 — Info Utama</div>
@@ -1425,6 +1428,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
               </div>
             </div>
 
+            <!-- Checkbox: port terisi pelanggan -->
             <label for="opm-port-terisi" style="display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.35);cursor:pointer;user-select:none;">
               <input type="checkbox" id="opm-port-terisi" onchange="toggleOpmPortTerisi()" style="width:18px;height:18px;accent-color:#A855F7;cursor:pointer;flex-shrink:0;">
               <span style="font-weight:700;font-size:11px;color:#A855F7;line-height:1.3;">Centang apabila port terisi pelanggan <span style="color:var(--text-dim);font-weight:600;">(wajib input Label)</span></span>
@@ -1609,11 +1613,11 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       <h4 style="font-weight:800;color:var(--primary-cyan);margin-bottom:10px;font-family:'Orbitron',sans-serif;font-size:var(--app-font-size-sm);letter-spacing:1px;">🧭 PENJELASAN MENU & FUNGSI</h4>
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:4px;">📊 Dashboard</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Halaman utama yang menampilkan ringkasan operasional secara real-time: total insiden, ringkasan aset, stok spare per gudang, peta sebaran titik & line, serta seluruh grafik analitik FO Cut.</div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Halaman utama yang menampilkan ringkasan operasional secara real-time: total insiden, ringkasan aset, stok spare per gudang, peta sebaran titik & line, serta seluruh grafik analitik OF Cut.</div>
       </div>
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:6px;">🗄️ Data Operasional</div>
-        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Data FO Cut, P3 dan Temuan, OPM/OLS, Data Joint, Data Handhole.</div>
+        <div style="color:var(--text-muted);font-size:var(--app-font-size-xs);line-height:1.6;">Data OF Cut, P3 dan Temuan, OPM/OLS, Data Joint, Data Handhole.</div>
       </div>
       <div style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
         <div style="font-weight:800;color:var(--primary-cyan);font-size:var(--app-font-size-sm);margin-bottom:6px;">📦 Inventory</div>
@@ -1820,13 +1824,12 @@ const MAKS_PER_BULAN = 5;
 let opmCurrentPort = 1;
 let opmSubmitted = [];
 
-/* KEY DATABASE tetap 'Data OF Cut' — hanya label tampilan yang jadi 'FO Cut' */
-const MENU_LABELS = { 'Data OF Cut': 'FO Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan Lapangan', 'OPM-OLS': 'OPM/OLS', 'Joint': 'Joint', 'Handhole': 'Handhole', 'Alker': 'Alker', 'Stok Spare': 'Stok Spare', 'Patch Cord': 'Patch Cord' };
+const MENU_LABELS = { 'Data OF Cut': 'OF Cut', 'Pekerjaan Pihak Ke-3': 'Pihak Ke-3', 'Temuan Lapangan': 'Temuan Lapangan', 'OPM-OLS': 'OPM/OLS', 'Joint': 'Joint', 'Handhole': 'Handhole', 'Alker': 'Alker', 'Stok Spare': 'Stok Spare', 'Patch Cord': 'Patch Cord' };
 const MENU_NO_PERIOD = ['Alker', 'Stok Spare', 'Patch Cord'];
 const MENU_TAGLINE = ['Data OF Cut', 'Pekerjaan Pihak Ke-3', 'Temuan Lapangan', 'OPM-OLS', 'Joint', 'Handhole', 'Alker'];
 const BUILTIN_LINES = ['OSP LINE 1','OSP LINE 2','OSP LINE 3','IGG LINE 1','IGG LINE 2','DWDM','SEA US LINE 1','SEA US LINE 2'];
 const POINT_CATEGORIES = [
-  { key: 'Data OF Cut', label: 'FO Cut', color: '#FF0000' },
+  { key: 'Data OF Cut', label: 'OF Cut', color: '#FF0000' },
   { key: 'Pekerjaan Pihak Ke-3', label: 'Pihak Ke-3', color: '#00FF00' },
   { key: 'Temuan Lapangan', label: 'Temuan', color: '#0000FF' },
   { key: 'Joint', label: 'Joint', color: '#FFFF00' },
@@ -1981,7 +1984,7 @@ function buildKetPopupContent(cat, it) {
     return '<div class="ket-popup-row"><div class="ket-popup-label">' + escapeHtml(label) + '</div><div class="ket-popup-value">' + escapeHtml(String(value)) + '</div></div>';
   }
   var html = '<div class="ket-popup-grid">';
-  html += row('Kategori', cat === 'Data OF Cut' ? 'FO Cut' : cat);
+  html += row('Kategori', cat);
   html += row('Tanggal', it.date || '-');
   if (it.postBy) html += row('User', it.postBy);
   if (it.location) html += row('Lokasi', it.location);
@@ -2052,7 +2055,7 @@ function showKetPopup(key, cat) {
   if (!it) { showToast('Data tidak ditemukan', 'error'); return; }
   var titleEl = document.getElementById('ket-popup-title-text');
   var contentEl = document.getElementById('ket-popup-content');
-  if (titleEl) titleEl.textContent = 'Detail - ' + (cat === 'Data OF Cut' ? 'FO Cut' : cat);
+  if (titleEl) titleEl.textContent = 'Detail - ' + cat;
   if (contentEl) contentEl.innerHTML = buildKetPopupContent(cat, it);
   document.getElementById('ket-popup').classList.remove('hidden');
   if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -2152,12 +2155,14 @@ function toggleOpmPortCheck() {
   var isTerisi = cbTerisi && cbTerisi.checked;
   var labelVal = (labelInput.value || '').trim().toUpperCase();
 
+  // Validasi DBM
   if (dbmVal === '' || isNaN(parseFloat(dbmVal))) {
     showToast('Masukkan nilai DBM yang valid!', 'error');
     if (dbmInput) dbmInput.focus();
     return;
   }
 
+  // Validasi Label: hanya wajib jika checkbox "port terisi pelanggan" dicentang
   if (isTerisi && !labelVal) {
     showToast('Label wajib diisi karena port terisi pelanggan!', 'error');
     if (labelInput) labelInput.focus();
@@ -2167,6 +2172,7 @@ function toggleOpmPortCheck() {
   var tube = getWarnaTubeByPort(opmCurrentPort);
   var kabel = getWarnaKabelByPort(opmCurrentPort);
 
+  // Cek duplikat: kalau port ini sudah ada di list, update nilainya
   var existingIdx = opmSubmitted.findIndex(function(x) { return x.port === opmCurrentPort; });
   var entry = {
     port: opmCurrentPort,
@@ -2186,6 +2192,7 @@ function toggleOpmPortCheck() {
     showToast('✅ Port ' + opmCurrentPort + ' masuk ke list ringkasan', 'success');
   }
 
+  // Auto pindah ke port berikutnya
   opmCurrentPort++;
   renderOpmCurrentPort();
   renderOpmSubmittedList();
@@ -2697,7 +2704,7 @@ function downloadSingleKmz(lineName) {
   zip.generateAsync({ type: 'blob' }).then(function(blob) { var url = URL.createObjectURL(blob); var a = document.createElement('a'); a.href = url; a.download = lineName + '.kmz'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); showToast('KMZ diunduh', 'success'); });
 }
 function hapusLineKml(lineName) {
-  if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya admin', 'error'); return; }
+  if (!currentUser) { showToast('Login dulu', 'error'); return; }
   if (!confirm('HAPUS line "' + lineName + '"?')) return;
   var isBuiltin = BUILTIN_LINES.indexOf(lineName) !== -1;
   db.ref('kmlData/' + lineName).remove().then(function() { if (!isBuiltin) return db.ref('customLines/' + lineName).remove().catch(function() {}); }).then(function() {
@@ -2856,16 +2863,15 @@ function buildMarkerPopup(cat, it, title, color) {
     if (value === undefined || value === null || value === '') return '';
     return '<div style="color:#94A3B8;font-weight:700;white-space:nowrap;font-size:7px;">' + label + '</div><div style="color:' + (valueColor || '#E2E8F0') + ';font-weight:600;word-break:break-word;font-size:8px;">' + escapeHtml(String(value)) + '</div>';
   }
-  var labelCat = (cat === 'Data OF Cut') ? 'FO Cut' : cat;
   var rowsHtml = '';
   if (cat === 'Data OF Cut') {
-    rowsHtml += row('Kategori', labelCat, color); rowsHtml += row('Tgl', it.date); rowsHtml += row('Lokasi', it.location);
+    rowsHtml += row('Kategori', cat, color); rowsHtml += row('Tgl', it.date); rowsHtml += row('Lokasi', it.location);
     if (it.waktuCO) rowsHtml += row('Waktu CO', formatWaktuDisplay(it.waktuCO));
     if (it.waktuUP) rowsHtml += row('Waktu UP', formatWaktuDisplay(it.waktuUP));
     if (it.durasiText) rowsHtml += row('Durasi', it.durasiText, '#10B981');
     if (it.penyebab) rowsHtml += row('Penyebab', it.penyebab, '#EC4899');
   } else {
-    rowsHtml += row('Kategori', labelCat, color); rowsHtml += row('Tgl', it.date); rowsHtml += row('Lokasi', it.location);
+    rowsHtml += row('Kategori', cat, color); rowsHtml += row('Tgl', it.date); rowsHtml += row('Lokasi', it.location);
   }
   var ket = it.keterangan || it.notes || '';
   var html = '<div style="min-width:140px;max-width:210px;">';
@@ -3139,7 +3145,7 @@ function switchView(cat) {
   document.getElementById('data-view').classList.remove('hidden');
   var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
   var isP3T = cat === 'P3_Temuan', isOfCut = cat === 'Data OF Cut';
-  var title = isP3T ? 'Pekerjaan & Temuan' : (cat === 'OPM-OLS' ? 'OPM / OLS' : (cat === 'Data OF Cut' ? 'Data FO Cut' : cat));
+  var title = isP3T ? 'Pekerjaan & Temuan' : (cat === 'OPM-OLS' ? 'OPM / OLS' : cat);
   document.getElementById('page-title').textContent = title;
   var st = document.getElementById('sub-tabs-container');
   if (isP3T) { st.classList.remove('hidden'); document.querySelectorAll('.sub-tab').forEach(function(t) { t.classList.toggle('active', t.dataset.sub === currentSubTab); }); document.getElementById('inp-cat').value = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan'; }
@@ -3643,9 +3649,8 @@ function openForm(editData, editKey) {
   isSubmitting = false;
   var cat = currentCategory;
   if (cat === 'P3_Temuan') cat = currentSubTab === 'p3' ? 'Pekerjaan Pihak Ke-3' : 'Temuan Lapangan';
-  var displayCat = cat === 'Data OF Cut' ? 'FO Cut' : cat;
-  if (editData) { document.getElementById('modal-title').textContent = 'Edit - ' + displayCat; document.getElementById('edit-key').value = editKey || ''; populateFormFields(editData); }
-  else { document.getElementById('modal-title').textContent = 'Tambah - ' + displayCat; document.getElementById('edit-key').value = ''; document.getElementById('inp-date').valueAsDate = new Date(); resetFormFields(); }
+  if (editData) { document.getElementById('modal-title').textContent = 'Edit - ' + cat; document.getElementById('edit-key').value = editKey || ''; populateFormFields(editData); }
+  else { document.getElementById('modal-title').textContent = 'Tambah - ' + cat; document.getElementById('edit-key').value = ''; document.getElementById('inp-date').valueAsDate = new Date(); resetFormFields(); }
   var isStock = ['Stok Spare', 'Patch Cord'].indexOf(cat) !== -1;
   var isPatch = cat === 'Patch Cord', isAlker = cat === 'Alker';
   var isOpm = cat === 'OPM-OLS', isHH = cat === 'Handhole';
@@ -4145,7 +4150,7 @@ function updateAiStats() {
   var catList = document.getElementById('ai-cat-list');
   if (catList) {
     var cats = [
-      { icon: '✂️', name: 'FO Cut', key: 'Data OF Cut' },
+      { icon: '✂️', name: 'OF Cut', key: 'Data OF Cut' },
       { icon: '👥', name: 'Pihak Ke-3', key: 'Pekerjaan Pihak Ke-3' },
       { icon: '🔍', name: 'Temuan', key: 'Temuan Lapangan' },
       { icon: '🔗', name: 'Joint', key: 'Joint' },
