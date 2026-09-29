@@ -177,16 +177,20 @@ html, body, div, span, p, a, li, ul, ol, h1, h2, h3, h4, h5, h6, table, thead, t
 .icon-btn.delete { color: #EC4899; }
 .icon-btn.edit { color: #10B981; }
 .icon-btn.info { color: #F59E0B; }
+.icon-btn.gudang { color: #A855F7; }
 
 .records-table .col-aksi .icon-btn,
 .records-table .col-aksi .icon-btn.edit,
-.records-table .col-aksi .icon-btn.delete {
+.records-table .col-aksi .icon-btn.delete,
+.records-table .col-aksi .icon-btn.info,
+.records-table .col-aksi .icon-btn.gudang {
   width: 26px; height: 26px; min-width: 26px; min-height: 26px;
   font-size: 13px; font-weight: 900; border-radius: 6px;
   display: inline-grid; place-items: center; margin: 0 1px;
 }
 .records-table .col-aksi .icon-btn.edit:hover { background: rgba(16, 185, 129, 0.2); }
 .records-table .col-aksi .icon-btn.delete:hover { background: rgba(236, 72, 153, 0.2); }
+.records-table .col-aksi .icon-btn.gudang:hover { background: rgba(168, 85, 247, 0.2); }
 .records-table th.col-aksi.no-admin,
 .records-table td.col-aksi.no-admin { display: none !important; }
 
@@ -416,7 +420,7 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
 .records-table code { background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan); padding: 2px 6px; border-radius: 6px; font-family: 'Orbitron', monospace; border: 1px solid rgba(0, 217, 255, 0.2); font-size: var(--app-font-size-xs); white-space: nowrap; }
 .records-table th.col-no, .records-table td.col-no { width: 44px; min-width: 44px; text-align: center; font-weight: 800; color: var(--primary-cyan); font-family: 'Orbitron', sans-serif; position: sticky; left: 0; z-index: 3; background: var(--surface-3); border-right: 1px solid var(--surface-table-border-solid); font-size: var(--app-font-size-xs); white-space: nowrap; }
 .records-table th.col-no { background: var(--surface-table-header-solid-alt) !important; z-index: 12; }
-.records-table th.col-aksi, .records-table td.col-aksi { width: 66px; min-width: 66px; text-align: center; white-space: nowrap; position: sticky; right: 0; border-left: 1px solid var(--surface-table-border-solid); background: var(--surface-3); z-index: 2; padding: 6px 4px; }
+.records-table th.col-aksi, .records-table td.col-aksi { width: 96px; min-width: 96px; text-align: center; white-space: nowrap; position: sticky; right: 0; border-left: 1px solid var(--surface-table-border-solid); background: var(--surface-3); z-index: 2; padding: 6px 4px; }
 .records-table th.col-aksi { background: var(--surface-table-header-solid-alt) !important; z-index: 12; }
 
 .durasi-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(16,185,129,0.15); color: #10B981; font-weight: 700; font-size: var(--app-font-size-xs); white-space: nowrap; }
@@ -532,6 +536,32 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   box-shadow: 0 4px 16px rgba(0, 217, 255, 0.35);
 }
 
+/* FIX: style tab gudang patch cord di atas tabel */
+.patchcord-gudang-filter {
+  display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;
+  padding: 10px 12px; background: rgba(0,217,255,0.04);
+  border: 1px solid var(--border-glow); border-radius: 12px;
+}
+.patchcord-gudang-filter .gudang-tab {
+  padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border-subtle);
+  background: var(--surface-1); cursor: pointer; font-weight: 600;
+  color: var(--text-muted); font-family: inherit; font-size: var(--app-font-size-sm);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.patchcord-gudang-filter .gudang-tab:hover { border-color: var(--primary-cyan); color: var(--primary-cyan); }
+.patchcord-gudang-filter .gudang-tab.active {
+  background: var(--tech-gradient); color: var(--text-on-accent);
+  border-color: transparent; font-weight: 800;
+  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.35);
+}
+.patchcord-gudang-filter .gudang-tab .gudang-count {
+  background: rgba(0,0,0,0.25); padding: 1px 8px; border-radius: 99px;
+  font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 10px;
+}
+.patchcord-gudang-filter .gudang-tab.active .gudang-count {
+  background: rgba(255,255,255,0.25);
+}
+
 @media (max-width: 1366px) {
   .top-header { padding: 0 12px; gap: 8px; }
   .header-nav { gap: 2px; padding: 0 4px; }
@@ -637,10 +667,12 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .records-table td { padding: 4px 5px; font-size: 9px; max-width: 130px; }
   .records-table th.col-no, .records-table td.col-no { width: 28px; min-width: 28px; font-size: 8px; }
   .records-table th.col-ket, .records-table td.col-ket { width: 34px; min-width: 34px; }
-  .records-table th.col-aksi, .records-table td.col-aksi { width: 52px; min-width: 52px; padding: 4px 2px; }
+  .records-table th.col-aksi, .records-table td.col-aksi { width: 88px; min-width: 88px; padding: 4px 2px; }
   .records-table .col-aksi .icon-btn,
   .records-table .col-aksi .icon-btn.edit,
-  .records-table .col-aksi .icon-btn.delete { width: 22px; height: 22px; min-width: 22px; min-height: 22px; font-size: 11px; border-radius: 5px; margin: 0 1px; }
+  .records-table .col-aksi .icon-btn.delete,
+  .records-table .col-aksi .icon-btn.info,
+  .records-table .col-aksi .icon-btn.gudang { width: 22px; height: 22px; min-width: 22px; min-height: 22px; font-size: 11px; border-radius: 5px; margin: 0 1px; }
 
   .ket-btn { width: 20px; height: 20px; font-size: 11px; }
   .lokasi-btn { padding: 2px 6px; font-size: 8px; }
@@ -713,10 +745,12 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
   .records-table td { padding: 3px 3px; font-size: 8px; max-width: 100px; }
   .records-table th.col-no, .records-table td.col-no { width: 22px; min-width: 22px; font-size: 7px; }
   .records-table th.col-ket, .records-table td.col-ket { width: 30px; min-width: 30px; }
-  .records-table th.col-aksi, .records-table td.col-aksi { width: 46px; min-width: 46px; padding: 3px 1px; }
+  .records-table th.col-aksi, .records-table td.col-aksi { width: 80px; min-width: 80px; padding: 3px 1px; }
   .records-table .col-aksi .icon-btn,
   .records-table .col-aksi .icon-btn.edit,
-  .records-table .col-aksi .icon-btn.delete { width: 20px; height: 20px; min-width: 20px; min-height: 20px; font-size: 10px; border-radius: 4px; margin: 0; }
+  .records-table .col-aksi .icon-btn.delete,
+  .records-table .col-aksi .icon-btn.info,
+  .records-table .col-aksi .icon-btn.gudang { width: 20px; height: 20px; min-width: 20px; min-height: 20px; font-size: 10px; border-radius: 4px; margin: 0; }
 
   .chart-rekap-table th { font-size: 4.5px; padding: 1px; }
   .chart-rekap-table td { font-size: 6px; padding: 1px; }
@@ -1079,6 +1113,26 @@ select.field-control option { background: var(--surface-3); color: var(--text-ma
       <div id="sub-tabs-container" class="sub-tabs hidden">
         <button class="sub-tab active" data-sub="p3" onclick="switchSubTab('p3')">Pekerjaan Pihak Ke-3</button>
         <button class="sub-tab" data-sub="temuan" onclick="switchSubTab('temuan')">Temuan Lapangan</button>
+      </div>
+
+      <!-- FIX: Tab gudang khusus Patch Cord, diletakkan di atas tabel -->
+      <div id="patchcord-gudang-filter-bar" class="patchcord-gudang-filter hidden">
+        <button class="gudang-tab active" data-gudang="all" onclick="filterPatchcordGudang('all')">
+          <i data-lucide="warehouse" style="width:14px;"></i> Semua Gudang
+          <span class="gudang-count" id="pc-count-all">0</span>
+        </button>
+        <button class="gudang-tab" data-gudang="CLS MAMI" onclick="filterPatchcordGudang('CLS MAMI')">
+          <i data-lucide="building-2" style="width:14px;"></i> CLS MAMI
+          <span class="gudang-count" id="pc-count-mami">0</span>
+        </button>
+        <button class="gudang-tab" data-gudang="DC MANADO CENTRUM" onclick="filterPatchcordGudang('DC MANADO CENTRUM')">
+          <i data-lucide="building" style="width:14px;"></i> DC MANADO
+          <span class="gudang-count" id="pc-count-manado">0</span>
+        </button>
+        <button class="gudang-tab" data-gudang="CLS KAUDITAN" onclick="filterPatchcordGudang('CLS KAUDITAN')">
+          <i data-lucide="warehouse" style="width:14px;"></i> CLS KAUDITAN
+          <span class="gudang-count" id="pc-count-kauditan">0</span>
+        </button>
       </div>
 
       <div id="filter-bar-container" class="filter-bar">
@@ -2155,14 +2209,12 @@ function toggleOpmPortCheck() {
   var isTerisi = cbTerisi && cbTerisi.checked;
   var labelVal = (labelInput.value || '').trim().toUpperCase();
 
-  // Validasi DBM
   if (dbmVal === '' || isNaN(parseFloat(dbmVal))) {
     showToast('Masukkan nilai DBM yang valid!', 'error');
     if (dbmInput) dbmInput.focus();
     return;
   }
 
-  // Validasi Label: hanya wajib jika checkbox "port terisi pelanggan" dicentang
   if (isTerisi && !labelVal) {
     showToast('Label wajib diisi karena port terisi pelanggan!', 'error');
     if (labelInput) labelInput.focus();
@@ -2172,7 +2224,6 @@ function toggleOpmPortCheck() {
   var tube = getWarnaTubeByPort(opmCurrentPort);
   var kabel = getWarnaKabelByPort(opmCurrentPort);
 
-  // Cek duplikat: kalau port ini sudah ada di list, update nilainya
   var existingIdx = opmSubmitted.findIndex(function(x) { return x.port === opmCurrentPort; });
   var entry = {
     port: opmCurrentPort,
@@ -2192,7 +2243,6 @@ function toggleOpmPortCheck() {
     showToast('✅ Port ' + opmCurrentPort + ' masuk ke list ringkasan', 'success');
   }
 
-  // Auto pindah ke port berikutnya
   opmCurrentPort++;
   renderOpmCurrentPort();
   renderOpmSubmittedList();
@@ -2372,6 +2422,7 @@ function scheduleRender() {
     try { updateMapMarkers(); } catch (e) {}
     try { updateAiStats(); } catch (e) {}
     try { updateStokSpare(); } catch (e) {}
+    try { updatePatchcordGudangTabs(); } catch (e) {}
     if (typeof lucide !== 'undefined') lucide.createIcons();
     renderTimeout = null;
   }, 80);
@@ -3163,6 +3214,21 @@ function switchView(cat) {
     else gudangTabs.classList.remove('hidden');
   }
 
+  /* FIX: tampilkan tab gudang patch cord khusus di atas tabel */
+  var pcFilterBar = document.getElementById('patchcord-gudang-filter-bar');
+  if (pcFilterBar) {
+    if (cat === 'Patch Cord') pcFilterBar.classList.remove('hidden');
+    else pcFilterBar.classList.add('hidden');
+  }
+  /* Reset selectedGudangFilter ke all saat masuk menu Patch Cord */
+  if (cat === 'Patch Cord') {
+    selectedGudangFilter = 'all';
+    document.querySelectorAll('#patchcord-gudang-filter-bar .gudang-tab').forEach(function(t) {
+      t.classList.toggle('active', t.dataset.gudang === 'all');
+    });
+    updatePatchcordGudangTabs();
+  }
+
   renderTable(); updateStokSummary();
   try { updateTotalDataTagline(); } catch (e) {}
   refreshSession(); saveCurrentPage(cat);
@@ -3232,6 +3298,35 @@ function getPatchcordTotals() {
   return map;
 }
 
+/* FIX: fungsi update badge jumlah item per gudang di tab patch cord */
+function updatePatchcordGudangTabs() {
+  var allItems = Object.values(appData['Patch Cord'] || {});
+  var totalAll = 0;
+  allItems.forEach(function(it) { totalAll += parseInt(it.qty) || 0; });
+  var countMami = 0, countManado = 0, countKauditan = 0;
+  allItems.forEach(function(it) {
+    var q = parseInt(it.qty) || 0;
+    if (it.gudang === 'CLS MAMI') countMami += q;
+    else if (it.gudang === 'DC MANADO CENTRUM') countManado += q;
+    else if (it.gudang === 'CLS KAUDITAN') countKauditan += q;
+  });
+  var elAll = document.getElementById('pc-count-all'); if (elAll) elAll.textContent = totalAll;
+  var elMami = document.getElementById('pc-count-mami'); if (elMami) elMami.textContent = countMami;
+  var elManado = document.getElementById('pc-count-manado'); if (elManado) elManado.textContent = countManado;
+  var elKauditan = document.getElementById('pc-count-kauditan'); if (elKauditan) elKauditan.textContent = countKauditan;
+}
+
+/* FIX: fungsi filter gudang untuk Patch Cord (tab di atas tabel) */
+function filterPatchcordGudang(g) {
+  selectedGudangFilter = g;
+  document.querySelectorAll('#patchcord-gudang-filter-bar .gudang-tab').forEach(function(t) {
+    t.classList.toggle('active', t.dataset.gudang === g);
+  });
+  renderTable();
+  try { updateStokSummary(); } catch (e) {}
+}
+window.filterPatchcordGudang = filterPatchcordGudang;
+
 function renderTable() {
   try {
     var cat = currentCategory;
@@ -3243,24 +3338,10 @@ function renderTable() {
     var tb = document.getElementById('table-body'), th = document.getElementById('table-head');
     if (!tb || !th) return; tb.innerHTML = '';
     var isPatch = cat === 'Patch Cord';
-    if (isPatch && selectedGudangFilter === 'all') {
-      var totals = getPatchcordTotals();
-      var rows = Object.keys(totals).map(function(k) { return totals[k]; });
-      if (rows.length === 0) { document.getElementById('empty-state').style.display = 'block'; th.innerHTML = ''; return; }
-      document.getElementById('empty-state').style.display = 'none';
-      var isAdmin = currentUser && currentUser.role === 'admin';
-      var aksiClass = isAdmin ? 'col-aksi' : 'col-aksi no-admin';
-      th.innerHTML = '<tr>' + thNo() + '<th>Jenis</th><th>Panjang</th><th>Total Stok (Semua Gudang)</th><th>Rincian Gudang</th><th class="col-ket">Ket</th><th class="' + aksiClass + '">Aksi</th></tr>';
-      var htmlR = '';
-      rows.forEach(function(r, idx) {
-        var rincian = Object.keys(r.perGudang).map(function(g) { return '<div style="font-size:11px;color:var(--text-muted);">' + escapeHtml(g) + ': <strong style="color:var(--primary-cyan);">' + r.perGudang[g] + '</strong></div>'; }).join('');
-        var stokBadge = r.total > 0 ? '<span class="status-badge status-ready" style="font-family:Orbitron,sans-serif;font-size:12px;">' + r.total + '</span>' : '<span class="status-badge" style="background:rgba(239,68,68,0.15);color:#EF4444;font-family:Orbitron,sans-serif;">' + r.total + '</span>';
-        htmlR += '<tr>' + tdNo(idx + 1) + '<td>' + escapeHtml(r.pcType) + '</td><td>' + escapeHtml(r.pcLength) + '</td><td>' + stokBadge + '</td><td>' + rincian + '</td><td class="col-ket"><span style="opacity:0.35;">—</span></td><td class="' + aksiClass + '"></td></tr>';
-      });
-      tb.innerHTML = htmlR;
-      try { updateTotalDataTagline(); } catch (e) {}
-      return;
-    }
+
+    /* FIX: blok rekap patch cord dihapus. Sekarang selalu tampil per-item,
+       sehingga tombol Edit / Hapus / Gudang muncul di kolom Aksi.
+       Stok per gudang tetap bisa dilihat dengan memilih tab gudang di atas tabel. */
 
     if (selectedGudangFilter !== 'all' && (cat === 'Stok Spare' || cat === 'Patch Cord')) keys = keys.filter(function(k) { return list[k].gudang === selectedGudangFilter; });
     var hidePeriod = MENU_NO_PERIOD.indexOf(cat) !== -1;
@@ -3276,6 +3357,7 @@ function renderTable() {
     var aksiClass = isAdmin ? 'col-aksi' : 'col-aksi no-admin';
 
     if (isSpare) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Gudang</th><th>SN</th><th>Nama</th><th>Status</th><th>Lemari</th><th>Rak</th><th>Riwayat</th><th>Kondisi</th><th class="col-ket">Ket</th><th class="' + aksiClass + '">Aksi</th></tr>';
+    /* FIX: kolom Aksi ditambah lebar karena ada 3 tombol (Gudang, Edit, Hapus) */
     else if (isPatch) th.innerHTML = '<tr>' + thNo() + '<th>Tgl Masuk</th><th>Gudang</th><th>Jenis</th><th>Panjang</th><th>Stok</th><th class="col-ket">Ket</th><th class="' + aksiClass + '">Aksi</th></tr>';
     else if (isAlker) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Nama Alker</th><th>SN</th><th>Jenis</th><th>Merk</th><th>Jumlah</th><th>Satuan</th><th class="col-ket">Ket</th><th class="' + aksiClass + '">Aksi</th></tr>';
     else if (isHJ) th.innerHTML = '<tr>' + thNo() + '<th>Tgl</th><th>Lokasi</th><th>Koordinat</th><th>Kondisi</th><th class="col-ket">Ket</th><th>User</th><th class="' + aksiClass + '">Aksi</th></tr>';
@@ -3287,7 +3369,18 @@ function renderTable() {
     var rowsHtml = '';
     keys.forEach(function(k, idx) {
       var it = list[k], nomor = idx + 1;
-      var aksi = isAdmin ? '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')" title="Edit">✎</button><button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')" title="Hapus">×</button>' : '';
+      /* FIX: tombol Gudang ditambahkan untuk Patch Cord */
+      var aksi = '';
+      if (isAdmin) {
+        if (isPatch) {
+          aksi = '<button class="icon-btn gudang" onclick="openPatchcordGudangModalForRow(\'' + escapeAttr(k) + '\')" title="Kelola Gudang">🏬</button>' +
+                 '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')" title="Edit">✎</button>' +
+                 '<button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')" title="Hapus">×</button>';
+        } else {
+          aksi = '<button class="icon-btn edit" onclick="editItem(\'' + k + '\',\'' + cat + '\')" title="Edit">✎</button>' +
+                 '<button class="icon-btn delete" onclick="deleteItem(\'' + k + '\',\'' + cat + '\')" title="Hapus">×</button>';
+        }
+      }
       var ketBtn = '<button class="ket-btn" onclick="showKetPopup(\'' + escapeAttr(k) + '\',\'' + escapeAttr(cat) + '\')" title="Lihat Keterangan">ⓘ</button>';
       var lokasiBtn = function(loc, crd) {
         var short = ekstrakNamaJalan(loc);
@@ -3318,6 +3411,24 @@ function renderTable() {
     try { updateTotalDataTagline(); } catch (e) {}
   } catch (e) { console.error('renderTable error:', e); }
 }
+
+/* FIX: fungsi baru — buka modal gudang dari baris tabel Patch Cord */
+window.openPatchcordGudangModalForRow = function(key) {
+  if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya admin', 'error'); return; }
+  var it = (appData['Patch Cord'] || {})[key];
+  if (!it) { showToast('Data tidak ada', 'error'); return; }
+  patchcordGudang = it.gudang || '';
+  patchcordAction = 'masuk';
+  document.querySelectorAll('.patchcord-gudang-card').forEach(function(c) {
+    c.classList.toggle('selected', c.dataset.gudang === patchcordGudang);
+  });
+  document.querySelectorAll('.patchcord-action-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.action === 'masuk');
+  });
+  document.getElementById('btn-ok-patchcord').classList.remove('hidden');
+  document.getElementById('patchcord-gudang-modal').classList.remove('hidden');
+  window._patchcordRowKey = key;
+};
 
 function renderOpmGroupedTables(list) {
   var wrap = document.getElementById('table-opm-wrapper'); if (!wrap) return;
@@ -3624,6 +3735,7 @@ function closeModal() {
   renderOpmCurrentPort();
   renderOpmSubmittedList();
   updateOpmCount();
+  window._patchcordRowKey = null;
 }
 window.deleteItem = function(k, cat) {
   if (!currentUser || currentUser.role !== 'admin') { showToast('Hanya admin', 'error'); return; }
@@ -3641,6 +3753,7 @@ window.editItem = function(k, cat) {
   var data = (appData[cat] || {})[k];
   if (!data) { showToast('Data tidak ada', 'error'); return; }
   if (data.gudang) { selectedGudang = data.gudang; document.getElementById('inp-gudang-selected').value = data.gudang; }
+  if (cat === 'Patch Cord') { patchcordGudang = data.gudang || ''; }
   openForm(data, k);
 };
 function openForm(editData, editKey) {
@@ -3731,6 +3844,7 @@ function updateStokSummary() {
   var lbl1 = document.getElementById('stok-label-1'), lbl2 = document.getElementById('stok-label-2'), lbl3 = document.getElementById('stok-label-3');
   if (isPatch) {
     var items = Object.values(appData['Patch Cord'] || {});
+    if (selectedGudangFilter !== 'all') items = items.filter(function(i) { return i.gudang === selectedGudangFilter; });
     var totalStok = 0, jenisCount = 0;
     items.forEach(function(i) { totalStok += parseInt(i.qty) || 0; jenisCount++; });
     document.getElementById('total-stok-value').textContent = totalStok;
@@ -3812,6 +3926,16 @@ function confirmPatchcordAction() {
   if (!patchcordGudang) { showToast('Pilih gudang', 'error'); return; }
   closePatchcordGudangModal();
   selectedGudang = patchcordGudang;
+  /* FIX: kalau dipanggil dari baris tabel, langsung buka form edit row tsb */
+  if (window._patchcordRowKey) {
+    var key = window._patchcordRowKey;
+    var it = (appData['Patch Cord'] || {})[key];
+    window._patchcordRowKey = null;
+    if (it) {
+      openForm(it, key);
+      return;
+    }
+  }
   openForm();
 }
 function closePatchcordGudangModal() { document.getElementById('patchcord-gudang-modal').classList.add('hidden'); }
